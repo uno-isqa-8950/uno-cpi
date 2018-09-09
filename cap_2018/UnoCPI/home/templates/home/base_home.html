@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <title>Community Partnership Initiative</title>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -13,22 +15,46 @@
 		 display: table-cell !important;
 		 vertical-align: middle;
 	    }
+
+
 	    /*replaces .hide*/
         .visible-mobile
         {
 	        display:none;
 	    }
+
+
+	    #header.texty .main-header{
+    	 padding:6px 0px 24px 0;
+	     height:auto;
+        }
+
+
+	    #header.texty .main-header .home-logo{
+    	 margin:0 10px 0 0;
+	     float:left;
+	     width:62px;
+	     max-width:62px;
+        }
+
+
     </style>
 </head>
 <body>
 
+
+<!--/* Header and Image*/-->
+
+
 <div class="card mb-3">
   <img class="card-img-top" alt="University of Nebraska at Omaha" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png">
-    <a href="home.html">University of Nebraska Omaha</a>
+    <a href="{% url 'home:home' %}">University of Nebraska Omaha</a>
   <div class="card-body">
   </div>
 </div>
 
+
+<!--/*Navigation bar Starts here*/-->
 
 
 <nav class="navbar navbar-inverse">
@@ -42,7 +68,7 @@
     <div class="collapse navbar-collapse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="Home.html">Community Partnership Initiative</a>
+      <a class="navbar-brand" href="{% url 'home:home' %}">Community Partnership Initiative</a>
     </div>
     <ul class="nav navbar-nav">
       <li class=""><a href="#">Home</a></li>
@@ -61,6 +87,10 @@
     </ul>
   </div></div>
 </nav>
+
+
+<!--/* Navigation Bar ends here */-->
+
 
 <div class="container">
   <h3>Capstone Project Section 1</h3>

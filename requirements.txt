@@ -1,0 +1,4 @@
+Django==2.1.1
+django-discover-runner==1.0
+pytz==2018.5
+six==1.11.0

@@ -1,3 +1,4 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,9 +63,11 @@
   </div></div>
 </nav>
 
-<div class="container">
-  <h3>Capstone Project Section 1</h3>
-</div>
+{% block content %}
+{% endblock %}
+
 
 </body>
+
+
 </html>

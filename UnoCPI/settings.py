@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'home',
+    'partners',
+    'projects',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -75,8 +77,12 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'uno_cpi',
+        'USER': 'postgres',
+        'PASSWORD': 'jan@2018',
+        'HOST': 'localhost',
+        'PORT': '5433',
     }
 }
 

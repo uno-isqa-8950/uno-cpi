@@ -1,9 +1,16 @@
-from django import forms
+from django.forms import ModelForm
 
-from .models import Document
+from .models import *
 
 
-class DocumentForm(forms.ModelForm):
+class PersonForm(ModelForm):
     class Meta:
-        model = Document
-        fields = ('description', 'document', )
+        model = Person
+        fields = '__all__'
+
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = ProjectNew
+        fields = '__all__'
+

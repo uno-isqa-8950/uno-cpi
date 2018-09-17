@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container-fluid">
-  <form method="post" enctype="multipart/form-data">
+  <form action= "{% url "importui" %}" method="post" enctype="multipart/form-data">
        <div class="form-group">
         {% csrf_token %}
         {{ form.as_p }}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Login</title>
+	<style type="text/css">
+		.sig-head{
+			width: 100%;
+			height: 120px;
+			background-color: rgb(112,128,144);
+			text-align: center;
+			line-height: 100px;
+		}
+		.sig-img{
+			display: block;
+			height: 46px;
+			width: 136px;
+			position: relative;
+			background-color: rgb(255,0,0);
+			text-align: center;
+			line-height: 45px;
+			top: 30%;
+    		left: 43%;
+		}
+
+		.login-form{
+			height: 200px;
+			width: 320px;
+			/*background-color: rgb(255,0,0);*/
+			position: absolute;
+			top: 30%;
+			left: 40%;
+		}
+		.ipt{
+			/*height: 50px;*/
+			width: 290px;
+			border-radius: 6px;
+			padding: 12px 14px;
+			font-size: 14px;
+			box-shadow: 2px 0 5px 0 #fff;
+		}
+		.login-button1{
+			background-color: rgb(112,128,144);
+			position: relative;
+			left: 35px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+		}
+		.login-button2{
+			background-color: rgb(112,128,144);
+			position: relative;
+			left:90px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+		}
+		.forget{
+			position: relative;
+			left: 250px;
+		}
+	</style>
+</head>
+<body>
+	<div id="head" class="sig-head">
+		<h1>Login</h1>
+	</div>
+	<div class="main">
+		<div class="login-form">
+            {% block mainbody %}
+		<form action="/client/login/" method="post">
+            {% csrf_token %}
+			<input class="ipt" type="text" name="username" placeholder="Email/Username" /><br><br>
+			<input class="ipt" type="password" name="password" placeholder="Password" /><br>
+			<a href="" class="forget">Forget Password</a><br>
+			<button type="submit" class="login-button1">Login</button>
+			<a href=""><button class="login-button2">resigter</button></a>
+		</form>
+            {% endblock %}
+		</div>
+	</div>
+</body>
+</html>
+
+
+
+

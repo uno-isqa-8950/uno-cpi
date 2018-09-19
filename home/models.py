@@ -4,6 +4,7 @@ from projects.models import Project,ProjectMission
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
 
 
 class Contact(models.Model):
@@ -28,6 +29,23 @@ class Contact(models.Model):
         return str(self.partner_name)
 
 
+class CampusPartnerContact(models.Model):
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
+    email_id = models.EmailField()
+    partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.first_name)
+
+    def __str__(self):
+        return str(self.last_name)
+
+    def __str__(self):
+        return str(self.partner_name)
+
+
+        
 class MissionArea (models.Model):
     mission_code = models.CharField(max_length=10,default= 0)
     mission_name = models.CharField(max_length=100)
@@ -47,14 +65,3 @@ class Address(models.Model):
     Zip = models.CharField(max_length=10)
     latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
-
-
-
-
-
-
-
-
-
-
-

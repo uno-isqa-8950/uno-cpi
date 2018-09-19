@@ -79,11 +79,11 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'capstone_cpi',
-        'USER': 'suguruvaishnavi',
-        'PASSWORD': 'vaishu',
+        'NAME': 'unocpi',
+        'USER': 'postgres',
+        'PASSWORD': 'jan@2018',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }
 }
 

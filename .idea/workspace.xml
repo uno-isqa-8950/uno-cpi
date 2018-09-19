@@ -109,16 +109,29 @@
     </session>
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/UnoCPI/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
               <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
+=======
+    <leaf>
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="360">
+              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+              <folding>
+                <element signature="e#0#32#0" expanded="true" />
+              </folding>
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
             </state>
           </provider>
         </entry>
       </file>
+<<<<<<< HEAD
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/home/models.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -127,11 +140,46 @@
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
+=======
+      <file leaf-file-name="urls.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/UnoCPI/urls.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="680">
+              <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/views.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="160">
+              <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="8" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="base_home.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/templates/home/base_home.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="2120">
+              <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+              <folding />
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>home</find>
+    </findStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -144,12 +192,22 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+<<<<<<< HEAD
         <option value="$PROJECT_DIR$/CommunityPartner/models.py" />
         <option value="$PROJECT_DIR$/UnoCPI/settings.py" />
         <option value="$PROJECT_DIR$/projects/models.py" />
         <option value="$PROJECT_DIR$/partners/models.py" />
         <option value="$PROJECT_DIR$/home/admin.py" />
         <option value="$PROJECT_DIR$/home/models.py" />
+=======
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/forms.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/admin.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/models.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/views.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/urls.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/UnoCPI/urls.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/templates/home/base_home.html" />
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
       </list>
     </option>
   </component>
@@ -159,7 +217,7 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1382" />
@@ -179,6 +237,42 @@
               <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
               <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< HEAD
+=======
+            <path>
+              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="cap_2018" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="cap_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="UnoCPI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="cap_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="UnoCPI" type="462c0819:PsiDirectoryNode" />
+              <item name="home" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="cap_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="UnoCPI" type="462c0819:PsiDirectoryNode" />
+              <item name="home" type="462c0819:PsiDirectoryNode" />
+              <item name="templates" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="cap_2018" type="462c0819:PsiDirectoryNode" />
+              <item name="UnoCPI" type="462c0819:PsiDirectoryNode" />
+              <item name="UnoCPI" type="462c0819:PsiDirectoryNode" />
+            </path>
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
           </expand>
           <select />
         </subPane>
@@ -187,7 +281,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/Bootstrap/startbootstrap-agency-gh-pages" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
   </component>
@@ -217,7 +311,12 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
+<<<<<<< HEAD
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+=======
+    <frame x="-16" y="-16" width="3872" height="2092" extended-state="7" />
+    <editor active="true" />
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26096824" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -314,6 +413,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/partners/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="264">
@@ -321,10 +421,19 @@
           <folding>
             <element signature="e#0#28#0" expanded="true" />
             <marker date="1537077119595" expanded="true" signature="1400:1401" ph="..." />
+=======
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="4" column="8" lean-forward="false" selection-start-line="4" selection-start-column="4" selection-end-line="4" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/UnoCPI/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
@@ -338,6 +447,31 @@
           <caret line="33" column="36" lean-forward="true" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
           <folding>
             <element signature="e#0#28#0" expanded="true" />
+          </folding>
+=======
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/UnoCPI/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="680">
+          <caret line="17" column="37" lean-forward="false" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="37" />
+          <folding />
+>>>>>>> e91397430328c714fa1d68f29f60909ae578c348
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/templates/home/base_home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2120">
+          <caret line="91" column="37" lean-forward="false" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
+          <folding>
+            <element signature="e#0#32#0" expanded="true" />
           </folding>
         </state>
       </provider>

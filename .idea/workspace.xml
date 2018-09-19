@@ -1,49 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4556e15d-5bc2-4c2e-b283-47c030b02c47" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/home/migrations/0002_contact_partner_name.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/0002_auto_20180915_2328.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/0003_auto_20180915_2336.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/0004_remove_communitypartner_department.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/0005_campuspartner.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/partners/views.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/admin.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/apps.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/0001_initial.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/0002_auto_20180916_0052.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/migrations/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/models.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/tests.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/projects/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+    <list default="true" id="d685d7f4-ade4-4918-91de-d86a07ff23c4" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPart/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CampusPartner/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/migrations/__init__.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/models.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/tests.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CommunityPart/views.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/UnoCPI/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/UnoCPI/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/home/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/home/models.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -51,105 +10,86 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="DatabaseView">
-    <option name="SHOW_INTERMEDIATE" value="true" />
-    <option name="GROUP_DATA_SOURCES" value="true" />
-    <option name="GROUP_SCHEMA" value="true" />
-    <option name="GROUP_CONTENTS" value="false" />
-    <option name="SORT_POSITIONED" value="false" />
-    <option name="SHOW_EMPTY_GROUPS" value="false" />
-    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
-    <option name="HIDDEN_KINDS">
-      <set />
-    </option>
-    <expand />
-    <select />
-  </component>
   <component name="FUSProjectUsageTrigger">
     <session id="22433365">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="3" />
-          <entry key="project.open.time.0" value="2" />
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.1" value="1" />
-          <entry key="project.open.time.6" value="1" />
-          <entry key="project.opened" value="4" />
-        </counts>
-      </usages-collector>
-      <usages-collector id="statistics.vcs.git.usages">
-        <counts>
-          <entry key="git.branch.checkout.local" value="4" />
-          <entry key="git.branch.compare" value="1" />
-          <entry key="git.branch.create.new" value="3" />
-          <entry key="git.branch.delete.local" value="1" />
-          <entry key="git.branch.merge" value="1" />
+          <entry key="project.open.time.5" value="1" />
+          <entry key="project.opened" value="2" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
-          <entry key="py" value="39" />
+          <entry key="LICENSE" value="1" />
+          <entry key="gitignore" value="1" />
+          <entry key="md" value="1" />
+          <entry key="py" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
-          <entry key="Python" value="39" />
+          <entry key="Markdown" value="1" />
+          <entry key="PLAIN_TEXT" value="2" />
+          <entry key="Python" value="10" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="1443" />
+          <entry key="py" value="235" />
+          <entry key="txt" value="44" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.edit">
+        <counts>
+          <entry key="PLAIN_TEXT" value="44" />
+          <entry key="Python" value="235" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
+      <usages-collector id="statistics.vcs.git.usages">
+        <counts>
+          <entry key="git.branch.compare" value="1" />
+          <entry key="git.branch.delete.local" value="1" />
+          <entry key="git.branch.delete.remote" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
+    <session id="339413047">
+      <usages-collector id="statistics.lifecycle.project">
+        <counts>
+          <entry key="project.open.time.1" value="1" />
+          <entry key="project.opened" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.extensions.edit">
+        <counts>
+          <entry key="txt" value="28" />
+        </counts>
+      </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="1443" />
+          <entry key="PLAIN_TEXT" value="28" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/UnoCPI/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/home/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="33" column="36" lean-forward="true" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#28#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="Git.Settings">
+    <option name="ROOT_SYNC" value="DONT_SYNC" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="migrate" />
-      </map>
-    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/CommunityPartner/models.py" />
-        <option value="$PROJECT_DIR$/UnoCPI/settings.py" />
-        <option value="$PROJECT_DIR$/projects/models.py" />
-        <option value="$PROJECT_DIR$/partners/models.py" />
-        <option value="$PROJECT_DIR$/home/admin.py" />
-        <option value="$PROJECT_DIR$/home/models.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/forms.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/admin.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/models.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/views.py" />
+        <option value="$PROJECT_DIR$/cap_2018/UnoCPI/home/urls.py" />
       </list>
     </option>
   </component>
@@ -176,8 +116,8 @@
         <subPane>
           <expand>
             <path>
-              <item name="uno-cpi" type="b2602c69:ProjectViewProjectNode" />
-              <item name="uno-cpi" type="462c0819:PsiDirectoryNode" />
+              <item name="unocpi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="unocpi" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -208,20 +148,37 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="4556e15d-5bc2-4c2e-b283-47c030b02c47" name="Default Changelist" comment="" />
-      <created>1536944824369</created>
+      <changelist id="d685d7f4-ade4-4918-91de-d86a07ff23c4" name="Default Changelist" comment="" />
+      <created>1536373581290</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1536944824369</updated>
+      <updated>1536373581290</updated>
     </task>
+    <task id="LOCAL-00001" summary="Starter code with the migrations">
+      <created>1536381508995</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1536381508995</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Updated Structure of project">
+      <created>1536548984728</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1536548984728</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.26096824" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25416037" />
+      <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Database Changes" show_stripe_button="false" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
@@ -229,115 +186,92 @@
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="8" weight="0.32993197" />
-      <window_info anchor="bottom" id="Database Changes" order="9" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.32993197" />
-      <window_info anchor="bottom" id="Python Console" order="12" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info active="true" anchor="bottom" id="Version Control" order="7" visible="true" weight="0.3289689" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Python Console" order="10" />
+      <window_info anchor="right" id="Database" />
+      <window_info anchor="right" id="SciView" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" />
-      <window_info anchor="right" id="Database" order="4" weight="0.32980332" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="EXTERNAL C:/python2018/uno-cpi">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Starter code with the migrations" />
+    <MESSAGE value="Updated Structure of project" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated Structure of project" />
+  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CampusPartner/models.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommunityPartner/models.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/django/core/validators.py">
+    <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
-          <caret line="28" column="6" selection-start-line="28" selection-start-column="6" selection-end-line="28" selection-end-column="6" />
-          <folding>
-            <element signature="e#0#16#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="-1287" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md" />
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/forms.py" />
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="4" lean-forward="true" selection-start-line="4" selection-end-line="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/UnoCPI/__init__.py">
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="11" column="5" lean-forward="true" selection-start-line="11" selection-start-column="5" selection-end-line="11" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/tests.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/home/migrations/0002_contact_partner_name.py">
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-70" />
+        <state relative-caret-position="102">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
+        </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/home/migrations/0003_auto_20180915_2252.py">
+    <entry file="file://$PROJECT_DIR$/cap_2018/UnoCPI/home/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-20" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/partners/migrations/0001_initial.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-762" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/partners/migrations/0002_auto_20180915_2309.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-152" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/home/migrations/0001_initial.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/home/migrations/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/home/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="28" lean-forward="true" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
+        <state relative-caret-position="85">
+          <caret line="5" column="9" selection-start-line="5" selection-start-column="9" selection-end-line="5" selection-end-column="9" />
           <folding>
             <element signature="e#0#32#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/projects/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="25" column="99" selection-start-line="25" selection-start-column="99" selection-end-line="25" selection-end-column="99" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/partners/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="71" lean-forward="true" selection-start-line="71" selection-end-line="71" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <marker date="1537077119595" expanded="true" signature="1400:1401" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/UnoCPI/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="18" column="62" selection-start-line="18" selection-start-column="62" selection-end-line="18" selection-end-column="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/home/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="33" column="36" lean-forward="true" selection-start-line="33" selection-start-column="36" selection-end-line="33" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
           </folding>
         </state>
       </provider>

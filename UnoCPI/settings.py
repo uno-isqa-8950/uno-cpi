@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd19g3rhgb1f6sq',
         'USER': 'mmyjopixtfpnsl',
         'PASSWORD': 'd054871110c3b9186d80452bc2afb7acdd86abffc0a0df43aadcaf21939766c5',
@@ -92,7 +92,6 @@ DATABASES = {
     }
 
 }
-
 try:
     from .local_settings import *
 except ImportError:

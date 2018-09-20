@@ -1,7 +1,10 @@
 from django import forms
 from .models import User
+from django.forms import ModelForm
 from partners.models import CampusPartner, University
 from home.models import CampusPartnerContact
+from projects.models import Project
+
 
 class CampusPartnerForm(forms.ModelForm):
 
@@ -30,8 +33,15 @@ class UniversityForm(forms.ModelForm):
         model = University
         fields = ('college','department', 'name')
 
+
 class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartnerContact
         fields = ('first_name','last_name', 'email_id')
+
+
+class ProjectForm(ModelForm):
+    class Meta:
+        model = Project
+        fields = '__all__'

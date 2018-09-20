@@ -1,7 +1,7 @@
 from django import forms
 from .models import User
-from partners.models import CampusPartner, University
-from home.models import CampusPartnerContact
+from partners.models import CampusPartner, University, CommunityPartner, CommunityPartnerMission, CommunityType
+from home.models import CampusPartnerContact, Contact, Address
 
 class CampusPartnerForm(forms.ModelForm):
 
@@ -28,10 +28,60 @@ class UniversityForm(forms.ModelForm):
 
     class Meta:
         model = University
-        fields = ('college','department', 'name')
+        fields = ('college','department', 'name',)
 
 class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartnerContact
-        fields = ('first_name','last_name', 'email_id')
+        fields = ('first_name','last_name', 'email_id',)
+
+
+class CommunityPartnerForm(forms.ModelForm):
+
+    class Meta:
+        model = CommunityPartner
+        fields = (
+            'name',
+            'website_url',
+            'k12_level',
+        )
+
+class CommunityTypeForm(forms.ModelForm):
+    class Meta:
+        model = CommunityType
+        fields = (
+            'community_type',
+    )
+
+class CommunityPartnerMissionForm(forms.ModelForm):
+    class Meta:
+        model= CommunityPartnerMission
+        fields = ('mission_type',
+              )
+
+
+
+class CommunityContactForm(forms.ModelForm):
+    class Meta:
+        model =  Contact
+        fields = ( 'first_name',
+                   'last_name',
+                   'workphone',
+                   'cellphone',
+                   'email_id',
+        )
+
+class CommunityAddressForm(forms.ModelForm):
+    class Meta:
+        model = Address
+        fields = (
+            'address_line1',
+            'address_line2',
+            'country',
+            'city',
+            'state',
+            'Zip',
+    )
+
+

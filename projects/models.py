@@ -5,6 +5,7 @@ from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
 
 
+
 class Project (models.Model):
     name = models.CharField(max_length=100)
     engagementType = models.CharField(max_length=20)

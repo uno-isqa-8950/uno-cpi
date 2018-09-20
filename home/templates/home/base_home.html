@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load staticfiles %}
 <html lang="en">
 <head>
   <title>Community Partnership Initiative</title>
@@ -54,7 +55,7 @@
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href='registerCampusPartner'>Campus Partner</a></li>
-          <li><a href="#">Community Partner</a></li>
+          <li><a href='registerCommunityPartner'>Community Partner</a></li>
         </ul>
       </li>
       <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
@@ -62,9 +63,14 @@
   </div></div>
 </nav>
 
-<div class="container">
-  <h3>Capstone Project Section 1</h3>
-</div>
+{% block content %}
 
+
+
+
+
+
+
+{%endblock%}
 </body>
 </html>

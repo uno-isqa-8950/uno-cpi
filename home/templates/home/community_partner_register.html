@@ -1,0 +1,18 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+
+<div class="container">
+<h1>Create an account for your organization</h1>
+<p>Please sign up using the following Community Partner Registration form:</p>
+<form action="." method="post">
+  {{ community_partner_form.as_p }}
+  {{ community_partner_mission_form.as_p }}
+  {{ community_type_form.as_p }}
+  {{ community_contact_form.as_p }}
+  {{ community_address_form.as_p }}
+  {% csrf_token %}
+  <p><input type="submit" value="Create my account"></p>
+</form>
+</div>
+{% endblock %}
+

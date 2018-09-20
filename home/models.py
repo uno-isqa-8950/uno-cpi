@@ -1,6 +1,7 @@
 from django.db import models
 from partners.models import CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
 from projects.models import Project,ProjectMission
+
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator

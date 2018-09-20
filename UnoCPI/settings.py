@@ -83,7 +83,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'deuiqvjp2b9k5g',
         'USER': 'qoijuztysjsrdh',
         'PASSWORD': '01cc22a992466e6d87eba81dbe0c85d3d87c6d402a47a4f67e7918461431c307',

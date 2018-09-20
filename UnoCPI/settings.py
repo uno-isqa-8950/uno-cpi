@@ -14,21 +14,7 @@ import os
 import dj_database_url
 
 
-from decouple import config
 
-
-SECRET_KEY = config('SECRET_KEY')
-DEBUG = config('DEBUG', cast=bool)
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),
-        'USER': config('DB_USER'),
-        'PASSWORD': config('DB_PASSWORD'),
-        'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT'),
-    }
-}
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -37,10 +23,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
+SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -94,6 +81,22 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'deuiqvjp2b9k5g',
+        'USER': 'qoijuztysjsrdh',
+        'PASSWORD': '01cc22a992466e6d87eba81dbe0c85d3d87c6d402a47a4f67e7918461431c307',
+        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
+        'PORT': 5432,
+    }
+
+}
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -149,11 +152,10 @@ STATICFILES_DIRS = (
 
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-EMAIL_HOST = config('EMAIL_HOST')
-EMAIL_PORT = config('EMAIL_PORT')
-EMAIL_HOST_USER = config('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
-EMAIL_USE_TLS = config('EMAIL_USE_TLS')
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nithesh1510@gmail.com'
+EMAIL_HOST_PASSWORD = 'nevansurya'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

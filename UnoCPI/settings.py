@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'account',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'uno_cpi',
+        'NAME': 'unocpi',
         'USER': 'postgres',
         'PASSWORD': 'jan@2018',
         'HOST': 'localhost',
@@ -123,14 +124,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-
-STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-
 STATIC_URL = '/static/'
 
-# Extra places for collectstatic to find static files.
 
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'nithesh1510@gmail.com'
+EMAIL_HOST_PASSWORD = 'nevansurya'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -1,0 +1,11 @@
+
+
+<h1>Create an account</h1>
+<p>Please sign up using the following Campus Partner Registration form:</p>
+<form action="." method="post">
+  {{ campus_partner_form.as_p }}
+  {{ university_form.as_p }}
+  {{ contact_form.as_p }}
+  {% csrf_token %}
+  <p><input type="submit" value="Create my account"></p>
+</form>

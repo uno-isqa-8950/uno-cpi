@@ -1,3 +1,4 @@
+from django import forms
 from django.db import models
 from partners.models import CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
 from projects.models import Project,ProjectMission
@@ -65,3 +66,13 @@ class Address(models.Model):
     Zip = models.CharField(max_length=10)
     latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
+
+
+class Person(models.Model):
+    name = models.CharField(max_length=255, blank=True)
+    age = models.IntegerField(blank=True)
+    length = models.FloatField()
+
+    def __str__(self):
+        return str(self.name)
+

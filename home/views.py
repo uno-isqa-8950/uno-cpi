@@ -1,11 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from .models import *
 from partners.models import CampusPartnerUser
 from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, ProjectForm
 from django.urls import reverse
 import csv
 from collections import OrderedDict
+from .forms import *
 
 
 def home(request):
@@ -65,6 +65,8 @@ def uploadCSV(request):
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)
+    for row in reader:
+        data_dict = dict(OrderedDict(row))
     for row in reader:
         data_dict = dict(OrderedDict(row))
         form = ProjectForm(data_dict)

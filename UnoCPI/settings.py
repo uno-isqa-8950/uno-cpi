@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'partners',
     'projects',
 ]
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -119,7 +120,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Chicago'
 
 USE_I18N = True
 
@@ -133,9 +134,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'nithesh1510@gmail.com'
 EMAIL_HOST_PASSWORD = 'nevansurya'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+

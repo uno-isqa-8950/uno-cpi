@@ -4,6 +4,7 @@ from django.forms import ModelForm
 from partners.models import CampusPartner, University
 from home.models import CampusPartnerContact
 from projects.models import Project
+from django.forms import ModelForm
 
 
 class CampusPartnerForm(forms.ModelForm):
@@ -11,6 +12,7 @@ class CampusPartnerForm(forms.ModelForm):
     class Meta:
         model = CampusPartner
         fields = ('campus_partner_name',)
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -45,3 +47,4 @@ class ProjectForm(ModelForm):
     class Meta:
         model = Project
         fields = '__all__'
+

@@ -1,0 +1,1 @@
+web: gunicorn uno-cpi.wsgi --log-file -

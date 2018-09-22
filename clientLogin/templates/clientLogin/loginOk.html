@@ -1,0 +1,19 @@
+{%extends "clientLogin/base.html" %}
+
+{% block content %}
+    <style>
+        .button{
+            color:black;
+            background-color: rgb(112,128,144);
+            position:relative;
+            left: 100%;
+
+            width: 100px;
+			height: 40px;
+			border-radius: 6px;
+        }
+    </style>
+    <div>
+        <a href="/login/signOut/"><button class="button">Logout</button></a>
+    </div>
+{% endblock %}

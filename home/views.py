@@ -67,9 +67,9 @@ def uploadCSV(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
+        # print(data_dict["mission"])
         form = ProjectForm(data_dict)
+        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/upload_project.html',

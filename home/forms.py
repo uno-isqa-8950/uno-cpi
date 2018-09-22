@@ -40,11 +40,13 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartnerContact
-        fields = ('first_name','last_name', 'email_id')
+        fields = ('first_name', 'last_name', 'email_id')
 
 
 class ProjectForm(ModelForm):
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ('name', 'campusPartnerName', 'communityPartnerName', 'mission',)
+
+
 

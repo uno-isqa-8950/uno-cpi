@@ -1,11 +1,24 @@
+{% extends 'home/base.html' %}
 
+{% load bootstrap %}
 
-<h1>Create an account</h1>
-<p>Please sign up using the following Campus Partner Registration form:</p>
-<form action="." method="post">
-  {{ campus_partner_form.as_p }}
-  {{ university_form.as_p }}
-  {{ contact_form.as_p }}
-  {% csrf_token %}
-  <p><input type="submit" value="Create my account"></p>
-</form>
+{% block content %}
+
+<div class="container">
+  <div class="row">
+    <h1>Create an account</h1>
+    <h3>Please sign up using the following Campus Partner Registration form:</h3>
+  </div>
+
+  <div class="row">
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ campus_partner_form|bootstrap }}
+      {{ university_form|bootstrap }}
+      {{ contact_form|bootstrap }}
+      <button type="submit" class="btn btn-primary">Create Campus Partner</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+  

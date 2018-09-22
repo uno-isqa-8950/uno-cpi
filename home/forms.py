@@ -44,6 +44,13 @@ class UniversityForm(forms.ModelForm):
             'college': forms.Select(choices=coll_choices,attrs={'class': 'form-control'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        super(UniversityForm, self).__init__(*args, **kwargs)
+        self.fields['name'].widget.choices = (
+            (univ.get('id'), univ.get("name")) 
+            for univ in University.objects.all().values('name', 'id')
+        )
+
 
 class CampusPartnerContactForm(forms.ModelForm):
 

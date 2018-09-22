@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
   <title>Community Partnership Initiative</title>
@@ -49,6 +50,9 @@
         <li class=""><a href="#">Dashboard</a></li>
         <li><a href="#">About US </a></li>
         <li><a href="#">Contact Us</a></li>
+        {% if user.is_authenticated%}
+            <li ><a href="#">Hello {{request.user.username}}! </a> </li>
+         {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
@@ -57,14 +61,22 @@
           <li><a href="#">Community Partner</a></li>
         </ul>
       </li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+      {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
+      {% else %}
+        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+       {% endif %}
     </ul>
   </div></div>
 </nav>
-
+{% block content %}
+{% endblock %}
+<!--
 <div class="container">
   <h3>Capstone Project Section 1</h3>
 </div>
+!-->
 
 </body>
 </html>

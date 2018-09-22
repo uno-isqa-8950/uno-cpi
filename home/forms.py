@@ -2,6 +2,7 @@ from django import forms
 from .models import User
 from partners.models import CampusPartner, University
 from home.models import CampusPartnerContact
+from django.utils.translation import ugettext_lazy as _
 
 class CampusPartnerForm(forms.ModelForm):
 
@@ -28,7 +29,21 @@ class UniversityForm(forms.ModelForm):
 
     class Meta:
         model = University
-        fields = ('college','department', 'name')
+        fields = ('name', 'college','department')
+        labels = {
+            'name': _('University Name'),
+        }
+        UNIV_CHOICES = (
+            ('UNO', 'University of Nebraska'),
+        )
+        coll_choices = (
+            ('SOE', 'School of Engineering'),
+        )
+        widgets = {
+            'name': forms.Select(choices=UNIV_CHOICES,attrs={'class': 'form-control'}),
+            'college': forms.Select(choices=coll_choices,attrs={'class': 'form-control'}),
+        }
+
 
 class CampusPartnerContactForm(forms.ModelForm):
 

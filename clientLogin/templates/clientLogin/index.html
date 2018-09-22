@@ -1,0 +1,84 @@
+{%extends "clientLogin/base.html" %}
+
+{% block content %}
+    	<style type="text/css">
+
+		.login-form{
+			height: 200px;
+			width: 320px;
+			/*background-color: rgb(255,0,0);*/
+			position: absolute;
+			top: 30%;
+			left: 38%;
+		}
+		.ipt{
+			/*height: 50px;*/
+			width: 290px;
+			border-radius: 6px;
+			padding: 12px 14px;
+			font-size: 14px;
+			box-shadow: 2px 0 5px 0 #fff;
+		}
+		.login-button1{
+			background-color: rgb(112,128,144);
+			position: relative;
+			left: 85px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+		}
+		.forget{
+			position: relative;
+			left:180px;
+		}
+        .la{
+            width: 90%;
+            text-align: center;
+            color:red;
+        }
+	</style>
+
+	<div class="main">
+		<div class="login-form">
+		<form action="/login/login/" method="post">
+            {% csrf_token %}
+             <label class="la">{{ loginError }}</label><br>
+			<input class="ipt" type="text" name="username" placeholder="Email/Username" /><br><br>
+			<input class="ipt" type="password" name="password" placeholder="Password" /><br>
+			<a href="" class="forget">Forget Password</a><br>
+			<button type="sumbit" class="login-button1">Login</button>
+		</form>
+		</div>
+	</div>
+{% endblock %}
+
+
+<!--<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+    <form action="/hello/login/" method="post">
+{#       {% csrf_token %}#}
+        <table>
+            <tr>
+                <td><label>Username：</label></td>
+                <td><input type="text" name="username"/></td>
+            </tr>
+            <tr>
+                <td><label>Password：</label></td>
+                <td><input type="password" name="password"/></td>
+            </tr>
+        </table>
+        <button type="submit">Login</button>
+    </form>
+    <a href="/hello/resigter/">
+    <button>Resigter</button>
+    </a>
+</body>
+</html>-->
+
+

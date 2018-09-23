@@ -1,3 +1,5 @@
+{% extends "home/base_home.html" %}
+{% block content %}
 
 
 <h1>Create an account</h1>
@@ -9,3 +11,4 @@
   {% csrf_token %}
   <p><input type="submit" value="Create my account"></p>
 </form>
+{% endblock %}

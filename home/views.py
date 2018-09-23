@@ -6,6 +6,7 @@ from django.urls import reverse
 import csv
 from collections import OrderedDict
 from .forms import *
+from home.models import MissionArea
 
 
 def home(request):
@@ -67,9 +68,7 @@ def uploadCSV(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-        # print(data_dict["mission"])
         form = ProjectForm(data_dict)
-        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/upload_project.html',

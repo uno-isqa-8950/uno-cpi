@@ -13,18 +13,15 @@ class CommunityPartner (models.Model):
         ('True', 'Yes'),
         ('False', 'No'),
     )
-
-    name = models.CharField(max_length= 100)
-
-    website_url = models.TextField()
-    college = models.CharField(max_length=50,null=False, blank=True)
-    k12_level =  models.CharField(max_length=20,null=False, blank=True)
-    active = models.BooleanField(default= True)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-
+    communityPartnerName = models.CharField(max_length= 100)
+    # website_url = models.TextField()
+    # college = models.CharField(max_length=50,null=False, blank=True)
+    # k12_level =  models.CharField(max_length=20,null=False, blank=True)
+    # active = models.BooleanField(default= True)
+    # weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
 
     def __str__(self):
-        return str(self. name)
+        return str(self. communityPartnerName)
 
 
 class CommunityType (models.Model):
@@ -59,6 +56,7 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     project_id = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
+
 class CampusPartnerUser(models.Model):
     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
@@ -69,7 +67,10 @@ class CampusPartner(models.Model):
         ('True', 'Yes'),
         ('False', 'No'),
     )
-    campus_partner_name = models.CharField(max_length=255)
-    department_id = models.ForeignKey('University', on_delete=models.CASCADE)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-    campus_partner_user = models.ForeignKey
+    campusPartnerName = models.CharField(max_length=255)
+    # department_id = models.ForeignKey('University', on_delete=models.CASCADE)
+    # weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
+    # campus_partner_user = models.ForeignKey
+
+    def __str__(self):
+        return str(self.campusPartnerName)

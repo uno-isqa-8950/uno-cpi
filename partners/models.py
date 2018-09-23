@@ -11,7 +11,6 @@ class CommunityPartner (models.Model):
         ('True', 'Yes'),
         ('False', 'No'),
     )
-
     communityPartnerName = models.CharField(max_length=100)
     website_url = models.TextField()
     college = models.CharField(max_length=50, null=False, blank=True)
@@ -69,7 +68,6 @@ class CampusPartner(models.Model):
     college = models.CharField(max_length=255)
     department = models.CharField(max_length=255)
     weitz_cec_part = models.CharField(max_length=6, choices= TRUE_FALSE_CHOICES, default=False)
-    # campus_partner_user = models.ForeignKey
 
     def __str__(self):
-        return str(self.campus_partner_name)
+        return str(self.campusPartnerName)

@@ -1,6 +1,5 @@
 from django import forms
 from .models import User
-from django.forms import ModelForm
 from partners.models import CampusPartner, University, CommunityPartner
 from home.models import CampusPartnerContact, MissionArea
 from projects.models import Project
@@ -8,7 +7,6 @@ from django.forms import ModelForm
 
 
 class CampusPartnerForm(forms.ModelForm):
-
     class Meta:
         model = CampusPartner
         fields = ('campus_partner_name',)
@@ -34,7 +32,6 @@ class UniversityForm(forms.ModelForm):
     class Meta:
         model = University
         fields = ('college','department', 'name')
-
 
 class CampusPartnerContactForm(forms.ModelForm):
 

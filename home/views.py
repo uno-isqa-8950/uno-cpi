@@ -1,18 +1,18 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from .models import *
 from partners.models import CampusPartnerUser
 from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, ProjectForm
 from django.urls import reverse
 import csv
 from collections import OrderedDict
-from .forms import *
 
 
 def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-  
+				  
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})
@@ -68,7 +68,6 @@ def uploadProject(request):
     for row in reader:
         data_dict = dict(OrderedDict(row))
         form = ProjectForm(data_dict)
-        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/uploadProject.html',

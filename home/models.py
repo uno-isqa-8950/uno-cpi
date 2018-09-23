@@ -1,4 +1,3 @@
-from django import forms
 from django.db import models
 from partners.models import CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
 from projects.models import Project, ProjectMission
@@ -46,14 +45,13 @@ class CampusPartnerContact(models.Model):
         return str(self.partner_name)
 
 
-        
 class MissionArea (models.Model):
-    mission_code = models.CharField(max_length=10,default= 0)
-    mission_name = models.CharField(max_length=100)
+    # mission_code = models.CharField(max_length=10,default= 0)
+    mission = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self):
-        return str(self.mission_name)
+        return str(self.mission)
 
 
 class Address(models.Model):
@@ -65,5 +63,3 @@ class Address(models.Model):
     Zip = models.CharField(max_length=10)
     latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
-
-

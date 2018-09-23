@@ -82,13 +82,15 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'hzdxyiruzjipix',
-        'PASSWORD': 'b342ec2d7bc0c2afec74a007760f9f60d4c2b8aee134026e61392f64319a4430',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
-        'PORT': 5432,
+        'NAME': 'cpi_db1',
+        'USER': 'anuja1',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 
 }

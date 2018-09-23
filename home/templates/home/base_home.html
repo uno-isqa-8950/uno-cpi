@@ -8,78 +8,147 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <style>
-        #menu-toggle
-        {
-		 display: table-cell !important;
-		 vertical-align: middle;
-	    }
-	    /*replaces .hide*/
-        .visible-mobile
-        {
-	        display:none;
-	    }
-    </style>
-</head>
-<body>
+  <link href="{% static 'css/uno.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/unofooter.css' %}" rel="stylesheet" type="text/css">
+  <!--link href="{% static 'css/fontawesome.css' %}" rel="stylesheet" type="text/css"-->
+  <link href="{% static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/uno.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
-<div class="card mb-3">
-  <img class="card-img-top" alt="University of Nebraska at Omaha" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png">
-    <a href="home.html">University of Nebraska Omaha</a>
-  <div class="card-body">
+<style>
+
+
+
+
+</style>
+</head>
+
+
+
+<!-- Header-->
+
+  <div class="collapse navbar-collapse">
   </div>
+  <div id="header" class="texty" style="height: 100px; background-color:black;">
+    <div class="main-header clearfix">
+      <div class="inner-content">
+        <div class="substitute-logos">
+          <a href="#"><img alt="University Of Nebraska at Omaha" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+          <p id="uno"><b>University of Nebraska Omaha</b></p>
+        </div>
+	  </div>
+   </div>
 </div>
 
 
+<!-- Header ends-->
 
-<nav class="navbar navbar-inverse">
+
+
+
+<!-- Navbar -->
+
+<nav class="navbar navbar-inverse fixed-top" id="Nav">
     <div class="visible-mobile" id="menu-toggle">
-	<a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" href="#" id="m_header-toggler">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+    	<a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" href="#" id="m_header-toggler">
+          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          <i class="fas fa-bars"></i>
         </button>
-    </a>
+      </a>
     </div>
-    <div class="collapse navbar-collapse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="Home.html">Community Partnership Initiative</a>
-    </div>
-    <ul class="nav navbar-nav">
-      <li class=""><a href="#">Home</a></li>
-        <li class=""><a href="#">Dashboard</a></li>
-        <li><a href="#">About US </a></li>
-        <li><a href="#">Contact Us</a></li>
-        {% if user.is_authenticated%}
-            <li ><a href="#">Hello {{request.user.username}}! </a> </li>
-         {% endif %}
-    </ul>
+    <div class="collapse navbar-collapse" id="navbarResponsive">
+    <!--div class="collapse navbar-collapse"-->
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand js-scroll-trigger" href="cpi">Community Partnership Initiative</a>
+      </div>
+
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href='registerCampusPartner'>Campus Partner</a></li>
+          <li><a href="#">Campus Partner</a></li>
           <li><a href="#">Community Partner</a></li>
         </ul>
       </li>
-
-
-      {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-in"></span> Log Out</a></li>
-      {% else %}
-        <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-       {% endif %}
-
+      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
-  </div></div>
+
+
+
+    <ul class="nav navbar-nav navbar-right">
+        <li class=""><a href="#">Dashboard</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact Us</a></li>
+    </ul>
+
+
+  </div>
+ </div>
 </nav>
-{% block content %}
-{% endblock %}
-<!--
+
+
+<!-- Navbar Ends-->
+
+
+
+
+
 <div class="container">
-  <h3>Capstone Project Section 1</h3>
+  <h3>Community Partnership Initiative</h3>
+{% block body %}
+
+{% endblock %}
+
 </div>
+
+
+
+<footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline quicklinks">
+              <li class="list-inline-item">
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Terms of Use</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
 
 {% block content %}
 {% endblock%}
+
 </body>
 </html>

@@ -21,7 +21,15 @@
 <style>
 
 
-
+footer {
+  padding: 25px 0;
+  text-align: center;
+  background-color: black;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  /*color:#999;*/
+}
 
 </style>
 </head>
@@ -64,13 +72,13 @@
     <!--div class="collapse navbar-collapse"-->
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand js-scroll-trigger" href="cpi">Community Partnership Initiative</a>
+        <a class="navbar-brand js-scroll-trigger" href="/">Community Partnership Initiative</a>
       </div>
 
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Campus Partner</a></li>
+          <li><a href='#'>Campus Partner</a></li>
           <li><a href="#">Community Partner</a></li>
         </ul>
       </li>
@@ -98,8 +106,8 @@
 
 
 <div class="container">
-  <h3>Community Partnership Initiative</h3>
-{% block body %}
+
+{% block content %}
 
 {% endblock %}
 
@@ -147,8 +155,6 @@
     </footer>
 
 
-{% block content %}
-{% endblock%}
 
 </body>
 </html>

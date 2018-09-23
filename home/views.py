@@ -1,16 +1,18 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser
-from .forms import  CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm
+from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, ProjectForm
 from django.urls import reverse
+import csv
+from collections import OrderedDict
 
 
 def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-
+				  
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})
@@ -54,3 +56,20 @@ def registerCampusPartner(request):
     return render(request,
                   'home/campus_partner_register.html',
                   {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
+
+
+				  
+def uploadCSV(request):
+    data = {}
+    if request.method == "GET":
+        return render(request, "import/upload_project.html", data)
+    csv_file = request.FILES["csv_file"]
+    decoded = csv_file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded)
+    for row in reader:
+        data_dict = dict(OrderedDict(row))
+        form = ProjectForm(data_dict)
+        if form.is_valid():
+            form.save()
+    return render(request, 'import/upload_project.html',
+                  {'uploadCSV': uploadCSV})

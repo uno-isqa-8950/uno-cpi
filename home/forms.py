@@ -1,13 +1,16 @@
 from django import forms
 from .models import User
-from partners.models import CampusPartner, University
-from home.models import CampusPartnerContact
+from partners.models import CampusPartner, University, CommunityPartner
+from home.models import CampusPartnerContact, MissionArea
+from projects.models import Project
+from django.forms import ModelForm
+
 
 class CampusPartnerForm(forms.ModelForm):
-
     class Meta:
         model = CampusPartner
-        fields = ('campus_partner_name',)
+        fields = ('campusPartnerName',)
+
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
@@ -35,3 +38,14 @@ class CampusPartnerContactForm(forms.ModelForm):
     class Meta:
         model = CampusPartnerContact
         fields = ('first_name','last_name', 'email_id')
+
+
+class ProjectForm(forms.ModelForm):
+    mission = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission")
+    communityPartnerName = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
+                                                  to_field_name="communityPartnerName")
+    campusPartnerName = forms.ModelChoiceField(queryset=CampusPartner.objects.all(), to_field_name="campusPartnerName")
+
+    class Meta:
+        model = Project
+        fields = '__all__'

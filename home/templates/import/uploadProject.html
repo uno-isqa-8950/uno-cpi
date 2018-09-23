@@ -1,11 +1,21 @@
 {% extends 'home/base_home.html' %}
-
 {% block content %}
 
-<form action="{% url "upload_csv" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+<div class="container padding-left padding-top">
+<form action="{% url "uploadProject" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
+<div class="panel panel-default">
+<div class="panel-heading">Select File :
+<select>
+  <option value="volvo">Volvo</option>
+  <option value="saab">Saab</option>
+  <option value="opel">Opel</option>
+</select>
+</div>
+
+<div class="panel-body">
 <div class="form-group">
-    <label for="name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
+    <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label">File: </label>
     <div class="col-md-8">
         <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
     </div>
@@ -15,6 +25,9 @@
          <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
     </div>
 </div>
+</div>
+</div>
 </form>
+</div>
 
 {% endblock %}

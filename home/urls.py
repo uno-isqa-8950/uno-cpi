@@ -7,6 +7,8 @@ urlpatterns = [
    path('cpi',views.cpipage, name='cpipage'),
    path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
-   path('upload/', views.uploadCSV, name='uploadCSV'),
+   path('uploadProject/', views.uploadProject, name='uploadProject'),
+   # path('upload_community/', views.uploadCommunity, name='uploadCommunity'),
+   # path('upload_campus/', views.uploadCampus, name='uploadCommunity'),
 ]
 

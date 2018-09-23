@@ -43,7 +43,7 @@ def registerCampusPartner(request):
         contact_form = CampusPartnerContactForm(request.POST)
         if campus_partner_form.is_valid() and university_form.is_valid() and contact_form.is_valid():
             # Create a new user object but avoid saving it yet
-            University =  university_form.save()
+            University = university_form.save()
             cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], department_id=University)
             cp.save()
             cpc =  CampusPartnerContact(first_name=contact_form.cleaned_data['first_name'],last_name=contact_form.cleaned_data['last_name'], email_id = contact_form.cleaned_data['email_id'], partner_name =cp)
@@ -58,7 +58,24 @@ def registerCampusPartner(request):
                   {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
 
 
-def uploadCSV(request):
+def uploadProject(request):
+    data = {}
+    if request.method == "GET":
+        return render(request, "import/uploadProject.html", data)
+    csv_file = request.FILES["csv_file"]
+    decoded = csv_file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded)
+    for row in reader:
+        data_dict = dict(OrderedDict(row))
+        form = ProjectForm(data_dict)
+        print(form)
+        if form.is_valid():
+            form.save()
+    return render(request, 'import/uploadProject.html',
+                  {'uploadProject': uploadProject})
+
+
+def uploadCommunity(request):
     data = {}
     if request.method == "GET":
         return render(request, "import/upload_project.html", data)
@@ -67,10 +84,25 @@ def uploadCSV(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
-        form = ProjectForm(data_dict)
+        form = CommunityForm(data_dict)
         if form.is_valid():
             form.save()
     return render(request, 'import/upload_project.html',
-                  {'uploadCSV': uploadCSV})
+                  {'uploadCommunity': uploadCommunity})
+
+
+def uploadCampus(request):
+    data = {}
+    if request.method == "GET":
+        return render(request, "import/upload_campus.html", data)
+    csv_file = request.FILES["csv_file"]
+    decoded = csv_file.read().decode('utf-8').splitlines()
+    reader = csv.DictReader(decoded)
+    for row in reader:
+        data_dict = dict(OrderedDict(row))
+        form = CampusForm(data_dict)
+        if form.is_valid():
+            form.save()
+    return render(request, 'import/upload_campus.html',
+                  {'uploadCampus': uploadCampus})
+

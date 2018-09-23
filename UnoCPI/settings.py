@@ -54,6 +54,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'UnoCPI.urls'
@@ -84,7 +85,6 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'da30jgpud6uoc1',
         'USER': 'hzdxyiruzjipix',
         'PASSWORD': 'b342ec2d7bc0c2afec74a007760f9f60d4c2b8aee134026e61392f64319a4430',
         'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
@@ -96,6 +96,18 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+#DATABASES = {
+ #   'default': {
+  #      'ENGINE': 'django.db.backends.postgresql',
+   #     'NAME': 'uno_cpi',
+    #    'USER': 'postgres',
+     #   'PASSWORD': 'jan@2018',
+      #  'HOST': 'localhost',
+       # 'PORT': '5432',
+
+#}
+#}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -150,7 +162,7 @@ STATICFILES_DIRS = (
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
 
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 

@@ -4,8 +4,8 @@ from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
-   path('', views.home, name='base'),
-   path('cpi',views.cpipage, name='cpipage'),
+   path('cpi', views.cpipage, name='cpipage'),
+   path('home',views.home, name='home'),
    path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
 

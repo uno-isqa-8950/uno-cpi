@@ -10,7 +10,7 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-  
+
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})

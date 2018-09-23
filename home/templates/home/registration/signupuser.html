@@ -1,0 +1,31 @@
+{% extends "home/base_home.html" %}
+{% block content %}
+<html>
+<head>
+ <style>
+.formUser {
+    margin: auto;
+    width: 30%;
+    border: 3px solid #669999;
+    padding: 10px;
+}
+.SubmitButtonStyle{
+    text-align: center;
+    button-align:center;
+}
+h1{
+ text-align: center;
+}
+</style>
+    </style>
+</head>
+<div class="formUser">
+<h2>Sign up for user account</h2>
+<!--<p class="lead">Select below the type of account you want to create</p>-->
+<button><a href="{%url 'registerCampusPartnerUser' %} " class="save btn btn-default" role="button">Campus Partner</a></button>
+<button><a href="{%url 'registerCommunityPartnerUser' %}" class="save btn btn-default" role="button">Community Partner</a></button>
+
+</p>
+</div>
+</html>
+{% endblock %}

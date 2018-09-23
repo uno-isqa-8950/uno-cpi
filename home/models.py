@@ -1,10 +1,15 @@
 from django.db import models
-from partners.models import CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
+from partners.models import CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner,CampusPartnerUser,CommunityPartnerUser
 from projects.models import Project,ProjectMission
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
+
+
+# class User(AbstractUser):
+#     is_campuspartner = models.BooleanField('campuspartner status', default=False)
+#     is_communitypartner = models.BooleanField('communitypartner status', default=False)
 
 
 class Contact(models.Model):

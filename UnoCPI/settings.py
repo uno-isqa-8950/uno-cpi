@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home',
     'partners',
     'projects',
+    'crispy_forms',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -84,11 +85,11 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'da30jgpud6uoc1',
-        'USER': 'hzdxyiruzjipix',
-        'PASSWORD': 'b342ec2d7bc0c2afec74a007760f9f60d4c2b8aee134026e61392f64319a4430',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
-        'PORT': 5432,
+        'NAME': 'cpi',
+        'USER': 'janetanuja',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 
 }

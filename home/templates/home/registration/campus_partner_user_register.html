@@ -1,0 +1,87 @@
+    {% extends "home/base_home.html" %}
+{% load crispy_forms_tags %}
+{% crispy campus_partner_form.helper %}
+{% crispy user_form.helper % }
+{% block content %}
+<!--<h1>Create an account</h1>-->
+<!--&lt;!&ndash;<p>Please sign up using the following Partner Registration form:</p>&ndash;&gt;-->
+<html>
+<head>
+  <style>
+.formUser {
+    margin: auto;
+    width: 30%;
+    border: 3px solid #669999;
+    padding: 10px;
+}
+.SubmitButtonStyle{
+    text-align: center;
+    button-align:center;
+}
+h1{
+ text-align: center;
+}
+</style>
+</head>
+
+<form method="post" action="#">
+ <div class="formUser">
+  <!--<h4>Are you associated to Community Partner or Campus Partner?</h4>-->
+
+    <!--<div>-->
+      <!--<input type="radio" name="choice-partners" id="choice-partners-cap" required>-->
+      <!--<label for="choice-partners-cap">Campus Partner</label>-->
+
+      <!--<div class="reveal-if-active">-->
+        <!--&lt;!&ndash;<label for="which-cap">Campus Partner</label>&ndash;&gt;-->
+        <!--<input type="text" id="which-cap" name="which-cap" class="require-if-active" data-require-pair="#choice-partners-cap">-->
+      <!--</div>-->
+    <!--</div>-->
+
+    <!--<div>-->
+      <!--<input type="radio" name="choice-partners" id="choice-partners- cop">-->
+      <!--<label for="choice-partners-cop">Community Partner</label>-->
+
+      <!--<div class="reveal-if-active">-->
+        <!--&lt;!&ndash;<label for="which-cop">Community Partner</label>&ndash;&gt;-->
+        <!--<input type="text" id="which-cop" name="which-cop" class="require-if-active" data-require-pair="#choice-partners-cop">-->
+      <!--</div>-->
+    <!--</div>-->
+  <form action="." method="post">
+  {% csrf_token %}
+   <!--<label for="campus_partner_name" style="display:block">Campus Partner</label>-->
+  <!--<select class="form-control" id ='campus_partner_name'>-->
+    <!--{% for campuspartner in campuspartners %}-->
+    <!--<option>{{campuspartner.campus_partner_name}}</option>-->
+    <!--{% endfor %}-->
+  <!--</select>-->
+
+
+<!--<select class="select_field_class" multiple="multiple" name="option" id="option">-->
+      <!--<option value="">Enter the option</option>-->
+      <!--{% for option in options %}-->
+         <!--<option value="{{ option.id }}">{{ option.name }}</option>-->
+      <!--{% endfor %}-->
+<!--</select>-->
+
+<!--$('.select_field_class').select2( { placeholder: "Select here", maximumSelectionSize: 100  }-->
+  <!--{{ community_partner_form.as_p }}-->
+  {{ user_form.as_p }}
+    {{ campus_partner_form.as_p}}
+  {{ form|crispy }}
+  <p><input type="submit" value="Create my account"></p>
+</form>
+    </div>
+</html>
+<!--=======-->
+<!--<h1>Create an account</h1>-->
+<!--<p>Please sign up using the following Campus Partner Registration form:</p>-->
+<!--<form action="." method="post">-->
+  <!--{{ campus_partner_form.as_p }}-->
+  <!--{{ user_form.as_p }}-->
+  <!--{% csrf_token %}-->
+  <!--<p><input type="submit" value="Create my account"></p>-->
+<!--</form>-->
+<!--&gt;>>>>>> ac06dbd593669914005fbdb3f51835c08a7d1587-->
+
+{% endblock %}

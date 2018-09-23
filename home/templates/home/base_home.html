@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 {% load staticfiles %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <title>Community Partnership Initiative</title>
@@ -52,21 +52,35 @@
         <li><a href="#">Contact Us</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href='registerCampusPartner'>Campus Partner</a></li>
-          <li><a href="#">Community Partner</a></li>
-        </ul>
+      <li class=""><a href='signup'> <span class="glyphicon glyphicon-user"></span> Sign Up as an Organization<span class="caret"></span></a>
+      <!--<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>-->
+        <!--<ul class="dropdown-menu">-->
+          <!--<li><a href='registerCampusPartner'>Campus Partner</a></li>-->
+          <!--<li><a href="#">Community Partner</a></li>-->
+        <!--</ul>-->
+      </li>
+      <li class=""><a href='signupuser'> <span class="glyphicon glyphicon-user"></span> Sign Up as a User<span class="caret"></span></a>
+        <!--<ul class="dropdown-menu">-->
+          <!--<li><a href='registerCampusPartnerUser'>Campus Partner</a></li>-->
+          <!--<li><a href="#">Community Partner</a></li>-->
+        <!--</ul>-->
       </li>
       <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
-  </div></div>
+  </div>
+    </div>
 </nav>
 
-<div class="container">
-  <h3>Capstone Project Section 1</h3>
-</div>
+<!--<div class="container">-->
+  <!--<h3>Capstone Project Section 1</h3>-->
+<!--</div>-->
 {% block content %}
+<div class="container">
+  <h2>Welcome to Community Partnership Initiative </h2>
+  <h4> If you already have an account, go ahead and <a href = "{% url 'login' %}">Log In.</a>
+   If you are new to this website,
+    get started by creating a Campus partner account or Community Partner account </h4>
+</div>
 {% endblock%}
 </body>
 </html>

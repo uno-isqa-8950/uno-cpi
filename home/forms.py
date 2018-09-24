@@ -59,6 +59,12 @@ class CommunityForm(ModelForm):
 
 
 class CampusForm(ModelForm):
+
     class Meta:
         model = CampusPartner
         fields = '__all__'
+        TRUE_FALSE_CHOICES = (
+            ('True', 'Yes'),
+            ('False', 'No'),
+        )
+        weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))

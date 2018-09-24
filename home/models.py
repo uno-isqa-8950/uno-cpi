@@ -46,7 +46,7 @@ class CampusPartnerContact(models.Model):
 
 
 class MissionArea (models.Model):
-    # mission_code = models.CharField(max_length=10,default= 0)
+    mission_code = models.CharField(max_length=10,default= 0)
     mission_name = models.CharField(max_length=100)
     description = models.TextField()
 

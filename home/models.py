@@ -47,11 +47,11 @@ class CampusPartnerContact(models.Model):
 
 class MissionArea (models.Model):
     # mission_code = models.CharField(max_length=10,default= 0)
-    mission = models.CharField(max_length=100)
+    mission_name = models.CharField(max_length=100)
     description = models.TextField()
 
     def __str__(self):
-        return str(self.mission)
+        return str(self.mission_name)
 
 
 class Address(models.Model):

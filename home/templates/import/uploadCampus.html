@@ -11,7 +11,6 @@
     cursor: pointer;
     font-size: 18px;
 }
-
 /* Style the active class, and buttons on mouse-over */
 .active, .btn:hover {
     background-color: lightgoldenrodyellow;
@@ -24,25 +23,25 @@
 <nav class="navbar navbar-default sidebar" role="navigation">
     <div id="myDIV" class="container-fluid">
       <ul class="nav navbar-nav" role="tablist">
-        <li class="btn active"><a href= "/uploadProject/" style="background-color:lightgoldenrodyellow">Import Projects</a></li>
-        <li class="btn "><a href="/uploadCampus/">Import Campus Partners</a></li>
+        <li class="btn"><a href= "/uploadProject/">Import Projects</a></li>
+        <li class="btn active"><a href="/uploadCampus/" style="background-color:lightgoldenrodyellow" >Import Campus Partners</a></li>
         <li class="btn "><a href="/uploadCommunity">Import Community Partners</a></li>
       </ul>
     </div>
 </nav>
 
 <div>
-<form action="{% url "uploadProject" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+<form action="{% url "uploadCampus" %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading">Select Projects CSV :
+        <div class="panel-heading">Select Campus CSV :
 
         </div>
 
     <div class="panel-body">
 
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> CSV File: </label>
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label">CSV File: </label>
         <div class="col-md-8">
             <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
@@ -75,7 +74,5 @@ for (var i = 0; i < btns.length; i++) {
   });
 }
 </script>
-
-
 
 {% endblock %}

@@ -1,11 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser
-from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, ProjectForm
+from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, ProjectForm, CommunityForm, CampusForm
 from django.urls import reverse
 import csv
 from collections import OrderedDict
+from django.contrib import messages
 
 
 def home(request):
@@ -77,7 +78,7 @@ def uploadProject(request):
 def uploadCommunity(request):
     data = {}
     if request.method == "GET":
-        return render(request, "import/upload_project.html", data)
+        return render(request, "import/uploadCommunity.html", data)
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)
@@ -86,14 +87,14 @@ def uploadCommunity(request):
         form = CommunityForm(data_dict)
         if form.is_valid():
             form.save()
-    return render(request, 'import/upload_project.html',
+    return render(request, 'import/uploadCommunity.html',
                   {'uploadCommunity': uploadCommunity})
 
 
 def uploadCampus(request):
     data = {}
     if request.method == "GET":
-        return render(request, "import/upload_campus.html", data)
+        return render(request, "import/uploadCampus.html", data)
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)
@@ -102,6 +103,7 @@ def uploadCampus(request):
         form = CampusForm(data_dict)
         if form.is_valid():
             form.save()
-    return render(request, 'import/upload_campus.html',
+    return render(request, 'import/uploadCampus.html',
                   {'uploadCampus': uploadCampus})
+
 

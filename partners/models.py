@@ -70,4 +70,4 @@ class CampusPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6, choices= TRUE_FALSE_CHOICES, default=False)
 
     def __str__(self):
-        return str(self.campusPartnerName)
+        return str(self.campus_partner_name)

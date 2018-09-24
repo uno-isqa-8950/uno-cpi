@@ -54,7 +54,7 @@ class ProjectForm(forms.ModelForm):
 
 class CommunityForm(ModelForm):
     class Meta:
-        model = Project
+        model = CommunityPartner
         fields = '__all__'
 
 

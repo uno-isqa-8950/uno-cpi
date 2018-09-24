@@ -1,5 +1,5 @@
 from django.db import models
-# from home.models import *
+#from home.models import *
 # from projects.models import Project
 from django.conf import settings
 from django.utils import timezone
@@ -74,3 +74,10 @@ class CampusPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
     active = models.BooleanField(default= False)
     campus_partner_user = models.ForeignKey
+    campus_partner_user = models.ForeignKey
+
+
+class CommunityPartnerUser(models.Model):
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)

@@ -24,17 +24,75 @@
     var university_data = {% autoescape off %}{{university_data}}
     {% endautoescape %};
     $(document).ready(function () {
+
+      var universitys = _.uniq(_.pluck(university_data, 'name'));
+      var final_list = [];
+
+      for ( var i=0; i< universitys.length; i++) {  
+        var university = {
+        name: '',
+        colleges: [],
+      };
+
+      university.name= universitys[i];
+      var dataArray = _.uniq(_.pluck(_.where(university_data, {'name': university.name}), 'college'));
+      for ( var j = 0; j < dataArray.length; j++) {
+        var obj = {};
+        obj.clg_name = dataArray[j];
+        obj.dept = [];
+        university.colleges.push(obj);
+      }
+      final_list.push(university);
+      }
+
+      for (k =0; k< final_list.length; k++) {
+        console.log(final_list[k].name, final_list[k].colleges);
+        for (l =0; l< final_list[k].colleges.length; l++) {
+          final_list[k].colleges[l].dept = _.uniq(_.pluck(_.where(university_data, {'name': final_list[k].name, 'college': final_list[k].colleges[l].clg_name}), 'department'));
+        }
+      }
+
+
+
+      for (var i=0; i< final_list.length; i++) {
+        $('#id_name').append('<option value="'+final_list[i].name+'">'+final_list[i].name+'</option>');
+      }
+      var selected_university = '';
+      var selected_clg = '';
+
+      
     	 $('#id_name').change(function() {
-            var university_id = parseInt(this.value);
-            $.each(university_data, function(index, univ){
-            	if (univ.id == university_id){
-            		$('#id_college').attr('disabled', false);
-            		var html = "<option value=" + univ.college +" selected>"+ univ.college+"</option>";
-            		$('#id_college').html(html);
-            		$('#id_department').attr('disabled', false);
-            		$('#id_department').val(univ.department);
-            	}
-            });
+            selected_university = this.value;
+            var data = _.where(final_list, {'name': this.value});
+            if (data.length) {
+              $('#id_college').html('<option value="">Select College</option>');
+                for (var j=0; j< data[0].colleges.length; j++) {
+                  $('#id_college').append('<option value="'+data[0].colleges[j].clg_name+'" >'+data[0].colleges[j].clg_name+'</option>');
+                }
+                $('#id_college').attr('disabled', false);
+            } else {
+              $('#id_college').val('');
+              $('#id_college').attr('disabled', true);
+              $('#id_department').val('');
+              $('#id_department').attr('disabled', true);
+            }
+         });
+
+          $('#id_college').change(function() {
+            selected_clg = this.value;
+            var data = _.where(final_list, {'name': selected_university});
+              var data1 = _.where(data[0].colleges, {'clg_name': selected_clg})
+              if (data1.length) {
+                var data2 = data1[0].dept;
+                $('#id_department').html('<option value="">Select Department</option>');
+                  for (var k=0; k< data2.length; k++) {
+                    $('#id_department').append('<option value="'+data2[k]+'" >'+data2[k]+'</option>');
+                  }
+                  $('#id_department').attr('disabled', false);
+              } else {
+                $('#id_department').val('');
+                $('#id_department').attr('disabled', true);
+              }
          });
     });
 </script>

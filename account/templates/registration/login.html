@@ -1,32 +1,54 @@
 {% extends 'home/base_home.html' %}
 
-{% block title %}Log-In {% endblock %}
-
 {% block content %}
+    	<style type="text/css">
+		.login-form{
+			height: 200px;
+			width: 320px;
+			/*background-color: rgb(255,0,0);*/
+			position: absolute;
+			top: 30%;
+			left: 38%;
+		}
+		.ipt{
+			/*height: 50px;*/
+			width: 290px;
+			border-radius: 6px;
+			padding: 12px 14px;
+			font-size: 14px;
+			box-shadow: 2px 0 5px 0 #fff;
+			background-color: #E2E5E8;
+		}
+		.login-button1{
+			background-color: rgb(112,128,144);
+			position: relative;
+			left: 85px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+		}
+		.forget{
+			position: relative;
+			left:180px;
+		}
+        .la{
+            width: 90%;
+            text-align: center;
+            color:red;
+        }
+	</style>
 
-<h1>Log-In</h1>
-
-{% if form.errors %}
-
-<p> Your username and password didnt match plase try again</p>
-
-{% else %}
-
-<p> Please, use the following form to Log-In</p>
-
-{% endif %}
-
-<div class="login-form">
-    <form action="{% url 'login' %}" method="post">
-        {{ form.as_p }}
-        {{% csrf_token %}}
-
-        <input type="hidden" name="next" value="{{ next}}" />
-        <p><input type="submit" value="Log-In"></p>
-    </form>
-<p><a href="{% url 'password_reset' %}">Forgotten your password?</a></p>
-</div>
-
-
-
+	<div class="main">
+		<div class="login-form">
+		<form action='login' method="post">
+            {% csrf_token %}
+             <label class="la">{{ loginError }}</label><br>
+			<input class="ipt" type="text" name="username"   placeholder="Username" /><br><br>
+			<input class="ipt" type="password" name="password" placeholder="Password" /><br>
+			<a href='/password_reset/' class="forget">Forget Password</a><br>
+            <p><input type="submit" value="Log in" class="login-button1"></p>
+		</form>
+		</div>
+	</div>
 {% endblock %}

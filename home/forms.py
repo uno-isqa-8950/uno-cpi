@@ -44,7 +44,7 @@ class CommunityPartnerForm(forms.ModelForm):
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repeat password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm password', widget=forms.PasswordInput)
     def as_p(self):
         "Returns this form rendered as HTML <p>s."
         return self._html_output(

@@ -1,5 +1,5 @@
 from django.db import models
-# from home.models import *
+#from home.models import *
 # from projects.models import Project
 from django.conf import settings
 from django.utils import timezone
@@ -59,9 +59,10 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     project_id = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
-class CampusPartnerUser(models.Model):
-    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+# class CampusPartnerUser(models.Model):
+#     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
 
 
 class CampusPartner(models.Model):
@@ -73,3 +74,17 @@ class CampusPartner(models.Model):
     department_id = models.ForeignKey('University', on_delete=models.CASCADE)
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
     campus_partner_user = models.ForeignKey
+
+
+class CampusPartnerUser(models.Model):
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    #communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)
+    #emailid = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, null = False)
+    #email_id = models.ForeignKey('home.CampusPartnerContact', on_delete=models.CASCADE)
+
+
+class CommunityPartnerUser(models.Model):
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)

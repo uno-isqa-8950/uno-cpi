@@ -1,6 +1,4 @@
 from django.db import models
-# from home.models import *
-# from projects.models import Project
 from django.conf import settings
 from django.utils import timezone
 from django.core.validators import MinLengthValidator
@@ -13,18 +11,15 @@ class CommunityPartner (models.Model):
         ('True', 'Yes'),
         ('False', 'No'),
     )
-
-    name = models.CharField(max_length= 100)
-
+    communityPartnerName = models.CharField(max_length=100)
     website_url = models.TextField()
-    college = models.CharField(max_length=50,null=False, blank=True)
-    k12_level =  models.CharField(max_length=20,null=False, blank=True)
-    active = models.BooleanField(default= True)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-
+    college = models.CharField(max_length=50, null=False, blank=True)
+    k12_level = models.CharField(max_length=20, null=False, blank=True)
+    active = models.BooleanField(default=True)
+    weitz_cec_part = models.CharField(max_length=6, choices= TRUE_FALSE_CHOICES, default= False )
 
     def __str__(self):
-        return str(self. name)
+        return str(self. communityPartnerName)
 
 
 class CommunityType (models.Model):
@@ -59,9 +54,10 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     project_id = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
-class CampusPartnerUser(models.Model):
-    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+# class CampusPartnerUser(models.Model):
+#     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
 
 
 class CampusPartner(models.Model):
@@ -70,6 +66,23 @@ class CampusPartner(models.Model):
         ('False', 'No'),
     )
     campus_partner_name = models.CharField(max_length=255)
-    department_id = models.ForeignKey('University', on_delete=models.CASCADE)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-    campus_partner_user = models.ForeignKey
+    college = models.CharField(max_length=255)
+    department = models.CharField(max_length=255)
+    weitz_cec_part = models.CharField(max_length=6, choices= TRUE_FALSE_CHOICES, default=False)
+
+    def __str__(self):
+        return str(self.campus_partner_name)
+
+
+class CampusPartnerUser(models.Model):
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    #communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)
+    #emailid = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, null = False)
+    #email_id = models.ForeignKey('home.CampusPartnerContact', on_delete=models.CASCADE)
+
+
+class CommunityPartnerUser(models.Model):
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)

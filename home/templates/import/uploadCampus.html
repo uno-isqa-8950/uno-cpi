@@ -1,0 +1,78 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+/* Style the buttons */
+.btn-upload {
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    background-color: lightskyblue;
+    cursor: pointer;
+    font-size: 18px;
+}
+/* Style the active class, and buttons on mouse-over */
+.active, .btn:hover {
+    background-color: lightgoldenrodyellow;
+    color: white;
+}
+</style>
+
+<div class="container padding-left padding-top">
+
+<nav class="navbar navbar-default sidebar" role="navigation">
+    <div id="myDIV" class="container-fluid">
+      <ul class="nav navbar-nav" role="tablist">
+        <li class="btn"><a href= "/uploadProject/">Import Projects</a></li>
+        <li class="btn active"><a href="/uploadCampus/" style="background-color:lightgoldenrodyellow" >Import Campus Partners</a></li>
+        <li class="btn "><a href="/uploadCommunity">Import Community Partners</a></li>
+      </ul>
+    </div>
+</nav>
+
+<div>
+<form action="." method="POST" enctype="multipart/form-data" class="form-horizontal">
+{% csrf_token %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Select Campus CSV :
+
+        </div>
+
+    <div class="panel-body">
+
+    <div class="form-group">
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label">CSV File: </label>
+        <div class="col-md-8">
+            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+             <button class="btn-upload"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
+        </div>
+        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+        <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+        </div>
+    </div>
+
+    </div>
+    </div>
+</form>
+</div>
+</div>
+
+<script>
+// Add active class to the current button (highlight it)
+var header = document.getElementById("myDIV");
+var btns = header.getElementsByClassName("btn");
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+</script>
+
+{% endblock %}

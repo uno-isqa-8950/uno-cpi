@@ -30,7 +30,9 @@
       </ul>
     </div>
 </nav>
-
+<form action="https://docs.google.com/spreadsheets/d/1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4/export?format=csv&id=1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4&gid=0" method="GET">
+    <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+</form>
 <div>
 <form action="." method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
@@ -51,9 +53,6 @@
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
              <button class="btn-upload"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-        <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
         </div>
     </div>
 

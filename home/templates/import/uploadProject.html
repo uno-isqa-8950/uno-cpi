@@ -30,11 +30,11 @@
       </ul>
     </div>
 </nav>
-<form action="https://docs.google.com/spreadsheets/d/1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4/export?format=csv&id=1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4&gid=0" method="GET">
+<form action="https://docs.google.com/spreadsheets/d/1BxKlrrxP_3Cvv-xQbIDUwJJ22qJRB-oH0-RhdCEm8sQ/export?format=csv&id=1BxKlrrxP_3Cvv-xQbIDUwJJ22qJRB-oH0-RhdCEm8sQ&gid=1891964225">
     <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
 </form>
 <div>
-<form action="." method="POST" enctype="multipart/form-data" class="form-horizontal">
+<form action="{% url 'uploadProject' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
         <div class="panel-heading">Select Projects CSV :

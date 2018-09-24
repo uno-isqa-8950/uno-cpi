@@ -8,6 +8,7 @@ urlpatterns = [
 
    path('', views.cpipage, name='cpipage'),
    path('home',views.home, name='home'),
+   path('account',views.home, name='account'),
    path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('signupuser/registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),

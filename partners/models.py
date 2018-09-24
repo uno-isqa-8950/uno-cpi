@@ -54,9 +54,10 @@ class Course(models.Model):
     name = models.CharField(max_length=100)
     project_id = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
-class CampusPartnerUser(models.Model):
-    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+# class CampusPartnerUser(models.Model):
+#     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+#     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
 
 
 class CampusPartner(models.Model):
@@ -71,3 +72,17 @@ class CampusPartner(models.Model):
 
     def __str__(self):
         return str(self.campus_partner_name)
+
+
+class CampusPartnerUser(models.Model):
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    #communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)
+    #emailid = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, null = False)
+    #email_id = models.ForeignKey('home.CampusPartnerContact', on_delete=models.CASCADE)
+
+
+class CommunityPartnerUser(models.Model):
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)

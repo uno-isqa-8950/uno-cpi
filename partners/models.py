@@ -72,4 +72,5 @@ class CampusPartner(models.Model):
     campus_partner_name = models.CharField(max_length=255)
     department_id = models.ForeignKey('University', on_delete=models.CASCADE)
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
+    active = models.BooleanField(default= False)
     campus_partner_user = models.ForeignKey

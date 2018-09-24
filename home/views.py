@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from partners.models import CampusPartnerUser
-from .forms import  CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm
+from partners.models import (CampusPartnerUser, 
+    University as UniversityModel)
+from .forms import  (CampusPartnerForm, UniversityForm, 
+    CampusPartnerContactForm, UserForm)
 from django.urls import reverse
-
 
 def home(request):
     return render(request, 'home/base_home.html',
@@ -51,6 +52,9 @@ def registerCampusPartner(request):
         campus_partner_form = CampusPartnerForm()
         university_form = UniversityForm()
         contact_form = CampusPartnerContactForm()
+        university_data = list(UniversityModel.objects.all().values(
+            'id', 'name', 'college', 'department'))
     return render(request,
                   'home/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
+                  {'campus_partner_form': campus_partner_form, 'university_form': university_form, 
+                  'contact_form': contact_form, 'university_data': university_data})

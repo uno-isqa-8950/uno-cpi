@@ -20,4 +20,22 @@
     </form>
   </div>
 </div>
+<script type="text/javascript">
+    var university_data = {% autoescape off %}{{university_data}}
+    {% endautoescape %};
+    $(document).ready(function () {
+    	 $('#id_name').change(function() {
+            var university_id = parseInt(this.value);
+            $.each(university_data, function(index, univ){
+            	if (univ.id == university_id){
+            		$('#id_college').attr('disabled', false);
+            		var html = "<option value=" + univ.college +" selected>"+ univ.college+"</option>";
+            		$('#id_college').html(html);
+            		$('#id_department').attr('disabled', false);
+            		$('#id_department').val(univ.department);
+            	}
+            });
+         });
+    });
+</script>
 {% endblock %}

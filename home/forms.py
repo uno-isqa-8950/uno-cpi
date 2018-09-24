@@ -33,12 +33,8 @@ class UniversityForm(forms.ModelForm):
         labels = {
             'name': _('University Name'),
         }
-        UNIV_CHOICES = (
-            ('UNO', 'University of Nebraska'),
-        )
-        coll_choices = (
-            ('SOE', 'School of Engineering'),
-        )
+        UNIV_CHOICES = ()
+        coll_choices = ()
         widgets = {
             'name': forms.Select(choices=UNIV_CHOICES,attrs={'class': 'form-control'}),
             'college': forms.Select(choices=coll_choices,attrs={'class': 'form-control'}),
@@ -50,6 +46,8 @@ class UniversityForm(forms.ModelForm):
             (univ.get('id'), univ.get("name")) 
             for univ in University.objects.all().values('name', 'id')
         )
+        self.fields['college'].widget.attrs['disabled'] = True
+        self.fields['department'].widget.attrs['disabled'] = True
 
 
 class CampusPartnerContactForm(forms.ModelForm):

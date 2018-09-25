@@ -106,7 +106,6 @@ def uploadProject(request):
     for row in reader:
         data_dict = dict(OrderedDict(row))
         form = ProjectForm(data_dict)
-        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/uploadProject.html',

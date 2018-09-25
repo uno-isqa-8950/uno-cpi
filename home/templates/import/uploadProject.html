@@ -13,15 +13,15 @@
 }
 
 /* Style the active class, and buttons on mouse-over */
-.active, .btn:hover {
+/* .active, .btn:hover {
     background-color: lightgoldenrodyellow;
     color: white;
-}
+} */
 </style>
 
 <div class="container padding-left padding-top">
 
-<nav class="navbar navbar-default sidebar" role="navigation">
+<!-- <nav class="navbar navbar-default sidebar" role="navigation">
     <div id="myDIV" class="container-fluid">
       <ul class="nav navbar-nav" role="tablist">
         <li class="btn active"><a href= "/uploadProject/" style="background-color:lightgoldenrodyellow">Import Projects</a></li>
@@ -29,20 +29,28 @@
         <li class="btn "><a href="/uploadCommunity">Import Community Partners</a></li>
       </ul>
     </div>
-</nav>
+</nav> -->
 
+<form action="https://uc0163c67c6c9c0558120cc87dc9.dl.dropboxusercontent.com/cd/0/get/ARafXd7veEJf5ljD1tZCW-JhV4kOcAw9NzgD1dFqF6Xlq1U_iPJt_htXs0WTUaNJiVcDn91mPjP2bYTBNQGnr6iHfoapx3pxuSjOB8cs2T4Tdv_dRe8wlFnNXMuUYTQ2FqH11ffBboEmF8p2RKZpgEv9TrzoUiGwbm_00W6WAqLbryUAa98yREfAYwbalKNBvHw/file?_download_id=4905042900553353689065179556251448080248849134818244954265134692&_notify_domain=www.dropbox.com&dl=1">
+    <button class="btn btn-success"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+</form>
 <div>
-<form action="." method="POST" enctype="multipart/form-data" class="form-horizontal">
+<form action="{% url 'uploadProject' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading">Select Projects CSV :
-
-        </div>
+        <div class="panel-heading">Select CSV file for Import:</div>
 
     <div class="panel-body">
 
+      <label for="id_field">Choose File Type:</label>
+      <select name="field" id="id_field">
+        <option value="1">Campus</option>
+        <option value="2">Community</option>
+        <option value="3">Project</option>
+      </select>
+
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> CSV File: </label>
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
         <div class="col-md-8">
             <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
@@ -50,10 +58,7 @@
 
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn-upload"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
-        </div>
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-        <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
         </div>
     </div>
 
@@ -65,16 +70,15 @@
 
 <script>
 // Add active class to the current button (highlight it)
-var header = document.getElementById("myDIV");
-var btns = header.getElementsByClassName("btn");
+var header = document.getElementById('myDIV');
+var btns = header.getElementsByClassName('btn');
 for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
+  btns[i].addEventListener('click', function() {
+    var current = document.getElementsByClassName('active');
+    current[0].className = current[0].className.replace(' active', '');
+    this.className += ' active';
   });
 }
-
 </script>
 
 

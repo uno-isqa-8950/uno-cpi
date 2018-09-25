@@ -3,7 +3,7 @@ from .models import User
 from django.contrib.auth.forms import UserCreationForm
 from partners.models import CampusPartner, University, CommunityPartner
 from home.models import CampusPartnerContact, MissionArea
-from projects.models import Project
+from projects.models import Project, ProjectPartner
 from django.forms import ModelForm
 
 
@@ -99,15 +99,21 @@ class CampusPartnerContactForm(forms.ModelForm):
 
 
 class ProjectForm(forms.ModelForm):
-    mission_name = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
-    communityPartnerName = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
-                                                  to_field_name="communityPartnerName")
-    campus_partner_name = forms.ModelChoiceField(queryset=CampusPartner.objects.all(),
-                                                 to_field_name="campus_partner_name")
+    # mission_name = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
+    # CommunityPartnerName = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
+    #                                               to_field_name="communityPartnerName")
+    # campus_partner_name = forms.ModelChoiceField(queryset=CampusPartner.objects.all(),
+    #                                              to_field_name="campus_partner_name")
 
     class Meta:
         model = Project
         fields = '__all__'
+
+    # ProjectName = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="ProjectName")
+    #
+    # class Meta:
+    #     model = ProjectPartner
+    #     fields = '__all__'
 
 
 class CommunityForm(ModelForm):

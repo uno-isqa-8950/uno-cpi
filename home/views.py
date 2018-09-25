@@ -13,7 +13,7 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-				  
+
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})
@@ -105,8 +105,8 @@ def uploadProject(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-        print(data_dict)
         form = ProjectForm(data_dict)
+        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/uploadProject.html',
@@ -139,7 +139,6 @@ def uploadCampus(request):
     for row in reader:
         data_dict = dict(OrderedDict(row))
         form = CampusForm(data_dict)
-        print(form)
         if form.is_valid():
             form.save()
     return render(request, 'import/uploadCampus.html',

@@ -55,18 +55,5 @@ class MissionArea (models.Model):
 def __str__(self):
         return str(self.mission_name)
 
-"""
-class Address(models.Model):
-    address_line1 = models.CharField(max_length=1024)
-    address_line2 = models.CharField(max_length=1024, blank=True)
-    country = models.CharField(max_length=100)
-    city = models.CharField(max_length=25)
-    state = models.CharField(max_length=15)
-    Zip = models.CharField(max_length=10)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
-    CommunityPartnerName = models.ForeignKey('partners.CommunityPartner', on_delete=models.SET_NULL, null=True)
 
-    def __str__(self):
-        return str(self.CommunityPartnerName)
-"""
+

@@ -1,8 +1,9 @@
 from django.contrib import admin
-from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser, Contact, CommunityType, Project,  MissionArea,Address,CampusPartner,  CampusPartnerContact
+from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser, Contact, CommunityType, Project,  MissionArea,CampusPartner,  CampusPartnerContact
 
 
 admin.site.register(CommunityPartner)
+
 admin.site.register(Contact)
 admin.site.register(CommunityType)
 admin.site.register(Project)

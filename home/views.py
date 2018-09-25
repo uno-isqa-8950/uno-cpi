@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner
-from .forms import  CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, CommunityContactForm
+from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
+    CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm
 from django.urls import reverse
 
 

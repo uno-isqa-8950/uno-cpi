@@ -60,7 +60,7 @@ class CommunityPartnerMission (models.Model):
     def __str__(self):
         return str(self.partner_name)
 
-
+'''
 class University (models.Model):
     college = models.CharField(max_length=50)
     department = models.CharField(max_length=30)

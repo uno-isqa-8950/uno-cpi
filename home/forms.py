@@ -44,9 +44,9 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
     class Meta:
         model = CommunityPartner
-        fields = ('name',)
+        fields = ('CommunityPartnerName',)
 
-    name = forms.ModelChoiceField(queryset=CommunityPartner.objects.order_by().distinct('name')
+    name = forms.ModelChoiceField(queryset=CommunityPartner.objects.order_by().distinct('CommunityPartnerName')
                                   ,label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 
@@ -54,7 +54,7 @@ class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CommunityPartner
-        fields = ('name',)
+        fields = ('CommunityPartnerName',)
 
 
 class UserForm(forms.ModelForm):

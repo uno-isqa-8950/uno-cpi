@@ -34,7 +34,7 @@ class CampusPartnerContact(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email_id = models.EmailField()
-    partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+    partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.first_name)

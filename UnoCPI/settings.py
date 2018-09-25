@@ -86,19 +86,26 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'USER': 'hzdxyiruzjipix',
-        'PASSWORD': 'b342ec2d7bc0c2afec74a007760f9f60d4c2b8aee134026e61392f64319a4430',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
+        'NAME': 'capstone2018',
+        'USER': 'vaishnavi9177',
+        'PASSWORD': 'suguru',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
-
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
+#     }
+# }
+
 
 try:
     from .local_settings import *
 except ImportError:
     pass
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

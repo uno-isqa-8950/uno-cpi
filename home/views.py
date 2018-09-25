@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
-from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner
+from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner, Department as DepartmentModel
 from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
-    CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm
+    CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm, CollegeForm, DepartmentForm
 from django.urls import reverse
 
 
@@ -15,7 +15,6 @@ def home(request):
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})
-
 
 
 def signup(request):
@@ -78,23 +77,32 @@ def registerCommunityPartnerUser(request):
 def registerCampusPartner(request):
     if request.method == 'POST':
         campus_partner_form = CampusPartnerForm(request.POST)
-        university_form = UniversityForm(request.POST)
-        contact_form = CampusPartnerContactForm(request.POST)
-        if campus_partner_form.is_valid() and university_form.is_valid() and contact_form.is_valid():
+        department_form = DepartmentForm(request.POST)
+
+        if campus_partner_form.is_valid() and department_form.is_valid():
             # Create a new user object but avoid saving it yet
-            University =  university_form.save()
-            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], department_id=University)
+            # University =  university_form.save()
+            # department = department_form.cleaned_data['name']
+            # print (department)
+            department = DepartmentModel.objects.get(id=int(department_form.cleaned_data['name']))
+            print (department)
+            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], email=campus_partner_form.cleaned_data['email'],
+                department_id=department)
             cp.save()
-            cpc = CampusPartnerContact(first_name=contact_form.cleaned_data['first_name'],last_name=contact_form.cleaned_data['last_name'], email_id = contact_form.cleaned_data['email_id'], partner_name =cp)
-            cpc.save()
+
             return render(request,'home/register_done.html',)
     else:
         campus_partner_form = CampusPartnerForm()
         university_form = UniversityForm()
-        contact_form = CampusPartnerContactForm()
-    return render(request,
-                  'home/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
+        collage_form = CollegeForm()
+        department_form = DepartmentForm()
+        department_data = list(DepartmentModel.objects.all().values(
+            'id', 'name', 'college_id'))
+
+    return render(request, 'home/campus_partner_register.html',
+                  {'campus_partner_form': campus_partner_form, 'university_form': university_form, 
+                  'collage_form': collage_form, 'department_form': department_form, 'department_data': department_data})
+
 
 def registerCommunityPartner(request):
     if request.method == 'POST':

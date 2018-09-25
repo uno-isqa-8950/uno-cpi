@@ -13,4 +13,6 @@ admin.site.register(MissionArea)
 #admin.site.register(Address)
 admin.site.register(CampusPartner)
 admin.site.register(CampusPartnerContact)
+admin.site.register(CampusPartnerUser)
+admin.site.register(CommunityPartnerUser)
 

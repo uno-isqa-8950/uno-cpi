@@ -26,50 +26,52 @@ def signupuser(request):
 
 
 def registerCampusPartnerUser(request):
-    campus_partner_form = CampusPartnerForm()
-    #community_partner_form = CommunityPartnerForm()
+    campus_partner_user_form = CampusPartnerUserForm()
+
     user_form = UserForm()
     if request.method == 'POST':
         user_form = UserForm(request.POST)
-        campus_partner_form = CampusPartnerForm(request.POST)
+        campus_partner_user_form = CampusPartnerUserForm(request.POST)
         #community_partner_form = CommunityPartnerForm(request.POST)
-        if user_form.is_valid() and campus_partner_form.is_valid():
+        if user_form.is_valid() and campus_partner_user_form.is_valid():
                 #and community_partner_form.is_valid():
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            cpu = CampusPartnerUser(campuspartner=CampusPartner.objects.filter(
-                    campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'])[0], user=new_user)
+            # cpu = CampusPartnerUser(campuspartner=CampusPartner.objects.filter(
+            #         campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'])[0], user=new_user)
+            cpu = CampusPartnerUser(campuspartner=campus_partner_user_form.cleaned_data['campus_partner_name'], user=new_user)
             cpu.save()
 
             return render(request,'home/register_done.html',)
     return render(request,
                   'home/registration/campus_partner_user_register.html',
-                  { 'user_form': user_form,'campus_partner_form': campus_partner_form })
+                  { 'user_form': user_form,'campus_partner_user_form': campus_partner_user_form})
 
 
 def registerCommunityPartnerUser(request):
-    #campus_partner_form = CampusPartnerForm()
-    community_partner_form = CommunityPartnerForm()
+
+    community_partner_user_form = CommunityPartnerUserForm()
     user_form = UserForm()
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         #campus_partner_form = CampusPartnerForm(request.POST)
-        community_partner_form = CommunityPartnerForm(request.POST)
-        if user_form.is_valid() and community_partner_form.is_valid():
+        community_partner_user_form = CommunityPartnerUserForm(request.POST)
+        if user_form.is_valid() and community_partner_user_form.is_valid():
                # and campus_partner_form.is_valid()
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.save()
-            cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
-                   name=community_partner_form.cleaned_data['name'])[0], user=new_user)
+            # cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
+            #        name=community_partner_form.cleaned_data['name'])[0], user=new_user)
+            cpu = CommunityPartnerUser(communitypartner=community_partner_user_form.cleaned_data['name'], user=new_user)
             cpu.save()
             return render(request,'home/register_done.html',)
     return render(request,
                   'home/registration/community_partner_user_register.html',
-                  { 'user_form': user_form,'community_partner_form': community_partner_form})
+                  { 'user_form': user_form,'community_partner_user_form': community_partner_user_form})
 
 
 def registerCampusPartner(request):

@@ -1,31 +1,35 @@
 {% extends "home/base_home.html" %}
+{% load bootstrap %}
 {% block content %}
 <!--<h1>Create an account</h1>-->
 <!--&lt;!&ndash;<p>Please sign up using the following Partner Registration form:</p>&ndash;&gt;-->
 
-  <style>
-.formUser {
-   margin: auto;
-    width: 300px;
-    border: 3px solid #669999;
-    padding-left: 20px;
-    padding-right:15px;
-    left :50px;
-    top: 10px;
-    height: 600px;
-}
+  <!--<style>-->
+<!--.formUser {-->
+   <!--margin: auto;-->
+    <!--width: 500px;-->
+    <!--border: 3px solid #669999;-->
+    <!--padding-left: 20px;-->
+    <!--padding-right:15px;-->
+    <!--left :50px;-->
+    <!--top: 10px;-->
+    <!--height: 600px;-->
+<!--}-->
 
-.SubmitButtonStyle{
-    text-align: center;
-    button-align:center;
-     display: inline-block;
-}
-h1{
- text-align: center;
-}
-</style>
+<!--.SubmitButtonStyle{-->
+    <!--text-align: center;-->
+    <!--button-align:center;-->
+     <!--display: inline-block;-->
+<!--}-->
+<!--h1{-->
+ <!--text-align: center;-->
+<!--}-->
+<!--h3{-->
+ <!--text-align: center;-->
+<!--}-->
+<!--</style>-->
 
-
+<h3> Create a User Account</h3>
 <form method="post" action="#">
  <div class="formUser">
      <form action="." method="post">
@@ -45,10 +49,10 @@ h1{
 
 <!--$('.select_field_class').select2( { placeholder: "Select here", maximumSelectionSize: 100  }-->
 
-  {{ user_form.as_p }}
-         {{ campus_partner_form.as_p }}
+  {{ user_form|bootstrap }}
+   {{ campus_partner_user_form|bootstrap }}
 <p></p>
-  <p><input type="submit" value="Create my account" class="SubmitButtonStyle"></p>
+  <p><input type="submit" value="Create My Account" class="SubmitButtonStyle"></p>
 </form>
  </div>
 </form>

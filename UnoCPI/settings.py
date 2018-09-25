@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'home',
     'partners',
     'projects',
+    'bootstrapform',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

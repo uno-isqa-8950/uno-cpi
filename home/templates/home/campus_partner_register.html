@@ -1,14 +1,48 @@
 {% extends "home/base_home.html" %}
-{% block content %}
 {% load bootstrap %}
+{% block content %}
 
-<h1>Create an account</h1>
-<p>Please sign up using the following Campus Partner Registration form:</p>
+<style>
+
+    .buttons-holder {
+  position: absolute;
+  top: 195%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button {
+    background-color: #CC3434;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 12px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+    h4{
+ text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: #CC3434;
+        padding: 15px 32px;
+        color: white;
+}
+    body{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: small;
+    }
+
+</style>
+<h4>Register your Organization</h4>
+<p>Please use the below form to signup as a Campus Partner:</p>
 <form action="." method="post">
-  {{ campus_partner_form.as_p }}
-  {{ university_form.as_p }}
-  {{ contact_form.as_p }}
-  {% csrf_token %}
+    {% csrf_token %}
+    {{ campus_partner_form|bootstrap }}
+
   <p><input type="submit" value="Create my account"></p>
 </form>
 {% endblock %}

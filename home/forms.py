@@ -1,6 +1,6 @@
 from django import forms
 from .models import User
-from partners.models import CampusPartner, University, CommunityPartner
+from partners.models import CampusPartner, University, CommunityPartner, College, Department
 from home.models import CampusPartnerContact, Contact
 from django.utils.translation import ugettext_lazy as _
 
@@ -29,7 +29,12 @@ class CampusPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('campus_partner_name',)
+        fields = ('campus_partner_name', 'email')
+
+    labels = {
+            'username': ('Campus Partner Name'),
+            'email': ('Email ID')
+        }
 
 
 class CommunityPartnerUserForm(forms.ModelForm):
@@ -103,24 +108,60 @@ class UniversityForm(forms.ModelForm):
             'name': _('University Name'),
         }
 
-        uni_choices = (("0", "Select University"), )
+        uni_choices = list((univ.get('id'), univ.get("name")) for univ in University.objects.all().values('name', 'id'))
+        uni_choices.insert(0, ("0", "Select University"))
+        uni_choices = tuple(uni_choices)
         # coll_choices = (("0", "Select college"), )
         # dep_choices = (("0", "Select Department"), )
 
         widgets = {
-            'name': forms.Select(choices=uni_choices, ),
+            'name': forms.Select(choices=uni_choices, attrs={'class':'id_university'}),
             # 'college': forms.Select(choices=coll_choices, ),
             # 'department': forms.Select(choices=dep_choices, ),
         }
 
     # def __init__(self, *args, **kwargs):
     #     super(UniversityForm, self).__init__(*args, **kwargs)
-    #     # self.fields['name'].widget.choices = (
-    #     #     (univ.get('id'), univ.get("name")) 
-    #     #     for univ in University.objects.all().values('name', 'id').distinct('name')
-    #     # )
+    #     self.fields['name'].widget.choices = (
+    #         (univ.get('id'), univ.get("name")) 
+    #         for univ in University.objects.all().values('name', 'id')
+    #     )
     #     self.fields['college'].widget.attrs['disabled'] = True
     #     self.fields['department'].widget.attrs['disabled'] = True
+
+
+class CollegeForm(forms.ModelForm):
+
+    class Meta:
+        model = University
+        fields = ('name', )
+        labels = {
+            'name': _('College Name'),
+        }
+
+        col_choices = list((col.get('id'), col.get("name")) for col in College.objects.all().values('name', 'id'))
+        col_choices.insert(0, ("0", "Select College"))
+        col_choices = tuple(col_choices)
+
+        widgets = {
+            'name': forms.Select(choices=col_choices, attrs={'disabled':'disabled', 'class':'id_college'}),
+        }
+
+
+class DepartmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Department
+        fields = ('name', )
+        labels = {
+            'name': _('Department Name'),
+        }
+
+        dep_choices = (("0", "Select Department"), )
+
+        widgets = {
+            'name': forms.Select(choices=dep_choices, attrs={'disabled':'disabled', 'class':'id_department'}),
+        }
 
 
 class CampusPartnerContactForm(forms.ModelForm):

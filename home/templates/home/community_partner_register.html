@@ -1,7 +1,6 @@
-{% extends "home/base_home.html" %}
+{% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
-
 <style>
 
     .buttons-holder {
@@ -33,16 +32,28 @@
 }
     body{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: small;
+        font-size: medium;
     }
 
 </style>
-<h4>Register your Organization</h4>
-<p>Please use the below form to signup as a Campus Partner:</p>
-<form action="." method="post">
-    {% csrf_token %}
-    {{ campus_partner_form|bootstrap }}
 
-  <p><input type="submit" value="Create my account"></p>
-</form>
+
+<h4>Register Your Organization</h4>
+<p>Please use the below form to signup as a Community Partner:</p>
+
+<div class="body">
+<form action="." method="post">
+  {% csrf_token %}
+  {{ community_partner_form|bootstrap }}
+  {{ community_partner_contact_form|bootstrap }}
+
+ <div class="buttons-holder">
+<input class="button" type="submit" value="Submit">
+     </div>
+  </form>
+</div>
+
+
+
 {% endblock %}
+

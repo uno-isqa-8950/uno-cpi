@@ -1,6 +1,6 @@
 from django.db import models
-from partners.models import CampusPartnerUser,CommunityPartnerUser,CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
-from projects.models import Project,ProjectMission
+from partners.models import CampusPartnerUser,CommunityPartnerUser,CommunityPartner, CommunityType, CampusPartner
+from projects.models import Project
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
@@ -47,12 +47,11 @@ class CampusPartnerContact(models.Model):
 
         
 class MissionArea (models.Model):
-    mission_code = models.CharField(max_length=10,default= 0)
     mission_name = models.CharField(max_length=100)
     description = models.TextField()
   #  mission_code = models.ManyToManyField(CommunityPartner , through='CPMission')
 
-    def __str__(self):
+def __str__(self):
         return str(self.mission_name)
 
 

@@ -6,7 +6,7 @@ from django.core.validators import RegexValidator
 
 
 class Project (models.Model):
-    name = models.CharField(max_length=100)
+    ProjectName = models.CharField(max_length=100)
     engagementType = models.CharField(max_length=20)
     activityType = models.CharField(max_length=20)
     facilitator = models.CharField(max_length=20,blank=True)
@@ -22,14 +22,22 @@ class Project (models.Model):
     endDate = models.DateField(default=timezone.now,null=False, blank=True)
     otherDetails = models.CharField(max_length=100,null=False, blank=True)
     outcomes = models.CharField(max_length=100,null=False, blank=True)
-    isActive = models.BooleanField()
+    isActive = models.BooleanField(default= True)
     totalEconomicImpact =models.DecimalField(max_digits=15, decimal_places=4,null=False, blank=True)
-    partners = models.ManyToManyField('partners.CommunityPartner', related_name='p_name')
+    address_line1 = models.CharField(max_length=1024, blank=True)
+    address_line2 = models.CharField(max_length=1024, blank=True)
+    country = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=25, blank=True)
+    state = models.CharField(max_length=15, blank=True)
+    Zip = models.CharField(max_length=10, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+
 
     def __str__(self):
-        return str(self.name)
+        return str(self.ProjectName)
 
-
+'''
 class ProjectMission (models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
@@ -38,11 +46,13 @@ class ProjectMission (models.Model):
     def __str__(self):
         return str(self.project_name)
 
+'''
+
 
 class ProjectPartner (models.Model):
-    project_id = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    partner_id = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
-    no_hours = models.IntegerField()
-    no_people = models.IntegerField()
-    partner_type = models.CharField(max_length=30)
-    wages = models.IntegerField()
+    ProjectName = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+    CampuspartnerName = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+    CommunityPartnerName = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
+    no_hours = models.IntegerField(blank=True,null=True)
+    no_people = models.IntegerField(blank=True,null=True)
+    wages = models.IntegerField(blank=True,null=True)

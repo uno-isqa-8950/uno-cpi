@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 import os
 import dj_database_url
-
+from django.urls import reverse_lazy
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -63,7 +63,7 @@ ROOT_URLCONF = 'UnoCPI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,6 +83,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -98,6 +99,7 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
 
 
 # Password validation
@@ -156,10 +158,12 @@ STATICFILES_DIRS = (
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-
+LOGIN_REDIRECT_URL = reverse_lazy('/')
+LOGIN_URL = reverse_lazy('login')
+#LOGOUT_REDIRECT_URL = reverse_lazy('logout')
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nithesh1510@gmail.com'
-EMAIL_HOST_PASSWORD = 'nevansurya'
+EMAIL_HOST_USER = 'capstoneteam2018cpi@gmail.com'
+EMAIL_HOST_PASSWORD = 'capstone2018'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True

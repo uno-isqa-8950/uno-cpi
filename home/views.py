@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner
-from .forms import  CampusPartnerForm, UniversityForm, CampusPartnerUserForm,CommunityPartnerUserForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm
+from .forms import  CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, CommunityContactForm
 from django.urls import reverse
 
 
@@ -94,3 +94,21 @@ def registerCampusPartner(request):
     return render(request,
                   'home/campus_partner_register.html',
                   {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
+
+def registerCommunityPartner(request):
+    if request.method == 'POST':
+        community_partner_form = CommunityPartnerForm(request.POST)
+        community_partner_contact_form = CommunityContactForm(request.POST)
+
+        if community_partner_form.is_valid() and community_partner_contact_form.is_valid():
+            community_partner_form.save()
+            community_partner_contact_form.save()
+
+            return render(request,'home/community_partner_register_done.html',)
+    else:
+        community_partner_form = CommunityPartnerForm()
+        community_partner_contact_form = CommunityContactForm()
+
+    return render(request,
+                  'home/community_partner_register.html',
+                  {'community_partner_form': community_partner_form,'community_partner_contact_form':community_partner_contact_form},)

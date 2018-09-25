@@ -36,18 +36,22 @@ class CommunityPartner (models.Model):
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
 
 
-    def __str__(self):
+
+    def _str_(self):
         return str(self.CommunityPartnerName)
 
 
 class CommunityType (models.Model):
-
     community_type = models.CharField(max_length=50)
 
     def __str__(self):
         return str(self.community_type)
 
-"""
+ 
+
+#Excluding from current model
+'''
+ 
 class CommunityPartnerMission (models.Model):
     partner_name = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
@@ -55,7 +59,7 @@ class CommunityPartnerMission (models.Model):
 
     def __str__(self):
         return str(self.partner_name)
-"""
+
 
 class University (models.Model):
     college = models.CharField(max_length=50)
@@ -70,7 +74,7 @@ class Course(models.Model):
     prefix = models.CharField(max_length=80)
     number = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
-    project_id = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
+    projectName = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
 
 # class CampusPartnerUser(models.Model):
@@ -84,9 +88,12 @@ class CampusPartner(models.Model):
         ('False', 'No'),
     )
     campus_partner_name = models.CharField(max_length=255)
-    department_id = models.ForeignKey('University', on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
+    #College = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
+    #Department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-    campus_partner_user = models.ForeignKey
+    email = models.EmailField(null=True, blank=False )
+    active = models.BooleanField(default=True)
 
 
 class CampusPartnerUser(models.Model):

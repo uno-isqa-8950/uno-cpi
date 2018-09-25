@@ -1,5 +1,5 @@
 from django.db import models
-from partners.models import CampusPartnerUser,CommunityPartnerUser,CommunityPartner, CommunityType, CommunityPartnerMission, CampusPartner
+from partners.models import *
 from projects.models import Project, ProjectPartner
 from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
@@ -8,32 +8,33 @@ from django.contrib.auth.models import User
 
 
 class Contact(models.Model):
+    contacttype_choices = (('Phone', 'Phone'), ('Email', 'Email'))
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     workphone= models.CharField(max_length=10,  validators=[MinLengthValidator(10)],
                              help_text="Phone Number should be 10 digits",blank=True)
     cellphone= models.CharField(max_length=10, validators=[MinLengthValidator(10)],
                                help_text="Phone Number should be 10 digits" , unique=True, blank=True)
-    contact_type = models.CharField(max_length=15)
-    email_id = models.CharField(max_length=254)
-    partner_name = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
+    contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select')
+    email_id = models.EmailField()
+    CommunityPartnerName = models.ForeignKey('partners.CommunityPartner', on_delete=models.SET_NULL,null=True)
 
     def __str__(self):
-        return str(self.first_name)
+        return str(self.email_id)
 
-    def __str__(self):
-        return str(self.last_name)
+#    def __str__(self):
+#        return str(self.last_name)
 
 
-    def __str__(self):
-        return str(self.partner_name)
+#    def __str__(self):
+#        return str(self.partner_name)
 
 
 class CampusPartnerContact(models.Model):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email_id = models.EmailField()
-    partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+    partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.first_name)
@@ -46,7 +47,6 @@ class CampusPartnerContact(models.Model):
 
 
 class MissionArea (models.Model):
-    mission_code = models.CharField(max_length=10,default= 0)
     mission_name = models.CharField(max_length=100)
     description = models.TextField()
 
@@ -54,12 +54,4 @@ class MissionArea (models.Model):
         return str(self.mission_name)
 
 
-class Address(models.Model):
-    address_line1 = models.CharField(max_length=1024)
-    address_line2 = models.CharField(max_length=1024, blank=True)
-    country = models.CharField(max_length=100)
-    city = models.CharField(max_length=25)
-    state = models.CharField(max_length=15)
-    Zip = models.CharField(max_length=10)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6,blank=True)
+

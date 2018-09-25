@@ -1,14 +1,93 @@
-{% extends "home/base_home.html" %}
+{% extends 'home/base_home.html' %}
+
+{% load bootstrap %}
+
 {% block content %}
 
+<div class="row">
+  <div class="col-md-offset-2 col-md-8">
+    <h2><p class="text-center">Register</p></h2>
+    <h4>Please sign up using the following Campus Partner Registration form:</h4>
+  </div>
 
-<h1>Create an account</h1>
-<p>Please sign up using the following Campus Partner Registration form:</p>
-<form action="." method="post">
-  {{ campus_partner_form.as_p }}
-  {{ university_form.as_p }}
-  {{ contact_form.as_p }}
-  {% csrf_token %}
-  <p><input type="submit" value="Create my account"></p>
-</form>
+  <div class="col-md-offset-2 col-md-8">
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ campus_partner_form|bootstrap }}
+      {{ university_form|bootstrap }}
+      {{ collage_form|bootstrap }}
+      {{ department_form|bootstrap }}
+      <button type="submit" class="btn btn-info">Create Campus Partner</button>
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+    var department_data = {% autoescape off %}{{department_data}}
+    {% endautoescape %};
+
+    $(document).ready(function () {
+
+    //   var universitys = _.uniq(_.pluck(university_data, 'name'));
+    //   var final_list = [];
+
+    //   for ( var i=0; i< universitys.length; i++) {
+    //     var university = {
+    //     name: '',
+    //     colleges: [],
+    //   };
+
+    //   university.name= universitys[i];
+    //   var dataArray = _.uniq(_.pluck(_.where(university_data, {'name': university.name}), 'college'));
+    //   for ( var j = 0; j < dataArray.length; j++) {
+    //     var obj = {};
+    //     obj.clg_name = dataArray[j];
+    //     obj.dept = [];
+    //     university.colleges.push(obj);
+    //   }
+    //   final_list.push(university);
+    //   }
+
+    //   for (k =0; k< final_list.length; k++) {
+    //     console.log(final_list[k].name, final_list[k].colleges);
+    //     for (l =0; l< final_list[k].colleges.length; l++) {
+    //       final_list[k].colleges[l].dept = _.uniq(_.pluck(_.where(university_data, {'name': final_list[k].name, 'college': final_list[k].colleges[l].clg_name}), 'department'));
+    //     }
+    //   }
+
+
+
+    //   for (var i=0; i< final_list.length; i++) {
+    //     $('#id_name').append('<option value="'+final_list[i].name+'">'+final_list[i].name+'</option>');
+    //   }
+    //   var selected_university = '';
+    //   var selected_clg = '';
+
+
+    	 $('.id_university ').change(function() {
+          if ($(this).val() != 0) {
+            $('.id_college').attr('disabled', false);
+          } else {
+            $('.id_college').attr('disabled', true);
+            $('.id_college').val('0');
+            $('.id_department').val('');
+            $('.id_department').attr('disabled', true);
+          }
+         });
+
+          $('.id_college').change(function() {
+            selected_clg = parseInt(this.value);
+            if (selected_clg != 0) {
+              var data = _.where(department_data, {'college_id': selected_clg});
+              $('.id_department').html('<option value="">Select Department</option>');
+                for (var i=0; i< data.length; i++) {
+                  $('.id_department').append('<option value="'+data[i].id+'" >'+data[i].name+'</option>');
+                }
+                $('.id_department').attr('disabled', false);
+            } else {
+              $('.id_department').val('');
+              $('.id_department').attr('disabled', true);
+            }
+         });
+    });
+</script>
 {% endblock %}

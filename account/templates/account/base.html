@@ -1,5 +1,6 @@
-<% load static %>
 <!DOCTYPE html>
+<% load static %>
+
 <html lang="en">
 <head>
   <title>Community Partnership Initiative</title>
@@ -8,6 +9,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
     <style>
         #menu-toggle
         {
@@ -52,10 +54,10 @@
         <li><a href="#">Contact Us</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Registration <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Campus Partner</a></li>
-          <li><a href="#">Community Partner</a></li>
+          <li><a href='/registerCampusPartnerUser/'>Campus Partner</a></li>
+          <li><a href='/registerCommunityPartnerUser/'>Community Partner</a></li>
         </ul>
       </li>
       <li><a href="{% url 'login' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>

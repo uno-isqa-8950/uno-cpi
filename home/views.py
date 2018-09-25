@@ -80,8 +80,16 @@ def registerCampusPartner(request):
         contact_form = CampusPartnerContactForm(request.POST)
         if campus_partner_form.is_valid() and university_form.is_valid() and contact_form.is_valid():
             # Create a new user object but avoid saving it yet
-            University =  university_form.save()
-            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], department_id=University)
+            # University =  university_form.save()
+            try:
+                filter_department = UniversityModel.objects.filter(
+                    department=university_form.cleaned_data['department']
+                )
+                department = filter_department[0]
+            except UniversityModel.DoesNotExist:
+                department = None
+            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], 
+                department_id=department)
             cp.save()
             cpc = CampusPartnerContact(first_name=contact_form.cleaned_data['first_name'],last_name=contact_form.cleaned_data['last_name'], email_id = contact_form.cleaned_data['email_id'], partner_name =cp)
             cpc.save()

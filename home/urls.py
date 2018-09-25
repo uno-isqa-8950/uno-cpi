@@ -14,6 +14,6 @@ urlpatterns = [
    path('signupuser/registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('signupuser/registerCommunityPartnerUser/', views.registerCommunityPartnerUser,name='registerCommunityPartnerUser'),
    path('signup', views.signup, name='signup'),
-   path('signupuser', views.signupuser, name='signupuser'),
+   path('signupuser/', views.signupuser, name='signupuser'),
 ]
 

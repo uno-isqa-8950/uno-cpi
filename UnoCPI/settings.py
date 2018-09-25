@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'home',
     'partners',
     'projects',
+    'bootstrapform',
 ]
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -86,8 +87,8 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cpi_db1',
-        'USER': 'anuja1',
+        'NAME': 'cpi3',
+        'USER': 'anuja3',
         'PASSWORD': '12345',
         'HOST': 'localhost',
         'PORT': '5432',

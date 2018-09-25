@@ -75,16 +75,16 @@ class CampusPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
     campus_partner_user = models.ForeignKey
 
+    def __str__(self):
+        return str(self.campus_partner_name)
+
 
 class CampusPartnerUser(models.Model):
     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    #communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)
-    #emailid = models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE, null = False)
-    #email_id = models.ForeignKey('home.CampusPartnerContact', on_delete=models.CASCADE)
 
 
 class CommunityPartnerUser(models.Model):
     #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.SET_NULL, related_name='communitypartner',null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,)

@@ -50,7 +50,6 @@ class ProjectMission (models.Model):
 class ProjectPartner (models.Model):
     ProjectName = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner_name = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
-    CampuspartnerName = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
     CommunityPartnerName = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
     no_hours = models.IntegerField(blank=True,null=True)
     no_people = models.IntegerField(blank=True,null=True)

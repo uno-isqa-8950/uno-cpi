@@ -1,13 +1,10 @@
-from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.shortcuts import render
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner
-from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
-    CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm, ProjectForm, CommunityForm, CampusForm
+from .forms import CampusPartnerForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
+    CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm
 from django.urls import reverse
-import csv
-from collections import OrderedDict
-from django.contrib import messages
 
 
 def home(request):
@@ -96,7 +93,6 @@ def registerCampusPartner(request):
                   {'campus_partner_form': campus_partner_form})
 
 
-
 def registerCommunityPartner(request):
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
@@ -114,51 +110,3 @@ def registerCommunityPartner(request):
     return render(request,
                   'home/community_partner_register.html',
                   {'community_partner_form': community_partner_form,'community_partner_contact_form':community_partner_contact_form},)
-
-
-def uploadProject(request):
-    data = {}
-    if request.method == "GET":
-        return render(request, "import/uploadProject.html", data)
-    csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('utf-8').splitlines()
-    reader = csv.DictReader(decoded)
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
-        form = ProjectForm(data_dict)
-        if form.is_valid():
-            form.save()
-    return render(request, 'import/uploadProject.html',
-                  {'uploadProject': uploadProject})
-
-
-def uploadCommunity(request):
-    data = {}
-    if request.method == "GET":
-        return render(request, "import/uploadCommunity.html", data)
-    csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('utf-8').splitlines()
-    reader = csv.DictReader(decoded)
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
-        form = CommunityForm(data_dict)
-        if form.is_valid():
-            form.save()
-    return render(request, 'import/uploadCommunity.html',
-                  {'uploadCommunity': uploadCommunity})
-
-
-def uploadCampus(request):
-    data = {}
-    if request.method == "GET":
-        return render(request, "import/uploadCampus.html", data)
-    csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('utf-8').splitlines()
-    reader = csv.DictReader(decoded)
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
-        form = CampusForm(data_dict)
-        if form.is_valid():
-            form.save()
-    return render(request, 'import/uploadCampus.html',
-                  {'uploadCampus': uploadCampus})

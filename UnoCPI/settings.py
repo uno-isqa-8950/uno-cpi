@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myproject',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
+        'NAME': 'capstone2018',
+        'USER': 'vaishnavi9177',
+        'PASSWORD': 'suguru',
         'HOST': 'localhost',
         'PORT': 5432,
     }
@@ -100,8 +100,8 @@ DATABASES = {
 #         'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
 #     }
 # }
-        
-        
+
+
 try:
     from .local_settings import *
 except ImportError:

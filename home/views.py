@@ -86,7 +86,7 @@ def registerCampusPartner(request):
             # print (department)
             department = DepartmentModel.objects.get(id=int(department_form.cleaned_data['name']))
             print (department)
-            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], email=campus_partner_form.cleaned_data['email'], 
+            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], email=campus_partner_form.cleaned_data['email'],
                 department_id=department)
             cp.save()
 
@@ -98,7 +98,7 @@ def registerCampusPartner(request):
         department_form = DepartmentForm()
         department_data = list(DepartmentModel.objects.all().values(
             'id', 'name', 'college_id'))
-        
+
     return render(request, 'home/campus_partner_register.html',
                   {'campus_partner_form': campus_partner_form, 'university_form': university_form, 
                   'collage_form': collage_form, 'department_form': department_form, 'department_data': department_data})

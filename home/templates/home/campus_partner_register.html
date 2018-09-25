@@ -6,7 +6,7 @@
 
 <div class="row">
   <div class="col-md-offset-2 col-md-8">
-    <h2>Create an account</h2>
+    <h2>Register</h2>
     <h4>Please sign up using the following Campus Partner Registration form:</h4>
   </div>
 
@@ -17,7 +17,7 @@
       {{ university_form|bootstrap }}
       {{ collage_form|bootstrap }}
       {{ department_form|bootstrap }}
-      <button type="submit" class="btn btn-primary">Create Campus Partner</button>
+      <button type="submit" class="btn btn-success">Create Campus Partner</button>
     </form>
   </div>
 </div>
@@ -25,14 +25,12 @@
     var department_data = {% autoescape off %}{{department_data}}
     {% endautoescape %};
 
-    console.log(department_data)
-
     $(document).ready(function () {
 
     //   var universitys = _.uniq(_.pluck(university_data, 'name'));
     //   var final_list = [];
 
-    //   for ( var i=0; i< universitys.length; i++) {  
+    //   for ( var i=0; i< universitys.length; i++) {
     //     var university = {
     //     name: '',
     //     colleges: [],
@@ -64,7 +62,7 @@
     //   var selected_university = '';
     //   var selected_clg = '';
 
-      
+
     	 $('.id_university ').change(function() {
           if ($(this).val() != 0) {
             $('.id_college').attr('disabled', false);

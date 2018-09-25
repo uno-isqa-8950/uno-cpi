@@ -47,11 +47,11 @@ class CommunityType (models.Model):
     def __str__(self):
         return str(self.community_type)
 
- 
+
 
 #Excluding from current model
 '''
- 
+
 class CommunityPartnerMission (models.Model):
     partner_name = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
@@ -65,24 +65,23 @@ class CommunityPartnerMission (models.Model):
 class University (models.Model):
     name = models.CharField(max_length=255)
 
-    def _str_(self):
-        return str(self.name)
+    def __str__(self):
+        return 'University: {}'.format(self.name)
 
 
 class College (models.Model):
     name = models.CharField(max_length=50)
     university_id = models.ForeignKey(University, on_delete=models.CASCADE)
 
-    def _str_(self):
-        return str(self.name)
-
+    def __str__(self):
+        return 'College: {}'.format(self.name)
 
 class Department(models.Model):
     name = models.CharField(max_length=30)
     college_id = models.ForeignKey(College, on_delete=models.CASCADE)
 
-    def _str_(self):
-      return str(self.name)
+    def __str__(self):
+        return 'Department: {}'.format(self.name)
 
 class Course(models.Model):
     prefix = models.CharField(max_length=80)
@@ -103,7 +102,7 @@ class CampusPartner(models.Model):
     active = models.BooleanField(default=True)
 
     def __str__(self):
-        return str(self.campus_partner_name)
+        return 'CampusPartner {}'.format(self.campus_partner_name)
 
 
 class CampusPartnerUser(models.Model):

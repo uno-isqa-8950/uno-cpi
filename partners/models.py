@@ -1,5 +1,5 @@
 from django.db import models
-#from home.models import *
+from home.models import *
 # from projects.models import Project
 from django.conf import settings
 from django.utils import timezone
@@ -14,27 +14,40 @@ class CommunityPartner (models.Model):
         ('False', 'No'),
     )
 
-    name = models.CharField(max_length= 100)
-
-    website_url = models.TextField()
-    college = models.CharField(max_length=50,null=False, blank=True)
+    CommunityPartnerName = models.CharField(max_length= 100)
+    website_url = models.URLField(max_length= 100,blank=True)
+    communitytype = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL,
+                                      related_name='communitytype', null=True)
     k12_level =  models.CharField(max_length=20,null=False, blank=True)
+    primary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='primary_mission',
+                                        null=True)
+    secondary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='second_mission',
+                                          null=True)
+    other = models.CharField(max_length=20, null=True, blank=True)
+    address_line1 = models.CharField(max_length=1024,blank=True)
+    address_line2 = models.CharField(max_length=1024, blank=True)
+    country = models.CharField(max_length=100,blank=True)
+    city = models.CharField(max_length=25,blank=True)
+    state = models.CharField(max_length=15,blank=True)
+    Zip = models.CharField(max_length=10,blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True,null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True,null=True)
     active = models.BooleanField(default= True)
     weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
 
 
     def __str__(self):
-        return str(self. name)
+        return str(self.CommunityPartnerName)
 
 
 class CommunityType (models.Model):
-    partner_name = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE)
+
     community_type = models.CharField(max_length=50)
 
     def __str__(self):
-        return str(self.partner_name)
+        return str(self.community_type)
 
-
+"""
 class CommunityPartnerMission (models.Model):
     partner_name = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
@@ -42,7 +55,7 @@ class CommunityPartnerMission (models.Model):
 
     def __str__(self):
         return str(self.partner_name)
-
+"""
 
 class University (models.Model):
     college = models.CharField(max_length=50)

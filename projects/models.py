@@ -33,7 +33,7 @@ class Project (models.Model):
 class ProjectMission (models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
-    mission_code = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
+#    mission_code = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.project_name)

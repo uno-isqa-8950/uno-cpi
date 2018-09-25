@@ -2,7 +2,7 @@ from django import forms
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
 from partners.models import CampusPartner, University, CommunityPartner
-from home.models import CampusPartnerContact
+from home.models import CampusPartnerContact, Contact
 
 class CampusPartnerForm(forms.ModelForm):
     campus_partner_name = forms.CharField(label='Campus Partner Name')
@@ -90,3 +90,20 @@ class CampusPartnerContactForm(forms.ModelForm):
     class Meta:
         model = CampusPartnerContact
         fields = ('first_name','last_name', 'email_id')
+
+class CommunityPartnerForm(forms.ModelForm):
+    class Meta:
+        model = CommunityPartner
+        fields = ('CommunityPartnerName', 'website_url', 'communitytype', 'k12_level', 'primary_mission', 'secondary_mission',
+                  'other', 'address_line1', 'address_line2', 'country', 'city', 'state', 'Zip')
+
+
+class CommunityContactForm(forms.ModelForm):
+    class Meta:
+        model = Contact
+        fields = ('first_name',
+                  'last_name',
+                  'workphone',
+                  'cellphone',
+                  'contact_type',
+                  'email_id')

@@ -78,26 +78,23 @@ def registerCommunityPartnerUser(request):
                   { 'user_form': user_form,'community_partner_user_form': community_partner_user_form})
 
 
+
 def registerCampusPartner(request):
     if request.method == 'POST':
         campus_partner_form = CampusPartnerForm(request.POST)
-        university_form = UniversityForm(request.POST)
-        contact_form = CampusPartnerContactForm(request.POST)
-        if campus_partner_form.is_valid() and university_form.is_valid() and contact_form.is_valid():
-            # Create a new user object but avoid saving it yet
-            University =  university_form.save()
-            cp = CampusPartner(campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'], department_id=University)
-            cp.save()
-            cpc = CampusPartnerContact(first_name=contact_form.cleaned_data['first_name'],last_name=contact_form.cleaned_data['last_name'], email_id = contact_form.cleaned_data['email_id'], partner_name =cp)
-            cpc.save()
-            return render(request,'home/register_done.html',)
+
+        if campus_partner_form.is_valid():
+            campus_partner_form.save()
+
+            return render(request, 'home/register_done.html', )
     else:
         campus_partner_form = CampusPartnerForm()
-        university_form = UniversityForm()
-        contact_form = CampusPartnerContactForm()
+
+
     return render(request,
                   'home/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'university_form': university_form, 'contact_form': contact_form})
+                  {'campus_partner_form': campus_partner_form})
+
 
 
 def registerCommunityPartner(request):

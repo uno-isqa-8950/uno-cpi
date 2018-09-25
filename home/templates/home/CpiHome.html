@@ -86,19 +86,30 @@
 
 
     <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
+      {% if user.is_authenticated %}
+            <li class=""><a href="#">Hello, {{user.username}}</a></li>
+      {% else %}
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href='registerCampusPartner'>Campus Partner</a></li>
           <li><a href='registerCommunityPartner'>Community Partner</a></li>
         </ul>
       </li>
+
         <li class=""><a href='signupuser/'> <span class="glyphicon glyphicon-user"></span> Sign Up as a User</a>
+
         <!--<ul class="dropdown-menu">-->
           <!--<li><a href='registerCampusPartnerUser'>Campus Partner</a></li>-->
           <!--<li><a href="#">Community Partner</a></li>-->
         <!--</ul>-->
       </li>
-      <li><a href="login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% endif %}
+
+      {% if user.is_authenticated %}
+      <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
+      {% else %}
+      <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% endif %}
     </ul>
 
 

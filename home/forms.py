@@ -32,7 +32,7 @@ class CampusPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('campus_partner_name',)
+        fields = ('campus_partner_name', 'email', 'university', 'college', 'department',)
 
 
 class CommunityPartnerUserForm(forms.ModelForm):
@@ -104,12 +104,14 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-
+'''
 class UniversityForm(forms.ModelForm):
 
     class Meta:
         model = University
-        fields = ('college','department', 'name')
+        fields = ( 'name')
+'''
+
 
 class CampusPartnerContactForm(forms.ModelForm):
 

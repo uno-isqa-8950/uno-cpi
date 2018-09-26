@@ -51,13 +51,13 @@
 <p>Please use the below form to signup as a Campus Partner:</p>
 <div class="body">
 <form action="." method="post">
-    {% csrf_token %}
+
     {{ campus_partner_form|bootstrap }}
+    {% csrf_token %}
+
+
+ <input class="button" type="submit" value="Create an Account">
+
 </form>
 </div>
-<input class="button" type="submit" value="Create an Account">
-
-
-
-
 {% endblock %}

@@ -90,7 +90,6 @@ def registerCampusPartner(request):
     else:
         campus_partner_form = CampusPartnerForm()
 
-
     return render(request,
                   'home/campus_partner_register.html',
                   {'campus_partner_form': campus_partner_form})

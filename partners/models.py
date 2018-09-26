@@ -68,7 +68,7 @@ class University (models.Model):
 
 class College (models.Model):
     name = models.CharField(max_length=50)
-    University = models.ForeignKey(University, on_delete=models.CASCADE,null=True)
+    University = models.ForeignKey(University, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)
@@ -76,7 +76,7 @@ class College (models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=30)
-    college = models.ForeignKey(College, on_delete=models.CASCADE,null=True)
+    college = models.ForeignKey(College, on_delete=models.CASCADE)
 
     def __str__(self):
       return str(self.name)
@@ -105,7 +105,7 @@ class CampusPartner(models.Model):
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
-    email = models.EmailField(null=True, blank=False)
+    email = models.EmailField(null=True, blank=True)
     active = models.BooleanField(default=True)
 
     def __str__(self):

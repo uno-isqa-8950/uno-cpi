@@ -8,58 +8,54 @@ from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
 
 
-class CommunityPartner (models.Model):
+class CommunityPartner(models.Model):
     TRUE_FALSE_CHOICES = (
         ('True', 'Yes'),
         ('False', 'No'),
     )
-
-    CommunityPartnerName = models.CharField(max_length= 100)
-    website_url = models.URLField(max_length= 100,blank=True)
+    CommunityPartnerName = models.CharField(max_length=100)
+    website_url = models.URLField(max_length=100, blank=True)
     communitytype = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL,
                                       related_name='communitytype', null=True)
+
     k12_level =  models.CharField(max_length=20,null=False, blank=True,help_text="If your community type is K12, Please provide the k12-level.")
+
     primary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='primary_mission',
                                         null=True)
     secondary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='second_mission',
                                           null=True)
     other = models.CharField(max_length=20, null=True, blank=True)
-    address_line1 = models.CharField(max_length=1024,blank=True)
+    address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
-    country = models.CharField(max_length=100,blank=True)
-    city = models.CharField(max_length=25,blank=True)
-    state = models.CharField(max_length=15,blank=True)
-    Zip = models.CharField(max_length=10,blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True,null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True,null=True)
-    active = models.BooleanField(default= True)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-
-
+    country = models.CharField(max_length=100, blank=True)
+    city = models.CharField(max_length=25, blank=True)
+    state = models.CharField(max_length=15, blank=True)
+    Zip = models.CharField(max_length=10, blank=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    active = models.BooleanField(default=True)
+    weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
 
     def _str_(self):
         return str(self.CommunityPartnerName)
 
 
-class CommunityType (models.Model):
+class CommunityType(models.Model):
     community_type = models.CharField(max_length=50)
 
     def __str__(self):
         return str(self.community_type)
 
- 
 
-#Excluding from current model
+# Excluding from current model
 '''
- 
+
 class CommunityPartnerMission (models.Model):
     partner_name = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20)
     mission_code = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
-
     def __str__(self):
         return str(self.partner_name)
-
 '''
 
 
@@ -67,7 +63,7 @@ class University (models.Model):
     name = models.CharField(max_length=255)
 
     def __str__(self):
-        return 'University: {}'.format(self.name)
+        return str(self.name)
 
 
 class College (models.Model):
@@ -75,7 +71,7 @@ class College (models.Model):
     University = models.ForeignKey(University, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
-        return 'University: {}'.format(self.name)
+        return str(self.name)
 
 
 class Department(models.Model):
@@ -86,11 +82,12 @@ class Department(models.Model):
       return str(self.name)
 
 
+
 class Course(models.Model):
     prefix = models.CharField(max_length=80)
     number = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
-    projectName = models.ForeignKey('projects.Project', on_delete=models.CASCADE,null=True)
+    projectName = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
 
 
 # class CampusPartnerUser(models.Model):
@@ -107,8 +104,8 @@ class CampusPartner(models.Model):
     university = models.ForeignKey(University, on_delete=models.SET_NULL, null=True)
     college = models.ForeignKey(College, on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True)
-    weitz_cec_part = models.CharField(max_length=6 , choices= TRUE_FALSE_CHOICES, default= False )
-    email = models.EmailField(null=True, blank=False )
+    weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
+    email = models.EmailField(null=True, blank=False)
     active = models.BooleanField(default=True)
 
     def __str__(self):
@@ -116,11 +113,25 @@ class CampusPartner(models.Model):
 
 
 class CampusPartnerUser(models.Model):
-    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
+
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
 
 
 class CommunityPartnerUser(models.Model):
     #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.SET_NULL, related_name='communitypartner',null=True)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.SET_NULL, related_name='communitypartner')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+
+class CommunityPartnerUser(models.Model):
+    # campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.SET_NULL, related_name='communitypartner',
+                                         null=True)
+
+
+user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+

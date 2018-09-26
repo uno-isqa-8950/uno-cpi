@@ -18,6 +18,14 @@ class CampusPartnerUserForm(forms.ModelForm):
             help_text_html=' <span class="helptext">%s</span>',
             errors_on_separate_row=True)
 
+    class Meta:
+        model = CampusPartner
+        fields = ('campus_partner_name',)
+
+    campus_partner_name = forms.ModelChoiceField(
+        queryset=CampusPartner.objects.order_by().distinct('campus_partner_name'),
+        label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
+
 
 class CampusPartnerForm(forms.ModelForm):
     class Meta:

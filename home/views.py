@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.http import HttpResponse
 from .models import *
 from partners.models import CampusPartnerUser,CommunityPartnerUser,CampusPartner,CommunityPartner
-from .forms import CampusPartnerForm, UniversityForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
+from .forms import CampusPartnerForm, CampusPartnerContactForm, UserForm, CommunityPartnerForm, \
     CommunityContactForm, CampusPartnerUserForm, CommunityPartnerUserForm, ProjectForm, CommunityForm, CampusForm
 from django.urls import reverse
 import csv

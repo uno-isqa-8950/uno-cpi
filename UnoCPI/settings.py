@@ -24,9 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -84,9 +85,9 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd19g3rhgb1f6sq',
-        'USER': 'mmyjopixtfpnsl',
-        'PASSWORD': 'd054871110c3b9186d80452bc2afb7acdd86abffc0a0df43aadcaf21939766c5',
+        'NAME': 'dae9isk408321f',
+        'USER': 'xotfpziccrupzb',
+        'PASSWORD': '01b6b9680a557a950730bfbcc6fe1a20dac056051083cfaf7aea6981c6e0051c',
         'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
         'PORT': 5432,
     }

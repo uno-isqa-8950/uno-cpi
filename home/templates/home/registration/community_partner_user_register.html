@@ -57,22 +57,7 @@
      <form action="." method="post">
   {% csrf_token %}
 
-   <!--<label for="campus_partner_name" style="display:block">Campus Partner</label>-->
-  <!--<select class="form-control" id ='campus_partner_name'>-->
-    <!--{% for campuspartner in campuspartners %}-->
-    <!--<option>{{campuspartner.campus_partner_name}}</option>-->
-    <!--{% endfor %}-->
-  <!--</select>-->
-<!--<select class="select_field_class" multiple="multiple" name="option" id="option">-->
-      <!--<option value="">Enter the option</option>-->
-      <!--{% for option in options %}-->
-         <!--<option value="{{ option.id }}">{{ option.name }}</option>-->
-      <!--{% endfor %}-->
-<!--</select>-->
-
-<!--$('.select_field_class').select2( { placeholder: "Select here", maximumSelectionSize: 100  }-->
-
-  {{ user_form|bootstrap }}
+   {{ user_form|bootstrap }}
   {{ community_partner_user_form|bootstrap }}
 <div class="boxContainer">
   <p><input type="submit" value="Create My Account" class="button"></p>

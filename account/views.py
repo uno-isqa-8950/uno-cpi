@@ -15,7 +15,8 @@ def user_login(request):
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return redirect('/')
+                    print("test")
+                    return render(request, 'home/CpiHome.html')
                 else:
                     return HttpResponse('Disabled Account')
 

@@ -1,6 +1,7 @@
 {% extends 'home/base_home.html' %}
-
+{% load bootstrap %}
 {% block content %}
+
     	<style type="text/css">
 		.login-form{
 			height: 200px;
@@ -16,11 +17,13 @@
 			border-radius: 6px;
 			padding: 12px 14px;
 			font-size: 14px;
-			box-shadow: 2px 0 5px 0 #fff;
-			background-color: #E2E5E8;
+			#box-shadow: 2px 0 5px 0 #fff;
+			#background-color: #E2E5E8;
+
 		}
+
 		.login-button1{
-			background-color: rgb(112,128,144);
+			background-color: #e7e7e7;;
 			position: relative;
 			left: 85px;
 			top: 10px;
@@ -30,25 +33,91 @@
 		}
 		.forget{
 			position: relative;
-			left:180px;
+			left: 85px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+			color: blue;
 		}
         .la{
             width: 90%;
             text-align: center;
             color:red;
         }
+
+
+
+input[type=text]{
+    width:80%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:8px 0;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+  }
+
+  input[type=text]:focus{
+    border-color:dodgerBlue;
+    box-shadow:0 0 8px 0 dodgerBlue;
+  }
+
+  .inputWithIcon input[type=text]{
+    padding-left:40px;
+  }
+
+  .inputWithIcon{
+    position:relative;
+    left:600px;
+  }
+
+  .inputWithIcon i{
+    position:absolute;
+    left:0;
+    top:8px;
+    padding:9px 8px;
+    color:#aaa;
+    transition:.3s;
+  }
+
+  .inputWithIcon input[type=text]:focus + i{
+    color:dodgerBlue;
+  }
+
+  .inputWithIcon.inputIconBg i{
+    background-color:#aaa;
+    color:#fff;
+    padding:9px 4px;
+    border-radius:4px 0 0 4px;
+  }
+
+  .inputWithIcon.inputIconBg input[type=text]:focus + i{
+    color:#fff;
+    background-color:dodgerBlue;
+  }
+
+
+
+
 	</style>
 
 	<div class="main">
+
 		<div class="login-form">
-		<form action="{% url 'login' %}" method="post">
+		<form action='.' method="post">
             {% csrf_token %}
-             <label class="la">{{ loginError }}</label><br>
-			<input class="ipt" type="text" name="username"   placeholder="Username" /><br><br>
-			<input class="ipt" type="password" name="password" placeholder="Password" /><br>
-			<a href="{% url 'password_reset' %}" class="forget">Forget Password</a><br>
+             <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
+			<input class="input" type="text" name="username"   placeholder="Username" onclick="changeborder()"/>
+
+			<br>
+			<input class="input" type="text" name="password" placeholder="Password" onclick="changeborder()"/><br>
             <p><input type="submit" value="Log in" class="login-button1"></p>
+            			<a href='/password_reset/' class="forget">Forgot Password?</a><br>
+
 		</form>
 		</div>
-	</div>
+		</div></div>
 {% endblock %}
+

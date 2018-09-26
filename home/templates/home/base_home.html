@@ -21,15 +21,11 @@
 <style>
 
 
-footer {
-  padding: 25px 0;
-  text-align: center;
-  background-color: black;
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  /*color:#999;*/
+#Nav
+{
+border-bottom: 4px solid #e22626;
 }
+
 
 </style>
 </head>
@@ -59,7 +55,7 @@ footer {
 
 <!-- Navbar -->
 
-<nav class="navbar navbar-inverse fixed-top" id="Nav">
+<nav class="navbar navbar-inverse fixed-top navbar-static-top" id="Nav">
     <div class="visible-mobile" id="menu-toggle">
     	<a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" href="#" id="m_header-toggler">
           <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -78,19 +74,26 @@ footer {
     <ul class="nav navbar-nav navbar-right">
       <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-user"></span> Sign Up <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href='#'>Campus Partner</a></li>
-          <li><a href="#">Community Partner</a></li>
+          <li><a href='/registerCampusPartner/'>Campus Partner</a></li>
+          <li><a href='/registerCommunityPartner/'>Community Partner</a></li>
         </ul>
       </li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+
+         <li class=""><a href='/signupuser/'> <span class="glyphicon glyphicon-user"></span> Sign Up as a User</a>
+        <!--<ul class="dropdown-menu">-->
+          <!--<li><a href='registerCampusPartnerUser'>Campus Partner</a></li>-->
+          <!--<li><a href="#">Community Partner</a></li>-->
+        <!--</ul>-->
+      </li>
+      <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
     </ul>
 
 
 
     <ul class="nav navbar-nav navbar-right">
         <li class=""><a href="#">Dashboard</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact Us</a></li>
+        <li><a href="/#about">About</a></li>
+        <li><a href="/#contact">Contact Us</a></li>
     </ul>
 
 
@@ -113,48 +116,45 @@ footer {
 
 </div>
 
+<!--<footer>-->
+      <!--<div class="container">-->
+        <!--<div class="row">-->
+          <!--<div class="col-md-4">-->
+            <!--<span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>-->
+          <!--</div>-->
+          <!--<div class="col-md-4">-->
+            <!--<ul class="list-inline social-buttons">-->
+              <!--<li class="list-inline-item">-->
+                <!--<a href="#">-->
+                  <!--<i class="fab fa-twitter"></i>-->
+                <!--</a>-->
+              <!--</li>-->
+              <!--<li class="list-inline-item">-->
+                <!--<a href="#">-->
+                  <!--<i class="fab fa-facebook-f"></i>-->
+                <!--</a>-->
+              <!--</li>-->
+              <!--<li class="list-inline-item">-->
+                <!--<a href="#">-->
+                  <!--<i class="fab fa-instagram"></i>-->
+                <!--</a>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+          <!--<div class="col-md-4">-->
+            <!--<ul class="list-inline quicklinks">-->
+              <!--<li class="list-inline-item">-->
+                <!--<a href="#">Privacy Policy</a>-->
+              <!--</li>-->
+              <!--<li class="list-inline-item">-->
+                <!--<a href="#">Terms of Use</a>-->
+              <!--</li>-->
+            <!--</ul>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</footer>-->
 
 
-<footer>
-      <div class="container">
-        <div class="row">
-          <div class="col-md-4">
-            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
-          </div>
-          <div class="col-md-4">
-            <ul class="list-inline social-buttons">
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-twitter"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-facebook-f"></i>
-                </a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">
-                  <i class="fab fa-instagram"></i>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <div class="col-md-4">
-            <ul class="list-inline quicklinks">
-              <li class="list-inline-item">
-                <a href="#">Privacy Policy</a>
-              </li>
-              <li class="list-inline-item">
-                <a href="#">Terms of Use</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-
-</body>
+<!--
 </html>

@@ -1,0 +1,27 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+
+<h4>Register Your Organization</h4>
+<p>Please use the below form to signup as a Community Partner:</p>
+
+<div class="body">
+<form action="." method="post">
+  {% csrf_token %}
+  {{ community_partner_form|bootstrap }}
+  {{ community_partner_contact_form|bootstrap }}
+
+ <div class="buttons-holder">
+<input class="button" type="submit" value="Submit">
+     </div>
+  </form>
+</div>
+
+
+
+{% endblock %}
+*/
+
+
+

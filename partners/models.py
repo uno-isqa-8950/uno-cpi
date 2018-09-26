@@ -17,7 +17,9 @@ class CommunityPartner(models.Model):
     website_url = models.URLField(max_length=100, blank=True)
     communitytype = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL,
                                       related_name='communitytype', null=True)
-    k12_level = models.CharField(max_length=20, null=False, blank=True)
+
+    k12_level =  models.CharField(max_length=20,null=False, blank=True,help_text="If your community type is K12, Please provide the k12-level.")
+
     primary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='primary_mission',
                                         null=True)
     secondary_mission = models.ForeignKey('home.MissionArea', on_delete=models.SET_NULL, related_name='second_mission',
@@ -66,7 +68,7 @@ class University (models.Model):
 
 class College (models.Model):
     name = models.CharField(max_length=50)
-    University = models.ForeignKey(University, on_delete=models.CASCADE)
+    University = models.ForeignKey(University, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
         return str(self.name)
@@ -74,7 +76,7 @@ class College (models.Model):
 
 class Department(models.Model):
     name = models.CharField(max_length=30)
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
+    college = models.ForeignKey(College, on_delete=models.CASCADE,null=True)
 
     def __str__(self):
       return str(self.name)
@@ -111,8 +113,18 @@ class CampusPartner(models.Model):
 
 
 class CampusPartnerUser(models.Model):
+
     campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+
+class CommunityPartnerUser(models.Model):
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.SET_NULL, related_name='communitypartner')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 class CommunityPartnerUser(models.Model):
@@ -121,4 +133,5 @@ class CommunityPartnerUser(models.Model):
                                          null=True)
 
 
-user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, )
+user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+

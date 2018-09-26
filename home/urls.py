@@ -9,6 +9,7 @@ urlpatterns = [
    path('home',views.home, name='home'),
    path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
+   path('registerCommunityPartnerUser/', views.registerCommunityPartnerUser, name='registerCommunityPartnerUser'),
    path('signupuser/registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('registerCommunityPartner/',views.registerCommunityPartner, name='registerCommunityPartner'),
    path('signupuser/registerCommunityPartnerUser/', views.registerCommunityPartnerUser,name='registerCommunityPartnerUser'),

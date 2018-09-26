@@ -10,62 +10,60 @@
   transform: translate(-50%, -50%);
 }
 .button {
-    background-color: #CC3434;
+    background-color: #E2E5E8;
     border: none;
-    color: white;
+    color: #666666;
+    font-weight: bold;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: table-cell;
     font-size: 16px;
     margin: 12px 12px;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
+    vertical-align: auto;
+    position: relative;
+     left: 620px;
 }
+ .boxContainer{
+        display: table;
+    }
     h4{
  text-align: center;
+        color: #666666;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background: #CC3434;
+        font-weight: bold;
+        background: #E2E5E8;
         padding: 15px 32px;
-        color: white;
+        border-radius: 5px;
 }
     body{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: medium;
+        position: relative;
     }
+
 
 </style>
 
 
 <h4> Create a User Account</h4>
 
-
+<div class="body">
 <form method="post" action="#">
  <div class="formUser">
      <form action="." method="post">
   {% csrf_token %}
 
-   <!--<label for="campus_partner_name" style="display:block">Campus Partner</label>-->
-  <!--<select class="form-control" id ='campus_partner_name'>-->
-    <!--{% for campuspartner in campuspartners %}-->
-    <!--<option>{{campuspartner.campus_partner_name}}</option>-->
-    <!--{% endfor %}-->
-  <!--</select>-->
-<!--<select class="select_field_class" multiple="multiple" name="option" id="option">-->
-      <!--<option value="">Enter the option</option>-->
-      <!--{% for option in options %}-->
-         <!--<option value="{{ option.id }}">{{ option.name }}</option>-->
-      <!--{% endfor %}-->
-<!--</select>-->
-
-<!--$('.select_field_class').select2( { placeholder: "Select here", maximumSelectionSize: 100  }-->
-
-  {{ user_form|bootstrap }}
+   {{ user_form|bootstrap }}
   {{ community_partner_user_form|bootstrap }}
-<p></p>
-  <p><input type="submit" value="Create My Account" class="SubmitButtonStyle"></p>
+<div class="boxContainer">
+  <p><input type="submit" value="Create My Account" class="button"></p>
+</div>
 </form>
  </div>
 </form>
+    </div>
 {% endblock %}

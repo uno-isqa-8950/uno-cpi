@@ -142,8 +142,9 @@ class CommunityContactForm(forms.ModelForm):
                   'last_name',
                   'workphone',
                   'cellphone',
-                  'contact_type',
-                  'email_id')
+                  'email_id',
+                  'contact_type')
+
 
 
 class ProjectForm(forms.ModelForm):
@@ -180,3 +181,4 @@ class CampusForm(ModelForm):
             ('False', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
+

@@ -1,49 +1,107 @@
-{% extends "home/base_home.html" %}
+{% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
-<style>
 
-    .buttons-holder {
-  position: absolute;
-  top: 195%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.button {
-    background-color: #CC3434;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 12px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
-}
-    h4{
- text-align: center;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background: #CC3434;
-        padding: 15px 32px;
-        color: white;
-}
-    body{
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: medium;
-    }
+    	<style type="text/css">
+		.login-form{
+			height: 200px;
+			width: 320px;
+			/background-color: rgb(255,0,0);/
+			position: absolute;
+			top: 30%;
+			left: 38%;
+		}
+		.ipt{
+			/height: 50px;/
+			width: 290px;
+			border-radius: 6px;
+			padding: 12px 14px;
+			font-size: 14px;
+			#box-shadow: 2px 0 5px 0 #fff;
+			#background-color: #E2E5E8;
 
-</style>
+		}
+
+		.login-button1{
+			background-color: #e7e7e7;;
+			position: relative;
+			left: 85px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+		}
+		.forget{
+			position: relative;
+			left: 85px;
+			top: 10px;
+			width: 100px;
+			height: 40px;
+			border-radius: 6px;
+			color: blue;
+		}
+        .la{
+            width: 90%;
+            text-align: center;
+            color:red;
+        }
 
 
-<h4>Log-In</h4>
-<p>Please, use the following form to log-in:</p>
-<form action="." method="post">
-    {{ form.as_p}}
-    {% csrf_token %}
-    <p><input type="submit" value="Log in" class="btn btn-primary"></p>
-</form>
-<p><a href="{% url "password_reset" %}">Forgotten your password?</a></p>
-{% endblock %}
+
+input[type=text]{
+    width:80%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:8px 0;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+  }
+
+
+input[type=password]{
+    width:80%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:8px 0;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+  }
+
+  input[type=text]:focus{
+    border-color:dodgerBlue;
+    box-shadow:0 0 8px 0 dodgerBlue;
+  }
+
+   input[type=password]:focus{
+   border-color:dodgerBlue;
+   box-shadow:0 0 8px 0 dodgerBlue;
+  }
+
+
+
+
+
+
+	</style>
+
+	<div class="main">
+
+		<div class="login-form">
+		<form action='.' method="post">
+            {% csrf_token %}
+             <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
+			<input class="input" type="text" name="username"   placeholder="Username" />
+
+			<br>
+			<input class="input" type="password" name="password" placeholder="Password" /><br>
+            <p><input type="submit" value="Log in" class="login-button1"></p>
+            			<a href='/password_reset/' class="forget">Forgot Password?</a><br>
+
+		</form>
+		</div>
+		</div>
+{% endblock %

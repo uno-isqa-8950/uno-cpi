@@ -6,13 +6,13 @@
 		.login-form{
 			height: 200px;
 			width: 320px;
-			/*background-color: rgb(255,0,0);*/
+			/background-color: rgb(255,0,0);/
 			position: absolute;
 			top: 30%;
 			left: 38%;
 		}
 		.ipt{
-			/*height: 50px;*/
+			/height: 50px;/
 			width: 290px;
 			border-radius: 6px;
 			padding: 12px 14px;
@@ -59,44 +59,29 @@ input[type=text]{
     transition:.3s;
   }
 
+
+input[type=password]{
+    width:80%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:8px 0;
+    outline:none;
+    padding:8px;
+    box-sizing:border-box;
+    transition:.3s;
+  }
+
   input[type=text]:focus{
     border-color:dodgerBlue;
     box-shadow:0 0 8px 0 dodgerBlue;
   }
 
-  .inputWithIcon input[type=text]{
-    padding-left:40px;
+   input[type=password]:focus{
+   border-color:dodgerBlue;
+   box-shadow:0 0 8px 0 dodgerBlue;
   }
 
-  .inputWithIcon{
-    position:relative;
-    left:600px;
-  }
 
-  .inputWithIcon i{
-    position:absolute;
-    left:0;
-    top:8px;
-    padding:9px 8px;
-    color:#aaa;
-    transition:.3s;
-  }
-
-  .inputWithIcon input[type=text]:focus + i{
-    color:dodgerBlue;
-  }
-
-  .inputWithIcon.inputIconBg i{
-    background-color:#aaa;
-    color:#fff;
-    padding:9px 4px;
-    border-radius:4px 0 0 4px;
-  }
-
-  .inputWithIcon.inputIconBg input[type=text]:focus + i{
-    color:#fff;
-    background-color:dodgerBlue;
-  }
 
 
 
@@ -109,15 +94,14 @@ input[type=text]{
 		<form action='.' method="post">
             {% csrf_token %}
              <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
-			<input class="input" type="text" name="username"   placeholder="Username" onclick="changeborder()"/>
+			<input class="input" type="text" name="username"   placeholder="Username" />
 
 			<br>
-			<input class="input" type="text" name="password" placeholder="Password" onclick="changeborder()"/><br>
+			<input class="input" type="password" name="password" placeholder="Password" /><br>
             <p><input type="submit" value="Log in" class="login-button1"></p>
             			<a href='/password_reset/' class="forget">Forgot Password?</a><br>
 
 		</form>
 		</div>
-		</div></div>
+		</div>
 {% endblock %}
-

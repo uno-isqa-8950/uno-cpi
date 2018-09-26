@@ -128,5 +128,5 @@ class CommunityContactForm(forms.ModelForm):
                   'last_name',
                   'workphone',
                   'cellphone',
-                  'contact_type',
-                  'email_id')
+                  'email_id',
+                  'contact_type')

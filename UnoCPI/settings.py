@@ -80,7 +80,6 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -96,6 +95,8 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+
 
 
 

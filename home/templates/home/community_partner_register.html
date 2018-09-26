@@ -9,36 +9,47 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+ .boxContainer{
+        display: table;
+    }
 .button {
-    background-color: #CC3434;
+    background-color: #E2E5E8;
     border: none;
-    color: white;
+    color: #666666;
+    font-weight: bold;
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
+    display: table-cell;
     font-size: 16px;
     margin: 12px 12px;
     cursor: pointer;
     border-radius: 5px;
     width: 100%;
+    vertical-align: auto;
+    position: relative;
+    left: 450px;
+
 }
-    h4{
+    h3{
  text-align: center;
+        color: #666666;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        background: #CC3434;
+        font-weight: bold;
+        background: #E2E5E8;
         padding: 15px 32px;
-        color: white;
+        border-radius: 5px;
 }
     body{
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
         font-size: medium;
+        position: relative;
     }
 
 </style>
 
 
-<h4>Register Your Organization</h4>
+<h3>Register Your Organization</h3>
 <p>Please use the below form to signup as a Community Partner:</p>
 
 <div class="body">
@@ -47,8 +58,8 @@
   {{ community_partner_form|bootstrap }}
   {{ community_partner_contact_form|bootstrap }}
 
- <div class="buttons-holder">
-<input class="button" type="submit" value="Submit">
+ <div class="boxContainer">
+<input class="button" type="submit" value="Create an Account">
      </div>
   </form>
 </div>

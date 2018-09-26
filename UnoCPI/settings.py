@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 
 import os
+import dj_database_url
+from django.urls import reverse_lazy
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,7 +26,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DEBUG = True
 
 
 ALLOWED_HOSTS = ['*']
@@ -43,7 +46,7 @@ INSTALLED_APPS = [
     'home',
     'partners',
     'projects',
-    'bootstrapform'
+    'bootstrapform',
 ]
 
 MIDDLEWARE = [
@@ -85,10 +88,10 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'dae9isk408321f',
-        'USER': 'xotfpziccrupzb',
-        'PASSWORD': '01b6b9680a557a950730bfbcc6fe1a20dac056051083cfaf7aea6981c6e0051c',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
+        'NAME': 'ddpe1abcrl6hj1',
+        'USER': 'vufpfttusqbauq',
+        'PASSWORD': 'ea9ea6842f39aadfb4ab43656fcf380310d71b7e444d92664f3cf38858b9d3c1',
+        'HOST': 'ec2-174-129-32-37.compute-1.amazonaws.com',
         'PORT': 5432,
     }
 
@@ -136,15 +139,36 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
+
+# Update database configuration with $DATABASE_URL.
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['default'].update(db_from_env)
+
+###Email settings
+LOGIN_REDIRECT_URL = reverse_lazy('/')
+LOGIN_URL = reverse_lazy('login')
+#LOGOUT_REDIRECT_URL = reverse_lazy('logout')
 
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'nithesh1510@gmail.com'
-EMAIL_HOST_PASSWORD = 'nevansurya'
+EMAIL_HOST_USER = 'capstoneteam2018cpi@gmail.com'
+EMAIL_HOST_PASSWORD = 'capstone2018'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Simplified static file serving.
+# https://warehouse.python.org/project/whitenoise/
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 # Internationalization
 try:

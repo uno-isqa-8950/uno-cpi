@@ -20,7 +20,6 @@ class CommunityPartner(models.Model):
 
     k12_level =  models.CharField(max_length=20,null=False, blank=True,help_text="If your community type is K12, Please provide the k12-level.")
 
-
     primary_mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='primary_mission',null=True)
     secondary_mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='second_mission',null=True)
 
@@ -119,12 +118,27 @@ class CampusPartnerUser(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
 
 
+'''
 class CommunityPartnerUser(models.Model):
+<<<<<<< HEAD
     communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE, related_name='communitypartner',
                                          null=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
 
 
+
+=======
+    #campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE, related_name='communitypartner')
+    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE)
+
+    campuspartner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+'''
+class CommunityPartnerUser(models.Model):
+     communitypartner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE, related_name='communitypartner',null=True)
+     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
 
 

@@ -35,7 +35,7 @@ class CommunityPartner(models.Model):
     active = models.BooleanField(default=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
 
-    def _str_(self):
+    def __str__(self):
         return str(self.CommunityPartnerName)
 
 

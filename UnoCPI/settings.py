@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ddpe1abcrl6hj1',
-        'USER': 'vufpfttusqbauq',
-        'PASSWORD': 'ea9ea6842f39aadfb4ab43656fcf380310d71b7e444d92664f3cf38858b9d3c1',
-        'HOST': 'ec2-174-129-32-37.compute-1.amazonaws.com',
+        'NAME': 'd46q2igt2d4vbg',
+        'USER': 'nbzsljiyoqyakc',
+        'PASSWORD': '56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1',
+        'HOST': 'ec2-54-227-241-179.compute-1.amazonaws.com',
         'PORT': 5432,
     }
 

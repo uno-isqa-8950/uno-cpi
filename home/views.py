@@ -70,7 +70,7 @@ def registerCommunityPartnerUser(request):
             new_user.save()
             # cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
             #        name=community_partner_form.cleaned_data['name'])[0], user=new_user)
-            cpu = CommunityPartnerUser(communitypartner=community_partner_user_form.cleaned_data['name'], user=new_user)
+            cpu = CommunityPartnerUser(communitypartner=community_partner_user_form.cleaned_data['CommunityPartnerName'], user=new_user)
             cpu.save()
             return render(request,'home/register_done.html',)
     return render(request,
@@ -86,7 +86,7 @@ def registerCampusPartner(request):
         if campus_partner_form.is_valid():
             campus_partner_form.save()
 
-            return render(request, 'home/register_done.html', )
+            return render(request, 'home/community_partner_register_done.html', )
     else:
         campus_partner_form = CampusPartnerForm()
 

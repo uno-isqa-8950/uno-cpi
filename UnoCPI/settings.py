@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'home',
     'partners',
     'projects',
+    'university',
     'bootstrapform',
     ]
 
@@ -101,7 +102,9 @@ DATABASES = {
 
 
 
+##Extending the user model to home
 
+AUTH_USER_MODEL = 'home.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators

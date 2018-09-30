@@ -1,8 +1,9 @@
 from django import forms
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner, University,College, Department
-from home.models import CampusPartnerContact, Contact
+from partners.models import CampusPartner, CommunityPartner
+from university.models import *
+from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
 from projects.models import Project
 from django.forms import ModelForm
@@ -20,10 +21,10 @@ class CampusPartnerUserForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('campus_partner_name',)
+        fields = ('name',)
 
-    campus_partner_name = forms.ModelChoiceField(
-        queryset=CampusPartner.objects.order_by().distinct('campus_partner_name'),
+    name = forms.ModelChoiceField(
+        queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
 
 
@@ -32,17 +33,19 @@ class CampusPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('campus_partner_name', 'email', 'university', 'college', 'department',)
+        fields = ('name', 'education_system','university', 'college', 'department',)
+
+
 
 
 class CommunityPartnerUserForm(forms.ModelForm):
 
     class Meta:
         model = CommunityPartner
-        fields = ('CommunityPartnerName',)
+        fields = ('name',)
 
-    CommunityPartnerName = forms.ModelChoiceField(
-        queryset=CommunityPartner.objects.order_by().distinct('CommunityPartnerName'),
+    name = forms.ModelChoiceField(
+        queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 
@@ -52,14 +55,6 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 
-    # def as_p(self):
-    #     "Returns this form rendered as HTML <tr>s -- excluding the <table></table>."
-    #     return self._html_output(
-    #         normal_row='%(label)s%(errors)s%(field)s%(help_text)s',
-    #         error_row='%s',
-    #         row_ender=' ',
-    #         help_text_html='<br /><span class="helptext">%s</span>',
-    #         errors_on_separate_row=False)
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'email' )
@@ -82,27 +77,11 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-'''
-class UniversityForm(forms.ModelForm):
-
-    class Meta:
-        model = University
-        fields = ( 'name')
-'''
-
-
-class CampusPartnerContactForm(forms.ModelForm):
-
-    class Meta:
-        model = CampusPartnerContact
-        fields = ('first_name','last_name', 'email_id')
-
 
 class CommunityPartnerForm(forms.ModelForm):
     class Meta:
         model = CommunityPartner
-        fields = ('CommunityPartnerName', 'website_url', 'communitytype', 'k12_level', 'primary_mission', 'secondary_mission',
-                  'other', 'address_line1', 'address_line2', 'country', 'city', 'state', 'Zip')
+        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'Zip')
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -151,4 +130,5 @@ class CampusForm(ModelForm):
             ('False', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
+
 

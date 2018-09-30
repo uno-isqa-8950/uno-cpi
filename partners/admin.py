@@ -1,8 +1,12 @@
 from django.contrib import admin
+from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission
 
-from .models import University , College, Department
-# Register your models here.
-admin.site.register(University)
-admin.site.register(College)
-admin.site.register(Department)
+admin.site.register(CommunityPartner)
+admin.site.register(CommunityPartnerUser)
+admin.site.register(CommunityType)
+admin.site.register(CommunityPartnerMission)
+admin.site.register(CampusPartner)
+admin.site.register(CampusPartnerUser)
+
+
 

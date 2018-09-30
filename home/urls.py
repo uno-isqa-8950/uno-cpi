@@ -18,4 +18,6 @@ urlpatterns = [
    path('uploadProject/', views.uploadProject, name='uploadProject'),
    path('uploadCommunity/', views.uploadCommunity, name='uploadCommunity'),
    path('uploadCampus/', views.uploadCampus, name='uploadCampus'),
+
+
 ]

@@ -98,7 +98,7 @@ border-bottom: 4px solid #e22626;
       {% else %}
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-globe"></span> Register <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href='registerCampusPartner'>Campus Organization</a></li>
+          <li><a href="{% url 'partners:registerCampusPartner' %}">Campus Organization</a></li>
           <li><a href='registerCommunityPartner'>Community Organization</a></li>
         </ul>
       </li>

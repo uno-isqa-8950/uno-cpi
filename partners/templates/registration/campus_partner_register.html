@@ -1,0 +1,83 @@
+{% extends 'home/base_home.html' %}
+
+{% load bootstrap %}
+
+{% block content %}
+
+
+    <style>
+
+    .buttons-holder {
+  position: absolute;
+  top: 195%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button {
+    background-color: #E2E5E8;
+    border: none;
+    color: #666666;
+    font-weight: bold;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    font-size: 16px;
+    margin: 12px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    vertical-align: bottom;
+    position: relative;
+    left: 450px;
+    width: 200px;
+    height: 50px;
+
+}
+    h4{
+ text-align: center;
+        color: #666666;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-weight: bold;
+        background: #E2E5E8;
+        padding: 4px 15px;
+        border-radius: 5px;
+}
+    body{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: small;
+
+    }
+
+</style>
+<div class="container-fluid">
+  <div class="col-md-offset-2 col-md-8">
+    <h4><p class="text-center">Register</p></h4>
+    <h6>Please sign up using the following Campus Partner Registration form:</h6>
+      <br>
+  </div>
+
+  <div class="col-md-offset-2 col-md-8">
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ campus_partner_form|bootstrap }}
+      {{ contact_formset.management_form }}
+        {% for frm in formset %}
+            <div class="link-formset">
+            {{ campus_partner_contact_form|bootstrap }}
+            </div>
+        {% endfor %}
+
+      <p style= "font-weight:lighter;font-size:small;text-align: center;"><button type="submit" class="btn btn-secondary btn-sm " >Create Campus Partner</button></p>
+
+
+    </form>
+  </div>
+</div>
+
+    <script>
+    $('.link-formset').contact_formset({
+        addText: 'Add Contact',
+        deleteText: 'Remove Contact'
+    });
+</script>
+{% endblock %}

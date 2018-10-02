@@ -21,7 +21,7 @@ class CommunityPartner(models.Model):
     country = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=25, blank=True)
     state = models.CharField(max_length=15, blank=True)
-    Zip = models.CharField(max_length=10, blank=True)
+    zip = models.CharField(max_length=10, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     active = models.BooleanField(default=False)

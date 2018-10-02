@@ -2,7 +2,7 @@ from .models import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, ProjectForm, CommunityForm , CampusPartnerForm, CampusForm
+    CommunityPartnerUserForm, ProjectForm, CommunityForm ,  CampusForm
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -77,20 +77,6 @@ def registerCommunityPartnerUser(request):
 
 
 
-def registerCampusPartner(request):
-    if request.method == 'POST':
-        campus_partner_form = CampusPartnerForm(request.POST)
-
-        if campus_partner_form.is_valid():
-            campus_partner_form.save()
-
-            return render(request, 'home/community_partner_register_done.html', )
-    else:
-        campus_partner_form = CampusPartnerForm()
-
-    return render(request,
-                  'home/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form})
 
 
 

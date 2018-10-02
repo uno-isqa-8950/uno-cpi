@@ -19,9 +19,9 @@ class Contact(models.Model):
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    workphone= models.CharField(max_length=10,  validators=[MinLengthValidator(10)],
+    work_phone= models.CharField(max_length=10,  validators=[MinLengthValidator(10)],
                              help_text="Phone Number should be 10 digits",blank=True)
-    cellphone= models.CharField(max_length=10, validators=[MinLengthValidator(10)],
+    cell_phone= models.CharField(max_length=10, validators=[MinLengthValidator(10)],
                                help_text="Phone Number should be 10 digits" , unique=True, blank=True)
     email_id = models.EmailField(unique=True)
     contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select')

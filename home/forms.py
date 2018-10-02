@@ -29,11 +29,6 @@ class CampusPartnerUserForm(forms.ModelForm):
 
 
 
-class CampusPartnerForm(forms.ModelForm):
-
-    class Meta:
-        model = CampusPartner
-        fields = ('name', 'education_system','university', 'college', 'department',)
 
 
 
@@ -81,7 +76,7 @@ class UserForm(forms.ModelForm):
 class CommunityPartnerForm(forms.ModelForm):
     class Meta:
         model = CommunityPartner
-        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'Zip')
+        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'zip')
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -89,8 +84,8 @@ class CommunityContactForm(forms.ModelForm):
         model = Contact
         fields = ('first_name',
                   'last_name',
-                  'workphone',
-                  'cellphone',
+                  'work_phone',
+                  'cell_phone',
                   'email_id',
                   'contact_type')
 

@@ -10,9 +10,9 @@ class Project (models.Model):
     description = models.TextField()
     semester = models.CharField(max_length=255)
     total_uno_students = models.IntegerField()
-    total_uno_hrs = models.CharField(max_length=20)
+    total_uno_hours = models.CharField(max_length=20)
     total_k12_students = models.IntegerField(null=True, blank=False)
-    total_k12_hrs = models.CharField(max_length=10)
+    total_k12_hours = models.CharField(max_length=10)
     total_uno_faculty = models.IntegerField(blank=True)
     total_other_community_members = models.IntegerField(null=False, blank=True)
     start_date = models.DateField(default=timezone.now,null=False, blank=True)
@@ -26,7 +26,7 @@ class Project (models.Model):
     country = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=25, blank=True)
     state = models.CharField(max_length=15, blank=True)
-    zip = models.IntegerField(max_length=6,null=True,blank=True)
+    zip = models.IntegerField(null=True,blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
 
@@ -47,11 +47,12 @@ class ProjectMission (models.Model):
     def __str__(self):
         return str(self.mission)
 
+
 class ProjectCommunityPartner (models.Model):
-    project= models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+    project = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
-    no_hours = models.IntegerField(blank=True,null=True)
-    no_people = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True,null=True)
+    total_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
@@ -64,8 +65,8 @@ class ProjectCommunityPartner (models.Model):
 class ProjectCampusPartner (models.Model):
     project = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
-    no_hours = models.IntegerField(blank=True,null=True)
-    no_people = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True,null=True)
+    total_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
 

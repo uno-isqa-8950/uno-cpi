@@ -5,8 +5,9 @@ from partners.models import CampusPartner, CommunityPartner
 from university.models import *
 from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
-from projects.models import Project
+from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectCommunityPartner
 from django.forms import ModelForm
+
 
 class CampusPartnerUserForm(forms.ModelForm):
 
@@ -26,7 +27,6 @@ class CampusPartnerUserForm(forms.ModelForm):
     name = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
-
 
 
 class CampusPartnerForm(forms.ModelForm):
@@ -95,23 +95,25 @@ class CommunityContactForm(forms.ModelForm):
                   'contact_type')
 
 
-
 class ProjectForm(forms.ModelForm):
-    # mission_name = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
-    # CommunityPartnerName = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
-    #                                               to_field_name="communityPartnerName")
-    # campus_partner_name = forms.ModelChoiceField(queryset=CampusPartner.objects.all(),
-    #                                              to_field_name="campus_partner_name")
+    engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
+    activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")
+    status = forms.ModelChoiceField(queryset=Status.objects.all(), to_field_name="name")
 
     class Meta:
         model = Project
-        fields = '__all__'
+        fields = ('name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
+                  'total_uno_students', 'total_uno_hrs', 'total_k12_students', 'total_k12_hrs', 'total_uno_faculty',
+                  'total_other_community_members', 'other_details', 'outcomes', 'total_economic_impact', 'status')
 
-    # ProjectName = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="ProjectName")
-    #
-    # class Meta:
-    #     model = ProjectPartner
-    #     fields = '__all__'
+
+class ProjectCampusPartnerForm(forms.ModelForm):
+    name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="name")
+    campus_partner = forms.ModelChoiceField(queryset=CampusPartner.objects.all(), to_field_name="name")
+
+    class Meta:
+        model = ProjectCampusPartner
+        fields = ('name', 'campus_partner')
 
 
 class CommunityForm(ModelForm):

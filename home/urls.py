@@ -4,7 +4,6 @@ from . import views
 
 
 urlpatterns = [
-
    path('', views.cpipage, name='cpipage'),
    path('home',views.home, name='home'),
    path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
@@ -18,6 +17,5 @@ urlpatterns = [
    path('uploadProject/', views.uploadProject, name='uploadProject'),
    path('uploadCommunity/', views.uploadCommunity, name='uploadCommunity'),
    path('uploadCampus/', views.uploadCampus, name='uploadCampus'),
-
 
 ]

@@ -31,7 +31,6 @@ class Department(models.Model):
       return str(self.name)
 
 
-
 class Course(models.Model):
     prefix = models.CharField(max_length=80)
     number = models.CharField(max_length=50)

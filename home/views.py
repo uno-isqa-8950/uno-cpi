@@ -1,8 +1,9 @@
 from .models import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner
+from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, ProjectForm, CommunityForm , CampusPartnerForm, CampusForm
+    CommunityPartnerUserForm, ProjectForm, CommunityForm , CampusPartnerForm, CampusForm, ProjectCampusPartnerForm
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -116,17 +117,31 @@ def registerCommunityPartner(request):
 
 
 def uploadProject(request):
-    data = {}
     if request.method == "GET":
-        return render(request, "import/uploadProject.html", data)
+        return render(request, "import/uploadProject.html")
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-        form = ProjectForm(data_dict)
-        if form.is_valid():
-            form.save()
+        project_new = data_dict['name']
+        project_name_existing = Project.objects.filter(name=data_dict['name'])
+        try:
+            project_old = str(project_name_existing[0])
+            if project_old == project_new:
+                form_campus = ProjectCampusPartnerForm(data_dict)
+                print(form_campus)
+                if form_campus.is_valid():
+                    form_campus.save()
+        except:
+            form = ProjectForm(data_dict)
+            print(form)
+            if form.is_valid():
+                form.save()
+                form_campus = ProjectCampusPartnerForm(data_dict)
+                # print(form_campus)
+                if form_campus.is_valid():
+                    form_campus.save()
     return render(request, 'import/uploadProject.html',
                   {'uploadProject': uploadProject})
 
@@ -145,7 +160,6 @@ def uploadCommunity(request):
             form.save()
     return render(request, 'import/uploadCommunity.html',
                   {'uploadCommunity': uploadCommunity})
-
 
 
 def uploadCampus(request):

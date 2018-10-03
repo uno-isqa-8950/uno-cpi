@@ -3,7 +3,8 @@ from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, ProjectForm, CommunityForm , CampusPartnerForm, CampusForm, ProjectCampusPartnerForm
+    CommunityPartnerUserForm, ProjectForm, CommunityForm , CampusPartnerForm, CampusForm, ProjectCampusPartnerForm, \
+    ProjectCommunityPartnerForm
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -130,18 +131,21 @@ def uploadProject(request):
             project_old = str(project_name_existing[0])
             if project_old == project_new:
                 form_campus = ProjectCampusPartnerForm(data_dict)
-                print(form_campus)
-                if form_campus.is_valid():
+                form_community = ProjectCommunityPartnerForm(data_dict)
+                if form_campus.is_valid() and form_community.is_valid():
                     form_campus.save()
+                    form_community.save()
+
         except:
             form = ProjectForm(data_dict)
             print(form)
             if form.is_valid():
                 form.save()
                 form_campus = ProjectCampusPartnerForm(data_dict)
-                # print(form_campus)
-                if form_campus.is_valid():
+                form_community = ProjectCommunityPartnerForm(data_dict)
+                if form_campus.is_valid() and form_community.is_valid():
                     form_campus.save()
+                    form_community.save()
     return render(request, 'import/uploadProject.html',
                   {'uploadProject': uploadProject})
 

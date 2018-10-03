@@ -44,14 +44,14 @@ class ProjectMission (models.Model):
 
 
 class ProjectCommunityPartner (models.Model):
-    project = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+    name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
     no_hours = models.IntegerField(blank=True,null=True)
     no_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
-        return str(self.project)
+        return str(self.name)
 
 
 class ProjectCampusPartner (models.Model):

@@ -116,6 +116,15 @@ class ProjectCampusPartnerForm(forms.ModelForm):
         fields = ('name', 'campus_partner')
 
 
+class ProjectCommunityPartnerForm(forms.ModelForm):
+    name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="name")
+    campus_partner = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(), to_field_name="name")
+
+    class Meta:
+        model = ProjectCommunityPartner
+        fields = ('name', 'community_partner')
+
+
 class CommunityForm(ModelForm):
     class Meta:
         model = CommunityPartner

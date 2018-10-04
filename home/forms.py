@@ -99,11 +99,10 @@ class CommunityPartnerForm(forms.ModelForm):
 
                    }
         def clean_website_url(self):
-            data = self.cleaned_data.get('website_url')
-            if  not  data.startswith ('https://'):
-                raise forms.ValidationError('Url should start from "https://".')
-            return data
-
+         data = self.cleaned_data.get('website_url')
+         if  not  data.startswith ('https://'):
+            raise forms.ValidationError('Url should start from "https://".')
+         return data
 
 class CommunityContactForm(forms.ModelForm):
     class Meta:

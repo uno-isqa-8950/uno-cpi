@@ -32,7 +32,6 @@ def signupuser(request):
 
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
-
     user_form = UserForm()
     if request.method == 'POST':
         user_form = UserForm(request.POST)

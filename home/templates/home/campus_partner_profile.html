@@ -1,0 +1,137 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+.btn-custom
+{
+    background-color: #C0C0C0;
+    position: relative;
+    width:90px;
+    top:15px;
+    font-family: Helvetica;
+    left: 250px;
+}
+
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+.form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+body
+{
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-size: medium;
+   position: relative;
+}
+
+.panel
+{
+width: 650px;
+margin-left: auto;
+margin-right:auto;
+margin-top:80px;
+height: relative;
+font-family: Helvetica;
+box-shadow: 5px 10px 20px 5px grey;
+}
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+.panel-heading
+{
+  height:60px;
+  margin-top:5px;
+  border-radius: 5px;
+}
+
+.panel
+{
+  border-radius: 5px;
+}
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+</style>
+
+
+<div class = "container">
+    <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4>Your Campus Partner Profile</h4></div>
+      <div class="panel-body">
+
+<div class="body">
+<form action="." method="post">
+  {% csrf_token %}
+  <div class="form-group">
+    <label for="partner_name">Campus Partner Name</label>
+    <input type="text" class="form-control" id="partner_name" aria-describedby="emailHelp" value="{{campus_partner_name}}" disabled>
+  </div>
+  <div class="form-group">
+    <label for="college">College</label>
+    <input type="text" class="form-control" id="college" aria-describedby="emailHelp" value="{{college}}" disabled>
+  </div>
+  <div class="form-group">
+    <label for="department">Department</label>
+    <input type="text" class="form-control" id="department" aria-describedby="emailHelp" value="{{department}}" disabled>
+  </div>
+  <div class="form-group">
+    <label for="first_name">First Name</label>
+    <input type="text" class="form-control" id="first_name" aria-describedby="emailHelp" value="{{first_name}}">
+  </div>
+  <div class="form-group">
+    <label for="last_name">Last Name</label>
+    <input type="text" class="form-control" id="last_name" aria-describedby="emailHelp" value="{{last_name}}">
+  </div>   
+  <div class="form-group">
+    <label for="email">Email ID</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{email}}">
+  </div>
+<p>
+  <button type="submit" class="btn btn-custom">Submit</button>
+</p>
+<br><br>
+
+  </form>
+
+</div>
+            </div></div></div>
+<br><br><br>
+
+{% endblock %}

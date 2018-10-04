@@ -3,7 +3,7 @@ from django.db.transaction import commit
 import re
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner
+from partners.models import CampusPartner, CommunityPartner, CommunityPartnerMission
 from university.models import *
 from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
@@ -104,7 +104,6 @@ class CommunityPartnerForm(forms.ModelForm):
             raise forms.ValidationError('Url should start from "https://".')
          return data
 
-
 class CommunityContactForm(forms.ModelForm):
     class Meta:
         model = Contact
@@ -154,5 +153,18 @@ class CampusForm(ModelForm):
             ('False', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
+
+
+
+class CommunityMissionForm(ModelForm):
+    class Meta :
+        model = CommunityPartnerMission
+        fields = '__all__'
+        mission_choices = (
+            ('Primary', 'Primary'),
+            ('Secondary', 'Secondary'),
+            ('Other', 'Other'),
+        )
+
 
 

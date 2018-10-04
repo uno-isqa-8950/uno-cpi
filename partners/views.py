@@ -2,7 +2,7 @@ from django.forms import formset_factory
 from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFormProfile
 from django.shortcuts import render
 from .models import CampusPartner as CampusPartnerModel
-from home.models import Contact as ContactModel
+from home.models import Contact as ContactModel, Contact
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, modelformset_factory
 from django.template import context

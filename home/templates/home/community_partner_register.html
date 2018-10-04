@@ -100,6 +100,7 @@ font-weight: bold;
 <form action="." method="post">
   {% csrf_token %}
   {{ community_partner_form|bootstrap }}
+
   {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
@@ -112,6 +113,25 @@ font-weight: bold;
                     {{ form|bootstrap }}
                     <div class="input-group-append">
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+
+                    </div>
+                </div>
+                </div>
+            </div>
+      {% endfor %}
+   {{ formset_mission.management_form }}
+      {% for form in formset_mission %}
+            <div class="row form-row spacer">
+                <div class="col-4">
+                    <label>Mission Areas</label>
+                    <br>
+                </div>
+                <div class="col-4">
+                <div class="input-group">
+                    {{ form.mission_type|bootstrap }}
+                    {{ form.mission_area|bootstrap }}
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-info btn-sm add-form-row">Add more Mission areas</button>
 
                     </div>
                 </div>

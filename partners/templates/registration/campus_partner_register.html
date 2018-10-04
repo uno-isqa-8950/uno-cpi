@@ -1,66 +1,103 @@
 {% extends 'home/base_home.html' %}
-
 {% load bootstrap %}
-
 {% block content %}
 
 
-    <style>
+<style>
 
-    .buttons-holder {
-  position: absolute;
-  top: 195%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.button {
-    background-color: #E2E5E8;
-    border: none;
-    color: #666666;
-    font-weight: bold;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: flex;
-    font-size: 16px;
-    margin: 12px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    vertical-align: bottom;
+.btn-custom
+{
+    background-color: #C0C0C0;
     position: relative;
-    left: 450px;
-    width: 200px;
-    height: 50px;
-
+    width:90px;
+    top:5px;
+    font-family: Helvetica;
+    left: 250px;
 }
-    h4{
- text-align: center;
-        color: #666666;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: bold;
-        background: #E2E5E8;
-        padding: 4px 15px;
-        border-radius: 5px;
-}
-    body{
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: small;
 
-    }
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+.panel
+{
+width: 650px;
+margin-left: auto;
+margin-right:auto;
+margin-top:80px;
+height: relative;
+font-family: Helvetica;
+box-shadow: 5px 10px 20px 5px grey;
+}
+
+
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+.panel-heading
+{
+	height:60px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+
+.panel
+{
+	border-radius: 5px;
+}
+
+
+.form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+h4
+{
+	line-height: 2.7;
+	font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
 
 </style>
-<div class="container-fluid">
-  <div class="col-md-offset-2 col-md-8">
-    <h4><p class="text-center">Register</p></h4>
-    <h6>Please sign up using the following Campus Partner Registration form:</h6>
-      <br>
-  </div>
+<div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Register Your Campus</h4></div>
+			<div class="panel-body">
 
-  <div class="col-md-offset-2 col-md-8">
+  <!--div class="col-md-offset-2 col-md-8"-->
     <form action="." method="post">
       {% csrf_token %}
       {{ campus_partner_form|bootstrap }}
-
       {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
@@ -77,12 +114,15 @@
                 </div>
             </div>
       {% endfor %}
+ 
+   <!--  <p><button type="submit" class="btn btn-custom">Submit</button></p><br> -->
+
 
 
       <p style= "font-weight:lighter;font-size:small;text-align: center;"><button type="submit" class="btn btn-secondary btn-sm " >Create Campus Partner</button></p>
     </form>
   </div>
-</div>
+            </div></div></div><br><br>
 
 {% endblock %}
 
@@ -106,6 +146,7 @@ function cloneMore(selector, prefix) {
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
+
     });
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
@@ -142,4 +183,5 @@ $(document).on('click', '.remove-form-row', function(e){
     return false;
 });
 </script>
+
 {% endblock %}

@@ -91,10 +91,14 @@ class CommunityPartnerForm(forms.ModelForm):
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'zip')
-        placeholder = {'website_url': 'https://'}
+
+        widgets = {'name': forms.TextInput({'placeholder': 'Community Partner Name'}),
+                   'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
+                   'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
 
 
-    def clean_website_url(self):
+                   }
+        def clean_website_url(self):
         data = self.cleaned_data.get('website_url')
         if  not  data.startswith ('https://'):
             raise forms.ValidationError('Url should start from "https://".')
@@ -110,6 +114,9 @@ class CommunityContactForm(forms.ModelForm):
                   'cell_phone',
                   'email_id',
                   'contact_type')
+        widgets = {'work_phone': forms.TextInput({'placeholder': '571-420-0002'}),
+                   'cell_phone': forms.TextInput({'placeholder': '571-420-0002'}),
+                  }
 
 
 

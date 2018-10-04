@@ -1,0 +1,4586 @@
+html>
+<head>
+	
+</head>
+<body>
+	
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+
+	<style>
+	#map{
+		width: 100%; 
+		height: 100%;
+	}
+</style>
+
+<div id='map'></div>
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
+	var map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/mapbox/streets-v9',
+		center: [-95.957309,41.276479],
+		zoom:12
+	});
+
+	map.on("load",function(){
+		map.addLayer({
+			"id": "points",
+			"type": "symbol",
+			"source": {
+				"type": "geojson",
+				"data": {
+					"features": [
+					{
+						"geometry": {
+							"coordinates": [
+							-95.957309,
+							41.276479
+							],
+							"type": "Point"
+						},
+						"id": 1,
+						"properties": {
+							"Address": "4383 Nicholas St Suite 24",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "75 North",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.276479,
+							"Location": "Omaha, NE",
+							"Longitude": -95.957309,
+							"Notes": "",
+							"Phone": "402-502-2770",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0086,
+							41.2587
+							],
+							"type": "Point"
+						},
+						"id": 2,
+						"properties": {
+							"Address": "6001 Dodge St CEC 216 Suite 219C ",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "A Time to Heal",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2587,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0086,
+							"Notes": "",
+							"Phone": "402-401-6083",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 3,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "A Time to Heal (ATTH)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-401-6083",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://atimetohealfoundation.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.975,
+							41.2407
+							],
+							"type": "Point"
+						},
+						"id": 4,
+						"properties": {
+							"Address": "1941 S 42nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "AARP",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2407,
+							"Location": "Omaha, NE",
+							"Longitude": -95.975,
+							"Notes": "",
+							"Phone": "402-398-9568",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "local.aarp.org/omahane",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9587,
+							41.2886
+							],
+							"type": "Point"
+						},
+						"id": 5,
+						"properties": {
+							"Address": "3230 John Creighton Blvd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Adam's Park Senior Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2886,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9587,
+							"Notes": "",
+							"Phone": "402-444-3237",
+							"Primary": "Health and Wellness",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68007"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0217,
+							41.2461
+							],
+							"type": "Point"
+						},
+						"id": 6,
+						"properties": {
+							"Address": "1330 S 70th st",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Aksarben Senior Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2461,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0217,
+							"Notes": "",
+							"Phone": "402-810-9440",
+							"Primary": "Health and Wellness",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "aksarbenseniorliving.com",
+							"Zip": "68106"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0779,
+							41.2132
+							],
+							"type": "Point"
+						},
+						"id": 7,
+						"properties": {
+							"Address": "10525 J St.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Alliance for a Better Omaha",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2132,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0779,
+							"Notes": "",
+							"Phone": "402-669-9315",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "togetheromaha.org",
+							"Zip": "68127"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.096377,
+							41.235583
+							],
+							"type": "Point"
+						},
+						"id": 8,
+						"properties": {
+							"Address": "11711 Arbor St #110",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Alzheimer's Association, Nebraska Chapter",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.235583,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.096377,
+							"Notes": "",
+							"Phone": "402-502-4300",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.alz.org/nebraska/",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1167,
+							41.2564
+							],
+							"type": "Point"
+						},
+						"id": 9,
+						"properties": {
+							"Address": "333 S 132nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Anti Defamation League",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2564,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1167,
+							"Notes": "",
+							"Phone": "402-333-1303",
+							"Primary": "Social Justice",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "omaha.adl.org",
+							"Zip": "68154"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0533,
+							41.2061
+							],
+							"type": "Point"
+						},
+						"id": 10,
+						"properties": {
+							"Address": "9012 Q St.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Autism Society of NE",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2061,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0533,
+							"Notes": "",
+							"Phone": "402-315-1000",
+							"Primary": "Social Justice",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "autismcenterfornebraska.org",
+							"Zip": "68127"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-73.916647,
+							42.020823
+							],
+							"type": "Point"
+						},
+						"id": 11,
+						"properties": {
+							"Address": "30 Campus Rd",
+							"CampusPartner": "No",
+							"City": "Annandale-On-Hudson",
+							"CommunityPartner": "Bard College",
+							"Entered by": "Weitz CEC",
+							"Lat": 42.020823,
+							"Location": "Annandale-on-hudson, New York",
+							"Longitude": -73.916647,
+							"Notes": "",
+							"Phone": "845-758-6822",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "New York",
+							"Website": "http://www.bard.edu/",
+							"Zip": "12504"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.932344,
+							41.252597
+							],
+							"type": "Point"
+						},
+						"id": 12,
+						"properties": {
+							"Address": "724 S 12th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Bemis Center for Contemporary Arts",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.252597,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.932344,
+							"Notes": "",
+							"Phone": "402-341-7130",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.bemiscenter.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0304,
+							41.2398
+							],
+							"type": "Point"
+						},
+						"id": 13,
+						"properties": {
+							"Address": "7500 Mercy Rd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Bergan Mercy Hospital",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2398,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0304,
+							"Notes": "",
+							"Phone": "402-398-6060",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68124"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0003,
+							41.3233
+							],
+							"type": "Point"
+						},
+						"id": 14,
+						"properties": {
+							"Address": "5602 Read St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "The Big Garden",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3233,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0003,
+							"Notes": "",
+							"Phone": "402-898-9862",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "biggarden.org",
+							"Zip": "68152"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.05733,
+							41.29215
+							],
+							"type": "Point"
+						},
+						"id": 15,
+						"properties": {
+							"Address": "P.o. Box 34357",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Black Police Officers Association of Omaha  (BPOA) ",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.29215,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.05733,
+							"Notes": "",
+							"Phone": "402-915-0830",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://bpoaofomaha.com/",
+							"Zip": "68134"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.8664,
+							41.2695
+							],
+							"type": "Point"
+						},
+						"id": 16,
+						"properties": {
+							"Address": "815 N 16th St ",
+							"CampusPartner": "No",
+							"City": "Council Bluffs",
+							"CommunityPartner": "Boys and Girls Club of Council Bluffs",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2695,
+							"Location": "Council Bluffs, IA",
+							"Longitude": -95.8664,
+							"Notes": "",
+							"Phone": "712-256-5603",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "IA",
+							"Website": "",
+							"Zip": "51501"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9505,
+							41.2738
+							],
+							"type": "Point"
+						},
+						"id": 17,
+						"properties": {
+							"Address": "2610 Hamilton St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Boys and Girls Club of the Midlands",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2738,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9505,
+							"Notes": "",
+							"Phone": "402-342-1600",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.132927,
+							41.261066
+							],
+							"type": "Point"
+						},
+						"id": 18,
+						"properties": {
+							"Address": "14124 Norton Dr",
+							"CampusPartner": "No",
+							"City": "Boys Town",
+							"CommunityPartner": "Boys Town Day School",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.261066,
+							"Location": "Boys Town, NE",
+							"Longitude": -96.132927,
+							"Notes": "",
+							"Phone": "402-498-1903",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68010"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9988,
+							41.2636
+							],
+							"type": "Point"
+						},
+						"id": 19,
+						"properties": {
+							"Address": "400 N Happy Hollow Blvd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Brownell Talbot ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2636,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9988,
+							"Notes": "",
+							"Phone": "402-556-3772",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68132"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.122635,
+							41.218953
+							],
+							"type": "Point"
+						},
+						"id": 20,
+						"properties": {
+							"Address": "13303 F St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Buford Foundation ",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.218953,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.122635,
+							"Notes": "",
+							"Phone": "402-312-2920",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://campconfidence.org/",
+							"Zip": "68137"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							95.0613,
+							41.1522
+							],
+							"type": "Point"
+						},
+						"id": 21,
+						"properties": {
+							"Address": "12200 Burke Blvd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Burke Garden",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.1522,
+							"Location": "Omaha, NE",
+							"Longitude": 95.0613,
+							"Notes": "",
+							"Phone": "402-557-3200",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "burke.ops.org",
+							"Zip": "68154"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9654,
+							41.2991
+							],
+							"type": "Point"
+						},
+						"id": 22,
+						"properties": {
+							"Address": "3501 Ames Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Butler Gast YMCA",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2991,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9654,
+							"Notes": "",
+							"Phone": "402-453-8903",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "butler-gast.metroymca.org",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-110.968532,
+							32.220637
+							],
+							"type": "Point"
+						},
+						"id": 23,
+						"properties": {
+							"Address": "P.O. Box 710 ",
+							"CampusPartner": "No",
+							"City": "Tucson",
+							"CommunityPartner": "Center for Biological Diversity",
+							"Entered by": "Weitz CEC",
+							"Lat": 32.220637,
+							"Location": "Tucson, Arizona",
+							"Longitude": -110.968532,
+							"Notes": "",
+							"Phone": "520-623-5252",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Arizona",
+							"Website": "http://www.biologicaldiversity.org/",
+							"Zip": "85702"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.956096,
+							41.279448
+							],
+							"type": "Point"
+						},
+						"id": 24,
+						"properties": {
+							"Address": "2915 Grant St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Charles Drew",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.279448,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.956096,
+							"Notes": "",
+							"Phone": "402-457-1200",
+							"Primary": "Health and Wellness",
+							"Secondary": "Economic Sufficiency",
+							"State": "Nebraska",
+							"Website": "",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9548,
+							41.3
+							],
+							"type": "Point"
+						},
+						"id": 25,
+						"properties": {
+							"Address": "2868 Ames Ave.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Charles Washington Library",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9548,
+							"Notes": "",
+							"Phone": "402-444-4849",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "omahalibrary.org",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0412,
+							41.2604
+							],
+							"type": "Point"
+						},
+						"id": 26,
+						"properties": {
+							"Address": "8200 Dodge St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Children's Hospital ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2604,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0412,
+							"Notes": "",
+							"Phone": "402-955-5400",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-117.179107,
+							32.682594
+							],
+							"type": "Point"
+						},
+						"id": 27,
+						"properties": {
+							"Address": "1330 Orange Ave # 300",
+							"CampusPartner": "No",
+							"City": "Coronado",
+							"CommunityPartner": "Citizen’s Climate Lobby",
+							"Entered by": "Weitz CEC",
+							"Lat": 32.682594,
+							"Location": "Coronado, California",
+							"Longitude": -117.179107,
+							"Notes": "",
+							"Phone": "402-453-0776",
+							"Primary": "Educational Support",
+							"Secondary": "Environmental Stewardship",
+							"State": "California",
+							"Website": "https://citizensclimatelobby.org/chapters/NE_Omaha/",
+							"Zip": "92118"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9729,
+							41.2743
+							],
+							"type": "Point"
+						},
+						"id": 28,
+						"properties": {
+							"Address": "4002 Seward St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "City Sprouts",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2743,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9729,
+							"Notes": "",
+							"Phone": "402-504-1910",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "omahasprouts.org",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-117.716333,
+							34.107738
+							],
+							"type": "Point"
+						},
+						"id": 29,
+						"properties": {
+							"Address": "1325 N College Ave",
+							"CampusPartner": "No",
+							"City": "Claremont",
+							"CommunityPartner": "Claremont School of Theology",
+							"Entered by": "Weitz CEC",
+							"Lat": 34.107738,
+							"Location": "Claremont, California",
+							"Longitude": -117.716333,
+							"Notes": "",
+							"Phone": "909-447-2500",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "California",
+							"Website": "https://cst.edu/",
+							"Zip": "91711"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 30,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Coalition RX",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-964-1000",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "Nebraska",
+							"Website": "http://coalitionrx.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0256,
+							41.3238
+							],
+							"type": "Point"
+						},
+						"id": 31,
+						"properties": {
+							"Address": "3215 Cuming St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Common Sense Media (OPS Program)",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3238,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0256,
+							"Notes": "",
+							"Phone": "402-557-2222",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "district.ops.org",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9496,
+							41.254
+							],
+							"type": "Point"
+						},
+						"id": 32,
+						"properties": {
+							"Address": "2566 St Marys Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Completely Kids",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.254,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9496,
+							"Notes": "",
+							"Phone": "402-552-5809",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "completelykids.org",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1003,
+							41.4217
+							],
+							"type": "Point"
+						},
+						"id": 33,
+						"properties": {
+							"Address": "10331 Cheshire Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Courteous Kids",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.4217,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1003,
+							"Notes": "",
+							"Phone": "402-651-1696",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "courteouskids.org",
+							"Zip": "68008"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.948691,
+							41.266747
+							],
+							"type": "Point"
+						},
+						"id": 34,
+						"properties": {
+							"Address": "2500 California Plaza",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Creighton Trio",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.266747,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.948691,
+							"Notes": "",
+							"Phone": "402-280-2700",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.creighton.edu/trio/",
+							"Zip": "68178"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0107,
+							41.2582
+							],
+							"type": "Point"
+						},
+						"id": 35,
+						"properties": {
+							"Address": "6001 Dodge St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Culture Fest ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2582,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0107,
+							"Notes": "",
+							"Phone": "",
+							"Primary": "International Service",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.975,
+							41.2406
+							],
+							"type": "Point"
+						},
+						"id": 36,
+						"properties": {
+							"Address": "1841 S 42nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "D2 Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2406,
+							"Location": "Omaha, NE",
+							"Longitude": -95.975,
+							"Notes": "",
+							"Phone": "402-502-8534",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "d2center.org",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0107,
+							41.2582
+							],
+							"type": "Point"
+						},
+						"id": 37,
+						"properties": {
+							"Address": "6001 Dodge St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Down Syndrome Alliance of the Midlands",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2582,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0107,
+							"Notes": "",
+							"Phone": "402-554-6095",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "dsamidlands.org",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 38,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Down Syndrome Alliance of the Midlands (DSM)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": " 402-554-6095",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.dsamidlands.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9283,
+							41.2515
+							],
+							"type": "Point"
+						},
+						"id": 39,
+						"properties": {
+							"Address": "801 S 10th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Durham Museum",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2515,
+							"Location": "Omaha, NE ",
+							"Longitude": -95.9283,
+							"Notes": "",
+							"Phone": "402-444-5071",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE ",
+							"Website": "durhammuseum.org",
+							"Zip": "68108"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-94.777329,
+							38.925072
+							],
+							"type": "Point"
+						},
+						"id": 40,
+						"properties": {
+							"Address": "11201 Renner Blvd.\n",
+							"CampusPartner": "No",
+							"City": "Lenexa",
+							"CommunityPartner": "Evnironmental Protection Agency (EPA Region 7)",
+							"Entered by": "Weitz CEC",
+							"Lat": 38.925072,
+							"Location": "Lenexa, Kansas",
+							"Longitude": -94.777329,
+							"Notes": "",
+							"Phone": "800-223-0425",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Kansas",
+							"Website": "https://www.epa.gov/aboutepa/epa-region-7-midwest",
+							"Zip": "66219"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9343,
+							41.266
+							],
+							"type": "Point"
+						},
+						"id": 41,
+						"properties": {
+							"Address": "1640 Mike Fahey St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Film Streams",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.266,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9343,
+							"Notes": "",
+							"Phone": "402-933-0259",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "filmstreams.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9343,
+							41.1799
+							],
+							"type": "Point"
+						},
+						"id": 42,
+						"properties": {
+							"Address": "1111 Bellevue Blvd",
+							"CampusPartner": "No",
+							"City": "Bellevue",
+							"CommunityPartner": "Fontenelle Forest",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.1799,
+							"Location": "Bellevue, NE",
+							"Longitude": -95.9343,
+							"Notes": "",
+							"Phone": "402-731-3140",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "fontanelleforest.org",
+							"Zip": "68005"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.976,
+							41.2412
+							],
+							"type": "Point"
+						},
+						"id": 43,
+						"properties": {
+							"Address": "4223 Center St",
+							"CampusPartner": "No",
+							"City": "Omaha ",
+							"CommunityPartner": "Foster Grandparents Program",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2412,
+							"Location": "Omaha , NE",
+							"Longitude": -95.976,
+							"Notes": "",
+							"Phone": "402-444-6503",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "enoa.org",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9778,
+							41.2392
+							],
+							"type": "Point"
+						},
+						"id": 44,
+						"properties": {
+							"Address": "2121 S 44th St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Girl Scouts Spirit of Nebraska",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2392,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9778,
+							"Notes": "",
+							"Phone": "402-558-8189",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "girlsscoutsnebraska.org",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.977856,
+							41.239212
+							],
+							"type": "Point"
+						},
+						"id": 45,
+						"properties": {
+							"Address": "2121 S 44th St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Girl Scouts Spirit of Nebraska  ",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.239212,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.977856,
+							"Notes": "",
+							"Phone": "402-558-8189",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.girlscoutsnebraska.org/",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.98,
+							41.2843
+							],
+							"type": "Point"
+						},
+						"id": 46,
+						"properties": {
+							"Address": "2811 N 45th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Girls Inc",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2843,
+							"Location": "Omaha, NE",
+							"Longitude": -95.98,
+							"Notes": "",
+							"Phone": "402-457-4676",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "girlsincomaha.org",
+							"Zip": "68104"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0344,
+							41.2572
+							],
+							"type": "Point"
+						},
+						"id": 47,
+						"properties": {
+							"Address": "7811 Farnam Dr",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Grief's Journey",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2572,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0344,
+							"Notes": "",
+							"Phone": "402-502-2773",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "griefsjourney.org",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1519,
+							41.2405
+							],
+							"type": "Point"
+						},
+						"id": 48,
+						"properties": {
+							"Address": "15228 Shirley St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Harvey Oakes Elementary",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2405,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1519,
+							"Notes": "",
+							"Phone": "402-715-1386",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "harveyoaks.mps.org",
+							"Zip": "68144"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9754,
+							41.2397
+							],
+							"type": "Point"
+						},
+						"id": 49,
+						"properties": {
+							"Address": "2101 S 42nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Heartland Family Services",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2397,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9754,
+							"Notes": "",
+							"Phone": "402-553-3000",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "heartlandfamilyservices.org",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9424,
+							41.2019
+							],
+							"type": "Point"
+						},
+						"id": 50,
+						"properties": {
+							"Address": "20210 U St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Heartland Hope Mission ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2019,
+							"Location": "Omaha, NE ",
+							"Longitude": -95.9424,
+							"Notes": "",
+							"Phone": "402-733-1904",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Health and Wellness",
+							"State": "NE ",
+							"Website": "heartlandhopemission.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9466,
+							41.209
+							],
+							"type": "Point"
+						},
+						"id": 51,
+						"properties": {
+							"Address": "49235 24th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Heartland Workers Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.209,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9466,
+							"Notes": "",
+							"Phone": "402-933-6095",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "heartlandworkercenter.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9271,
+							41.225
+							],
+							"type": "Point"
+						},
+						"id": 52,
+						"properties": {
+							"Address": "3701 S 10th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Henry Doorly Zoo",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.225,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9271,
+							"Notes": "",
+							"Phone": "402-733-8401",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "omahazoo.com",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0971,
+							41.2926
+							],
+							"type": "Point"
+						},
+						"id": 53,
+						"properties": {
+							"Address": "11809 Old Maple Rd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Heron Haven",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2926,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0971,
+							"Notes": "",
+							"Phone": "402-493-4303",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "heronhaven.org",
+							"Zip": "68164"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.700089,
+							40.812144
+							],
+							"type": "Point"
+						},
+						"id": 54,
+						"properties": {
+							"Address": "215 Centennial Mall South, Suite 330\n",
+							"CampusPartner": "No",
+							"City": "Lincoln",
+							"CommunityPartner": "Humanities Nebraska",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.812144,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.700089,
+							"Notes": "",
+							"Phone": "402-474-2131",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://humanitiesnebraska.org/",
+							"Zip": "68508"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0779,
+							41.2132
+							],
+							"type": "Point"
+						},
+						"id": 55,
+						"properties": {
+							"Address": "10525 J St.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Hunger Collaborative",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2132,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0779,
+							"Notes": "",
+							"Phone": "402-669-9315",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "togetheromaha.org",
+							"Zip": "68127"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1359,
+							41.2163
+							],
+							"type": "Point"
+						},
+						"id": 56,
+						"properties": {
+							"Address": "14217 Dayton Cir #5",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "ICAN",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2163,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1359,
+							"Notes": "",
+							"Phone": "402-392-0746",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "icanglobal.net",
+							"Zip": "68137"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010712,
+							41.258122
+							],
+							"type": "Point"
+						},
+						"id": 57,
+						"properties": {
+							"Address": "6001 Dodge St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Inclusive Communities",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.258122,
+							"Location": "Omaha, NE",
+							"Longitude": -96.010712,
+							"Notes": "",
+							"Phone": "402-391-4460",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "inclusive-communities.org",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 58,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Inclusive Communities (IC) ",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-391-4460",
+							"Primary": "Social Justice",
+							"Secondary": "Educational Support",
+							"State": "Nebraska",
+							"Website": "http://www.inclusive-communities.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.117056,
+							41.256831
+							],
+							"type": "Point"
+						},
+						"id": 59,
+						"properties": {
+							"Address": "333 South 132nd Street",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Institute for Holocaust Education",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.256831,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.117056,
+							"Notes": "",
+							"Phone": "402-334-6576",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "Nebraska",
+							"Website": "http://www.ihene.org/",
+							"Zip": "68154"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9684,
+							41.2707
+							],
+							"type": "Point"
+						},
+						"id": 60,
+						"properties": {
+							"Address": "3647 Lafayette Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Institute for Public Leaders",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2707,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9684,
+							"Notes": "",
+							"Phone": "402-344-4401",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "iplomaha.org",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9584,
+							41.205
+							],
+							"type": "Point"
+						},
+						"id": 61,
+						"properties": {
+							"Address": "3010 R St.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Intercultural Senior Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.205,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9584,
+							"Notes": "",
+							"Phone": "402-444-6529",
+							"Primary": "International Service",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "interculturalseniorcenter.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-93.648031,
+							42.028866
+							],
+							"type": "Point"
+						},
+						"id": 62,
+						"properties": {
+							"Address": "None",
+							"CampusPartner": "No",
+							"City": "Ames",
+							"CommunityPartner": "Iowa State University",
+							"Entered by": "Weitz CEC",
+							"Lat": 42.028866,
+							"Location": "Aimes, Iowa",
+							"Longitude": -93.648031,
+							"Notes": "",
+							"Phone": "515-294-4111",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Iowa",
+							"Website": "https://www.iastate.edu/",
+							"Zip": "50011"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.946,
+							41.2604
+							],
+							"type": "Point"
+						},
+						"id": 63,
+						"properties": {
+							"Address": "2200 Dodge St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Joslyn Art Museum",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2604,
+							"Location": "Omaha, NE ",
+							"Longitude": -95.946,
+							"Notes": "",
+							"Phone": "402-342-3300",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE ",
+							"Website": "joslyn.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1251,
+							41.2926
+							],
+							"type": "Point"
+						},
+						"id": 64,
+						"properties": {
+							"Address": "13506 W Maple Rd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Junior Achievement of Omaha",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2926,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1251,
+							"Notes": "",
+							"Phone": "402-333-6410",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "juniorachievement.org",
+							"Zip": "68164"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.948209,
+							41.221153
+							],
+							"type": "Point"
+						},
+						"id": 65,
+						"properties": {
+							"Address": "2414 E St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Justice For Our Neighbors (JFON)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.221153,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.948209,
+							"Notes": "",
+							"Phone": "402-898-1349",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "Nebraska",
+							"Website": "http://jfon-ne.org/",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9309,
+							41.2531
+							],
+							"type": "Point"
+						},
+						"id": 66,
+						"properties": {
+							"Address": "1111 Jones St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Kaneko",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2531,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9309,
+							"Notes": "",
+							"Phone": "402-341-3800",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "thekaneko.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.931043,
+							41.253056
+							],
+							"type": "Point"
+						},
+						"id": 67,
+						"properties": {
+							"Address": "1111 Jones St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Kaneko",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.253056,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.931043,
+							"Notes": "",
+							"Phone": "402-341-3800",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://thekaneko.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9403,
+							41.2571
+							],
+							"type": "Point"
+						},
+						"id": 68,
+						"properties": {
+							"Address": "1819 Farnam St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Keep Omaha Beautiful ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2571,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9403,
+							"Notes": "",
+							"Phone": "402-444-7774",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "keepomahabeautiful.org",
+							"Zip": "68183"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9887,
+							41.2055
+							],
+							"type": "Point"
+						},
+						"id": 69,
+						"properties": {
+							"Address": "4860 Q St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Kids Can Community Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2055,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9887,
+							"Notes": "",
+							"Phone": "402-731-6988",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "kidscanomaha.org",
+							"Zip": "68117"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1593,
+							41.2561
+							],
+							"type": "Point"
+						},
+						"id": 70,
+						"properties": {
+							"Address": "1560 Howard St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Kiewit Middle School",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2561,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1593,
+							"Notes": "",
+							"Phone": "402-715-1470",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "kms.mps.org",
+							"Zip": "68118"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9165,
+							41.2343
+							],
+							"type": "Point"
+						},
+						"id": 71,
+						"properties": {
+							"Address": "100 Bancroft",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Lauritzen Gardens",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2343,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9165,
+							"Notes": "",
+							"Phone": "402-346-4002",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "lauritzengardens.org",
+							"Zip": "68108"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9459,
+							41.2113
+							],
+							"type": "Point"
+						},
+						"id": 72,
+						"properties": {
+							"Address": "2302 M St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Learning Community Center of South Omaha",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2113,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9459,
+							"Notes": "",
+							"Phone": "402-502-5512",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "learningcommunityds.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9407,
+							41.2583
+							],
+							"type": "Point"
+						},
+						"id": 73,
+						"properties": {
+							"Address": "209 S 19th St #200",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Legal Aide of Nebraska",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2583,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9407,
+							"Notes": "",
+							"Phone": "402-348-1069",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "legalaideofnebraska.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.947,
+							41.2591
+							],
+							"type": "Point"
+						},
+						"id": 74,
+						"properties": {
+							"Address": "120 S 24th St Ste 100",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Lutheran Family Services",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2591,
+							"Location": "Omaha, NE",
+							"Longitude": -95.947,
+							"Notes": "",
+							"Phone": "402-342-7007",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "lfsneb.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9644,
+							41.291
+							],
+							"type": "Point"
+						},
+						"id": 75,
+						"properties": {
+							"Address": "3448 Evans St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Malcolm X Foundation",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.291,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9644,
+							"Notes": "",
+							"Phone": "402-881-8118",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "malcolmxfoundation.org",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.964417,
+							41.291093
+							],
+							"type": "Point"
+						},
+						"id": 76,
+						"properties": {
+							"Address": "3448 Evans St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Malcolm X Memorial Foundation",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.291093,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.964417,
+							"Notes": "",
+							"Phone": "402-590-7526",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "Nebraska",
+							"Website": "http://malcolmxfoundation.org/",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.2417,
+							41.2923
+							],
+							"type": "Point"
+						},
+						"id": 77,
+						"properties": {
+							"Address": "20800 W Maple St",
+							"CampusPartner": "No",
+							"City": "Elkhorn",
+							"CommunityPartner": "Marquis Assisted Living",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2923,
+							"Location": "Elkhorn, NE",
+							"Longitude": -96.2417,
+							"Notes": "",
+							"Phone": "866-748-3655",
+							"Primary": "Health and Wellness",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68022"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9702,
+							41.3183
+							],
+							"type": "Point"
+						},
+						"id": 78,
+						"properties": {
+							"Address": "3802 Redick Dr",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "McMillan Middle School",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3183,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9702,
+							"Notes": "",
+							"Phone": "402-557-4500",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "mcmillan.ops.org",
+							"Zip": "68112"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0258,
+							41.2385
+							],
+							"type": "Point"
+						},
+						"id": 79,
+						"properties": {
+							"Address": "7262 Mercy Rd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Mercy Housing",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2385,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0258,
+							"Notes": "",
+							"Phone": "402-398-6614",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "mercyhousing.org",
+							"Zip": "68124"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 80,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Metro Area Continuum of Care for the Homeless (MACCH)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-980-8394",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Educational Support",
+							"State": "Nebraska",
+							"Website": "http://www.endhomelessnesstoday.org/index.html",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.944955,
+							41.269073
+							],
+							"type": "Point"
+						},
+						"id": 81,
+						"properties": {
+							"Address": "2222 Cuming St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Metropolitan Area Planning Agency (MAPA)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.269073,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.944955,
+							"Notes": "",
+							"Phone": "402-444-6866",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Economic Sufficiency",
+							"State": "Nebraska",
+							"Website": "http://mapacog.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.489787,
+							41.437512
+							],
+							"type": "Point"
+						},
+						"id": 82,
+						"properties": {
+							"Address": "900 North Clarkson",
+							"CampusPartner": "No",
+							"City": "Fremont",
+							"CommunityPartner": "Midland University",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.437512,
+							"Location": "Fremont, Nebraska",
+							"Longitude": -96.489787,
+							"Notes": "",
+							"Phone": "402-721-5480",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.midlandu.edu/",
+							"Zip": "68025"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.141841,
+							41.192422
+							],
+							"type": "Point"
+						},
+						"id": 83,
+						"properties": {
+							"Address": "56065 147th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Millard Public Schools",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.192422,
+							"Location": "Omaha, NE",
+							"Longitude": -96.141841,
+							"Notes": "",
+							"Phone": "402-398-8200",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "mpsomaha.org",
+							"Zip": "68137"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9798,
+							41.2567
+							],
+							"type": "Point"
+						},
+						"id": 84,
+						"properties": {
+							"Address": "444 S 44th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Munroe Meyer Institute",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2567,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9798,
+							"Notes": "",
+							"Phone": "402-559-6418",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "unmc.edu.mmi",
+							"Zip": "68105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9059,
+							41.2825
+							],
+							"type": "Point"
+						},
+						"id": 85,
+						"properties": {
+							"Address": "2610 N 20th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "NE Correctional Youth Facility",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2825,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9059,
+							"Notes": "",
+							"Phone": "402-595-2000",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "corrections.nebraska.gov/facilities/nebraska-correctional-youth-facility",
+							"Zip": "68110"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0509,
+							41.3055
+							],
+							"type": "Point"
+						},
+						"id": 86,
+						"properties": {
+							"Address": "8929 Fort St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "NE Humane Society",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3055,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0509,
+							"Notes": "",
+							"Phone": "402-444-7800",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "nehumanesociety.org",
+							"Zip": "68134"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0328,
+							41.2583
+							],
+							"type": "Point"
+						},
+						"id": 87,
+						"properties": {
+							"Address": "250 S 77th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraska AIDS Project",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2583,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0328,
+							"Notes": "",
+							"Phone": "402-522-9260",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "hap.org",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.037,
+							41.2336
+							],
+							"type": "Point"
+						},
+						"id": 88,
+						"properties": {
+							"Address": "8015 W Center Rd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraska 4-H",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2336,
+							"Location": "Omaha, NE",
+							"Longitude": -96.037,
+							"Notes": "",
+							"Phone": "402-444-7804",
+							"Primary": "Educational Support",
+							"Secondary": "Environmental Stewardship",
+							"State": "NE",
+							"Website": "https://extension.unl.edu/statewide/douglas-sarpy/douglas-sarpy-4-h/",
+							"Zip": "68124"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.032846,
+							41.258302
+							],
+							"type": "Point"
+						},
+						"id": 89,
+						"properties": {
+							"Address": "250 S. 77th St. Suite A",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraska Aids Project",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.258302,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.032846,
+							"Notes": "",
+							"Phone": "402-552-9260",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.nap.org/",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.701454,
+							40.814956
+							],
+							"type": "Point"
+						},
+						"id": 90,
+						"properties": {
+							"Address": "211 N 14th St",
+							"CampusPartner": "Yes",
+							"City": "Lincoln",
+							"CommunityPartner": "Nebraska Civic Engagement Table",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.814956,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.701454,
+							"Notes": "",
+							"Phone": "402-253-0500",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.facebook.com/nebraskatable/",
+							"Zip": "68508"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.669414,
+							40.829169
+							],
+							"type": "Point"
+						},
+						"id": 91,
+						"properties": {
+							"Address": "211 Agricultural Hall",
+							"CampusPartner": "Yes",
+							"City": "Lincoln",
+							"CommunityPartner": "Nebraska Extension",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.829169,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.669414,
+							"Notes": "",
+							"Phone": "402-472-2966",
+							"Primary": "Educational Support",
+							"Secondary": "Environmental Stewardship",
+							"State": "Nebraska",
+							"Website": "https://extension.unl.edu/",
+							"Zip": "68583"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.70247,
+							40.792293
+							],
+							"type": "Point"
+						},
+						"id": 92,
+						"properties": {
+							"Address": "2012 S. 13th St.",
+							"CampusPartner": "No",
+							"City": "Lincoln",
+							"CommunityPartner": "Nebraska Interfaith Power & Lights",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.792293,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.70247,
+							"Notes": "",
+							"Phone": "402-476-3391\n\n",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.nebraskaipl.org/",
+							"Zip": "68502"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.947192,
+							41.26531
+							],
+							"type": "Point"
+						},
+						"id": 93,
+						"properties": {
+							"Address": "2500 California Plz - Creighton Univ- Dept Of Fine Arts",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraska Shakespeare",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.26531,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.947192,
+							"Notes": "",
+							"Phone": "402-280-2391",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.nebraskashakespeare.com/home",
+							"Zip": "68178"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.971866,
+							41.348779
+							],
+							"type": "Point"
+						},
+						"id": 94,
+						"properties": {
+							"Address": "9712 N 34th St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraska Writers Collective (NWC)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.348779,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.971866,
+							"Notes": "",
+							"Phone": "402-680-8755",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://newriters.org/",
+							"Zip": "68112"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.7019,
+							40.8066
+							],
+							"type": "Point"
+						},
+						"id": 95,
+						"properties": {
+							"Address": "1111 Lincoln Mall",
+							"CampusPartner": "Yes",
+							"City": "Lincoln ",
+							"CommunityPartner": "Nebraskans for Civic Reform",
+							"Entered by": "Service Learning Academy",
+							"Lat": 40.8066,
+							"Location": "Lincoln , NE",
+							"Longitude": -96.7019,
+							"Notes": "",
+							"Phone": "402-904-5191",
+							"Primary": "Social Justice",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "nereform.org",
+							"Zip": "68508"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.701884,
+							40.806604
+							],
+							"type": "Point"
+						},
+						"id": 96,
+						"properties": {
+							"Address": "1327 H St Ste 102",
+							"CampusPartner": "Yes",
+							"City": "Lincoln",
+							"CommunityPartner": "Nebraskans for Civic Reform (NCR)",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.806604,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.701884,
+							"Notes": "",
+							"Phone": "402-904-5191",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://nereform.org/",
+							"Zip": "68508"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.711272,
+							40.81858
+							],
+							"type": "Point"
+						},
+						"id": 97,
+						"properties": {
+							"Address": "Po Box 83466",
+							"CampusPartner": "No",
+							"City": "Lincoln",
+							"CommunityPartner": "Nebraskans for Peace",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.81858,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.711272,
+							"Notes": "",
+							"Phone": "402-453-0776",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "Nebraska",
+							"Website": "http://nebraskansforpeace.org/",
+							"Zip": "68501"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.991021,
+							41.277267
+							],
+							"type": "Point"
+						},
+						"id": 98,
+						"properties": {
+							"Address": "5016 Parker St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nebraskans for Solar",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.277267,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.991021,
+							"Notes": "",
+							"Phone": "402-553-7423",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.nebraskansforsolar.org/",
+							"Zip": "68104"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9571,
+							41.3162
+							],
+							"type": "Point"
+						},
+						"id": 99,
+						"properties": {
+							"Address": "6316 N 30th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nelson Mandela Elementary School",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3162,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9571,
+							"Notes": "",
+							"Phone": "402-991-1444",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "nelsonmandelaelementary.org",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9605,
+							41.3377
+							],
+							"type": "Point"
+						},
+						"id": 100,
+						"properties": {
+							"Address": "8511 N 30th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "No More Empty Pots",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3377,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9605,
+							"Notes": "",
+							"Phone": "402-502-1642",
+							"Primary": "Health and Wellness",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "nmepomaha.org",
+							"Zip": "68112"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9806,
+							41.288
+							],
+							"type": "Point"
+						},
+						"id": 101,
+						"properties": {
+							"Address": "3223 N 45th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Nothing but Net",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.288,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9806,
+							"Notes": "",
+							"Phone": "402-905-7759",
+							"Primary": "Health and Wellness",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "nothingbutnet1.org",
+							"Zip": "68104"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9413,
+							41.2563
+							],
+							"type": "Point"
+						},
+						"id": 102,
+						"properties": {
+							"Address": "1905 Harvey St #630",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Area Youth Orchestra",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2563,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9413,
+							"Notes": "",
+							"Phone": "402-238-2044",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "oayo.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.941705,
+							41.271216
+							],
+							"type": "Point"
+						},
+						"id": 103,
+						"properties": {
+							"Address": "1127 N 20 St, Florence Blvd",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha BioFuels Coop",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.271216,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.941705,
+							"Notes": "",
+							"Phone": "402-915-3835",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.omahabiofuelscoop.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9336,
+							41.2562
+							],
+							"type": "Point"
+						},
+						"id": 104,
+						"properties": {
+							"Address": "1301 Harney St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Chamber of Commerce",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2562,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9336,
+							"Notes": "",
+							"Phone": "402-346-5000",
+							"Primary": "International Service",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "omahachamber.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.995102,
+							41.25716
+							],
+							"type": "Point"
+						},
+						"id": 105,
+						"properties": {
+							"Address": "5006 Underwood Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Healthy Kids Alliance ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.25716,
+							"Location": "Omaha, NE",
+							"Longitude": -95.995102,
+							"Notes": "",
+							"Phone": "402-934-9700",
+							"Primary": "Health and Wellness",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "omahahealthykids.org",
+							"Zip": "68132"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9401,
+							41.2563
+							],
+							"type": "Point"
+						},
+						"id": 106,
+						"properties": {
+							"Address": "1805 Harney St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Housing Authority",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2563,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9401,
+							"Notes": "",
+							"Phone": "402-444-4200",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "ohauthority.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0403,
+							41.3148
+							],
+							"type": "Point"
+						},
+						"id": 107,
+						"properties": {
+							"Address": "8204 Crown Point Ave",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Northwest High School",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3148,
+							"Location": "Omaha, NE ",
+							"Longitude": -96.0403,
+							"Notes": "",
+							"Phone": "402-557-3500",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE ",
+							"Website": "northwest.ops.org",
+							"Zip": "68134"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9329,
+							41.2588
+							],
+							"type": "Point"
+						},
+						"id": 108,
+						"properties": {
+							"Address": "1200 Douglas St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Performing Arts",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2588,
+							"Location": "Omaha, NE ",
+							"Longitude": -95.9329,
+							"Notes": "",
+							"Phone": "402-345-0202",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE ",
+							"Website": "omahaperformingarts.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9352,
+							41.2551
+							],
+							"type": "Point"
+						},
+						"id": 109,
+						"properties": {
+							"Address": "505 S 15th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Police Department",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2551,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9352,
+							"Notes": "",
+							"Phone": "402-444-5600",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.935,
+							41.2581
+							],
+							"type": "Point"
+						},
+						"id": 110,
+						"properties": {
+							"Address": "215 S. 15th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Public Library",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2581,
+							"Location": "Omaha, NE",
+							"Longitude": -95.935,
+							"Notes": "",
+							"Phone": "402-444-4800",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "omahalibrary.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.935051,
+							41.258128
+							],
+							"type": "Point"
+						},
+						"id": 111,
+						"properties": {
+							"Address": "215 S 15th St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Public Library (OPL)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.258128,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.935051,
+							"Notes": "",
+							"Phone": "402-444-4589",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.omahapubliclibrary.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.960403,
+							41.267466
+							],
+							"type": "Point"
+						},
+						"id": 112,
+						"properties": {
+							"Address": "3215 Cuming St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Public Schools",
+							"Entered by": "",
+							"Lat": 41.267466,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.960403,
+							"Notes": "",
+							"Phone": "402-557-2420",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://district.ops.org/",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.967397,
+							41.291846
+							],
+							"type": "Point"
+						},
+						"id": 113,
+						"properties": {
+							"Address": "Po Box 11625",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Section-National Council of Negro Women, Inc.",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.291846,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.967397,
+							"Notes": "",
+							"Phone": "None",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://omahasectionncnw.weebly.com/",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.968353,
+							41.270729
+							],
+							"type": "Point"
+						},
+						"id": 114,
+						"properties": {
+							"Address": "3647 Lafayette Avenue",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Omaha Together One Community (OTOC)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.270729,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.968353,
+							"Notes": "",
+							"Phone": "402-344-4401",
+							"Primary": "Educational Support",
+							"Secondary": "Economic Sufficiency",
+							"State": "Nebraska",
+							"Website": "http://otoc.org/",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 115,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "ONE Omaha",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-547-7473",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://oneomaha.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9561,
+							41.2101
+							],
+							"type": "Point"
+						},
+						"id": 116,
+						"properties": {
+							"Address": "4920 S 30th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "One World Omaha",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2101,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9561,
+							"Notes": "",
+							"Phone": "402-502-8845",
+							"Primary": "Health and Wellness",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "oneworldomaha.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9015,
+							41.2843
+							],
+							"type": "Point"
+						},
+						"id": 117,
+						"properties": {
+							"Address": "2828 N 23rd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Open Door Mission",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2843,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9015,
+							"Notes": "",
+							"Phone": "402-422-1111",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "opendoormission.org",
+							"Zip": "68110"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9404,
+							41.2581
+							],
+							"type": "Point"
+						},
+						"id": 118,
+						"properties": {
+							"Address": "1850 Farnam St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Opera Omaha",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2581,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9404,
+							"Notes": "",
+							"Phone": "402-346-7372",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "operaomaha.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 119,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Operation Youth Success (OYS)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-554-3373",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "Nebraska",
+							"Website": "http://operationyouthsuccess.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.043758,
+							41.153041
+							],
+							"type": "Point"
+						},
+						"id": 120,
+						"properties": {
+							"Address": "420 S Washington St",
+							"CampusPartner": "No",
+							"City": "Papillion",
+							"CommunityPartner": "Papillion Lavista Community Schools",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.153041,
+							"Location": 23,
+							"Longitude": -96.043758,
+							"Notes": "",
+							"Phone": "402-537-6200",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "plcschools.org",
+							"Zip": "68046"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0396,
+							41.1735
+							],
+							"type": "Point"
+						},
+						"id": 121,
+						"properties": {
+							"Address": "1211 N Monroe St",
+							"CampusPartner": "No",
+							"City": "Papillion",
+							"CommunityPartner": "Papillion LaVista Early Childhood Program",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.1735,
+							"Location": "Papillion, NE",
+							"Longitude": -96.0396,
+							"Notes": "",
+							"Phone": "402-514-3243",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "plcschools.org/domain/734",
+							"Zip": "68046"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9295,
+							41.2577
+							],
+							"type": "Point"
+						},
+						"id": 122,
+						"properties": {
+							"Address": "1004 Farnam #200",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Partnership 4 Kids ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2577,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9295,
+							"Notes": "",
+							"Phone": "402-930-3000",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "p4k.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.929508,
+							41.257843
+							],
+							"type": "Point"
+						},
+						"id": 123,
+						"properties": {
+							"Address": "1004 Farnam Street Suite 200",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Partnership 4 Kids (P4K)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.257843,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.929508,
+							"Notes": "",
+							"Phone": "402-930-3000",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "Nebraska",
+							"Website": "http://p4k.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.949,
+							41.2718
+							],
+							"type": "Point"
+						},
+						"id": 124,
+						"properties": {
+							"Address": "2501 Baptist St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Pilgram Baptist",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2718,
+							"Location": "Omaha, NE",
+							"Longitude": -95.949,
+							"Notes": "",
+							"Phone": "402-341-6270",
+							"Primary": "International Service",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "pilgrambc.org",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-86.914395,
+							40.428211
+							],
+							"type": "Point"
+						},
+						"id": 125,
+						"properties": {
+							"Address": "610 Purdue Mall",
+							"CampusPartner": "No",
+							"City": "West Lafayette",
+							"CommunityPartner": "Purdue University",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.428211,
+							"Location": "West Lafayette, Indianna",
+							"Longitude": -86.914395,
+							"Notes": "",
+							"Phone": "765-494-4600",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Indianna",
+							"Website": "http://www.purdue.edu/",
+							"Zip": "47907"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.02,
+							41.3161
+							],
+							"type": "Point"
+						},
+						"id": 126,
+						"properties": {
+							"Address": "6404 70th Plaza",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "QLI",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3161,
+							"Location": "Omaha, NE",
+							"Longitude": -96.02,
+							"Notes": "",
+							"Phone": "402-573-3700",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "qliomaha.org",
+							"Zip": "68104"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9937,
+							41.3028
+							],
+							"type": "Point"
+						},
+						"id": 127,
+						"properties": {
+							"Address": "4801 N 52nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Royale Oaks Senior Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.3028,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9937,
+							"Notes": "",
+							"Phone": "402-557-6860",
+							"Primary": "Health and Wellness",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "omahaseniorcare.org",
+							"Zip": "68104"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010712,
+							41.258122
+							],
+							"type": "Point"
+						},
+						"id": 128,
+						"properties": {
+							"Address": "6001 Dodge Street",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Sam and Frances Fried Holocaust and Genocide Education Fund",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.258122,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010712,
+							"Notes": "",
+							"Phone": "402-554-2593",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "Nebraska",
+							"Website": "https://holocausteducationfund.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0343,
+							41.1388
+							],
+							"type": "Point"
+						},
+						"id": 129,
+						"properties": {
+							"Address": "701 Olson Dr #111",
+							"CampusPartner": "No",
+							"City": "Papillion",
+							"CommunityPartner": "Sarpy County Head Start",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.1388,
+							"Location": "Papillion, NE",
+							"Longitude": -96.0343,
+							"Notes": "",
+							"Phone": "402-339-6592",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "sarpyheadstart.org",
+							"Zip": "68046"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9428,
+							41.2583
+							],
+							"type": "Point"
+						},
+						"id": 130,
+						"properties": {
+							"Address": "202 S 20th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Scottish Rite",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2583,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9428,
+							"Notes": "",
+							"Phone": "402-342-1300",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "scottishriteomaha.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.709719,
+							40.814447
+							],
+							"type": "Point"
+						},
+						"id": 131,
+						"properties": {
+							"Address": "140 N 8th St",
+							"CampusPartner": "No",
+							"City": "Lincoln",
+							"CommunityPartner": "Sierra Club Nebraska Chapter",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.814447,
+							"Location": "Lincoln, Nebraska",
+							"Longitude": -96.709719,
+							"Notes": "",
+							"Phone": "402-551-9480",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.sierraclub.org/nebraska",
+							"Zip": "68508"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0107,
+							41.2582
+							],
+							"type": "Point"
+						},
+						"id": 132,
+						"properties": {
+							"Address": "6001 Dodge St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Sound Health",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2582,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0107,
+							"Notes": "",
+							"Phone": "",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.944,
+							41.207
+							],
+							"type": "Point"
+						},
+						"id": 133,
+						"properties": {
+							"Address": "5051 S 22nd St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "South Omaha Boys and Girls Club",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.207,
+							"Location": "Omaha, NE",
+							"Longitude": -95.944,
+							"Notes": "",
+							"Phone": "402-733-8333",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "bcgomaha.org",
+							"Zip": "68107"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.04234,
+							41.220255
+							],
+							"type": "Point"
+						},
+						"id": 134,
+						"properties": {
+							"Address": "4089 S 84th St Pmb 317",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Suburban Rotary of Omaha",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.220255,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.04234,
+							"Notes": "",
+							"Phone": "402-397-7335",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.suburbanrotary.org/",
+							"Zip": "68127"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.049277,
+							41.233959
+							],
+							"type": "Point"
+						},
+						"id": 135,
+						"properties": {
+							"Address": "8707 W Center Rd #101",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Susan G. Komen Great Plains",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.233959,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.049277,
+							"Notes": "",
+							"Phone": "402-502-2979",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "Nebraska",
+							"Website": "https://komengreatplains.org/",
+							"Zip": "68124"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.1168,
+							41.2575
+							],
+							"type": "Point"
+						},
+						"id": 136,
+						"properties": {
+							"Address": "1611 1/2 Farnam St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Table Grace Café",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2575,
+							"Location": "Omaha, NE",
+							"Longitude": -96.1168,
+							"Notes": "",
+							"Phone": "402-708-7815",
+							"Primary": "Economic Sufficiency",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "tablegracecafe.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0344,
+							41.2572
+							],
+							"type": "Point"
+						},
+						"id": 137,
+						"properties": {
+							"Address": "7811 Farnam Dr",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Ted E. Bear Hollow",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2572,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0344,
+							"Notes": "",
+							"Phone": "402-502-2773",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "griefsjourney.org",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9602,
+							41.2674
+							],
+							"type": "Point"
+						},
+						"id": 138,
+						"properties": {
+							"Address": "3220 Burt St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Teen Literacy Center",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2674,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9602,
+							"Notes": "",
+							"Phone": "402-557-2434",
+							"Primary": "Educational Support",
+							"Secondary": "Social Justice",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68130"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9409,
+							41.2599
+							],
+							"type": "Point"
+						},
+						"id": 139,
+						"properties": {
+							"Address": "1818 Dodge St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "The Bike Union",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2599,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9409,
+							"Notes": "",
+							"Phone": "402-345-0213",
+							"Primary": "Health and Wellness",
+							"Secondary": "International Service",
+							"State": "NE",
+							"Website": "thebikeunion.org",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9426,
+							41.2795
+							],
+							"type": "Point"
+						},
+						"id": 140,
+						"properties": {
+							"Address": "2200 N 20th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "The Hope Center for Kids",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2795,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9426,
+							"Notes": "",
+							"Phone": "402-341-4673",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "hopceenterforkids.org",
+							"Zip": "68110"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.164931,
+							41.316955
+							],
+							"type": "Point"
+						},
+						"id": 141,
+						"properties": {
+							"Address": "6505 N 159th Avenue Cir",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "The Set Me Free Project",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.316955,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.164931,
+							"Notes": "",
+							"Phone": "402-521-3080 ",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "https://www.setmefreeproject.net/",
+							"Zip": "68116"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9468,
+							41.2812
+							],
+							"type": "Point"
+						},
+						"id": 142,
+						"properties": {
+							"Address": "2423 N 24th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "The Union for Contemporary Arts",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2812,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9468,
+							"Notes": "",
+							"Phone": "402-933-3161",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "u-ca.org",
+							"Zip": "68110"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.995102,
+							41.25716
+							],
+							"type": "Point"
+						},
+						"id": 143,
+						"properties": {
+							"Address": "812 S 24th St ",
+							"CampusPartner": "No",
+							"City": "Omaha ",
+							"CommunityPartner": "Together Inc",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.25716,
+							"Location": "Omaha , NE",
+							"Longitude": -95.995102,
+							"Notes": "",
+							"Phone": "402-345-8047",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68108"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							7.436903,
+							46.950271
+							],
+							"type": "Point"
+						},
+						"id": 144,
+						"properties": {
+							"Address": "Hochschulstrasse 6, 3012",
+							"CampusPartner": "No",
+							"City": "Bern",
+							"CommunityPartner": "University of Bern, Switzerland",
+							"Entered by": "Weitz CEC",
+							"Lat": 46.950271,
+							"Location": "Bern, Switzerland",
+							"Longitude": 7.436903,
+							"Notes": "",
+							"Phone": 41316318111.0,
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Switzerland",
+							"Website": "http://www.unibe.ch/index_ger.html",
+							"Zip": ""
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-122.063237,
+							37.000369
+							],
+							"type": "Point"
+						},
+						"id": 145,
+						"properties": {
+							"Address": "1156 High St",
+							"CampusPartner": "No",
+							"City": "Santa Cruz",
+							"CommunityPartner": "University of California Santa Cruz",
+							"Entered by": "Weitz CEC",
+							"Lat": 37.000369,
+							"Location": "Santa Cruz, California",
+							"Longitude": -122.063237,
+							"Notes": "",
+							"Phone": "831-459-0111",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "California",
+							"Website": "https://www.ucsc.edu/",
+							"Zip": "95064"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-105.267321,
+							40.007916
+							],
+							"type": "Point"
+						},
+						"id": 146,
+						"properties": {
+							"Address": "2000 Colorado Ave",
+							"CampusPartner": "No",
+							"City": "Boulder ",
+							"CommunityPartner": "University of Colorado Boulder",
+							"Entered by": "Weitz CEC",
+							"Lat": 40.007916,
+							"Location": "Boulder, Colorado",
+							"Longitude": -105.267321,
+							"Notes": "",
+							"Phone": "303-492-1411",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Colorado",
+							"Website": "https://www.colorado.edu/",
+							"Zip": "80305"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-91.5549,
+							41.662696
+							],
+							"type": "Point"
+						},
+						"id": 147,
+						"properties": {
+							"Address": "",
+							"CampusPartner": "No",
+							"City": "Iowa City",
+							"CommunityPartner": "University of Iowa",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.662696,
+							"Location": "Iowa City, Iowa",
+							"Longitude": -91.5549,
+							"Notes": "",
+							"Phone": "319-335-3500",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Iowa",
+							"Website": "https://uiowa.edu/",
+							"Zip": "52242"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-122.30352,
+							47.655335
+							],
+							"type": "Point"
+						},
+						"id": 148,
+						"properties": {
+							"Address": "",
+							"CampusPartner": "No",
+							"City": " Seattle",
+							"CommunityPartner": "University of Washington",
+							"Entered by": "Weitz CEC",
+							"Lat": 47.655335,
+							"Location": "Seattle, Washington",
+							"Longitude": -122.30352,
+							"Notes": "",
+							"Phone": "206-543-2100",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Washington",
+							"Website": "http://www.washington.edu",
+							"Zip": "98105"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9298,
+							41.2546
+							],
+							"type": "Point"
+						},
+						"id": 149,
+						"properties": {
+							"Address": "1026 Jackson St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Urban Abbey",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2546,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9298,
+							"Notes": "",
+							"Phone": "402-898-7600",
+							"Primary": "Social Justice",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.016866,
+							41.253556
+							],
+							"type": "Point"
+						},
+						"id": 150,
+						"properties": {
+							"Address": "627 S 67th Ave",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Urban Bird and Nature Alliance",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.253556,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.016866,
+							"Notes": "",
+							"Phone": "402-651-5779",
+							"Primary": "Environmental Stewardship",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.theurbanbirdandnaturealliance.com/",
+							"Zip": "68106"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.957725,
+							41.281957
+							],
+							"type": "Point"
+						},
+						"id": 151,
+						"properties": {
+							"Address": "3040 Lake St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "Urban League of Nebraska",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.281957,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.957725,
+							"Notes": "",
+							"Phone": "402-453-9730",
+							"Primary": "Social Justice",
+							"Secondary": "Educational Support",
+							"State": "Nebraska",
+							"Website": "http://www.urbanleagueneb.org/",
+							"Zip": "68111"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.028368,
+							41.201299
+							],
+							"type": "Point"
+						},
+						"id": 152,
+						"properties": {
+							"Address": "7521 Main St Ste 103",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Voices for Children in Nebraska",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.201299,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.028368,
+							"Notes": "",
+							"Phone": "402-597-3100",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "http://voicesforchildren.com/",
+							"Zip": "68127"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.995102,
+							41.257
+							],
+							"type": "Point"
+						},
+						"id": 153,
+						"properties": {
+							"Address": "5519 Mayberry St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Washington Elementary",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.257,
+							"Location": "Omaha, NE",
+							"Longitude": -95.995102,
+							"Notes": "",
+							"Phone": "402-554-8690",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68106"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.017,
+							41.2852
+							],
+							"type": "Point"
+						},
+						"id": 154,
+						"properties": {
+							"Address": "6001 Dodge St",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "WELLCOM",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2852,
+							"Location": "Omaha, NE",
+							"Longitude": -96.017,
+							"Notes": "",
+							"Phone": "402-934-5795",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.010764,
+							41.25789
+							],
+							"type": "Point"
+						},
+						"id": 155,
+						"properties": {
+							"Address": "6400 South, University Drive Road North",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "WELLCOM",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.25789,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.010764,
+							"Notes": "",
+							"Phone": "402-390-8347",
+							"Primary": "Health and Wellness",
+							"Secondary": "Educational Support",
+							"State": "Nebraska",
+							"Website": "http://www.elevatingwellness.org/",
+							"Zip": "68182"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-83.184564,
+							35.309396
+							],
+							"type": "Point"
+						},
+						"id": 156,
+						"properties": {
+							"Address": "1 University Way",
+							"CampusPartner": "No",
+							"City": "Cullowhee",
+							"CommunityPartner": "Western Carolina University",
+							"Entered by": "Weitz CEC",
+							"Lat": 35.309396,
+							"Location": "Cullowehee, North Carolina",
+							"Longitude": -83.184564,
+							"Notes": "",
+							"Phone": "828-227-7211",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "North Carolina",
+							"Website": "https://www.wcu.edu/",
+							"Zip": "28723"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.0385,
+							41.2723
+							],
+							"type": "Point"
+						},
+						"id": 157,
+						"properties": {
+							"Address": "1414 Robertson Dr.",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Westside Boys and Girls Club",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2723,
+							"Location": "Omaha, NE",
+							"Longitude": -96.0385,
+							"Notes": "",
+							"Phone": "402-932-6477",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "NE",
+							"Website": "https://bgcomaha.org/",
+							"Zip": "68114"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-96.087655,
+							41.250638
+							],
+							"type": "Point"
+						},
+						"id": 158,
+						"properties": {
+							"Address": "1030 S 111th Plz",
+							"CampusPartner": "Yes",
+							"City": "Omaha",
+							"CommunityPartner": "WhyArts? Inc.",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.250638,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -96.087655,
+							"Notes": "",
+							"Phone": "402-333-4606",
+							"Primary": "Educational Support",
+							"Secondary": "Health and Wellness",
+							"State": "Nebraska",
+							"Website": "http://www.whyartsinc.org/",
+							"Zip": "68154"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9552,
+							41.2581
+							],
+							"type": "Point"
+						},
+						"id": 159,
+						"properties": {
+							"Address": "222 S 29th St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Women's Center for Advancement",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2581,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9552,
+							"Notes": "",
+							"Phone": "402-345-6555",
+							"Primary": "Social Justice",
+							"Secondary": "Educational Support",
+							"State": "NE",
+							"Website": "wcaomaha.org",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9326328,
+							41.2723048
+							],
+							"type": "Point"
+						},
+						"id": 160,
+						"properties": {
+							"Address": "1111 N 13th St Ste 106",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Womens Fund of Greater Omaha",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.2723048,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.9326328,
+							"Notes": "",
+							"Phone": "402-827-9280",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "Nebraska",
+							"Website": "http://www.omahawomensfund.org/",
+							"Zip": "68102"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.9606,
+							41.2622
+							],
+							"type": "Point"
+						},
+						"id": 161,
+						"properties": {
+							"Address": "3260 Davenport St",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Yates Elementary ",
+							"Entered by": "Service Learning Academy",
+							"Lat": 41.2622,
+							"Location": "Omaha, NE",
+							"Longitude": -95.9606,
+							"Notes": "",
+							"Phone": "402-898-9145",
+							"Primary": "Educational Support",
+							"Secondary": "",
+							"State": "NE",
+							"Website": "http://district.ops.org/DEPARTMENTS/CurriculumandInstructionSupport/ESL/ESLPrograms/YatesCommunityCenter.aspx",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					},
+					{
+						"geometry": {
+							"coordinates": [
+							-95.951925,
+							41.257461
+							],
+							"type": "Point"
+						},
+						"id": 162,
+						"properties": {
+							"Address": "2679 Farnam St Ste 205",
+							"CampusPartner": "No",
+							"City": "Omaha",
+							"CommunityPartner": "Youth Emergency Services (YES)",
+							"Entered by": "Weitz CEC",
+							"Lat": 41.257461,
+							"Location": "Omaha, Nebraska",
+							"Longitude": -95.951925,
+							"Notes": "",
+							"Phone": "402-345-5187",
+							"Primary": "Social Justice",
+							"Secondary": "Economic Sufficiency",
+							"State": "NE",
+							"Website": "http://www.yesomaha.org/",
+							"Zip": "68131"
+						},
+						"type": "Feature"
+					}
+					],
+					"type": "FeatureCollection"
+				}//这个
+			},
+			"layout": {
+				"icon-image": "",
+				"text-field": "{CommunityPartner}",
+				"text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+				"text-offset": [0, 0.6],
+				"text-anchor": "top"
+			}
+		});
+});
+</script>
+</body>
+</html>

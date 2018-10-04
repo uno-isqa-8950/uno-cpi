@@ -154,9 +154,10 @@ def upload_project(request):
 
 
 def upload_community(request):
-    data = {}
-    if request.method == "GET":
-        return render(request, "import/uploadCommunity.html", data)
+    if request.method == 'GET':
+        download_community_url = '/media/community_sample.csv'
+        return render(request, 'import/uploadCommunity.html',
+                      {'download_community_url': download_community_url})
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)
@@ -171,9 +172,10 @@ def upload_community(request):
 
 
 def upload_campus(request):
-    data = {}
-    if request.method == "GET":
-        return render(request, "import/uploadCampus.html", data)
+    if request.method == 'GET':
+        download_campus_url = '/media/campus_sample.csv'
+        return render(request, 'import/uploadCampus.html',
+                      {'download_campus_url': download_campus_url})
     csv_file = request.FILES["csv_file"]
     decoded = csv_file.read().decode('utf-8').splitlines()
     reader = csv.DictReader(decoded)

@@ -111,6 +111,9 @@ border-bottom: 4px solid #e22626;
         <!--</ul>-->
       </li>
       {% endif %}
+        {% if user.is_authenticated and user.ser.is_communitypartner %}
+      <li class=""><a href='#'> <span class="glyphicon glyphicon-user"></span> Community</a>
+      {% endif %}
 
       {% if user.is_authenticated %}
       <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>

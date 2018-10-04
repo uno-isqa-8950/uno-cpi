@@ -25,7 +25,7 @@ class Contact(models.Model):
                                help_text="Phone Number should be 10 digits" , unique=True, blank=True)
     email_id = models.EmailField(unique=True)
     contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select')
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,null=True)
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,null=True,blank=True)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):

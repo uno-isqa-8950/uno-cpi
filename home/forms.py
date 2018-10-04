@@ -1,4 +1,6 @@
 from django import forms
+from django.db.transaction import commit
+import re
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
 from partners.models import CampusPartner, CommunityPartner
@@ -7,6 +9,11 @@ from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
 from projects.models import Project
 from django.forms import ModelForm
+
+
+
+EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
+
 
 class CampusPartnerUserForm(forms.ModelForm):
 
@@ -43,6 +50,13 @@ class CommunityPartnerUserForm(forms.ModelForm):
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
+#### This is where you check the user flag as true and then we can call the decorator
+    def save(self):
+        user = super().save(commit=False)
+        user.is_campuspartner = True
+        if commit:
+            user.save()
+        return user
 
 
 class UserForm(forms.ModelForm):
@@ -65,7 +79,6 @@ class UserForm(forms.ModelForm):
             'email': ('Email ID')
         }
 
-
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
@@ -74,14 +87,23 @@ class UserForm(forms.ModelForm):
 
 
 class CommunityPartnerForm(forms.ModelForm):
+
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'zip')
+
         widgets = {'name': forms.TextInput({'placeholder': 'Community Partner Name'}),
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
 
+
                    }
+        def clean_website_url(self):
+            data = self.cleaned_data.get('website_url')
+            if  not  data.startswith ('https://'):
+                raise forms.ValidationError('Url should start from "https://".')
+            return data
+
 
 class CommunityContactForm(forms.ModelForm):
     class Meta:
@@ -132,5 +154,6 @@ class CampusForm(ModelForm):
             ('False', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
+
 
 

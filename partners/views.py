@@ -3,6 +3,14 @@ from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFor
 from django.shortcuts import render
 from .models import CampusPartner as CampusPartnerModel
 from home.models import Contact as ContactModel
+from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory, modelformset_factory
+from django.template import context
+from partners.models import CampusPartner
+from .forms import CampusPartnerForm, CampusPartnerContactForm
+
+from django.shortcuts import render, redirect
+
 '''
 def registerCampusPartner(request):
     if request.method == 'POST':
@@ -24,20 +32,30 @@ def registerCampusPartner(request):
 
 '''
 
+
 def registerCampusPartner(request):
-    campus_partner_form = CampusPartnerForm(request.POST or None)
-    if campus_partner_form.is_valid():
-           new_campus_partner= campus_partner_form.save()
-           contact_formset = CampusPartnerContactForm(request.POST or None, request.FILES or None, instance=new_campus_partner)
-           if contact_formset.is_valid():
-            contact_formset.save()
-            return render(request, 'home/community_partner_register_done.html', )
+    ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
+    if request.method == 'POST':
+        campus_partner_form = CampusPartnerForm(request.POST )
+
+        formset = ContactFormset(request.POST or None)
+
+        if campus_partner_form.is_valid() and formset.is_valid():
+                campus_partner = campus_partner_form.save()
+                contacts = formset.save(commit=False)
+                print(contacts)
+                for contact in contacts:
+                 contact.campus_partner = campus_partner
+                 contact.save()
+                 print(contact)
+                return render(request, 'home/community_partner_register_done.html')
 
     else:
-        contact_formset = CampusPartnerContactForm(request.POST or None, request.FILES or None,)
+        campus_partner_form = CampusPartnerForm()
+        formset = ContactFormset(queryset=Contact.objects.none())
     return render(request,
                   'registration/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'contact_formset': contact_formset})
+                  {'campus_partner_form': campus_partner_form, 'formset': formset})
 
 
 def registerCampusPartnerProfile(request):

@@ -2,8 +2,9 @@ from django import forms
 from django.forms import ModelForm
 from home.models import Contact
 from partners.models import CampusPartner
+from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
-
+from django.forms import inlineformset_factory
 
 
 class CampusPartnerForm(forms.ModelForm):
@@ -52,11 +53,14 @@ class CampusPartnerContactForm(forms.ModelForm):
             },
         help_texts= {'email_id' :'(ex: abc@unomaha.edu)'}
 
-        def clean_email(self):
-            email = self.cleaned_data
-            domain = email.split('@')[1]
+
+
+        def clean_email_id (self):
+            data = self.cleaned_data.get('email_id')
+            domain = data.split('@')[1]
             domain_list = ["unomaha.edu" ]
             if domain not in domain_list:
-                raise forms.ValidationError["Please use your UNO email address "]
-            return email
+                raise forms.ValidationError("Please enter an Email Address with a valid domain")
+            return data
+
 

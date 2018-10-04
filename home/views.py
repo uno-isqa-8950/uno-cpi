@@ -1,3 +1,5 @@
+from django.forms import modelformset_factory
+
 from .models import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner
@@ -82,23 +84,31 @@ def registerCommunityPartnerUser(request):
 
 
 def registerCommunityPartner(request):
+    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
+
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
-        community_partner_contact_form = CommunityContactForm(request.POST)
+        formset = ContactFormsetCommunity(request.POST or None)
 
-        if community_partner_form.is_valid() and community_partner_contact_form.is_valid():
+        if community_partner_form.is_valid() and formset.is_valid():
             community_partner_form.save()
-            community_partner_contact_form.save()
+            contacts = formset.save(commit=False)
+            print(contacts)
+            for contact in contacts:
+                contact.campus_partner = community_partner_form
+                contact.save()
+                print(contact)
 
             return render(request, 'home/community_partner_register_done.html', )
     else:
         community_partner_form = CommunityPartnerForm()
-        community_partner_contact_form = CommunityContactForm()
+        formset = ContactFormsetCommunity(queryset=Contact.objects.none())
+
 
     return render(request,
                   'home/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
-                   'community_partner_contact_form': community_partner_contact_form}, )
+                   'formset': formset}, )
 
 
 def uploadProject(request):

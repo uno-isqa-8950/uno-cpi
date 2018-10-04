@@ -16,7 +16,7 @@ def user_login(request):
                 if user.is_active:
                     login(request, user)
                     print("test")
-                    return render(request, 'home/CpiHome.html')
+                    return render(request, 'home/Campus_Home.html')
                 else:
                     return HttpResponse('Disabled Account')
 

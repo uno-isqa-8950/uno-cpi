@@ -4,45 +4,45 @@
 <head>
   <title>Community Partnership Initiative</title>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  <link href="{% static 'css/uno.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/unofooter.css' %}" rel="stylesheet" type="text/css">
-  <!--link href="{% static 'css/fontawesome.css' %}" rel="stylesheet" type="text/css"-->
-  <link href="{% static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/uno.min.css' %}" rel="stylesheet" type="text/css">
-  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-  <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/jquery.formset.js' %}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+  <link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
+
+
+
 <style>
 
-
-#Nav
+#contact
 {
-border-bottom: 4px solid #e22626;
+background: #D3D3D3;
 }
 
-
 </style>
+
 </head>
-
-
+<body>
 
 <!-- Header-->
 
   <div class="collapse navbar-collapse">
   </div>
-  <div id="header" class="texty" style="height: 100px; background-color:black;">
+  <div id="header" class="texty" style="height: 100px; background-color: black;">
     <div class="main-header clearfix">
       <div class="inner-content">
         <div class="substitute-logos">
-          <a href="#"><img alt="University Of Nebraska at Omaha" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-          <p id="uno"><b>University of Nebraska Omaha</b></p>
+          <a href="#"><img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+            <p id="uno"><b>University of Nebraska Omaha</b></p>
         </div>
 	  </div>
    </div>
@@ -53,60 +53,42 @@ border-bottom: 4px solid #e22626;
 
 
 
+<!-- Navbar Begins-->
 
-<!-- Navbar -->
 
-<nav class="navbar navbar-inverse fixed-top navbar-static-top" id="Nav">
-    <div class="visible-mobile" id="menu-toggle">
-    	<a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" href="#" id="m_header-toggler">
-          <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-          Menu
-          <i class="fas fa-bars"></i>
-        </button>
-      </a>
+<nav class="navbar navbar-expand-md navbar-custom sticky-top">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
+    <div class="collapse navbar-collapse" id="target">
+        <a class="navbar-brand" href="/"><b>Community Partnership Initiative</b></a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-map-pin"></i>Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/#impact"><i class="fa fa-home"></i>Impact</a>
+                </li>
+                <li class=" nav-item dropdown">
+                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-globe"></i>Register
+                        <span class="caret"></span>
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
+                    <a class="dropdown-item" href='/registerCommunityPartner/'>Community Partner</a>
+                </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href='/signupuser/'><i class="fa fa-user"></i>SignUp</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-key"></i>Login</a>
+                </li>
+            </ul>
     </div>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-    <!--div class="collapse navbar-collapse"-->
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand js-scroll-trigger" href="/">Community Partnership Initiative</a>
-      </div>
-
-    <ul class="nav navbar-nav navbar-right">
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-globe"></span> Register    <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="{% url 'partners:registerCampusPartner' %}">Campus Organization</a></li>
-          <li><a href='/registerCommunityPartner/'>Community Organization</a></li>
-        </ul>
-      </li>
-
-         <li class=""><a href='/signupuser/'> <span class="glyphicon glyphicon-user"></span> Sign Up as a User</a>
-        <!--<ul class="dropdown-menu">-->
-          <!--<li><a href='registerCampusPartnerUser'>Campus Partner</a></li>-->
-          <!--<li><a href="#">Community Partner</a></li>-->
-        <!--</ul>-->
-      </li>
-      <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-
-
-
-    <ul class="nav navbar-nav navbar-right">
-        <li class=""><a href="#">Dashboard</a></li>
-        <li><a href="/#about">About</a></li>
-        <li><a href="/#contact">Contact Us</a></li>
-    </ul>
-
-
-  </div>
- </div>
 </nav>
 
 
-<!-- Navbar Ends-->
-
-
-
+<!-- Navbar ends-->
 
 
 <div class="container">
@@ -117,45 +99,92 @@ border-bottom: 4px solid #e22626;
 
 </div>
 
-<!--<footer>-->
-      <!--<div class="container">-->
-        <!--<div class="row">-->
-          <!--<div class="col-md-4">-->
-            <!--<span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>-->
-          <!--</div>-->
-          <!--<div class="col-md-4">-->
-            <!--<ul class="list-inline social-buttons">-->
-              <!--<li class="list-inline-item">-->
-                <!--<a href="#">-->
-                  <!--<i class="fab fa-twitter"></i>-->
-                <!--</a>-->
-              <!--</li>-->
-              <!--<li class="list-inline-item">-->
-                <!--<a href="#">-->
-                  <!--<i class="fab fa-facebook-f"></i>-->
-                <!--</a>-->
-              <!--</li>-->
-              <!--<li class="list-inline-item">-->
-                <!--<a href="#">-->
-                  <!--<i class="fab fa-instagram"></i>-->
-                <!--</a>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-          <!--<div class="col-md-4">-->
-            <!--<ul class="list-inline quicklinks">-->
-              <!--<li class="list-inline-item">-->
-                <!--<a href="#">Privacy Policy</a>-->
-              <!--</li>-->
-              <!--<li class="list-inline-item">-->
-                <!--<a href="#">Terms of Use</a>-->
-              <!--</li>-->
-            <!--</ul>-->
-          <!--</div>-->
-        <!--</div>-->
-      <!--</div>-->
-    <!--</footer>-->
+
+<!--Contact Begins -->
 
 
-<!--
+
+<section id="contact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 mx-auto text-center">
+            <h2 class="section-heading">Let's Get In Touch!</h2>
+            <hr class="my-4">
+            <p class="mb-5">Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 ml-auto text-center">
+            <i class="fa fa-skype fa-3x mb-3 sr-contact-1"></i>
+            <p>
+                <a href="skype:Goutham Viswanathan?call"><b>Connect with us on Skype</b></a>
+            </p>
+          </div>
+          <div class="col-lg-4 mr-auto text-center">
+            <i class="fa fa-envelope fa-3x mb-3 sr-contact-2"></i>
+            <p>
+              <a href="mailto:your-email@your-domain.com"><b>kshenouda@unomaha.edu</b></a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+<!-- Contact Ends here-->
+
+
+
+
+<!--Footer Begins here-->
+
+
+<footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4">
+            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline social-buttons">
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-twitter"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-facebook"></i>
+                </a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">
+                  <i class="fa fa-instagram"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="col-md-4">
+            <ul class="list-inline quicklinks" id="setcolor">
+              <li class="list-inline-item">
+                <a href="#">Privacy Policy</a>
+              </li>
+              <li class="list-inline-item">
+                <a href="#">Terms of Use</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+<!-- Footer Ends Here-->
+
+
+
+
+</body>
 </html>

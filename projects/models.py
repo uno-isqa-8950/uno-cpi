@@ -3,7 +3,7 @@ from django.db import models
 
 
 class Project (models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
@@ -31,7 +31,7 @@ class Project (models.Model):
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.project_name)
 
 
 class ProjectMission (models.Model):
@@ -44,25 +44,25 @@ class ProjectMission (models.Model):
 
 
 class ProjectCommunityPartner (models.Model):
-    name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
     no_hours = models.IntegerField(blank=True,null=True)
     no_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.project_name)
 
 
 class ProjectCampusPartner (models.Model):
-    name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
     no_hours = models.IntegerField(blank=True,null=True)
     no_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.project_name)
 
 
 class Status(models.Model):

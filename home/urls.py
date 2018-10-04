@@ -1,6 +1,7 @@
 from django.urls import path
 from django.conf.urls.static import static
 from . import views
+from django.conf import settings
 
 
 urlpatterns = [
@@ -14,8 +15,8 @@ urlpatterns = [
    path('signupuser/registerCommunityPartnerUser/', views.registerCommunityPartnerUser,name='registerCommunityPartnerUser'),
    path('signup/', views.signup, name='signup'),
    path('signupuser/', views.signupuser, name='signupuser'),
-   path('uploadProject/', views.uploadProject, name='uploadProject'),
-   path('uploadCommunity/', views.uploadCommunity, name='uploadCommunity'),
-   path('uploadCampus/', views.uploadCampus, name='uploadCampus'),
+   path('upload_project/', views.upload_project, name='upload_project'),
+   path('upload_community/', views.upload_community, name='upload_community'),
+   path('upload_campus/', views.upload_campus, name='upload_campus'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

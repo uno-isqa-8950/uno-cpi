@@ -1,7 +1,7 @@
 from django import forms
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner
+from partners.models import CampusPartner, CommunityPartner, CommunityType
 from university.models import *
 from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
@@ -79,9 +79,11 @@ class UserForm(forms.ModelForm):
 
 
 class CommunityPartnerForm(forms.ModelForm):
+
     class Meta:
         model = CommunityPartner
-        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country', 'city', 'state', 'Zip')
+        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'county',
+                  'city', 'state', 'zip')
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -95,50 +97,61 @@ class CommunityContactForm(forms.ModelForm):
                   'contact_type')
 
 
-class ProjectForm(forms.ModelForm):
+class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
     activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")
     status = forms.ModelChoiceField(queryset=Status.objects.all(), to_field_name="name")
 
     class Meta:
         model = Project
-        fields = ('name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
+        fields = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
                   'total_uno_students', 'total_uno_hrs', 'total_k12_students', 'total_k12_hrs', 'total_uno_faculty',
                   'total_other_community_members', 'other_details', 'outcomes', 'total_economic_impact', 'status')
 
 
-class ProjectCampusPartnerForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="name")
+class UploadProjectCampusForm(forms.ModelForm):
+    project_name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="project_name")
     campus_partner = forms.ModelChoiceField(queryset=CampusPartner.objects.all(), to_field_name="name")
 
     class Meta:
         model = ProjectCampusPartner
-        fields = ('name', 'campus_partner')
+        fields = ('project_name', 'campus_partner')
 
 
-class ProjectCommunityPartnerForm(forms.ModelForm):
-    name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="name")
-    campus_partner = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(), to_field_name="name")
+class UploadProjectCommunityForm(forms.ModelForm):
+    project_name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="project_name")
+    community_partner = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(), to_field_name="name")
 
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('name', 'community_partner')
+        fields = ('project_name', 'community_partner')
 
 
-class CommunityForm(ModelForm):
+class UploadCommunityForm(ModelForm):
+    community_type = forms.ModelChoiceField(queryset=CommunityType.objects.all(), to_field_name="community_type")
+
     class Meta:
         model = CommunityPartner
         fields = '__all__'
+        TRUE_FALSE_CHOICES = (
+            ('True', 'Yes'),
+            ('False', 'No'),
+        )
+        weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
-class CampusForm(ModelForm):
+class UploadCampusForm(ModelForm):
+    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="university")
+    education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="education_system")
+    college = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college")
+    department = forms.ModelChoiceField(queryset=Department.objects.all(), to_field_name="department")
 
     class Meta:
         model = CampusPartner
         fields = '__all__'
         TRUE_FALSE_CHOICES = (
-            ('True', 'Yes'),
-            ('False', 'No'),
+            ('Yes', 'Yes'),
+            ('No', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title></title>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+	
+</head>
+<body>
+	<style>
+		#map{
+			width: 1000px;
+			height: 600px;
+
+		}
+	</style>
+	<div id='map' ></div>
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
+		var map = new mapboxgl.Map({
+			container: 'map',
+			style: 'mapbox://styles/mapbox/streets-v10',
+			// style:"mapbox://styles/mapbox/light-v9",
+			center: [-95.957309,41.276479],
+			zoom:12
+		});
+
+		function parseDescription(message){
+			var string=""
+
+			for(var i in message){
+				string+='<span>'+i+":"+message[i]+"</span><br>"
+			}
+
+			return string;
+		}
+
+		map.on("load",function(){
+			map.addSource('datas', {
+				type: 'geojson',
+				data: 'CommunityPartners.geojson'
+			});
+
+			map.addLayer({
+				"id":"testDatas",
+				"type":"symbol",
+				"source":"datas",
+				"layout":{
+					"icon-image":"monument-15",
+					"text-field":"",
+					"text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+					"text-offset": [0, 0.6],
+					"text-anchor": "top"
+				}
+			})
+
+			var popup = new mapboxgl.Popup({
+				closeButton: false,
+				closeOnClick: false
+			});
+
+			map.on("mouseenter","testDatas",function(e){
+				map.getCanvas().style.cursor = 'pointer';
+				var coordinates = e.features[0].geometry.coordinates.slice();
+				var description =  e.features[0].properties;
+				description=parseDescription(description);
+
+				while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+	        		coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+        		}
+
+        		 popup.setLngLat(coordinates)
+	        	.setHTML(description)
+	        	.addTo(map);	
+			});
+
+			map.on('mouseleave', 'testDatas', function() {
+				map.getCanvas().style.cursor = '';
+				popup.remove();
+			});
+
+
+		})
+
+
+	</script>
+</body>
+</html>

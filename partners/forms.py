@@ -17,6 +17,20 @@ class CampusPartnerForm(forms.ModelForm):
              }
 
 
+class CampusPartnerFormProfile(forms.ModelForm):
+
+    class Meta:
+        model = CampusPartner
+        fields = ('name', 'education_system','university', 'college', 'department',)
+
+        labels= {
+            'name': ('Campus Partner Name'),
+             }
+        # widgets = {
+        #     'name': {'disable': True}
+        # }
+
+
 class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:

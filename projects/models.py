@@ -10,7 +10,7 @@ class Project (models.Model):
     description = models.TextField()
     semester = models.CharField(max_length=255)
     total_uno_students = models.IntegerField()
-    total_uno_hrs = models.CharField(max_length=20)
+    total_uno_hours = models.CharField(max_length=20)
     total_k12_students = models.IntegerField(null=True, blank=False)
     total_k12_hrs = models.CharField(max_length=10)
     total_uno_faculty = models.IntegerField(blank=True, null=True)
@@ -46,8 +46,8 @@ class ProjectMission (models.Model):
 class ProjectCommunityPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
-    no_hours = models.IntegerField(blank=True,null=True)
-    no_people = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True,null=True)
+    total_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):
@@ -57,8 +57,8 @@ class ProjectCommunityPartner (models.Model):
 class ProjectCampusPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
-    no_hours = models.IntegerField(blank=True,null=True)
-    no_people = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True,null=True)
+    total_people = models.IntegerField(blank=True,null=True)
     wages = models.IntegerField(blank=True,null=True)
 
     def __str__(self):

@@ -2,6 +2,7 @@
 {% load bootstrap %}
 {% block content %}
 
+
 <style>
 
 .btn-custom
@@ -9,7 +10,7 @@
     background-color: #C0C0C0;
     position: relative;
     width:90px;
-    top:15px;
+    top:5px;
     font-family: Helvetica;
     left: 250px;
 }
@@ -21,33 +22,6 @@
 }
 
 
-.form-control
-{
-    width:92%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:0px 0 8px 4px;
-    outline:none;
-    padding:3px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
-}
-
-.form-control:focus
-{
-   border-color:grey;
-   box-shadow:0 0 8px 0 grey;
-}
-
-
-body
-{
-   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-   font-size: medium;
-   position: relative;
-}
-
 .panel
 {
 width: 650px;
@@ -58,6 +32,8 @@ height: relative;
 font-family: Helvetica;
 box-shadow: 5px 10px 20px 5px grey;
 }
+
+
 
 .panel-default > .panel-heading
 {
@@ -76,6 +52,29 @@ background-color: #b8b8b8;
 	border-radius: 5px;
 }
 
+
+.form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
 h4
 {
 	line-height: 2.7;
@@ -88,20 +87,18 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
 </style>
-
-
 <div class = "container">
     <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Register Your Community </h4></div>
+		<div class="panel-heading text-center"><h4>Register Your Campus</h4></div>
 			<div class="panel-body">
 
-<div class="body">
-<form action="." method="post">
-  {% csrf_token %}
-  {{ community_partner_form|bootstrap }}
-
-  {{ formset.management_form }}
+  <!--div class="col-md-offset-2 col-md-8"-->
+    <form action="." method="post">
+      {% csrf_token %}
+      {{ campus_partner_form|bootstrap }}
+      {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
                 <div class="col-4">
@@ -111,45 +108,26 @@ font-weight: bold;
                 <div class="col-4">
                 <div class="input-group">
                     {{ form|bootstrap }}
-                    <div class="input-group-append">
+                    <div class="input-group-append" >
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
-
                     </div>
                 </div>
                 </div>
             </div>
       {% endfor %}
-   {{ formset_mission.management_form }}
-      {% for form in formset_mission %}
-            <div class="row form-row spacer">
-                <div class="col-4">
-                    <label>Mission Areas</label>
-                    <br>
-                </div>
-                <div class="col-4">
-                <div class="input-group">
-                    {{ form.mission_type|bootstrap }}
-                    {{ form.mission_area|bootstrap }}
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more Mission areas</button>
+ 
+   <!--  <p><button type="submit" class="btn btn-custom">Submit</button></p><br> -->
 
-                    </div>
-                </div>
-                </div>
-            </div>
-      {% endfor %}
 
+<br>
 <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
-
-  </form>
-
-</div>
-            </div></div></div>
-<br><br><br>
+    </form>
+  </div>
+            </div></div></div><br><br>
 
 {% endblock %}
 
-{% block custom_js %}
+ {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
@@ -208,6 +186,3 @@ $(document).on('click', '.remove-form-row', function(e){
 </script>
 
 {% endblock %}
-
-
-

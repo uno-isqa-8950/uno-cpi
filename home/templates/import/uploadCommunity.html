@@ -11,6 +11,77 @@
     cursor: pointer;
     font-size: 18px;
 }
+
+.btn-upload {
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    background-color: lightskyblue;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.panel
+{
+	width: relative;
+	margin-left: auto;
+	margin-right:auto;
+	height: relative;
+	font-family: Helvetica;
+	box-shadow: 5px 10px 10px 5px grey;
+
+}
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+
+.panel-heading
+{
+	height:60px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+
+.panel
+{
+	border-radius: 5px;
+}
+
+h4
+{
+	line-height: 2.4;
+    margin-left:5px;
+    font-size: 1.3rem;
+}
+
+label
+{
+
+ margin-top: 10px;
+ margin-left: 10px;
+}
+
+.btn-custom
+{
+    background-color: #C0C0C0;
+    position: relative;
+    width:90px;
+    top:15px;
+    font-family: Helvetica;
+    left: 0px;
+}
+
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+
 </style>
 
 
@@ -25,7 +96,7 @@
 <form id='upload_form' action="{% url 'upload_community' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading">Select CSV file for Import:</div>
+        <div class="panel-heading"><h4>Select CSV file for Import:</h4></div>
 
     <div class="panel-body">
 
@@ -46,14 +117,14 @@
 
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
+             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button><br><br>
         </div>
     </div>
     </div>
     </div>
 </form>
 </div>
-</div>
+</div><br>
 
     <script>
 

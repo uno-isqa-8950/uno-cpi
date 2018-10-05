@@ -119,7 +119,7 @@ class UploadProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
-                  'total_uno_students', 'total_uno_hrs', 'total_k12_students', 'total_k12_hrs', 'total_uno_faculty',
+                  'total_uno_students', 'total_uno_hours', 'total_k12_students', 'total_k12_hours', 'total_uno_faculty',
                   'total_other_community_members', 'other_details', 'outcomes', 'total_economic_impact', 'status')
 
 

@@ -19,4 +19,4 @@ urlpatterns = [
    path('upload_community/', views.upload_community, name='upload_community'),
    path('upload_campus/', views.upload_campus, name='upload_campus'),
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] 

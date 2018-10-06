@@ -49,7 +49,7 @@ def registerCampusPartnerUser(request):
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.is_staff = True
+            new_user.is_campuspartner = True
             new_user.save()
 
             # cpu = CampusPartnerUser(campuspartner=CampusPartner.objects.filter(
@@ -76,6 +76,7 @@ def registerCommunityPartnerUser(request):
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.is_communitypartner = True
             new_user.save()
             # cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
             #        name=community_partner_form.cleaned_data['name'])[0], user=new_user)

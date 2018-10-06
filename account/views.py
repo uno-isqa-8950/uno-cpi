@@ -14,16 +14,16 @@ def user_login(request):
             cd = form.cleaned_data
             user = authenticate(request, username=cd['username'], password=cd['password'])
             if user is not None:
-                if user.is_staff:
+                if user.is_campuspartner:
                     login(request, user)
                     print("test")
                     return render(request, 'home/Campus_Home.html')
-                else:
+                elif user.is_communitypartner:
                     login(request, user)
                     return render(request, 'home/Community_Home.html')
 
             else:
-                return HttpResponse('Invalid login')
+                return HttpResponse('Invalid Credentials')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})

@@ -54,7 +54,7 @@ class CampusPartner(models.Model):
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255,unique=True)
     college = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True)
     university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
@@ -68,7 +68,7 @@ class CampusPartner(models.Model):
 
 class CampusPartnerUser(models.Model):
 
-    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=False,unique=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
 
 

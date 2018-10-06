@@ -1,10 +1,11 @@
 from django import forms
 from django.db.transaction import commit
 import re
+
+from university.models import *
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner, CommunityPartnerMission, CommunityType
-from university.models import *
+from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, CommunityType, CampusPartnerUser
 from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectCommunityPartner
@@ -16,20 +17,20 @@ EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
 
 class CampusPartnerUserForm(forms.ModelForm):
 
-    def as_p(self):
-        "Returns this form rendered as HTML <p>s."
-        return self._html_output(
-            normal_row='<p%(html_class_attr)s>%(label)s</p>%(field)s%(help_text)s',
-            error_row='%s',
-            row_ender='</p>',
-            help_text_html=' <span class="helptext">%s</span>',
-            errors_on_separate_row=True)
+    # def as_p(self):
+    #     "Returns this form rendered as HTML <p>s."
+    #     return self._html_output(
+    #         normal_row='<p%(html_class_attr)s>%(label)s</p>%(field)s%(help_text)s',
+    #         error_row='%s',
+    #         row_ender='</p>',
+    #         help_text_html=' <span class="helptext">%s</span>',
+    #         errors_on_separate_row=True)
 
     class Meta:
-        model = CampusPartner
-        fields = ('name',)
+        model = CampusPartnerUser
+        fields = ('campus_partner',)
 
-    name = forms.ModelChoiceField(
+        campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
 
@@ -37,20 +38,20 @@ class CampusPartnerUserForm(forms.ModelForm):
 class CommunityPartnerUserForm(forms.ModelForm):
 
     class Meta:
-        model = CommunityPartner
-        fields = ('name',)
+        model = CommunityPartnerUser
+        fields = ('community_partner',)
 
-    name = forms.ModelChoiceField(
+        community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 #### This is where you check the user flag as true and then we can call the decorator
-    def save(self):
-        user = super().save(commit=False)
-        user.is_campuspartner = True
-        if commit:
-            user.save()
-        return user
+    # def save(self):
+    #     user = super().save(commit=False)
+    #     user.is_campuspartner = True
+    #     if commit:
+    #         user.save()
+    #     return user
 
 
 class UserForm(forms.ModelForm):

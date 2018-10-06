@@ -12,7 +12,7 @@ class Project (models.Model):
     total_uno_students = models.IntegerField()
     total_uno_hours = models.CharField(max_length=20)
     total_k12_students = models.IntegerField(null=True, blank=False)
-    total_k12_hrs = models.CharField(max_length=10)
+    total_k12_hours = models.CharField(max_length=10)
     total_uno_faculty = models.IntegerField(blank=True, null=True)
     total_other_community_members = models.IntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)

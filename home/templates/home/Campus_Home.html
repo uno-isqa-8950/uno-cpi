@@ -44,13 +44,17 @@ background: #D3D3D3;
         <a class="navbar-brand" href="/"><b>Community Partnership Initiative</b></a>
             <ul class="navbar-nav ml-auto">
                 {% if user.is_authenticated %}
-            <li class=""><a href="#">Hello, {{user.username}}</a></li>
+                <li class=""><a href="#">Hello, {{user.username}}</a></li>
 
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-map-pin"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/#impact"><i class="fa fa-home"></i>Impact</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/registerCommunityPartnerUser/">Signup</a>
+
                 </li>
                 <!--li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">

@@ -1,11 +1,14 @@
+from django.db import connection
 from django.forms import modelformset_factory
+
+from home.decorators import campuspartner_required
 from .models import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm , CampusPartnerForm, UploadCampusForm, \
-    UploadProjectCommunityForm, UploadProjectCampusForm
+    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm, UploadCampusForm, \
+    UploadProjectCommunityForm, UploadProjectCampusForm, CommunityMissionForm
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -34,25 +37,31 @@ def signupuser(request):
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
     user_form = UserForm()
+    print(campus_partner_user_form)
+    print("its working")
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
+
         # community_partner_form = CommunityPartnerForm(request.POST)
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             # and community_partner_form.is_valid():
             # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.is_staff = True
             new_user.save()
+
             # cpu = CampusPartnerUser(campuspartner=CampusPartner.objects.filter(
             #         campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'])[0], user=new_user)
-            cpu = CampusPartnerUser(campuspartner=campus_partner_user_form.cleaned_data['name'], user=new_user)
-            cpu.save()
+            campuspartneruser = CampusPartnerUser(campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
+            campuspartneruser.save()
 
             return render(request, 'home/register_done.html', )
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form})
+
 
 
 def registerCommunityPartnerUser(request):
@@ -70,8 +79,8 @@ def registerCommunityPartnerUser(request):
             new_user.save()
             # cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
             #        name=community_partner_form.cleaned_data['name'])[0], user=new_user)
-            cpu = CommunityPartnerUser(communitypartner=community_partner_user_form.cleaned_data['name'], user=new_user)
-            cpu.save()
+            communitypartneruser = CommunityPartnerUser(community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
+            communitypartneruser.save()
             return render(request, 'home/register_done.html', )
     return render(request,
                   'home/registration/community_partner_user_register.html',

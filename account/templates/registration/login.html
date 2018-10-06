@@ -43,6 +43,28 @@ input[type=text]:focus, input[type=password]:focus
 }
 
 
+/*.panel
+{
+	width: 320px;
+	margin-left: auto;
+	margin-right:auto;
+	margin-top:100px;
+	height: 300px;
+	font-family: Helvetica;
+	box-shadow: 5px 10px 10px 5px grey;
+	position:
+}*/
+
+.panel
+{
+width: relative;
+box-shadow: 5px 10px 10px 5px grey;
+height:relative;
+margin-top: 100px;
+}
+
+@media (min-width: 700px)
+{
 .panel
 {
 	width: 320px;
@@ -53,13 +75,6 @@ input[type=text]:focus, input[type=password]:focus
 	font-family: Helvetica;
 	box-shadow: 5px 10px 10px 5px grey;
 	position:
-}
-
-@media (max-width: 700px)
-{
-.panel
-{
-width: 280px;
 }
 }
 
@@ -106,7 +121,7 @@ h4
 
 
             <p><button type="submit" class="btn btn-custom">Submit</button></p>
-            			<a href='/password_reset/' class="forget">Forgot Password?</a><br>
+            			<a href='/password_reset/' class="forget">Forgot Password?</a><br><br>
 
 		</form>
 		</div>

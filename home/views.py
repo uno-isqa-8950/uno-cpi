@@ -7,7 +7,7 @@ from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm, UploadCampusForm, \
+    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm,  UploadCampusForm, \
     UploadProjectCommunityForm, UploadProjectCampusForm, CommunityMissionForm
 from django.shortcuts import render
 from django.urls import reverse
@@ -130,7 +130,6 @@ def upload_project(request):
         return render(request, 'import/uploadProject.html',
                       {'download_projects_url': download_projects_url})
     if request.method == 'POST':
-        print(request)
         csv_file = request.FILES["csv_file"]
         decoded = csv_file.read().decode('utf-8').splitlines()
         reader = csv.DictReader(decoded)

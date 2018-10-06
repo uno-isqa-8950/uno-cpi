@@ -5,7 +5,8 @@ from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  Co
 class CommunityPartnerList(admin.ModelAdmin):
 
     list_display = ('name', 'website_url', 'community_type', 'k12_level',
-                     'address_line1', 'address_line2', 'county', 'city', 'state', 'zip', 'latitude', 'longitude',
+
+                     'address_line1', 'address_line2', 'country', 'county','city', 'state', 'zip', 'latitude', 'longitude',
                     'active', 'weitz_cec_part')
 
     search_fields = ('name', 'county','city', 'website_url', 'active')

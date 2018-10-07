@@ -11,68 +11,123 @@
     cursor: pointer;
     font-size: 18px;
 }
-/* Style the active class, and buttons on mouse-over */
-.active, .btn:hover {
-    background-color: lightgoldenrodyellow;
-    color: white;
+
+.btn-upload {
+    border: none;
+    outline: none;
+    padding: 10px 10px;
+    background-color: lightskyblue;
+    cursor: pointer;
+    font-size: 18px;
 }
+
+.panel
+{
+	width: relative;
+	margin-left: auto;
+	margin-right:auto;
+	height: relative;
+	font-family: Helvetica;
+	box-shadow: 5px 10px 10px 5px grey;
+
+}
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+
+.panel-heading
+{
+	height:60px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+
+.panel
+{
+	border-radius: 5px;
+}
+
+h4
+{
+	line-height: 2.4;
+    margin-left:5px;
+    font-size: 1.3rem;
+}
+
+label
+{
+
+ margin-top: 10px;
+ margin-left: 10px;
+}
+
+.btn-custom
+{
+    background-color: #C0C0C0;
+    position: relative;
+    width:90px;
+    top:15px;
+    font-family: Helvetica;
+    left: 0px;
+}
+
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+
 </style>
 
-<div class="container padding-left padding-top">
 
-<nav class="navbar navbar-default sidebar" role="navigation">
-    <div id="myDIV" class="container-fluid">
-      <ul class="nav navbar-nav" role="tablist">
-        <li class="btn"><a href= "/uploadProject/">Import Projects</a></li>
-        <li class="btn"><a href="/uploadCampus/">Import Campus Partners</a></li>
-        <li class="btn active"><a href="/uploadCommunity" style="background-color:lightgoldenrodyellow">Import Community Partners</a></li>
-      </ul>
-    </div>
-</nav>
-<form action="https://docs.google.com/spreadsheets/d/1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4/export?format=csv&id=1mtnRl4mUqIDeeGLRBRHjk6CS_oVo6vAHU_ovtX7MGv4&gid=0" method="GET">
-    <button class="btn-upload"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+<div class="container padding-left padding-top">
+<h2> Upload Community Partners </h2>
+
+<form action={{ download_community_url }} method="GET">
+    <button class="btn btn-success"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
 </form>
+
 <div>
-<form action="." method="POST" enctype="multipart/form-data" class="form-horizontal">
+<form id='upload_form' action="{% url 'upload_community' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading">Select Community CSV :
-
-        </div>
+        <div class="panel-heading"><h4>Select CSV file for Import:</h4></div>
 
     <div class="panel-body">
 
+      <label for="id_field">Choose File Type:</label>
+        <select onchange="location = this.options[this.selectedIndex].value;">
+        <option>Please select</option>
+            <option value="{% url 'upload_project' %}">Project</option>
+            <option value="{% url 'upload_campus' %}">Campus</option>
+            <option value="{% url 'upload_community' %}">Community</option>
+        </select>​
+
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label">CSV File: </label>
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
         <div class="col-md-8">
-            <input type="file" name="csv_file" id="csv_file" required="True" class="form-control">
+            <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn-upload"> <span class="glyphicon glyphicon-upload" style="margin-right:5px;"></span>Upload </button>
+             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button><br><br>
         </div>
     </div>
-
     </div>
     </div>
 </form>
 </div>
-</div>
+</div><br>
 
-<script>
-// Add active class to the current button (highlight it)
-var header = document.getElementById("myDIV");
-var btns = header.getElementsByClassName("btn");
-for (var i = 0; i < btns.length; i++) {
-  btns[i].addEventListener("click", function() {
-    var current = document.getElementsByClassName("active");
-    current[0].className = current[0].className.replace(" active", "");
-    this.className += " active";
-  });
-}
-</script>
+    <script>
 
+    </script>
 
 {% endblock %}

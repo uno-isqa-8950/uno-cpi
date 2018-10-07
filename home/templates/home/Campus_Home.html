@@ -63,12 +63,13 @@ color:black;
 <nav class="navbar navbar-expand-md navbar-custom sticky-top">
     <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
     <div class="collapse navbar-collapse" id="target">
+
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
             <a class ="navbar-brand" href="#" id="uno"><b>University of Nebraska Omaha</b>
                 <b id="cpi">Community Partnership Initiative</b></a>
             {% if user.is_authenticated %}
-
+            <li class=""><a href="#">Hello, {{user.username}}</a></li>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
@@ -77,6 +78,7 @@ color:black;
                     <a class="nav-link" href="#"><i class="fa fa-product-hunt"></i>Project</a>
                 </li>
                 <li class="nav-item">
+
                     <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
                 </li>
                 <!--li class="nav-item">
@@ -145,10 +147,6 @@ color:black;
 
 
 <!-- Block Ends here>
-
-
-
-
 
 
 <!--Contact Begins -->

@@ -23,7 +23,6 @@
 
 
 
-
 <style>
 
 #contact
@@ -69,7 +68,9 @@ margin-top:15px;
                 </div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href='/signupuser/'><i class="fa fa-user-plus"></i>SignUp</a>
+
+                    <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user"></i>SignUp </a>
+
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
@@ -176,9 +177,7 @@ margin-top:15px;
 
 
 <!-- Footer Ends Here-->
-
-
-
-
+{% block custom_js %}{% endblock %}
+ 
 </body>
 </html>

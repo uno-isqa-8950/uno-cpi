@@ -4,8 +4,6 @@
 
 <style type="text/css">
 
-
-
 .forget
 {
 	position: relative;
@@ -17,51 +15,14 @@
 	color: red;
 }
 
-
-
-
-input[type=text],[type=password]
+@media (max-width: 700px)
 {
-    width:85%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:10px 0 8px 4px;
-    outline:none;
-    padding:5px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
-
+h4
+{
+font-size:1.3em
+}
 }
 
-
-
-input[type=text]:focus, input[type=password]:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
-}
-
-
-/*.panel
-{
-	width: 320px;
-	margin-left: auto;
-	margin-right:auto;
-	margin-top:100px;
-	height: 300px;
-	font-family: Helvetica;
-	box-shadow: 5px 10px 10px 5px grey;
-	position:
-}*/
-
-.panel
-{
-width: relative;
-box-shadow: 5px 10px 10px 5px grey;
-height:relative;
-margin-top: 100px;
-}
 
 @media (min-width: 700px)
 {
@@ -74,33 +35,14 @@ margin-top: 100px;
 	height: 300px;
 	font-family: Helvetica;
 	box-shadow: 5px 10px 10px 5px grey;
-	position:
-}
 }
 
-.panel-default > .panel-heading
-{
-background-color: #b8b8b8;
 }
 
-.panel-heading
-{
-	height:60px;
-	margin-top:5px;
-	border-radius: 5px;
-}
 
-.panel
-{
-	border-radius: 5px;
-}
 
-h4
-{
-	line-height: 2.4;
-}
 
-	</style>
+</style>
 
 	<div class="container ">
 
@@ -128,7 +70,8 @@ h4
 		</div>
 	</div></div>
 <br>
-<br><br>
+<br>
+<br><br><br><br>
 <br>
 {% endblock %}
 

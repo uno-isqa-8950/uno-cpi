@@ -4,50 +4,8 @@
 
 <style>
 
-.btn-custom
+@media (min-width: 700px)
 {
-    background-color: #C0C0C0;
-    position: relative;
-    width:90px;
-    top:15px;
-    font-family: Helvetica;
-    left: 250px;
-}
-
-
-.btn-custom:hover
-{
-    background-color:#D3D3D3;
-}
-
-
-.form-control
-{
-    width:92%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:0px 0 8px 4px;
-    outline:none;
-    padding:3px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
-}
-
-.form-control:focus
-{
-   border-color:grey;
-   box-shadow:0 0 8px 0 grey;
-}
-
-
-body
-{
-   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-   font-size: medium;
-   position: relative;
-}
-
 .panel
 {
 width: 650px;
@@ -55,31 +13,33 @@ margin-left: auto;
 margin-right:auto;
 margin-top:80px;
 height: relative;
-font-family: Helvetica;
-box-shadow: 5px 10px 20px 5px grey;
 }
 
-.panel-default > .panel-heading
+input[type=email],input[type=text],.form-control
+    {
+        width:92%;
+    }
+
+.btn-custom
 {
-background-color: #b8b8b8;
+	position: relative;
+	left:240px;
+	width:120px;
+}
+}
+
+
+@media (max-width: 600px)
+{
+h4
+{
+    font-size:1.3em
 }
 
 .panel-heading
 {
-	height:60px;
-	margin-top:5px;
-	border-radius: 5px;
+    height:100px;
 }
-
-.panel
-{
-	border-radius: 5px;
-}
-
-h4
-{
-	line-height: 2.7;
-	font-size: 1.3em;
 }
 
 label
@@ -88,6 +48,8 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
+
 </style>
 
 
@@ -108,7 +70,7 @@ font-weight: bold;
 
 </div>
             </div></div></div>
-<br><br><br>
+<br>
 
 {% endblock %}
 

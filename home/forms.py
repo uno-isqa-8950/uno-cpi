@@ -173,14 +173,18 @@ class UploadCampusForm(ModelForm):
 
 
 class CommunityMissionForm(ModelForm):
+
+
+    mission_choices = (
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
+        ('Other', 'Other'),
+    )
+
+
     class Meta :
         model = CommunityPartnerMission
-        fields = '__all__'
-        mission_choices = (
-            ('Primary', 'Primary'),
-            ('Secondary', 'Secondary'),
-            ('Other', 'Other'),
-        )
+        fields = ('mission_type' , 'mission_area')
 
 
 

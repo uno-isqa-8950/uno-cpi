@@ -125,6 +125,7 @@ def registerCommunityPartner(request):
                    'formset_mission' : formset_mission}, )
 
 
+
 def upload_project(request):
     if request.method == 'GET':
         download_projects_url = '/media/projects_sample.csv'

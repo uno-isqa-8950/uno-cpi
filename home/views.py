@@ -97,18 +97,18 @@ def registerCommunityPartner(request):
         formset = ContactFormsetCommunity(request.POST or None)
 
         if community_partner_form.is_valid() and formset.is_valid():
-            community_partner_form.save()
+            community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
             missions = formset_mission.save(commit=False)
             print(contacts)
             print(missions)
             for contact in contacts:
-                contact.community_partner_form = community_partner_form
+                contact.community_partner = community_partner
                 contact.save()
                 print(contact)
             if formset_mission.is_valid():
                 for mission in missions:
-                    mission.community_partner_form = community_partner_form
+                    mission.community_partner = community_partner
                     mission.save()
                     print(mission)
 
@@ -123,6 +123,7 @@ def registerCommunityPartner(request):
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
                    'formset_mission' : formset_mission}, )
+
 
 
 def upload_project(request):

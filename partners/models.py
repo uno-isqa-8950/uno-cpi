@@ -6,25 +6,24 @@ from django.utils import timezone
 
 class CommunityPartner(models.Model):
     TRUE_FALSE_CHOICES = (
-        ('True', 'Yes'),
-        ('False', 'No'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
     )
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=255, unique=True)
     website_url = models.URLField(max_length=100, blank=True)
-    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL,
-                                      related_name='communitytype', null=True)
-
-    k12_level =  models.CharField(max_length=20,null=False, blank=True,help_text="If your community type is K12, Please provide the k12-level.")
-
+    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True)
+    k12_level =  models.CharField(max_length=20,null=False, blank=True,
+                                  help_text="If your community type is K12, Please provide the k12-level.")
     address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
+    county = models.CharField(max_length=100, blank=True)
     country = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=25, blank=True)
     state = models.CharField(max_length=15, blank=True)
     zip = models.CharField(max_length=10, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
 
     def __str__(self):
@@ -39,8 +38,8 @@ class CommunityPartnerMission(models.Model):
     )
     mission_type = models.CharField(max_length=20, choices=mission_choices, default=False)
     mission_area= models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE, related_name='communitypartnermission', null=True)
-
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,
+                                          related_name='communitypartnermission', null=True)
 
 
 class CommunityType(models.Model):
@@ -50,17 +49,16 @@ class CommunityType(models.Model):
         return str(self.community_type)
 
 
-
 class CampusPartner(models.Model):
     TRUE_FALSE_CHOICES = (
-        ('True', 'Yes'),
-        ('False', 'No'),
+        ('Yes', 'Yes'),
+        ('No', 'No'),
     )
-    name = models.CharField(max_length=255, unique=True)
-    education_system =models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True)
-    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255,unique=True)
     college = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True)
+    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
+    education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
     active = models.BooleanField(default=False)
 
@@ -70,7 +68,7 @@ class CampusPartner(models.Model):
 
 class CampusPartnerUser(models.Model):
 
-    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=False,unique=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
 
 

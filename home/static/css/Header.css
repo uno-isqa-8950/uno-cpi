@@ -1,0 +1,69 @@
+/* header*/
+
+
+	    #header.texty .main-header{
+    	 padding:6px 0px 10px 0px;
+	     height:auto;
+        }
+
+
+
+	    #header.texty .main-header .home-logo{
+    	 margin:0 10px 0 0;
+	     float:left;
+	     width:62px;
+	     max-width:62px;
+        }
+
+
+        /*INNER CONTENT*/
+        .inner-content{
+	     width:98%;
+	     max-width:960px;
+	     padding:10px 0px;
+	     margin:0 auto;
+        *zoom:1;
+        }
+
+         .subsite-logos{
+	     display:table;
+	     height:100%;
+	     vertical-align:middle;
+	     width:100%;
+	     border-collapse:collapse;
+}
+
+
+
+
+
+
+#uno{
+	 font-size: 1.5em;
+	 text-transform:uppercase;
+	 font-family:'calibri';
+	 color:#FFF;
+	 display:inline-block;
+	 vertical-align:middle;
+	 margin-top: 10px;
+	 margin-left:10px;
+	 }
+
+
+
+@media (max-width:800px){
+	 #uno{
+		 font-size:1.4em;
+	}
+}
+
+
+
+ @media (max-width:710px){
+	 #uno{
+		 font-size:1.1em;
+	}
+
+
+
+/*header ends*/

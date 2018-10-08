@@ -18,6 +18,9 @@
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+
+
 
 
 <style>
@@ -27,44 +30,34 @@
 background: #D3D3D3;
 }
 
+#brand
+{
+margin-left:15px;
+margin-top:15px;
+}
+
 </style>
 
 </head>
 <body>
 
-<!-- Header-->
-
-  <div class="collapse navbar-collapse">
-  </div>
-  <div id="header" class="texty" style="height: 100px; background-color: black;">
-    <div class="main-header clearfix">
-      <div class="inner-content">
-        <div class="substitute-logos">
-          <a href="#"><img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-            <p id="uno"><b>University of Nebraska Omaha</b></p>
-        </div>
-	  </div>
-   </div>
-</div>
-
-
-<!-- Header ends-->
-
-
-
-<!-- Navbar Begins-->
-
+<!-- Navbar Begins -->
 
 <nav class="navbar navbar-expand-md navbar-custom sticky-top">
     <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
     <div class="collapse navbar-collapse" id="target">
-        <a class="navbar-brand" href="/"><b>Community Partnership Initiative</b></a>
+        <a class="navbar-brand" href="/">
+            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+            <a class ="navbar-brand" href="/" id="uno"><b>University of Nebraska Omaha</b>
+                <b id="cpi">Community Partnership Initiative</b></a>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
+
                     <a class="nav-link" href="/map"><i class="fa fa-map-pin"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/about"><i class="fa fa-home"></i>Map</a>
+
                 </li>
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
@@ -77,17 +70,22 @@ background: #D3D3D3;
                 </div>
                 </li>
                 <li class="nav-item">
+
                     <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user"></i>SignUp </a>
+
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-key"></i>Login</a>
+                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
                 </li>
             </ul>
     </div>
 </nav>
 
 
+
 <!-- Navbar ends-->
+
+
 
 
 <div class="container">

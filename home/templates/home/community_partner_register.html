@@ -83,7 +83,7 @@ font-weight: bold;
       {% endfor %}
    {{ formset_mission.management_form }}
       {% for form in formset_mission %}
-            <div class="row form-row spacer">
+            <div class="row form1-row spacer">
                 <div class="col-4">
                     <label>Mission Areas</label>
                     <br>
@@ -93,7 +93,7 @@ font-weight: bold;
                     {{ form.mission_type|bootstrap }}
                     {{ form.mission_area|bootstrap }}
                     <div class="input-group-append">
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more Mission areas</button>
+                        <button class="btn btn-outline-info btn-sm add-form1-row">Add more Mission areas</button>
 
                     </div>
                 </div>
@@ -142,8 +142,17 @@ function cloneMore(selector, prefix) {
     .removeClass('add-form-row').addClass('remove-form-row')
     .html('-');
     return false;
+
+    var condition1Row = $('.form1-row:not(:last)');
+    conditionRow.find('.btn.add-form1-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-form1-row').addClass('remove-form1-row')
+    .html('-');
+    return false;
 }
-function deleteForm(prefix, btn) {
+function deleteForm(prefix, btn)
+
+{
     var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
     if (total > 1){
         btn.closest('.form-row').remove();
@@ -157,6 +166,7 @@ function deleteForm(prefix, btn) {
     }
     return false;
 }
+{#For first button #}
 $(document).on('click', '.add-form-row', function(e){
     e.preventDefault();
     cloneMore('.form-row:last', 'form');
@@ -166,10 +176,22 @@ $(document).on('click', '.remove-form-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));
     return false;
+
+
+});
+{#For Second button #}
+$(document).on('click', '.add-form1-row', function(e){
+    e.preventDefault();
+    cloneMore('.form1-row:last', 'form');
+    return false;
+});
+$(document).on('click', '.remove-form1-row', function(e) {
+    e.preventDefault();
+    deleteForm('form2', $(this));
+    return false;
 });
 </script>
 
 {% endblock %}
-
 
 

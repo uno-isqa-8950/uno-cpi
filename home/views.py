@@ -38,7 +38,9 @@ def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
     user_form = UserForm()
     print(campus_partner_user_form)
-    print("its working")
+    data = []
+    for object in CampusPartner.objects.order_by().distinct('name'):
+        data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
@@ -60,7 +62,7 @@ def registerCampusPartnerUser(request):
             return render(request, 'home/register_done.html', )
     return render(request,
                   'home/registration/campus_partner_user_register.html',
-                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form})
+                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
 
 
 

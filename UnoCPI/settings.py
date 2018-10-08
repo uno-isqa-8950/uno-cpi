@@ -163,9 +163,11 @@ LOGIN_REDIRECT_URL = reverse_lazy('/')
 LOGIN_URL = reverse_lazy('login')
 #LOGOUT_REDIRECT_URL = reverse_lazy('logout')
 
+## Sample Import files download source location, DONOT DELETE
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+##
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'capstoneteam2018cpi@gmail.com'
 EMAIL_HOST_PASSWORD = 'capstone2018'
@@ -182,4 +184,4 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 try:
     from .local_settings import *
 except ImportError:
- pass
+    pass

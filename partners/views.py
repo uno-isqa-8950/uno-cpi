@@ -3,6 +3,7 @@ from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFor
 from django.shortcuts import render
 from .models import CampusPartner as CampusPartnerModel
 from home.models import Contact as ContactModel, Contact
+from projects.models import Project
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, modelformset_factory
 from django.template import context
@@ -90,4 +91,5 @@ def registerCampusPartnerProfile(request):
                     'first_name': first_name,
                     'last_name': last_name,
                     'email': email               
-                  })  
+                  })
+

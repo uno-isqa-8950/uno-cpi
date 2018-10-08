@@ -63,7 +63,7 @@ ROOT_URLCONF = 'UnoCPI.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -84,18 +84,24 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd46q2igt2d4vbg',
+#         'USER': 'nbzsljiyoqyakc',
+#         'PASSWORD': '56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1',
+#         'HOST': 'ec2-54-227-241-179.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#     }
+#
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd46q2igt2d4vbg',
-        'USER': 'nbzsljiyoqyakc',
-        'PASSWORD': '56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1',
-        'HOST': 'ec2-54-227-241-179.compute-1.amazonaws.com',
-        'PORT': 5432,
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
-
 }
-
 
 ##Extending the user model to home
 
@@ -156,6 +162,9 @@ DATABASES['default'].update(db_from_env)
 LOGIN_REDIRECT_URL = reverse_lazy('/')
 LOGIN_URL = reverse_lazy('login')
 #LOGOUT_REDIRECT_URL = reverse_lazy('logout')
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = 'capstoneteam2018cpi@gmail.com'

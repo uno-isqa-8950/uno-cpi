@@ -65,6 +65,17 @@ label
     left: 0px;
 }
 
+#dvLoading
+{
+    background: #0000 url(images/loader.gif) no-repeat center center;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+}
 
 .btn-custom:hover
 {
@@ -97,7 +108,7 @@ label
             <option value="{% url 'upload_community' %}">Community</option>
         </select>​
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label" onclick="myFunction()"> Choose File: </label>
         <div class="col-md-8">
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
@@ -105,8 +116,10 @@ label
 
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button><br><br><br>
+             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
+
         </div>
+
     </div>
     </div>
     </div>
@@ -114,8 +127,13 @@ label
 </div>
 </div>
 
-    <script>
 
-    </script>
+    <script>
+     function myFunction() {
+    const x = document.getElementById("mySelect").value;
+     }
+
+	</script>
+
 
 {% endblock %}

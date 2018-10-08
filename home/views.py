@@ -146,7 +146,7 @@ def upload_project(request):
                     if form_campus.is_valid and form_community.is_valid():
                         form_campus.save()
                         form_community.save()
-    return render(request, 'import/uploadProject.html',
+    return render(request, 'import/uploadProjectdone.html',
                   {'upload_project': upload_project})
 
 
@@ -184,3 +184,12 @@ def upload_campus(request):
     return render(request, 'import/uploadCampus.html',
                   {'upload_campus': upload_campus})
 
+
+def community_project(request):
+
+    projects = Project.objects.all()
+    print("Hello")
+    print(projects)
+
+    return render(request, 'community/community_project.html',
+                  {'projects': projects})

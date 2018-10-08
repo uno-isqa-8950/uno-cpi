@@ -20,6 +20,13 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
+def dashboard(request):
+    return render(request, 'home/GoogleMap_JSON.html',
+                  {'map': map})
+
+def about(request):
+    return render(request, 'home/Map_Leaflet.html',
+                  {'about': about})
 
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
@@ -194,4 +201,3 @@ def upload_campus(request):
             form.save()
     return render(request, 'import/uploadCampus.html',
                   {'upload_campus': upload_campus})
-

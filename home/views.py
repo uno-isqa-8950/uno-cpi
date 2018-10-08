@@ -26,6 +26,10 @@ def cpipage(request):
                   {'cpipage': cpipage})
 
 
+def campusHome(request):
+    return render(request, 'home/Campus_Home.html',
+                  {'campusHome': campusHome})
+
 def signup(request):
     return render(request, 'home/registration/signuporganization.html', {'signup': signup})
 

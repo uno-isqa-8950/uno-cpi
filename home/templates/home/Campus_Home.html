@@ -81,6 +81,11 @@ color:black;
 
                     <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
                 </li>
+                <li class="nav-item">
+
+                    <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user"></i>SignUp User</a>
+
+                </li>
                 <!--li class="nav-item">
                     <a class="nav-link" href="/"><i class="fa fa-home"></i>Impact</a>
                 </li-->
@@ -114,36 +119,36 @@ color:black;
 
 <!-- Table Begins ---- Add Block Content Here-->
 
-<div class="container" id="example1">
-      <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Project Name</th>
-                <th>Mission</th>
-                <th>Engagement Type</th>
-                <th>Activity Type</th>
-                <th>Campus Partner</th>
-                <th>Community Partner</th>
-                <th>No.of.Hours</th>
-                <th>No.Of.Volunteers</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>$320,800</td>
-                <td>5421</td>
-                <td>t.nixon@datatables.net</td>
-            </tr>
-        </tbody>
-      </table>
-  </div><br><br>
+<!--<div class="container" id="example1">-->
+      <!--<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">-->
+        <!--<thead>-->
+            <!--<tr>-->
+                <!--<th>Project Name</th>-->
+                <!--<th>Mission</th>-->
+                <!--<th>Engagement Type</th>-->
+                <!--<th>Activity Type</th>-->
+                <!--<th>Campus Partner</th>-->
+                <!--<th>Community Partner</th>-->
+                <!--<th>No.of.Hours</th>-->
+                <!--<th>No.Of.Volunteers</th>-->
+                <!--<th>Email</th>-->
+            <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+            <!--<tr>-->
+                <!--<td>Tiger</td>-->
+                <!--<td>Nixon</td>-->
+                <!--<td>System Architect</td>-->
+                <!--<td>Edinburgh</td>-->
+                <!--<td>61</td>-->
+                <!--<td>2011/04/25</td>-->
+                <!--<td>$320,800</td>-->
+                <!--<td>5421</td>-->
+                <!--<td>t.nixon@datatables.net</td>-->
+            <!--</tr>-->
+        <!--</tbody>-->
+      <!--</table>-->
+  <!--</div><br><br>-->
 
 
 <!-- Block Ends here>
@@ -151,7 +156,13 @@ color:black;
 
 <!--Contact Begins -->
 
+<div class="container">
 
+{% block content %}
+
+{% endblock %}
+
+</div>
 
 <section id="contact">
       <div class="container">
@@ -234,12 +245,12 @@ color:black;
 
 
 
-
+{% block custom_js %}{% endblock %}
 </body>
-<script type="text/javascript">
-     $(document).ready(function() {
-    $('#example').DataTable();
-} );
- </script>
+<!--<script type="text/javascript">-->
+     <!--$(document).ready(function() {-->
+    <!--$('#example').DataTable();-->
+<!--} );-->
+ <!--</script>-->
 </html>
 

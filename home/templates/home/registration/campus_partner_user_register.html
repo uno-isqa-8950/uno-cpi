@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="/resources/demos/style.css">
 {% endblock %}
 {% block content %}
+
 <script>
   $( function() {
     var availableTags = {{ data|safe }} ;
@@ -15,70 +16,120 @@
     });
   } );
   </script>
+ 
 
 <style>
 
-    .buttons-holder {
-  position: absolute;
-  top: 195%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.button {
-    background-color: #E2E5E8;
-    border: none;
-    color: #666666;
-    font-weight: bold;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: table-cell;
-    font-size: 16px;
-    margin: 12px 12px;
-    cursor: pointer;
-    border-radius: 5px;
-    width: 100%;
-    vertical-align: auto;
+.btn-custom
+{
+    background-color: #C0C0C0;
     position: relative;
-     left: 620px;
+    width:90px;
+    top:5px;
+    font-family: Helvetica;
+    left: 250px;
 }
- .boxContainer{
-        display: table;
-    }
-    h4{
- text-align: center;
-        color: #666666;
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-weight: bold;
-        background: #E2E5E8;
-        padding: 15px 32px;
-        border-radius: 5px;
-}
-    body{
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-        font-size: medium;
-        position: relative;
-    }
 
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+.panel
+{
+width: 650px;
+margin-left: auto;
+margin-right:auto;
+margin-top:80px;
+height: relative;
+font-family: Helvetica;
+box-shadow: 5px 10px 20px 5px grey;
+}
+
+
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+.panel-heading
+{
+	height:60px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+
+.panel
+{
+	border-radius: 5px;
+}
+
+
+.form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+h4
+{
+	line-height: 2.7;
+	font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
 </style>
-
-
-<h4> Create a Campus Partner User Account</h4>
-<form method="post" action="#">
- <div class="formUser">
+<div class = "container">
+     <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Create a Campus Partner User Account</h4></div>
+			<div class="panel-body">
+<!--<h4> Create a Campus Partner User Account</h4>-->
+<!--<form method="post" action="#">-->
+ <!--<div class="formUser">-->
      <form action="." method="post">
-  {% csrf_token %}
+    {% csrf_token %}
 
    {{ user_form|bootstrap }}
 
    {{ campus_partner_user_form|bootstrap }}
+<br>
+<p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
+    </form>
+  </div></div>
+            </div></div>
 
-<div class="boxContainer">
-  <p><input type="submit" value="Create My Account" class="button"></p>
-</div>
-</form>
- </div>
+<br><br>
 
-</form>
+<!--<div class="boxContainer">-->
+  <!--<p><input type="submit" value="Create My Account" class="button"></p>-->
+<!--</div>-->
+<!--</form>-->
+ <!--</div>-->
+
+<!--</form>-->
 
 {% endblock %}

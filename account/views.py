@@ -21,6 +21,8 @@ def user_login(request):
                 elif user.is_communitypartner:
                     login(request, user)
                     return render(request, 'home/Community_Home.html')
+                elif user.is_superuser:
+                    return render(request, 'home/CpiHome.html')
 
             else:
                 return HttpResponse('Invalid Credentials')

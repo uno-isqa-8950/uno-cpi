@@ -3,7 +3,10 @@
 {% block content %}
 
 <style>
-
+.btn-outline-info
+{
+    margin-left:20px;
+}
 @media (min-width: 700px)
 {
 .panel
@@ -67,7 +70,7 @@ font-weight: bold;
   {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
@@ -87,7 +90,7 @@ font-weight: bold;
    {{ formset_mission.management_form }}
       {% for form in formset_mission %}
             <div class="row form1-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Mission Areas</label>
                     <br>
                 </div>

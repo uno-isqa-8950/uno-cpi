@@ -75,14 +75,37 @@ font-weight: bold;
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
-                <div class="col-4">
                 <div class="input-group">
-                    {{ form|bootstrap }}
-                    <div class="input-group-append" >
+                   {{ form.contact_type|bootstrap }}
+                </div>
+
+                <div class="input-group">
+
+
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.first_name|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.last_name|bootstrap }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.work_phone|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.cell_phone|bootstrap }}
+                        </div>
+                    </div>
+
+
+
+             </div>
+            <div class="input-group-append" >
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
                     </div>
-                </div>
-                </div>
+
             </div>
       {% endfor %}
  

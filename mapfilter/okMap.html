@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset='utf-8' />
+	<title></title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+	<link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+	
+</head>
+<body>
+	<style>
+		#map{
+			width: 1000px;
+			height: 600px;
+			position: relative;
+
+
+		}
+		.filter{
+			position: absolute;
+			left: 1010px;
+			top: 10px;
+		}
+		.selectType{
+			width: 400px;
+			height: 50px;
+			font-size: 20px;
+			
+		}
+		.selectYear{
+			width: 400px;
+			height: 50px;
+			font-size: 20px;
+			
+		}
+	</style>
+	<div>
+		<div id='map' ></div>
+		<div class="filter">
+			<select id="selectType" name="classify" class="selectType">
+				<option value="all">All</option>
+				<option value="community">CommunityPartners</option>
+				<option value="k12">K-12Partners</option>
+			</select>
+			<select id="selectYear" class="selectYear">
+				<option value="2018">2018</option>
+				<option value="2017">2017</option>
+				<option value="2016">2016</option>
+				<option value="all">All</option>
+			</select>
+		</div>
+	</div>
+
+	<script src="mapfilter.js"></script>
+</body>
+</html>

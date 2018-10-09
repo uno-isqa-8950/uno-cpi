@@ -33,6 +33,7 @@ input[type=email],input[type=text],.form-control
 {
 h4
 {
+
     font-size:1.3em
 }
 
@@ -74,7 +75,9 @@ font-weight: bold;
                 <div class="input-group">
                     {{ form|bootstrap }}
                     <div class="input-group-append">
+
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+
 
                     </div>
                 </div>
@@ -193,5 +196,4 @@ $(document).on('click', '.remove-form1-row', function(e) {
 </script>
 
 {% endblock %}
-
 

@@ -20,6 +20,13 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
+def dashboard(request):
+    return render(request, 'home/GoogleMap_JSON.html',
+                  {'map': map})
+
+def about(request):
+    return render(request, 'home/Map_Leaflet.html',
+                  {'about': about})
 
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
@@ -42,7 +49,9 @@ def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
     user_form = UserForm()
     print(campus_partner_user_form)
-    print("its working")
+    data = []
+    for object in CampusPartner.objects.order_by().distinct('name'):
+        data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
@@ -64,7 +73,7 @@ def registerCampusPartnerUser(request):
             return render(request, 'home/register_done.html', )
     return render(request,
                   'home/registration/campus_partner_user_register.html',
-                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form})
+                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
 
 
 
@@ -198,4 +207,3 @@ def upload_campus(request):
             form.save()
     return render(request, 'import/uploadCampus.html',
                   {'upload_campus': upload_campus})
-

@@ -9,7 +9,7 @@ from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser
 from home.models import  Contact
 from django.utils.translation import ugettext_lazy as _
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectCommunityPartner
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
 
 
 EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
@@ -33,6 +33,7 @@ class CampusPartnerUserForm(forms.ModelForm):
         campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
+        #print(campus_partner)
 
 
 class CommunityPartnerUserForm(forms.ModelForm):
@@ -44,6 +45,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
         community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
+
 
 #### This is where you check the user flag as true and then we can call the decorator
     # def save(self):

@@ -1,6 +1,21 @@
 {% extends "home/base_home.html" %}
 {% load bootstrap %}
+{% block javascript %}
+<script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+{% endblock %}
 {% block content %}
+<script>
+  $( function() {
+    var availableTags = {{ data|safe }} ;
+    $( "#id_campus_partner" ).autocomplete({
+      source: availableTags
+    });
+  } );
+  </script>
+
 <style>
 
     .buttons-holder {
@@ -55,6 +70,7 @@
   {% csrf_token %}
 
    {{ user_form|bootstrap }}
+
    {{ campus_partner_user_form|bootstrap }}
 
 <div class="boxContainer">

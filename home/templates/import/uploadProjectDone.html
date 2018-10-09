@@ -1,0 +1,17 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+.center {
+    padding: 70px 0;
+    border: 3px solid green;
+    text-align: center;
+}
+</style>
+<div class="center">
+   <h2>Thank You</h2>
+  <p>Your data is successfully uploaded</p>
+    <a href= "/upload_project/" style="background-color: yellow" > Click here to Upload more projects</a>
+</div>
+{% endblock %}

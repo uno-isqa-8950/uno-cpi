@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+        var map; //start a map
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('map'), { //get the base map and Omaha zoomed out
+                zoom: 8,  //zoom level
+                center: {lat: 41.252597, lng: -95.932344} //Omaha coordinates
+            });
+
+            var districts = new google.maps.Data(); //create an object for NE legislative district GEOJSON
+
+            districts.loadGeoJson( //load the GEOJSON
+                'https://raw.githubusercontent.com/MinhduongUNO/Capstone_Visualization/master/Nebraska_Legislative_District_GEOJSON');
+            districts.setStyle({
+              strokeColor: 'black',
+              strokeWeight: 1
+            });
+            districts.setMap(map); //add the object
+
+
+            var partners = new google.maps.Data(); //create an object for Community Partner GEOJSON
+            partners.loadGeoJson( //load the GEOJSON
+                'https://raw.githubusercontent.com/MinhduongUNO/Capstone_Visualization/master/CommunityPartners.geojson');
+            partners.setStyle({
+              strokeColor: 'red',
+              strokeWeight: 5
+             });
+
+
+            partners.setMap(map); //add the object to the map
+
+
+            var infowindow = new google.maps.InfoWindow(); //create the infowindow object
+
+            // When the user clicks, open an infowindow
+            partners.addListener('click', function (event) {
+                var Partner = event.feature.getProperty("Community Partner");
+                var website = event.feature.getProperty("Website");
+                var phone = event.feature.getProperty("Phone Number");
+                var primary = event.feature.getProperty("Primary Mission Focus");
+                var secondary = event.feature.getProperty("Secondary Mission Focus");
+                var address = event.feature.getProperty("Address");
+                var location = event.feature.getProperty("Location");
+                var zip = event.feature.getProperty("Zip");
+                //create the text to show on the pop up
+                var myHTML = '<tr><td><span style="font-weight:bold">Partner: </span></td><td>' + Partner + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Website: </span></td><td>' + website + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Phone: </span></td><td>' + phone + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Primary Mission: </span></td><td>' + primary + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Secondary Mission: </span></td><td>' + secondary + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Full Address: </span></td><td>' + address + location + ' ' + zip +'</td></tr>'
+                infowindow.setContent("<div style='width:200px; text-align: left;'>" + myHTML + "</div>");
+                infowindow.setPosition(event.feature.getGeometry().get());
+                infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
+                infowindow.open(map);
+                close();
+            })
+              //this is for the polygon NE Districts. I still have to fix it
+            districts.addListener('click',function(event){
+                var district = event.feature.getProperty("OBJECTID")
+                var myHTML = '<tr><td><span style="font-weight:bold">Legislative District: </span></td><td>' + district + '</td></tr>'
+                infowindow.setContent("<div style='width:200px; text-align: left;'>" + myHTML + "</div>");
+                infowindow.setPosition(event.feature.getGeometry().get());
+                infowindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
+                infowindow.open(map);
+            })
+
+        }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI&callback=initMap">
+    </script>
+  </body>
+</html>

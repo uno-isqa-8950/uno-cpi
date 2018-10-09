@@ -3,67 +3,62 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 /* Style the buttons */
-.btn-upload {
-    border: none;
-    outline: none;
-    padding: 10px 10px;
-    background-color: lightskyblue;
-    cursor: pointer;
-    font-size: 18px;
-}
 
-.panel
+@media (min-width: 700px)
 {
-	width: relative;
-	margin-left: auto;
-	margin-right:auto;
-	height: relative;
-	font-family: Helvetica;
-	box-shadow: 5px 10px 10px 5px grey;
+    .panel {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: relative;
+            }
 
+    .btn-custom
+        {
+        margin-left:120px;
+        }
+    .form-control
+        {
+        width:90%;
+        }
 }
 
-.panel-default > .panel-heading
+@media (max-width: 600px)
 {
-background-color: #b8b8b8;
-}
-
-
-.panel-heading
-{
-	height:60px;
-	margin-top:5px;
-	border-radius: 5px;
-}
-
-.panel
-{
-	border-radius: 5px;
-}
-
 h4
 {
-	line-height: 2.4;
-    margin-left:5px;
-    font-size: 1.3rem;
-}
-
-label
-{
-
- margin-top: 10px;
- margin-left: 10px;
+    font-size:1.3em;
 }
 
 .btn-custom
 {
-    background-color: #C0C0C0;
-    position: relative;
-    width:90px;
-    top:15px;
-    font-family: Helvetica;
-    left: 0px;
+    margin-left:-10px;
 }
+}
+
+.position
+{
+    margin-top:20px;
+    text-align: center;
+}
+
+#position1
+{
+margin-left:1085px;
+margin-right: auto;
+}
+
+label, #heading
+{
+ margin-top: 15px;
+ margin-left: 10px;
+ }
+
+input[type=file]
+{
+    padding:0px;
+}
+
 
 #dvLoading
 {
@@ -77,39 +72,33 @@ label
     margin: -25px 0 0 -25px;
 }
 
-.btn-custom:hover
-{
-    background-color:#D3D3D3;
-}
-
 
 </style>
 
 
-<div class="container padding-left padding-top">
-<h2> Upload Projects</h2>
-<form action={{ download_projects_url }} method="GET">
-    <button class="btn btn-success"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
-</form>
+<div class="container">
 
-<div>
+
+<div class="">
+    <div class="position"><h2> Upload Projects</h2></div>
+
 <form id='upload_form' action="{% url 'upload_project' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>Select CSV file for Import:</h4></div>
+        <div class="panel-heading" ><h4 id="heading">Select CSV file for Import:</h4></div>
 
     <div class="panel-body">
 
       <label for="id_field">Choose File Type:</label>
         <select onchange="location = this.options[this.selectedIndex].value;">
             <option>Please select</option>
-            <option value="{% url 'upload_project' %}">Project</option>
+            <option value="{% url 'upload_project' %}" selected="selected">Project</option>
             <option value="{% url 'upload_campus' %}">Campus</option>
             <option value="{% url 'upload_community' %}">Community</option>
         </select>​
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label" onclick="myFunction()"> Choose File: </label>
-        <div class="col-md-8">
+        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
+        <div class="col-md-12">
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
     </div>
@@ -117,21 +106,22 @@ label
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
              <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
-
         </div>
 
     </div>
     </div>
     </div>
-</form>
+
+</form></div></div>
 </div>
-</div>
+    <div id="position1">
+        <form action={{ download_projects_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+        </form><br><br><br>
+    </div>
 
 
     <script>
-     function myFunction() {
-    const x = document.getElementById("mySelect").value;
-     }
 
 	</script>
 

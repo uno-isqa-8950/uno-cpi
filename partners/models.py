@@ -23,7 +23,7 @@ class CommunityPartner(models.Model):
     zip = models.CharField(max_length=10, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
 
     def __str__(self):
@@ -54,9 +54,9 @@ class CampusPartner(models.Model):
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
-    name = models.CharField(max_length=255, unique=True)
-    college = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
-    department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True)
+    name = models.CharField(max_length=255,unique=True)
+    college_name = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
+    department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True, blank=True)
     university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
     education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
@@ -68,7 +68,7 @@ class CampusPartner(models.Model):
 
 class CampusPartnerUser(models.Model):
 
-    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=False,unique=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
 
 

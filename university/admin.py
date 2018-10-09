@@ -19,16 +19,16 @@ class UniversityList(admin.ModelAdmin):
 
 class CollegeList(admin.ModelAdmin):
 
-    list_display = ('name', 'university')
+    list_display = ('college_name', 'university')
 
-    search_fields = ('name', 'university')
+    search_fields = ('college_name', 'university')
 
 
 class DepartmentList(admin.ModelAdmin):
 
-    list_display = ('name', 'college')
+    list_display = ('department_name', 'college_name')
 
-    search_fields = ('name', 'college')
+    search_fields = ('department_name', 'college_name')
 
 
 class CourseList(admin.ModelAdmin):

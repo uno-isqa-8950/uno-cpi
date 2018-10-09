@@ -1,13 +1,16 @@
 from django import forms
 from django.db.transaction import commit
 import re
+
+from university.models import *
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner, CommunityPartnerMission, CommunityType
-from university.models import *
-from home.models import  Contact
+from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, \
+    CommunityType, CampusPartnerUser
+from home.models import Contact, MissionArea
 from django.utils.translation import ugettext_lazy as _
-from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectCommunityPartner
+from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
+    ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm
 
 
@@ -16,20 +19,20 @@ EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
 
 class CampusPartnerUserForm(forms.ModelForm):
 
-    def as_p(self):
-        "Returns this form rendered as HTML <p>s."
-        return self._html_output(
-            normal_row='<p%(html_class_attr)s>%(label)s</p>%(field)s%(help_text)s',
-            error_row='%s',
-            row_ender='</p>',
-            help_text_html=' <span class="helptext">%s</span>',
-            errors_on_separate_row=True)
+    # def as_p(self):
+    #     "Returns this form rendered as HTML <p>s."
+    #     return self._html_output(
+    #         normal_row='<p%(html_class_attr)s>%(label)s</p>%(field)s%(help_text)s',
+    #         error_row='%s',
+    #         row_ender='</p>',
+    #         help_text_html=' <span class="helptext">%s</span>',
+    #         errors_on_separate_row=True)
 
     class Meta:
-        model = CampusPartner
-        fields = ('name',)
+        model = CampusPartnerUser
+        fields = ('campus_partner',)
 
-    name = forms.ModelChoiceField(
+        campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
 
@@ -37,20 +40,20 @@ class CampusPartnerUserForm(forms.ModelForm):
 class CommunityPartnerUserForm(forms.ModelForm):
 
     class Meta:
-        model = CommunityPartner
-        fields = ('name',)
+        model = CommunityPartnerUser
+        fields = ('community_partner',)
 
-    name = forms.ModelChoiceField(
+        community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 #### This is where you check the user flag as true and then we can call the decorator
-    def save(self):
-        user = super().save(commit=False)
-        user.is_campuspartner = True
-        if commit:
-            user.save()
-        return user
+    # def save(self):
+    #     user = super().save(commit=False)
+    #     user.is_campuspartner = True
+    #     if commit:
+    #         user.save()
+    #     return user
 
 
 class UserForm(forms.ModelForm):
@@ -141,7 +144,22 @@ class UploadProjectCommunityForm(forms.ModelForm):
         fields = ('project_name', 'community_partner')
 
 
-class UploadCommunityForm(ModelForm):
+class UploadProjectMissionForm(forms.ModelForm):
+    project_name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="project_name")
+    mission = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
+
+    class Meta:
+        model = ProjectMission
+        fields = '__all__'
+        mission_choices = (
+            ('Primary', 'Primary'),
+            ('Secondary', 'Secondary'),
+            ('Other', 'Other'),
+        )
+        mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))
+
+
+class UploadCommunityForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects.all(), to_field_name="community_type")
 
     class Meta:
@@ -154,11 +172,10 @@ class UploadCommunityForm(ModelForm):
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
-class UploadCampusForm(ModelForm):
-    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="university")
-    education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="education_system")
-    college = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college")
-    department = forms.ModelChoiceField(queryset=Department.objects.all(), to_field_name="department")
+class UploadCampusForm(forms.ModelForm):
+    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="name")
+    education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="name")
+    college_name = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college_name")
 
     class Meta:
         model = CampusPartner
@@ -170,16 +187,33 @@ class UploadCampusForm(ModelForm):
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
+class UploadCollege(ModelForm):
+    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="name")
+
+    class Meta:
+        model = College
+        fields = ('college_name', 'university')
+
+
+class UploadDepartment(ModelForm):
+    college_name = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college_name")
+
+    class Meta:
+        model = Department
+        fields = '__all__'
+
 
 class CommunityMissionForm(ModelForm):
-    class Meta :
+
+    mission_choices = (
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
+        ('Other', 'Other'),
+    )
+
+    class Meta:
         model = CommunityPartnerMission
-        fields = '__all__'
-        mission_choices = (
-            ('Primary', 'Primary'),
-            ('Secondary', 'Secondary'),
-            ('Other', 'Other'),
-        )
+        fields = ('mission_type' , 'mission_area')
 
 
 

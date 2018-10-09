@@ -5,8 +5,11 @@ from django.conf import settings
 
 
 urlpatterns = [
+
    path('', views.cpipage, name='cpipage'),
-   path('home', views.home, name='home'),
+   path('home',views.home, name='home'),
+   path('map', views.dashboard, name='map'),
+   path('about', views.about, name='about'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('registerCommunityPartnerUser/', views.registerCommunityPartnerUser, name='registerCommunityPartnerUser'),
    path('signupuser/registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
@@ -17,6 +20,5 @@ urlpatterns = [
    path('upload_project/', views.upload_project, name='upload_project'),
    path('upload_community/', views.upload_community, name='upload_community'),
    path('upload_campus/', views.upload_campus, name='upload_campus'),
-   path('community_project/', views.community_project, name='community_project'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

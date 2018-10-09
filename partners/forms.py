@@ -11,7 +11,7 @@ class CampusPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'education_system','university', 'college', 'department',)
+        fields = ('name', 'education_system','university', 'college_name', 'department',)
 
         labels= {
             'name': ('Campus Partner Name'),
@@ -22,7 +22,7 @@ class CampusPartnerFormProfile(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'education_system','university', 'college', 'department',)
+        fields = ('name', 'education_system','university', 'college_name', 'department',)
 
         labels= {
             'name': ('Campus Partner Name'),

@@ -12,27 +12,6 @@ from .forms import CampusPartnerForm, CampusPartnerContactForm
 
 from django.shortcuts import render, redirect
 
-'''
-def registerCampusPartner(request):
-    if request.method == 'POST':
-        campus_partner_form = CampusPartnerForm(request.POST)
-        campus_partner_contact_form = CampusPartnerForm(request.POST)
-
-
-        if campus_partner_form.is_valid() and campus_partner_contact_form.is_valid():
-            campus_partner_contact_form.save()
-            campus_partner_form.save()
-            return render(request, 'home/community_partner_register_done.html', )
-    else:
-        campus_partner_form = CampusPartnerForm()
-        campus_partner_contact_form = CampusPartnerContactForm()
-    return render(request,
-                  'registration/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'campus_partner_contact_form': campus_partner_contact_form})
-
-
-'''
-
 
 def registerCampusPartner(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)

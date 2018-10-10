@@ -67,10 +67,8 @@ class CampusPartner(models.Model):
 
 
 class CampusPartnerUser(models.Model):
-
     campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=False,unique=False)
     user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
-
 
 
 class CommunityPartnerUser(models.Model):

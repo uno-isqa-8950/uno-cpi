@@ -35,8 +35,6 @@ def registerCampusPartner(request):
                   {'campus_partner_form': campus_partner_form, 'formset': formset})
 
 
-# Campus Partner User Profile
-
 # @login_required
 # def campusPartnerUserProfile(request):
 
@@ -79,6 +77,9 @@ def registerCampusPartner(request):
 #                 {'campus_partner_contact_form': campus_partner_contact_form}
 #               )
 
+
+# Campus Partner User Profile
+
 @login_required
 def campusPartnerUserProfile(request):
 
@@ -86,6 +87,7 @@ def campusPartnerUserProfile(request):
 
   return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
 
+# Campus Partner User Update Profile
 
 @login_required
 def campusPartnerUserProfileUpdate(request):

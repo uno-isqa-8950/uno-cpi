@@ -51,7 +51,7 @@ class CampusPartnerContactForm(forms.ModelForm):
                    'cell_phone': forms.TextInput({'placeholder': '5714200002'}),
                    'email_id': forms.TextInput({'placeholder': 'abc@unomaha.edu'}),
                    }
-        help_texts= {'email_id' :'(ex: abc@unomaha.edu)'}
+
 
 
 

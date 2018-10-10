@@ -20,15 +20,6 @@ EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
 
 class CampusPartnerUserForm(forms.ModelForm):
 
-    # def as_p(self):
-    #     "Returns this form rendered as HTML <p>s."
-    #     return self._html_output(
-    #         normal_row='<p%(html_class_attr)s>%(label)s</p>%(field)s%(help_text)s',
-    #         error_row='%s',
-    #         row_ender='</p>',
-    #         help_text_html=' <span class="helptext">%s</span>',
-    #         errors_on_separate_row=True)
-
     class Meta:
         model = CampusPartnerUser
         fields = ('campus_partner',)
@@ -38,6 +29,13 @@ class CampusPartnerUserForm(forms.ModelForm):
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
         #print(campus_partner)
 
+    def clean_email_id (self):
+        data = self.cleaned_data.get('email_id')
+        domain = data.split('@')[1]
+        domain_list = ["unomaha.edu" ]
+        if domain not in domain_list:
+            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+        return data
 
 class CommunityPartnerUserForm(forms.ModelForm):
 
@@ -50,13 +48,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 
-#### This is where you check the user flag as true and then we can call the decorator
-    # def save(self):
-    #     user = super().save(commit=False)
-    #     user.is_campuspartner = True
-    #     if commit:
-    #         user.save()
-    #     return user
+
 
 
 class UserForm(forms.ModelForm):
@@ -112,8 +104,8 @@ class CommunityContactForm(forms.ModelForm):
                   'cell_phone',
                   'email_id',
                   'contact_type')
-        widgets = {'work_phone': forms.TextInput({'placeholder': '571-420-0002'}),
-                   'cell_phone': forms.TextInput({'placeholder': '571-420-0002'}),
+        widgets = {'work_phone': forms.TextInput({'placeholder': '5714200002'}),
+                   'cell_phone': forms.TextInput({'placeholder': '5714200002'}),
                   }
 
 

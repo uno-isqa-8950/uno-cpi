@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 
 
 import os
+from django.contrib.messages import constants as messages
 import dj_database_url
 from django.urls import reverse_lazy
 
@@ -87,13 +88,12 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd46q2igt2d4vbg',
-        'USER': 'nbzsljiyoqyakc',
-        'PASSWORD': '56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1',
-        'HOST': 'ec2-54-227-241-179.compute-1.amazonaws.com',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
-
 }
 
 
@@ -145,6 +145,13 @@ PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (

@@ -67,9 +67,9 @@ color:black;
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
             <a class ="navbar-brand" href="#" id="uno"><b>University of Nebraska Omaha</b>
-                <b id="cpi">Community Partnership Initiative</b></a>
+              <b id="cpi">Campus Home</b>
+            </a>
             {% if user.is_authenticated %}
-            <li class=""><a href="#">Hello, {{user.username}}</a></li>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
@@ -78,33 +78,19 @@ color:black;
                     <a class="nav-link" href='/project/'><i class="fa fa-product-hunt"></i>Project</a>
                 </li>
                 <li class="nav-item">
-
-                    <a class="nav-link" href='/projects/communitypartnerproject/'><i class="fa fa-eye"></i>Reports</a>
+                  <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
                 </li>
-                <li class="nav-item">
-
-                    <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user"></i>Create community partner User</a>
-
-                </li>
-                <!--li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fa fa-home"></i>Impact</a>
-                </li-->
-                <!--li class=" nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-globe"></i>Register
-                        <span class="caret"></span>
+                      <i class="fa fa-user-circle-o"></i>Profile
+                      <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
-                    <a class="dropdown-item" href='/registerCommunityPartner/'>Community Partner</a>
+                  <a class="dropdown-item" href="{% url 'partners:campuspartneruserprofile' %}">Campus Partner User Profile</a>
+                  <a class="dropdown-item" href='#'>Campus Partner Organization Profile</a>
                 </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='/signupuser/'><i class="fa fa-user-plus"></i>SignUp</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
-                </li-->
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
                 </li>
@@ -119,42 +105,36 @@ color:black;
 
 <!-- Table Begins ---- Add Block Content Here-->
 
-<!--<div class="container" id="example1">-->
-      <!--<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">-->
-        <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>Project Name</th>-->
-                <!--<th>Mission</th>-->
-                <!--<th>Engagement Type</th>-->
-                <!--<th>Activity Type</th>-->
-                <!--<th>Campus Partner</th>-->
-                <!--<th>Community Partner</th>-->
-                <!--<th>No.of.Hours</th>-->
-                <!--<th>No.Of.Volunteers</th>-->
-                <!--<th>Email</th>-->
-            <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-            <!--<tr>-->
-                <!--<td>Tiger</td>-->
-                <!--<td>Nixon</td>-->
-                <!--<td>System Architect</td>-->
-                <!--<td>Edinburgh</td>-->
-                <!--<td>61</td>-->
-                <!--<td>2011/04/25</td>-->
-                <!--<td>$320,800</td>-->
-                <!--<td>5421</td>-->
-                <!--<td>t.nixon@datatables.net</td>-->
-            <!--</tr>-->
-        <!--</tbody>-->
-      <!--</table>-->
-  <!--</div><br><br>-->
-
-
-<!-- Block Ends here>
-
-
-<!--Contact Begins -->
+<!-- <div class="container" id="example1">
+      <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Mission</th>
+                <th>Engagement Type</th>
+                <th>Activity Type</th>
+                <th>Campus Partner</th>
+                <th>Community Partner</th>
+                <th>No.of.Hours</th>
+                <th>No.Of.Volunteers</th>
+                <th>Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Tiger</td>
+                <td>Nixon</td>
+                <td>System Architect</td>
+                <td>Edinburgh</td>
+                <td>61</td>
+                <td>2011/04/25</td>
+                <td>$320,800</td>
+                <td>5421</td>
+                <td>t.nixon@datatables.net</td>
+            </tr>
+        </tbody>
+      </table>
+  </div><br><br> -->
 
 <{% block content %}
     <div class="container">
@@ -164,6 +144,7 @@ color:black;
     </div>
 
 {% endblock %}
+
 
 <section id="contact">
       <div class="container">

@@ -72,11 +72,11 @@ class CommunityPartnerForm(forms.ModelForm):
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
-    def clean_website_url(self):
-       data = self.cleaned_data.get('website_url')
-       if  not  data.startswith ('https://'):
-        raise forms.ValidationError('Url should start from "https://".')
-       return data
+    # def clean_website_url(self):
+    #    data = self.cleaned_data.get('website_url')
+    #    if  not  data.startswith ('https://'):
+    #     raise forms.ValidationError('Url should start from "https://".')
+    #    return data
 
 
 class CommunityContactForm(forms.ModelForm):

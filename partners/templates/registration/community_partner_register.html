@@ -63,7 +63,7 @@ font-weight: bold;
 			<div class="panel-body">
 
 <div class="body">
-<form action="../../../home/templates/home" method="post">
+<form action="." method="post">
   {% csrf_token %}
   {{ community_partner_form.name |bootstrap }}
   {{ community_partner_form.website_url |bootstrap }}

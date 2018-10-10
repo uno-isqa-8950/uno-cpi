@@ -20,18 +20,6 @@
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
 
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
-
-
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
-
-
 <style>
 
 #contact
@@ -44,11 +32,6 @@ a
 color:black;
 }
 
-#example1
-    {
-        margin-top:100px;
-        margin-left: 250px;
-    }
 
 </style>
 
@@ -117,53 +100,21 @@ color:black;
 
 <!-- Navbar ends-->
 
-<!-- Table Begins ---- Add Block Content Here-->
-
-<!--<div class="container" id="example1">-->
-      <!--<table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">-->
-        <!--<thead>-->
-            <!--<tr>-->
-                <!--<th>Project Name</th>-->
-                <!--<th>Mission</th>-->
-                <!--<th>Engagement Type</th>-->
-                <!--<th>Activity Type</th>-->
-                <!--<th>Campus Partner</th>-->
-                <!--<th>Community Partner</th>-->
-                <!--<th>No.of.Hours</th>-->
-                <!--<th>No.Of.Volunteers</th>-->
-                <!--<th>Email</th>-->
-            <!--</tr>-->
-        <!--</thead>-->
-        <!--<tbody>-->
-            <!--<tr>-->
-                <!--<td>Tiger</td>-->
-                <!--<td>Nixon</td>-->
-                <!--<td>System Architect</td>-->
-                <!--<td>Edinburgh</td>-->
-                <!--<td>61</td>-->
-                <!--<td>2011/04/25</td>-->
-                <!--<td>$320,800</td>-->
-                <!--<td>5421</td>-->
-                <!--<td>t.nixon@datatables.net</td>-->
-            <!--</tr>-->
-        <!--</tbody>-->
-      <!--</table>-->
-  <!--</div><br><br>-->
-
-
+<div class="container">
+<br>
+</div>
 <!-- Block Ends here>
 
 
 <!--Contact Begins -->
 
-<{% block content %}
-    <div class="container">
-        <div class="col-8">
-          <h3>Welcome Campus Partner </h3>
-        </div>
-    </div>
+<div class="container">
 
+{% block content %}
+    <p>Welcome Campus Partner </p>
 {% endblock %}
+
+</div>
 
 <section id="contact">
       <div class="container">
@@ -247,11 +198,8 @@ color:black;
 
 
 {% block custom_js %}{% endblock %}
+{% block js %} {% endblock %}
 </body>
-<!--<script type="text/javascript">-->
-     <!--$(document).ready(function() {-->
-    <!--$('#example').DataTable();-->
-<!--} );-->
- <!--</script>-->
+
 </html>
 

@@ -1,15 +1,14 @@
 from django.forms import formset_factory
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.forms import modelformset_factory
-from django.shortcuts import render, redirect
-from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFormProfile
+from .forms import *
+from django.shortcuts import render
 from .models import CampusPartner as CampusPartnerModel
-from home.models import Contact as ContactModel, Contact, User
-from home.forms import UserForm
-from partners.models import CampusPartner, CampusPartnerUser
-from .forms import CampusPartnerForm, CampusPartnerContactForm
+from home.models import Contact as ContactModel, Contact
+from projects.models import *
+from django.core.exceptions import ValidationError
+from django.forms import inlineformset_factory, modelformset_factory
+from django.template import context
+from partners.models import *
+
 
 
 def registerCampusPartner(request):
@@ -25,7 +24,9 @@ def registerCampusPartner(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return render(request, 'home/community_partner_register_done.html')
+                 print(contact)
+                return render(request, 'registration/community_partner_register_done.html')
+
 
     else:
         campus_partner_form = CampusPartnerForm()
@@ -55,20 +56,64 @@ def registerCampusPartner(request):
 #   # # We should use objects.get(campus_partner=current_campus_partner)
 #   # # as it gets the unqiue object mapping result in try catch. 
   
-#   # campus_user = CampusPartnerUser.objects.get(
-#   #     user= request.user.id)
 
-#   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
+  try:
+    partner_contact = ContactModel.objects.get(
+      campus_partner=current_campus_partner
+    )
+    first_name = partner_contact.first_name
+    last_name = partner_contact.last_name
+    email = partner_contact.email_id
+  except ContactModel.DoesNotExist:
+    first_name = None
+    last_name = None
+    email = None
+  return render(request,
+                  'home/campus_partner_profile.html', {
+                    'campus_partner_name': campus_partner_name,
+                    'college': college,
+                    'department': department,
+                    'first_name': first_name,
+                    'last_name': last_name,
+                    'email': email               
+                 })
 
-#   if not campus_user:
-#     return HttpResponseNotFound('<h1>Page not found</h1>')
 
-#   campus_partner_contact = ContactModel.objects.get(
-#     campus_partner=campus_user.campus_partner
-#     )
+def registerCommunityPartner(request):
+    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
+    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    if request.method == 'POST':
+        community_partner_form = CommunityPartnerForm(request.POST)
+        formset_mission = CommunityMissionFormset(request.POST)
+        formset = ContactFormsetCommunity(request.POST or None)
 
-#   return render(request, 'partners/campus_partner_user_profile.html', {"data": campus_partner_contact})
+        if community_partner_form.is_valid() and formset.is_valid():
+            community_partner = community_partner_form.save()
+            contacts = formset.save(commit=False)
+            missions = formset_mission.save(commit=False)
+            print(contacts)
+            print(missions)
+            for contact in contacts:
+                contact.community_partner = community_partner
+                contact.save()
+                print(contact)
+            if formset_mission.is_valid():
+                for mission in missions:
+                    mission.community_partner = community_partner
+                    mission.save()
+                    print(mission)
 
+                    return render(request, 'registration/community_partner_register_done.html', )
+    else:
+        community_partner_form = CommunityPartnerForm()
+        formset = ContactFormsetCommunity(queryset=Contact.objects.none())
+        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none())
+
+    return render(request,
+                  'registration/community_partner_register.html',
+                  {'community_partner_form': community_partner_form,
+                   'formset': formset,
+                   'formset_mission' : formset_mission}, )
 
 # @login_required
 # def campusPartnerUserProfileUpdate(request):

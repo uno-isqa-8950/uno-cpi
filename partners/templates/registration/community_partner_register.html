@@ -59,11 +59,11 @@ font-weight: bold;
 
 <div class = "container">
     <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Register Your Community </h4></div>
+		<div class="panel-heading text-center"><h4>Register Community Partner </h4></div>
 			<div class="panel-body">
 
 <div class="body">
-<form action="." method="post">
+<form action="../../../home/templates/home" method="post">
   {% csrf_token %}
   {{ community_partner_form.name |bootstrap }}
   {{ community_partner_form.website_url |bootstrap }}

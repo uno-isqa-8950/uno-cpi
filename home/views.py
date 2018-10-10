@@ -1,14 +1,13 @@
 from django.db import connection
 from django.forms import modelformset_factory
-
 from home.decorators import campuspartner_required
 from .models import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
-from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
+from .forms import UserForm, CampusPartnerUserForm, \
     CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm,  UploadCampusForm, \
-    UploadProjectCommunityForm, UploadProjectCampusForm, CommunityMissionForm, UploadCollege, UploadDepartment, \
+    UploadProjectCommunityForm, UploadProjectCampusForm, UploadCollege, UploadDepartment, \
     UploadProjectMissionForm
 from django.shortcuts import render
 from django.urls import reverse
@@ -101,42 +100,6 @@ def registerCommunityPartnerUser(request):
                   'home/registration/community_partner_user_register.html',
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
 
-
-def registerCommunityPartner(request):
-    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
-    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
-    if request.method == 'POST':
-        community_partner_form = CommunityPartnerForm(request.POST)
-        formset_mission = CommunityMissionFormset(request.POST)
-        formset = ContactFormsetCommunity(request.POST or None)
-
-        if community_partner_form.is_valid() and formset.is_valid():
-            community_partner = community_partner_form.save()
-            contacts = formset.save(commit=False)
-            missions = formset_mission.save(commit=False)
-            print(contacts)
-            print(missions)
-            for contact in contacts:
-                contact.community_partner = community_partner
-                contact.save()
-                print(contact)
-            if formset_mission.is_valid():
-                for mission in missions:
-                    mission.community_partner = community_partner
-                    mission.save()
-                    print(mission)
-
-                    return render(request, 'home/community_partner_register_done.html', )
-    else:
-        community_partner_form = CommunityPartnerForm()
-        formset = ContactFormsetCommunity(queryset=Contact.objects.none())
-        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none())
-
-    return render(request,
-                  'home/community_partner_register.html',
-                  {'community_partner_form': community_partner_form,
-                   'formset': formset,
-                   'formset_mission' : formset_mission}, )
 
 
 def upload_project(request):

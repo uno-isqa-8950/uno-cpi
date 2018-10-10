@@ -33,7 +33,6 @@ class Contact(models.Model):
         return '%s %s ' % (self.first_name, self.last_name)
 
 
-
 class MissionArea (models.Model):
     mission_name = models.CharField(max_length=100)
     description = models.TextField()

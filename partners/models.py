@@ -12,8 +12,7 @@ class CommunityPartner(models.Model):
     name = models.CharField(max_length=255, unique=True)
     website_url = models.URLField(max_length=100, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True)
-    k12_level =  models.CharField(max_length=20,null=False, blank=True,
-                                  help_text="If your community type is K12, Please provide the k12-level.")
+    k12_level =  models.CharField(max_length=20,null=False, blank=True)
     address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
     county = models.CharField(max_length=100, blank=True)
@@ -23,7 +22,7 @@ class CommunityPartner(models.Model):
     zip = models.CharField(max_length=10, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    active = models.BooleanField(default=True)
+    active = models.BooleanField(default=False)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
 
     def __str__(self):
@@ -55,8 +54,8 @@ class CampusPartner(models.Model):
         ('No', 'No'),
     )
     name = models.CharField(max_length=255,unique=True)
-    college = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
-    department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True)
+    college_name = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
+    department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True, blank=True)
     university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
     education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)

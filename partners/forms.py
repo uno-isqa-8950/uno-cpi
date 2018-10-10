@@ -11,7 +11,7 @@ class CampusPartnerForm(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'education_system','university', 'college', 'department',)
+        fields = ('name', 'education_system','university', 'college_name', 'department',)
 
         labels= {
             'name': ('Campus Partner Name'),
@@ -22,7 +22,7 @@ class CampusPartnerFormProfile(forms.ModelForm):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'education_system','university', 'college', 'department',)
+        fields = ('name', 'education_system','university', 'college_name', 'department',)
 
         labels= {
             'name': ('Campus Partner Name'),
@@ -47,20 +47,19 @@ class CampusPartnerContactForm(forms.ModelForm):
 
         }
 
-        error_messages = {
-            'name': {'required': ("Campus Partner Name is required")},
-            'cellphone': {'max_length': ("Phone number is not valid"),}
-            },
+        widgets = {'work_phone': forms.TextInput({'placeholder': '5714200002'}),
+                   'cell_phone': forms.TextInput({'placeholder': '5714200002'}),
+                   'email_id': forms.TextInput({'placeholder': 'abc@unomaha.edu'}),
+                   }
         help_texts= {'email_id' :'(ex: abc@unomaha.edu)'}
 
 
 
-        def clean_email_id (self):
-            data = self.cleaned_data.get('email_id')
-            domain = data.split('@')[1]
-            domain_list = ["unomaha.edu" ]
-            if domain not in domain_list:
-                raise forms.ValidationError("Please enter an Email Address with a valid domain")
-            return data
-
+    def clean_email_id (self):
+        data = self.cleaned_data.get('email_id')
+        domain = data.split('@')[1]
+        domain_list = ["unomaha.edu" ]
+        if domain not in domain_list:
+            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+        return data
 

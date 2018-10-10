@@ -3,60 +3,126 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
 /* Style the buttons */
-.btn-upload {
-    border: none;
-    outline: none;
-    padding: 10px 10px;
-    background-color: lightskyblue;
-    cursor: pointer;
-    font-size: 18px;
+
+@media (min-width: 700px)
+{
+    .panel {
+        width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+        height: relative;
+            }
+
+    .btn-custom
+        {
+        margin-left:120px;
+        }
+    .form-control
+        {
+        width:90%;
+        }
 }
+
+@media (max-width: 600px)
+{
+h4
+{
+    font-size:1.3em;
+}
+
+.btn-custom
+{
+    margin-left:-10px;
+}
+}
+
+.position
+{
+    margin-top:20px;
+    text-align: center;
+}
+
+#position1
+{
+margin-left:1085px;
+margin-right: auto;
+}
+
+label, #heading
+{
+ margin-top: 15px;
+ margin-left: 10px;
+ }
+
+input[type=file]
+{
+    padding:0px;
+}
+
+
+#dvLoading
+{
+    background: #0000 url(images/loader.gif) no-repeat center center;
+    height: 100px;
+    width: 100px;
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    margin: -25px 0 0 -25px;
+}
+
+
 </style>
 
 
-<div class="container padding-left padding-top">
-<h2> Upload Campus Partners </h2>
+<div class="container">
 
-<form action={{ download_campus_url }} method="GET">
-    <button class="btn btn-success"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
-</form>
 
-<div>
+<div class="">
+    <div class="position"><h2> Upload Campus Partners</h2></div>
 <form id='upload_form' action="{% url 'upload_campus' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
-        <div class="panel-heading">Select CSV file for Import:</div>
+        <div class="panel-heading" ><h4 id="heading">Select CSV file for Import:</h4></div>
 
     <div class="panel-body">
 
       <label for="id_field">Choose File Type:</label>
         <select onchange="location = this.options[this.selectedIndex].value;">
             <option>Please select</option>
-            <option value="{% url 'upload_project' %}">Project</option>
-            <option value="{% url 'upload_campus' %}">Campus</option>
+            <option value="{% url 'upload_project' %}" >Project</option>
+            <option value="{% url 'upload_campus' %}" selected="selected">Campus</option>
             <option value="{% url 'upload_community' %}">Community</option>
         </select>​
-
     <div class="form-group">
         <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center "></span>Upload </button>
+             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
         </div>
+
     </div>
     </div>
     </div>
-</form>
+
+</form></div></div>
 </div>
-</div>
+    <div id="position1">
+        <form action={{ download_campus_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
+        </form><br><br><br>
+    </div>
+
 
     <script>
 
-    </script>
+	</script>
+
 
 {% endblock %}

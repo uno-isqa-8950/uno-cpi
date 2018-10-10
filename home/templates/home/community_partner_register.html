@@ -3,7 +3,10 @@
 {% block content %}
 
 <style>
-
+.btn-outline-info
+{
+    margin-left:20px;
+}
 @media (min-width: 700px)
 {
 .panel
@@ -33,6 +36,7 @@ input[type=email],input[type=text],.form-control
 {
 h4
 {
+
     font-size:1.3em
 }
 
@@ -61,39 +65,91 @@ font-weight: bold;
 <div class="body">
 <form action="." method="post">
   {% csrf_token %}
-  {{ community_partner_form|bootstrap }}
-
+  {{ community_partner_form.name |bootstrap }}
+  {{ community_partner_form.website_url |bootstrap }}
+  {{ community_partner_form.community_type |bootstrap }}
+  {{ community_partner_form.k12_level |bootstrap }}
+  {{ community_partner_form.address_line1 |bootstrap }}
+  {{ community_partner_form.address_line2 |bootstrap }}
+   <div class="row">
+       <div class="col-4">
+       {{ community_partner_form.county |bootstrap }}
+       </div>
+       <div class="col-4">
+       {{ community_partner_form.city |bootstrap }}
+       </div>
+   </div>
+   <div class="row">
+       <div class="col-4">
+       {{ community_partner_form.state |bootstrap }}
+       </div>
+       <div class="col-4">
+       {{ community_partner_form.county |bootstrap }}
+       </div>
+   </div>
+   <div class="row">
+     <div class="col-4">
+       {{ community_partner_form.zip |bootstrap }}
+     </div>
+   </div>
   {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
-                <div class="col-4">
                 <div class="input-group">
-                    {{ form|bootstrap }}
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+                   {{ form.contact_type|bootstrap }}
+                </div>
 
+                <div class="input-group">
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.first_name|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.last_name|bootstrap }}
+                        </div>
                     </div>
-                </div>
-                </div>
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.work_phone|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.cell_phone|bootstrap }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        {{ form.email_id|bootstrap }}
+                    </div>
+             </div>
+            <div class="input-group-append" >
+                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+                    </div>
             </div>
       {% endfor %}
-   {{ formset_mission.management_form }}
+
+  {{ formset_mission.management_form }}
       {% for form in formset_mission %}
-            <div class="row form-row spacer">
-                <div class="col-4">
+            <div id="mission-form" class="row form1-row spacer">
+                <div class="col-12">
                     <label>Mission Areas</label>
                     <br>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                 <div class="input-group">
-                    {{ form.mission_type|bootstrap }}
-                    {{ form.mission_area|bootstrap }}
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.mission_type|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.mission_area|bootstrap }}
+                        </div>
+                    </div>
                     <div class="input-group-append">
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more Mission areas</button>
+                        <button class="btn btn-outline-info btn-sm add-form1-row">Add more Mission areas</button>
 
                     </div>
                 </div>
@@ -113,7 +169,7 @@ font-weight: bold;
 
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script type="text/javascript">
+<script type="text/javascript" , id="contact-form">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
     var replacement = prefix + '-' + ndx;
@@ -140,7 +196,7 @@ function cloneMore(selector, prefix) {
     conditionRow.find('.btn.add-form-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form-row').addClass('remove-form-row')
-    .html('-');
+    .html('Remove');
     return false;
 }
 function deleteForm(prefix, btn) {
@@ -170,6 +226,4 @@ $(document).on('click', '.remove-form-row', function(e){
 </script>
 
 {% endblock %}
-
-
 

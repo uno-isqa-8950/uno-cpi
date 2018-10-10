@@ -14,9 +14,9 @@ class CommunityPartnerList(admin.ModelAdmin):
 
 class CampusPartnerList(admin.ModelAdmin):
 
-    list_display = ('name', 'education_system', 'university','college','department','weitz_cec_part','active')
+    list_display = ('name', 'education_system', 'university','college_name','department','weitz_cec_part','active')
 
-    search_fields = ('name', 'education_system', 'university','college','department','weitz_cec_part','active')
+    search_fields = ('name', 'education_system', 'university','college_name','department','weitz_cec_part','active')
 
 
 class CampusPartnerUserList(admin.ModelAdmin):

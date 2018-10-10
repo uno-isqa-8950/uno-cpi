@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+     <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin=""></script>
+    <style>
+
+    .button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 45px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    }
+    #map {
+        height: 80%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+</head>
+<body>
+<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+    <div class="button">
+        <button type="button" id="all" class="button">All</button>
+        <button type="button" id="justice" class="button">Justice</button>
+        <button type="button" id="educational" class="button">Educational</button>
+        <button type="button" id="environmental" class="button">Environmental Stewardship</button>
+        <button type="button" id="health" class="button">Health & Wellness</button>
+        <button type="button" id="service" class="button">International Service</button>
+        <button type="button" id="economic" class="button">Economic Sufficiency</button>
+    </div>
+    <div id="map"></div>
+    <script>
+        //add the map with Omaha zoomed in
+        var map = L.map('map').setView([41.276479, -95.957309], 7);
+        L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, ' +
+            '<a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+            maxZoom: 18,
+            id: 'mapbox.streets',
+            accessToken: 'pk.eyJ1IjoibWluaGR1b25nMjQzIiwiYSI6ImNqbHNvM3l0cTAxaXMzcHBiYnpvNjBsaXAifQ.NO598_UKYbyOIok45baiWA'
+        }).addTo(map);
+        //add the NE Legislative District GEOJSON
+        $.getJSON("https://raw.githubusercontent.com/MinhduongUNO/Capstone_Visualization/master/Nebraska_Legislative_District_GEOJSON",
+            function(data){
+        // add GeoJSON layer to the map once the file is loaded
+                var datalayer = L.geoJson(data ,{
+                onEachFeature: function(feature, featureLayer) {
+                featureLayer.bindPopup('<tr><td><span style="font-weight:bold">Legislative District Number: </span></td><td>' +
+                    feature.properties["OBJECTID"].toString())}
+                }).addTo(map);
+                map.fitBounds(datalayer.getBounds());
+        });
+
+        //this function is to create pop up text to avoid repeating the code many times
+        function textproduction (feature){
+            var mission = feature.properties["Primary Mission Focus"].toString();
+            var partner = feature.properties["Community Partner"].toString();
+            var website = feature.properties["Website"].toString();
+            var phone = feature.properties["Phone Number"].toString();
+            var second = feature.properties["Secondary Mission Focus"].toString();
+            var address = feature.properties["Address"].toString();
+            var location = feature.properties["Location"].toString();
+            var zip = feature.properties["Location"].toString();
+            var myHTML = '<tr><td><span style="font-weight:bold">Partner: </span></td><td>' + partner + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Website: </span></td><td>' + website + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Phone: </span></td><td>' + phone + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Primary Mission: </span></td><td>' + mission + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Secondary Mission: </span></td><td>' + second + '</td></tr><br />' +
+                    '<tr><td><span style="font-weight:bold">Full Address: </span></td><td>' + address + location + ' ' + zip +'</td></tr>'
+            return myHTML
+        }
+        //add the Community Partner GEOJSON
+        var promise = $.getJSON("https://raw.githubusercontent.com/MinhduongUNO/Capstone_Visualization/master/CommunityPartners.geojson");
+        promise.then(function(data) {
+            var all = L.geoJson(data);
+            //filter "Social Justice"
+            var justice = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "Social Justice";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            //filter "Educational Support
+            var educational = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "Educational Support";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            //Filter Health & Wellness
+            var health = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "Health & Wellness";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            //filter economic sufficiency
+            var economic = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "Economic Sufficiency";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            //filter "International Service"
+            var service = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "International Service";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            //filter "Environmental Stewardship"
+            var environmental = L.geoJson(data, {
+                filter: function (feature, layer) {
+                    return feature.properties["Primary Mission Focus"] == "Environmental Stewardship";
+                },
+                pointToLayer: function (feature, latlng) {
+                    return L.marker(latlng, {}).on('mouseover', function () { //mouse over
+                        var text = textproduction(feature) //prepare the pop up text
+                        this.bindPopup(text).openPopup();
+                    });
+                }
+            });
+            map.fitBounds(all.getBounds(), {
+                padding: [50, 50]
+            });
+            //add the layers to the map
+            justice.addTo(map)
+            educational.addTo(map)
+            service.addTo(map)
+            environmental.addTo(map)
+            economic.addTo(map)
+            health.addTo(map)
+
+            //dictate the functions when buttons are clicked
+            $("#justice").click(function () {
+                map.addLayer(justice)
+                map.removeLayer(educational)
+                map.removeLayer(economic)
+                map.removeLayer(service)
+                map.removeLayer(health)
+                map.removeLayer(environmental)
+            });
+            $("#educational").click(function () {
+                map.addLayer(educational)
+                map.removeLayer(justice)
+                map.removeLayer(economic)
+                map.removeLayer(service)
+                map.removeLayer(health)
+                map.removeLayer(environmental)
+            });
+            $("#economic").click(function () {
+                map.addLayer(economic)
+                map.removeLayer(justice)
+                map.removeLayer(educational)
+                map.removeLayer(service)
+                map.removeLayer(health)
+                map.removeLayer(environmental)
+            });
+            $("#service").click(function () {
+                map.addLayer(service)
+                map.removeLayer(justice)
+                map.removeLayer(educational)
+                map.removeLayer(economic)
+                map.removeLayer(health)
+                map.removeLayer(environmental)
+            });
+            $("#health").click(function () {
+                map.addLayer(health)
+                map.removeLayer(justice)
+                map.removeLayer(educational)
+                map.removeLayer(economic)
+                map.removeLayer(service)
+                map.removeLayer(environmental)
+            });
+            $("#environmental").click(function () {
+                map.addLayer(environmental)
+                map.removeLayer(justice)
+                map.removeLayer(educational)
+                map.removeLayer(economic)
+                map.removeLayer(service)
+                map.removeLayer(health)
+            });
+            $("#all").click(function() {
+                map.addLayer(educational)
+                map.addLayer(justice)
+                map.addLayer(economic)
+                map.addLayer(health)
+                map.addLayer(service)
+                map.addLayer(environmental)
+            });
+        });
+
+    </script>
+</body>
+</html>

@@ -29,18 +29,34 @@ class Project (models.Model):
     zip = models.IntegerField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    created_date = models.DateTimeField(default=timezone.now)
+    updated_date = models.DateTimeField(auto_now_add=True)
+
+    def created(self):
+        self.created_date = timezone.now()
+        self.save()
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
 
     def __str__(self):
         return str(self.project_name)
 
 
 class ProjectMission (models.Model):
+    mission_choices = (
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
+        ('Other', 'Other'),
+    )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    mission_type = models.CharField(max_length=20)
+    mission_type = models.CharField(max_length=20,choices=mission_choices)
     mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.project_name)
+        return str(self.mission)
 
 
 class ProjectCommunityPartner (models.Model):

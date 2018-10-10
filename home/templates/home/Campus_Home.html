@@ -72,7 +72,7 @@ color:black;
             {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tachometer"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-product-hunt"></i>Project</a>
@@ -225,12 +225,12 @@ color:black;
 
 
 
-
+{% block custom_js %}{% endblock %}
 </body>
-<script type="text/javascript">
-     $(document).ready(function() {
-    $('#example').DataTable();
-} );
- </script>
+<!--<script type="text/javascript">-->
+     <!--$(document).ready(function() {-->
+    <!--$('#example').DataTable();-->
+<!--} );-->
+ <!--</script>-->
 </html>
 

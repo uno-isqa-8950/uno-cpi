@@ -65,8 +65,33 @@ font-weight: bold;
 <div class="body">
 <form action="." method="post">
   {% csrf_token %}
-  {{ community_partner_form|bootstrap }}
-
+  {{ community_partner_form.name |bootstrap }}
+  {{ community_partner_form.website_url |bootstrap }}
+  {{ community_partner_form.community_type |bootstrap }}
+  {{ community_partner_form.k12_level |bootstrap }}
+  {{ community_partner_form.address_line1 |bootstrap }}
+  {{ community_partner_form.address_line2 |bootstrap }}
+   <div class="row">
+       <div class="col-4">
+       {{ community_partner_form.county |bootstrap }}
+       </div>
+       <div class="col-4">
+       {{ community_partner_form.city |bootstrap }}
+       </div>
+   </div>
+   <div class="row">
+       <div class="col-4">
+       {{ community_partner_form.state |bootstrap }}
+       </div>
+       <div class="col-4">
+       {{ community_partner_form.county |bootstrap }}
+       </div>
+   </div>
+   <div class="row">
+     <div class="col-4">
+       {{ community_partner_form.zip |bootstrap }}
+     </div>
+   </div>
   {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
@@ -74,30 +99,57 @@ font-weight: bold;
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
-                <div class="col-4">
                 <div class="input-group">
-                    {{ form|bootstrap }}
-                    <div class="input-group-append">
+                   {{ form.contact_type|bootstrap }}
+                </div>
 
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
-
-
+                <div class="input-group">
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.first_name|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.last_name|bootstrap }}
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.work_phone|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.cell_phone|bootstrap }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                        {{ form.email_id|bootstrap }}
+                        </div>
+                    </div>
+
                 </div>
-                </div>
+                <div class="input-group-append" >
+                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+                    </div>
             </div>
       {% endfor %}
-   {{ formset_mission.management_form }}
+
+  {{ formset_mission.management_form }}
       {% for form in formset_mission %}
-            <div class="row form1-row spacer">
+            <div id="mission-form" class="row form1-row spacer">
                 <div class="col-12">
                     <label>Mission Areas</label>
                     <br>
                 </div>
-                <div class="col-4">
+                <div class="col-6">
                 <div class="input-group">
-                    {{ form.mission_type|bootstrap }}
-                    {{ form.mission_area|bootstrap }}
+                    <div class="row">
+                        <div class="col-6">
+                        {{ form.mission_type|bootstrap }}
+                        </div>
+                        <div class="col-6">
+                        {{ form.mission_area|bootstrap }}
+                        </div>
+                    </div>
                     <div class="input-group-append">
                         <button class="btn btn-outline-info btn-sm add-form1-row">Add more Mission areas</button>
 
@@ -109,7 +161,7 @@ font-weight: bold;
 
 <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
 
-  </form>
+</form>
 
 </div>
             </div></div></div>
@@ -119,7 +171,7 @@ font-weight: bold;
 
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script type="text/javascript">
+<script type="text/javascript" , id="contact-form">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
     var replacement = prefix + '-' + ndx;
@@ -146,19 +198,10 @@ function cloneMore(selector, prefix) {
     conditionRow.find('.btn.add-form-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form-row').addClass('remove-form-row')
-    .html('-');
-    return false;
-
-    var condition1Row = $('.form1-row:not(:last)');
-    conditionRow.find('.btn.add-form1-row')
-    .removeClass('btn-success').addClass('btn-danger')
-    .removeClass('add-form1-row').addClass('remove-form1-row')
-    .html('-');
+    .html('Remove');
     return false;
 }
-function deleteForm(prefix, btn)
-
-{
+function deleteForm(prefix, btn) {
     var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
     if (total > 1){
         btn.closest('.form-row').remove();
@@ -172,7 +215,6 @@ function deleteForm(prefix, btn)
     }
     return false;
 }
-{#For first button #}
 $(document).on('click', '.add-form-row', function(e){
     e.preventDefault();
     cloneMore('.form-row:last', 'form');
@@ -181,19 +223,6 @@ $(document).on('click', '.add-form-row', function(e){
 $(document).on('click', '.remove-form-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));
-    return false;
-
-
-});
-{#For Second button #}
-$(document).on('click', '.add-form1-row', function(e){
-    e.preventDefault();
-    cloneMore('.form1-row:last', 'form');
-    return false;
-});
-$(document).on('click', '.remove-form1-row', function(e) {
-    e.preventDefault();
-    deleteForm('form2', $(this));
     return false;
 });
 </script>

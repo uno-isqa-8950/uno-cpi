@@ -1,0 +1,35 @@
+{% extends 'home/Community_home.html' %}
+
+{% block content %}
+<style>
+    label{
+        margin-left: 20px;
+        font-weight: bold;
+    }
+    @media (min-width: 700px)
+{
+
+
+.btn-custom
+{
+	position: relative;
+	left:440px;
+	width:120px;
+}
+}
+</style>
+    <div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Edit Project </h4></div>
+			<div class="panel-body">
+
+    <form method="POST" class="project-form" >{% csrf_token %}
+        {{ project.as_p }}
+        {{ mission_form.as_p }}
+        {{ comp_proj_form.as_p }}
+        <button type="submit" class="save btn btn-custom">Update</button><br><br>
+    </form><br><br>
+            </div>
+    </div>
+    </div><br>
+{% endblock %}

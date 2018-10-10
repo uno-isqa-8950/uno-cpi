@@ -7,7 +7,8 @@ from django.forms import ModelForm
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','facilitator','description')
+        fields = ('project_name', 'engagement_type', 'facilitator', 'semester', 'total_uno_students', 'total_uno_hours',
+                  'total_k12_students', 'total_k12_hours', 'total_uno_faculty')
 
 class missionform(forms.ModelForm):
     class Meta:
@@ -34,6 +35,10 @@ class ProjectMissionForm(ModelForm):
     class Meta:
         model = ProjectMission
         fields = ('project_name','mission_type' , 'mission',)
+        labels = {
+            'mission_type': ('Select mission type'),
+            'mission': ('Select mission'),
+        }
 
 
 class ProjectCommunityPartnerForm2(ModelForm):

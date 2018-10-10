@@ -1,6 +1,7 @@
-    {% extends 'home/base_home.html' %}
+{% extends 'home/Campus_Home.html' %}
 
 {% block content %}
+<div class="container">
     <h1>Add Project</h1>
      <form method="POST" >{% csrf_token %}
          {{formset.management_form}}
@@ -64,6 +65,7 @@
 
         <button type="submit" class="save btn btn-primary">Save</button>
     </form>
+</div>
 {% endblock %}
 
 

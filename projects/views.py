@@ -118,9 +118,9 @@ def project_total_Add(request):
             proj_campus_form = formset3.save(commit=False)
 
             for k in proj_comm_form:
-                k.project = proj
+                k.project_name = proj
                 # print("in add comm")
-                print(k.project)
+                print(k.project_name)
                 k.save()
             for form in mission_form:
                 form.project_name = proj
@@ -128,9 +128,9 @@ def project_total_Add(request):
                 print(form.project_name)
                 form.save()
             for c in proj_campus_form:
-                c.project = proj
+                c.project_name = proj
                 # print("in add campus")
-                print(c.project)
+                print(c.project_name)
                 c.save()
 
                 project = Project.objects.filter(created_date__lte=timezone.now())
@@ -138,8 +138,8 @@ def project_total_Add(request):
 
             for x in project:
                 projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                cp = list(ProjectCommunityPartner.objects.filter(project_id=x.id))
-                camp_part = list(ProjectCampusPartner.objects.filter(project_id=x.id))
+                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                camp_part = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                         'activityType': x.activity_type,
@@ -193,10 +193,10 @@ def project_edit_new(request,pk):
                 k.project_name = instances
                 k.save()
             for p in compar:
-                p.project= instances
+                p.project_name= instances
                 p.save()
             for l in campar:
-                l.project= instances
+                l.project_name= instances
                 l.save()
             project = Project.objects.filter(created_date__lte=timezone.now())
             projects_list = []

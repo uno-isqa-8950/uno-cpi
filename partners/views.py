@@ -1,6 +1,8 @@
 from django.forms import formset_factory
+
+from home.forms import UserForm
 from .forms import *
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import CampusPartner as CampusPartnerModel
 from home.models import Contact as ContactModel, Contact
 from projects.models import *
@@ -8,7 +10,7 @@ from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, modelformset_factory
 from django.template import context
 from partners.models import *
-
+from django.contrib import messages
 
 
 def registerCampusPartner(request):
@@ -34,49 +36,6 @@ def registerCampusPartner(request):
     return render(request,
                   'registration/campus_partner_register.html',
                   {'campus_partner_form': campus_partner_form, 'formset': formset})
-
-
-# Campus Partner User Profile
-
-# @login_required
-# def campusPartnerUserProfile(request):
-
-#   # campus_partner_form = CampusPartnerFormProfile(request.POST or None)
-
-#   # We should get the partner by some unique ID directly based on the login information
-#   # current_campus_partner = CampusPartnerModel.objects.get(name="unique name")
-#   # Use try catch for using .get
-
-#   # current_campus_partner = CampusPartnerModel.objects.all()[0]
-#   # campus_partner_name = current_campus_partner.name
-#   # college = current_campus_partner.college
-#   # department = current_campus_partner.department
-
-#   # # Contact details from Contact Model
-#   # # We should use objects.get(campus_partner=current_campus_partner)
-#   # # as it gets the unqiue object mapping result in try catch. 
-  
-
-  try:
-    partner_contact = ContactModel.objects.get(
-      campus_partner=current_campus_partner
-    )
-    first_name = partner_contact.first_name
-    last_name = partner_contact.last_name
-    email = partner_contact.email_id
-  except ContactModel.DoesNotExist:
-    first_name = None
-    last_name = None
-    email = None
-  return render(request,
-                  'home/campus_partner_profile.html', {
-                    'campus_partner_name': campus_partner_name,
-                    'college': college,
-                    'department': department,
-                    'first_name': first_name,
-                    'last_name': last_name,
-                    'email': email               
-                 })
 
 
 def registerCommunityPartner(request):
@@ -115,16 +74,7 @@ def registerCommunityPartner(request):
                    'formset': formset,
                    'formset_mission' : formset_mission}, )
 
-# @login_required
-# def campusPartnerUserProfileUpdate(request):
-#   campus_partner_contact_form = CampusPartnerContactForm()
-  
-#   return render(request,
-#                 'partners/campus_partner_user_update.html',
-#                 {'campus_partner_contact_form': campus_partner_contact_form}
-#               )
 
-@login_required
 def campusPartnerUserProfile(request):
 
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
@@ -132,7 +82,7 @@ def campusPartnerUserProfile(request):
   return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
 
 
-@login_required
+
 def campusPartnerUserProfileUpdate(request):
 
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)

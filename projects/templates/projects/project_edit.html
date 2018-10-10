@@ -1,0 +1,12 @@
+{% extends 'home/base_home.html' %}
+
+{% block content %}
+    <h1>Edit Project</h1>
+    <form method="POST" class="project-form" >{% csrf_token %}
+        {{ project.as_p }}
+        {{ formset_missiondetails.as_p }}
+        {{ formset_comm_details.as_p }}
+        {{ formset_camp_details.as_p }}
+        <button type="submit" class="save btn btn-default">Update</button>
+    </form>
+{% endblock %}

@@ -1,14 +1,13 @@
 from django.forms import formset_factory
-from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFormProfile
+from .forms import *
 from django.shortcuts import render
 from .models import CampusPartner as CampusPartnerModel
 from home.models import Contact as ContactModel, Contact
-from projects.models import Project
+from projects.models import *
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory, modelformset_factory
 from django.template import context
-from partners.models import CampusPartner
-from .forms import CampusPartnerForm, CampusPartnerContactForm
+from partners.models import *
 
 from django.shortcuts import render, redirect
 
@@ -28,7 +27,7 @@ def registerCampusPartner(request):
                  contact.campus_partner = campus_partner
                  contact.save()
                  print(contact)
-                return render(request, 'home/community_partner_register_done.html')
+                return render(request, 'registration/community_partner_register_done.html')
 
     else:
         campus_partner_form = CampusPartnerForm()
@@ -70,5 +69,43 @@ def registerCampusPartnerProfile(request):
                     'first_name': first_name,
                     'last_name': last_name,
                     'email': email               
-                  })
+                 })
+
+
+def registerCommunityPartner(request):
+    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
+    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    if request.method == 'POST':
+        community_partner_form = CommunityPartnerForm(request.POST)
+        formset_mission = CommunityMissionFormset(request.POST)
+        formset = ContactFormsetCommunity(request.POST or None)
+
+        if community_partner_form.is_valid() and formset.is_valid():
+            community_partner = community_partner_form.save()
+            contacts = formset.save(commit=False)
+            missions = formset_mission.save(commit=False)
+            print(contacts)
+            print(missions)
+            for contact in contacts:
+                contact.community_partner = community_partner
+                contact.save()
+                print(contact)
+            if formset_mission.is_valid():
+                for mission in missions:
+                    mission.community_partner = community_partner
+                    mission.save()
+                    print(mission)
+
+                    return render(request, 'registration/community_partner_register_done.html', )
+    else:
+        community_partner_form = CommunityPartnerForm()
+        formset = ContactFormsetCommunity(queryset=Contact.objects.none())
+        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none())
+
+    return render(request,
+                  'registration/community_partner_register.html',
+                  {'community_partner_form': community_partner_form,
+                   'formset': formset,
+                   'formset_mission' : formset_mission}, )
+
 

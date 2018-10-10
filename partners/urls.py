@@ -6,4 +6,6 @@ urlpatterns = [
 
      path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
      path('registerCampusPartner/profile/', views.registerCampusPartnerProfile, name='registerCampusPartnerProfile'),
-    ]
+     path('registerCommunityPartner/', views.registerCommunityPartner, name='registerCommunityPartner'),
+
+]

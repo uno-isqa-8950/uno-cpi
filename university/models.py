@@ -17,19 +17,19 @@ class University (models.Model):
 
 
 class College (models.Model):
-    name = models.CharField(max_length=50)
+    college_name = models.CharField(max_length=50, unique=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.name)
+        return str(self.college_name)
 
 
 class Department(models.Model):
-    name = models.CharField(max_length=30)
-    college = models.ForeignKey(College, on_delete=models.CASCADE)
+    department_name = models.CharField(max_length=30)
+    college_name = models.ForeignKey(College, on_delete=models.CASCADE)
 
     def __str__(self):
-      return str(self.name)
+        return str(self.department_name)
 
 
 class Course(models.Model):

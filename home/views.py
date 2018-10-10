@@ -8,7 +8,8 @@ from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartn
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CommunityPartnerForm, CommunityContactForm, CampusPartnerUserForm, \
     CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm,  UploadCampusForm, \
-    UploadProjectCommunityForm, UploadProjectCampusForm, CommunityMissionForm
+    UploadProjectCommunityForm, UploadProjectCampusForm, CommunityMissionForm, UploadCollege, UploadDepartment, \
+    UploadProjectMissionForm
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -138,7 +139,6 @@ def registerCommunityPartner(request):
                    'formset_mission' : formset_mission}, )
 
 
-
 def upload_project(request):
     if request.method == 'GET':
         download_projects_url = '/media/projects_sample.csv'
@@ -150,28 +150,29 @@ def upload_project(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
-            project_new = data_dict['project_name']
-            project_name_existing = Project.objects.filter(project_name=data_dict['project_name'])
-            try:
-                project_old = str(project_name_existing[0])
-                if project_old == project_new:
-                    form_campus = UploadProjectCampusForm(data_dict)
-                    form_community = UploadProjectCommunityForm(data_dict)
-                    if form_campus.is_valid() and form_community.is_valid():
-                        form_campus.save()
-                        form_community.save()
-
-            except:
+            project_count = Project.objects.filter(project_name=data_dict['project_name']).count()
+            if project_count == 1:
+                form_campus = UploadProjectCampusForm(data_dict)
+                form_community = UploadProjectCommunityForm(data_dict)
+                form_mission = UploadProjectMissionForm(data_dict)
+                print(form_mission)
+                if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
+                    form_campus.save()
+                    form_community.save()
+                    form_mission.save()
+            elif project_count == 0:
                 form = UploadProjectForm(data_dict)
+                print(form)
                 if form.is_valid():
                     form.save()
                     form_campus = UploadProjectCampusForm(data_dict)
                     form_community = UploadProjectCommunityForm(data_dict)
-                    if form_campus.is_valid and form_community.is_valid():
+                    form_mission = UploadProjectMissionForm(data_dict)
+                    if form_campus.is_valid and form_community.is_valid() and form_mission.is_valid():
                         form_campus.save()
                         form_community.save()
-    return render(request, 'import/uploadProject.html',
-                  {'upload_project': upload_project})
+                        form_mission.save()
+    return render(request, 'import/uploadProjectDone.html')
 
 
 def upload_community(request):
@@ -184,12 +185,13 @@ def upload_community(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-        form = UploadCommunityForm(data_dict)
-        print(form)
-        if form.is_valid():
-            form.save()
-    return render(request, 'import/uploadCommunity.html',
-                  {'upload_community': upload_community})
+        community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
+        if community_count == 0:
+            form = UploadCommunityForm(data_dict)
+            print(form)
+            if form.is_valid():
+                form.save()
+    return render(request, 'import/uploadCommunityDone.html')
 
 
 def upload_campus(request):
@@ -197,13 +199,23 @@ def upload_campus(request):
         download_campus_url = '/media/campus_sample.csv'
         return render(request, 'import/uploadCampus.html',
                       {'download_campus_url': download_campus_url})
-    csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('utf-8').splitlines()
-    reader = csv.DictReader(decoded)
-    for row in reader:
-        data_dict = dict(OrderedDict(row))
-        form = UploadCampusForm(data_dict)
-        if form.is_valid():
-            form.save()
-    return render(request, 'import/uploadCampus.html',
-                  {'upload_campus': upload_campus})
+    if request.method == 'POST':
+        csv_file = request.FILES["csv_file"]
+        decoded = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded)
+        for row in reader:
+            data_dict = dict(OrderedDict(row))
+            college_count = College.objects.filter(college_name=data_dict['college_name']).count()
+            if college_count == 0:
+                form_college = UploadCollege(data_dict)
+                if form_college.is_valid():
+                    form_college.save()
+                    form = UploadCampusForm(data_dict)
+                    print(form)
+                    if form.is_valid():
+                        form.save()
+            elif college_count == 1:
+                form = UploadCampusForm(data_dict)
+                if form.is_valid():
+                    form.save()
+    return render(request, 'import/uploadCampusDone.html')

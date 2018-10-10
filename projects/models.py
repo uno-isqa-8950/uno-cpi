@@ -35,12 +35,17 @@ class Project (models.Model):
 
 
 class ProjectMission (models.Model):
+    mission_choices = (
+        ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
+        ('Other', 'Other'),
+    )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    mission_type = models.CharField(max_length=20)
+    mission_type = models.CharField(max_length=20,choices=mission_choices)
     mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.project_name)
+        return str(self.mission)
 
 
 class ProjectCommunityPartner (models.Model):

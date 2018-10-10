@@ -5,11 +5,14 @@ import re
 from university.models import *
 from .models import User
 from django.contrib.auth.forms import UserCreationForm
-from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, CommunityType, CampusPartnerUser
-from home.models import  Contact
+from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, \
+    CommunityType, CampusPartnerUser
+from home.models import Contact, MissionArea
 from django.utils.translation import ugettext_lazy as _
-from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectCommunityPartner
+from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
+    ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, TextInput
+
 
 
 EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
@@ -144,7 +147,22 @@ class UploadProjectCommunityForm(forms.ModelForm):
         fields = ('project_name', 'community_partner')
 
 
-class UploadCommunityForm(ModelForm):
+class UploadProjectMissionForm(forms.ModelForm):
+    project_name = forms.ModelChoiceField(queryset=Project.objects.all(), to_field_name="project_name")
+    mission = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
+
+    class Meta:
+        model = ProjectMission
+        fields = '__all__'
+        mission_choices = (
+            ('Primary', 'Primary'),
+            ('Secondary', 'Secondary'),
+            ('Other', 'Other'),
+        )
+        mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))
+
+
+class UploadCommunityForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects.all(), to_field_name="community_type")
 
     class Meta:
@@ -157,11 +175,10 @@ class UploadCommunityForm(ModelForm):
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
-class UploadCampusForm(ModelForm):
-    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="university")
-    education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="education_system")
-    college = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college")
-    department = forms.ModelChoiceField(queryset=Department.objects.all(), to_field_name="department")
+class UploadCampusForm(forms.ModelForm):
+    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="name")
+    education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="name")
+    college_name = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college_name")
 
     class Meta:
         model = CampusPartner
@@ -173,9 +190,23 @@ class UploadCampusForm(ModelForm):
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
+class UploadCollege(ModelForm):
+    university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="name")
+
+    class Meta:
+        model = College
+        fields = ('college_name', 'university')
+
+
+class UploadDepartment(ModelForm):
+    college_name = forms.ModelChoiceField(queryset=College.objects.all(), to_field_name="college_name")
+
+    class Meta:
+        model = Department
+        fields = '__all__'
+
 
 class CommunityMissionForm(ModelForm):
-
 
     mission_choices = (
         ('Primary', 'Primary'),
@@ -183,8 +214,7 @@ class CommunityMissionForm(ModelForm):
         ('Other', 'Other'),
     )
 
-
-    class Meta :
+    class Meta:
         model = CommunityPartnerMission
         fields = ('mission_type' , 'mission_area')
 

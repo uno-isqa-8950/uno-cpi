@@ -104,8 +104,6 @@ font-weight: bold;
                 </div>
 
                 <div class="input-group">
-
-
                     <div class="row">
                         <div class="col-6">
                         {{ form.first_name|bootstrap }}
@@ -122,17 +120,14 @@ font-weight: bold;
                         {{ form.cell_phone|bootstrap }}
                         </div>
                     </div>
-
-
-
              </div>
             <div class="input-group-append" >
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
                     </div>
-
             </div>
       {% endfor %}
-   {{ formset_mission.management_form }}
+
+  {{ formset_mission.management_form }}
       {% for form in formset_mission %}
             <div id="mission-form" class="row form1-row spacer">
                 <div class="col-12">
@@ -145,13 +140,10 @@ font-weight: bold;
                         <div class="col-6">
                         {{ form.mission_type|bootstrap }}
                         </div>
-
                         <div class="col-6">
                         {{ form.mission_area|bootstrap }}
                         </div>
-
                     </div>
-
                     <div class="input-group-append">
                         <button class="btn btn-outline-info btn-sm add-form1-row">Add more Mission areas</button>
 
@@ -230,3 +222,4 @@ $(document).on('click', '.remove-form-row', function(e){
 </script>
 
 {% endblock %}
+

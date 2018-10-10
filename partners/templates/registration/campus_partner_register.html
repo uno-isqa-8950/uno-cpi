@@ -67,7 +67,25 @@ font-weight: bold;
   <!--div class="col-md-offset-2 col-md-8"-->
     <form action="." method="post">
       {% csrf_token %}
-      {{ campus_partner_form|bootstrap }}
+      {{ campus_partner_form.name|bootstrap }}
+        <div class="row">
+        <div class="col-4">
+            {{ campus_partner_form.education_system|bootstrap }}
+        </div>
+        <div class="col-4">
+            {{ campus_partner_form.university|bootstrap }}
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-4">
+            {{ campus_partner_form.college_name|bootstrap }}
+        </div>
+        <div class="col-4">
+            {{ campus_partner_form.department|bootstrap }}
+        </div>
+
+    </div>
+
       {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
@@ -98,7 +116,10 @@ font-weight: bold;
                         {{ form.cell_phone|bootstrap }}
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-12">
+                        {{ form.email_id|bootstrap }}
+                    </div>
 
 
              </div>

@@ -91,86 +91,40 @@ font-weight: bold;
 </style>
 
 <div class = "container">
-        <div class = "panel panel-default">
-        <div class="panel-heading text-center"><h4>Your Campus Partner Profile</h4></div>
-          <div class="panel-body">
-    
-    <div class="body">
-    <form action="." method="post">
-    
-      {% csrf_token %}
-      {% for field in user_form %}
-      {% if field.label == 'User Name' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="{{user.username}}" required>
-      </div>
-      {% elif field.label == 'First Name' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="{{user.first_name}}" required>
-      </div>
-      {% elif field.label == 'Last Name' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="{{user.last_name}}" required>
-      </div>
-      {% elif field.label == 'Email ID' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="{{user.email}}" required>
-      </div>
-      {% elif field.label == 'Password' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="" required>
-      </div>
-      {% elif field.label == 'Confirm Password' %}
-      <div class="form-group">
-        <label for="{{field.label}}">{{field.label}}</label>
-        <input type="text" class="form-control" id="{{field.label}}" value="" required>
-      </div>
-      {% endif %}
-      {% endfor %}
-
-      <div class="form-group">
-        <label for="campuspartnername">Campus Partner Name</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{campus_partner_name}}" disabled>
-      </div>
-    <p>
-      <button type="submit" class="btn btn-custom">Update</button>
-    </p>
-    <br><br>
-    
-      </form>
-    
-    </div>
-                </div></div></div>
-    <br><br><br>
-
-
-<!-- <div class = "container">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4>Campus Partner User Profile Update</h4></div>
+    <div class="panel-heading text-center"><h4>Campus Partner User Profile</h4></div>
       <div class="panel-body">
-        <div class="row formUser">
-            <form method="post" action="#">
-                <div class="formUser">
-                    <form action="." method="post">
+        <div class="body">
+          <form action="." method="post">
+            {% csrf_token %}
+            {% if messages %}
+            <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
 
-                        {% csrf_token %}
-                        {{ user_form|bootstrap }}
-                       
-                        <div class="boxContainer">
-                            <p><input type="submit" value="Update Profile" class="button"></p>
-                        </div>
-                    </form>
-                </div>     
-            </form>
-        <br>
+            {% for field in user_form %}
+            <div class="form-group">
+              <label for="{{field.label}}">{{field.label}}</label>
+              <input type="text" class="form-control" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+            </div>
+            {% endfor %}
+
+            <div class="form-group">
+              <label for="campuspartnername">Campus Partner Name</label>
+              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{campus_partner_name}}" disabled>
+            </div>
+            <p>
+              <button type="submit" class="btn btn-custom">Update</button>
+            </p>
+            <br><br>
+          </form>
+        </div>
       </div>
+    </div>
   </div>
-</div>
-<br><br><br> -->
+  <br><br><br>
 
 {% endblock %}

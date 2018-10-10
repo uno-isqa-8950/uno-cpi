@@ -34,22 +34,49 @@ def communitypartnerproject(request):
 
 
 def communitypartnerproject_edit(request,pk):
-    print('test1')
-    project = get_object_or_404(Project, pk=pk)
-    print('test2')
-    if request.method == "POST":
-        print('test3')
-        form = ProjectCommunityPartnerForm(request.POST,instance=project)
-        if form.is_valid():
-            project = form.save()
-            project.updated_date = timezone.now()
-            project.save()
-            projects = Project.objects.filter()
-            return render(request, 'community_partner_projects.html',
-                          {'projects': projects})
+    mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
+    proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0,
+                                           form=ProjectCommunityPartnerForm)
+
+    if request.method == 'POST':
+        proj_edit = Project.objects.filter(id=pk)
+        for x in proj_edit:
+            project = ProjectForm(request.POST or None, instance=x)
+
+        mission_form = mission_edit_details(request.POST, request.FILES, instance=x)
+        comp_proj_form = proj_comm_part(request.POST, request.FILES, instance=x)
+
+        if project.is_valid() and mission_form.is_valid() \
+                and comp_proj_form.is_valid():
+
+            instances = project.save()
+            pm = mission_form.save(commit=False)
+            commpar = comp_proj_form.save(commit=False)
+            # campar = formset_camp_details.save(commit=False)
+
+            for k in pm:
+                k.project_name = instances
+                k.save()
+            for p in commpar:
+                p.project = instances
+                p.save()
+
+            curr_proj_list = Project.objects.filter(created_date__lte=timezone.now())
+            return render(request, 'projects/community_partner_projects.html', {'project': curr_proj_list})
+
     else:
-        form = ProjectCommunityPartnerForm(instance=project)
-        return render(request, 'community_partner_projects_edit.html', {'form': form})
+        print(" Project_edit_new else")
+        proj_edit = Project.objects.filter(id=pk)
+        for x in proj_edit:
+            project = ProjectForm(request.POST or None, instance=x)
+        proj_mission = ProjectMission.objects.filter(project_name_id=pk)
+        proj_comm_part_edit = ProjectCommunityPartner.objects.filter(project_name_id=pk)
+
+        # mission_form = mission_edit_details(instance=x)
+        comp_proj_form = proj_comm_part(instance=x)
+
+        return render(request, 'projects/community_partner_projects_edit.html', {'project': project,
+                                                                                 'comp_proj_form': comp_proj_form})
 
 
 

@@ -8,6 +8,7 @@ urlpatterns = [
 
    path('', views.cpipage, name='cpipage'),
    path('home',views.home, name='home'),
+   path('campusHome',views.campusHome, name='campusHome'),
    path('map', views.dashboard, name='map'),
    path('about', views.about, name='about'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),

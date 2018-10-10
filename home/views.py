@@ -34,6 +34,10 @@ def cpipage(request):
                   {'cpipage': cpipage})
 
 
+def campusHome(request):
+    return render(request, 'home/Campus_Home.html',
+                  {'campusHome': campusHome})
+
 def signup(request):
     return render(request, 'home/registration/signuporganization.html', {'signup': signup})
 
@@ -46,7 +50,9 @@ def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
     user_form = UserForm()
     print(campus_partner_user_form)
-    print("its working")
+    data = []
+    for object in CampusPartner.objects.order_by().distinct('name'):
+        data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
@@ -68,7 +74,7 @@ def registerCampusPartnerUser(request):
             return render(request, 'home/register_done.html', )
     return render(request,
                   'home/registration/campus_partner_user_register.html',
-                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form})
+                  {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
 
 
 
@@ -166,7 +172,6 @@ def upload_project(request):
                         form_campus.save()
                         form_community.save()
                         form_mission.save()
-        messages.success(request, 'Form submission successful')
     return render(request, 'import/uploadProjectDone.html')
 
 
@@ -183,9 +188,9 @@ def upload_community(request):
         community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
         if community_count == 0:
             form = UploadCommunityForm(data_dict)
+            print(form)
             if form.is_valid():
                 form.save()
-    # messages.success(request, 'Form submission successful')
     return render(request, 'import/uploadCommunityDone.html')
 
 
@@ -213,5 +218,4 @@ def upload_campus(request):
                 form = UploadCampusForm(data_dict)
                 if form.is_valid():
                     form.save()
-    messages.success(request, 'Form submission successful')
     return render(request, 'import/uploadCampusDone.html')

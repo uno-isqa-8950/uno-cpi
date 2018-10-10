@@ -5,6 +5,10 @@
 
 <style>
 
+.btn-outline-info
+{
+    margin-left:20px;
+}
 
 @media (min-width: 700px)
 {
@@ -52,6 +56,8 @@ margin-top: 5px;
 font-weight: bold;
 }
 
+
+
 </style>
 <div class = "container">
     <div class = "panel panel-default">
@@ -65,7 +71,7 @@ font-weight: bold;
       {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
@@ -120,7 +126,7 @@ function cloneMore(selector, prefix) {
     conditionRow.find('.btn.add-form-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form-row').addClass('remove-form-row')
-    .html('-');
+    .html('Remove');
     return false;
 }
 function deleteForm(prefix, btn) {

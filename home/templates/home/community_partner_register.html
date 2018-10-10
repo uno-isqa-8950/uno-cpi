@@ -3,7 +3,10 @@
 {% block content %}
 
 <style>
-
+.btn-outline-info
+{
+    margin-left:20px;
+}
 @media (min-width: 700px)
 {
 .panel
@@ -33,6 +36,7 @@ input[type=email],input[type=text],.form-control
 {
 h4
 {
+
     font-size:1.3em
 }
 
@@ -66,7 +70,7 @@ font-weight: bold;
   {{ formset.management_form }}
       {% for form in formset %}
             <div class="row form-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Point of Contact Information</label>
                     <br>
                 </div>
@@ -74,7 +78,9 @@ font-weight: bold;
                 <div class="input-group">
                     {{ form|bootstrap }}
                     <div class="input-group-append">
+
                         <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+
 
                     </div>
                 </div>
@@ -84,7 +90,7 @@ font-weight: bold;
    {{ formset_mission.management_form }}
       {% for form in formset_mission %}
             <div class="row form1-row spacer">
-                <div class="col-4">
+                <div class="col-12">
                     <label>Mission Areas</label>
                     <br>
                 </div>
@@ -193,5 +199,4 @@ $(document).on('click', '.remove-form1-row', function(e) {
 </script>
 
 {% endblock %}
-
 

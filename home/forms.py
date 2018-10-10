@@ -35,6 +35,7 @@ class CampusPartnerUserForm(forms.ModelForm):
         campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
+        #print(campus_partner)
 
 
 class CommunityPartnerUserForm(forms.ModelForm):
@@ -46,6 +47,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
         community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
+
 
 #### This is where you check the user flag as true and then we can call the decorator
     # def save(self):

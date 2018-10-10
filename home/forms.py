@@ -11,7 +11,8 @@ from home.models import Contact, MissionArea
 from django.utils.translation import ugettext_lazy as _
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
     ProjectCommunityPartner, ProjectMission
-from django.forms import ModelForm
+from django.forms import ModelForm, TextInput
+
 
 
 EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.

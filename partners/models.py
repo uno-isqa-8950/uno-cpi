@@ -12,8 +12,7 @@ class CommunityPartner(models.Model):
     name = models.CharField(max_length=255, unique=True)
     website_url = models.URLField(max_length=100, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True)
-    k12_level =  models.CharField(max_length=20,null=False, blank=True,
-                                  help_text="If your community type is K12, Please provide the k12-level.")
+    k12_level =  models.CharField(max_length=20,null=False, blank=True)
     address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
     county = models.CharField(max_length=100, blank=True)

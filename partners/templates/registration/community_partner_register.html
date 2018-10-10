@@ -220,6 +220,12 @@ $(document).on('click', '.add-form-row', function(e){
     cloneMore('.form-row:last', 'form');
     return false;
 });
+
+$(document).on('click', '.add-form1-row', function(e){
+    e.preventDefault();
+    cloneMore('.form1-row:last', 'form1');
+    return false;
+});
 $(document).on('click', '.remove-form-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));

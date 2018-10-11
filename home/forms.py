@@ -78,7 +78,13 @@ class UserForm(forms.ModelForm):
         return cd['password2']
 
 
-
+    def clean_email (self):
+        data = self.cleaned_data.get('email')
+        domain = data.split('@')[1]
+        domain_list = ["unomaha.edu" ]
+        if domain not in domain_list:
+            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+        return data
 
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")

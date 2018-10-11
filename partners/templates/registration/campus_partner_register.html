@@ -116,15 +116,14 @@ font-weight: bold;
                         {{ form.cell_phone|bootstrap }}
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-12">
-                        {{ form.email_id|bootstrap }}
-                        </div>
-                    </div>
+
                 </div>
-             <div class="input-group-append" >
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
-             </div>
+                <div class="input-group">
+                   {{ form.email_id|bootstrap }}
+                </div>
+                 <div class="input-group-append" >
+                            <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
+                 </div>
 
 
             </div>

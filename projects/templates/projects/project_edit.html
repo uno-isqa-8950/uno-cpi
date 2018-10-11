@@ -1,12 +1,32 @@
 {% extends 'home/Campus_Home.html' %}
 
 {% block content %}
-    <h1>Edit Project</h1>
-    <form method="POST" class="project-form" >{% csrf_token %}
+      <style>
+    label
+    {
+    margin-left: 10px;
+    font-weight: bold;
+    }
+
+    .btn-custom
+    {
+        margin-top:20px;
+        margin-left:350px;
+    }
+    </style>
+<div class="container">
+
+<div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Edit Project</h4></div>
+			<div class="panel-body">
+
+       <form method="POST" class="project-form" >{% csrf_token %}
         {{ project.as_p }}
         {{ formset_missiondetails.as_p }}
         {{ formset_comm_details.as_p }}
         {{ formset_camp_details.as_p }}
-        <button type="submit" class="save btn btn-default">Update</button>
-    </form>
+        <button type="submit" class="save btn btn-custom">Update</button>
+    </form><br><br>
+            </div></div></div></div><br><br>
 {% endblock %}

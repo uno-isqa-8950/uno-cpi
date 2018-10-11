@@ -3,15 +3,45 @@
 {% block content %}
 
 <style>
-.center {
-    padding: 70px 0;
-    border: 3px solid green;
-    text-align: center;
+ @media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
 }
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+
 </style>
-<div class="center">
-   <h2>Thank You</h2>
-  <p>Your data is successfully uploaded</p>
-    <a href= "/upload_project/" style="background-color: yellow" > Click here to Upload more projects</a>
-</div>
+
+<div class="container">
+ <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Thank You</h4></div>
+			<div class="panel-body">
+
+        <p>Your data has been successfully created.</p>
+                <a href= "/upload_project/" style="background-color: lightslategrey" > Click here to Upload more projects</a>
+            </div></div></div><br><br><br><br><br><br><br><br><br><br>
+
+
 {% endblock %}

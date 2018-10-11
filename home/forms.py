@@ -49,6 +49,33 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 
+class UserForm1(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email' )
+        help_texts = {
+            'username': None,
+            'email': None,
+        }
+
+        labels = {
+            'username': ('User Name'),
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'email': ('Email ID')
+        }
+
+    def clean_password2(self):
+        cd = self.cleaned_data
+        if cd['password'] != cd['password2']:
+            raise forms.ValidationError('Passwords don\'t match.')
+        return cd['password2']
+
+
 
 
 class UserForm(forms.ModelForm):

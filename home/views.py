@@ -6,9 +6,9 @@ from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
 from .forms import UserForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm,  UploadCampusForm, \
+    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm, UploadCampusForm, \
     UploadProjectCommunityForm, UploadProjectCampusForm, UploadCollege, UploadDepartment, \
-    UploadProjectMissionForm
+    UploadProjectMissionForm, UserForm1
 from django.shortcuts import render
 from django.urls import reverse
 import csv
@@ -75,9 +75,9 @@ def registerCampusPartnerUser(request):
 
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
-    user_form = UserForm()
+    user_form = UserForm1()
     if request.method == 'POST':
-        user_form = UserForm(request.POST)
+        user_form = UserForm1(request.POST)
         # campus_partner_form = CampusPartnerForm(request.POST)
         community_partner_user_form = CommunityPartnerUserForm(request.POST)
         if user_form.is_valid() and community_partner_user_form.is_valid():

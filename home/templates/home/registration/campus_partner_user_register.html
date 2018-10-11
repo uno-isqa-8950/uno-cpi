@@ -1,23 +1,6 @@
 {% extends "home/base_home.html" %}
 {% load bootstrap %}
-{% block javascript %}
-<script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-{% endblock %}
-{% block content %}
-
-<script>
-  $( function() {
-    var availableTags = {{ data|safe }} ;
-    $( "#id_campus_partner" ).autocomplete({
-      source: availableTags
-    });
-  } );
-  </script>
- 
-
+{% block additionalCSS %}
 <style>
 
 .btn-custom
@@ -103,6 +86,21 @@ margin-top: 5px;
 font-weight: bold;
 }
 </style>
+{% endblock %}
+{% block javascript %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css" />
+<script>
+$(document).ready(function(){
+  $('#id_campus_partner').selectize();
+});
+</script>
+{% endblock %}
+
+
+{% block content %}
+
 <div class = "container">
      <div class = "panel panel-default">
 		<div class="panel-heading text-center"><h4>Create a Campus Partner User Account</h4></div>
@@ -115,15 +113,15 @@ font-weight: bold;
 
    {{ user_form|bootstrap }}
 
-   {{ campus_partner_user_form|bootstrap }}
+   {{ campus_partner_user_form }}
 <br>
 <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
     </form>
   </div></div>
-            </div></div>
+            </div>
 
 <br><br>
-
+{% endblock %}
 <!--<div class="boxContainer">-->
   <!--<p><input type="submit" value="Create My Account" class="button"></p>-->
 <!--</div>-->
@@ -131,5 +129,3 @@ font-weight: bold;
  <!--</div>-->
 
 <!--</form>-->
-
-{% endblock %}

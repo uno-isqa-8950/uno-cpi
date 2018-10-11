@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from .forms import CampusPartnerForm, CampusPartnerContactForm, CampusPartnerFormProfile
 from .models import CampusPartner as CampusPartnerModel
 from home.models import Contact as ContactModel, Contact, User
-from home.forms import UserForm
+from home.forms import userUpdateForm
 from partners.models import CampusPartner, CampusPartnerUser
 from .forms import CampusPartnerForm, CampusPartnerContactForm
 
@@ -91,12 +91,11 @@ def campusPartnerUserProfile(request):
 
 @login_required
 def campusPartnerUserProfileUpdate(request):
-
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
   user = get_object_or_404(User, id= request.user.id)
 
   if request.method == 'POST':
-    user_form = UserForm(data = request.POST, instance=user)
+    user_form = userUpdateForm(data = request.POST, instance=user)
 
     if user_form.is_valid():
       user_form.save()
@@ -106,7 +105,7 @@ def campusPartnerUserProfileUpdate(request):
       messages.error(request, 'Please correct the error below.')
 
   else:
-    user_form = UserForm(instance=user)
+    user_form = userUpdateForm(instance=user)
 
   return render(request,
                 'partners/campus_partner_user_update.html',

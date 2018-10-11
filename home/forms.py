@@ -81,6 +81,20 @@ class UserForm(forms.ModelForm):
         return cd['password2']
 
 
+class userUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email' )
+
+        labels = {
+            'username': ('User Name'),
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'email': ('Email ID')
+        }
+
+
 class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:

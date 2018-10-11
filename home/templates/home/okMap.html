@@ -1,40 +1,91 @@
-{% load static %}
+{% load staticfiles %}
 
 <html>
 <head>
+    <title></title>
 	<meta charset='utf-8' />
-	<title></title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+
+  <link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/panel.css' %}" rel="stylesheet" type="text/css">
+	<!--script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script-->
 	<script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
 	<link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
-	
+
 </head>
-<body>
+
 	<style>
-		#map{
-			width: 1000px;
-			height: 600px;
+
+
+input[type=text]
+{
+margin-left:0px;
+width:90%;
+}
+
+	    #align
+	    {
+		    border-bottom: 2px solid grey;
+		    border-top: 2px solid grey;
+		    border-left: 2px solid grey;
+		    border-right: 2px solid grey;
+            width: 78%;
+			height: 590px;
 			position: absolute;
+			margin-top:35px;
+
+	    }
+h4
+{
+text-align:center;
+}
 
 
+		#map{
+		    border-bottom: 2px solid grey;
+		    border-top: 2px solid grey;
+		    border-left: 2px solid grey;
+		    border-right: 2px solid grey;
+			width: 80%;
+			height: 450px;
+			position: absolute;
+			margin-top:60px;
 		}
 		.filter{
 			position: absolute;
-			left: 1010px;
+			left: 205px;
 			top: 10px;
 		}
+
+
 		.selectType{
-			width: 400px;
-			height: 50px;
+		    margin-top:5px;
+			width: 200px;
+			height: 40px;
 			font-size: 20px;
-			
+			margin-left:310px;
+
 		}
+
 		.selectYear{
-			width: 400px;
-			height: 50px;
+			width: 100px;
+			height: 40px;
 			font-size: 20px;
-			
 		}
+
 		.map-overlay {
 		  position: absolute;
 		  bottom: 0;
@@ -45,15 +96,16 @@
 		  overflow: auto;
 		  border-radius: 3px;
 		}
-
 		#legend {
-		  padding: 10px;
+		  padding: 35px;
 		  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 		  line-height: 18px;
 		  height: 200px;
 		  margin-bottom: 40px;
-		  width: 200px;
+		  width: 230px;
+          margin-left:20px;
 		}
+
 		.legend-key {
 		  display: inline-block;
 		  border-radius: 20%;
@@ -61,30 +113,72 @@
 		  height: 10px;
 		  margin-right: 5px;
 		}
+
 		.filter-ctrl {
 			position: absolute;
-			top: 200px;
-			right: 5px;
+			top: 10px;
 			width: 230px;
 			height: 50px;
 		}
 
-		.filter-ctrl input[type=number] {
-			font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-			width: 100%;
-			border: 0;
-			background-color: #fff;
-			height: 50px;
-			margin: 0;
-			color: rgba(0,0,0,0.8);
-			padding: 10px;
-			box-shadow: 0 0 0 6px rgba(0,0,0,0.5);
-			border-radius: 3px;
-		}
+
 	</style>
-	<div>
-		<div id='map' ></div>
-		<div class="filter">
+
+<body>
+
+<!-- Navbar Begins -->
+
+<nav class="navbar navbar-expand-md navbar-custom sticky-top">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
+    <div class="collapse navbar-collapse" id="target">
+        <a class="navbar-brand" href="/">
+            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+            <a class ="navbar-brand" href="/" id="uno"><b>University of Nebraska Omaha</b>
+                <b id="cpi">Community Partnership Initiative</b></a>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+
+                    <a class="nav-link" href="#"><i class="fa fa-map-pin"></i>Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/map"><i class="fa fa-home"></i>Map</a>
+
+                </li>
+                <li class=" nav-item dropdown">
+                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-globe"></i>Register
+                        <span class="caret"></span>
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
+                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
+                </div>
+                </li>
+                <li class="nav-item">
+
+                    <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user"></i>SignUp </a>
+
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
+                </li>
+            </ul>
+    </div>
+</nav>
+
+
+
+<!-- Navbar ends-->
+
+
+
+	<div class="container">
+
+        <div class="container" id="align">
+        <h4>Partner Map</h4>
+            <div class='map-overlay' id='legend'></div>
+        <div class="card">
+<div class="filter">
 			<select id="selectType" name="classify" class="selectType">
 				<option value="all">All</option>
 				<option value="community">CommunityPartners</option>
@@ -97,13 +191,27 @@
 				<option value="all">All</option>
 			</select>
 		</div>
-		<div class='filter-ctrl'>
+        		<div class='filter-ctrl'>
     		<input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />
 		</div>
-		<div class='map-overlay' id='legend'></div>
 
-	</div>
+            <div class="card"><div id='map' ></div></div></div></div></div>
 
-	<script src='{% static "js/mapfilter.js" %}'></script>
+
+
+
+
+
+
+
+<div class="container">
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+</div>
+
+
+<script src='{% static "js/mapfilter.js" %}'></script>
+
+
 </body>
 </html>

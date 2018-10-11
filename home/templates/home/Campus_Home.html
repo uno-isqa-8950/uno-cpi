@@ -18,6 +18,7 @@
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/panel.css' %}" rel="stylesheet" type="text/css">
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
@@ -108,45 +109,19 @@ color:black;
 
 <!-- Table Begins ---- Add Block Content Here-->
 
-<!-- <div class="container" id="example1">
-      <table id="example" class="table table-striped table-bordered dt-responsive nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Project Name</th>
-                <th>Mission</th>
-                <th>Engagement Type</th>
-                <th>Activity Type</th>
-                <th>Campus Partner</th>
-                <th>Community Partner</th>
-                <th>No.of.Hours</th>
-                <th>No.Of.Volunteers</th>
-                <th>Email</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Tiger</td>
-                <td>Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>$320,800</td>
-                <td>5421</td>
-                <td>t.nixon@datatables.net</td>
-            </tr>
-        </tbody>
-      </table>
-  </div><br><br> -->
+<div class="container">
+    <br>
+</div>
 
-<{% block content %}
-    <div class="container">
-        <div class="col-8">
-          <h3>Welcome Campus Partner </h3>
-        </div>
-    </div>
+{% block content %}
 
 {% endblock %}
+
+
+<!-- Block Ends here-->
+
+
+<!--Contact Begins -->
 
 
 <section id="contact">
@@ -228,14 +203,16 @@ color:black;
 
 <!-- Footer Ends Here-->
 
+{% block js %}
+
+{% endblock %}
 
 
-{% block custom_js %}{% endblock %}
+{% block custom_js %}
+
+{% endblock %}
+
+
 </body>
-<!--<script type="text/javascript">-->
-     <!--$(document).ready(function() {-->
-    <!--$('#example').DataTable();-->
-<!--} );-->
- <!--</script>-->
 </html>
 

@@ -203,8 +203,8 @@ def project_edit_new(request,pk):
 
             for x in project:
                 projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                cp = list(ProjectCommunityPartner.objects.filter(project_id=x.id))
-                camp_part = list(ProjectCampusPartner.objects.filter(project_id=x.id))
+                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                camp_part = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                         'activityType': x.activity_type,
@@ -226,8 +226,8 @@ def project_edit_new(request,pk):
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
         proj_mission = ProjectMission.objects.filter(project_name_id=pk)
-        proj_comm_part = ProjectCommunityPartner.objects.filter(project_id = pk)
-        proj_camp_part = ProjectCampusPartner.objects.filter(project_id = pk)
+        proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
+        proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
         formset_missiondetails = mission_edit_details(instance=x)
         formset_comm_details = proj_comm_part_edit(instance=x)
         formset_camp_details = proj_campus_part_edit(instance=x)

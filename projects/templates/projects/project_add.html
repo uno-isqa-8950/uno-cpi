@@ -1,8 +1,27 @@
 {% extends 'home/Campus_Home.html' %}
 
 {% block content %}
+    <style>
+    label
+    {
+    margin-left: 10px;
+    font-weight: bold;
+    }
+
+    .btn-custom
+    {
+        margin-top:20px;
+        margin-left:350px;
+    }
+    </style>
 <div class="container">
-    <h1>Add Project</h1>
+
+<div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Add Project</h4></div>
+			<div class="panel-body">
+
+
      <form method="POST" >{% csrf_token %}
          {{formset.management_form}}
          {{formset2.management_form}}
@@ -63,9 +82,9 @@
          </div>
          {% endfor %}
 
-        <button type="submit" class="save btn btn-primary">Save</button>
-    </form>
-</div>
+        <button type="submit" class="save btn btn-custom">Save</button>
+    </form><br><br>
+            </div></div></div></div><br><br>
 {% endblock %}
 
 

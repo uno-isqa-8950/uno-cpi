@@ -20,13 +20,9 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-def dashboard(request):
-    return render(request, 'home/GoogleMap_JSON.html',
-                  {'map': map})
-
 def about(request):
-    return render(request, 'home/Map_Leaflet.html',
-                  {'about': about})
+    return render(request, 'home/okMap.html',
+                  {'map': map})
 
 def cpipage(request):
     return render(request, 'home/CpiHome.html',

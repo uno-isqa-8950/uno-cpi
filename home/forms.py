@@ -76,12 +76,26 @@ class UserForm1(forms.ModelForm):
         return cd['password2']
 
 
-
-
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
+
+class userUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email' )
+
+        labels = {
+            'username': ('User Name'),
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'email': ('Email ID')
+        }
+
+
+class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:
         model = User
@@ -104,7 +118,6 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-
     def clean_email (self):
         data = self.cleaned_data.get('email')
         domain = data.split('@')[1]
@@ -112,6 +125,7 @@ class UserForm(forms.ModelForm):
         if domain not in domain_list:
             raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
         return data
+
 
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")

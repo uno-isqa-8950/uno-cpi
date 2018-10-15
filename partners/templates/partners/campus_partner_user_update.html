@@ -108,13 +108,13 @@ font-weight: bold;
             {% for field in user_form %}
             <div class="form-group">
               <label for="{{field.label}}">{{field.label}}</label>
-              <input type="text" class="form-control" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+              <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
             </div>
             {% endfor %}
 
             <div class="form-group">
               <label for="campuspartnername">Campus Partner Name</label>
-              <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{campus_partner_name}}" disabled>
+              <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
             </div>
             <p>
               <button type="submit" class="btn btn-custom">Update</button>

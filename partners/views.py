@@ -1,6 +1,6 @@
 from django.forms import formset_factory
 
-from home.forms import UserForm
+from home.forms import UserForm, CampusPartnerAvatar
 from .forms import *
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import CampusPartner as CampusPartnerModel
@@ -90,9 +90,11 @@ def campusPartnerUserProfileUpdate(request):
 
   if request.method == 'POST':
     user_form = UserForm(data = request.POST, instance=user)
+    avatar = CampusPartnerAvatar()
 
-    if user_form.is_valid():
+    if user_form.is_valid() and avatar.is_valid():
       user_form.save()
+      avatar.save()
       messages.success(request, 'Your profile was successfully updated!')
       return redirect('partners:campuspartneruserprofile')
     else:

@@ -111,7 +111,9 @@ font-weight: bold;
               <input type="text" class="form-control" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
             </div>
             {% endfor %}
-
+            {% if user.userprofile.image %}
+            <img src="{{ user.avatar.url }}" width="240">
+            {% endif %}
             <div class="form-group">
               <label for="campuspartnername">Campus Partner Name</label>
               <input type="email" class="form-control" id="email" aria-describedby="emailHelp" value="{{campus_partner_name}}" disabled>

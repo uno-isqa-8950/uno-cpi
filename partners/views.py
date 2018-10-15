@@ -1,16 +1,14 @@
-from django.forms import formset_factory
-
-from home.forms import UserForm
-from .forms import *
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import CampusPartner as CampusPartnerModel
-from home.models import Contact as ContactModel, Contact
-from projects.models import *
-from django.core.exceptions import ValidationError
-from django.forms import inlineformset_factory, modelformset_factory
-from django.template import context
-from partners.models import *
+from django.forms import modelformset_factory
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+
+from .forms import *
+from .models import CampusPartner as CampusPartnerModel
+from projects.models import *
+from partners.models import *
+from home.models import Contact as ContactModel, Contact, User
+from home.forms import userUpdateForm
 
 
 def registerCampusPartner(request):
@@ -72,24 +70,59 @@ def registerCommunityPartner(request):
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission}, )
+                   'formset_mission' : formset_mission})
 
 
+# @login_required
+# def campusPartnerUserProfile(request):
+
+#   # campus_partner_form = CampusPartnerFormProfile(request.POST or None)
+
+#   # We should get the partner by some unique ID directly based on the login information
+#   # current_campus_partner = CampusPartnerModel.objects.get(name="unique name")
+#   # Use try catch for using .get
+
+#   # current_campus_partner = CampusPartnerModel.objects.all()[0]
+#   # campus_partner_name = current_campus_partner.name
+#   # college = current_campus_partner.college
+#   # department = current_campus_partner.department
+
+#   # # Contact details from Contact Model
+#   # # We should use objects.get(campus_partner=current_campus_partner)
+#   # # as it gets the unqiue object mapping result in try catch. 
+  
+#   # campus_user = CampusPartnerUser.objects.get(
+#   #     user= request.user.id)
+
+#   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
+
+#   if not campus_user:
+#     return HttpResponseNotFound('<h1>Page not found</h1>')
+
+#   campus_partner_contact = ContactModel.objects.get(
+#     campus_partner=campus_user.campus_partner
+#     )
+
+#   return render(request, 'partners/campus_partner_user_profile.html', {"data": campus_partner_contact})
+
+
+# Campus Partner User Profile
+
+@login_required
 def campusPartnerUserProfile(request):
 
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
 
   return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
 
-
+# Campus Partner User Update Profile
 
 def campusPartnerUserProfileUpdate(request):
-
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
   user = get_object_or_404(User, id= request.user.id)
 
   if request.method == 'POST':
-    user_form = UserForm(data = request.POST, instance=user)
+    user_form = userUpdateForm(data = request.POST, instance=user)
 
     if user_form.is_valid():
       user_form.save()
@@ -99,7 +132,7 @@ def campusPartnerUserProfileUpdate(request):
       messages.error(request, 'Please correct the error below.')
 
   else:
-    user_form = UserForm(instance=user)
+    user_form = userUpdateForm(instance=user)
 
   return render(request,
                 'partners/campus_partner_user_update.html',

@@ -43,13 +43,13 @@ def signupuser(request):
 
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
-    user_form = UserForm()
+    user_form = UserForm1()
     print(campus_partner_user_form)
     data = []
     for object in CampusPartner.objects.order_by().distinct('name'):
         data.append(object.name)
     if request.method == 'POST':
-        user_form = UserForm(request.POST)
+        user_form = UserForm1(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
         # community_partner_form = CommunityPartnerForm(request.POST)

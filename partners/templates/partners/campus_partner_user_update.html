@@ -95,7 +95,7 @@ font-weight: bold;
     <div class="panel-heading text-center"><h4>Campus Partner User Profile</h4></div>
       <div class="panel-body">
         <div class="body">
-          <form action="." method="post">
+          <form  action="." id="id_avatar" method="post"  enctype="multipart/form-data">
             {% csrf_token %}
             {% if messages %}
             <ul class="messages">
@@ -104,19 +104,33 @@ font-weight: bold;
             {% endfor %}
             </ul>
             {% endif %}
-
+          <br>
+          <div class="col-8">
+            <div class='media'>
+              <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="100" width="100">
+              </div>
+            <div class="form-group">
+                {{ avatar_form|bootstrap }}
+            </div>
+          </div>
             {% for field in user_form %}
             <div class="form-group">
               <label for="{{field.label}}">{{field.label}}</label>
               <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
             </div>
             {% endfor %}
+{#            {% if user.avatar %}#}
+{#            <img src="{{ user.avatar.url }}" width="240">#}
+{#            {% endif %}#}
+
 
             <div class="form-group">
               <label for="campuspartnername">Campus Partner Name</label>
               <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
             </div>
             <p>
+
+
               <button type="submit" class="btn btn-custom">Update</button>
             </p>
             <br><br>

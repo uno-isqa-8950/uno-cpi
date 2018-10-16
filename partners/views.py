@@ -1,3 +1,7 @@
+from django.forms import formset_factory
+
+from home.forms import UserForm, CampusPartnerAvatar
+from .forms import *
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelformset_factory
 from django.contrib import messages
@@ -70,45 +74,9 @@ def registerCommunityPartner(request):
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission})
+                   'formset_mission' : formset_mission}, )
 
 
-# @login_required
-# def campusPartnerUserProfile(request):
-
-#   # campus_partner_form = CampusPartnerFormProfile(request.POST or None)
-
-#   # We should get the partner by some unique ID directly based on the login information
-#   # current_campus_partner = CampusPartnerModel.objects.get(name="unique name")
-#   # Use try catch for using .get
-
-#   # current_campus_partner = CampusPartnerModel.objects.all()[0]
-#   # campus_partner_name = current_campus_partner.name
-#   # college = current_campus_partner.college
-#   # department = current_campus_partner.department
-
-#   # # Contact details from Contact Model
-#   # # We should use objects.get(campus_partner=current_campus_partner)
-#   # # as it gets the unqiue object mapping result in try catch. 
-  
-#   # campus_user = CampusPartnerUser.objects.get(
-#   #     user= request.user.id)
-
-#   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
-
-#   if not campus_user:
-#     return HttpResponseNotFound('<h1>Page not found</h1>')
-
-#   campus_partner_contact = ContactModel.objects.get(
-#     campus_partner=campus_user.campus_partner
-#     )
-
-#   return render(request, 'partners/campus_partner_user_profile.html', {"data": campus_partner_contact})
-
-
-# Campus Partner User Profile
-
-@login_required
 def campusPartnerUserProfile(request):
 
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
@@ -123,18 +91,24 @@ def campusPartnerUserProfileUpdate(request):
 
   if request.method == 'POST':
     user_form = userUpdateForm(data = request.POST, instance=user)
+    avatar_form = CampusPartnerAvatar(data = request.POST,files=request.FILES, instance=user)
 
-    if user_form.is_valid():
-      user_form.save()
-      messages.success(request, 'Your profile was successfully updated!')
-      return redirect('partners:campuspartneruserprofile')
+    if user_form.is_valid() and avatar_form.is_valid():
+       user_form.save()
+       print(avatar_form)
+       avatar_form.save()
+
+
+       messages.success(request, 'Your profile was successfully updated!')
+       return redirect('partners:campuspartneruserprofile')
     else:
       messages.error(request, 'Please correct the error below.')
 
   else:
     user_form = userUpdateForm(instance=user)
-
+    avatar_form = CampusPartnerAvatar(instance=user)
   return render(request,
                 'partners/campus_partner_user_update.html',
-                {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner)}
+                {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner),
+                 'avatar_form' :avatar_form}
               )

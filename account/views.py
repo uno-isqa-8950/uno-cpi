@@ -21,7 +21,7 @@ def user_login(request):
                     login(request, user)
                     return communityhome(request)
                 elif user.is_superuser:
-                    return admin(request)
+                    return render(request, 'home/CpiHome.html')
 
             else:
                 return HttpResponse('Invalid Credentials')
@@ -35,8 +35,8 @@ def campushome(request):
 
 
 def communityhome(request):
-    return render(request, 'home/Community_Home.html',{'communityhome': communityhome}),
+    return render(request, 'home/Community_Home.html',{'communityhome': communityhome})
 
 
 def admin(request):
-    return render(request, 'home/CpiHome.html',{'admin': admin}),
+    return render(request, 'home/CpiHome.html',{'admin': admin})

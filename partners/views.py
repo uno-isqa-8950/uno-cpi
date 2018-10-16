@@ -91,20 +91,24 @@ def campusPartnerUserProfileUpdate(request):
 
   if request.method == 'POST':
     user_form = userUpdateForm(data = request.POST, instance=user)
-    avatar = CampusPartnerAvatar()
+    avatar_form = CampusPartnerAvatar(data = request.POST,files=request.FILES, instance=user)
 
-    if user_form.is_valid() and avatar.is_valid():
-      user_form.save()
-      avatar.save()
-      messages.success(request, 'Your profile was successfully updated!')
-      return redirect('partners:campuspartneruserprofile')
+    if user_form.is_valid() and avatar_form.is_valid():
+       user_form.save()
+       print(avatar_form)
+       avatar_form.save()
+
+
+       messages.success(request, 'Your profile was successfully updated!')
+       return redirect('partners:campuspartneruserprofile')
     else:
       messages.error(request, 'Please correct the error below.')
 
   else:
     user_form = userUpdateForm(instance=user)
-
+    avatar_form = CampusPartnerAvatar(instance=user)
   return render(request,
                 'partners/campus_partner_user_update.html',
-                {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner)}
+                {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner),
+                 'avatar_form' :avatar_form}
               )

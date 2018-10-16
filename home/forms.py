@@ -222,14 +222,22 @@ class CampusPartnerAvatar(ModelForm):
         model = User
         fields = ('avatar',)
 
+        labels = {
+            'avatar': ('Profile Photo'),
+                 }
+        widgets ={
+            'avatar': forms.FileInput({'placeholder': 'Upload pic'}),
+
+        }
+
     def clean_avatar(self):
         avatar = self.cleaned_data['avatar']
 
         try:
             w, h = get_image_dimensions(avatar)
 
-            # validate dimensions
-            max_width = max_height = 100
+            # # validate dimensions
+            max_width = max_height = 600
             if w > max_width or h > max_height:
                 raise forms.ValidationError(
                     u'Please use an image that is '
@@ -242,9 +250,9 @@ class CampusPartnerAvatar(ModelForm):
                                             'GIF or PNG image.')
 
             # validate file size
-            if len(avatar) > (20 * 1024):
+            if len(avatar) > (2 * 1024 *1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 20k.')
+                    u'Avatar file size may not exceed 2mb.')
 
         except AttributeError:
             """

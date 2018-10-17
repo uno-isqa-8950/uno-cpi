@@ -170,3 +170,18 @@ def userProfileUpdate(request):
                   'partners/community_partner_user_update.html',
                   {'user_form': user_form, "community_partner_name": str(community_user.community_partner)}
                   )
+
+
+@login_required
+def orgProfile(request):
+
+  if request.user.is_communitypartner:
+    community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+    community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
+    contact = get_object_or_404(Contact, community_partner= community_partner.id)
+    community_partner_mission = get_object_or_404(CommunityPartnerMission, id= community_partner.id)
+    
+    return render(request, 'partners/community_partner_org_profile.html', {
+                           "community_partner": community_partner, "contact":contact,
+                           "community_partner_mission":community_partner_mission
+                           })

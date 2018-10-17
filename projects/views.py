@@ -65,7 +65,7 @@ def communitypartnerproject_edit(request,pk):
             return render(request, 'projects/community_partner_projects.html', {'project': curr_proj_list})
 
     else:
-        print(" Project_edit_new else")
+        #print(" Project_edit_new else")
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm(request.POST or None, instance=x)
@@ -80,24 +80,53 @@ def communitypartnerproject_edit(request,pk):
 
 
 
+def proj_view_user(request):
+    #print(request.user.id)
+    projects_list=[]
+    camp_part_names=[]
+    # Get the campus partner id related to the user
+    camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+    for c in camp_part_user:
+        p =c.campus_partner_id
+        #print(c)
+    # get all the project names base on the campus partner id
+    proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
 
-def project_list(request):
-   project = Project.objects.filter(created_date__lte=timezone.now())
-   projects_list=[]
-   for x in project:
-     projmisn= list(ProjectMission.objects.filter(project_name_id = x.id))
-     cp= list(ProjectCommunityPartner.objects.filter(project_name_id = x.id))
-     camp_part= list(ProjectCampusPartner.objects.filter(project_name_id = x.id))
+    for f in proj_camp:
+        #print(l)
+        k=list(Project.objects.filter(id = f.project_name_id))
+        #print(k)
+        for x in k:
+         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+         proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         for proj_camp_par in proj_camp_par:
+            camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+            #print("camp_part is")
+            #print(camp_part)
+            camp_part_names.append(camp_part)
+         list_camp_part_names = camp_part_names
+         camp_part_names = []
 
-     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type, 'activityType': x.activity_type,
-           'facilitator': x.facilitator, 'semester': x.semester, 'status':x.status,'startDate': x.start_date,
-           'endDate': x.end_date,'total_uno_students':x.total_uno_students,'total_uno_hours':x.total_uno_hours,
-             'total_k12_students': x.total_k12_students,'total_k12_hours': x.total_k12_hours, 'total_uno_faculty': x.total_uno_faculty,
-             'total_other_community_members':x.total_other_community_members,'outcomes':x.outcomes,'total_economic_impact':x.total_economic_impact,
-                         'projmisn': projmisn,'cp':cp , 'camp_part':camp_part}
-     projects_list.append(data)
+         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+            'activityType': x.activity_type,
+            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+            'startDate': x.start_date,
+            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+            'total_uno_hours': x.total_uno_hours,
+            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+            'total_uno_faculty': x.total_uno_faculty,
+            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
+             }
 
-   return render(request, 'projects/Project_list.html',{'project': projects_list})
+         projects_list.append(data)
+
+
+
+    return render(request, 'projects/Projectlist.html', {'project': projects_list})
+
+
 
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, extra =1 , form = ProjectMissionFormset)
@@ -153,7 +182,7 @@ def project_total_Add(request):
                         'total_economic_impact': x.total_economic_impact,
                         'projmisn': projmisn, 'cp': cp, 'camp_part': camp_part}
                 projects_list.append(data)
-            return render(request, 'projects/Project_list.html', {'project':projects_list } )
+            return render(request, 'projects/Projectlist.html', {'project':projects_list } )
 
     else:
         project = ProjectForm2()
@@ -162,7 +191,6 @@ def project_total_Add(request):
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
     return render(request,
                           'projects/project_add.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3})
-
 
 
 def project_edit_new(request,pk):
@@ -198,27 +226,57 @@ def project_edit_new(request,pk):
             for l in campar:
                 l.project_name= instances
                 l.save()
-            project = Project.objects.filter(created_date__lte=timezone.now())
             projects_list = []
+            camp_part_names = []
+            # Get the campus partner id related to the user
+            camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+            for c in camp_part_user:
+                p = c.campus_partner_id
+                # print(c)
+            # get all the project names base on the campus partner id
+            proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+            # for proj_camp_par in proj_camp:
+            #     #print(proj_camp_par)
+            #     proj_all = list(ProjectCampusPartner.objects.filter(project_name_id = proj_camp_par.project_name_id).distinct('campus_partner_id'))
+            #     print("111111")
+            # for proj_all in proj_all:
+            #     #print(proj_all.campus_partner_id)
+            #     camp_part = list(CampusPartner.objects.filter(id =proj_all.campus_partner_id ))
+            #     print(camp_part)
 
-            for x in project:
-                projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                camp_part = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+            for f in proj_camp:
+                # l = f.project_name_id
+                # print(l)
+                k = list(Project.objects.filter(id=f.project_name_id))
+                # print(k)
+                for x in k:
 
-                data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                        'activityType': x.activity_type,
-                        'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                        'startDate': x.start_date,
-                        'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                        'total_uno_hours': x.total_uno_hours,
-                        'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                        'total_uno_faculty': x.total_uno_faculty,
-                        'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                        'total_economic_impact': x.total_economic_impact,
-                        'projmisn': projmisn, 'cp': cp, 'camp_part': camp_part}
-                projects_list.append(data)
-            return render(request, 'projects/Project_list.html', {'project': projects_list})
+                    projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                    cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                    for proj_camp_par in proj_camp_par:
+                        camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+
+                        camp_part_names.append(camp_part)
+                    list_camp_part_names = camp_part_names
+                    camp_part_names = []
+
+                    data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                            'activityType': x.activity_type,
+                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                            'startDate': x.start_date,
+                            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                            'total_uno_hours': x.total_uno_hours,
+                            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                            'total_uno_faculty': x.total_uno_faculty,
+                            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                            'camp_part': list_camp_part_names
+                            }
+
+                    projects_list.append(data)
+
+            return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
     else:
         #print(" Project_edit_new else")
@@ -236,4 +294,3 @@ def project_edit_new(request,pk):
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
-

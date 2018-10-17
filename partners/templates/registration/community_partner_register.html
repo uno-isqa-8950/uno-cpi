@@ -230,29 +230,6 @@ $(document).on('click', '.remove-form-row', function(e){
     return false;
 });
 </script>
-<script>
-    $(function(){
-        function hideInputs() {
 
-            $("label.control-label[for=id_k12_level], input#id_k12_level").hide();
-            $("#id_k12_level").hide();
-            console.log('label.control-label[for=id_k12_level], input#id_k12_level');
-            }
-
-        $("#id_community_type").on('change', function(){
-            var val = $("#id_community_type").val();
-            if (val === '2') {
-               $("#id_k12_level").show();
-               $("label.control-label[for=id_k12_level], input#id_k12_level").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-
-        hideInputs();
-    });
-</script>
 {% endblock %}
 

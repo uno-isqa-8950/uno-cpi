@@ -76,7 +76,7 @@ color:black;
                     <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{%url 'projects:campususerproject' %}"><i class="fa fa-product-hunt"></i>Project</a>
+                    <a class="nav-link" href='/project/'><i class="fa fa-product-hunt"></i>Project</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
@@ -90,47 +90,36 @@ color:black;
                       <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                  <a class="dropdown-item" href="{% url 'partners:campuspartneruserprofile' %}">Campus Partner User Profile</a>
-                  <a class="dropdown-item" href='#'>Campus Partner Organization Profile</a>
+                  <a class="dropdown-item" href="{% url 'partners:userprofile' %}">User Profile</a>
+                  <a class="dropdown-item" href='#'>Organization Profile</a>
                 </div>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
-                      <i class="fa fa-user-circle-o"></i>Welcome {{ user.username }}<img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30">
-                      <span class="caret"></span>
-                        </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
 
-                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
-                </div>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
                 </li>
                 {% endif %}
             </ul>
     </div>
 </nav>
-
-
-
 <!-- Navbar ends-->
 
 <!-- Table Begins ---- Add Block Content Here-->
-
-<div class="container">
-    <br>
-</div>
-
-{% block content %}
-
-{% endblock %}
 
 
 <!-- Block Ends here-->
 
 
+<div class="container">
+  <br>
+  {% block content %}
+
+  {% endblock %}
+
+</div>
+
+
 <!--Contact Begins -->
-
-
 <section id="contact">
       <div class="container">
         <div class="row">

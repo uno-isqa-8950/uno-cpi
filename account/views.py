@@ -16,12 +16,13 @@ def user_login(request):
             if user is not None:
                 if user.is_campuspartner:
                     login(request, user)
-                    return campushome(request)
+                    print("test")
+                    return render(request, 'home/Campus_Home.html')
                 elif user.is_communitypartner:
                     login(request, user)
-                    return communityhome(request)
+                    return render(request, 'home/Community_Home.html')
                 elif user.is_superuser:
-                    return admin(request)
+                    return render(request, 'home/CpiHome.html')
 
             else:
                 return HttpResponse('Invalid Credentials')
@@ -29,14 +30,3 @@ def user_login(request):
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
 
-
-def campushome(request):
-    return render(request, 'home/Campus_Home.html',{'campushome': campushome})
-
-
-def communityhome(request):
-    return render(request, 'home/Community_Home.html',{'communityhome': communityhome})
-
-
-def admin(request):
-    return render(request, 'home/CpiHome.html',{'admin': admin})

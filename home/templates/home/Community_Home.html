@@ -70,7 +70,7 @@ color:black;
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
             <a class ="navbar-brand" href="#" id="uno"><b>University of Nebraska Omaha</b>
-                <b id="cpi">Community Partnership Initiative</b></a>
+                <b id="cpi">Community Home</b></a>
             {% if user.is_authenticated %}
             <li class=""><a href="#">Hello, {{user.username}}</a></li>
             <ul class="navbar-nav ml-auto">
@@ -83,25 +83,16 @@ color:black;
                 <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
                 </li>
-                <!--li class="nav-item">
-                    <a class="nav-link" href="/"><i class="fa fa-home"></i>Impact</a>
-                </li-->
-                <!--li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-globe"></i>Register
-                        <span class="caret"></span>
-                    </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
-                    <a class="dropdown-item" href='/registerCommunityPartner/'>Community Partner</a>
-                </div>
+                <li class="nav-item dropdown">
+                  <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='/profile/campuspartneruserprofile/'>
+                    <i class="fa fa-user-circle-o"></i>Profiles
+                    <span class="caret"></span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}">User Profile</a>
+                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'>Organization Profile</a>
+                  </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='/signupuser/'><i class="fa fa-user-plus"></i>SignUp</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
-                </li-->
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
 
@@ -110,21 +101,6 @@ color:black;
             </ul>
     </div>
 </nav>
-
-
-
-
-<!-- Navbar ends-->
-
-<!-- Table Begins ---- Add Block Content Here-->
-
-
-
-
-
-
-
-
 
 
 
@@ -139,9 +115,6 @@ color:black;
 
 
 <!--Contact Begins -->
-
-
-
 <section id="contact">
       <div class="container">
         <div class="row">
@@ -167,17 +140,12 @@ color:black;
         </div>
       </div>
     </section>
-
-
-
 <!-- Contact Ends here-->
 
 
 
 
 <!--Footer Begins here-->
-
-
 <footer>
       <div class="container">
         <div class="row">
@@ -216,20 +184,9 @@ color:black;
         </div>
       </div>
     </footer>
-
-
-
 <!-- Footer Ends Here-->
-
-
-
 
 </body>
 
-<script type="text/javascript">
-     $(document).ready(function() {
-    $('#example').DataTable();
-} );
- </script>
 </html>
 

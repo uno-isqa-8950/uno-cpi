@@ -1,7 +1,6 @@
 from django import forms
-from django.core.files.images import get_image_dimensions
 from django.forms import ModelForm
-from home.models import Contact, User
+from home.models import Contact
 from partners.models import *
 from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
@@ -105,6 +104,5 @@ class CommunityMissionForm(ModelForm):
     class Meta:
         model = CommunityPartnerMission
         fields = ('mission_type' , 'mission_area')
-
 
 

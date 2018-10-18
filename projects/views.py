@@ -34,6 +34,7 @@ def communitypartnerproject(request):
 
 
 def communitypartnerproject_edit(request,pk):
+
     mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
     proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0,
                                            form=ProjectCommunityPartnerForm)
@@ -46,36 +47,32 @@ def communitypartnerproject_edit(request,pk):
         mission_form = mission_edit_details(request.POST, request.FILES, instance=x)
         comp_proj_form = proj_comm_part(request.POST, request.FILES, instance=x)
 
-        if project.is_valid() and mission_form.is_valid() \
+        if project.is_valid()  \
                 and comp_proj_form.is_valid():
 
             instances = project.save()
-            pm = mission_form.save(commit=False)
             commpar = comp_proj_form.save(commit=False)
-            # campar = formset_camp_details.save(commit=False)
 
-            for k in pm:
-                k.project_name = instances
-                k.save()
             for p in commpar:
                 p.project = instances
                 p.save()
 
             curr_proj_list = Project.objects.filter(created_date__lte=timezone.now())
-            return render(request, 'projects/community_partner_projects.html', {'project': curr_proj_list})
+            mission_list = ProjectMission.objects.filter()
+            com_proj = ProjectCommunityPartner.objects.filter()
+            return render(request, 'projects/community_partner_projects.html', {'projects': curr_proj_list,'p_missions':mission_list,'com_proj':com_proj})
 
     else:
-        #print(" Project_edit_new else")
+
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
-            project = ProjectForm(request.POST or None, instance=x)
+          project = ProjectForm(request.POST or None, instance=x)
         proj_mission = ProjectMission.objects.filter(project_name_id=pk)
         proj_comm_part_edit = ProjectCommunityPartner.objects.filter(project_name_id=pk)
 
-        # mission_form = mission_edit_details(instance=x)
         comp_proj_form = proj_comm_part(instance=x)
 
-        return render(request, 'projects/community_partner_projects_edit.html', {'project': project,
+        return render(request, 'projects/community_partner_projects_edit.html', {'project':project,
                                                                                  'comp_proj_form': comp_proj_form})
 
 

@@ -38,24 +38,24 @@
                 <th>Activity Type</th>
                 <th>Facilitator</th>
                 <th>Semester</th>
-                <th>Total Uno Students</th>
-                <th>Total Uno Hours</th>
-                <th>Total K12 Students</th>
-                <th>Total K12 hours</th>
-                <th>Total Uno Faculty</th>
+                <th>UNO Students</th>
+                <th>UNO Hours</th>
+                <th>K12 Students</th>
+                <th>K12 hours</th>
+                <th>Uno Faculty</th>
                 <th>Mission Type</th>
                 <th>Mission Area</th>
+                <th>Community Hours</th>
+                <th>Community People</th>
+                <th>Wages</th>
                 <th>Action</th>
             </tr>
             </thead>
             <tbody>
 
 
-{#             {% for u in ausr %}#}
-{#            {% for ui in user %}#}
-{#            {% for cop in comupart %}#}
             {% for p in projects %}
-{#            {% if u.id == ui.user_id and ui.community_partner_id == cop.community_partner_id and cop.project_name_id == p.id %}#}
+
 
                <tr>
                    <td>{{ p.project_name }}</td>
@@ -78,14 +78,26 @@
                                {{ pm.mission }}
                            {% endif %}
                    {% endfor %} </td>
+                   <td>{% for cp in com_proj %}
+                           {% if p.id == cp.project_name_id %}
+                               {{ cp.total_hours }}
+                           {% endif %}
+                   {% endfor %}</td>
+                   <td>{% for cp in com_proj %}
+                           {% if p.id == cp.project_name_id %}
+                               {{ cp.total_people }}
+                           {% endif %}
+                   {% endfor %}</td>
+                   <td>{% for cp in com_proj %}
+                           {% if p.id == cp.project_name_id %}
+                               {{ cp.wages }}
+                           {% endif %}
+                   {% endfor %}</td>
                        <td><a href="{% url 'communitypartnerproject_edit' pk=p.pk%}" class="btn btn-danger">Edit</a>
 
                     </td>
                 </tr>
-{#                {% endif %}#}
-{#             {% endfor %}#}
-{#            {% endfor %}#}
-{#            {% endfor %}#}
+
             {% endfor %}
 
 

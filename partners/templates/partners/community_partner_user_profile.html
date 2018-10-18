@@ -1,0 +1,147 @@
+{% extends 'home/Community_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+.btn-custom
+{
+    background-color: #C0C0C0;
+    position: relative;
+    width:90px;
+    top:15px;
+    font-family: Helvetica;
+    left: 250px;
+}
+
+
+.btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+
+
+.form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+body
+{
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-size: medium;
+   position: relative;
+}
+
+.panel
+{
+width: 650px;
+margin-left: auto;
+margin-right:auto;
+margin-top:80px;
+height: relative;
+font-family: Helvetica;
+box-shadow: 5px 10px 20px 5px grey;
+}
+
+.panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+
+.panel-heading
+{
+  height:60px;
+  margin-top:5px;
+  border-radius: 5px;
+}
+
+.panel
+{
+  border-radius: 5px;
+}
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+</style>
+
+{% if messages %}
+  <ul class="messages">
+  {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+<div class = "container">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4>My Profile</h4></div>
+      <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6 text-right">
+              <label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+            </div>
+            <div class="col-sm-6"> 
+              <label> {{user.username}} </label> 
+            </div>
+          <div class="col-sm-6 text-right">
+            <label> First Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6"> 
+            <label> {{user.first_name}} </label> 
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> Last Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6"> 
+            <label> {{user.last_name}} </label> 
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> Email ID &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6"> 
+            <label> {{user.email}} </label> 
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> Community Partner Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6"> 
+            <label> {{community_partner_name}} </label> 
+          </div>
+          <br>
+        </div>
+        <div class="text-center">
+          <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
+        </div>
+        <br>
+      </div>
+  </div>
+</div>
+<br><br><br>
+
+{% endblock %}

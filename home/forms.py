@@ -1,4 +1,5 @@
 from django import forms
+from django.core.files.images import get_image_dimensions
 from django.db.transaction import commit
 import re
 
@@ -76,12 +77,26 @@ class UserForm1(forms.ModelForm):
         return cd['password2']
 
 
-
-
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
+
+class userUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email' )
+
+        labels = {
+            'username': ('User Name'),
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'email': ('Email ID')
+        }
+
+
+class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:
         model = User
@@ -104,7 +119,6 @@ class UserForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-
     def clean_email (self):
         data = self.cleaned_data.get('email')
         domain = data.split('@')[1]
@@ -112,6 +126,7 @@ class UserForm(forms.ModelForm):
         if domain not in domain_list:
             raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
         return data
+
 
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
@@ -202,4 +217,48 @@ class UploadDepartment(ModelForm):
         fields = '__all__'
 
 
+class CampusPartnerAvatar(ModelForm):
+    class Meta:
+        model = User
+        fields = ('avatar',)
 
+        labels = {
+            'avatar': ('Profile Photo'),
+                 }
+        widgets ={
+            'avatar': forms.FileInput({'placeholder': 'Upload pic'}),
+
+        }
+
+    def clean_avatar(self):
+        avatar = self.cleaned_data['avatar']
+
+        try:
+            w, h = get_image_dimensions(avatar)
+
+            # # validate dimensions
+            max_width = max_height = 600
+            if w > max_width or h > max_height:
+                raise forms.ValidationError(
+                    u'Please use an image that is '
+                    '%s x %s pixels or smaller.' % (max_width, max_height))
+
+            # validate content type
+            main, sub = avatar.content_type.split('/')
+            if not (main == 'image' and sub in ['jpeg', 'pjpeg', 'gif', 'png']):
+                raise forms.ValidationError(u'Please use a JPEG, '
+                                            'GIF or PNG image.')
+
+            # validate file size
+            if len(avatar) > (2 * 1024 *1024):
+                raise forms.ValidationError(
+                    u'Avatar file size may not exceed 2mb.')
+
+        except AttributeError:
+            """
+            Handles case when we are updating the user profile
+            and do not supply a new avatar
+            """
+            pass
+
+        return avatar

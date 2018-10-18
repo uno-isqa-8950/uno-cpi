@@ -1,7 +1,7 @@
 #UNO Community Partnership Intiative
 
 The official repository of the Community Partnership initiative(UNO) Project for Fall 2018 Capstone Class Written in Python/Django
-    •	Python Version 3.7
+    •	Python Version 3.7 
     •	Django Version 2.1.1
     •	PostgressSql Version 10.5
 

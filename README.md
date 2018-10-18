@@ -1,3 +1,4 @@
+UNO CPI
 #UNO Community Partnership Intiative
 
 The official repository of the Community Partnership initiative(UNO) Project for Fall 2018 Capstone Class Written in Python/Django

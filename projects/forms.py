@@ -7,8 +7,15 @@ from django.forms import ModelForm
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ('project_name', 'engagement_type', 'facilitator', 'semester', 'total_uno_students', 'total_uno_hours',
-                  'total_k12_students', 'total_k12_hours', 'total_uno_faculty')
+        fields = ('project_name',)
+        labels = {
+            'project_name': ('Project Name'),
+        }
+        widgets = {
+            #'name': forms.Field
+            'project_name': forms.Textarea(attrs={'readonly': True,'rows':1, 'cols':80}),
+
+        }
 
 class missionform(forms.ModelForm):
     class Meta:
@@ -19,7 +26,11 @@ class missionform(forms.ModelForm):
 class ProjectCommunityPartnerForm(forms.ModelForm):
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('project_name','community_partner','total_hours','total_people','wages')
+        fields = ('project_name','total_hours','total_people','wages')
+        labels = {
+            'total_hours': ('Community Hours'),
+            'total_people':('Community Volunteer'),
+        }
 
 
 class ProjectForm2(ModelForm):

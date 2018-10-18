@@ -48,8 +48,8 @@ class CampusPartnerContactForm(forms.ModelForm):
 
         }
 
-        widgets = {'work_phone': forms.TextInput({'placeholder': '5714200002'}),
-                   'cell_phone': forms.TextInput({'placeholder': '5714200002'}),
+        widgets = {'work_phone': forms.TextInput({'placeholder': '(###)-(###)-(####)'}),
+                   'cell_phone': forms.TextInput({'placeholder': '(###)-(###)-(####)'}),
                    'email_id': forms.TextInput({'placeholder': 'abc@unomaha.edu'}),
                    }
 
@@ -89,8 +89,8 @@ class CommunityContactForm(forms.ModelForm):
                   'cell_phone',
                   'email_id',
                   'contact_type')
-        widgets = {'work_phone': forms.TextInput({'placeholder': '5714200002'}),
-                   'cell_phone': forms.TextInput({'placeholder': '5714200002'}),
+        widgets = {'work_phone': forms.TextInput({'placeholder': '(###)-(###)-(####)'}),
+                   'cell_phone': forms.TextInput({'placeholder': '(###)-(###)-(####)'}),
                   }
 
 

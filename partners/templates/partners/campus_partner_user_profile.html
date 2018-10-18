@@ -100,9 +100,14 @@ font-weight: bold;
 
 <div class = "container">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4>My Profile</h4></div>
+    <div class="panel-heading text-center"><h4>Campus Partner User Profile</h4></div>
       <div class="panel-body">
+          <div class="col-12">
+              <br>
+            <img src="{{ user.avatar.url }}" width="150">
+          </div>
         <div class="row">
+
             <div class="col-sm-6 text-right">
               <label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
             </div>
@@ -133,10 +138,12 @@ font-weight: bold;
           <div class="col-sm-6"> 
             <label> {{campus_partner_name}} </label> 
           </div>
+
+        
           <br>
         </div>
         <div class="text-center">
-          <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
+          <a href="{% url 'partners:campuspartneruserprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
         </div>
         <br>
       </div>

@@ -76,14 +76,12 @@ def registerCommunityPartner(request):
                    'formset': formset,
                    'formset_mission' : formset_mission}, )
 
-
+'''
 def campusPartnerUserProfile(request):
 
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
 
   return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
-
-# Campus Partner User Update Profile
 
 def campusPartnerUserProfileUpdate(request):
   campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
@@ -112,3 +110,73 @@ def campusPartnerUserProfileUpdate(request):
                 {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner),
                  'avatar_form' :avatar_form}
               )
+'''
+#Campus and Community Partner user Profile
+
+def userProfile(request):
+
+  if request.user.is_campuspartner:
+    campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
+    return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
+
+  elif request.user.is_communitypartner:
+    community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+    return render(request, 'partners/community_partner_user_profile.html', {"community_partner_name": str(community_user.community_partner)})
+
+
+# Campus and Community Partner User Update Profile
+
+def userProfileUpdate(request):
+    if request.user.is_campuspartner:
+
+        campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+        user = get_object_or_404(User, id=request.user.id)
+
+        if request.method == 'POST':
+            user_form = userUpdateForm(data=request.POST, instance=user)
+            avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
+
+            if user_form.is_valid() and avatar_form.is_valid():
+                user_form.save()
+                avatar_form.save()
+                messages.success(request, 'Your profile was successfully updated!')
+                return redirect('partners:userprofile')
+            else:
+                messages.error(request, 'Please correct the error below.')
+
+        else:
+            user_form = userUpdateForm(instance=user)
+            avatar_form = CampusPartnerAvatar(instance=user)
+        return render(request,
+                          'partners/campus_partner_user_update.html',
+                          {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner),
+                           'avatar_form': avatar_form}
+                          )
+
+    elif request.user.is_communitypartner:
+
+        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
+        user = get_object_or_404(User, id=request.user.id)
+
+        if request.method == 'POST':
+            user_form = userUpdateForm(data=request.POST, instance=user)
+            avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
+
+            if user_form.is_valid()and avatar_form.is_valid():
+                user_form.save()
+                avatar_form.save()
+                messages.success(request, 'Your profile was successfully updated!')
+                return redirect('partners:userprofile')
+            else:
+                messages.error(request, 'Please correct the error below.')
+
+        else:
+            user_form = userUpdateForm(instance=user)
+            avatar_form = CampusPartnerAvatar(instance=user)
+
+        return render(request,
+                      'partners/community_partner_user_update.html',
+                      {'user_form': user_form, 'community_partner_name': str(community_user.community_partner),
+                       'avatar_form': avatar_form}
+                      )
+

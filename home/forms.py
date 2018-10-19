@@ -57,14 +57,14 @@ class UserForm1(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ('first_name', 'last_name', 'email' )
         help_texts = {
-            'username': None,
+
             'email': None,
         }
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email ID')
@@ -86,10 +86,10 @@ class userUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ( 'first_name', 'last_name', 'email' )
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email ID')
@@ -100,14 +100,14 @@ class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ( 'first_name', 'last_name', 'email' )
         help_texts = {
-            'username': None,
+
             'email': None,
         }
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email ID')
@@ -122,9 +122,9 @@ class CommunityPartnerForm(forms.ModelForm):
     def clean_email (self):
         data = self.cleaned_data.get('email')
         domain = data.split('@')[1]
-        domain_list = ["unomaha.edu" ]
+        domain_list = [".edu" ]
         if domain not in domain_list:
-            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+            raise forms.ValidationError("Please use .edu email ")
         return data
 
 

@@ -89,7 +89,7 @@ color:black;
                   </a>
                   <div class="dropdown-menu" aria-labelledby="dropdown_target">
                     <a class="dropdown-item" href="{% url 'partners:userprofile' %}">My Profile</a>
-                    <a class="dropdown-item" href='#'>Organization Profile</a>
+                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'>Organization Profile</a>
                   </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -228,4 +228,3 @@ color:black;
 } );
  </script>
 </html>
-

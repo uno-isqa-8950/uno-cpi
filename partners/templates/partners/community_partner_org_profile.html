@@ -97,7 +97,7 @@ font-variant: normal;
   </ul>
 {% endif %}
 
- <div class = "container">
+<div class = "container">
   <div class = "panel panel-default">
     <div class="panel-heading text-center"><h4>Organisation Profile</h4></div>
       <div class="panel-body">
@@ -245,27 +245,16 @@ font-variant: normal;
           </div>
           {% endfor %}
         </div>
-          <!-- <div>
-            <address>
-              You can contact author at <a href="http://www.somedomain.com/contact">
-              www.somedomain.com</a>.<br>
-              If you see any bugs, please <a href="mailto:webmaster@somedomain.com">
-              contact webmaster</a>.<br>
-              You may also want to visit us:<br>
-              Mozilla Foundation<br>
-              331 E Evelyn Ave<br>
-              Mountain View, CA 94041<br>
-              USA
-            </address>
-          </div>
-        </div> -->
+
         </div>
         <div class="text-center">
-          <a href="#" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
+          <a href="{% url 'partners:orgprofileupdate' community_partner.id %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
         </div>
         <br>
+
       </div>
+    </div>
   </div>
 </div>
 <br><br><br>
- {% endblock %}
+{% endblock %}

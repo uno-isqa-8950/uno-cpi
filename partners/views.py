@@ -185,12 +185,16 @@ def orgProfile(request):
    if request.user.is_communitypartner:
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
     community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
-    contact = Contact.objects.values().filter(community_partner= community_partner.id)
-    print ("contact", contact, len(contact))
-    contact = get_object_or_404(Contact, community_partner= community_partner.id)
+    print ("ssssssss", community_partner.community_type)
+    if community_partner.community_type == "K12":
+        print ("ddddddddddd", type(community_partner.community_type))
+
+    contacts = Contact.objects.values().filter(community_partner= community_partner.id)
+    print ("contact", contacts, len(contacts))
+    # contact = get_object_or_404(Contact, community_partner= community_partner.id)
     community_partner_mission = get_object_or_404(CommunityPartnerMission, id= community_partner.id)
 
     return render(request, 'partners/community_partner_org_profile.html', {
-                           "community_partner": community_partner, "contact":contact,
+                           "community_partner": community_partner, "contacts":contacts,
                            "community_partner_mission":community_partner_mission
                            }) 

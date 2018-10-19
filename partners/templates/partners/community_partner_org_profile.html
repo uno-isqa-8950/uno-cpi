@@ -73,7 +73,15 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
+img.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+
 </style>
+
  {% if messages %}
   <ul class="messages">
   {% for message in messages %}
@@ -81,17 +89,22 @@ font-weight: bold;
   {% endfor %}
   </ul>
 {% endif %}
+
  <div class = "container">
   <div class = "panel panel-default">
     <div class="panel-heading text-center"><h4>Organisation Profile</h4></div>
       <div class="panel-body">
+          <div class="col-12">
+            <br>
+            <img src="{{ user.avatar.url }}" class="center" width="100">
+          </div>
         <div class="row">
-            <div class="col-sm-6 text-right">
-              <label> Community Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-            </div>
-            <div class="col-sm-6">
-              <label> {{community_partner.name}} </label>
-            </div>
+          <div class="col-sm-6 text-right">
+            <label> Community Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner.name}} </label>
+          </div>
           <div class="col-sm-6 text-right">
             <label> Address Line1 &nbsp; &nbsp; &nbsp; &nbsp; : </label>
           </div>
@@ -122,51 +135,51 @@ font-weight: bold;
           <div class="col-sm-6">
             <label> {{community_partner.country}} </label>
           </div>
-        <div class="col-sm-6 text-right">
-          <label> City &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
-          <label> {{community_partner.city}} </label>
-        </div>
-        <div class="col-sm-6 text-right">
-          <label> State &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
-          <label> {{community_partner.state}} </label>
-        </div>
-        <div class="col-sm-6 text-right">
-          <label> zip &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
-          <label> {{community_partner.zip}} </label>
-        </div>
-         <div class="col-sm-6 text-right">
-          <label> Mission Type &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
-          <label> {{community_partner_mission.mission_type}} </label>
-        </div>
-        <div class="col-sm-6 text-right">
-            <label> Mission Area &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
-            <label> {{community_partner_mission.mission_area}} </label>
-        </div>
-         <div class="col-sm-6 text-right">
+          <div class="col-sm-6 text-right">
+            <label> City &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner.city}} </label>
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> State &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner.state}} </label>
+          </div>
+          <div class="col-sm-6 text-right">
             <label> zip &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
             <label> {{community_partner.zip}} </label>
-        </div>
-         {% if community_partner.community_type == "K12" %}
-        <div class="col-sm-6 text-right">
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> Mission Type &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner_mission.mission_type}} </label>
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> Mission Area &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner_mission.mission_area}} </label>
+          </div>
+          <div class="col-sm-6 text-right">
+            <label> CEC Partner &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{community_partner.weitz_cec_part}} </label>
+          </div>
+          {% if community_partner.community_type == "K12" %}
+          <div class="col-sm-6 text-right">
             <label> k12 Level &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-        </div>
-        <div class="col-sm-6">
+          </div>
+          <div class="col-sm-6">
             <label> {{community_partner.k12_level}} </label>
-        </div>
-        {% endif %}
-           <br>
+          </div>
+          {% endif %}
+          <br>
         </div>
         <div class="text-center">
           <a href="#" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>

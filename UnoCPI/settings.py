@@ -100,18 +100,13 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cpi_db5',
-        'USER': 'naresh',
-        'PASSWORD': 'naresh',
+        'NAME': 'myproject',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
         'HOST': 'localhost',
         'PORT': 5432,
     }
-
 }
-
-
-
-
 
 
 ##Extending the user model to home

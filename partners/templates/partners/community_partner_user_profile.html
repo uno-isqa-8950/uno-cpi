@@ -74,6 +74,12 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
+img.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
 </style>
 
 {% if messages %}
@@ -88,10 +94,10 @@ font-weight: bold;
   <div class = "panel panel-default">
     <div class="panel-heading text-center"><h4>My Profile</h4></div>
       <div class="panel-body">
-          <div class="col-12">
-              <br>
-            <img src="{{ user.avatar.url }}" width="150">
-          </div>
+        <div class="col-12">
+          <br>
+          <img src="{{ user.avatar.url }}" class="center" width="100">
+        </div>
         <div class="row">
             <div class="col-sm-6 text-right">
               <label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>

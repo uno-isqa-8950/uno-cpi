@@ -11,7 +11,7 @@ from .forms import *
 from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
 from partners.models import *
-from home.models import Contact as ContactModel, Contact, User
+from home.models import Contact as ContactModel, Contact, User, MissionArea
 from home.forms import userUpdateForm
 
 
@@ -185,16 +185,14 @@ def orgProfile(request):
    if request.user.is_communitypartner:
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
     community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
-    print ("ssssssss", community_partner.community_type)
-    if community_partner.community_type == "K12":
-        print ("ddddddddddd", type(community_partner.community_type))
+    community_partner.type = str(community_partner.community_type)
+    print (community_partner)
 
     contacts = Contact.objects.values().filter(community_partner= community_partner.id)
-    print ("contact", contacts, len(contacts))
-    # contact = get_object_or_404(Contact, community_partner= community_partner.id)
-    community_partner_mission = get_object_or_404(CommunityPartnerMission, id= community_partner.id)
+    missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
+    for mission in missions:
+        mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
 
-    return render(request, 'partners/community_partner_org_profile.html', {
-                           "community_partner": community_partner, "contacts":contacts,
-                           "community_partner_mission":community_partner_mission
+    return render(request, 'partners/community_partner_org_profile.html', {"missions":missions,
+                           "community_partner": community_partner, "contacts":contacts
                            }) 

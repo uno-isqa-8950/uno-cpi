@@ -164,24 +164,12 @@ font-variant: normal;
             <label> {{community_partner.zip}} </label>
           </div>
           <div class="col-sm-6 text-right">
-            <label> Mission Type &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner_mission.mission_type}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
-            <label> Mission Area &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner_mission.mission_area}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
             <label> CEC Partner &nbsp; &nbsp; &nbsp; &nbsp; : </label>
           </div>
           <div class="col-sm-6">
             <label> {{community_partner.weitz_cec_part}} </label>
           </div>
-          {% if community_partner.community_type|stringformat:'i' == "K12" %}
+          {% if community_partner.type == 'K12' %}
           <div class="col-sm-6 text-right">
             <label> k12 Level &nbsp; &nbsp; &nbsp; &nbsp; : </label>
           </div>
@@ -192,45 +180,67 @@ font-variant: normal;
         </div>
 
         <br>
-        <div class="col-sm-6">
+        <div class="col-md-6">
+          <h3>Mission Details</h3>
+        </div>
+
+        <div class="row">
+          {% for mission in missions %}
+          <div class="col-md-3 text-right">
+            <label> Mission Type : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{mission.mission_type}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Mission Area : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{mission.mission_area}} </label>
+          </div>
+          {% endfor %} 
+        </div>
+
+        <br>
+        <div class="col-md-6">
           <h3>Contact Details</h3>
         </div>
         <div class="row">
           {% for contact in contacts %}
-          <div class="col-sm-3 text-right">
-            <label> First Name &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> First Name : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.first_name}} </label>
           </div>
-          <div class="col-sm-3 text-right">
-            <label> Last Name &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Last Name : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.last_name}} </label>
           </div>
-          <div class="col-sm-3 text-right">
-            <label> Work Phone &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Work Phone : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.work_phone}} </label>
           </div>
-          <div class="col-sm-3 text-right">
-            <label> Cell Phone &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Cell Phone : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.cell_phone}} </label>
           </div>
-          <div class="col-sm-3 text-right">
-            <label> Email ID &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Email ID : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.email_id}} </label>
           </div>
-          <div class="col-sm-3 text-right">
-            <label> Contact Type &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Contact Type : </label>
           </div>
-          <div class="col-sm-3">
+          <div class="col-md-3">
             <label> {{contact.contact_type}} </label>
           </div>
           {% endfor %}

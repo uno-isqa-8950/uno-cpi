@@ -1,5 +1,8 @@
+from django.contrib.auth.decorators import login_required
 from django.db import connection
 from django.forms import modelformset_factory
+from django.utils.decorators import method_decorator
+
 from home.decorators import campuspartner_required
 from .models import *
 from university.models import *
@@ -97,7 +100,6 @@ def registerCommunityPartnerUser(request):
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
 
 
-
 def upload_project(request):
     if request.method == 'GET':
         download_projects_url = '/media/projects_sample.csv'
@@ -132,7 +134,6 @@ def upload_project(request):
                         form_community.save()
                         form_mission.save()
     return render(request, 'import/uploadProjectDone.html')
-
 
 def upload_community(request):
     if request.method == 'GET':

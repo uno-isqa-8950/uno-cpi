@@ -54,7 +54,7 @@ font-size:1.3em
 		<form action='.' method="post">
             {% csrf_token %}
              <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
-			<input class="input" type="text" name="username"   placeholder="Username" />
+			 <input class="input" type="email" name="email"   placeholder="Email" />
 
 			<br>
 

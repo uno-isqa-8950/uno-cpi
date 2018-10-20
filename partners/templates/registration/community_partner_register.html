@@ -101,6 +101,9 @@ font-weight: bold;
                         <div class="col-md-6">
                         {{ form.contact_type|bootstrap }}
                         </div>
+                        <div class="col-md-6">
+                        {{ form.email_id|bootstrap }}
+                        </div>
                 </div>
                 <div class="input-group">
                     <!--div class="row"-->
@@ -120,11 +123,7 @@ font-weight: bold;
                         </div>
                     <!--/div-->
                </div>
-                <div class="input-group">
-                    <div class="col-md-6">
-                    {{ form.email_id|bootstrap }}
-                    </div>
-                </div>
+
                 <div class="input-group-append" >
                         <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
                     </div></div>

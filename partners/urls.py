@@ -9,5 +9,5 @@ urlpatterns = [
      path('profile/userprofile/', views.userProfile, name='userprofile'),
      path('profile/userprofileupdate/', views.userProfileUpdate,name='userprofileupdate'),
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
-     path(r'^profile/orgprofileupdate/(?P<idCommunity>\d+)/$', views.orgProfileUpdate, name='orgprofileupdate'),
+     path('profile/orgprofileupdate/', views.orgProfileUpdate, name='orgprofileupdate'),
 ]

@@ -187,13 +187,10 @@ def orgProfile(request):
    if request.user.is_communitypartner:
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
     community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
-    print ("community_partner", community_partner.id)
-    print ("community_partner.community_type", community_partner.community_type)
     community_partner.type = str(community_partner.community_type)
-    print ("community_partner.type", community_partner.type)
-
     contacts = Contact.objects.values().filter(community_partner= community_partner.id)
     missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
+
     for mission in missions:
         mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
 
@@ -205,28 +202,37 @@ def orgProfile(request):
 # Community Partner org Update Profile
 
 @login_required
-def orgProfileUpdate(request, idCommunity):
+def orgProfileUpdate(request):
 
     if request.user.is_communitypartner:
-        community_partner = get_object_or_404(CommunityPartner, pk= idCommunity)
+        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, pk= community_user.id)
         org_type = str(community_partner.community_type)
-        print("org_type", org_type)
         contacts = Contact.objects.filter(community_partner= community_partner.id).first()
-        print ("contacts", contacts)
         missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
 
         if request.method == 'POST':
             print ("moahn")
-            # user_form = userUpdateForm(data=request.POST, instance=user)
-            # avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
+            community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
+            print ("request.POST", request.POST)
+            contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
+            missions_form = CommunityMissionForm(data=request.POST, instance=missions)
 
-            # if user_form.is_valid() and avatar_form.is_valid():
-            #     user_form.save()
-            #     avatar_form.save()
-            #     messages.success(request, 'Your profile was successfully updated!')
-            #     return redirect('partners:userprofile')
-            # else:
-            #     messages.error(request, 'Please correct the error below.')
+            if community_org_form.is_valid():
+                print ("community_org_form")
+            if contacts_form.is_valid():
+                print ("contacts_form")
+            if missions_form.is_valid():
+                print ("missions_form")
+
+            if community_org_form.is_valid() and contacts_form.is_valid() and missions_form.is_valid():
+                community_org_form.save()
+                contacts_form.save()
+                missions_form.save()
+                messages.success(request, 'Organisation profile was successfully updated!')
+                return redirect('partners:orgprofile')
+            else:
+                messages.error(request, 'Please correct the error below.')
 
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)

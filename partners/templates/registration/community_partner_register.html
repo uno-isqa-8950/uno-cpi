@@ -1,190 +1,181 @@
-Skip to content
- 
-Search or jump to…
-
-Pull requests
-Issues
-Marketplace
-Explore
- @Arti012 Sign out
-2
-2 1 uno-isqa-8950/uno-cpi
- Code
- Issues 46
- Pull requests 2
- ZenHub
- Projects 0
- Wiki
- Insights
-uno-cpi/partners/templates/registration/community_partner_register.html
-31f0243  3 days ago
-@Arti012 Arti012 Revert "community partner user profile"
-@Arti012 @vaishnavisuguru @MinhduongUNO
-     
-Executable File  259 lines (230 sloc)  7.18 KB
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
 
 <style>
+
 .btn-outline-info
 {
     margin-left:20px;
 }
-@media (min-width: 700px)
+
+.btn-custom
 {
-.panel
-{
-width: 650px;
-margin-left: auto;
-margin-right:auto;
-margin-top:80px;
-height: relative;
+margin-top:15px;
+margin-left: 70px;
 }
-input[type=email],input[type=text],.form-control
+
+
+
+input[type=email],input[type=text],select[id=id_community_type]
     {
-        width:92%;
+        width:93%;
     }
+
+input[id=id_county],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
+input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
+    {
+    width:85%;
+    }
+
+.form-control
+    {
+    width: relative;
+    }
+
 .btn-custom
 {
 	position: relative;
 	left:240px;
 	width:120px;
 }
-}
-@media (max-width: 600px)
-{
-h4
-{
-    font-size:1.3em
-}
-.panel-heading
-{
-    height:100px;
-}
-}
+
+
+
 label
 {
 margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
+
 </style>
 
 
 <div class = "container">
-    <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Register Community Partner </h4></div>
-			<div class="panel-body">
-
-<div class="body">
-<form action="." method="post">
-  {% csrf_token %}
-  {{ community_partner_form.name |bootstrap }}
-  {{ community_partner_form.website_url |bootstrap }}
-  {{ community_partner_form.community_type |bootstrap }}
-  {{ community_partner_form.k12_level |bootstrap }}
-  {{ community_partner_form.address_line1 |bootstrap }}
-  {{ community_partner_form.address_line2 |bootstrap }}
-   <div class="row">
-       <div class="col-4">
-       {{ community_partner_form.county |bootstrap }}
-       </div>
-       <div class="col-4">
-       {{ community_partner_form.city |bootstrap }}
-       </div>
-   </div>
-   <div class="row">
-       <div class="col-4">
-       {{ community_partner_form.state |bootstrap }}
-       </div>
-       <div class="col-4">
-       {{ community_partner_form.county |bootstrap }}
-       </div>
-   </div>
-   <div class="row">
-     <div class="col-4">
-       {{ community_partner_form.zip |bootstrap }}
-     </div>
-   </div>
-  {{ formset.management_form }}
-      {% for form in formset %}
-            <div class="row form-row spacer">
-                <div class="col-12">
-                    <label>Point of Contact Information</label>
-                    <br>
-                </div>
-                <div class="input-group">
-                   {{ form.contact_type|bootstrap }}
-                </div>
-
-                <div class="input-group">
+    <div class = "row justify-content-md-center">
+        <div class="col-lg-9 col-md-12">
+            <div class = "panel panel-default">
+		        <div class="panel-heading text-center"><h4>Register Community Partner </h4></div>
+			    <div class="panel-body">
+                    <form action="." method="post">
                     <div class="row">
-                        <div class="col-6">
-                        {{ form.first_name|bootstrap }}
-                        </div>
-                        <div class="col-6">
-                        {{ form.last_name|bootstrap }}
+                        <div class="col-lg-12 col-md-12">
+                            {% csrf_token %}
+                            {{ community_partner_form.name |bootstrap }}
+                            {{ community_partner_form.website_url |bootstrap }}
+                            {{ community_partner_form.community_type |bootstrap }}
+                            {{ community_partner_form.k12_level |bootstrap }}
+                            {{ community_partner_form.address_line1 |bootstrap }}
+                            {{ community_partner_form.address_line2 |bootstrap }}
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-6">
-                        {{ form.work_phone|bootstrap }}
+                        <div class="col-md-6">
+                            {{ community_partner_form.county |bootstrap }}
                         </div>
-                        <div class="col-6">
-                        {{ form.cell_phone|bootstrap }}
+                        <div class="col-md-6">
+                            {{ community_partner_form.city |bootstrap }}
                         </div>
                     </div>
-               </div>
-                <div class="input-group">
-                    {{ form.email_id|bootstrap }}
-                </div>
-                </div>
-                <div class="input-group-append" >
-                        <button class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button>
-                    </div>
-            </div>
-      {% endfor %}
-
-  {{ formset_mission.management_form }}
-      {% for form in formset_mission %}
-            <div id="mission-form" class="row form1-row spacer">
-                <div class="col-12">
-                    <label>Mission Areas</label>
-                    <br>
-                </div>
-                <div class="col-6">
-                <div class="input-group">
                     <div class="row">
-                        <div class="col-6">
-                        {{ form.mission_type|bootstrap }}
+                        <div class="col-md-6">
+                            {{ community_partner_form.state |bootstrap }}
                         </div>
-                        <div class="col-6">
-                        {{ form.mission_area|bootstrap }}
+                        <div class="col-md-6">
+                            {{ community_partner_form.county |bootstrap }}
                         </div>
                     </div>
-                    <div class="input-group-append">
-                        <button class="btn btn-outline-info btn-sm add-form1-row">Add more Mission areas</button>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ community_partner_form.zip |bootstrap }}
+                        </div>
+                    </div>
 
-                    </div>
-                </div>
-                </div>
-            </div>
-      {% endfor %}
+
+                    {{ formset.management_form }}
+                        {% for form in formset %}
+                        <div class="row form-row" id="contact1">
+                            <div class="col-md-12">
+                                <label>Point of Contact Information</label>
+                                <br>
+                            </div>
+                        <div class="input-group">
+                            <div class="col-md-6">
+                                {{ form.contact_type|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.email_id|bootstrap }}
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <!--div class="row"-->
+                            <div class="col-md-6">
+                                {{ form.first_name|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.last_name|bootstrap }}
+                            </div>
+                            <!--/div-->
+                            <!--div class="row"-->
+                            <div class="col-md-6">
+                                {{ form.work_phone|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.cell_phone|bootstrap }}
+                            </div>
+                            <!--/div-->
+                        </div>
+
+                        <div class="input-group-append" >
+                            <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                        </div>
+                        </div>
+
+                        {% endfor %}
+
+
+                        {{ formset_mission.management_form }}
+                        {% for form in formset_mission %}
+                            <div id="contact2" class="form1-row">
+                                <div class="col-md-12">
+                                    <label>Mission Areas</label>
+                                    <br>
+                                </div>
+                            <div class="input-group">
+                            <!--div class="row"-->
+                                <div class="col-md-6">
+                                    {{ form.mission_type|bootstrap }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.mission_area|bootstrap }}
+                                </div>
+                            </div>
+                            <!--/div-->
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary add-form1-row"><i class="fa fa-plus-square"></i> Add more Mission Areas </button>
+                            </div>
+                            </div>
+
+                        {% endfor %}
 
 <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
 
 </form>
+                              </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
 
-</div>
-            </div></div></div>
 <br>
 
 {% endblock %}
 
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script type="text/javascript" , id="contact-form">
+<script type="text/javascript" id="contact-form">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
     var replacement = prefix + '-' + ndx;
@@ -208,7 +199,7 @@ function cloneMore(selector, prefix) {
     $(selector).after(newElement);
     var conditionRow = $('.form-row:not(:last)');
     conditionRow.find('.btn.add-form-row')
-    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('btn-success').addClass('btn-secondary')
     .removeClass('add-form-row').addClass('remove-form-row')
     .html('Remove');
     return false;

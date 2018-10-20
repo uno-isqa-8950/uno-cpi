@@ -188,7 +188,9 @@ def orgProfile(request):
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
     community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
     print ("community_partner", community_partner.id)
+    print ("community_partner.community_type", community_partner.community_type)
     community_partner.type = str(community_partner.community_type)
+    print ("community_partner.type", community_partner.type)
 
     contacts = Contact.objects.values().filter(community_partner= community_partner.id)
     missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
@@ -208,6 +210,7 @@ def orgProfileUpdate(request, idCommunity):
     if request.user.is_communitypartner:
         community_partner = get_object_or_404(CommunityPartner, pk= idCommunity)
         org_type = str(community_partner.community_type)
+        print("org_type", org_type)
         contacts = Contact.objects.filter(community_partner= community_partner.id).first()
         print ("contacts", contacts)
         missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
@@ -228,10 +231,13 @@ def orgProfileUpdate(request, idCommunity):
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
             contacts_form = CommunityContactForm(instance=contacts)
+            print ("contacts_form", contacts_form)
             missions_form = CommunityMissionForm(instance=missions)
+            print ("missions_form", missions_form)
 
         return render(request,
                           'partners/community_partner_org_update.html', {'missions_form': missions_form,
                           'contacts_form': contacts_form, 'community_org_form': community_org_form,
+                          'org_type' : org_type,
                           })
 

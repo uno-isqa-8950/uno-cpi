@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login
 from .forms import LoginForm
+from django.contrib import messages
 from home.models import User
 
 # Create your views here.
@@ -24,7 +25,9 @@ def user_login(request):
                     return admin(request)
 
             else:
-                return HttpResponse('Invalid Credentials')
+                messages.error(request, 'Email or Password is incorrect')
+                return redirect('/account/loginPage/')
+                #return HttpResponse('Invalid Credentials')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})

@@ -1,3 +1,27 @@
+Skip to content
+ 
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ @Arti012 Sign out
+2
+2 1 uno-isqa-8950/uno-cpi
+ Code
+ Issues 46
+ Pull requests 2
+ ZenHub
+ Projects 0
+ Wiki
+ Insights
+uno-cpi/partners/templates/registration/community_partner_register.html
+31f0243  3 days ago
+@Arti012 Arti012 Revert "community partner user profile"
+@Arti012 @vaishnavisuguru @MinhduongUNO
+     
+Executable File  259 lines (230 sloc)  7.18 KB
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
@@ -17,12 +41,10 @@ margin-right:auto;
 margin-top:80px;
 height: relative;
 }
-
 input[type=email],input[type=text],.form-control
     {
         width:92%;
     }
-
 .btn-custom
 {
 	position: relative;
@@ -30,30 +52,23 @@ input[type=email],input[type=text],.form-control
 	width:120px;
 }
 }
-
-
 @media (max-width: 600px)
 {
 h4
 {
-
     font-size:1.3em
 }
-
 .panel-heading
 {
     height:100px;
 }
 }
-
 label
 {
 margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
-
-
 </style>
 
 
@@ -187,7 +202,6 @@ function cloneMore(selector, prefix) {
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
-
     });
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
@@ -218,7 +232,6 @@ $(document).on('click', '.add-form-row', function(e){
     cloneMore('.form-row:last', 'form');
     return false;
 });
-
 $(document).on('click', '.add-form1-row', function(e){
     e.preventDefault();
     cloneMore('.form1-row:last', 'form1');
@@ -233,24 +246,20 @@ $(document).on('click', '.remove-form-row', function(e){
 <script>
     $(function(){
         function hideInputs() {
-
             $("label.control-label[for=id_k12_level], input#id_k12_level").hide();
             $("#id_k12_level").hide();
             console.log('label.control-label[for=id_k12_level], input#id_k12_level');
             }
-
         $("#id_community_type").on('change', function(){
             var val = $("#id_community_type").val();
             if (val === '2') {
                $("#id_k12_level").show();
                $("label.control-label[for=id_k12_level], input#id_k12_level").show();
-
             }
             else {
                 hideInputs();
             }
         });
-
         hideInputs();
     });
 </script>

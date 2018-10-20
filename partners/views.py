@@ -207,7 +207,7 @@ def orgProfileUpdate(request, idCommunity):
 
     if request.user.is_communitypartner:
         community_partner = get_object_or_404(CommunityPartner, pk= idCommunity)
-        community_partner.type = str(community_partner.community_type)
+        org_type = str(community_partner.community_type)
         contacts = Contact.objects.filter(community_partner= community_partner.id).first()
         print ("contacts", contacts)
         missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()

@@ -78,10 +78,10 @@ font-weight: bold;
 
 <div class = "container">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4>My Profile</h4></div>
+    <div class="panel-heading text-center"><h4>Organisation Profile</h4></div>
       <div class="panel-body">
         <div class="body">
-          <form action="." id="id_avatar" method="post" enctype="multipart/form-data">
+          <form action="." method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if messages %}
              <ul class="messages">
@@ -90,12 +90,92 @@ font-weight: bold;
             {% endfor %}
             </ul>
             {% endif %}
-
-            {% for field in community_org_form %}
-            <div class="form-group">
-              <label for="{{field.label}}">{{field.label}}</label>
-              <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+            <div class="col-md-12">
+              <h3>Organisation Details</h3>
             </div>
+            {% for field in community_org_form %}
+              {% if field.label == "Name" %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Organisation Name</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" disabled>
+                    </div>
+                  </div>
+                </div>
+              {% elif field.label == 'Website url' %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Website URL</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>
+                </div>
+              {% elif field.label == 'Address line1' %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Address Line 1</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>
+                </div>
+              {% elif field.label == 'Address line2' %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Address Line 2</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>
+                </div>
+              {% elif field.label == 'Community type' %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Community Type</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" disabled>
+                    </div>
+                  </div>
+                </div>
+              {% elif field.label == 'K12 level' and org_type == "K12"%}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">K12 Level</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>>
+                </div>
+              {% else %}
+                {% if field.label == 'K12 level' %}
+                  <div></div>
+                {% else %}
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="control-label col-md-4">
+                        <label for="{{field.label}}">{{field.label}}</label>
+                      </div>
+                      <div class = "col-md-8">
+                        <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endif %}
             {% endfor %}
 
             <!-- <div class="form-group">

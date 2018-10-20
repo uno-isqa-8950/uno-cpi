@@ -105,78 +105,81 @@ font-variant: normal;
           <br>
           <img src="{{ user.avatar.url }}" class="center" width="100">
         </div>
-        <div class="col-sm-6">
+        <div class="col-md-6">
           <h3>Organisation Details</h3>
         </div>
         <div class="row">
-          <div class="col-sm-6 text-right">
-            <label> Community Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          <div class="col-md-4 text-right">
+            <label>Organisation Name : </label>
           </div>
-          <div class="col-sm-6">
+          <div class="col-md-8">
             <label> {{community_partner.name}} </label>
           </div>
-          <div class="col-sm-6 text-right">
-            <label> Address Line1 &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          <div class="col-md-4 text-right">
+            <label>Address Line 1 : </label>
           </div>
-          <div class="col-sm-6">
+          <div class="col-md-8">
             <label> {{community_partner.address_line1}} </label>
           </div>
-          <div class="col-sm-6 text-right">
-            <label> Address Line2 &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          <div class="col-md-4 text-right">
+            <label>Address Line 2 : </label>
           </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.address_line2}} </label>
+          <div class="col-md-8">
+            <label>{{community_partner.address_line2}} </label>
           </div>
-          <div class="col-sm-6 text-right">
-            <label> Website URL &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          <div class="col-md-4 text-right">
+            <label>Website URL : </label>
           </div>
-          <div class="col-sm-6">
+          <div class="col-md-4">
             <label> {{community_partner.website_url}} </label>
+          </div>  
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-3 text-right">
+            <label> CEC Partner : </label>
           </div>
-          <div class="col-sm-6 text-right">
-            <label> Community Type &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.community_type}} </label>
-          </div>
-           <div class="col-sm-6 text-right">
-            <label> Country &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.country}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
-            <label> City &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.city}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
-            <label> State &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.state}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
-            <label> zip &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
-            <label> {{community_partner.zip}} </label>
-          </div>
-          <div class="col-sm-6 text-right">
-            <label> CEC Partner &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-          </div>
-          <div class="col-sm-6">
+          <div class="col-md-3">
             <label> {{community_partner.weitz_cec_part}} </label>
           </div>
-          {% if community_partner.type == 'K12' %}
-          <div class="col-sm-6 text-right">
-            <label> k12 Level &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          <div class="col-md-3 text-right">
+            <label> Type : </label>
           </div>
-          <div class="col-sm-6">
+          <div class="col-md-3">
+            <label> {{community_partner.community_type}} </label>
+          </div>
+          {% if community_partner.type == 'K12' %}
+          <div class="col-md-3 text-right">
+            <label> k12 Level : </label>
+          </div>
+          <div class="col-md-3">
             <label> {{community_partner.k12_level}} </label>
           </div>
           {% endif %}
+          <div class="col-md-3 text-right">
+            <label> City : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{community_partner.city}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> State : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{community_partner.state}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Country : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{community_partner.country}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> zip : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{community_partner.zip}} </label>
+          </div>
         </div>
 
         <br>

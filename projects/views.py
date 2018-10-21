@@ -1,19 +1,11 @@
-from django.db import connection
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm
-from django.contrib.auth.decorators import login_required
 from itertools import chain
-
-from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
-from .forms import ProjectForm, ProjectMissionForm
+from .models import *
 from django.shortcuts import render, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
+from  .forms import *
 from django.forms import inlineformset_factory, modelformset_factory
 
 

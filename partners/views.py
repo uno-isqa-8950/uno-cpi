@@ -212,18 +212,14 @@ def orgProfileUpdate(request):
         missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
 
         if request.method == 'POST':
-            print ("moahn")
+            if "k12_level" not in request.POST:
+                request.POST._mutable = True
+                request.POST['k12_level'] = community_partner.k12_level
+                request.POST._mutable = False
+
             community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
-            print ("request.POST", request.POST)
             contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
             missions_form = CommunityMissionForm(data=request.POST, instance=missions)
-
-            if community_org_form.is_valid():
-                print ("community_org_form")
-            if contacts_form.is_valid():
-                print ("contacts_form")
-            if missions_form.is_valid():
-                print ("missions_form")
 
             if community_org_form.is_valid() and contacts_form.is_valid() and missions_form.is_valid():
                 community_org_form.save()
@@ -237,9 +233,7 @@ def orgProfileUpdate(request):
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
             contacts_form = CommunityContactForm(instance=contacts)
-            print ("contacts_form", contacts_form)
             missions_form = CommunityMissionForm(instance=missions)
-            print ("missions_form", missions_form)
 
         return render(request,
                           'partners/community_partner_org_update.html', {'missions_form': missions_form,

@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
@@ -291,3 +291,22 @@ def project_edit_new(request,pk):
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
+
+
+def SearchForProject(request):
+    names=[]
+    for project in Project.objects.all():
+        names.append(project.project_name)
+    print(names)
+    if request.method == "POST":
+        form = ProjectSearchForm(request.POST)
+        print(form.errors)
+        if form.is_valid():
+            if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
+                theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
+                return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
+
+    return render(request,'projects/SearchProject.html',{'form': ProjectSearchForm(),'projectNames':names})
+
+
+

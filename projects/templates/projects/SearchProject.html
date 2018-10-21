@@ -1,0 +1,79 @@
+{% extends 'home/Campus_Home.html' %}
+{% block js %}
+<script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script>
+    $( function() {
+      var availableTags = {{ projectNames|safe }} ;
+      $( "#id_project_name" ).autocomplete({
+        source: availableTags
+      });
+    } );
+  </script>
+{% endblock %}
+{% block content %}
+
+
+  <form action="." method="POST">
+          {{ form.as_p}}
+          {% csrf_token %}
+        <input type="submit" class="save btn btn-default" value="Search">
+        </form>
+        <div class="ui-widget">
+        </div>
+
+  <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Engagement Type</th>
+                <th>Activity Type</th>
+                <th>Facilitator</th>
+                <th>Semester</th>
+                <th>Start Date </th>
+                <th>End Date </th>
+                <th> UNO Students</th>
+                <th> UNO hours</th>
+                <th> K12 Students</th>
+                <th> K12 Hours </th>
+                <th> UNO Faculty</th>
+                <th>Other Community Members</th>
+                <th>Status</th>
+                <th>Mission Type</th>
+                <th>Mission</th>
+                <th>CommunityPartner</th>
+                <th>CampusPartner</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+                {% for project in searchedProject %}
+                           <tr>
+
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.engagementType }}</td>
+                            <td>{{ project.activityType }}</td>
+                            <td>{{ project.facilitator }}</td>
+                            <td>{{ project.semester }}</td>
+                            <td>{{ project.startDate }}</td>
+                            <td>{{ project.endDate }}</td>
+                            <td>{{project.x.total_uno_students}}</td>
+                            <td>{{project.total_uno_hours}}</td>
+                            <td>{{project.total_k12_students}}</td>
+                            <td>{{project.total_k12_hours}}</td>
+                            <td>{{project.total_uno_faculty}}</td>
+                            <td>{{project.total_other_community_members}}</td>
+                            <td>{{ project.status}}</td>
+
+                           </tr>
+
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+
+ {% endblock %}

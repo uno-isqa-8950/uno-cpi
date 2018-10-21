@@ -145,12 +145,11 @@ font-weight: bold;
                       <label for="{{field.label}}">Community Type</label>
                     </div>
                     <div class = "col-md-8">
-                        <select class="form-control" id="{{field.id}}" name="{{field.name}}" disabled>
-                          {% for x,y in field.field.choices  %}
-                            <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
-                          {% endfor %}
-                        </select>
-                      <!-- <input class="form-control" name="{{field.name}}" required id="{{field.label}}" value="{{org_type}}" disabled> -->
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" disabled>
+                        {% for x,y in field.field.choices  %}
+                          <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                      </select>
                     </div>
                   </div>
                 </div>

@@ -147,7 +147,7 @@ font-weight: bold;
                     <div class = "col-md-8">
                       <select class="form-control" id="{{field.id}}" name="{{field.name}}" readonly>
                         {% for x,y in field.field.choices  %}
-                          <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                          <option value="{{ x }}"{% if field.value == x %} selected {% else %} disabled {% endif %}>{{ y }} </option>
                         {% endfor %}
                       </select>
                     </div>

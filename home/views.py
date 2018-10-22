@@ -17,6 +17,9 @@ from django.urls import reverse
 import csv
 from collections import OrderedDict
 from django.contrib import messages
+from django.db.models import Sum
+from .filters import *
+
 
 
 def home(request):
@@ -179,3 +182,38 @@ def upload_campus(request):
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
+
+	
+	def project_partner_info(request):
+    missions = MissionArea.objects.all()
+    mdict = {}
+    mlist = []
+    for m in missions:
+        f = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in f.qs]
+        mdict['mission_name'] = m.mission_name
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
+        print(project_count)
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+        community_list = [c.community_partner_id for c in p_community]
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
+            filter(community_partner_id__in=community_list).count()
+        print(community_count)
+        mdict['project_count'] = project_count
+        mdict['community_count'] = community_count
+        total_uno_students = 0
+        total_uno_hours = 0
+        p_mission = ProjectMission.objects.filter(mission=m.id)
+        pids = [pm.project_name_id for pm in p_mission]
+        uno_students1 = Project.objects.filter(id__in=pids).aggregate(Sum('total_uno_students'))
+        # print(uno_students1)
+        for pm in p_mission:
+            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+        mdict['total_uno_hours'] = total_uno_hours
+        mdict['total_uno_students'] = total_uno_students
+        mlist.append(mdict.copy())
+    return render(request, 'reports/14ProjectPartnerInfo.html',
+                  {'filter': f, 'mlist': mlist})

@@ -30,6 +30,10 @@ def about(request):
     return render(request, 'home/okMap.html',
                   {'map': map})
 
+def projectmap(request):
+    return render(request, 'home/projectmap.html',
+                  {'projectmap': projectmap})
+
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})

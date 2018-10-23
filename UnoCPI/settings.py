@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'projects',
     'university',
     'bootstrapform',
+    'django_filters',
     ]
 
 MIDDLEWARE = [

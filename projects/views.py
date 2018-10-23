@@ -27,18 +27,60 @@ def communitypartnerhome(request):
 
 
 def communitypartnerproject(request):
-    projects = Project.objects.all()
-    p_missions = ProjectMission.objects.all()
-    return render(request, 'projects/community_partner_projects.html',
-                  {'projects': projects, 'p_missions': p_missions})
+    print(request.user.id)
+    projects_list=[]
+    comm_part_names=[]
+    camp_part_names=[]
+    total_project_hours = []
+    # Get the campus partner id related to the user
+    comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
+    for c in comm_part_user:
+        p =c.community_partner_id
+        print(c.community_partner_id)
+    # get all the project names base on the campus partner id
+    proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
+    print(proj_comm)
+    for f in proj_comm:
+        print(f)
+        k=list(Project.objects.filter(id = f.project_name_id))
+        print(k)
+        for x in k:
+         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+         camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         proj_cam_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         for proj_cam_par in proj_cam_par:
+            camp_part = CampusPartner.objects.get(id=proj_cam_par.campus_partner_id)
+
+            camp_part_names.append(camp_part)
+         list_comm_part_names = comm_part_names
+         comm_part_names = []
+         #total_project_hours += proj_cam_par.total_hours
+         #print(total_project_hours)
+         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+            'activityType': x.activity_type,
+            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+            'startDate': x.start_date,
+            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+            'total_uno_hours': x.total_uno_hours,
+            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+            'total_uno_faculty': x.total_uno_faculty,
+            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp':camp, 'camp_part':list_comm_part_names
+             }
+
+         projects_list.append(data)
 
 
-def communitypartnerproject_edit(request,pk):
+
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+def communitypartnerprojectedit(request,pk):
 
     mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
-    proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0,
+    proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0, can_delete=False,
                                            form=ProjectCommunityPartnerForm)
-
+    projects_list = []
+    comm_part_names = []
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
@@ -56,11 +98,45 @@ def communitypartnerproject_edit(request,pk):
             for p in commpar:
                 p.project = instances
                 p.save()
+            comm_part_user = CommunityPartnerUser.objects.filter(user_id=request.user.id)
+            for c in comm_part_user:
+                p = c.community_partner_id
+                print(c.community_partner_id)
+            proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id=p))
+            print(proj_comm)
+            for f in proj_comm:
+                print(f)
+                k = list(Project.objects.filter(id=f.project_name_id))
+                print(k)
+                for x in k:
+                    projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                    cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    for proj_comm_par in proj_comm_par:
+                        comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
+                        # print("camp_part is")
+                        # print(camp_part)
+                        comm_part_names.append(comm_part)
+                    list_comm_part_names = comm_part_names
+                    comm_part_names = []
 
-            curr_proj_list = Project.objects.filter(created_date__lte=timezone.now())
-            mission_list = ProjectMission.objects.filter()
-            com_proj = ProjectCommunityPartner.objects.filter()
-            return render(request, 'projects/community_partner_projects.html', {'projects': curr_proj_list,'p_missions':mission_list,'com_proj':com_proj})
+                    data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                            'activityType': x.activity_type,
+                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                            'startDate': x.start_date,
+                            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                            'total_uno_hours': x.total_uno_hours,
+                            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                            'total_uno_faculty': x.total_uno_faculty,
+                            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                            'camp_part': list_comm_part_names
+                            }
+
+                    projects_list.append(data)
+
+            return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+
 
     else:
 
@@ -74,7 +150,6 @@ def communitypartnerproject_edit(request,pk):
 
         return render(request, 'projects/community_partner_projects_edit.html', {'project':project,
                                                                                  'comp_proj_form': comp_proj_form})
-
 
 
 def proj_view_user(request):

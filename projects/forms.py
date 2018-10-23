@@ -31,6 +31,11 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
             'total_hours': ('Community Hours'),
             'total_people':('Community Volunteer'),
         }
+        widgets = {
+
+            'wages': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 70}),
+
+        }
 
 
 class ProjectForm2(ModelForm):
@@ -56,6 +61,8 @@ class ProjectCommunityPartnerForm2(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
         fields = ('community_partner','total_hours','total_people','wages',)
+
+
 
 class ProjectCampusPartnerForm(ModelForm):
     class Meta:

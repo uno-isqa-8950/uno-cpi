@@ -188,7 +188,7 @@ def upload_campus(request):
     return render(request, 'import/uploadCampusDone.html')
 
 	
-	def project_partner_info(request):
+def project_partner_info(request):
     missions = MissionArea.objects.all()
     mdict = {}
     mlist = []

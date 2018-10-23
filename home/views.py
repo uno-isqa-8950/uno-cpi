@@ -1,23 +1,17 @@
+import csv
 from django.contrib.auth.decorators import login_required
-from django.db import connection
 from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
-
+from django.shortcuts import render
+from django.urls import reverse
+from collections import OrderedDict
+from django.db.models import Sum
 from home.decorators import campuspartner_required
 from .models import *
+from .forms import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
-from .forms import UserForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm, UploadCampusForm, \
-    UploadProjectCommunityForm, UploadProjectCampusForm, UploadCollege, UploadDepartment, \
-    UploadProjectMissionForm, UserForm1
-from django.shortcuts import render
-from django.urls import reverse
-import csv
-from collections import OrderedDict
-from django.contrib import messages
-from django.db.models import Sum
 from .filters import *
 
 
@@ -80,7 +74,6 @@ def registerCampusPartnerUser(request):
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
-
 
 
 def registerCommunityPartnerUser(request):
@@ -188,7 +181,7 @@ def upload_campus(request):
     return render(request, 'import/uploadCampusDone.html')
 
 	
-	def project_partner_info(request):
+def project_partner_info(request):
     missions = MissionArea.objects.all()
     mdict = {}
     mlist = []
@@ -208,9 +201,9 @@ def upload_campus(request):
         total_uno_students = 0
         total_uno_hours = 0
         p_mission = ProjectMission.objects.filter(mission=m.id)
-        pids = [pm.project_name_id for pm in p_mission]
-        uno_students1 = Project.objects.filter(id__in=pids).aggregate(Sum('total_uno_students'))
-        # print(uno_students1)
+        # pids = [pm.project_name_id for pm in p_mission]
+        # uno_students1 = Project.objects.filter(id__in=pids).aggregate(Sum('total_uno_students'))
+        # # print(uno_students1)
         for pm in p_mission:
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))

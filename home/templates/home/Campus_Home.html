@@ -84,7 +84,7 @@ color:black;
                 <li class="nav-item">
                   <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-eye"></i>Create User account</a>
                 </li>
-                <li class="nav-item dropdown">
+                <!-- <li class="nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='/profile/userprofile/'>
                       <i class="fa fa-user-circle-o"></i>Profiles
                       <span class="caret"></span>
@@ -93,15 +93,16 @@ color:black;
                   <a class="dropdown-item" href='/partners/profile/userprofile/'>My Profile</a>
                   <a class="dropdown-item" href='#'>Campus Partner Organization Profile</a>
                 </div>
-                </li>
+                </li> -->
                 <li class="nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                       <i class="fa fa-user-circle-o"></i>Welcome {{ user.first_name }}<img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30">
                       <span class="caret"></span>
                         </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown_target">
-
-                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
+                  <a class="dropdown-item" href="{% url 'partners:userprofile' %}">My Profile</a>
+                  <!-- <a class="dropdown-item" href='{% url "partners:orgprofile" %}'>Organization Profile</a> -->
+                  <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
                 </div>
 
                 </li>

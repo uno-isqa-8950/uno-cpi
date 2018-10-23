@@ -81,7 +81,7 @@ font-weight: bold;
     <div class="panel-heading text-center"><h4>My Profile</h4></div>
       <div class="panel-body">
         <div class="body">
-          <form action="." id="id_avatar" method="post" enctype="multipart/form-data>
+          <form action="." id="id_avatar" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% if messages %}
              <ul class="messages">
@@ -93,13 +93,13 @@ font-weight: bold;
 
             <br>
             <div class="col-8">
-                <div class='media'>
-                  <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="100" width="100">
-                  </div>
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ avatar_form|bootstrap }}
-                </div>
+              <div class='media'>
+                <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100">
+              </div>
+              <div class="form-group">
+                {% csrf_token %}
+                  {{ avatar_form|bootstrap }}
+              </div>
             </div>
 
             {% for field in user_form %}

@@ -1,17 +1,13 @@
-from django.forms import formset_factory
-
-from home.forms import UserForm, CampusPartnerAvatar
-from .forms import *
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelformset_factory
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from home.forms import UserForm, CampusPartnerAvatar
 from .forms import *
 from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
 from partners.models import *
-from home.models import Contact as ContactModel, Contact, User
+from home.models import Contact as ContactModel, Contact, User, MissionArea
 from home.forms import userUpdateForm
 
 
@@ -111,8 +107,10 @@ def campusPartnerUserProfileUpdate(request):
                  'avatar_form' :avatar_form}
               )
 '''
+
 #Campus and Community Partner user Profile
 
+@login_required
 def userProfile(request):
 
   if request.user.is_campuspartner:
@@ -126,6 +124,7 @@ def userProfile(request):
 
 # Campus and Community Partner User Update Profile
 
+@login_required
 def userProfileUpdate(request):
     if request.user.is_campuspartner:
 
@@ -147,11 +146,11 @@ def userProfileUpdate(request):
         else:
             user_form = userUpdateForm(instance=user)
             avatar_form = CampusPartnerAvatar(instance=user)
+
         return render(request,
-                          'partners/campus_partner_user_update.html',
-                          {'user_form': user_form, "campus_partner_name": str(campus_user.campus_partner),
-                           'avatar_form': avatar_form}
-                          )
+                          'partners/campus_partner_user_update.html', {'user_form': user_form,
+                          "campus_partner_name": str(campus_user.campus_partner), 'avatar_form': avatar_form
+                          })
 
     elif request.user.is_communitypartner:
 
@@ -178,17 +177,67 @@ def userProfileUpdate(request):
                       'partners/community_partner_user_update.html',
                       {'user_form': user_form, 'community_partner_name': str(community_user.community_partner),
                        'avatar_form': avatar_form}
-                      )
+                    )
+
+
+# Community Partner org Profile
 
 @login_required
 def orgProfile(request):
    if request.user.is_communitypartner:
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
     community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
-    contact = get_object_or_404(Contact, community_partner= community_partner.id)
-    community_partner_mission = get_object_or_404(CommunityPartnerMission, id= community_partner.id)
+    community_partner.type = str(community_partner.community_type)
+    contacts = Contact.objects.values().filter(community_partner= community_partner.id)
+    missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
 
-    return render(request, 'partners/community_partner_org_profile.html', {
-                           "community_partner": community_partner, "contact":contact,
-                           "community_partner_mission":community_partner_mission
-                           }) 
+    for mission in missions:
+        mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
+
+    return render(request, 'partners/community_partner_org_profile.html', {"missions":missions,
+                           "community_partner": community_partner, "contacts":contacts
+                           })
+
+
+# Community Partner org Update Profile
+
+@login_required
+def orgProfileUpdate(request):
+
+    if request.user.is_communitypartner:
+        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, pk= community_user.id)
+        org_type = str(community_partner.community_type)
+        contacts = Contact.objects.filter(community_partner= community_partner.id).first()
+        missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
+
+        if request.method == 'POST':
+            if "k12_level" not in request.POST:
+                request.POST._mutable = True
+                request.POST['k12_level'] = community_partner.k12_level
+                request.POST._mutable = False
+
+            community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
+            contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
+            missions_form = CommunityMissionForm(data=request.POST, instance=missions)
+
+            if community_org_form.is_valid() and contacts_form.is_valid() and missions_form.is_valid():
+                community_org_form.save()
+                contacts_form.save()
+                missions_form.save()
+                messages.success(request, 'Organisation profile was successfully updated!')
+                return redirect('partners:orgprofile')
+            else:
+                messages.error(request, 'Please correct the error below.')
+
+        else:
+            community_org_form = CommunityPartnerForm(instance=community_partner)
+            contacts_form = CommunityContactForm(instance=contacts)
+            missions_form = CommunityMissionForm(instance=missions)
+
+        return render(request,
+                          'partners/community_partner_org_update.html', {'missions_form': missions_form,
+                          'contacts_form': contacts_form, 'community_org_form': community_org_form,
+                          'org_type' : org_type,
+                          })
+

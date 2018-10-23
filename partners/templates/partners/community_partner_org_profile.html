@@ -99,92 +99,88 @@ font-variant: normal;
 
 <div class = "container">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4>Organisation Profile</h4></div>
+    <div class="panel-heading text-center"><h2>Organisation Profile</h2></div>
       <div class="panel-body">
         <!-- <div class="col-12">
           <br>
           <img src="{{ user.avatar.url }}" class="center" width="100">
         </div> -->
-        <div class="col-md-12">
-          <h3>Organisation Details</h3>
+        <div class="col-md-6">
+          <h4>Organisation Details</h4>
         </div>
         <div class="row">
-          <div class="col-md-4 text-right">
+          <div class="col-md-5 text-right">
             <label>Organisation Name : </label>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-7">
             <label> {{community_partner.name}} </label>
           </div>
-          <div class="col-md-4 text-right">
+          <div class="col-md-5 text-right">
             <label>Address Line 1 : </label>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-7">
             <label> {{community_partner.address_line1}} </label>
           </div>
-          <div class="col-md-4 text-right">
+          <div class="col-md-5 text-right">
             <label>Address Line 2 : </label>
           </div>
-          <div class="col-md-8">
+          <div class="col-md-7">
             <label>{{community_partner.address_line2}} </label>
           </div>
-          <div class="col-md-4 text-right">
+          <div class="col-md-5 text-right">
             <label>Website URL : </label>
           </div>
-          <div class="col-md-4">
+          <div class="col-md-7">
             <label> {{community_partner.website_url}} </label>
           </div>  
-        </div>
-        <br>
-        <div class="row">
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> CEC Partner : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.weitz_cec_part}} </label>
           </div>
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> Type : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.community_type}} </label>
           </div>
           {% if community_partner.type == 'K12' %}
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> k12 Level : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.k12_level}} </label>
           </div>
           {% endif %}
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> City : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.city}} </label>
           </div>
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> State : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.state}} </label>
           </div>
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> Country : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.country}} </label>
           </div>
-          <div class="col-md-3 text-right">
+          <div class="col-md-5 text-right">
             <label> zip : </label>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-7">
             <label> {{community_partner.zip}} </label>
           </div>
         </div>
 
-        <br>
         <div class="col-md-6">
-          <h3>Mission Details</h3>
+          <h4>Mission Details</h4>
         </div>
 
         <div class="row">
@@ -204,9 +200,8 @@ font-variant: normal;
           {% endfor %} 
         </div>
 
-        <br>
         <div class="col-md-6">
-          <h3>Contact Details</h3>
+          <h4>Contact Details</h4>
         </div>
         <div class="row">
           {% for contact in contacts %}
@@ -249,7 +244,7 @@ font-variant: normal;
           {% endfor %}
         </div>
 
-        </div>
+      </div>
         <div class="text-center">
           <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
         </div>

@@ -1,23 +1,44 @@
 {% extends "home/base_home.html" %}
 {% load bootstrap %}
-{% block javascript %}
-  <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+
+{% block additionalCSS %}
+<style>
+ .btn-custom
+@@ -83,26 +66,41 @@
+
+
+
+ .form-control:focus
+ {
+    border-color:grey;
+    box-shadow:0 0 8px 0 grey;
+ }
+
+
+ h4
+ {
+ 	line-height: 2.7;
+ 	font-size: 1.3em;
+ }
+
+ label
+ {
+ margin-left: 25px;
+ margin-top: 5px;
+font-weight: bold;
+}
+</style>
 {% endblock %}
-
-{% block content %}
-
+{% block js1 %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css" />
 <script>
-  $( function() {
-    var availableTags = {{ data|safe }} ;
-    $( "#id_campus_partner" ).autocomplete({
-      source: availableTags
-    });
-  } );
+$(document).ready(function(){
+  $('#id_campus_partner').selectize();
+});
 </script>
-
+{% endblock %}
 
 <style>
 @media (min-width: 600px)
@@ -50,6 +71,8 @@ height:100px;
 }
 }
 </style>
+{% block content %}
+
 <div class = "container">
     <div class="row justify-content-md-center">
 		<div class="col-xl-6 col-md-10 col-sm-8">

@@ -1,5 +1,5 @@
 {% extends 'home/Campus_Home.html' %}
-{% block js %}
+{% block searchjs %}
 <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -14,16 +14,30 @@
   </script>
 {% endblock %}
 {% block content %}
+<style>
 
+#id_project_name{
 
-  <form action="." method="POST">
-          {{ form.as_p}}
+width: 400px;
+}
+
+label, .btn-default
+{
+margin-left:100px;
+}
+
+</style>
+
+  <form action="." method="GET">
+          {{ filter.form.as_p}}
           {% csrf_token %}
         <input type="submit" class="save btn btn-default" value="Search">
-        </form>
+  </form>
+
         <div class="ui-widget">
         </div>
 
+<div class="container">
   <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
             <tr>
@@ -41,11 +55,7 @@
                 <th> UNO Faculty</th>
                 <th>Other Community Members</th>
                 <th>Status</th>
-                <th>Mission Type</th>
-                <th>Mission</th>
-                <th>CommunityPartner</th>
-                <th>CampusPartner</th>
-                <th>Actions</th>
+
             </tr>
             </thead>
             <tbody>
@@ -53,14 +63,14 @@
                 {% for project in searchedProject %}
                            <tr>
 
-                            <td>{{ project.name }}</td>
-                            <td>{{ project.engagementType }}</td>
-                            <td>{{ project.activityType }}</td>
+                            <td>{{ project.project_name }}</td>
+                            <td>{{ project.engagement_type }}</td>
+                            <td>{{ project.activity_type }}</td>
                             <td>{{ project.facilitator }}</td>
                             <td>{{ project.semester }}</td>
-                            <td>{{ project.startDate }}</td>
-                            <td>{{ project.endDate }}</td>
-                            <td>{{project.x.total_uno_students}}</td>
+                            <td>{{ project.start_date }}</td>
+                            <td>{{ project.end_date }}</td>
+                            <td>{{project.total_uno_students}}</td>
                             <td>{{project.total_uno_hours}}</td>
                             <td>{{project.total_k12_students}}</td>
                             <td>{{project.total_k12_hours}}</td>
@@ -73,7 +83,21 @@
                 {% endfor %}
 
             </tbody>
-        </table>
-
-
+        </table></div>
  {% endblock %}
+
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#example').DataTable();
+    } );
+ </script>
+
+{% endblock %}

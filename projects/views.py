@@ -15,7 +15,7 @@ from django.shortcuts import render, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
-
+from .filters import SearchProjectFilter
 
 
 def communitypartnerhome(request):
@@ -297,16 +297,19 @@ def SearchForProject(request):
     names=[]
     for project in Project.objects.all():
         names.append(project.project_name)
-    print(names)
-    if request.method == "POST":
-        form = ProjectSearchForm(request.POST)
-        print(form.errors)
-        if form.is_valid():
-            if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
-                theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
-                return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
+    #print(names)
+    if request.method == "GET":
+        searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+        print("I am above the f")
+        project_ids = [p.id for p in searched_project.qs]
+        project_details = Project.objects.filter(id__in=project_ids)
+        # print(form.errors)
+        # if form.is_valid():
+        #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
+        #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
+        #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
 
-    return render(request,'projects/SearchProject.html',{'form': ProjectSearchForm(),'projectNames':names})
+    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details})
 
 
 

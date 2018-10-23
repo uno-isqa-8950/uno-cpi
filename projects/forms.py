@@ -94,7 +94,9 @@ class ProjectSearchForm(forms.ModelForm):
         model = Project
         fields = ('project_name',)
 
-    def __init__(self, *args, **kwargs):
-        super(ProjectSearchForm, self).__init__(*args, **kwargs)
-        self.fields['project_name'].widget = forms.TextInput(attrs={
-            'id': 'id_project_name'})
+    # def __init__(self, *args, **kwargs):
+    #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
+    #     self.fields['project_name'].widget = forms.TextInput(attrs={
+    #         'id': 'id_project_name'})
+
+

@@ -14,6 +14,6 @@ urlpatterns = [
     url(r'^project_total_Add/$', views.project_total_Add, name='project_total_Add'),
     #url(r'^campususerproject/$', views.proj_view_user, name='proj_view_user'),
     path('campususerproject/',views.proj_view_user, name='proj_view_user'),
-    path('projectSearch/', views.SearchForProject, name='SearchForProject'),
-
+    #path('projectSearch/', views.SearchForProject, name='SearchForProject'),
+    url(r'^projectSearch/', views.SearchForProject, name='SearchForProject'),
 ]

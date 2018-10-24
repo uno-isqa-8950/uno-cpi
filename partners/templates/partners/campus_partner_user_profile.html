@@ -88,6 +88,12 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
+img.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
 </style>
 
 {% if messages %}
@@ -103,17 +109,16 @@ font-weight: bold;
     <div class="panel-heading text-center"><h4>Campus Partner User Profile</h4></div>
       <div class="panel-body">
           <div class="col-12">
-              <br>
-            <img src="{{ user.avatar.url }}" width="150">
+            <br>
+            <img src="{{ user.avatar.url }}" class="center" width="100">
           </div>
         <div class="row">
-
-            <div class="col-sm-6 text-right">
-              <label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
-            </div>
-            <div class="col-sm-6">
-              <label> {{user.username}} </label> 
-            </div>
+          <div class="col-sm-6 text-right">
+            <label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+          </div>
+          <div class="col-sm-6">
+            <label> {{user.username}} </label> 
+          </div>
           <div class="col-sm-6 text-right">
             <label> First Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
           </div>
@@ -138,8 +143,6 @@ font-weight: bold;
           <div class="col-sm-6">
             <label> {{campus_partner_name}} </label> 
           </div>
-
-        
           <br>
         </div>
         <div class="text-center">

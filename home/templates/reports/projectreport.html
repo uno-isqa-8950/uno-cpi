@@ -1,12 +1,5 @@
-<!DOCTYPE html>
-{% load static %}
-{% load staticfiles %}
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Django Highcharts Example</title>
-</head>
-<body>
+{% extends 'home/base_home.html' %}
+{% block content %}
   <div id="container"></div>
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
   <script>
@@ -46,7 +39,5 @@
 {#<script>#}
 {#     Highcharts.chart('container', {{ chart|safe }});#}
 {#</script>#}
-</body>
 
-</html>
-
+{% endblock %}

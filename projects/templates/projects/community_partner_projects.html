@@ -1,6 +1,6 @@
 {% extends 'home/Community_Home.html' %}
 {% block content %}
-<style>
+<style xmlns="http://www.w3.org/1999/html">
    /* table {
    border: 1px solid black;
         font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -36,69 +36,60 @@
                 <th>Project Name</th>
                 <th>Engagement Type</th>
                 <th>Activity Type</th>
+                <th>Mission Type</th>
                 <th>Facilitator</th>
                 <th>Semester</th>
-                <th>UNO Students</th>
-                <th>UNO Hours</th>
-                <th>K12 Students</th>
-                <th>K12 hours</th>
-                <th>Uno Faculty</th>
-                <th>Mission Type</th>
-                <th>Mission Area</th>
-                <th>Community Hours</th>
-                <th>Community People</th>
-                <th>Wages</th>
-                <th>Action</th>
+                <th>Start Date </th>
+                <th>End Date </th>
+                <th> UNO Students</th>
+                <th> UNO hours</th>
+                <th> UNO Faculty</th>
+                <th>Community Partner Volunteers</th>
+                <th>Community Partner Hours</th>
+                <th>Other Community Members</th>
+                <th> K12 Students</th>
+                <th> K12 Hours </th>
+
+
+                <th>Status</th>
+
+                <!--<th>Mission</th>-->
+
+
+                <th>CampusPartner</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
 
 
-            {% for p in projects %}
+            {% for project in project %}
+                           <br>
 
+                            <td>{{ project.name }}</td>
+                            <td>{{ project.engagementType }}</td>
+                            <td>{{ project.activityType }}</td>
+                            <td>{% for projmisn in project.projmisn %}
+                                   <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
+                            <td>{{ project.facilitator }}</td>
+                            <td>{{ project.semester }}</td>
+                            <td>{{ project.startDate }}</td>
+                            <td>{{ project.endDate }}</td>
+                            <td>{{project.x.total_uno_students}}</td>
+                            <td>{{project.total_uno_hours}}</td>
+                            <td>{{project.total_uno_faculty}}</td>
 
-               <tr>
-                   <td>{{ p.project_name }}</td>
-                   <td>{{ p.engagement_type }}</td>
-                   <td>{{ p.activity_type }}</td>
-                   <td>{{ p.facilitator }}</td>
-                   <td>{{ p.semester}}</td>
-                   <td>{{ p.total_uno_students}}</td>
-                   <td>{{ p.total_uno_hours}}</td>
-                   <td>{{ p.total_k12_students}}</td>
-                   <td>{{ p.total_k12_hours}}</td>
-                   <td>{{ p.total_uno_faculty}}</td>
-                   <td>{% for pm in p_missions %}
-                           {% if p.id == pm.project_name_id %}
-                               {{ pm.mission_type }}
-                           {% endif %}
-                   {% endfor %} </td>
-                   <td>{% for pm in p_missions %}
-                           {% if p.id == pm.project_name_id %}
-                               {{ pm.mission }}
-                           {% endif %}
-                   {% endfor %} </td>
-                   <td>{% for cp in com_proj %}
-                           {% if p.id == cp.project_name_id %}
-                               {{ cp.total_hours }}
-                           {% endif %}
-                   {% endfor %}</td>
-                   <td>{% for cp in com_proj %}
-                           {% if p.id == cp.project_name_id %}
-                               {{ cp.total_people }}
-                           {% endif %}
-                   {% endfor %}</td>
-                   <td>{% for cp in com_proj %}
-                           {% if p.id == cp.project_name_id %}
-                               {{ cp.wages }}
-                           {% endif %}
-                   {% endfor %}</td>
-                       <td><a href="{% url 'communitypartnerproject_edit' pk=p.pk%}" class="btn btn-danger">Edit</a>
+                            <td> {% for cp in project.cp %} {{cp.total_people}} <br> <br> {% endfor %} </td>
+                            <td> {% for cp in project.cp %} {{cp.total_hours}} <br> <br> {% endfor %} </td>
+                            <td>{{project.total_other_community_members}}</td>
+                            <td>{{project.total_k12_students}}</td>
+                            <td>{{project.total_k12_hours}}</td>
+                            <td>{{ project.status}}</td>
+                            <td>{% for camp in project.camp%}{{camp.campus_partner}}<br> {% endfor %}</td>
+                            <td><a href="{% url 'communitypartnerprojectedit' pk=project.pk%}" class="btn btn-danger">Edit</a> </td>
+                           </tr>
 
-                    </td>
-                </tr>
-
-            {% endfor %}
+                {% endfor %}
 
 
 
@@ -118,7 +109,7 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
-   $('#example').DataTable({
+        $('#example').DataTable({
        "columnDefs":[
            {"width": "20px", "targets":0}
        ]
@@ -126,7 +117,3 @@
 } );
 </script>
 {% endblock %}
-
-
-
-

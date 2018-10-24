@@ -51,7 +51,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='  Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 

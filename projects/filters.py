@@ -8,3 +8,4 @@ class SearchProjectFilter(django_filters.FilterSet):
     class Meta:
         model = Project
         fields = ['project_name',]
+

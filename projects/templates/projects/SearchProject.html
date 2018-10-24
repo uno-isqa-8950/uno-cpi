@@ -12,6 +12,12 @@
       });
     } );
   </script>
+<script>
+function myFunction1() {
+    document.getElementById("id_project_name").label = "newLabel";
+
+}
+</script>
 {% endblock %}
 {% block content %}
 <style>
@@ -19,6 +25,12 @@
 #id_project_name{
 
 width: 400px;
+
+}
+.btn-default
+{
+position: relative;
+
 }
 
 label, .btn-default
@@ -27,13 +39,13 @@ margin-left:100px;
 }
 
 </style>
-
+   <div>
   <form action="." method="GET">
           {{ filter.form.as_p}}
           {% csrf_token %}
         <input type="submit" class="save btn btn-default" value="Search">
   </form>
-
+    </div>
         <div class="ui-widget">
         </div>
 
@@ -55,6 +67,7 @@ margin-left:100px;
                 <th> UNO Faculty</th>
                 <th>Other Community Members</th>
                 <th>Status</th>
+                <th>Action</th>
 
             </tr>
             </thead>
@@ -77,11 +90,13 @@ margin-left:100px;
                             <td>{{project.total_uno_faculty}}</td>
                             <td>{{project.total_other_community_members}}</td>
                             <td>{{ project.status}}</td>
+                            <td><a href="#" class="btn btn-warning">Add</a> </td>
+
+
 
                            </tr>
 
                 {% endfor %}
-
             </tbody>
         </table></div>
  {% endblock %}

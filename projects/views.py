@@ -300,7 +300,9 @@ def SearchForProject(request):
     #print(names)
     if request.method == "GET":
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
-        print("I am above the f")
+
+
+        print("I am above the ")
         project_ids = [p.id for p in searched_project.qs]
         project_details = Project.objects.filter(id__in=project_ids)
         # print(form.errors)

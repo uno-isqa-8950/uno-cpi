@@ -19,12 +19,12 @@ tr:nth-child(even) {
 }
 </style>
 
-    <div class="container-fluid">
+    <div class="container-fluid" id="align">
         <h3>Missions : Summary Report </h3>
 
         <form action="" method="get">
-        {{ filter.form.as_p }}
-        <input type="submit" />
+            {{ filter.form.as_p }}
+        <input type="submit" value="Search" />
     </form>
     <!--{% for obj in filter.qs %}-->
         <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
@@ -39,7 +39,7 @@ tr:nth-child(even) {
     <th>Total UNO Hours</th>
 
   </tr>
-   {% for m in mlist %}
+   {% for m in mList %}
         <tr>
             <td>{{m.mission_name}}</td>
             <td>{{m.project_count}}</td>
@@ -50,5 +50,5 @@ tr:nth-child(even) {
     {% endfor %}
 </table>
     </div>
-
+<br>
 {% endblock %}

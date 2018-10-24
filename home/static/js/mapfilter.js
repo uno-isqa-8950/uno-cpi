@@ -14,6 +14,8 @@ $.get("static/GEOJSON/ID2.geojson",function(data){ //load JSON file from static/
 var hoveredStateId =  null; //this variable is used for hovering over the districts
 var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts
 var filterInput = document.getElementById('filter-input'); //this is for filtering the Legislative Districts
+var CommunityPartnerInput = document.getElementById('filter-input2');//this is for searching community partner
+
 //Get map
 var map = new mapboxgl.Map({
 	container: 'map',
@@ -328,7 +330,119 @@ map.on("load",function(){
                 layerID.indexOf(value) > -1 ? 'visible' : 'none');
         });
     });
-	//******************************Search Community Part**********************************
+
+	//*****************************search communityPartner***********************************************************
+	var selectType=document.getElementById("selectType");
+	selectType.addEventListener("change",function(e){
+
+		var value=e.target.value.trim().toLowerCase();
+
+		var comlist=["show1","show2","show3","show4","show5","show6"];//community id
+
+
+		if(value=="all"){
+			comlist.forEach(function(com){
+				map.setLayoutProperty(com, 'visibility','visible');
+			})
+			map.setLayoutProperty("k12", 'visibility','visible');
+		}else if(value=="community"){
+			comlist.forEach(function(com){
+				map.setLayoutProperty(com, 'visibility','visible');
+			})
+			map.setLayoutProperty("k12", 'visibility','none');
+		}else if(value=="k12"){
+			comlist.forEach(function(com){
+				map.setLayoutProperty(com, 'visibility','none');
+			})
+			map.setLayoutProperty("k12", 'visibility','visible');
+		}
+	})
+//********** search community partner name********************///////////////
+
+ CommunityPartnerInput.addEventListener('keyup', function(e) {
+
+        // If the input value matches a layerID set
+
+        // it's visibility to 'visible' or else hide it.
+
+        var value = e.target.value.trim();
+
+        map.setLayoutProperty("k12", 'visibility','none');
+
+        console.log('value----->'+value);
+
+        var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
+
+        map.setFilter("show1",
+
+				['in' ,"CommunityPartner" ,value]
+
+			)
+
+			map.setFilter("show2",
+
+				['in',"CommunityPartner" ,value]
+
+			)
+
+			map.setFilter("show3",
+
+				['in' ,"CommunityPartner" ,value]
+
+			)
+
+			map.setFilter("show4",
+
+			['in' ,"CommunityPartner" ,value]
+
+			)
+
+			map.setFilter("show5",
+
+                ['in' ,"CommunityPartner" ,value]
+
+			)
+
+			map.setFilter("show6",
+
+                ['in' ,"CommunityPartner" ,value]
+
+			)
+
+//            if(value==="")
+
+//            {
+
+//            map.setLayoutProperty(comlist, 'visibility','visible');
+
+//
+
+//
+
+//            }
+
+            if(value==="")
+
+             comlist.forEach(function(com){
+
+				map.setLayoutProperty(com, 'visibility','visible');
+
+			})
+
+        //names.forEach(function(layerID) {
+
+        console.log('layerID----->'+layerID);
+
+        console.log('layerID.indexOf(value)----->'+layerID.indexOf(value));
+
+        //    map.setLayoutProperty(layerID, 'visibility',
+
+          //      layerID.indexOf(value) > -1 ? 'visible' : 'none');
+
+        //});
+
+    });
+
 	//******************************Show data when the mouse moves on it**********************************
 
     map.on("mousemove", "district", function(e) {

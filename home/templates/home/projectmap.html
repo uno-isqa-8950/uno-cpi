@@ -94,118 +94,58 @@ margin-top:15px;
 <body>
 	<style>
 		#map{
-			width: 1000px;
+			width: 1010px;
 			height: 100%;
-			top: 90px;
+			top: 140px;
 			position: absolute;
-
-
+			left: 30px;
+		}
+		.h2 {
+			display: block;
+			font-size: 1.7em;
+			margin-top: 0.25em;
+			margin-bottom: 0.67em;
+			margin-left: 450px;
+			margin-right: 0;
+			font-weight: bold;
 		}
 		.filter{
 			position: absolute;
-			left: 1000px;
-			top: 90px;
-		}
-
-		.filter2{
-			position: absolute;
-			left: 1000px;
-			top: 90px;
+			left: 1050px;
+			top: 140px;
 		}
 		.selectType{
-			width: 400px;
+			width: 200px;
 			height: 50px;
 			font-size: 20px;
 
 		}
-
 		.selectYear{
-			width: 400px;
+			width: 200px;
 			height: 50px;
 			font-size: 20px;
 
 		}
-		.map-overlay {
-		  position: absolute;
-		  bottom: 0;
-		  right: 0;
-		  background: rgba(255, 255, 255, 0.8);
-		  margin-right: 20px;
-		  font-family: Arial, sans-serif;
-		  overflow: auto;
-		  border-radius: 3px;
+		.legend {
+			background-color: #fff;
+			border-radius: 10px;
+			bottom: 170px;
+			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+			position: absolute;
+			right: 25px;
+			z-index: 1;
 		}
-		.box1 {
-			background:rgba(0,0,0,0.4);
-			color:#fff;
-			position:absolute;
-			top:300px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
+		.legend h4 {
+			margin: 0 0 5px;
 		}
 
-		.box2 {
-			background:#fbb03b;
-			color:#fff;
-			position:absolute;
-			top:320px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
-		}
-		.box3 {
-			background:#223b53;
-			color:#fff;
-			position:absolute;
-			top:340px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
-		}
-		.box4 {
-			background:#e55e5e;
-			color:#fff;
-			position:absolute;
-			top:360px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
-		}
-		.box5 {
-			background:#3bb2d0;
-			color:#fff;
-			position:absolute;
-			top:380px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
-		}
-		.box6 {
-			background:#ba55d3;
-			color:#fff;
-			position:absolute;
-			top:400px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
-		}
-		#legend {
-		  padding: 10px;
-		  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-		  line-height: 18px;
-		  height: 200px;
-		  margin-bottom: 40px;
-		  width: 200px;
-		}
-		.box7 {
-			background:#2A0A12;
-			color:#fff;
-			position:absolute;
-			top:420px;left: 1000px;
-			z-index:1;
-			border-radius:3px;
-			width:300px;
+		.legend div span {
+			border-radius: 100%;
+			display: inline-block;
+			height: 13px;
+			margin-right: 10px;
+			width: 13px;
 		}
 		.legend-key {
 		  display: inline-block;
@@ -216,15 +156,8 @@ margin-top:15px;
 		}
 		.filter-ctrl {
 			position: absolute;
-			top: 250px;
-			right: 70px;
-			width: 230px;
-			height: 50px;
-		}
-		.filter-ctrl2 {
-			position: absolute;
-			top: 500px;
-			right: 70px;
+			top: 220px;
+			right: 20px;
 			width: 230px;
 			height: 50px;
 		}
@@ -245,7 +178,9 @@ margin-top:15px;
 	</style>
 	<div>
 		<div id='map' ></div>
+        <h2 class="h2">Project Map</h2>
 		<div class="filter">
+            <h5>Filter by Year</h5>
 			<!--<select id="selectType" name="classify" class="selectType">-->
 				<!--<option value="all">All</option>-->
 				<!--<option value="community">CommunityPartners</option>-->
@@ -256,17 +191,20 @@ margin-top:15px;
 				<option value="2018">2018</option>
 				<option value="2017">2017</option>
 			</select>
-
-			<select id="selectMission" class="selectYear">
-				<option value="0">All</option>
-				<option value="1">Social Justice</option>
-				<option value="2">Educational Support</option>
-				<option value="3">Economic Sufficiency</option>
-				<option value="4">International Service</option>
-				<option value="5">Environmental Stewardship</option>
-				<option value="6">Health & Wellness</option>
-			</select>
 		</div>
+		<div id='state-legend' class='legend'>
+			<h4>Primary Mission Areas</h4>
+			<div><a href='#' id="all"><span style='background-color: #723122'></span>All</a></div>
+			<div><a href='#' id="educational"><span style='background-color: #fbb03b'></span>Educational Support</a></div>
+			<div><a href='#' id="economic"><span style='background-color: #223b53'></span>Economic Sufficiency</a></div>
+			<div><a href='#' id="service"><span style='background-color: #e55e5e'></span>International Service</a></div>
+			<div><a href='#' id="environmental"><span style='background-color: #3bb2d0'></span>Environmental Stewardship</a></div>
+			<div><a href='#' id="health"><span style='background-color: #ba55d3'></span>Health & Wellness</a></div>
+			<div><a href='#' id="justice"><span style='background-color: #2A0A12'></span>Social Justice</a></div>
+		</div>
+        <!--<div class='filter-ctrl'>-->
+    		<!--<input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />-->
+		<!--</div>-->
 		<!--<div class='filter-ctrl'>-->
     		<!--<input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />-->
 		<!--</div>-->
@@ -274,35 +212,6 @@ margin-top:15px;
 		<!--<div class='filter-ctrl2'>-->
     		<!--<input id='filter-input2' type='text' name='filter2' placeholder='Search by Project' />-->
 		<!--</div>-->
-
-
-		<div class='box'>
-			<a class='box1' id="all">All primary missions</a>
-		</div>
-
-		<div class='box'>
-			<a class='box2' id="educational">Educational Support</a>
-		</div>
-
-		<div class='boxfilter'>
-			<a class='box3' id="economic">Economic Sufficiency</a>
-		</div>
-
-		<div class='checkbox'>
-			<a class='box4' id="service">International Service</a>
-		</div>
-
-		<div class='boxfilter'>
-			<a  class='box5' id="environmental">Environmental Stewardship</a>
-		</div>
-
-		<div class='boxfilter'>
-			<a  class='box6' id="health">Health & Wellness</a>
-		</div>
-
-		<div class='boxfilter'>
-			<a class='box7' id="justice">Social Justice</a>
-		</div>
 
 	</div>
 

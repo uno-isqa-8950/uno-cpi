@@ -1,4 +1,6 @@
 import csv
+import json
+from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
@@ -214,3 +216,44 @@ def project_partner_info(request):
         mlist.append(mdict.copy())
     return render(request, 'reports/14ProjectPartnerInfo.html',
                   {'filter': f, 'mlist': mlist})
+
+
+
+
+#Report for projects with mission areas
+
+def projectreport(request):
+    mission_name = ProjectMission.objects \
+        .values('mission') \
+        .annotate(mission_type_count=Count('mission', filter=Q(mission_type='Primary')),
+                  ) \
+        .order_by('mission')
+    print(mission_name)
+
+    mission_area = list()
+    project_count_series = list()
+
+    print(mission_area)
+    print(project_count_series)
+    for entry in mission_name:
+        mission_area.append('%s Mission' % entry['mission'])
+        project_count_series.append(entry['mission_type_count'])
+
+    #     project_count1 = {
+    #     'name': 'Projects',
+    #     'data': project_count_data,
+    #     'color': 'green'
+    # }
+
+    chart = {
+        'chart': {'type': 'column'},
+        'title': {'text': 'CPI Missions'},
+        'xAxis': {'mission': mission_area},
+        'series': [project_count_series]
+    }
+
+    dump = json.dumps(chart)
+    print(dump)
+    return render(request, 'reports/projectreport.html',
+                  {'chart': dump})
+

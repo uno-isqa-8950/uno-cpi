@@ -22,9 +22,13 @@ def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-def about(request):
-    return render(request, 'home/okMap.html',
+def map(request):
+    return render(request, 'home/testnew.html',
                   {'map': map})
+
+def k12map(request):
+    return render(request, 'home/k12.html',
+                  {'k12map': k12map})
 
 def projectmap(request):
     return render(request, 'home/projectmap.html',

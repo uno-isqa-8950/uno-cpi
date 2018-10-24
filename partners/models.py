@@ -56,8 +56,8 @@ class CampusPartner(models.Model):
     name = models.CharField(max_length=255,unique=True)
     college_name = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True, blank=True)
-    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True)
-    education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True)
+    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True,blank=True)
+    education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True,blank=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
     active = models.BooleanField(default=False)
 

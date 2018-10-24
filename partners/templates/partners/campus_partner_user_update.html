@@ -2,52 +2,44 @@
 {% load bootstrap %}
 {% block content %}
 
-<style>
+<style xmlns="http://www.w3.org/1999/html">
 
 .btn-custom
 {
-    background-color: #C0C0C0;
-    position: relative;
-    width:90px;
-    top:15px;
-    font-family: Helvetica;
-    left: 250px;
+background-color: #C0C0C0;
+position: relative;
+width:90px;
+top:15px;
+font-family: Helvetica;
+left: 250px;
 }
-
-
 .btn-custom:hover
 {
-    background-color:#D3D3D3;
+background-color:#D3D3D3;
 }
-
-
 .form-control
 {
-    width:92%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:0px 0 8px 4px;
-    outline:none;
-    padding:3px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
+width:92%;
+border:2px solid #aaa;
+border-radius:4px;
+margin:0px 0 8px 4px;
+outline:none;
+padding:3px;
+box-sizing:border-box;
+transition:.3s;
+margin-left: 22px;
 }
-
 .form-control:focus
 {
-   border-color:grey;
-   box-shadow:0 0 8px 0 grey;
+border-color:grey;
+box-shadow:0 0 8px 0 grey;
 }
-
-
 body
 {
-   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-   font-size: medium;
-   position: relative;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: medium;
+position: relative;
 }
-
 .panel
 {
 width: 650px;
@@ -58,36 +50,32 @@ height: relative;
 font-family: Helvetica;
 box-shadow: 5px 10px 20px 5px grey;
 }
-
 .panel-default > .panel-heading
 {
 background-color: #b8b8b8;
 }
-
 .panel-heading
 {
-  height:60px;
-  margin-top:5px;
-  border-radius: 5px;
+height:60px;
+margin-top:5px;
+border-radius: 5px;
 }
-
 .panel
 {
-  border-radius: 5px;
+border-radius: 5px;
 }
-
 h4
 {
-  line-height: 2.7;
-  font-size: 1.3em;
+line-height: 2.7;
+font-size: 1.3em;
 }
-
 label
 {
 margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+
 </style>
 
 <div class = "container">
@@ -96,7 +84,6 @@ font-weight: bold;
       <div class="panel-body">
         <div class="body">
           <form  action="." id="id_avatar" method="post"  enctype="multipart/form-data">
-            {% csrf_token %}
             {% if messages %}
             <ul class="messages">
             {% for message in messages %}
@@ -104,37 +91,32 @@ font-weight: bold;
             {% endfor %}
             </ul>
             {% endif %}
+
           <br>
           <div class="col-8">
             <div class='media'>
-              <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="100" width="100">
-              </div>
+              <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100">
+            </div>
             <div class="form-group">
-
-                {{ avatar_form|bootstrap }}
+              {% csrf_token %}
+              {{ avatar_form|bootstrap }}
             </div>
           </div>
-            {% for field in user_form %}
-            <div class="form-group">
-              <label for="{{field.label}}">{{field.label}}</label>
-              <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
-            </div>
-            {% endfor %}
-{#            {% if user.avatar %}#}
-{#            <img src="{{ user.avatar.url }}" width="240">#}
-{#            {% endif %}#}
-
-
-            <div class="form-group">
-              <label for="campuspartnername">Campus Partner Name</label>
-              <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
-            </div>
-            <p>
-
-
-              <button type="submit" class="btn btn-custom">Update</button>
-            </p>
-            <br><br>
+          {% for field in user_form %}
+          <div class="form-group">
+            <label for="{{field.label}}">{{field.label}}</label>
+            <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+          </div>
+          {% endfor %}
+          <div class="form-group">
+            <label for="campuspartnername">Campus Partner Name</label>
+            <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
+          </div>
+            
+          <p>
+            <button type="submit" class="btn btn-custom">Update</button>
+          </p>
+          <br><br>
           </form>
         </div>
       </div>

@@ -184,18 +184,29 @@ def userProfileUpdate(request):
 
 @login_required
 def orgProfile(request):
-   if request.user.is_communitypartner:
-    community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
-    community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
-    community_partner.type = str(community_partner.community_type)
-    contacts = Contact.objects.values().filter(community_partner= community_partner.id)
-    missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
+    if request.user.is_communitypartner:
+        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
+        community_partner.type = str(community_partner.community_type)
+        contacts = Contact.objects.values().filter(community_partner= community_partner.id)
+        missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
 
-    for mission in missions:
-        mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
+        for mission in missions:
+            mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
 
-    return render(request, 'partners/community_partner_org_profile.html', {"missions":missions,
+        return render(request, 'partners/community_partner_org_profile.html', {"missions":missions,
                            "community_partner": community_partner, "contacts":contacts
+                           })
+
+    elif request.user.is_campuspartner:
+        campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+        campus_partner = get_object_or_404(CampusPartner, pk= campus_user.id)
+        contacts = Contact.objects.filter(campus_partner= campus_partner.id)
+        print ('data', campus_partner, contacts)
+        print (campus_partner.college_name)
+
+        return render(request, 'partners/campus_partner_org_profile.html', {"contacts":contacts,
+                               "campus_partner": campus_partner
                            })
 
 
@@ -240,4 +251,9 @@ def orgProfileUpdate(request):
                           'contacts_form': contacts_form, 'community_org_form': community_org_form,
                           'org_type' : org_type,
                           })
+
+    # elif request.user.is_campuspartner:
+    #     campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+    #     campus_partner = get_object_or_404(CampusPartnerUser, pk= campus_user.id)
+    #     contacts = Contact.objects.filter(campus_partner= campus_partner.id).first()
 

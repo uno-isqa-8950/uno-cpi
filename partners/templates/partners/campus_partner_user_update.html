@@ -4,71 +4,12 @@
 
 <style xmlns="http://www.w3.org/1999/html">
 
-.btn-custom
-{
-background-color: #C0C0C0;
-position: relative;
-width:90px;
-top:15px;
-font-family: Helvetica;
-left: 250px;
-}
-.btn-custom:hover
-{
-background-color:#D3D3D3;
-}
-.form-control
-{
-width:92%;
-border:2px solid #aaa;
-border-radius:4px;
-margin:0px 0 8px 4px;
-outline:none;
-padding:3px;
-box-sizing:border-box;
-transition:.3s;
-margin-left: 22px;
-}
-.form-control:focus
-{
-border-color:grey;
-box-shadow:0 0 8px 0 grey;
-}
-body
-{
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: medium;
-position: relative;
-}
-.panel
-{
-width: 650px;
-margin-left: auto;
-margin-right:auto;
-margin-top:80px;
-height: relative;
-font-family: Helvetica;
-box-shadow: 5px 10px 20px 5px grey;
-}
-.panel-default > .panel-heading
-{
-background-color: #b8b8b8;
-}
-.panel-heading
-{
-height:60px;
-margin-top:5px;
-border-radius: 5px;
-}
-.panel
-{
-border-radius: 5px;
-}
 h4
 {
 line-height: 2.7;
 font-size: 1.3em;
 }
+
 label
 {
 margin-left: 25px;
@@ -76,52 +17,67 @@ margin-top: 5px;
 font-weight: bold;
 }
 
+@media (min-width: 700px)
+{
+input[type=text],input[type=email]
+{
+width:92%
+}
+.btn-custom
+{
+left:280px;
+}
+}
+
 </style>
 
 <div class = "container">
-  <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4>Campus Partner User Profile</h4></div>
-      <div class="panel-body">
-        <div class="body">
-          <form  action="." id="id_avatar" method="post"  enctype="multipart/form-data">
-            {% if messages %}
-            <ul class="messages">
-            {% for message in messages %}
-              <li class="{{ message.tags }}">{{ message }}</li>
-            {% endfor %}
-            </ul>
-            {% endif %}
-
-          <br>
-          <div class="col-8">
-            <div class='media'>
-              <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100">
+    <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4><b>My Profile</b></h4></div>
+                <div class="panel-body">
+                    <div class="body">
+                        <form  action="." id="id_avatar" method="post"  enctype="multipart/form-data">
+                        {% if messages %}
+                            <ul class="messages">
+                            {% for message in messages %}
+                                <li class="{{ message.tags }}">{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <br>
+                        <div class="row justify-content-md-center">
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <div class='media'>
+                                <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100">
+                            </div>
+                            <div class="form-group">
+                                {% csrf_token %}
+                                {{ avatar_form|bootstrap }}
+                            </div>
+                        </div></div>
+                        {% for field in user_form %}
+                            <div class="form-group">
+                                <label for="{{field.label}}">{{field.label}}</label>
+                                    <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <label for="campuspartnername">Campus Partner Name</label>
+                            <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
+                        </div>
+                        <p>
+                        <button type="submit" class="btn btn-custom">Update</button>
+                        </p>
+                        <br><br>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              {% csrf_token %}
-              {{ avatar_form|bootstrap }}
-            </div>
-          </div>
-          {% for field in user_form %}
-          <div class="form-group">
-            <label for="{{field.label}}">{{field.label}}</label>
-            <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
-          </div>
-          {% endfor %}
-          <div class="form-group">
-            <label for="campuspartnername">Campus Partner Name</label>
-            <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
-          </div>
-            
-          <p>
-            <button type="submit" class="btn btn-custom">Update</button>
-          </p>
-          <br><br>
-          </form>
         </div>
-      </div>
     </div>
-  </div>
-  <br><br><br>
+</div>
+  <br><br>
 
 {% endblock %}

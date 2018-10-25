@@ -90,8 +90,9 @@ margin-left:100px;
                             <td>{{project.total_uno_faculty}}</td>
                             <td>{{project.total_other_community_members}}</td>
                             <td>{{ project.status}}</td>
-                            <td><a href="#" class="btn btn-warning">Add</a> </td>
-
+                            <form action="." method="POST">
+                            <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning">Add</a> </td>
+                            </form>
 
 
                            </tr>

@@ -5,7 +5,7 @@ from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm, ProjectSearchForm
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
@@ -292,7 +292,6 @@ def project_edit_new(request,pk):
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
 
-
 def SearchForProject(request):
     names=[]
     for project in Project.objects.all():
@@ -301,17 +300,50 @@ def SearchForProject(request):
     if request.method == "GET":
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
 
-
+        #@login_required()
+        print(searched_project)
         print("I am above the ")
         project_ids = [p.id for p in searched_project.qs]
         project_details = Project.objects.filter(id__in=project_ids)
+        NameOfProject= [p.project_name for p in searched_project.qs]
+        camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+        print("I am printing below this")
+        camp_partner = camp_part_user[0].campus_partner
+        print(NameOfProject)
+        tot_hrs = 10
+        tot_peop = 15
+        wage_peop = 150
+        #
+        search_project_filtered = SearchProjectFilter(request.GET)
+        #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
+        #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
+        #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
+        print(project_details)
         # print(form.errors)
         # if form.is_valid():
         #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
         #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
         #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
+    if(request.method == 'POST'):
+        print("***Testing***")
 
     return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details})
 
 
 
+def SearchForProjectAdd(request,pk):
+    foundProject = None
+
+    names = []
+    for project in Project.objects.all():
+        names.append(project.project_name)
+
+
+
+    for project in Project.objects.all():
+        if project.pk == int(pk):
+            foundProject = project
+    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
+    object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
+    object.save()
+    return render(request,'projects/SearchProject.html')

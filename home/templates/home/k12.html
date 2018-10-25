@@ -52,16 +52,16 @@ margin-top:15px;
     <div class="collapse navbar-collapse" id="target">
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-            <a class ="navbar-brand" href="/" id="uno"><b>University of Nebraska Omaha</b>
+            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
                 <b id="cpi">Community Partnership Initiative</b></a>
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
+                <!--li class="nav-item">
 
                     <a class="nav-link" href="#"><i class="fa fa-map-pin"></i>Dashboard</a>
-                </li>
+                </li-->
                <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-home"></i>Map
+                        <i class="fa fa-tachometer"></i>Map
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown_target">
@@ -70,9 +70,15 @@ margin-top:15px;
                     <a class="dropdown-item" href="/projectmap">Project</a>
                 </div>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/projectreport"><i class="fa fa-home"></i>Report</a>
-
+                <li class="nav-item dropdown">
+                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-line-chart"></i>Reports
+                        <span class="caret"></span>
+                   </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                        <a class="dropdown-item" href="/projectInfo">Summary Reports</a>
+                        <a class="dropdown-item" href="/projectreport">Charts</a>
+                    </div>
                 </li>
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
@@ -259,6 +265,7 @@ margin-top:15px;
 			position: absolute;
 			left: 83%;
 			top: 390px;
+			margin-left:40px;
 		}
 		.selectType{
             left: 80%;
@@ -269,17 +276,19 @@ margin-top:15px;
 
 		}
 		.selectYear{
-          left: 0;
+          margin-left: 0px;
           right: 150px;
           top: 0px;
           bottom: 300px;
           width: 100px
 
 		}
+
+
 		.legend {
+		    margin-top:50px;
 			background-color: #fff;
 			border-radius: 10px;
-			bottom: 300px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 			position: absolute;
@@ -325,10 +334,16 @@ margin-top:15px;
 			border-radius: 3px;
 			height: 70px;
 		}
+
+		input[type=text]
+		{
+		width:70%;
+		margin-left:65px;
+		}
     </style>
     <div class='sidebar'>
         <div class='heading'>
-            <h1>Our locations</h1>
+            <h1>K-12 Partners</h1>
         </div>
         <div id='listings' class='listings'></div>
     </div>

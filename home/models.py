@@ -55,7 +55,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
     is_campuspartner = models.BooleanField(default=False)
     is_communitypartner = models.BooleanField(default=False)
-    avatar = models.ImageField(default='profile_image/default.jpg', upload_to='profile_image', null=True)
+    avatar = models.ImageField(default='profile_image/default.jpg', upload_to='profile_image', null=True, blank=True)
     username = None
     email = models.EmailField(('email address'), unique=True)
     USERNAME_FIELD = 'email'

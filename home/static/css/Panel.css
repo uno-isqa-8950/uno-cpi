@@ -1,5 +1,44 @@
 /* Login Panel */
 
+#align
+{
+margin-left:18px;
+margin-top:12px;
+}
+
+#contact1
+{
+    border:1.5px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top:10px;
+    background-color:#f3f3f3;
+
+}
+
+#contact2
+{
+    border:1.5px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top:10px;
+    background-color:#d8d8d8;
+
+}
+
+
 input[type=text],[type=password],[type=email]
 {
     width:85%;
@@ -15,11 +54,13 @@ input[type=text],[type=password],[type=email]
 }
 
 
+
 input[type=text]:focus, input[type=password]:focus, input[type=email]:focus
 {
   border-color:grey;
   box-shadow:0 0 8px 0 grey;
 }
+
 
 
 .panel
@@ -32,10 +73,14 @@ font-family:Helvetica;
 }
 
 
+
+
 .panel-default > .panel-heading
 {
 background-color: #b8b8b8;
 }
+
+
 
 .panel-heading
 {
@@ -43,6 +88,8 @@ background-color: #b8b8b8;
 	margin-top:5px;
 	border-radius: 5px;
 }
+
+
 
 @media (max-width: 550px)
 {
@@ -72,13 +119,15 @@ h4
     width:85%;
     border:2px solid #aaa;
     border-radius:4px;
-    margin:0px 0 8px 4px;
+    margin:10px 0 8px 4px;
     outline:none;
     padding:3px;
     box-sizing:border-box;
     transition:.3s;
     margin-left: 22px;
 }
+
+
 
 .form-control:focus
 {
@@ -87,7 +136,12 @@ h4
 }
 
 
-#button-align
+
+@media (max-width: 600px)
 {
+h4
+    {
+    font-size:1.3em
+    }
 
 }

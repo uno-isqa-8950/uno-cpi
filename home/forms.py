@@ -51,30 +51,58 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='  Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ('first_name', 'last_name', 'email' )
         help_texts = {
-            'username': None,
+
             'email': None,
         }
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
-            'email': ('Email ID')
+            'email': ('Email')
         }
 
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have numbers")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have numbers")
+        return lastname
+
     def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
+
+        pas = self.cleaned_data['password']
+        cd =   self.cleaned_data['password2']
+        MIN_LENGTH=8
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if pas and cd:
+            if pas !=cd:
+             raise forms.ValidationError('Passwords don\'t match.')
+            else:
+                if len(pas)<MIN_LENGTH:
+                    raise forms.ValidationError("Password should have atleast %d characters"%MIN_LENGTH)
+                if pas.isdigit():
+                    raise forms.ValidationError("Password should not be all numeric")
+                if pas.isalpha():
+                    raise forms.ValidationError("Password should have atleast one digit")
+                if not any(char in special_characters for char in pas):
+                    raise forms.ValidationError("Password should have atleast one Special Character")
+
+
+
 
 
 class UserForm(forms.ModelForm):
@@ -86,10 +114,10 @@ class userUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ( 'first_name', 'last_name', 'email' )
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email ID')
@@ -100,14 +128,14 @@ class CommunityPartnerForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email' )
+        fields = ( 'first_name', 'last_name', 'email' )
         help_texts = {
-            'username': None,
+
             'email': None,
         }
 
         labels = {
-            'username': ('User Name'),
+
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email ID')
@@ -122,9 +150,9 @@ class CommunityPartnerForm(forms.ModelForm):
     def clean_email (self):
         data = self.cleaned_data.get('email')
         domain = data.split('@')[1]
-        domain_list = ["unomaha.edu" ]
+        domain_list = [".edu" ]
         if domain not in domain_list:
-            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+            raise forms.ValidationError("Please use .edu email ")
         return data
 
 

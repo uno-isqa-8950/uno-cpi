@@ -1,0 +1,117 @@
+{% extends 'home/Campus_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+.form-control
+{
+width:85%;
+}
+
+
+.btn-custom
+{
+margin-left:200px;
+}
+
+</style>
+
+<div class = "container">
+      <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+      <div class="panel-body">
+        <div class="body">
+          <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if messages %}
+             <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="col-md-12">
+                <h4><b>Organization Information</b></h4>
+            </div>
+            {% for field in campus_org_form %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">{{field.label}}</label>
+                    </div>
+                    <div class = "col-md-8">
+                    {% if field.label == "Campus Partner Name" %}
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" readonly>
+                    {% else %}
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" disabled>
+                        {% for x,y in field.field.choices  %}
+                            <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                      </select>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+            
+            <div class="col-md-12">
+                <h4><b>Contacts Information</b></h4>
+            </div>
+            {% for field in contacts_form %}
+              {% if field.label == "Contact Type" %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Contact Type</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}">
+                        {% for x,y in field.field.choices  %}
+                          <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              {% else %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">{{field.label}}</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+            {% endfor %}
+
+            <p>
+              <button type="submit" class="btn btn-custom">Update</button>
+            </p>
+            <br><br>
+          </form>
+        </div>
+      </div>
+    </div>
+        </div></div></div>
+  <br><br><br>
+
+{% endblock %}

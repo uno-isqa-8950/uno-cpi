@@ -1,0 +1,258 @@
+{% extends 'home/Community_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+ <style>
+ .btn-custom
+{
+    background-color: #C0C0C0;
+    position: relative;
+    width:90px;
+    top:15px;
+    font-family: Helvetica;
+    left: 250px;
+}
+ .btn-custom:hover
+{
+    background-color:#D3D3D3;
+}
+ .form-control
+{
+    width:92%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+ .form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+ body
+{
+   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+   font-size: medium;
+   position: relative;
+}
+ .panel
+{
+width: 650px;
+margin-left: auto;
+margin-right:auto;
+margin-top:80px;
+height: relative;
+font-family: Helvetica;
+box-shadow: 5px 10px 20px 5px grey;
+}
+ .panel-default > .panel-heading
+{
+background-color: #b8b8b8;
+}
+ .panel-heading
+{
+  height:60px;
+  margin-top:5px;
+  border-radius: 5px;
+}
+ .panel
+{
+  border-radius: 5px;
+}
+ h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+ label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+img.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+
+address {
+font-variant-caps: small-caps;
+}
+
+a {
+font-variant: normal;
+}
+</style>
+
+ {% if messages %}
+  <ul class="messages">
+  {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+<div class = "container">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+      <div class="panel-body">
+        <!-- <div class="col-12">
+          <br>
+          <img src="{{ user.avatar.url }}" class="center" width="100">
+        </div> -->
+        <div class="col-md-6">
+          <h4>Organization Details</h4>
+        </div>
+        <div class="row">
+          <div class="col-md-5 text-right">
+            <label>Organization Name : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.name}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label>Address Line 1 : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.address_line1}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label>Address Line 2 : </label>
+          </div>
+          <div class="col-md-7">
+            <label>{{community_partner.address_line2}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label>Website URL : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.website_url}} </label>
+          </div>  
+          <div class="col-md-5 text-right">
+            <label> CEC Partner : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.weitz_cec_part}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label> Type : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.community_type}} </label>
+          </div>
+          {% if community_partner.type == 'K12' %}
+          <div class="col-md-5 text-right">
+            <label> k12 Level : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.k12_level}} </label>
+          </div>
+          {% endif %}
+          <div class="col-md-5 text-right">
+            <label> City : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.city}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label> State : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.state}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label> Country : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.country}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label> zip : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{community_partner.zip}} </label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <h4>Mission Details</h4>
+        </div>
+
+        <div class="row">
+          {% for mission in missions %}
+          <div class="col-md-3 text-right">
+            <label> Mission Type : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{mission.mission_type}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Mission Area : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{mission.mission_area}} </label>
+          </div>
+          {% endfor %} 
+        </div>
+
+        <div class="col-md-6">
+          <h4>Contact Details</h4>
+        </div>
+        <div class="row">
+          {% for contact in contacts %}
+          <div class="col-md-3 text-right">
+            <label> First Name : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.first_name}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Last Name : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.last_name}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Work Phone : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.work_phone}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Cell Phone : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.cell_phone}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Email ID : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.email_id}} </label>
+          </div>
+          <div class="col-md-3 text-right">
+            <label> Contact Type : </label>
+          </div>
+          <div class="col-md-3">
+            <label> {{contact.contact_type}} </label>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+        <div class="text-center">
+          <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
+        </div>
+        <br>
+
+      </div>
+    </div>
+  </div>
+</div>
+<br><br><br>
+{% endblock %}

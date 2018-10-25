@@ -1,7 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
 var communityDatas="";
-var k12Datas=""
-var districtData=""
+var k12Datas="";
+var districtData="";
 $.get("static/GEOJSON/CommunityPartners.geojson",function(data){ //load JSON file from static/GEOJSON
 	communityDatas=jQuery.parseJSON(data);
 })
@@ -24,8 +24,9 @@ var map = new mapboxgl.Map({
 
 var popup = new mapboxgl.Popup({
 		closeButton: true,
-		closeOnClick: false
+		closeOnClick: true
 });
+map.addControl(new mapboxgl.NavigationControl());
 //parsing the description
 function parseDescription(message) {
     var string = ""
@@ -229,95 +230,91 @@ map.on("load",function(){
 	})
 
 	//******************************Add a clickable legend**********************************
-	var edu=document.getElementById("all");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show1") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    }
-		})
 
-	})
+    var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
+			var edu=document.getElementById("all");
+				edu.addEventListener("click",function(e){
+					comlist.forEach(function (com) {
+						if (com == "show2") {
+							map.setLayoutProperty(com, 'visibility', 'visible');
+						} else {
+							map.setLayoutProperty(com, 'visibility', 'visible');
+						}
+					})
 
-	var edu=document.getElementById("educational");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show2") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+				})
 
-	})
+			var edu=document.getElementById("educational");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show2") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
 
-    var edu=document.getElementById("economic");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show3") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+			})
 
-	})
+			var edu=document.getElementById("economic");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show3") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
 
-    var edu=document.getElementById("service");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show4") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+			})
 
-	})
+			var edu=document.getElementById("service");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show4") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
 
-    var edu=document.getElementById("environmental");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show5") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+			})
 
-	})
+			var edu=document.getElementById("environmental");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show5") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
 
-	var edu=document.getElementById("health");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show6") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+			})
 
-	})
-	var edu=document.getElementById("justice");
-	edu.addEventListener("click",function(e){
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-		comlist.forEach(function (com) {
-		    if (com == "show1") {
-		        map.setLayoutProperty(com, 'visibility', 'visible');
-		    } else {
-		        map.setLayoutProperty(com, 'visibility', 'none');
-		    }
-		})
+			var edu=document.getElementById("health");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show6") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
 
-	})
+			})
+			var edu=document.getElementById("justice");
+			edu.addEventListener("click",function(e){
+				comlist.forEach(function (com) {
+					if (com == "show1") {
+						map.setLayoutProperty(com, 'visibility', 'visible');
+					} else {
+						map.setLayoutProperty(com, 'visibility', 'none');
+					}
+				})
+
+			})
+
 	//******************************Search Legislative District**********************************
     filterInput.addEventListener('keyup', function(e) {
         // If the input value matches a layerID set
@@ -569,69 +566,6 @@ map.on("load",function(){
 		}
 		
 	})
-
-	var selectMission=document.getElementById("selectMission");
-	selectMission.addEventListener("change",function(e){
-
-		var value=e.target.value.trim().toLowerCase();
-
-		var comlist=["show1","show2","show3","show4","show5","show6", "k12"];
-
-		if(value==0){
-			comlist.forEach(function(com){
-				map.setLayoutProperty(com, 'visibility','visible');
-			})
-		}else if(value==1){
-			comlist.forEach(function(com){
-				if(com=="show1"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}else if(value==2){
-			comlist.forEach(function(com){
-				if(com=="show2"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}else if(value==3){
-			comlist.forEach(function(com){
-				if(com=="show2"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}else if(value==4){
-			comlist.forEach(function(com){
-				if(com=="show3"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}else if(value==5){
-			comlist.forEach(function(com){
-				if(com=="show4"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}else if(value==6){
-			comlist.forEach(function(com){
-				if(com=="show1"){
-					map.setLayoutProperty(com, 'visibility','visible');
-				}else{
-					map.setLayoutProperty(com, 'visibility','none');
-				}
-			})
-		}
-	})
-
 
 });
 

@@ -1,0 +1,147 @@
+{% extends 'home/Campus_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+.btn-custom
+{
+margin-left: -200px;
+}
+
+ h4
+{
+    line-height: 2.7;
+    font-size: 1.3em;
+}
+
+ label
+{
+    margin-left: 25px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+
+ img.center
+{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+ address
+{
+    font-variant-caps: small-caps;
+}
+ a
+{
+    font-variant: normal;
+}
+</style>
+
+{% if messages %}
+    <ul class="messages">
+    {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+<div class = "container">
+    <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+                <div class="panel-body">
+                  <div class="col-md-6">
+                      <h4>Organization Details</h4>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-5 text-right">
+                          <label>Organisation Name : </label>
+                      </div>
+                      <div class="col-md-7">
+                          <label> {{campus_partner.name}} </label>
+                      </div>
+          <!-- <div class="col-md-5 text-right">
+            <label>Education System : </label>
+          </div>
+          <div class="col-md-7">
+            <label> {{campus_partner.education_system}} </label>
+          </div>
+          <div class="col-md-5 text-right">
+            <label>University : </label>
+          </div>
+          <div class="col-md-7">
+            <label>{{campus_partner.university}} </label>
+          </div> -->
+                      <div class="col-md-5 text-right">
+                          <label>College Name : </label>
+                      </div>
+                      <div class="col-md-7">
+                          <label> {{campus_partner.college_name}} </label>
+                      </div>
+                      <div class="col-md-5 text-right">
+                          <label> Department : </label>
+                      </div>
+                      <div class="col-md-7">
+                          <label> {{campus_partner.department}} </label>
+                      </div>
+                  </div>
+              <div class="col-md-6">
+                  <h4>Contact Details</h4>
+              </div>
+              <div class="row">
+                  {% for contact in contacts %}
+                      <div class="col-md-3 text-right">
+                          <label> First Name : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.first_name}} </label>
+                      </div>
+                      <div class="col-md-3 text-right">
+                          <label> Last Name : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.last_name}} </label>
+                      </div>
+                      <div class="col-md-3 text-right">
+                          <label> Work Phone : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.work_phone}} </label>
+                      </div>
+                      <div class="col-md-3 text-right">
+                          <label> Cell Phone : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.cell_phone}} </label>
+                      </div>
+                      <div class="col-md-3 text-right">
+                          <label> Email : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.email_id}} </label>
+                      </div>
+                      <div class="col-md-3 text-right">
+                          <label> Contact Type : </label>
+                      </div>
+                      <div class="col-md-3">
+                          <label> {{contact.contact_type}} </label>
+                      </div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <div class="text-center">
+                  <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-custom" role="button" style = "background-color: #b8b8b8"> Edit </a>
+          <!-- <a href="#" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a> -->
+              </div>
+        <br><br>
+          </div>
+      </div>
+  </div>
+</div>
+
+<br><br><br>
+{% endblock %}

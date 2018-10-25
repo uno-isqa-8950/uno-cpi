@@ -1,5 +1,12 @@
 /* Font color, size, type */
 
+
+.navbar
+{
+padding: .1rem 1rem;
+}
+
+
 .navbar-brand
 {
 color:White;

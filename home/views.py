@@ -267,29 +267,31 @@ def projectreport(request):
     print(mission_name)
 
     mission_area = list()
-    project_count_series = list()
+    project_count_series_data = list()
 
     print(mission_area)
-    print(project_count_series)
+    print(project_count_series_data)
     for entry in mission_name:
         mission_area.append('%s Mission' % entry['mission'])
-        project_count_series.append(entry['mission_type_count'])
+        project_count_series_data.append(entry['mission_type_count'])
 
-    #     project_count1 = {
-    #     'name': 'Projects',
-    #     'data': project_count_data,
-    #     'color': 'green'
-    # }
+        project_count_series = {
+        'name': 'Project Count',
+        'data': project_count_series_data,
+        'color': 'turquoise'
+    }
 
     chart = {
         'chart': {'type': 'column'},
-        'title': {'text': 'CPI Missions'},
+        'title': {'text': 'Projects in different Mission Areas'},
         'xAxis': {'mission': mission_area},
         'series': [project_count_series]
     }
 
     dump = json.dumps(chart)
     print(dump)
+    print("hello")
     return render(request, 'reports/projectreport.html',
                   {'chart': dump})
+
 

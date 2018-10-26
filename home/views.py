@@ -45,6 +45,12 @@ def campusHome(request):
     return render(request, 'home/Campus_Home.html',
                   {'campusHome': campusHome})
 
+
+def CommunityHome(request):
+    return render(request, 'home/Community_Home.html',
+                  {'CommunityHome': CommunityHome})
+
+
 def signup(request):
     return render(request, 'home/registration/signuporganization.html', {'signup': signup})
 

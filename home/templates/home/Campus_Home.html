@@ -56,6 +56,12 @@ padding: .1rem 1rem;
         margin-left: 250px;
     }
 
+
+#pic
+{
+padding: 0px 8px;
+}
+
 </style>
 
 </head>
@@ -84,20 +90,20 @@ padding: .1rem 1rem;
                 <a class="nav-link" href='/campususerproject/'><i class="fa fa-product-hunt"></i>Project</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
+                <a class="nav-link" href="#"><i class="fa fa-line-chart"></i>Reports</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Add Community Partner User</a>
+                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
               </li>
               <li class="nav-item dropdown">
                 <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
-                  <i class="fa fa-user-circle-o"></i>Welcome {{ user.first_name }}<img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30">
+                    <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30"><span id="pic">{{ user.first_name }}</span>
                   <span class="caret"></span>
                 </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                  <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
-                  <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
-                  <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
+                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
                 </div>
               </li>
             {% endif %}
@@ -123,7 +129,7 @@ padding: .1rem 1rem;
 <!-- Block Ends here-->
 
 
-<!--Contact Begins -->
+<!--Contact Begins >
 
 
 <section id="contact">

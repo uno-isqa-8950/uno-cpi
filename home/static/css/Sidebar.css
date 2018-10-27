@@ -5,10 +5,11 @@
 
 
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Helvetica;;
     background: #fafafa;
 }
 
+/*
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1em;
@@ -30,7 +31,7 @@ p {
     border-radius: 0;
     margin-bottom: 40px;
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
-}*/
+}
 
 .navbar-btn {
     box-shadow: none;
@@ -44,7 +45,7 @@ p {
     border-bottom: 2px dashed #ddd;
     margin: 40px 0;
 }
-
+*/
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */

@@ -20,25 +20,9 @@
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
 
+  </head>
 
 
-
-<style>
-
-#contact
-{
-background: #D3D3D3;
-}
-
-#brand
-{
-margin-left:15px;
-margin-top:15px;
-}
-
-</style>
-
-</head>
 <body>
 
 <!-- Navbar Begins -->
@@ -101,88 +85,14 @@ margin-top:15px;
 
 <!-- Navbar ends-->
 
-
-
-
 <div class="container">
-
 {% block content %}
-
 {% endblock %}
-
 </div>
 
 
-<!--Contact Begins -->
 
 
-
-<section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading">Let's Get In Touch!</h2>
-            <hr class="my-4">
-            <p class="mb-5">Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 ml-auto text-center">
-            <i class="fa fa-skype fa-3x mb-3 sr-contact-1"></i>
-            <p>
-                <a href="skype:Goutham Viswanathan?call"><b>Connect with us on Skype</b></a>
-            </p>
-          </div>
-          <div class="col-lg-4 mr-auto text-center">
-            <i class="fa fa-envelope fa-3x mb-3 sr-contact-2"></i>
-            <p>
-              <a href="mailto:your-email@your-domain.com"><b>kshenouda@unomaha.edu</b></a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-<!-- Contact Ends here-->
-
-
-
-
-<!--Footer Begins here-->
-
-
-<footer>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3">
-            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
-          </div>
-          <div class="col-md-6">
-            <ul class="footertext">
-                UNO is an AA/EEO /ADA institution. For questions, accommodations or assistance
-please call/contact ADA/504 coordinator (phone: 402.554.3490 or TTY
-402.554.2978) or the director of Accessibility Services Center (phone:
-402.554.2872). The University of Nebraska does not discriminate based on race,
-color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity,
-religion, disability, age, genetic information, veteran status, marital status, and/or
-political affiliation in its programs, activities, or employment.
-            </ul>
-          </div>
-          <div class="col-md-3">
-              <ul class="imgadjust">
-                <img src="{% static 'img/UNOFooter1.png' %}">
-              </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-
-<!-- Footer Ends Here-->
-{% block custom_js %}{% endblock %}
 
 </body>
 </html>

@@ -1,11 +1,12 @@
 /* Font color, size, type */
 
-
+@media (min-width:900px)
+{
 .navbar
 {
 padding: .1rem 1rem;
 }
-
+}
 
 .navbar-brand
 {

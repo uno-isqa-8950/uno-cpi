@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+{% extends 'home/Dashboard_Extension.html' %}
+{% load staticfiles %}
+{% block content %}
+
+<!--DOCTYPE html>
 {% load static %}
 {% load staticfiles %}
 <html lang="en">
@@ -7,13 +11,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
-  <meta name="author" content="">
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
-	<link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
-
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <meta name="author" content=""-->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script src='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v0.49.0/mapbox-gl.css' rel='stylesheet' />
+  <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+  <!--script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+  <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script-->
+  <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -23,15 +29,15 @@
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css"-->
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+  <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700' rel='stylesheet'>
 
 
 
-<style>
+<!--style>
 
 #contact
 {
@@ -44,69 +50,39 @@ margin-left:15px;
 margin-top:15px;
 }
 
-</style>
-</head>
+</style-->
 
-<nav class="navbar navbar-expand-md navbar-custom sticky-top">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
-    <div class="collapse navbar-collapse" id="target">
-        <a class="navbar-brand" href="/">
-            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
-                <b id="cpi">Community Partnership Initiative</b></a>
-            <ul class="navbar-nav ml-auto">
-                <!--li class="nav-item">
 
-                    <a class="nav-link" href="#"><i class="fa fa-map-pin"></i>Dashboard</a>
-                </li-->
-               <li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-tachometer"></i>Map
-                        <span class="caret"></span>
-                    </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/map">Community Partner</a>
-                    <a class="dropdown-item" href="/k12map">K12</a>
-                    <a class="dropdown-item" href="/projectmap">Project</a>
-                </div>
-                </li>
-                <li class="nav-item dropdown">
-                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-line-chart"></i>Reports
-                        <span class="caret"></span>
-                   </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href="/projectInfo">Summary Reports</a>
-                        <a class="dropdown-item" href="/projectreport">Charts</a>
-                    </div>
-                </li>
-                <li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-globe"></i>Register
-                        <span class="caret"></span>
-                    </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
-                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
-                </div>
-                </li>
-                <li class="nav-item">
 
-                    <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user"></i>SignUp </a>
+<style>
 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
-                </li>
-            </ul>
-    </div>
-</nav>
+        .btn-custom1
+        {
+        margin-top:50px;
+        margin-left:-35px;
+        background-color: #282828;
+        border-color: #282828;
+        color:White;
+        }
 
-<body>
-    <style>
+
+        .btn-custom1:hover
+        {
+        background-color: grey;
+        border-color:grey;
+        }
+
+
+        .btn-custom1:focus
+        {
+        box-shadow: 0 0 0 0;
+        }
+
+
+
         body {
           color: #404040;
-          font: 400 15px/22px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          font: 400 15px/22px 'Helvetica';
           margin: 0;
           padding: 0;
           -webkit-font-smoothing: antialiased;
@@ -118,6 +94,7 @@ margin-top:15px;
           box-sizing: border-box;
         }
 
+
         h1 {
           font-size: 22px;
           margin: 0;
@@ -127,35 +104,32 @@ margin-top:15px;
           top: 20px
         }
 
+
         a {
-          color: #404040;
+          color: Black;
           text-decoration: none;
         }
 
+
         a:hover {
-          color: #101010;
+          color: Black;
         }
 
-        .sidebar {
-          position: absolute;
-          width: 20%;
-          height: 100%;
-          top: 15%;
-          left: 0;
-          overflow: hidden;
-          border-right: 1px solid rgba(0, 0, 0, 0.25);
-        }
 
 
         .map {
           position: absolute;
-          left: 20%;
-          width: 61%;
-          right: 19%;
-          top: 15%;
+          left: 18%;
+          width: 70%;
+          right: 20%;
+          top: 14%;
           bottom: 0;
-          height: 100%;
+          height: 75%;
+          border-bottom: 1px dashed #ddd;
+          margin: 40px 0;
+          box-shadow: 5px 10px 10px 5px grey;
         }
+
 
         .heading {
           background: #fff;
@@ -165,20 +139,27 @@ margin-top:15px;
           padding: 0 10px;
         }
 
+
+
         .listings {
           height: 100%;
           overflow: auto;
           padding-bottom: 60px;
         }
 
-        .listings .item {
+
+        .listings .item
+        {
           display: block;
           border-bottom: 1px solid #eee;
           padding: 10px;
           text-decoration: none;
         }
 
+
+
         .listings .item:last-child { border-bottom: none; }
+
 
         .listings .item .title {
           display: block;
@@ -186,14 +167,18 @@ margin-top:15px;
           font-weight: 700;
         }
 
+
+
         .listings .item .title small { font-weight: 400; }
 
         .listings .item.active .title,
-        .listings .item .title:hover { color: #8cc63f; }
+        .listings .item .title:hover { color: green; }
 
         .listings .item.active {
-          background-color: #f8f8f8;
+          background-color: grey;
         }
+
+
 
         ::-webkit-scrollbar {
           width: 3px;
@@ -202,16 +187,22 @@ margin-top:15px;
           background: rgba(0, 0, 0, 0.1);
         }
 
+
+
         ::-webkit-scrollbar-track {
           background: none;
         }
+
+
 
         ::-webkit-scrollbar-thumb {
           background: #00853e;
           border-radius: 0;
         }
 
+
         .clearfix { display: block; }
+
 
         .clearfix::after {
           content: '.';
@@ -220,20 +211,28 @@ margin-top:15px;
           clear: both;
           visibility: hidden;
         }
+
+
             /* Marker tweaks */
         .mapboxgl-popup-close-button {
           display: none;
         }
 
+
+
         .mapboxgl-popup-content {
-          font: 400 12px/18px 'Source Sans Pro', 'Helvetica Neue', Sans-serif;
+          font: 400 12px/18px 'Helvetica';
           padding: 0;
           width: 110%;
         }
 
+
+
         .mapboxgl-popup-content-wrapper {
           padding: 1%;
         }
+
+
 
         .mapboxgl-popup-content h3 {
           background: #91c949;
@@ -244,29 +243,41 @@ margin-top:15px;
           font-weight: 200;
         }
 
+
         .mapboxgl-popup-content h4 {
           margin: 0;
           display: block;
           font-weight: 200;
         }
 
+
         .mapboxgl-popup-content div {
           padding: 0px;
         }
+
+
 
         .mapboxgl-container .leaflet-marker-icon {
           cursor: pointer;
         }
 
+
+
         .mapboxgl-popup-anchor-top > .mapboxgl-popup-tip {
           border-bottom-color: #91c949;
         }
+
+
+
         .filter{
 			position: absolute;
 			left: 83%;
 			top: 390px;
 			margin-left:40px;
 		}
+
+
+
 		.selectType{
             left: 80%;
           width: 20%;
@@ -275,6 +286,9 @@ margin-top:15px;
           bottom: 0;
 
 		}
+
+
+
 		.selectYear{
           margin-left: 0px;
           right: 150px;
@@ -295,9 +309,14 @@ margin-top:15px;
 			right: 25px;
 			z-index: 1;
 		}
+
+
+
 		.legend h4 {
 			margin: 0 0 5px;
 		}
+
+
 
 		.legend div span {
 			border-radius: 100%;
@@ -306,6 +325,8 @@ margin-top:15px;
 			margin-right: 10px;
 			width: 13px;
 		}
+
+
 		.legend-key {
 		  display: inline-block;
 		  border-radius: 20%;
@@ -313,6 +334,9 @@ margin-top:15px;
 		  height: 10px;
 		  margin-right: 5px;
 		}
+
+
+
 		.filter-ctrl {
 			position: absolute;
 			top: 330px;
@@ -320,6 +344,8 @@ margin-top:15px;
 			width: 18%;
 			height: 50px;
 		}
+
+
 
 		.filter-ctrl input[type=number] {
 			font: 14px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -335,29 +361,54 @@ margin-top:15px;
 			height: 70px;
 		}
 
+
 		input[type=text]
 		{
 		width:70%;
 		margin-left:65px;
 		}
-    </style>
-    <div class='sidebar'>
-        <div class='heading'>
+</style>
+
+
+<div class="wrapper">
+
+    <nav id="sidebar">
+        <div class='sidebar-header'>
             <h1>K-12 Partners</h1>
         </div>
         <div id='listings' class='listings'></div>
+    </nav>
+
+    <div id="content">
+        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-left"></i>
+            <span>K-12</span>
+        </button>
+
     </div>
-    <div id='map' class='map'></div>
-    <div id='state-legend' class='legend'>
+<div id='map' class='map'></div>
+    <!--div class ="row justify-content-md-center">
+        <div class="col-xl-11">
+	        <div class = "panel panel-default">
+		        <div class="panel-heading text-center"><h4>K-12 Map</h4></div>
+	    	        <div class="panel-body"-->
+
+
+
+</div>
+
+
+    <!--div id='state-legend' class='legend'>
         <h4>K12 Partner Map</h4>
         <h4>Primary Mission Areas</h4>
         <div><a href='#' id="all"><span style='background-color: #723122'></span>All</a></div>
         <div><a href='#' id="elementary"><span style='background-color: #2A0A12'></span>Elementary</a></div>
         <div><a href='#' id="secondary"><span style='background-color: #fbb03b'></span>Secondary</a></div>
     </div>
+
     <div class='filter-ctrl'>
         <input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />
     </div>
+
     <div class="filter">
         <h5>Select Year</h5>
         <select id="selectYear" class="selectYear">
@@ -365,8 +416,32 @@ margin-top:15px;
             <option value="2018">2018</option>
             <option value="2017">2017</option>
         </select>
-    </div>
-    <script src='{% static "js/k12.js" %}'></script>
-</body>
+    </div-->
 
-</html>
+    <script src='{% static "js/k12.js" %}'></script>
+
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+
+{% endblock %}

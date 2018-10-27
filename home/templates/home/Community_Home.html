@@ -73,7 +73,7 @@ color:black;
 
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-        <a class ="navbar-brand" href="#" id="uno"><b>University of Nebraska Omaha</b>
+        <a class ="navbar-brand" href='/CommunityHome' id="uno"><b>University of Nebraska Omaha</b>
                 <b id="cpi">Community Partnership Initiative</b></a>
 
             <ul class="navbar-nav ml-auto">
@@ -84,7 +84,7 @@ color:black;
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-product-hunt"></i>Project</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-eye"></i>Reports</a>
+                    <a class="nav-link" href="#"><i class="fa fa-line-chart"></i>Reports</a>
                 </li>
                 <!-- <li class="nav-item dropdown">
                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='/profile/campuspartneruserprofile/'>
@@ -98,12 +98,12 @@ color:black;
                 </li> -->
                 <li class="nav-item dropdown">
                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
-                    <i class="fa fa-user-circle-o"></i>Welcome {{ user.first_name  }}<img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30">
-                    <span class="caret"></span>
+                      <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30"><span id="pic">{{ user.first_name  }}</span>
+                        <span class="caret"></span>
                   </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user">User</i></a>
-                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university">Organization</i></a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
+                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
                     <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
                 </div>
               </li>
@@ -139,7 +139,7 @@ color:black;
 
 
 
-<!--Contact Begins -->
+<!--Contact Begins >
 
 
 

@@ -8,12 +8,19 @@
     {
     margin-left:-70px;
     }
+    .tableName{
+
+        text-align: center;
+    }
+
 </style>
 
 
-    
 
-          <div class="container">
+        <h4 class="tableName">{{ user.first_name }}'s Projects</h4>
+
+
+       <div class="container">
        <div class="row">
                <a href="{% url 'project_total_Add' %}" class="row"><span
                          class="btn btn-custom">Add Project</span></a>

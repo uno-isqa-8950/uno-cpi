@@ -94,3 +94,15 @@ class ProjectMissionFormset(forms.ModelForm):
             'mission_type': ('Select mission type'),
             'mission': ('Select mission'),
                     }
+
+class ProjectSearchForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ('project_name',)
+        labels = {
+            'project_name':('Project Name'),
+         }
+     # def __init__(self, *args, **kwargs):
+    #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
+    #     self.fields['project_name'].widget = forms.TextInput(attrs={
+    #         'id': 'id_project_name'})

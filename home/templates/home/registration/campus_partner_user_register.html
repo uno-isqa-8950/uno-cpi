@@ -8,6 +8,32 @@
 {% endblock %}
 
 {% block content %}
+{% block additionalCSS %}
+<style>
+ .btn-custom
+@@ -83,26 +66,41 @@
+  .form-control:focus
+ {
+    border-color:grey;
+    box-shadow:0 0 8px 0 grey;
+ }
+ h4
+ {
+ 	line-height: 2.7;
+ 	font-size: 1.3em;
+ }
+  label
+ {
+ margin-left: 25px;
+ margin-top: 5px;
+font-weight: bold;
+}
+</style>
+{% endblock %}
+{% block js1 %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css" />
 
 <script>
   $( function() {
@@ -16,7 +42,12 @@
       source: availableTags
     });
   } );
+
+  $(document).ready(function(){
+  $('#id_campus_partner').selectize();
+});
 </script>
+{% endblock %}
 
 
 <style>

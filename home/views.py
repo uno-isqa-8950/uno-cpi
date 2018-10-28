@@ -1,4 +1,3 @@
-import csv
 import json
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
@@ -6,18 +5,23 @@ from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.urls import reverse
-from collections import OrderedDict
-from django.db.models import Sum
 from home.decorators import campuspartner_required
+# CSV, OrderedDict are used for uploading the data
+import csv
+from collections import OrderedDict
+# importing models in home views.py
 from .models import *
-from .forms import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, \
     CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectMission, \
     ProjectCommunityPartner
+# importing filters in home views.py, used for adding filter
 from .filters import *
-
+# aggregating function
+from django.db.models import Sum
+# importing forms into home views.py
+from .forms import *
 
 
 def home(request):
@@ -107,6 +111,8 @@ def registerCommunityPartnerUser(request):
                   'home/registration/community_partner_user_register.html',
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
 
+# uploading the projects data via csv file
+
 
 def upload_project(request):
     if request.method == 'GET':
@@ -143,6 +149,9 @@ def upload_project(request):
                         form_mission.save()
     return render(request, 'import/uploadProjectDone.html')
 
+# uploading the community data via csv file
+
+
 def upload_community(request):
     if request.method == 'GET':
         download_community_url = '/media/community_sample.csv'
@@ -160,6 +169,8 @@ def upload_community(request):
             if form.is_valid():
                 form.save()
     return render(request, 'import/uploadCommunityDone.html')
+
+# uploading the campus data via csv file
 
 
 def upload_campus(request):
@@ -187,6 +198,8 @@ def upload_campus(request):
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
+
+# (14) Mission Summary Report: filter by Semester, EngagementType
 
 
 def project_partner_info(request):
@@ -220,6 +233,8 @@ def project_partner_info(request):
         mList.append(mDict.copy())
     return render(request, 'reports/14ProjectPartnerInfo.html',
                   {'filter': f, 'mList': mList})
+
+# (15) Engagement Summary Report: filter by Semester, EngagementType
 
 
 def engagement_info(request):
@@ -255,9 +270,7 @@ def engagement_info(request):
                   {'filter': f, 'eList': eList})
 
 
-
 #Report for projects with mission areas
-
 def projectreport(request):
     mission_name = ProjectMission.objects \
         .values('mission') \

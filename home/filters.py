@@ -4,7 +4,6 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
 
 
 class ProjectFilter(django_filters.FilterSet):
-    semester = django_filters.CharFilter(lookup_expr='icontains')
 
     class Meta:
         model = Project

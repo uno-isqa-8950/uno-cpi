@@ -1,18 +1,19 @@
 from django import forms
 from django.core.files.images import get_image_dimensions
+from django.forms import ModelForm, TextInput
 from django.db.transaction import commit
 import re
-
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import UserCreationForm
+# importing models in forms.py
 from university.models import *
 from .models import User
-from django.contrib.auth.forms import UserCreationForm
 from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, \
     CommunityType, CampusPartnerUser
 from home.models import Contact, MissionArea
-from django.utils.translation import ugettext_lazy as _
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
-    ProjectCommunityPartner, ProjectMission
-from django.forms import ModelForm, TextInput
+    ProjectCommunityPartner, ProjectMission, Semester
+
 
 
 
@@ -160,6 +161,7 @@ class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
     activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")
     status = forms.ModelChoiceField(queryset=Status.objects.all(), to_field_name="name")
+    semester = forms.ModelChoiceField(queryset=Semester.objects.all(), to_field_name="semester")
 
     class Meta:
         model = Project

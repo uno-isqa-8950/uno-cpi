@@ -1,12 +1,21 @@
+from django.db import connection
+from django.http import HttpResponse
+from django.shortcuts import render,redirect
+from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from partners.models import *
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
+from django.contrib.auth.decorators import login_required
 from itertools import chain
-from .models import *
+
+from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
+from .forms import ProjectForm, ProjectMissionForm
 from django.shortcuts import render, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import *
+from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
+from .filters import SearchProjectFilter
 
 
 
@@ -358,3 +367,84 @@ def project_edit_new(request,pk):
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
+
+def SearchForProject(request):
+    names=[]
+    for project in Project.objects.all():
+        names.append(project.project_name)
+    #print(names)
+
+    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+    for c in camp_part_user:
+        p = c.campus_partner_id
+        # print(c)
+    # get all the project names base on the campus partner id
+    proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+    #print(proj_camp)
+    allProjects = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+    yesNolist = []
+    pnames = []
+    cpnames = []
+
+    for project in Project.objects.all():
+        pnames.append(project.project_name)
+        for checkProject in proj_camp:
+            cpnames.append(checkProject.project_name.project_name)
+
+
+    print("************")
+    print(pnames)
+
+
+    print("************")
+    for project in Project.objects.all():
+        if project.project_name in set(cpnames):
+            yesNolist.append(False)
+        else:
+            yesNolist.append(True)
+
+    print("***************")
+    print(yesNolist)
+
+
+    if request.method == "GET":
+        searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+         #@login_required()
+        project_ids = [p.id for p in searched_project.qs]
+        project_details = Project.objects.filter(id__in=project_ids)
+        NameOfProject= [p.project_name for p in searched_project.qs]
+        camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+        camp_partner = camp_part_user[0].campus_partner
+         #
+        search_project_filtered = SearchProjectFilter(request.GET)
+        #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
+        #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
+        #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
+        #print(project_details)
+        # print(form.errors)
+        # if form.is_valid():
+        #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
+        #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
+        #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
+    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
+
+
+def SearchForProjectAdd(request,pk):
+    foundProject = None
+    names = []
+    for project in Project.objects.all():
+        names.append(project.project_name)
+
+    campusUserProjectsNames = []
+    campusPartnerProjects = ProjectCampusPartner.objects.all()
+    for project in ProjectCampusPartner.objects.all():
+        campusUserProjectsNames.append(project.project_name)
+
+    for project in Project.objects.all():
+        if project.pk == int(pk):
+            foundProject = project
+
+    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
+    object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
+    object.save()
+    return redirect("proj_view_user")

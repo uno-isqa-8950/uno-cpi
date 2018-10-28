@@ -9,6 +9,7 @@ from projects.models import *
 from partners.models import *
 from home.models import Contact as ContactModel, Contact, User, MissionArea
 from home.forms import userUpdateForm
+from django.template.loader import render_to_string
 
 
 def registerCampusPartner(request):
@@ -29,9 +30,7 @@ def registerCampusPartner(request):
     else:
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-    return render(request,
-                  'registration/campus_partner_register.html',
-                  {'campus_partner_form': campus_partner_form, 'formset': formset})
+    return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form, 'formset': formset})
 
 
 def registerCommunityPartner(request):

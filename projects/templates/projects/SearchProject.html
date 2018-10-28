@@ -80,6 +80,7 @@ margin-left:100px;
             <tbody>
 
                 {% for project in searchedProject %}
+
                            <tr>
 
                             <td>{{ project.project_name }}</td>
@@ -97,7 +98,15 @@ margin-left:100px;
                             <td>{{project.total_other_community_members}}</td>
                             <td>{{ project.status}}</td>
                             <form action="." method="POST">
-                            <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning">Add</a> </td>
+                            {% for current in theList %}
+                                {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                                    {% if current %}
+                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning">Add</a> </td>
+                                    {% else %}
+                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning disabled">Add</a> </td>
+                                     {% endif %}
+                                {% endif %}
+                             {% endfor %}
                             </form>
 
 

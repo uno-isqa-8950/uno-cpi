@@ -373,6 +373,40 @@ def SearchForProject(request):
     for project in Project.objects.all():
         names.append(project.project_name)
     #print(names)
+
+    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+    for c in camp_part_user:
+        p = c.campus_partner_id
+        # print(c)
+    # get all the project names base on the campus partner id
+    proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+    #print(proj_camp)
+    allProjects = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+    yesNolist = []
+    pnames = []
+    cpnames = []
+
+    for project in Project.objects.all():
+        pnames.append(project.project_name)
+        for checkProject in proj_camp:
+            cpnames.append(checkProject.project_name.project_name)
+
+
+    print("************")
+    print(pnames)
+
+
+    print("************")
+    for project in Project.objects.all():
+        if project.project_name in set(cpnames):
+            yesNolist.append(False)
+        else:
+            yesNolist.append(True)
+
+    print("***************")
+    print(yesNolist)
+
+
     if request.method == "GET":
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
          #@login_required()
@@ -381,21 +415,18 @@ def SearchForProject(request):
         NameOfProject= [p.project_name for p in searched_project.qs]
         camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
         camp_partner = camp_part_user[0].campus_partner
-        print(NameOfProject)
          #
         search_project_filtered = SearchProjectFilter(request.GET)
         #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
         #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
         #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
-        print(project_details)
+        #print(project_details)
         # print(form.errors)
         # if form.is_valid():
         #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
         #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
         #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
-    if(request.method == 'POST'):
-        print("***Testing***")
-    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details})
+    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
 
 
 def SearchForProjectAdd(request,pk):

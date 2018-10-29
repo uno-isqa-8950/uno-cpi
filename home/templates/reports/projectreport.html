@@ -2,40 +2,7 @@
 {% block content %}
   <div id="container"></div>
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
-  <script>
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'CPI Projects by mission areas'
-        },
-        xAxis: {
-            categories: ['Education', 'Social', 'Health', 'Educational Support', 'Food']
-        },
-        series: [ {
-            name: 'Number of Projects for Mission Areas',
-            data: [100, 20, 150, 50, 38]
-        }]
-    });
-  </script>
-{#<script>#}
-{#    Highcharts.chart('container', {#}
-{#        chart: {#}
-{#            type: 'column'#}
-{#        },#}
-{#        title: {#}
-{#            text: 'CPI Projects by mission areas'#}
-{#        },#}
-{#        xAxis: {#}
-{#          categories: {{ mission_area|safe }}#}
-{#      },#}
-{#        series: [ {#}
-{#            name: 'Mission Areas',#}
-{#            data: {{ project_count }}#}
-{#        }]#}
-{#    });#}
-{#  </script>#}
+
 <script>
      Highcharts.chart('container', {{ chart|safe }});
 </script>

@@ -11,4 +11,14 @@ class ProjectFilter(django_filters.FilterSet):
 
 
 class ProjectMissionFilter(django_filters.FilterSet):
-    pass
+
+    class Meta:
+        model = ProjectMission
+        fields = ['mission', ]
+
+class SemesterFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Project
+        fields = ['semester', ]
+

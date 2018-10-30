@@ -56,9 +56,15 @@ margin-top:15px;
 
 <style>
 
+        .mapboxgl-canvas
+        {
+        width:842px;
+        }
+
+
         .btn-custom1
         {
-        margin-top:50px;
+        margin-top:48px;
         margin-left:-35px;
         background-color: #282828;
         border-color: #282828;
@@ -87,6 +93,7 @@ margin-top:15px;
           padding: 0;
           -webkit-font-smoothing: antialiased;
         }
+
 
         * {
           -webkit-box-sizing: border-box;
@@ -175,7 +182,7 @@ margin-top:15px;
         .listings .item .title:hover { color: green; }
 
         .listings .item.active {
-          background-color: grey;
+          background-color: White;
         }
 
 
@@ -220,6 +227,7 @@ margin-top:15px;
 
 
 
+
         .mapboxgl-popup-content {
           font: 400 12px/18px 'Helvetica';
           padding: 0;
@@ -245,7 +253,7 @@ margin-top:15px;
 
 
         .mapboxgl-popup-content h4 {
-          margin: 0;
+          margin: 10px;
           display: block;
           font-weight: 200;
         }
@@ -362,41 +370,62 @@ margin-top:15px;
 		}
 
 
-		input[type=text]
-		{
-		width:70%;
-		margin-left:65px;
-		}
+
 </style>
 
 
 <div class="wrapper">
 
-    <nav id="sidebar">
+    <nav id="sidebar" class="sidebar-default">
         <div class='sidebar-header'>
             <h1><b>K-12 Partners</b></h1>
         </div>
-        <ul class="list-unstyled components">
-            <li>
-                <div id='listings' class='listings'></div>
-            </li>
-        </ul>
+        <div id='listings' class='listings'></div>
     </nav>
 
     <div id="content">
+
         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-left"></i>
             <span>K-12</span>
         </button>
 
+    <!--div class="row">
+        <div class="col-lg-2 col-md-2 col-sm-2">
+            <div class="card" id="top">
+            <p> Hello How are You? Hope you are doing great!</p>
+            </div>
+        </div>
+    </div-->
+
+            <!--div class="row"-->
+                <div id='map' class='map'></div>
+            <!--/div-->
+
+
     </div>
 
-    <!--div class ="row justify-content-md-center">
-        <!--div class="col-xl-11">
-	        <div class = "panel panel-default">
-                <div class="panel-heading text-center"><h4>K-12 Map</h4></div></div>
-	    	        <!--div class="panel-body"-->
-    <div id='map' class='map'></div>
 
+
+
+    <!--div class="container">
+        <div id='state-legend' class='legend'>
+            <div><a href='#' id="all"><span style='background-color: #723122'></span>All</a></div>
+            <div><a href='#' id="elementary"><span style='background-color: #2A0A12'></span>Elementary</a></div>
+            <div><a href='#' id="secondary"><span style='background-color: #fbb03b'></span>Secondary</a></div>
+        </div>
+    </div-->
+
+
+
+    <!--div class ="row justify-content-md-right">
+        <div class="col-xl-4">
+	        <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4>Primary Mission Areas</h4></div></div>
+	    	        <div class="panel-body">
+
+                    </div>
+        </div>
+    <!--/div-->
 
 </div>
 

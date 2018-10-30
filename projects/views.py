@@ -1,11 +1,11 @@
 from django.db import connection
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
@@ -15,6 +15,7 @@ from django.shortcuts import render, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
+from .filters import SearchProjectFilter
 
 
 
@@ -27,18 +28,60 @@ def communitypartnerhome(request):
 
 
 def communitypartnerproject(request):
-    projects = Project.objects.all()
-    p_missions = ProjectMission.objects.all()
-    return render(request, 'projects/community_partner_projects.html',
-                  {'projects': projects, 'p_missions': p_missions})
+    print(request.user.id)
+    projects_list=[]
+    comm_part_names=[]
+    camp_part_names=[]
+    total_project_hours = []
+    # Get the campus partner id related to the user
+    comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
+    for c in comm_part_user:
+        p =c.community_partner_id
+        print(c.community_partner_id)
+    # get all the project names base on the campus partner id
+    proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
+    print(proj_comm)
+    for f in proj_comm:
+        print(f)
+        k=list(Project.objects.filter(id = f.project_name_id))
+        print(k)
+        for x in k:
+         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+         camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         proj_cam_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         for proj_cam_par in proj_cam_par:
+            camp_part = CampusPartner.objects.get(id=proj_cam_par.campus_partner_id)
+
+            camp_part_names.append(camp_part)
+         list_comm_part_names = comm_part_names
+         comm_part_names = []
+         #total_project_hours += proj_cam_par.total_hours
+         #print(total_project_hours)
+         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+            'activityType': x.activity_type,
+            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+            'startDate': x.start_date,
+            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+            'total_uno_hours': x.total_uno_hours,
+            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+            'total_uno_faculty': x.total_uno_faculty,
+            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp':camp, 'camp_part':list_comm_part_names
+             }
+
+         projects_list.append(data)
 
 
-def communitypartnerproject_edit(request,pk):
+
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+def communitypartnerprojectedit(request,pk):
 
     mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
-    proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0,
+    proj_comm_part = inlineformset_factory(Project, ProjectCommunityPartner, extra=0, can_delete=False,
                                            form=ProjectCommunityPartnerForm)
-
+    projects_list = []
+    comm_part_names = []
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
@@ -56,11 +99,45 @@ def communitypartnerproject_edit(request,pk):
             for p in commpar:
                 p.project = instances
                 p.save()
+            comm_part_user = CommunityPartnerUser.objects.filter(user_id=request.user.id)
+            for c in comm_part_user:
+                p = c.community_partner_id
+                print(c.community_partner_id)
+            proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id=p))
+            print(proj_comm)
+            for f in proj_comm:
+                print(f)
+                k = list(Project.objects.filter(id=f.project_name_id))
+                print(k)
+                for x in k:
+                    projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                    cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    for proj_comm_par in proj_comm_par:
+                        comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
+                        # print("camp_part is")
+                        # print(camp_part)
+                        comm_part_names.append(comm_part)
+                    list_comm_part_names = comm_part_names
+                    comm_part_names = []
 
-            curr_proj_list = Project.objects.filter(created_date__lte=timezone.now())
-            mission_list = ProjectMission.objects.filter()
-            com_proj = ProjectCommunityPartner.objects.filter()
-            return render(request, 'projects/community_partner_projects.html', {'projects': curr_proj_list,'p_missions':mission_list,'com_proj':com_proj})
+                    data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                            'activityType': x.activity_type,
+                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                            'startDate': x.start_date,
+                            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                            'total_uno_hours': x.total_uno_hours,
+                            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                            'total_uno_faculty': x.total_uno_faculty,
+                            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                            'camp_part': list_comm_part_names
+                            }
+
+                    projects_list.append(data)
+
+            return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+
 
     else:
 
@@ -74,7 +151,6 @@ def communitypartnerproject_edit(request,pk):
 
         return render(request, 'projects/community_partner_projects_edit.html', {'project':project,
                                                                                  'comp_proj_form': comp_proj_form})
-
 
 
 def proj_view_user(request):
@@ -291,3 +367,84 @@ def project_edit_new(request,pk):
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
+
+def SearchForProject(request):
+    names=[]
+    for project in Project.objects.all():
+        names.append(project.project_name)
+    #print(names)
+
+    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+    for c in camp_part_user:
+        p = c.campus_partner_id
+        # print(c)
+    # get all the project names base on the campus partner id
+    proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+    #print(proj_camp)
+    allProjects = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+    yesNolist = []
+    pnames = []
+    cpnames = []
+
+    for project in Project.objects.all():
+        pnames.append(project.project_name)
+        for checkProject in proj_camp:
+            cpnames.append(checkProject.project_name.project_name)
+
+
+    print("************")
+    print(pnames)
+
+
+    print("************")
+    for project in Project.objects.all():
+        if project.project_name in set(cpnames):
+            yesNolist.append(False)
+        else:
+            yesNolist.append(True)
+
+    print("***************")
+    print(yesNolist)
+
+
+    if request.method == "GET":
+        searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
+         #@login_required()
+        project_ids = [p.id for p in searched_project.qs]
+        project_details = Project.objects.filter(id__in=project_ids)
+        NameOfProject= [p.project_name for p in searched_project.qs]
+        camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+        camp_partner = camp_part_user[0].campus_partner
+         #
+        search_project_filtered = SearchProjectFilter(request.GET)
+        #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
+        #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
+        #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
+        #print(project_details)
+        # print(form.errors)
+        # if form.is_valid():
+        #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
+        #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
+        #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
+    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
+
+
+def SearchForProjectAdd(request,pk):
+    foundProject = None
+    names = []
+    for project in Project.objects.all():
+        names.append(project.project_name)
+
+    campusUserProjectsNames = []
+    campusPartnerProjects = ProjectCampusPartner.objects.all()
+    for project in ProjectCampusPartner.objects.all():
+        campusUserProjectsNames.append(project.project_name)
+
+    for project in Project.objects.all():
+        if project.pk == int(pk):
+            foundProject = project
+
+    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
+    object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
+    object.save()
+    return redirect("proj_view_user")

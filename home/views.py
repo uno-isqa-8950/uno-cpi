@@ -1,28 +1,44 @@
-from django.db import connection
+import json
+from django.db.models import Count, Q
+from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
-from home.decorators import campuspartner_required
-from .models import *
-from university.models import *
-from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, CommunityPartnerMission
-from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner
-from .forms import UserForm, CampusPartnerUserForm, \
-    CommunityPartnerUserForm, UploadProjectForm, UploadCommunityForm, UploadCampusForm, \
-    UploadProjectCommunityForm, UploadProjectCampusForm, UploadCollege, UploadDepartment, \
-    UploadProjectMissionForm, UserForm1
+from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.urls import reverse
+from home.decorators import campuspartner_required
+# CSV, OrderedDict are used for uploading the data
 import csv
 from collections import OrderedDict
-from django.contrib import messages
+# importing models in home views.py
+from .models import *
+from university.models import *
+from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, \
+    CommunityPartnerMission
+from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectMission, \
+    ProjectCommunityPartner
+# importing filters in home views.py, used for adding filter
+from .filters import *
+# aggregating function
+from django.db.models import Sum
+# importing forms into home views.py
+from .forms import *
 
 
 def home(request):
     return render(request, 'home/base_home.html',
                   {'home': home})
 
-def about(request):
-    return render(request, 'home/okMap.html',
+def map(request):
+    return render(request, 'home/testnew.html',
                   {'map': map})
+
+def k12map(request):
+    return render(request, 'home/k12.html',
+                  {'k12map': k12map})
+
+def projectmap(request):
+    return render(request, 'home/projectmap.html',
+                  {'projectmap': projectmap})
 
 def cpipage(request):
     return render(request, 'home/CpiHome.html',
@@ -72,7 +88,6 @@ def registerCampusPartnerUser(request):
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
 
 
-
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
     user_form = UserForm1()
@@ -96,6 +111,7 @@ def registerCommunityPartnerUser(request):
                   'home/registration/community_partner_user_register.html',
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
 
+# uploading the projects data via csv file
 
 
 def upload_project(request):
@@ -133,6 +149,8 @@ def upload_project(request):
                         form_mission.save()
     return render(request, 'import/uploadProjectDone.html')
 
+# uploading the community data via csv file
+
 
 def upload_community(request):
     if request.method == 'GET':
@@ -151,6 +169,8 @@ def upload_community(request):
             if form.is_valid():
                 form.save()
     return render(request, 'import/uploadCommunityDone.html')
+
+# uploading the campus data via csv file
 
 
 def upload_campus(request):
@@ -178,3 +198,108 @@ def upload_campus(request):
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
+
+# (14) Mission Summary Report: filter by Semester, EngagementType
+
+
+def project_partner_info(request):
+    missions = MissionArea.objects.all()
+    mDict = {}
+    mList = []
+    for m in missions:
+        f = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in f.qs]
+        mDict['mission_name'] = m.mission_name
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+        community_list = [c.community_partner_id for c in p_community]
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
+            filter(community_partner_id__in=community_list).count()
+        mDict['project_count'] = project_count
+        mDict['community_count'] = community_count
+        total_uno_students = 0
+        total_uno_hours = 0
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids)
+        for pm in p_mission:
+            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+        mDict['total_uno_hours'] = total_uno_hours
+        mDict['total_uno_students'] = total_uno_students
+        mList.append(mDict.copy())
+    return render(request, 'reports/14ProjectPartnerInfo.html',
+                  {'filter': f, 'mList': mList})
+
+# (15) Engagement Summary Report: filter by Semester, MissionArea
+
+
+def engagement_info(request):
+    engagements = EngagementType.objects.all()
+    eDict = {}
+    eList = []
+    for e in engagements:
+        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
+        project_mission_ids = [p.id for p in missions_filter.qs]
+        # print(project_mission_ids)
+        project_semester_ids = [p.id for p in semester_filter.qs]
+        # print(project_semester_ids)
+        filtered_project_list = list(set(project_mission_ids) | set(project_semester_ids))
+        eDict['engagement_name'] = e.name
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        eDict['project_count'] = project_count
+        print(project_count)
+        total_uno_students = 0
+        total_uno_hours = 0
+        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        for p in projects:
+            uno_students = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_hours'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+        eDict['total_uno_hours'] = total_uno_hours
+        eDict['total_uno_students'] = total_uno_students
+        eList.append(eDict.copy())
+    return render(request, 'reports/15EngagementTypeReport.html',
+                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList})
+
+
+#Report for projects with mission areas
+def projectreport(request):
+    mission_name = ProjectMission.objects \
+        .values('mission') \
+        .annotate(mission_type_count=Count('mission', filter=Q(mission_type='Primary')),
+                  ) \
+        .order_by('mission')
+    print(mission_name)
+
+    mission_area = list()
+    project_count_series_data = list()
+
+    print(mission_area)
+    print(project_count_series_data)
+    for entry in mission_name:
+        mission_area.append('%s Mission' % entry['mission'])
+        project_count_series_data.append(entry['mission_type_count'])
+
+        project_count_series = {
+        'name': 'Project Count',
+        'data': project_count_series_data,
+        'color': 'turquoise'
+    }
+
+    chart = {
+        'chart': {'type': 'column'},
+        'title': {'text': 'Projects in different Mission Areas'},
+        'xAxis': {'mission': mission_area},
+        'series': [project_count_series]
+    }
+
+    dump = json.dumps(chart)
+    print(dump)
+    print("hello")
+    return render(request, 'reports/projectreport.html',
+                  {'chart': dump})
+
+

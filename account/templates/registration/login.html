@@ -15,6 +15,8 @@
 	color: red;
 }
 
+
+
 @media (max-width: 700px)
 {
 h4
@@ -24,51 +26,43 @@ font-size:1.3em
 }
 
 
-@media (min-width: 700px)
-{
-.panel
-{
-	width: 320px;
-	margin-left: auto;
-	margin-right:auto;
-	margin-top:100px;
-	height: 300px;
-	font-family: Helvetica;
-	box-shadow: 5px 10px 10px 5px grey;
-}
-
-}
-
-
-
-
 </style>
 
-	<div class="container ">
-
-	<div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Login</h4></div>
-		<div class="panel-body">
-
-    <div class="login-form">
-		<form action='.' method="post">
-            {% csrf_token %}
-             <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
-			<input class="input" type="text" name="username"   placeholder="Username" />
-
-			<br>
 
 
-			<input class="input" type="password" name="password" placeholder="Password"/><br>
+<div class="container ">
+	{% for message in messages %}
+        <div class="alert alert-danger">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+        {{ message }}
+        </div>
+    {% endfor %}
+    <div class ="row justify-content-md-center">
+        <div class="col-xl-4 col-md-6">
+	        <div class = "panel panel-default">
+		        <div class="panel-heading text-center"><h4>Login</h4></div>
+	    	        <div class="panel-body">
 
+                        <div class="login-form">
+                            <form action='.' method="post">
+                            {% csrf_token %}
+							<label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
+			                <input class="input" type="email" name="email"  placeholder="Email" required>
+            			    <br>
+            			    <input class="input" type="password" name="password" placeholder="Password" required><br>
 
-            <p><button type="submit" class="btn btn-custom">Submit</button></p>
-            			<a href='/password_reset/' class="forget">Forgot Password?</a><br><br>
+                            <p><button type="submit" class="btn btn-custom">Login</button></p>
+            			    <a href='/password_reset/' class="forget">Forgot Password?</a><br><br>
 
-		</form>
-		</div>
-		</div>
-	</div></div>
+		                    </form>
+           	            </div>
+	                </div>
+                </div>
+        </div>
+
+    </div>
+</div>
+
 <br>
 <br>
 <br><br><br><br>

@@ -31,6 +31,11 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
             'total_hours': ('Community Hours'),
             'total_people':('Community Volunteer'),
         }
+        widgets = {
+
+            'wages': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 70}),
+
+        }
 
 
 class ProjectForm2(ModelForm):
@@ -56,6 +61,8 @@ class ProjectCommunityPartnerForm2(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
         fields = ('community_partner','total_hours','total_people','wages',)
+
+
 
 class ProjectCampusPartnerForm(ModelForm):
     class Meta:
@@ -87,3 +94,15 @@ class ProjectMissionFormset(forms.ModelForm):
             'mission_type': ('Select mission type'),
             'mission': ('Select mission'),
                     }
+
+class ProjectSearchForm(forms.ModelForm):
+    class Meta:
+        model = Project
+        fields = ('project_name',)
+        labels = {
+            'project_name':('Project Name'),
+         }
+     # def __init__(self, *args, **kwargs):
+    #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
+    #     self.fields['project_name'].widget = forms.TextInput(attrs={
+    #         'id': 'id_project_name'})

@@ -8,11 +8,11 @@ class Project (models.Model):
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField()
-    semester = models.CharField(max_length=255)
+    semester = models.ForeignKey('Semester', on_delete=models.CASCADE, null=True)
     total_uno_students = models.IntegerField()
-    total_uno_hours = models.CharField(max_length=20)
+    total_uno_hours = models.IntegerField()
     total_k12_students = models.IntegerField(null=True, blank=False)
-    total_k12_hours = models.CharField(max_length=10)
+    total_k12_hours = models.IntegerField()
     total_uno_faculty = models.IntegerField(blank=True, null=True)
     total_other_community_members = models.IntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
@@ -40,7 +40,6 @@ class Project (models.Model):
         self.updated_date = timezone.now()
         self.save()
 
-
     def __str__(self):
         return str(self.project_name)
 
@@ -52,7 +51,7 @@ class ProjectMission (models.Model):
         ('Other', 'Other'),
     )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
-    mission_type = models.CharField(max_length=20,choices=mission_choices)
+    mission_type = models.CharField(max_length=20, choices=mission_choices)
     mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -62,8 +61,8 @@ class ProjectMission (models.Model):
 class ProjectCommunityPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
-    total_hours = models.IntegerField(blank=True,null=True)
-    total_people = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True, null=True)
+    total_people = models.IntegerField(blank=True, null=True)
     wages = models.IntegerField(default=22)
 
     def __str__(self):
@@ -73,9 +72,9 @@ class ProjectCommunityPartner (models.Model):
 class ProjectCampusPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
-    total_hours = models.IntegerField(blank=True,null=True)
-    total_people = models.IntegerField(blank=True,null=True)
-    wages = models.IntegerField(blank=True,null=True)
+    total_hours = models.IntegerField(blank=True, null=True)
+    total_people = models.IntegerField(blank=True, null=True)
+    wages = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return str(self.project_name)
@@ -83,7 +82,7 @@ class ProjectCampusPartner (models.Model):
 
 class Status(models.Model):
     name = models.CharField(max_length=80, unique=True)
-    description = models.CharField(max_length=255 , unique=True)
+    description = models.CharField(max_length=255)
 
     def __str__(self):
         return str(self.name)
@@ -103,3 +102,12 @@ class ActivityType(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Semester(models.Model):
+    semester = models.CharField(max_length=20, unique=True)
+    description = models.CharField(max_length=255)
+
+    def __str__(self):
+        return str(self.semester)
+

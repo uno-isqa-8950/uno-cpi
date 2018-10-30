@@ -1,4 +1,3 @@
-import csv
 import json
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
@@ -6,18 +5,23 @@ from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.urls import reverse
-from collections import OrderedDict
-from django.db.models import Sum
 from home.decorators import campuspartner_required
+# CSV, OrderedDict are used for uploading the data
+import csv
+from collections import OrderedDict
+# importing models in home views.py
 from .models import *
-from .forms import *
 from university.models import *
 from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, \
     CommunityPartnerMission
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectMission, \
     ProjectCommunityPartner
+# importing filters in home views.py, used for adding filter
 from .filters import *
-
+# aggregating function
+from django.db.models import Sum
+# importing forms into home views.py
+from .forms import *
 
 
 def home(request):
@@ -113,6 +117,8 @@ def registerCommunityPartnerUser(request):
                   'home/registration/community_partner_user_register.html',
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
 
+# uploading the projects data via csv file
+
 
 def upload_project(request):
     if request.method == 'GET':
@@ -149,6 +155,9 @@ def upload_project(request):
                         form_mission.save()
     return render(request, 'import/uploadProjectDone.html')
 
+# uploading the community data via csv file
+
+
 def upload_community(request):
     if request.method == 'GET':
         download_community_url = '/media/community_sample.csv'
@@ -166,6 +175,8 @@ def upload_community(request):
             if form.is_valid():
                 form.save()
     return render(request, 'import/uploadCommunityDone.html')
+
+# uploading the campus data via csv file
 
 
 def upload_campus(request):
@@ -194,6 +205,8 @@ def upload_campus(request):
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
 
+# (14) Mission Summary Report: filter by Semester, EngagementType
+
 
 def project_partner_info(request):
     missions = MissionArea.objects.all()
@@ -213,9 +226,6 @@ def project_partner_info(request):
         total_uno_students = 0
         total_uno_hours = 0
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids)
-        # pids = [pm.project_name_id for pm in p_mission]
-        # uno_students1 = Project.objects.filter(id__in=p_mission).aggregate(Sum('total_uno_students'))
-        # print(uno_students1)
         for pm in p_mission:
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
@@ -227,43 +237,41 @@ def project_partner_info(request):
     return render(request, 'reports/14ProjectPartnerInfo.html',
                   {'filter': f, 'mList': mList})
 
+# (15) Engagement Summary Report: filter by Semester, MissionArea
+
 
 def engagement_info(request):
     engagements = EngagementType.objects.all()
     eDict = {}
     eList = []
     for e in engagements:
-        f = ProjectFilter(request.GET, queryset=Project.objects.all())
-        proj_ids = [p.id for p in f.qs]
+        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
+        project_mission_ids = [p.id for p in missions_filter.qs]
+        # print(project_mission_ids)
+        project_semester_ids = [p.id for p in semester_filter.qs]
+        # print(project_semester_ids)
+        filtered_project_list = list(set(project_mission_ids) | set(project_semester_ids))
         eDict['engagement_name'] = e.name
-        # project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
-        # p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
-        # community_list = [c.community_partner_id for c in p_community]
-        # community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
-        #     filter(community_partner_id__in=community_list).count()
-        # mdict['project_count'] = project_count
-        # mdict['community_count'] = community_count
-        # total_uno_students = 0
-        # total_uno_hours = 0
-        # p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids)
-        # pids = [pm.project_name_id for pm in p_mission]
-        # uno_students1 = Project.objects.filter(id__in=p_mission).aggregate(Sum('total_uno_students'))
-        # print(uno_students1)
-        # for pm in p_mission:
-        #     uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
-        #     uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
-        #     total_uno_students += uno_students['total_uno_students__sum']
-        #     total_uno_hours += uno_hours['total_uno_hours__sum']
-        # mdict['total_uno_hours'] = total_uno_hours
-        # mdict['total_uno_students'] = total_uno_students
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        eDict['project_count'] = project_count
+        print(project_count)
+        total_uno_students = 0
+        total_uno_hours = 0
+        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        for p in projects:
+            uno_students = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_hours'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+        eDict['total_uno_hours'] = total_uno_hours
+        eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
-    return render(request, 'reports/15EngagementType.html',
-                  {'filter': f, 'eList': eList})
-
+    return render(request, 'reports/15EngagementTypeReport.html',
+                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList})
 
 
 #Report for projects with mission areas
-
 def projectreport(request):
     mission_name = ProjectMission.objects \
         .values('mission') \

@@ -16,6 +16,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
@@ -146,6 +147,23 @@ margin-top:15px;
           border-right: 1px solid rgba(0, 0, 0, 0.25);
         }
 
+        .sidebar fieldset {
+            background: #ddd;
+            border: none;
+            padding: 10px;
+            margin: 0;
+            {#width: 100%;#}
+	    }
+
+	    .sidebar input {
+            display: block;
+            border: none;
+            width: 100%;
+            border-radius: 3px;
+            padding: 10px;
+            margin: 0;
+	    }
+
 
         .map {
           position: absolute;
@@ -262,10 +280,10 @@ margin-top:15px;
           border-bottom-color: #91c949;
         }
         .filter{
+
 			position: absolute;
 			left: 83%;
 			top: 390px;
-			margin-left:40px;
 		}
 		.selectType{
             left: 80%;
@@ -276,17 +294,15 @@ margin-top:15px;
 
 		}
 		.selectYear{
-          margin-left: 0px;
+          left: 0;
           right: 150px;
           top: 0px;
           bottom: 300px;
           width: 100px
 
 		}
-
-
 		.legend {
-		    margin-top:50px;
+		    margin-top:20px;
 			background-color: #fff;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -334,17 +350,15 @@ margin-top:15px;
 			border-radius: 3px;
 			height: 70px;
 		}
-
-		input[type=text]
-		{
-		width:70%;
-		margin-left:65px;
-		}
     </style>
+
     <div class='sidebar'>
         <div class='heading'>
             <h1>K-12 Partners</h1>
         </div>
+        <fieldset>
+			<input id='valueFilter' type='text' placeholder='Filter results by name' />
+		</fieldset>
         <div id='listings' class='listings'></div>
     </div>
     <div id='map' class='map'></div>

@@ -406,16 +406,16 @@ map.on('load', function(e) {
 		}
 	});
 
-    //监听按钮按下后起来
+    //press the listening button
 	valueFilter.addEventListener("keyup",function(e){
-		//获取输入框的值
+		//get the input value 
 		var value=e.target.value.trim().toLowerCase();
 
 		if(value==""){
 			renderListings([]);
 
 		}else{
-			//获取在地图中geojosn数据
+			//get geojosn data from the map
 			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
 			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
 			var cmValues3=map.queryRenderedFeatures({layers:['show3']});
@@ -423,7 +423,7 @@ map.on('load', function(e) {
 			var cmValues5=map.queryRenderedFeatures({layers:['show5']});
 			var cmValues6=map.queryRenderedFeatures({layers:['show6']});
 
-			//筛选名字中包含输入框值得数据
+			//filter the name(s) that include the input value
 			var filtered1=cmValues1.filter(function(feature){
 				var name=normalize(feature.properties.CommunityPartner);
 				return name.indexOf(value)==0;

@@ -57,7 +57,18 @@ var k12Datas = "";
 
 $.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Datas = jQuery.parseJSON(data);
+
+    //对geojson数据进行设置，方便后面search
+    var features=k12Datas["features"];
+	var count=0;
+	features.forEach(function(feature){
+		feature.properties["id"]=count;
+		count++;
+	});
+	k12Datas["features"]=features;
 })
+
+
 $.get("static/GEOJSON/ID2.geojson", function(data) { //load JSON file from static/GEOJSON
     districtData = jQuery.parseJSON(data);
 })
@@ -155,7 +166,7 @@ map.on('load', function(e) {
         }
 
     });
-    buildLocationList(k12Datas); //add K12 partners to the left-hand sidebar
+    // buildLocationList(k12Datas); //add K12 partners to the left-hand sidebar
     //******************************Add an event when clicking on each item on the left-hand sidebar**********************************
 
     map.on('click', function(e) {
@@ -178,8 +189,8 @@ map.on('load', function(e) {
             // Find the index of the store.features that corresponds to the clickedPoint that fired the event listener
             var selectedFeature = clickedPoint.properties['Address'];
 
-            for (var i = 0; i < communityData.features.length; i++) {
-                if (communityData.features[i].properties['Address'] === selectedFeature) {
+            for (var i = 0; i < k12Datas.features.length; i++) {
+                if (k12Datas.features[i].properties['Address'] === selectedFeature) {
                     selectedFeatureIndex = i;
                 }
             }
@@ -239,6 +250,7 @@ map.on('load', function(e) {
 
 
     //******************************Search Legislative District**********************************
+    var filterInput = document.getElementById('filter-input');
     filterInput.addEventListener('keyup', function(e) {
         // If the input value matches a layerID set
         // it's visibility to 'visible' or else hide it.
@@ -248,7 +260,132 @@ map.on('load', function(e) {
                 layerID.indexOf(value) > -1 ? 'visible' : 'none');
         });
     });
+
+    //**********************************search**********************************************
+    var valueFilter=document.getElementById("valueFilter");
+	var listings=document.getElementById('listings');
+    	//监听按钮按下
+	valueFilter.addEventListener("keydown",function(e){
+		if(e.keyCode==8){
+			map.setFilter("show1",["==", "Level", "Elementary"]);
+			map.setFilter("show2",["==", "Level", "Secondary"]);
+
+		}
+	});
+
+    //监听按钮按下后起来
+	valueFilter.addEventListener("keyup",function(e){
+		//获取输入框的值
+		var value=e.target.value.trim().toLowerCase();
+		console.log(value);
+
+		if(value==""){
+			renderListings([]);
+
+		}else{
+			//获取在地图中geojosn数据
+			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
+			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
+
+
+			//筛选名字中包含输入框值得数据
+			var filtered1=cmValues1.filter(function(feature){
+				var name=normalize(feature.properties["K-12 Partner"]);
+				return name.indexOf(value)==0;
+			});
+			var filtered2=cmValues2.filter(function(feature){
+				var name=normalize(feature.properties["K-12 Partner"]);
+				return name.indexOf(value)==0;
+			});
+
+
+			filtereds=filtered1.concat(filtered2);
+
+			renderListings(filtereds);
+
+
+			if(filtered1.length>0){
+				map.setFilter("show1",['match',['get','id'],filtered1.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show1",['match',['get','id'],-1,true,false]);
+			}
+			if(filtered2.length>0){
+				map.setFilter("show2",['match',['get','id'],filtered2.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show2",['match',['get','id'],-1,true,false]);
+			}
+
+		}
+	});
+
+
+
 });
+
+//***************************************search function******************************************************
+function normalize(string) {
+	return string.trim().toLowerCase();
+}
+
+function renderListings(features){
+	listings.innerHTML = '';
+
+	if (features.length) {
+		var i=0;
+		features.forEach(function(feature) {
+			listings.style.display = 'block';
+
+			var prop = feature.properties;
+			var description = parseDescription(prop);
+
+			var listing = listings.appendChild(document.createElement('div'));
+			listing.className = 'item';
+			listing.id = 'listing-' + i;
+
+			var link = listing.appendChild(document.createElement('a'));
+			link.href = '#';
+			link.className = 'title';
+			link.dataPosition = i;
+			link.innerHTML = prop["K-12 Partner"];
+            link.addEventListener('click', function(e) {
+                // Update the currentFeature to the store associated with the clicked link
+                var clickedListing = features[this.dataPosition];
+                // 1. Fly to the point associated with the clicked link
+                flyToStore(clickedListing);
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(clickedListing);
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+                if (activeItem[0]) {
+                    activeItem[0].classList.remove('active');
+                }
+                this.parentNode.classList.add('active');
+            });
+
+
+			var details = listing.appendChild(document.createElement('div'));
+			details.innerHTML = description;
+			i++;
+		});
+
+    } else {
+    	var empty = document.createElement('p');
+    	empty.textContent = 'Drag the map to populate results';
+    	listings.appendChild(empty);
+
+        listings.style.display = 'none';
+
+
+    }
+}
+
+
 //******************************Show a marker when clicking on the list on the left hand side**********************************
 function buildLocationList(data) {
     // Iterate through the list of stores

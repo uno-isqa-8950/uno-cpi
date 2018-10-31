@@ -10,10 +10,18 @@ from partners.models import *
 from home.models import Contact as ContactModel, Contact, User, MissionArea
 from home.forms import userUpdateForm
 from django.template.loader import render_to_string
+from university.models import *
 
 
 def registerCampusPartner(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
+    colleges = []
+    for object in College.objects.order_by().distinct('college_name'):
+        colleges.append(object.college_name)
+    departmnts=[]
+    for object in Department.objects.order_by().distinct('department_name'):
+        departmnts.append(object.department_name)
+
     if request.method == 'POST':
         campus_partner_form = CampusPartnerForm(request.POST)
 
@@ -30,7 +38,8 @@ def registerCampusPartner(request):
     else:
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-    return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form, 'formset': formset})
+    return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form, 'formset': formset,
+    'colleges':colleges,'departments':departmnts})
 
 
 def registerCommunityPartner(request):
@@ -237,4 +246,3 @@ def orgProfileUpdate(request):
                           'partners/campus_partner_org_update.html', {'campus_org_form': campus_org_form,
                           'contacts_form': contacts_form
                           })
-

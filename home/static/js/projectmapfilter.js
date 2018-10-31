@@ -46,7 +46,8 @@ function parseDescription(message) {
             var website = message[i];
             var base = "http://";
             if (website === null || website == "null" || website == "") {
-                string += '<span style="font-weight:bold">' + i + '</span>' + " : " + message[i] + "<br>";
+            $website.hide();
+//                string += '<span style="font-weight:bold">' + i + '</span>' + " : " + message[i] + "<br>";
             } else if (!website.includes("http")) {
                 website = base.concat(website);
                 string += `<span style="font-weight:bold">${i}</span> : <a target="_blank" href="${website}" class="popup">${website}</a><br>`;
@@ -327,6 +328,246 @@ map.on("load", function() {
         })
 
     })
+//************************************Search Project ******************************
+
+    var valueFilter=document.getElementById("valueFilter");
+	var listings=document.getElementById('listings');
+
+
+	valueFilter.addEventListener("keydown",function(e){
+		if(e.keyCode==8){
+			map.setFilter("show1",["==", "ProjectMission", "Social Justice"]);
+			map.setFilter("show2",["==", "ProjectMission", "Educational Support"]);
+			map.setFilter("show3",["==", "ProjectMission", "Economic Sufficiency"]);
+			map.setFilter("show4",["==", "ProjectMission", "International Service"]);
+			map.setFilter("show5",["==", "ProjectMission", "Environmental Stewardship"]);
+			map.setFilter("show6",["==", "ProjectMission", "Health & Wellness"]);
+		}
+	});
+
+
+	valueFilter.addEventListener("keyup",function(e){
+
+		var value=e.target.value.trim().toLowerCase();
+
+		if(value==""){
+			renderListings([]);
+
+		}else{
+
+			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
+			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
+			var cmValues3=map.queryRenderedFeatures({layers:['show3']});
+			var cmValues4=map.queryRenderedFeatures({layers:['show4']});
+			var cmValues5=map.queryRenderedFeatures({layers:['show5']});
+			var cmValues6=map.queryRenderedFeatures({layers:['show6']});
+
+
+			var filtered1=cmValues1.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+			var filtered2=cmValues2.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+			var filtered3=cmValues3.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+			var filtered4=cmValues4.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+			var filtered5=cmValues5.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+			var filtered6=cmValues6.filter(function(feature){
+				var name=normalize(feature.properties.ProjectName);
+				return name.indexOf(value)==0;
+			});
+
+			filtereds=filtered1.concat(filtered2,filtered3,filtered4,filtered5,filtered6);
+
+			renderListings(filtereds);
+
+
+			if(filtered1.length>0){
+				map.setFilter("show1",['match',['get','id'],filtered1.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show1",['match',['get','id'],-1,true,false]);
+			}
+			if(filtered2.length>0){
+				map.setFilter("show2",['match',['get','id'],filtered2.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show2",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered3.length>0){
+				map.setFilter("show3",['match',['get','id'],filtered3.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show3",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered4.length>0){
+				map.setFilter("show4",['match',['get','id'],filtered4.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show4",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered5.length>0){
+				map.setFilter("show5",['match',['get','id'],filtered5.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show5",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered6.length>0){
+				map.setFilter("show6",['match',['get','id'],filtered6.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show6",['match',['get','id'],-1,true,false]);
+			}
+		}
+	});
+    //******************************Show a marker when clicking on the list on the left hand side**********************************
+function buildLocationList(data) {
+    // Iterate through the list of stores
+    for (i = 0; i < data.features.length; i++) {
+        var currentFeature = data.features[i];
+        // Shorten data.feature.properties to just `prop` so we're not
+        // writing this long form over and over again.
+        var prop = currentFeature.properties;
+        var description = parseDescription(prop);
+        // Select the listing container in the HTML and append a div
+        // with the class 'item' for each store
+        var listings = document.getElementById('listings');
+        var listing = listings.appendChild(document.createElement('div'));
+        listing.className = 'item';
+        listing.id = 'listing-' + i;
+
+        // Create a new link with the class 'title' for each store
+        // and fill it with the store address
+        var link = listing.appendChild(document.createElement('a'));
+        link.href = '#';
+        link.className = 'title';
+        link.dataPosition = i;
+        link.innerHTML = prop['CommunityPartner'];
+        var details = listing.appendChild(document.createElement('div'));
+        details.innerHTML = description;
+
+        link.addEventListener('click', function(e) {
+            // Update the currentFeature to the store associated with the clicked link
+            var clickedListing = data.features[this.dataPosition];
+            // 1. Fly to the point associated with the clicked link
+            flyToStore(clickedListing);
+            // 2. Close all other popups and display popup for clicked store
+            createPopUp(clickedListing);
+            // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+            var activeItem = document.getElementsByClassName('active');
+            if (activeItem[0]) {
+                activeItem[0].classList.remove('active');
+            }
+            this.parentNode.classList.add('active');
+        });
+
+    }
+}
+//******************************Create a flying effect and popup**********************************
+
+function flyToStore(currentFeature) {
+    map.flyTo({
+        center: currentFeature.geometry.coordinates,
+        zoom: 15
+    });
+}
+
+function createPopUp(currentFeature) {
+
+    var popUps = document.getElementsByClassName('mapboxgl-popup');
+    // Check if there is already a popup on the map and if so, remove it
+    if (popUps[0]) popUps[0].remove();
+
+    new mapboxgl.Popup().setLngLat(currentFeature.geometry.coordinates)
+        .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
+            '<h4>' + currentFeature.properties['Address'] + '</h4>')
+        .addTo(map);
+    close();
+}
+
+//***********************************search function*****************************************************
+function normalize(string) {
+	return string.trim().toLowerCase();
+}
+
+function renderListings(features){
+	listings.innerHTML = '';
+
+	if (features.length) {
+		var i=0;
+		features.forEach(function(feature) {
+			listings.style.display = 'block';
+
+			var prop = feature.properties;
+			var description = parseDescription(prop);
+
+			var listing = listings.appendChild(document.createElement('div'));
+			listing.className = 'item';
+			listing.id = 'listing-' + i;
+
+			var link = listing.appendChild(document.createElement('a'));
+			link.href = '#';
+			link.className = 'title';
+			link.dataPosition = i;
+			link.innerHTML = prop.CommunityPartner;
+            link.addEventListener('click', function(e) {
+                // Update the currentFeature to the store associated with the clicked link
+                var clickedListing = features[this.dataPosition];
+                // 1. Fly to the point associated with the clicked link
+                flyToStore(clickedListing);
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(clickedListing);
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+                if (activeItem[0]) {
+                    activeItem[0].classList.remove('active');
+                }
+                this.parentNode.classList.add('active');
+            });
+
+
+			var details = listing.appendChild(document.createElement('div'));
+			details.innerHTML = description;
+			i++;
+		});
+
+    } else {
+    	var empty = document.createElement('p');
+    	empty.textContent = 'Drag the map to populate results';
+    	listings.appendChild(empty);
+
+        listings.style.display = 'none';
+
+
+    }
+}
 
     //******************************Search Legislative District**********************************
     filterInput.addEventListener('keyup', function(e) {

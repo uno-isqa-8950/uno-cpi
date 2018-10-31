@@ -58,7 +58,7 @@ var k12Datas = "";
 $.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Datas = jQuery.parseJSON(data);
 
-    //对geojson数据进行设置，方便后面search
+    //set geojson for search
     var features=k12Datas["features"];
 	var count=0;
 	features.forEach(function(feature){
@@ -264,7 +264,7 @@ map.on('load', function(e) {
     //**********************************search**********************************************
     var valueFilter=document.getElementById("valueFilter");
 	var listings=document.getElementById('listings');
-    	//监听按钮按下
+    	//press the listening button
 	valueFilter.addEventListener("keydown",function(e){
 		if(e.keyCode==8){
 			map.setFilter("show1",["==", "Level", "Elementary"]);
@@ -273,9 +273,9 @@ map.on('load', function(e) {
 		}
 	});
 
-    //监听按钮按下后起来
+    //Listenning button off
 	valueFilter.addEventListener("keyup",function(e){
-		//获取输入框的值
+		//get the value in the search box
 		var value=e.target.value.trim().toLowerCase();
 		console.log(value);
 
@@ -283,12 +283,12 @@ map.on('load', function(e) {
 			renderListings([]);
 
 		}else{
-			//获取在地图中geojosn数据
+			//get geojosn from the map
 			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
 			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
 
 
-			//筛选名字中包含输入框值得数据
+			//filter the name that has the input value
 			var filtered1=cmValues1.filter(function(feature){
 				var name=normalize(feature.properties["K-12 Partner"]);
 				return name.indexOf(value)==0;

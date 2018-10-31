@@ -394,7 +394,7 @@ map.on('load', function(e) {
     var valueFilter=document.getElementById("valueFilter");
 	var listings=document.getElementById('listings');
 
-	//监听按钮按下
+	//Press the listening button
 	valueFilter.addEventListener("keydown",function(e){
 		if(e.keyCode==8){
 			map.setFilter("show1",["==", "PrimaryMissionFocus", "Social Justice"]);
@@ -406,7 +406,7 @@ map.on('load', function(e) {
 		}
 	});
 
-    //press the listening button
+    // the listening button off
 	valueFilter.addEventListener("keyup",function(e){
 		//get the input value 
 		var value=e.target.value.trim().toLowerCase();

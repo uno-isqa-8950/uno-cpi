@@ -1,11 +1,12 @@
 /* Font color, size, type */
 
-
+@media (min-width:900px)
+{
 .navbar
 {
 padding: .1rem 1rem;
 }
-
+}
 
 .navbar-brand
 {
@@ -96,4 +97,10 @@ font-size:18px;
 .navbar-nav i
 {
 padding:0px 8px;
+}
+
+
+#pic
+{
+padding: 0px 8px;
 }

@@ -2,42 +2,55 @@
 {% block content %}
   <div id="container"></div>
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
-  <script>
-    Highcharts.chart('container', {
-        chart: {
-            type: 'column'
-        },
-        title: {
-            text: 'CPI Projects by mission areas'
-        },
-        xAxis: {
-            categories: ['Education', 'Social', 'Health', 'Educational Support', 'Food']
-        },
-        series: [ {
-            name: 'Number of Projects for Mission Areas',
-            data: [100, 20, 150, 50, 38]
-        }]
-    });
-  </script>
-{#<script>#}
-{#    Highcharts.chart('container', {#}
-{#        chart: {#}
-{#            type: 'column'#}
-{#        },#}
-{#        title: {#}
-{#            text: 'CPI Projects by mission areas'#}
-{#        },#}
-{#        xAxis: {#}
-{#          categories: {{ mission_area|safe }}#}
-{#      },#}
-{#        series: [ {#}
-{#            name: 'Mission Areas',#}
-{#            data: {{ project_count }}#}
-{#        }]#}
-{#    });#}
-{#  </script>#}
 <script>
-     Highcharts.chart('container', {{ chart|safe }});
+  Highcharts.chart('container', {
+      chart: {
+          type: 'bar'
+      },
+      title: {
+          text: 'Number of Projects and Community Partners by Mission Area'
+      },
+      xAxis: {
+          categories: {{ mission|safe }}
+      },
+      yAxis: {
+        min: 0,
+        title: {
+            text: 'Count',
+            align: 'middle'
+        },
+        labels: {
+            overflow: 'justify'
+        }
+    },
+
+      legend: {
+        layout: 'vertical',
+        align: 'right',
+        verticalAlign: 'top',
+        x: -40,
+        y: 80,
+        floating: true,
+        borderWidth: 1,
+        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+        shadow: true
+    },
+
+      series: [{
+          name: 'Count of Projects ',
+          data: {{ project_count_series }},
+          color: 'turquoise'
+      }, {
+          name: 'Count of Community Partners',
+          data: {{ partner_count_series }},
+          color: 'teal'
+      }]
+  });
 </script>
+{#    <script>#}
+{#   #}
+{#        Highcharts.chart('container', {{ chart|safe }});#}
+{#    </script>#}
 
 {% endblock %}
+

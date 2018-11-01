@@ -1,6 +1,16 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
+    <div class="container">
+    <br>
+    <form action="" method="get">
+            {{ filter.form.as_p }}
+        <input type="submit" class="btn btn-outline-info btn.sm "  value="Search" />
+    </form>
+
+    </div>
+
   <div id="container"></div>
+
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
 <script>
   Highcharts.chart('container', {
@@ -19,9 +29,7 @@
             text: 'Count',
             align: 'middle'
         },
-        labels: {
-            overflow: 'justify'
-        }
+
     },
 
       legend: {

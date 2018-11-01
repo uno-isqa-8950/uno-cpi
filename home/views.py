@@ -280,8 +280,8 @@ def missionchart(request):
     partner_count_series_data = list()
 
     for m in missions:
-        f = Project.objects.all()
-        proj_ids = [p.id for p in f]
+        f = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in f.qs]
         mission_area1.append(m.mission_name)
 
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
@@ -295,41 +295,16 @@ def missionchart(request):
     print(mission_area1)
     print(partner_count_series_data)
     print(project_count_series_data)
-##   Chart sereis data prep
 
 
-    # for entry in mDict:
-    #     mission_area1.append( mDict['mission_name'])
-    #     project_count_series_data.append(mDict['project_count'],
-    #     partner_count_series_data.append(mDict['community_count'])
-
-    # project_count_series = {
-    #     'name': 'Project Count',
-    #     'data': project_count_series_data,
-    #     'color': 'turquoise'
-    # }
-    #
-    # partner_count_series = {
-    #     'name': 'Partner Count',
-    #     'data':  partner_count_series_data,
-    #     'color': 'turquoise'
-    # }
-    # print(mDict)
-    # chart = {
-    #     'chart': {'type': 'column'},
-    #     'title': {'text': 'Projects in different Mission Areas'},
-    #     'xAxis': {'mission': mission_area1},
-    #     'series': [project_count_series,partner_count_series ]
-    # }
-    #
-    # dump = json.dumps(chart)
-    # print(dump)
-
-    return render(request, 'reports/projectreport.html',
+    return render(request, 'charts/projectreport.html',
                   {
                       'mission': json.dumps(mission_area1),
                       'project_count_series': json.dumps(project_count_series_data),
-                      'partner_count_series': json.dumps(partner_count_series_data)
+                      'partner_count_series': json.dumps(partner_count_series_data),
+                      'filter': f
                   })
+
+
 
 

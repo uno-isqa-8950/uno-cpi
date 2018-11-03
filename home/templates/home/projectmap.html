@@ -104,13 +104,41 @@ margin-top:15px;
 </nav>
 <body>
 	<style>
-		#map{
-			width: 1010px;
-			height: 100%;
-			top: 140px;
-			position: absolute;
-			left: 30px;
-		}
+		.map {
+          position: absolute;
+          left: 20%;
+          width: 61%;
+          right: 19%;
+          top: 15%;
+          bottom: 0;
+          height: 100%;
+        }
+		.sidebar {
+          position: absolute;
+          width: 20%;
+          height: 100%;
+          top: 15%;
+          left: 0;
+          overflow: hidden;
+          border-right: 1px solid rgba(0, 0, 0, 0.25);
+        }
+
+        .sidebar fieldset {
+            background: #ddd;
+            border: none;
+            padding: 10px;
+            margin: 0;
+            width: 100%;
+	    }
+
+	    .sidebar input {
+            display: block;
+            border: none;
+            width: 100%;
+            border-radius: 3px;
+            padding: 10px;
+            margin: 0;
+	    }
 		.h2 {
 			display: block;
 			font-size: 1.7em;
@@ -120,6 +148,36 @@ margin-top:15px;
 			margin-right: 0;
 			font-weight: bold;
 		}
+		        .listings {
+          height: 100%;
+          overflow: auto;
+          padding-bottom: 60px;
+        }
+
+        .listings .item {
+          display: block;
+          border-bottom: 1px solid #eee;
+          padding: 10px;
+          text-decoration: none;
+        }
+
+        .listings .item:last-child { border-bottom: none; }
+
+        .listings .item .title {
+          display: block;
+          color: #00853e;
+          font-weight: 700;
+        }
+
+        .listings .item .title small { font-weight: 400; }
+
+        .listings .item.active .title,
+        .listings .item .title:hover { color: #8cc63f; }
+
+        .listings .item.active {
+          background-color: #f8f8f8;
+        }
+
 		.filter{
 			position: absolute;
 			left: 1290px;
@@ -188,8 +246,17 @@ margin-top:15px;
 		}
 	</style>
 	<div>
-		<div id='map' ></div>
-        <h2 class="h2">Project Map</h2>
+         <div class='sidebar'>
+        <div class='heading'>
+            <h1>&nbsp;Projects</h1>
+        </div>
+        <fieldset>
+			<input id='valueFilter' type='text' placeholder='Search by Project Name' />
+		</fieldset>
+        <div id='listings' class='listings'></div>
+    </div>
+		<div id='map' class='map'></div>
+        <h2 class="h2"> Projects</h2>
 		<div class="filter">
             <h5>Filter by Year</h5>
 			<!--<select id="selectType" name="classify" class="selectType">-->

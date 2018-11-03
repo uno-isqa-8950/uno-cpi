@@ -22,10 +22,11 @@ tr:nth-child(even) {
     <div class="container-fluid" id="align">
         <div class="col-md-10 panel panel-primary">
             <br>
-        <h3>Mission Area : Summary Report </h3>
+        <h3>Engagement Type : Summary Report </h3>
             <br>
         <form action="" method="get">
-            {{ filter.form.as_p }}
+            {{ missions_filter.form.as_p }}
+            {{ semester_filter.form.as_p }}
         <input type="submit" value="Search" />
     </form>
     <!--{% for obj in filter.qs %}-->
@@ -34,20 +35,18 @@ tr:nth-child(even) {
 
 <table style="width:100%">
   <tr>
-    <th>Mission Areas</th>
-    <th>Community Count</th>
+    <th>Engagement Type</th>
     <th>Project Count</th>
     <th>Total UNO Students</th>
     <th>Total UNO Hours</th>
 
   </tr>
-   {% for m in mList %}
+   {% for e in eList %}
         <tr>
-            <td>{{m.mission_name}}</td>
-            <td>{{m.community_count}}</td>
-            <td>{{m.project_count}}</td>
-            <td>{{m.total_uno_students}}</td>
-            <td>{{m.total_uno_hours}}</td>
+            <td>{{e.engagement_name}}</td>
+            <td>{{e.project_count}}</td>
+            <td>{{e.total_uno_students}}</td>
+            <td>{{e.total_uno_hours}}</td>
         </tr>
     {% endfor %}
 </table>

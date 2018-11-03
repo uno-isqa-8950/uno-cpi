@@ -280,8 +280,8 @@ def missionchart(request):
     partner_count_series_data = list()
 
     for m in missions:
-        f = ProjectFilter(request.GET, queryset=Project.objects.all())
-        proj_ids = [p.id for p in f.qs]
+        filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in filter2.qs]
         mission_area1.append(m.mission_name)
 
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
@@ -302,7 +302,7 @@ def missionchart(request):
                       'mission': json.dumps(mission_area1),
                       'project_count_series': json.dumps(project_count_series_data),
                       'partner_count_series': json.dumps(partner_count_series_data),
-                      'filter': f
+                      'filter2': filter2
                   })
 
 

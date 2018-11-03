@@ -1,5 +1,5 @@
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
-from django.forms import ModelForm
+from django.forms import ModelForm, ModelChoiceField
 from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
 from django import forms
 from django.forms import ModelForm
@@ -76,6 +76,7 @@ class StatusForm(ModelForm):
         fields = ('name','description',)
 
 class EngagementTypeForm(ModelForm):
+    name = ModelChoiceField(EngagementType.objects.all(), empty_label=None)
     class Meta:
         model = EngagementType
         fields =('name','description',)

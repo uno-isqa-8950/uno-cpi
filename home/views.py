@@ -271,41 +271,40 @@ def engagement_info(request):
                   {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList})
 
 
-#Report for projects with mission areas
-def projectreport(request):
-    mission_name = ProjectMission.objects \
-        .values('mission') \
-        .annotate(mission_type_count=Count('mission', filter=Q(mission_type='Primary')),
-                  ) \
-        .order_by('mission')
-    print(mission_name)
+#Chart for projects with mission areas
+def missionchart(request):
 
-    mission_area = list()
+    missions = MissionArea.objects.all()
+    mission_area1 = list()
     project_count_series_data = list()
+    partner_count_series_data = list()
 
-    print(mission_area)
+    for m in missions:
+        f = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in f.qs]
+        mission_area1.append(m.mission_name)
+
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+        community_list = [c.community_partner_id for c in p_community]
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id). \
+            filter(community_partner_id__in=community_list).count()
+        project_count_series_data.append(project_count)
+        partner_count_series_data.append(community_count)
+
+    print(mission_area1)
+    print(partner_count_series_data)
     print(project_count_series_data)
-    for entry in mission_name:
-        mission_area.append('%s Mission' % entry['mission'])
-        project_count_series_data.append(entry['mission_type_count'])
 
-        project_count_series = {
-        'name': 'Project Count',
-        'data': project_count_series_data,
-        'color': 'turquoise'
-    }
 
-    chart = {
-        'chart': {'type': 'column'},
-        'title': {'text': 'Projects in different Mission Areas'},
-        'xAxis': {'mission': mission_area},
-        'series': [project_count_series]
-    }
+    return render(request, 'charts/projectreport.html',
+                  {
+                      'mission': json.dumps(mission_area1),
+                      'project_count_series': json.dumps(project_count_series_data),
+                      'partner_count_series': json.dumps(partner_count_series_data),
+                      'filter': f
+                  })
 
-    dump = json.dumps(chart)
-    print(dump)
-    print("hello")
-    return render(request, 'reports/projectreport.html',
-                  {'chart': dump})
+
 
 

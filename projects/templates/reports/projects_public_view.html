@@ -17,31 +17,35 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+form label{
+  font-weight:bold;
+}
 </style>
 
 <div class="container-fluid" id="align">
-    <div class="col-md-10 panel panel-primary">
+    <div class="col-md-12 panel panel-primary">
         <br>
-        <h3>Projects Report</h3>
-        <br>
-        <form id="filters-form" method="get">
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in filter.form.semester %}
-                    {{sem}}
-                {% endfor %}
-            </select>
-
-            <select id="id_mission" name="mission" onchange="this.form.submit()">
-                {% for mission in missions.form.mission %}
-                    {{mission}}
-                {% endfor %}
-            </select>
-
-        <!--<input type="submit" value="Search" />-->
+        <div class="col-md-12 text-center">
+            <h3>Projects Report</h3>
+        </div>
+        <form class="form-inline" id="filters-form" method="get">
+            <div class="col-md-6 form-group">
+                <label> Semester : </label>
+                <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
+                    {% for sem in filter.form.semester %}
+                        {{sem}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label> Mission Area : </label>
+                <select class="form-control id="id_mission" name="mission" onchange="this.form.submit()">
+                    {% for mission in missions.form.mission %}
+                        {{mission}}
+                    {% endfor %}
+                </select>
+            </div>
         </form>
-        <!--{% for obj in filter.qs %}-->
-        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
-        <!--{% endfor %}-->
 
         <table style="width:100%">
             <tr>

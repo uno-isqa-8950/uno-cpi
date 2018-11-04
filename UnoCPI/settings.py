@@ -89,7 +89,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myproject',
+        'NAME': 'myproject2',
         'USER': 'myprojectuser',
         'PASSWORD': 'password',
         'HOST': 'localhost',

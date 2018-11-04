@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
+from home.filters import *
 from partners.models import *
 from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
 from django.contrib.auth.decorators import login_required
@@ -448,3 +449,43 @@ def SearchForProjectAdd(request,pk):
     object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
     object.save()
     return redirect("proj_view_user")
+
+
+# List Projects for Public View 
+
+def projectsPublicReport(request):
+    
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    projectsData = []
+
+    for mission in missions.qs:
+        # import pdb; pdb.set_trace()
+        print (mission.project_name)
+        for project in projects.qs:
+            print (project.project_name)
+            if str(mission.project_name) == str(project.project_name):
+                data = {}
+                data['projectName'] = project.project_name
+                data['engagementType'] = project.engagement_type
+                try:
+                    projectCommunity = ProjectCommunityPartner.objects.get(project_name=project.id)
+                    print ("projectCommunity", projectCommunity)
+                    print ("projectCommunity.community_partner", projectCommunity.community_partner)
+                    data['communityPartner'] = projectCommunity.community_partner
+            
+                except ProjectCommunityPartner.DoesNotExist:
+                    data['communityPartner'] = ""
+                    print (data['communityPartner'], "communityPartner")
+        
+                try:
+                    projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
+                    data['campusPartner'] = projectCampus.campus_partner
+                    print (data['campusPartner'], "campusPartner")
+                except ProjectCampusPartner.DoesNotExist:
+                    data['campusPartner'] = ""
+                    print (data['campusPartner'], "campusPartner")
+                projectsData.append(data)
+
+    return render(request, 'reports/projects_public_view.html',
+                   {'filter': projects, 'projectsData': projectsData, "missions": missions})

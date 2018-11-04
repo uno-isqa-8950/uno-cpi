@@ -76,7 +76,7 @@ class StatusForm(ModelForm):
         fields = ('name','description',)
 
 class EngagementTypeForm(ModelForm):
-    name = ModelChoiceField(EngagementType.objects.all(), empty_label=None)
+    name = ModelChoiceField(EngagementType.objects.all(), empty_label= 'Select Enagagement Type')
     class Meta:
         model = EngagementType
         fields =('name','description',)

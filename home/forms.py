@@ -17,8 +17,6 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
 
 
 
-EMAIL_REGEX1 = r'\w+@\unomaha.edu' # If you only want to allow unomaha.edu.
-
 
 class CampusPartnerUserForm(forms.ModelForm):
 
@@ -33,10 +31,10 @@ class CampusPartnerUserForm(forms.ModelForm):
 
     def clean_email_id (self):
         data = self.cleaned_data.get('email_id')
-        domain = data.split('@')[1]
-        domain_list = ["unomaha.edu" ]
+        domain = data.split('.')[1]
+        domain_list = ["edu" ]
         if domain not in domain_list:
-            raise forms.ValidationError("Please use university email ex: yourname@unomaha.edu ")
+            raise forms.ValidationError("Please use your university ( .edu) emails to signup ")
         return data
 
 class CommunityPartnerUserForm(forms.ModelForm):

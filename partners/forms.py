@@ -1,15 +1,15 @@
 from django import forms
 from django.core.files.images import get_image_dimensions
 from django.forms import ModelForm
-from home.models import Contact, User
+from home.models import Contact, User, MissionArea
 from partners.models import *
+from university.models import *
 from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
-
 class CampusPartnerForm(forms.ModelForm):
-
+    department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
         model = CampusPartner
         fields = ('name', 'college_name', 'department',)
@@ -19,6 +19,14 @@ class CampusPartnerForm(forms.ModelForm):
             'name': ('Campus Partner Name'),
             'college_name': ('College Name'),
              }
+
+    def __init__(self, *args, **kwargs):
+        super(CampusPartnerForm, self).__init__(*args, **kwargs)
+        self.fields['college_name'].empty_label = " Select College"
+
+
+
+
 
 
 class CampusPartnerContactForm(forms.ModelForm):
@@ -38,21 +46,13 @@ class CampusPartnerContactForm(forms.ModelForm):
 
         widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
                    'cell_phone': forms.TextInput({'placeholder': '##########'}),
-                   'email_id': forms.TextInput({'placeholder': 'abc@unomaha.edu'}),
+                   'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
                    }
 
 
-    def clean_email_id (self):
-        data = self.cleaned_data.get('email_id')
-        domain = data.split('@')[1]
-        domain_list = ["unomaha.edu" ]
-        if domain not in domain_list:
-            raise forms.ValidationError("Please use university email (@unomaha.edu)")
-        return data
-
 
 class CommunityPartnerForm(forms.ModelForm):
-
+    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country','county',
@@ -64,11 +64,7 @@ class CommunityPartnerForm(forms.ModelForm):
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
-    # def clean_website_url(self):
-    #    data = self.cleaned_data.get('website_url')
-    #    if  not  data.startswith ('https://'):
-    #     raise forms.ValidationError('Url should start from "https://".')
-    #    return data
+
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -88,6 +84,14 @@ class CommunityContactForm(forms.ModelForm):
                    'cell_phone': forms.TextInput({'placeholder': '##########'}),
                   }
 
+    def validateEmail(email_id):
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError
+        try:
+            validate_email(email_id)
+            return True
+        except ValidationError:
+            return False
 
 class CommunityMissionForm(ModelForm):
 
@@ -97,6 +101,7 @@ class CommunityMissionForm(ModelForm):
         ('Other', 'Other'),
     )
 
+    mission_area = forms.ModelChoiceField(queryset=MissionArea.objects, empty_label='Select Mission Area')
     class Meta:
         model = CommunityPartnerMission
         fields = ('mission_type' , 'mission_area')

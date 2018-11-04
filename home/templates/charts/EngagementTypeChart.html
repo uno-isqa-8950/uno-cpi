@@ -2,24 +2,9 @@
 {% block content %}
     <div class="container">
     <br>
-    <form id="filters-form" method="get">
-     &emsp;
-         <label>Filter by Engagement Type </label>&emsp;&emsp;&emsp;
-
-          <label>Filter by Semester</label>  <br> &emsp;
-            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                {% for engagement in filter2.form.engagement_type %}
-                    {{engagement}}
-                {% endfor %}
-            </select>
-            &emsp;
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in filter2.form.semester %}
-                    {{sem}}
-                {% endfor %}
-            </select>
-
-        <!--<input type="submit" value="Search" />-->
+    <form action="" method="get">
+            {{ filter.form.as_p }}
+        <input type="submit" class="btn btn-outline-info btn.sm "  value="Search" />
     </form>
 
     </div>
@@ -33,10 +18,10 @@
           type: 'bar'
       },
       title: {
-          text: 'Number of Projects and Community Partners by Mission Area'
+          text: 'Number of Projects and Community Partners by Engagement Type'
       },
       xAxis: {
-          categories: {{ mission|safe }}
+          categories: {{ engagement_type|safe }}
       },
       yAxis: {
         min: 0,

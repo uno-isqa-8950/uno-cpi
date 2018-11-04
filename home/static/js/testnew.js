@@ -27,10 +27,8 @@ var popup = new mapboxgl.Popup({
     closeOnClick: true
 });
 //******************************Create content for the popups**********************************
-
 function parseDescription(message) {
     var string = ""
-
 
     for (var i in message) {
 
@@ -50,9 +48,51 @@ function parseDescription(message) {
         } else if (i == "PrimaryMissionFocus") {
             string += '<span style="font-weight:bold">' + "Primary Mission" + '</span>' + ": " + message[i] + "<br>"
         }else if(i=="time"){
-            string += '<span style="font-weight:bold">' + "date" + '</span>' + ": " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + "Date" + '</span>' + ": " + message[i] + "<br>"
         }
     }
+    return string;
+}
+
+function parseDescriptionShow(message) {
+    var string = ""
+
+
+    for (var i in message) {
+
+        if (i == "CommunityPartner") {
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        }if (i == "K-12 Partner") {
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i =="Address"){
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "City"){
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "State"){
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "WeitzCECPartner"){
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "PhoneNumber") {
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Website"){
+            var website = message[i];
+            var base = "http://";
+            if (!website.includes("http")){
+                website = base.concat(website);
+            }
+            string += `<span style="font-weight:bold">${i}</span>: <a target="_blank" href="${website}" class="popup"
+                        style="color:darkblue">${website}</a><br>`;
+        } else if (i == "STATE"){
+            string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "NAME"){
+            string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Income"){
+            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
+        } else if (i=="districtnumber"){
+            string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>"
+        }
+    }
+
     return string;
 }
 
@@ -392,9 +432,9 @@ map.on('load', function(e) {
 
     //******************************search community***********************************************
     var valueFilter=document.getElementById("valueFilter");
-	var listings=document.getElementById('listings');
 
-	//监听按钮按下
+
+	//Press the listening button
 	valueFilter.addEventListener("keydown",function(e){
 		if(e.keyCode==8){
 			map.setFilter("show1",["==", "PrimaryMissionFocus", "Social Justice"]);
@@ -406,16 +446,16 @@ map.on('load', function(e) {
 		}
 	});
 
-    //监听按钮按下后起来
+    // the listening button off
 	valueFilter.addEventListener("keyup",function(e){
-		//获取输入框的值
+		//get the input value
 		var value=e.target.value.trim().toLowerCase();
 
 		if(value==""){
 			renderListings([]);
 
 		}else{
-			//获取在地图中geojosn数据
+			//get geojosn data from the map
 			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
 			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
 			var cmValues3=map.queryRenderedFeatures({layers:['show3']});
@@ -423,7 +463,7 @@ map.on('load', function(e) {
 			var cmValues5=map.queryRenderedFeatures({layers:['show5']});
 			var cmValues6=map.queryRenderedFeatures({layers:['show6']});
 
-			//筛选名字中包含输入框值得数据
+			//filter the name(s) that include the input value
 			var filtered1=cmValues1.filter(function(feature){
 				var name=normalize(feature.properties.CommunityPartner);
 				return name.indexOf(value)==0;
@@ -570,9 +610,12 @@ function createPopUp(currentFeature) {
     // Check if there is already a popup on the map and if so, remove it
     if (popUps[0]) popUps[0].remove();
 
+    var message=parseDescriptionShow(currentFeature.properties)
+
     new mapboxgl.Popup().setLngLat(currentFeature.geometry.coordinates)
-        .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
-            '<h4>' + currentFeature.properties['Address'] + '</h4>')
+        // .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
+        //     '<h4>' + currentFeature.properties['Address'] + '</h4>')
+        .setHTML(message)
         .addTo(map);
     close();
 }
@@ -582,11 +625,29 @@ function normalize(string) {
 	return string.trim().toLowerCase();
 }
 
+
 function renderListings(features){
-	listings.innerHTML = '';
+    var parent = document.getElementById("sidebar");
+    console.log(parent);
+    var listings = document.getElementById("listings");
+    console.log(listings);
+    if(listings!=null){
+        parent.removeChild(listings);
+    }
+
 
 	if (features.length) {
+
+        listings = document.createElement("div");
+        console.log(listings);
+        listings.setAttribute("id", "listings");
+        listings.setAttribute("class", "listings");
+
+        parent.appendChild(listings);
+        listings.innerHTML = '';
+
 		var i=0;
+
 		features.forEach(function(feature) {
 			listings.style.display = 'block';
 

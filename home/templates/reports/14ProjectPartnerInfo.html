@@ -22,11 +22,28 @@ tr:nth-child(even) {
     <div class="container-fluid" id="align">
         <div class="col-md-10 panel panel-primary">
             <br>
-        <h3>Mission Area : Summary Report </h3>
+        <h3> Mission Area Report </h3>
             <br>
-        <form action="" method="get">
-            {{ filter.form.as_p }}
-        <input type="submit" value="Search" />
+        <form id="filters-form" method="get">
+            &emsp;
+         <label>Filter by Engagement Type </label>&emsp;&emsp;
+
+          <label>Filter by Semester</label>  <br> &emsp;
+
+            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                {% for engagement in filter.form.engagement_type %}
+                    {{engagement}}
+                {% endfor %}
+            </select>
+            &emsp;
+
+            <select id="id_semester" name="semester" onchange="this.form.submit()">
+                {% for sem in filter.form.semester %}
+                    {{sem}}
+                {% endfor %}
+            </select>
+
+        <!--<input type="submit" value="Search" />-->
     </form>
     <!--{% for obj in filter.qs %}-->
         <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
@@ -56,4 +73,5 @@ tr:nth-child(even) {
         </div>
 <br>
 <br>
+
 {% endblock %}

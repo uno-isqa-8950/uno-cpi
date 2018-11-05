@@ -1,4 +1,4 @@
-mapboxgl.accessToken = 'pk.eyJ1IjoibWluaGR1b25nMjQzIiwiYSI6ImNqbHNvM3l0cTAxaXMzcHBiYnpvNjBsaXAifQ.NO598_UKYbyOIok45baiWA';
+mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
 // This adds the map to your page
 if (!('remove' in Element.prototype)) {
     Element.prototype.remove = function() {
@@ -49,6 +49,8 @@ function parseDescription(message) {
             }
         } else if (i == "PrimaryMissionFocus") {
             string += '<span style="font-weight:bold">' + "Primary Mission" + '</span>' + ": " + message[i] + "<br>"
+        }else if(i=="time"){
+            string += '<span style="font-weight:bold">' + "date" + '</span>' + ": " + message[i] + "<br>"
         }
     }
     return string;
@@ -61,6 +63,13 @@ var districtData = "";
 var k12Datas = "";
 $.get("static/GEOJSON/CommunityPartners.geojson", function(data) { //load JSON file from static/GEOJSON
     communityData = jQuery.parseJSON(data);
+    var features=communityData["features"];
+	var count=0;
+	features.forEach(function(feature){
+		feature.properties["id"]=count;
+		count++;
+	});
+	communityData["features"]=features;
 })
 $.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Datas = jQuery.parseJSON(data);
@@ -234,8 +243,8 @@ map.on('load', function(e) {
         }
 
     });
-    buildLocationList(communityData); //add partners to the left hand sidebar
-    //******************************Add an event when clicking on each item on the left-hand sidebar**********************************
+    // buildLocationList(communityData); //add partners to the left hand sidebar
+    // //******************************Add an event when clicking on each item on the left-hand sidebar**********************************
     map.on('click', function(e) {
         // Query all the rendered points in the view
         map.getCanvas().style.cursor = 'pointer';
@@ -380,6 +389,128 @@ map.on('load', function(e) {
                 layerID.indexOf(value) > -1 ? 'visible' : 'none');
         });
     });
+
+    //******************************search community***********************************************
+    var valueFilter=document.getElementById("valueFilter");
+	var listings=document.getElementById('listings');
+
+	//监听按钮按下
+	valueFilter.addEventListener("keydown",function(e){
+		if(e.keyCode==8){
+			map.setFilter("show1",["==", "PrimaryMissionFocus", "Social Justice"]);
+			map.setFilter("show2",["==", "PrimaryMissionFocus", "Educational Support"]);
+			map.setFilter("show3",["==", "PrimaryMissionFocus", "Economic Sufficiency"]);
+			map.setFilter("show4",["==", "PrimaryMissionFocus", "International Service"]);
+			map.setFilter("show5",["==", "PrimaryMissionFocus", "Environmental Stewardship"]);
+			map.setFilter("show6",["==", "PrimaryMissionFocus", "Health & Wellness"]);
+		}
+	});
+
+    //监听按钮按下后起来
+	valueFilter.addEventListener("keyup",function(e){
+		//获取输入框的值
+		var value=e.target.value.trim().toLowerCase();
+
+		if(value==""){
+			renderListings([]);
+
+		}else{
+			//获取在地图中geojosn数据
+			var cmValues1=map.queryRenderedFeatures({layers:['show1']});
+			var cmValues2=map.queryRenderedFeatures({layers:['show2']});
+			var cmValues3=map.queryRenderedFeatures({layers:['show3']});
+			var cmValues4=map.queryRenderedFeatures({layers:['show4']});
+			var cmValues5=map.queryRenderedFeatures({layers:['show5']});
+			var cmValues6=map.queryRenderedFeatures({layers:['show6']});
+
+			//筛选名字中包含输入框值得数据
+			var filtered1=cmValues1.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+			var filtered2=cmValues2.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+			var filtered3=cmValues3.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+			var filtered4=cmValues4.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+			var filtered5=cmValues5.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+			var filtered6=cmValues6.filter(function(feature){
+				var name=normalize(feature.properties.CommunityPartner);
+				return name.indexOf(value)==0;
+			});
+
+			filtereds=filtered1.concat(filtered2,filtered3,filtered4,filtered5,filtered6);
+
+			renderListings(filtereds);
+
+
+			if(filtered1.length>0){
+				map.setFilter("show1",['match',['get','id'],filtered1.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show1",['match',['get','id'],-1,true,false]);
+			}
+			if(filtered2.length>0){
+				map.setFilter("show2",['match',['get','id'],filtered2.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show2",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered3.length>0){
+				map.setFilter("show3",['match',['get','id'],filtered3.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show3",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered4.length>0){
+				map.setFilter("show4",['match',['get','id'],filtered4.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show4",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered5.length>0){
+				map.setFilter("show5",['match',['get','id'],filtered5.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show5",['match',['get','id'],-1,true,false]);
+			}
+
+			if(filtered6.length>0){
+				map.setFilter("show6",['match',['get','id'],filtered6.map(function(feature){
+
+					return feature.properties.id;
+				}),true,false]);
+			}else{
+				map.setFilter("show6",['match',['get','id'],-1,true,false]);
+			}
+		}
+	});
+
+
+
 });
 //******************************Show a marker when clicking on the list on the left hand side**********************************
 function buildLocationList(data) {
@@ -446,6 +577,62 @@ function createPopUp(currentFeature) {
     close();
 }
 
+//***********************************search function*****************************************************
+function normalize(string) {
+	return string.trim().toLowerCase();
+}
+
+function renderListings(features){
+	listings.innerHTML = '';
+
+	if (features.length) {
+		var i=0;
+		features.forEach(function(feature) {
+			listings.style.display = 'block';
+
+			var prop = feature.properties;
+			var description = parseDescription(prop);
+
+			var listing = listings.appendChild(document.createElement('div'));
+			listing.className = 'item';
+			listing.id = 'listing-' + i;
+
+			var link = listing.appendChild(document.createElement('a'));
+			link.href = '#';
+			link.className = 'title';
+			link.dataPosition = i;
+			link.innerHTML = prop.CommunityPartner;
+            link.addEventListener('click', function(e) {
+                // Update the currentFeature to the store associated with the clicked link
+                var clickedListing = features[this.dataPosition];
+                // 1. Fly to the point associated with the clicked link
+                flyToStore(clickedListing);
+                // 2. Close all other popups and display popup for clicked store
+                createPopUp(clickedListing);
+                // 3. Highlight listing in sidebar (and remove highlight for all other listings)
+                var activeItem = document.getElementsByClassName('active');
+                if (activeItem[0]) {
+                    activeItem[0].classList.remove('active');
+                }
+                this.parentNode.classList.add('active');
+            });
+
+
+			var details = listing.appendChild(document.createElement('div'));
+			details.innerHTML = description;
+			i++;
+		});
+
+    } else {
+    	var empty = document.createElement('p');
+    	empty.textContent = 'Drag the map to populate results';
+    	listings.appendChild(empty);
+
+        listings.style.display = 'none';
+
+
+    }
+}
 
 //******************************Add a clickable legend**********************************
 
@@ -532,3 +719,6 @@ edu.addEventListener("click", function(e) {
     })
 
 })
+
+
+

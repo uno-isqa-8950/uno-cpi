@@ -146,6 +146,23 @@ margin-top:15px;
           border-right: 1px solid rgba(0, 0, 0, 0.25);
         }
 
+        .sidebar fieldset {
+            background: #ddd;
+            border: none;
+            padding: 10px;
+            margin: 0;
+            width: 100%;
+	    }
+
+	    .sidebar input {
+            display: block;
+            border: none;
+            width: 100%;
+            border-radius: 3px;
+            padding: 10px;
+            margin: 0;
+	    }
+
 
         .map {
           position: absolute;
@@ -337,6 +354,9 @@ margin-top:15px;
         <div class='heading'>
             <h1>Community Partners</h1>
         </div>
+        <fieldset>
+			<input id='valueFilter' type='text' placeholder='Filter results by name' />
+		</fieldset>
         <div id='listings' class='listings'></div>
     </div>
     <div id='map' class='map'></div>

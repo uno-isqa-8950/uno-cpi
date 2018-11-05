@@ -1,0 +1,76 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+form label{
+  font-weight:bold;
+}
+</style>
+
+<div class="container-fluid" id="align">
+    <div class="col-md-12 panel panel-primary">
+        <br>
+        <div class="col-md-12 text-center">
+            <h3>Community Partners Projects Report</h3>
+        </div>
+        <form class="form-inline" id="filters-form" method="get">
+            <div class="col-md-4 form-group">
+                <label> Academic year  : </label>
+                <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
+                    {% for sem in projects.form.semester %}
+                        {{sem}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-5 form-group">
+                <label> Mission Area : </label>
+                <select class="form-control id="id_mission" name="mission" onchange="this.form.submit()">
+                    {% for mission in missions.form.mission %}
+                        {{mission}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label> CEC Partner : </label>
+                <select class="form-control id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
+                        {{weitz_cec_part}}
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <table style="width:100%">
+            <tr>
+                <th>Community Partner Name</th>
+                <th>Number of projects </th>
+            </tr>
+            {% for community in communityData %}
+            <tr>
+                <td>{{community.name}}</td>
+                <td>{{community.communityProjects}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+    </div>
+</div>
+<br>
+<br>
+
+{% endblock %}

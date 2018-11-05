@@ -392,20 +392,11 @@ def SearchForProject(request):
         for checkProject in proj_camp:
             cpnames.append(checkProject.project_name.project_name)
 
-
-    print("************")
-    print(pnames)
-
-
-    print("************")
     for project in Project.objects.all():
         if project.project_name in set(cpnames):
             yesNolist.append(False)
         else:
             yesNolist.append(True)
-
-    print("***************")
-    print(yesNolist)
 
 
     if request.method == "GET":
@@ -470,22 +461,52 @@ def projectsPublicReport(request):
                 data['engagementType'] = project.engagement_type
                 try:
                     projectCommunity = ProjectCommunityPartner.objects.get(project_name=project.id)
-                    print ("projectCommunity", projectCommunity)
-                    print ("projectCommunity.community_partner", projectCommunity.community_partner)
                     data['communityPartner'] = projectCommunity.community_partner
             
                 except ProjectCommunityPartner.DoesNotExist:
                     data['communityPartner'] = ""
-                    print (data['communityPartner'], "communityPartner")
+                    # print (data['communityPartner'], "communityPartner")
         
                 try:
                     projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
                     data['campusPartner'] = projectCampus.campus_partner
-                    print (data['campusPartner'], "campusPartner")
+                    # print (data['campusPartner'], "campusPartner")
                 except ProjectCampusPartner.DoesNotExist:
                     data['campusPartner'] = ""
-                    print (data['campusPartner'], "campusPartner")
+                    # print (data['campusPartner'], "campusPartner")
                 projectsData.append(data)
 
     return render(request, 'reports/projects_public_view.html',
                    {'filter': projects, 'projectsData': projectsData, "missions": missions})
+
+
+# List of community Partners Public View 
+
+def communityPublicReport(request):
+    
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    communityData = []
+
+    for partner in communityPartners.qs:
+        data={}
+        data["name"] = partner.name
+        communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
+        count = 0
+        for cproject in communityProjects:
+            project = cproject.project_name
+            projectMissions = ProjectMission.objects.filter(project_name=project)
+            if project in projects.qs:
+                count +=1
+            for mission in projectMissions:
+                if mission in missions.qs and count == 0:
+                    count +=1
+        data['communityProjects'] = count
+        communityData.append(data)
+
+
+    return render(request, 'reports/community_public_view.html',
+                   {'communityPartners': communityPartners, "projects": projects, 
+                    'communityData': communityData, 'missions': missions})
+

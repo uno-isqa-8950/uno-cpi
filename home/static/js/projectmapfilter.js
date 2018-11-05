@@ -4,7 +4,8 @@ var districtData = "";
 var projectData = "";
 $.get("static/GEOJSON/CommunityPartners.geojson", function(data) { //load JSON file from static/GEOJSON
     communityDatas = jQuery.parseJSON(data);
-});
+
+})
 $.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Datas = jQuery.parseJSON(data);
 });
@@ -13,6 +14,44 @@ $.get("static/GEOJSON/ID2.geojson", function(data) { //load JSON file from stati
 });
 $.get("static/GEOJSON/Projects.geojson", function(data) { //load JSON file from static/GEOJSON
     projectData = jQuery.parseJSON(data);
+    var features=projectData["features"];
+
+	var count=0;
+
+	features.forEach(function(feature){
+
+	    var polyid = 0;
+
+		feature.properties["id"]=count;
+
+		count++;
+
+		if (feature.geometry !== null) {
+
+            var point = feature.geometry.coordinates;
+
+            point = turf.point(point);
+
+            for (var i = 0; i < polygons.length; i++){
+
+                var poly = polygons[i];
+
+                poly = turf.polygon(poly);   //variable polygons is called from DistrictList.js
+
+                if (turf.booleanPointInPolygon(point,poly)) {
+
+                    polyid = i+1;
+
+                }
+
+            }
+
+        }
+
+        feature.properties["districtnumber"] = polyid; //assign value to districtnumber key
+
+	});
+	projectData["features"]=features;
 });
 
 var hoveredStateId = null; //this variable is used for hovering over the districts
@@ -48,14 +87,25 @@ function parseDescription(message) {
             if (website === null || website == "null" || website == "") {
             $website.hide();
 //                string += '<span style="font-weight:bold">' + i + '</span>' + " : " + message[i] + "<br>";
-            } else if (!website.includes("http")) {
+            } else
+            if (!website.includes("http")) {
                 website = base.concat(website);
                 string += `<span style="font-weight:bold">${i}</span> : <a target="_blank" href="${website}" class="popup">${website}</a><br>`;
             } else {
                 string += `<span style="font-weight:bold">${i}</span> : <a target="_blank" href="${website}" class="popup">${website}</a><br>`;
             }
+            }
+            else if (i == "State"){
+
+            string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
+            }
+            else if (i=="districtnumber"){
+
+            string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>"
+
+         }
             //string += '<span style="font-weight:bold">' + i + '</span>: <a target="_blank" href="' + message[i] + '">' + message[i] + '</a><br>';
-        }
+
     }
     return string;
 };
@@ -469,7 +519,7 @@ function buildLocationList(data) {
         link.href = '#';
         link.className = 'title';
         link.dataPosition = i;
-        link.innerHTML = prop['CommunityPartner'];
+        link.innerHTML = prop['ProjectName'];
         var details = listing.appendChild(document.createElement('div'));
         details.innerHTML = description;
 
@@ -506,7 +556,7 @@ function createPopUp(currentFeature) {
     if (popUps[0]) popUps[0].remove();
 
     new mapboxgl.Popup().setLngLat(currentFeature.geometry.coordinates)
-        .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
+        .setHTML('<h3>' + currentFeature.properties['ProjectName'] + '</h3>' +
             '<h4>' + currentFeature.properties['Address'] + '</h4>')
         .addTo(map);
     close();
@@ -536,7 +586,7 @@ function renderListings(features){
 			link.href = '#';
 			link.className = 'title';
 			link.dataPosition = i;
-			link.innerHTML = prop.CommunityPartner;
+			link.innerHTML = prop.ProjectName;
             link.addEventListener('click', function(e) {
                 // Update the currentFeature to the store associated with the clicked link
                 var clickedListing = features[this.dataPosition];
@@ -553,8 +603,8 @@ function renderListings(features){
             });
 
 
-			var details = listing.appendChild(document.createElement('div'));
-			details.innerHTML = description;
+//			var details = listing.appendChild(document.createElement('div'));
+//			details.innerHTML = description;
 			i++;
 		});
 

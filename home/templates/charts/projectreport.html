@@ -1,7 +1,10 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
-    <div class="container">
+    <div class="container-fluid" id="align">
+        <div class="col-md-12 panel panel-primary">
     <br>
+    <h4>Number of Projects and Community Partners by Mission Area</h4>
+        <br>
     <form id="filters-form" method="get">
      &emsp;
          <label>Filter by Engagement Type </label>&emsp;&emsp;&emsp;
@@ -22,18 +25,20 @@
         <!--<input type="submit" value="Search" />-->
     </form>
 
-    </div>
+
 
   <div id="container"></div>
+ <br> <br> <br>
 
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
 <script>
   Highcharts.chart('container', {
       chart: {
           type: 'bar'
       },
       title: {
-          text: 'Number of Projects and Community Partners by Mission Area'
+          text: ''
       },
       xAxis: {
           categories: {{ mission|safe }}
@@ -70,10 +75,12 @@
       }]
   });
 </script>
+ <br> <br> <br>
+
 {#    <script>#}
 {#   #}
 {#        Highcharts.chart('container', {{ chart|safe }});#}
 {#    </script>#}
-
+    </div>
 {% endblock %}
 

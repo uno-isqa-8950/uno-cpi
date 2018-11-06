@@ -20,29 +20,33 @@ tr:nth-child(even) {
 </style>
 
     <div class="container-fluid" id="align">
-        <div class="col-md-10 panel panel-primary">
+        <div class="col-md-12 panel panel-primary">
+        <div class="col-md-12 text-center">
+            <h4> Mission Area Report </h4>
+        </div>
             <br>
-        <h3> Mission Area Report </h3>
+
             <br>
-        <form id="filters-form" method="get">
+        <form class="form-inline" id="filters-form" method="get">
+        <div class="col-md-6 form-group">
             &emsp;
-         <label>Filter by Engagement Type </label>&emsp;&emsp;
+         <label> Engagement Type  : </label>&emsp;&emsp;
 
-          <label>Filter by Semester</label>  <br> &emsp;
-
-            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+            <select  class="form-control id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                 {% for engagement in filter.form.engagement_type %}
                     {{engagement}}
                 {% endfor %}
             </select>
-            &emsp;
-
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
+        </div>
+        <form class="form-inline" id="filters-form" method="get">
+        <div class="col-md-6 form-group">
+            &emsp;<label>Academic year  : </label>&emsp;
+            <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
                 {% for sem in filter.form.semester %}
                     {{sem}}
                 {% endfor %}
             </select>
-
+        </div>
         <!--<input type="submit" value="Search" />-->
     </form>
     <!--{% for obj in filter.qs %}-->

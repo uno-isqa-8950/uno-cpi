@@ -53,7 +53,7 @@ margin-top:15px;
     <div class="collapse navbar-collapse" id="target">
         <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-        <a class ="navbar-brand" href="/" id="uno"><b>University of Nebraska Omaha</b>
+            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
                 <b id="cpi">Community Partnership Initiative</b></a>
             <ul class="navbar-nav ml-auto">
                 <!--li class="nav-item">
@@ -61,10 +61,10 @@ margin-top:15px;
                 </li-->
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-globe"></i>Map
+                        <i class="fa fa-tachometer"></i>Map
                         <span class="caret"></span>
                     </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                <div class="dropdown-menu" aria-labelledby="dropdown_target">
                     <a class="dropdown-item" href="/map">Community Partner</a>
                     <a class="dropdown-item" href="/k12map">K12</a>
                     <a class="dropdown-item" href="/projectmap">Project</a>
@@ -72,23 +72,20 @@ margin-top:15px;
                 </li>
                 <li class="nav-item dropdown">
                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-line-chart"></i>Analytics
+                        <i class="fa fa-line-chart"></i>Reports
                         <span class="caret"></span>
                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href="/projectInfo">Summary Reports</a>
-                        <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partner Reports</a>
-                        <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Reports</a>
-                        <a class="dropdown-item" href="/missionchart">Charts</a>
-                        <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
+                        <a class="dropdown-item" href="/projectreport">Charts</a>
                     </div>
                 </li>
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-registered"></i>Register
+                        <i class="fa fa-globe"></i>Register
                         <span class="caret"></span>
                     </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                <div class="dropdown-menu" aria-labelledby="dropdown_target">
                     <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
                     <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
                 </div>
@@ -190,6 +187,7 @@ political affiliation in its programs, activities, or employment.
 
 
 <!-- Footer Ends Here-->
+{% block js %}{% endblock %}
 {% block custom_js %}{% endblock %}
 
 </body>

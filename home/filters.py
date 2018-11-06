@@ -8,7 +8,7 @@ class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['semester', 'engagement_type']
+        fields = ['semester', 'engagement_type', ]
 
 
 class ProjectMissionFilter(django_filters.FilterSet):
@@ -17,11 +17,19 @@ class ProjectMissionFilter(django_filters.FilterSet):
         model = ProjectMission
         fields = ['mission', ]
 
+
 class SemesterFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
         fields = ['semester', ]
+
+
+class ProjectCampusFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = ProjectCampusPartner
+        fields = ['campus_partner', ]
 
 
 class communityPartnerFilter(django_filters.FilterSet):

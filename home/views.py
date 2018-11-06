@@ -68,7 +68,7 @@ def registerCampusPartnerUser(request):
     user_form = UserForm1()
     print(campus_partner_user_form)
     data = []
-    for object in CampusPartner.objects.order_by().distinct('name'):
+    for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm1(request.POST)
@@ -97,6 +97,10 @@ def registerCampusPartnerUser(request):
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
     user_form = UserForm1()
+    commPartner = []
+    for object in CommunityPartner.objects.order_by('name'):
+        commPartner.append(object.name)
+
     if request.method == 'POST':
         user_form = UserForm1(request.POST)
         # campus_partner_form = CampusPartnerForm(request.POST)
@@ -115,7 +119,8 @@ def registerCommunityPartnerUser(request):
             return render(request, 'home/communityuser_register_done.html', )
     return render(request,
                   'home/registration/community_partner_user_register.html',
-                  {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
+                  {'user_form': user_form, 'community_partner_user_form': community_partner_user_form
+                   ,'commPartner':commPartner})
 
 # uploading the projects data via csv file
 

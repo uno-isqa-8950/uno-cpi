@@ -68,7 +68,7 @@ def registerCampusPartnerUser(request):
     user_form = UserForm1()
     print(campus_partner_user_form)
     data = []
-    for object in CampusPartner.objects.order_by().distinct('name'):
+    for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm1(request.POST)

@@ -184,7 +184,7 @@ def proj_view_user(request):
 
          data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
             'activityType': x.activity_type,
-            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
             'startDate': x.start_date,
             'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
             'total_uno_hours': x.total_uno_hours,
@@ -246,7 +246,7 @@ def project_total_Add(request):
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                         'activityType': x.activity_type,
-                        'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                        'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
                         'startDate': x.start_date,
                         'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
                         'total_uno_hours': x.total_uno_hours,
@@ -264,17 +264,15 @@ def project_total_Add(request):
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
     return render(request,
-                          'projects/project_add.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3})
+                          'projects/projectadd.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3})
 
 
 def project_edit_new(request,pk):
 
-    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0, form=ProjectMissionFormset)
-    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, form=ProjectCommunityPartnerForm2)
-    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, form=ProjectCampusPartnerForm)
-    # print('print input to edit')
-    # print(pk)
-    # print(request)
+    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
+    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=ProjectCommunityPartnerForm2)
+    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=ProjectCampusPartnerForm)
+    #print('print input to edit')
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
@@ -283,9 +281,10 @@ def project_edit_new(request,pk):
         formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
-
-        if project.is_valid() and formset_missiondetails.is_valid() and formset_comm_details.is_valid() and formset_camp_details.is_valid():
-
+        #print("before form validations", formset_camp_details.is_valid(), formset_comm_details.is_valid())
+        # print("formset_missiondetails.is_valid()8888888888", formset_missiondetails.is_valid())
+        if project.is_valid() and formset_camp_details.is_valid():
+            #print(" validating the forms here")
             instances = project.save()
             pm = formset_missiondetails.save(commit=False)
             compar= formset_comm_details.save(commit=False)
@@ -309,18 +308,7 @@ def project_edit_new(request,pk):
                 # print(c)
             # get all the project names base on the campus partner id
             proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-            # for proj_camp_par in proj_camp:
-            #     #print(proj_camp_par)
-            #     proj_all = list(ProjectCampusPartner.objects.filter(project_name_id = proj_camp_par.project_name_id).distinct('campus_partner_id'))
-            #     print("111111")
-            # for proj_all in proj_all:
-            #     #print(proj_all.campus_partner_id)
-            #     camp_part = list(CampusPartner.objects.filter(id =proj_all.campus_partner_id ))
-            #     print(camp_part)
-
             for f in proj_camp:
-                # l = f.project_name_id
-                # print(l)
                 k = list(Project.objects.filter(id=f.project_name_id))
                 # print(k)
                 for x in k:
@@ -337,7 +325,7 @@ def project_edit_new(request,pk):
 
                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                             'activityType': x.activity_type,
-                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
                             'startDate': x.start_date,
                             'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
                             'total_uno_hours': x.total_uno_hours,
@@ -349,6 +337,7 @@ def project_edit_new(request,pk):
                             }
 
                     projects_list.append(data)
+                    #print("after projects_list")
 
             return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
@@ -363,8 +352,8 @@ def project_edit_new(request,pk):
         formset_missiondetails = mission_edit_details(instance=x)
         formset_comm_details = proj_comm_part_edit(instance=x)
         formset_camp_details = proj_campus_part_edit(instance=x)
-
-        return render(request,'projects/project_edit.html',{'project': project,
+        print("in else project_edit 7777777")
+        return render(request,'projects/projectedit.html',{'project': project,
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})

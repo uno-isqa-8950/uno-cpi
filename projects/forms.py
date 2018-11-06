@@ -37,6 +37,8 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
 
         }
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class ProjectForm2(ModelForm):
     class Meta:
@@ -45,6 +47,11 @@ class ProjectForm2(ModelForm):
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
                     'longitude',)
+        widgets = {
+            'start_date': DateInput(),
+            'end_date': DateInput(),
+            'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
+        }
 
 
 class ProjectMissionForm(ModelForm):
@@ -60,14 +67,14 @@ class ProjectMissionForm(ModelForm):
 class ProjectCommunityPartnerForm2(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('community_partner','total_hours','total_people','wages',)
+        fields = ('community_partner','total_hours','total_people',)
 
 
 
 class ProjectCampusPartnerForm(ModelForm):
     class Meta:
         model = ProjectCampusPartner
-        fields = ('campus_partner','total_hours','total_people','wages',)
+        fields = ('campus_partner','total_hours','total_people',)
 
 
 class StatusForm(ModelForm):

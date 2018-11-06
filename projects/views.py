@@ -6,7 +6,7 @@ from projects.models import *
 from home.models import *
 from home.filters import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
@@ -209,6 +209,7 @@ def project_total_Add(request):
 
     if request.method == 'POST':
         project = ProjectForm2(request.POST)
+        course = CourseForm(request.POST)
         formset = mission_details(request.POST or None)
         formset2 = proj_comm_part(request.POST or None)
         formset3 = proj_campus_part(request.POST or None)
@@ -216,9 +217,13 @@ def project_total_Add(request):
 
         if project.is_valid() and formset.is_valid() and formset2.is_valid():
             proj= project.save()
+            course = course.save(commit=False)
+            course.project_name = proj
+            course.save()
             mission_form = formset.save(commit = False)
             proj_comm_form = formset2.save(commit= False)
             proj_campus_form = formset3.save(commit=False)
+
 
             for k in proj_comm_form:
                 k.project_name = proj
@@ -260,11 +265,12 @@ def project_total_Add(request):
 
     else:
         project = ProjectForm2()
+        course =CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none())
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
     return render(request,
-                          'projects/projectadd.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3})
+                          'projects/projectadd.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3, 'course': course})
 
 
 def project_edit_new(request,pk):

@@ -44,6 +44,10 @@ def registerCampusPartner(request):
 def registerCommunityPartner(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
     CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    commType = []
+    for object in CommunityType.objects.order_by('community_type'):
+        commType.append(object.community_type)
+
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_mission = CommunityMissionFormset(request.POST)
@@ -72,7 +76,7 @@ def registerCommunityPartner(request):
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission}, )
+                   'formset_mission' : formset_mission, 'commType':commType}, )
 
 
 #Campus and Community Partner user Profile

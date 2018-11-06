@@ -4,6 +4,7 @@ from django.shortcuts import render,redirect
 from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
+from home.filters import *
 from partners.models import *
 from .forms import ProjectCommunityPartnerForm, ProjectSearchForm,ProjectCampusPartnerForm
 from django.contrib.auth.decorators import login_required
@@ -391,20 +392,11 @@ def SearchForProject(request):
         for checkProject in proj_camp:
             cpnames.append(checkProject.project_name.project_name)
 
-
-    print("************")
-    print(pnames)
-
-
-    print("************")
     for project in Project.objects.all():
         if project.project_name in set(cpnames):
             yesNolist.append(False)
         else:
             yesNolist.append(True)
-
-    print("***************")
-    print(yesNolist)
 
 
     if request.method == "GET":
@@ -448,3 +440,73 @@ def SearchForProjectAdd(request,pk):
     object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
     object.save()
     return redirect("proj_view_user")
+
+
+# List Projects for Public View 
+
+def projectsPublicReport(request):
+    
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    projectsData = []
+
+    for mission in missions.qs:
+        # import pdb; pdb.set_trace()
+        print (mission.project_name)
+        for project in projects.qs:
+            print (project.project_name)
+            if str(mission.project_name) == str(project.project_name):
+                data = {}
+                data['projectName'] = project.project_name
+                data['engagementType'] = project.engagement_type
+                try:
+                    projectCommunity = ProjectCommunityPartner.objects.get(project_name=project.id)
+                    data['communityPartner'] = projectCommunity.community_partner
+            
+                except ProjectCommunityPartner.DoesNotExist:
+                    data['communityPartner'] = ""
+                    # print (data['communityPartner'], "communityPartner")
+        
+                try:
+                    projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
+                    data['campusPartner'] = projectCampus.campus_partner
+                    # print (data['campusPartner'], "campusPartner")
+                except ProjectCampusPartner.DoesNotExist:
+                    data['campusPartner'] = ""
+                    # print (data['campusPartner'], "campusPartner")
+                projectsData.append(data)
+
+    return render(request, 'reports/projects_public_view.html',
+                   {'filter': projects, 'projectsData': projectsData, "missions": missions})
+
+
+# List of community Partners Public View 
+
+def communityPublicReport(request):
+    
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    communityData = []
+
+    for partner in communityPartners.qs:
+        data={}
+        data["name"] = partner.name
+        communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
+        count = 0
+        for cproject in communityProjects:
+            project = cproject.project_name
+            projectMissions = ProjectMission.objects.filter(project_name=project)
+            if project in projects.qs:
+                count +=1
+            for mission in projectMissions:
+                if mission in missions.qs and count == 0:
+                    count +=1
+        data['communityProjects'] = count
+        communityData.append(data)
+
+
+    return render(request, 'reports/community_public_view.html',
+                   {'communityPartners': communityPartners, "projects": projects, 
+                    'communityData': communityData, 'missions': missions})
+

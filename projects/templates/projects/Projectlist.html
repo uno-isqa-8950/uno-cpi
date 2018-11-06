@@ -29,23 +29,24 @@
             <thead>
             <tr>
                 <th>Project Name</th>
+                <th>Mission Areas</th>
+                <th>Community Partners</th>
+                <th>Campus Partners</th>
                 <th>Engagement Type</th>
-                <th>Activity Type</th>
-                <th>Facilitator</th>
+                <th>Academic Year</th>
+                <th>Status</th>
                 <th>Semester</th>
                 <th>Start Date </th>
                 <th>End Date </th>
                 <th> UNO Students</th>
-                <th> UNO hours</th>
-                <th> K12 Students</th>
-                <th> K12 Hours </th>
+                <th> UNO Student Hours</th>
                 <th> UNO Faculty</th>
-                <th>Other Community Members</th>
-                <th>Status</th>
-                <th>Mission Type</th>
-                <th>Mission</th>
-                <th>CommunityPartner</th>
-                <th>CampusPartner</th>
+                <th> K12 Students</th>
+                <th> K12 Student Hours </th>
+                <th>Community Members</th>
+                <th>Activity Type</th>
+                <th>Facilitator</th>
+                <th>Description</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -55,24 +56,26 @@
                            <tr>
 
                             <td>{{ project.name }}</td>
+                            <td>{% for projmisn in project.projmisn %}
+                                   <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
+                            <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
+                            <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                             <td>{{ project.engagementType }}</td>
-                            <td>{{ project.activityType }}</td>
-                            <td>{{ project.facilitator }}</td>
+                            <td>{{ project.semester }}</td>
+                            <td>{{ project.status}}</td>
                             <td>{{ project.semester }}</td>
                             <td>{{ project.startDate }}</td>
                             <td>{{ project.endDate }}</td>
-                            <td>{{project.x.total_uno_students}}</td>
+                            <td>{{project.total_uno_students}}</td>
                             <td>{{project.total_uno_hours}}</td>
+                            <td>{{project.total_uno_faculty}}</td>
                             <td>{{project.total_k12_students}}</td>
                             <td>{{project.total_k12_hours}}</td>
-                            <td>{{project.total_uno_faculty}}</td>
                             <td>{{project.total_other_community_members}}</td>
-                            <td>{{ project.status}}</td>
-                            <td>{% for projmisn in project.projmisn %} {{ projmisn.mission_type}}<br> <br>{% endfor %} </td>
-                            <td>{% for projmisn in project.projmisn %} {{ projmisn.mission}}<br> <br>{% endfor %} </td>
+                            <td>{{ project.activityType }}</td>
+                            <td>{{ project.facilitator }}</td>
+                            <td>{{ project.description }}</td>
 
-                            <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
-                            <td> {% for camp_part in project.camp_part %} {{camp_part.campus_partner_id}} <br> <br> {% endfor %} </td>
                             <td><a href="{% url 'project_edit_new' pk=project.pk %}" class="btn btn-warning">Edit</a> </td>
                            </tr>
 

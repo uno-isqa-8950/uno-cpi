@@ -1,0 +1,73 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+form label{
+  font-weight:bold;
+}
+</style>
+
+<div class="container-fluid" id="align">
+    <div class="col-md-12 panel panel-primary">
+        <br>
+        <div class="col-md-12 text-center">
+            <h3>Projects Report</h3>
+        </div> <br>
+        <form class="form-inline" id="filters-form" method="get">
+            <div class="col-md-6 form-group">
+                <label> Semester : </label>
+                <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
+                    {% for sem in filter.form.semester %}
+                        {{sem}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-6 form-group">
+                <label> Mission Area : </label>
+                <select class="form-control id="id_mission" name="mission" onchange="this.form.submit()">
+                    {% for mission in missions.form.mission %}
+                        {{mission}}
+                    {% endfor %}
+                </select>
+            </div>
+        </form>
+
+        <table style="width:100%">
+            <tr>
+                <th>Project Name</th>
+                <th>Campus Partner Name</th>
+                <th>Community Partner Name</th>
+                <th>Engagement Type</th>
+            </tr>
+
+            {% for project in projectsData %}
+            <tr>
+                <td>{{project.projectName}}</td>
+                <td>{{project.campusPartner}}</td>
+                <td>{{project.communityPartner}}</td>
+                <td>{{project.engagementType}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br>
+    </div>
+</div>
+<br>
+<br>
+
+{% endblock %}

@@ -278,7 +278,7 @@ def missionchart(request):
     mission_area1 = list()
     project_count_series_data = list()
     partner_count_series_data = list()
-
+    max_series_data = list()
     for m in missions:
         filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in filter2.qs]
@@ -291,10 +291,9 @@ def missionchart(request):
             filter(community_partner_id__in=community_list).count()
         project_count_series_data.append(project_count)
         partner_count_series_data.append(community_count)
-
-    print(mission_area1)
-    print(partner_count_series_data)
-    print(project_count_series_data)
+        Max_count = max(
+            list(set(partner_count_series_data) | set(project_count_series_data)))
+        max_series_data.append(Max_count)
 
 
     return render(request, 'charts/projectreport.html',
@@ -302,9 +301,78 @@ def missionchart(request):
                       'mission': json.dumps(mission_area1),
                       'project_count_series': json.dumps(project_count_series_data),
                       'partner_count_series': json.dumps(partner_count_series_data),
-                      'filter2': filter2
+                      'filter2': filter2,
+                      'max_series_data': json.dumps(max_series_data),
                   })
 
 
 
 
+
+def EngagementType_Chart(request):
+    project_engagement_count=[]
+    engagment_community_counts=[]
+    engagment_campus_counts=[]
+    project_engagement_series=[]
+    engagament_names=[]
+
+    engagement_types = EngagementType.objects.all()
+    for et in engagement_types:
+        engagament_names.append(et.name)
+
+        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+
+        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
+        project_semester_ids = [p.id for p in semester_filter.qs]
+        proj_id_sem= Project.objects.filter(semester_id__in=project_semester_ids).filter(id__in = project_mission_ids)
+        filtered_project_list = [p.id for p in proj_id_sem]
+
+        project_count = Project.objects.filter(engagement_type_id=et.id).filter(id__in=filtered_project_list).count()
+        project_engagement_count.append(project_count)
+
+        projects = Project.objects.filter(engagement_type_id=et.id).filter(id__in=filtered_project_list)
+        proj_ids = [p.id for p in projects]
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
+        engagment_community_counts.append(p_community)
+
+        p_campus = ProjectCampusPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
+        engagment_campus_counts.append(p_campus)
+
+    Max_count = max(list(set(project_engagement_count)|set(engagment_community_counts)|set(engagment_campus_counts)))
+
+    project_engagement_series = {
+        'name': 'Project Count',
+        'data': project_engagement_count,
+        'color': 'teal' }
+    engagment_community_series = {
+        'name': 'Community Partner Count',
+        'data': engagment_community_counts,
+        'color': 'turquoise' }
+    engagment_campus_series = {
+        'name': 'Campus Partner Count',
+        'data': engagment_campus_counts,
+        'color': 'blue' }
+
+    chart = {
+        'chart': {'type': 'bar'},
+        'title': {'text': '   '},
+        'xAxis': {'title':{'text': 'Engagement Types'},'categories': engagament_names},
+        'yAxis' : {'title':{'text': 'Projects Engagement Count'},'min':0, 'max':Max_count+7},
+        'legend': {
+            'layout': 'vertical',
+            'align': 'right',
+            'verticalAlign': 'top',
+            'x': -40,
+            'y': 80,
+            'floating': 'true',
+            'borderWidth': 1,
+            'backgroundColor':  '#FFFFFF',
+            'shadow': 'true'
+        },
+        'series': [project_engagement_series ,engagment_community_series ,engagment_campus_series]
+    }
+
+    dump = json.dumps(chart)
+    return render(request, 'charts/engagementtypechart2.html',
+                 {'chart': dump,'missions_filter':missions_filter,'semester_filter':semester_filter})

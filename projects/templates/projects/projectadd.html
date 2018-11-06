@@ -38,7 +38,32 @@
          {{formset2.management_form}}
          {{formset3.management_form}}
 
-         {{project.as_p}}
+         {{project.project_name|bootstrap}}
+         {{ project.status|bootstrap}}
+         {{project.engagement_type|bootstrap}}
+         {{ course|bootstrap }}
+         {{project.activity_type|bootstrap}}
+         {{ project.facilitator|bootstrap }}
+         {{ project.description|bootstrap }}
+         {{ project.semester|bootstrap }}
+         {{ project.total_uno_students|bootstrap }}
+         {{ project.total_uno_hours|bootstrap }}
+         {{ project.total_k12_students|bootstrap }}
+         {{ project.total_k12_hours|bootstrap }}
+         {{ project.total_uno_faculty|bootstrap }}
+         {{ project.total_other_community_members|bootstrap }}
+         {{ project.start_date|bootstrap }}
+         {{ project.end_date|bootstrap }}
+         {{ project.other_details|bootstrap }}
+         {{ project.outcomes|bootstrap }}
+         {{ project.address_line1|bootstrap }}
+         {{ project.city|bootstrap }}
+         {{ project.state|bootstrap }}
+         {{ project.country|bootstrap }}
+         {{ project.zip|bootstrap }}
+
+
+
 
          {% for form in formset %}
          <div class="row form-row spacer">
@@ -48,7 +73,7 @@
                 </div>
                 <div class="col-4">
                 <div class="input-group">
-                    {{ form.as_p }}
+                    {{ form|bootstrap }}
                     <div class="input-group-append" >
                               <button class="btn btn-outline-info btn-sm add-form-row">Add more missions</button>
 
@@ -66,7 +91,7 @@
                 </div>
                 <div class="col-4">
                 <div class="input-group">
-                    {{form2}}
+                    {{form2|bootstrap}}
                     <div class="input-group-append" >
                               <button class="btn2 btn-outline-info btn-sm add-form2-row">Add more CommunityPartners</button>
 
@@ -84,7 +109,7 @@
                 </div>
                 <div class="col-4">
                 <div class="input-group">
-                    {{ form3.as_p }}
+                    {{ form3|bootstrap }}
                     <div class="input-group-append" >
                         <button class="btn btn-outline-info btn-sm add-form3-row">Add more Campus</button>
                     </div>
@@ -196,5 +221,34 @@ $(document).on('click', '.remove-form3-row', function(e){
 });
 
 </script>
+<script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_name], input#id_name").hide();
+            $("#id_id_name").hide();
+            $("label.control-label[for=id_prefix], input#id_prefix").hide();
+            $("#id_prefix").hide();
+            $("label.control-label[for=id_number], input#id_number").hide();
+            $("#id_number").hide();
 
+            console.log('label.control-label[for=id_name], input#id_name');
+            }
+        $("#id_engagement_type").on('change', function(){
+            var val = $("#id_engagement_type").val();
+            if (val === '4') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
 {% endblock %}

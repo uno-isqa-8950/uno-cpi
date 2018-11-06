@@ -1,0 +1,58 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+
+    <div class="container-fluid" id="align">
+        <div class="col-md-12 panel panel-primary">
+            <br>
+        <h3>Engagment Types Chart</h3>
+            <br>
+        <form id="filters-form" method="get">
+            <label>Filter by Mission Type </label>&emsp;&emsp;
+            <label>Filter by Semester</label>  <br>
+
+            <select id="id_mission" name="mission" onchange="this.form.submit()">
+                {% for mission in missions_filter.form.mission %}
+                    {{mission}}
+                {% endfor %}
+            </select>
+
+            <select id="id_semester" name="semester" onchange="this.form.submit()">
+                {% for sem in semester_filter.form.semester %}
+                    {{sem}}
+                {% endfor %}
+            </select>
+
+        <!--<input type="submit" value="Search" />-->
+    </form>
+    <!--{% for obj in filter.qs %}-->
+        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
+    <!--{% endfor %}-->
+   <br> <br>
+
+  <div id="container"></div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<script>
+     Highcharts.chart('container',{{ chart|safe }});
+</script>
+        </div>
+
+{% endblock %}

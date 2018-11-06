@@ -1,5 +1,5 @@
 {% extends 'home/Campus_Home.html' %}
-
+{% load bootstrap %}
 {% block content %}
       <style>
     label
@@ -7,12 +7,17 @@
     margin-left: 10px;
     font-weight: bold;
     }
-
-    .btn-custom
+ input[type=number],textarea[name=project_name],.form-control
     {
-        margin-top:20px;
-        margin-left:350px;
+        width: 90%;
+        height: 10%;
     }
+ @media (min-width: 700px) {
+     .btn-custom {
+         margin-top: 20px;
+         margin-left: 350px;
+     }
+ }
     </style>
 <div class="container">
 
@@ -22,10 +27,10 @@
 			<div class="panel-body">
 
        <form method="POST" class="project-form" >{% csrf_token %}
-        {{ project.as_p }}
-        {{ formset_missiondetails.as_p }}
-        {{ formset_comm_details.as_p }}
-        {{ formset_camp_details.as_p }}
+        {{ project|bootstrap }}
+        {{ formset_missiondetails|bootstrap }}
+        {{ formset_comm_details|bootstrap }}
+        {{ formset_camp_details|bootstrap }}
         <button type="submit" class="save btn btn-custom">Update</button>
     </form><br><br>
             </div></div></div></div><br><br>

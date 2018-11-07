@@ -1,0 +1,71 @@
+{% extends 'home/base_home.html' %}
+{% block content %}
+
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+</style>
+
+    <div class="container-fluid" id="align">
+        <div class="col-md-10 panel panel-primary">
+            <br>
+        <h3>Summary Report : Mission Area </h3>
+            <br>
+        <form id="filters-form" method="get">
+            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                {% for engagement in filter.form.engagement_type %}
+                    {{engagement}}
+                {% endfor %}
+            </select>
+
+            <select id="id_semester" name="semester" onchange="this.form.submit()">
+                {% for sem in filter.form.semester %}
+                    {{sem}}
+                {% endfor %}
+            </select>
+
+        <!--<input type="submit" value="Search" />-->
+    </form>
+    <!--{% for obj in filter.qs %}-->
+        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
+    <!--{% endfor %}-->
+
+<table style="width:100%">
+  <tr>
+    <th>Mission Areas</th>
+    <th>Community Count</th>
+    <th>Project Count</th>
+    <th>Total UNO Students</th>
+    <th>Total UNO Hours</th>
+
+  </tr>
+   {% for m in mList %}
+        <tr>
+            <td>{{m.mission_name}}</td>
+            <td>{{m.community_count}}</td>
+            <td>{{m.project_count}}</td>
+            <td>{{m.total_uno_students}}</td>
+            <td>{{m.total_uno_hours}}</td>
+        </tr>
+    {% endfor %}
+</table>
+            <br>
+    </div>
+        </div>
+<br>
+<br>
+
+{% endblock %}

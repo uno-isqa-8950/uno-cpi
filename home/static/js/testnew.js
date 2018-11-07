@@ -27,8 +27,10 @@ var popup = new mapboxgl.Popup({
     closeOnClick: true
 });
 //******************************Create content for the popups**********************************
+
 function parseDescription(message) {
     var string = ""
+
 
     for (var i in message) {
 
@@ -48,51 +50,9 @@ function parseDescription(message) {
         } else if (i == "PrimaryMissionFocus") {
             string += '<span style="font-weight:bold">' + "Primary Mission" + '</span>' + ": " + message[i] + "<br>"
         }else if(i=="time"){
-            string += '<span style="font-weight:bold">' + "Date" + '</span>' + ": " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + "date" + '</span>' + ": " + message[i] + "<br>"
         }
     }
-    return string;
-}
-
-function parseDescriptionShow(message) {
-    var string = ""
-
-
-    for (var i in message) {
-
-        if (i == "CommunityPartner") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        }if (i == "K-12 Partner") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i =="Address"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "City"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "State"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "WeitzCECPartner"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "PhoneNumber") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "Website"){
-            var website = message[i];
-            var base = "http://";
-            if (!website.includes("http")){
-                website = base.concat(website);
-            }
-            string += `<span style="font-weight:bold">${i}</span>: <a target="_blank" href="${website}" class="popup"
-                        style="color:darkblue">${website}</a><br>`;
-        } else if (i == "STATE"){
-            string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "NAME"){
-            string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "Income"){
-            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
-        } else if (i=="districtnumber"){
-            string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>"
-        }
-    }
-
     return string;
 }
 
@@ -610,12 +570,9 @@ function createPopUp(currentFeature) {
     // Check if there is already a popup on the map and if so, remove it
     if (popUps[0]) popUps[0].remove();
 
-    var message=parseDescriptionShow(currentFeature.properties)
-
     new mapboxgl.Popup().setLngLat(currentFeature.geometry.coordinates)
-        // .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
-        //     '<h4>' + currentFeature.properties['Address'] + '</h4>')
-        .setHTML(message)
+        .setHTML('<h3>' + currentFeature.properties['CommunityPartner'] + '</h3>' +
+            '<h4>' + currentFeature.properties['Address'] + '</h4>')
         .addTo(map);
     close();
 }

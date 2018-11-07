@@ -20,7 +20,7 @@ tr:nth-child(even) {
 </style>
 
     <div class="container-fluid" id="align">
-        <div class="col-md-10 panel panel-primary">
+        <div class="col-md-12 panel panel-primary">
             <br>
         <h3>Engagment Types Chart</h3>
             <br>
@@ -53,5 +53,6 @@ tr:nth-child(even) {
 <script>
      Highcharts.chart('container',{{ chart|safe }});
 </script>
+        </div>
 
 {% endblock %}

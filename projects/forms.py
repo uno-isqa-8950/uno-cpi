@@ -1,5 +1,7 @@
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
+
+from university.models import Course
 from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
 from django import forms
 from django.forms import ModelForm
@@ -52,7 +54,10 @@ class ProjectForm2(ModelForm):
             'end_date': DateInput(),
             'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
         }
+        labels = {
+            'total_other_community_members':  'Total Other Participants',
 
+        }
 
 class ProjectMissionForm(ModelForm):
     class Meta:
@@ -114,3 +119,14 @@ class ProjectSearchForm(forms.ModelForm):
     #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
     #     self.fields['project_name'].widget = forms.TextInput(attrs={
     #         'id': 'id_project_name'})
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('name','prefix', 'number')
+        labels = {
+            'name': ('Course Name'),
+            'prefix': ('Prefix'),
+            'number': ('Course Number')
+        }

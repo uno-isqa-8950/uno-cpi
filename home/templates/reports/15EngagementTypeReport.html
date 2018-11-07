@@ -1,40 +1,38 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
 
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
-
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-
-    <div class="container-fluid" id="align">
-        <div class="col-md-10 panel panel-primary">
-            <br>
-        <h3>Engagement Type : Summary Report </h3>
-            <br>
-        <form action="" method="get">
-            {{ missions_filter.form.as_p }}
-            {{ semester_filter.form.as_p }}
-        <input type="submit" value="Search" />
-    </form>
-    <!--{% for obj in filter.qs %}-->
-        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
-    <!--{% endfor %}-->
-
-<table style="width:100%">
-  <tr>
+<div class="container">
+        <div class="text-center"><h4>Summary Report : Engagement Type </h4></div>
+        	<div class="row">
+            <form class="form-inline" role="form" id="filters-form" method="get">
+            <div class="col-md-3">
+                Mission Area:
+            <select id="id_mission" name="mission" onchange="this.form.submit()">
+                {% for mission in missions_filter.form.mission %}
+                    {{mission}}
+                {% endfor %}
+            </select>
+                </div>
+                <div class="col-md-3">
+            Semester:
+            <select id="id_semester" name="semester" onchange="this.form.submit()">
+                {% for sem in semester_filter.form.semester %}
+                    {{sem}}
+                {% endfor %}
+            </select>
+                    </div>
+                <div class="col-md-2">
+            Campus Partner:
+            <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                {% for campus in campus_filter.form.campus_partner %}
+                    {{campus}}
+                {% endfor %}
+            </select>
+            </div>
+            </form> </div>
+                </div>
+<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+    <tr>
     <th>Engagement Type</th>
     <th>Project Count</th>
     <th>Total UNO Students</th>
@@ -50,9 +48,19 @@ tr:nth-child(even) {
         </tr>
     {% endfor %}
 </table>
-            <br>
-    </div>
-        </div>
-<br>
-<br>
+{% endblock %}
+
+
+{% block js %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+    $('#example').DataTable();
+    } );
+ </script>
+
 {% endblock %}

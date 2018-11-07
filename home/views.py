@@ -25,16 +25,12 @@ from .forms import *
 
 
 def home(request):
-    return render(request, 'home/base_home.html',
+    return render(request, 'home/testnew.html',
                   {'home': home})
 
 def map(request):
-    return render(request, 'home/testnew.html',
+    return render(request, 'home/Countymap.html',
                   {'map': map})
-
-def k12map(request):
-    return render(request, 'home/k12.html',
-                  {'k12map': k12map})
 
 def projectmap(request):
     return render(request, 'home/projectmap.html',
@@ -68,7 +64,7 @@ def registerCampusPartnerUser(request):
     user_form = UserForm1()
     print(campus_partner_user_form)
     data = []
-    for object in CampusPartner.objects.order_by().distinct('name'):
+    for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
         user_form = UserForm1(request.POST)
@@ -97,6 +93,10 @@ def registerCampusPartnerUser(request):
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
     user_form = UserForm1()
+    commPartner = []
+    for object in CommunityPartner.objects.order_by('name'):
+        commPartner.append(object.name)
+
     if request.method == 'POST':
         user_form = UserForm1(request.POST)
         # campus_partner_form = CampusPartnerForm(request.POST)
@@ -115,7 +115,8 @@ def registerCommunityPartnerUser(request):
             return render(request, 'home/communityuser_register_done.html', )
     return render(request,
                   'home/registration/community_partner_user_register.html',
-                  {'user_form': user_form, 'community_partner_user_form': community_partner_user_form})
+                  {'user_form': user_form, 'community_partner_user_form': community_partner_user_form
+                   ,'commPartner':commPartner})
 
 # uploading the projects data via csv file
 
@@ -210,32 +211,38 @@ def upload_campus(request):
 
 def project_partner_info(request):
     missions = MissionArea.objects.all()
-    mDict = {}
-    mList = []
+    mission_dict = {}
+    mission_list = []
     for m in missions:
-        f = ProjectFilter(request.GET, queryset=Project.objects.all())
-        proj_ids = [p.id for p in f.qs]
-        mDict['mission_name'] = m.mission_name
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+        campus_filtered_ids = [project.id for project in campus_filter.qs]
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_filtered_ids = [project.id for project in project_filter.qs]
+        project_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+        print(project_ids)
+        mission_dict['mission_name'] = m.mission_name
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
         community_list = [c.community_partner_id for c in p_community]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
             filter(community_partner_id__in=community_list).count()
-        mDict['project_count'] = project_count
-        mDict['community_count'] = community_count
+        mission_dict['project_count'] = project_count
+        mission_dict['community_count'] = community_count
         total_uno_students = 0
         total_uno_hours = 0
-        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids)
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids)
         for pm in p_mission:
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
-        mDict['total_uno_hours'] = total_uno_hours
-        mDict['total_uno_students'] = total_uno_students
-        mList.append(mDict.copy())
+        mission_dict['total_uno_hours'] = total_uno_hours
+        mission_dict['total_uno_students'] = total_uno_students
+        mission_list.append(mission_dict.copy())
+    print(mission_list)
     return render(request, 'reports/14ProjectPartnerInfo.html',
-                  {'filter': f, 'mList': mList})
+                  {'project_filter': project_filter, 'mission_list': mission_list, 'campus_filter': campus_filter})
+
 
 # (15) Engagement Summary Report: filter by Semester, MissionArea
 
@@ -245,13 +252,14 @@ def engagement_info(request):
     eDict = {}
     eList = []
     for e in engagements:
+        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+        campus_filtered_ids = [project.id for project in campus_filter.qs]
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
         project_mission_ids = [p.id for p in missions_filter.qs]
-        # print(project_mission_ids)
+        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
         project_semester_ids = [p.id for p in semester_filter.qs]
-        # print(project_semester_ids)
-        filtered_project_list = list(set(project_mission_ids) | set(project_semester_ids))
+        filtered_project_ids = list(set(project_mission_ids) | set(project_semester_ids))
+        filtered_project_list = list(set(campus_filtered_ids).intersection(filtered_project_ids))
         eDict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
         eDict['project_count'] = project_count
@@ -268,10 +276,12 @@ def engagement_info(request):
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
     return render(request, 'reports/15EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList})
+                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList,
+                   'campus_filter': campus_filter})
 
 
-#Chart for projects with mission areas
+# Chart for projects with mission areas
+
 def missionchart(request):
 
     missions = MissionArea.objects.all()

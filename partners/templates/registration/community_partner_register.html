@@ -170,6 +170,24 @@ font-weight: bold;
             </div>
 
 <br>
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_community_type').select2(
+      {
+              placeholder: 'Select a Community Type',
+              width: '640px',
+              height:'155'
+      }
+  );
+});
+</script>
+{% endblock %}
+
 
 {% endblock %}
 

@@ -6,11 +6,10 @@ from django.conf import settings
 
 urlpatterns = [
 
-   path('', views.cpipage, name='cpipage'),
+   path('', views.home, name='home'),
    path('home',views.home, name='home'),
    path('campusHome',views.campusHome, name='campusHome'),
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
-   path('k12map', views.k12map, name='k12map'),
    path('map', views.map, name='map'),
    path('projectmap', views.projectmap, name='projectmap'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),

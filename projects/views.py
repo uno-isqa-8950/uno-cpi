@@ -283,6 +283,7 @@ def project_edit_new(request,pk):
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
+            course = CourseForm(request.POST or None, instance=x)
             #print("in for loop")
         formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
@@ -292,6 +293,11 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid():
             #print(" validating the forms here")
             instances = project.save()
+            # if  course.is_valid():
+            #     course = course.save(commit=False)
+            #     course.project_name = instances
+            #     course.save()
+
             pm = formset_missiondetails.save(commit=False)
             compar= formset_comm_details.save(commit=False)
             campar= formset_camp_details.save(commit=False)
@@ -352,6 +358,7 @@ def project_edit_new(request,pk):
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
+            course = CourseForm(request.POST or None , instance=x)
         proj_mission = ProjectMission.objects.filter(project_name_id=pk)
         proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
         proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
@@ -359,7 +366,7 @@ def project_edit_new(request,pk):
         formset_comm_details = proj_comm_part_edit(instance=x)
         formset_camp_details = proj_campus_part_edit(instance=x)
         print("in else project_edit 7777777")
-        return render(request,'projects/projectedit.html',{'project': project,
+        return render(request,'projects/projectedit.html',{'project': project, 'course' : course,
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})

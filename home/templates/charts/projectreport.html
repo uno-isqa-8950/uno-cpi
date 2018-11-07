@@ -32,49 +32,8 @@
 
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
 
-<script>
-  Highcharts.chart('container', {
-      chart: {
-          type: 'bar'
-      },
-      title: {
-          text: ''
-      },
-      xAxis: {
-          categories: {{ mission|safe }}
-      },
-      yAxis: {
-        min: 0,
-        max: max_data ,
-        title: {
-            text: 'Count',
-            align: 'middle'
-        },
-
-    },
-
-      legend: {
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'top',
-        x: -40,
-        y: 80,
-        floating: true,
-        borderWidth: 1,
-        backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
-        shadow: true
-    },
-
-      series: [{
-          name: 'Count of Projects ',
-          data: {{ project_count_series }},
-          color: 'turquoise'
-      }, {
-          name: 'Count of Community Partners',
-          data: {{ partner_count_series }},
-          color: 'teal'
-      }]
-  });
+  <script>
+     Highcharts.chart('container',{{ chart|safe }});
 </script>
  <br> <br> <br>
 

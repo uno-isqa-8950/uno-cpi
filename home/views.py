@@ -309,15 +309,36 @@ def missionchart(request):
             list(set(partner_count_series_data) | set(project_count_series_data)))
         max_series_data.append(Max_count)
 
+        project_count_series = {
+            'name': 'Project Count',
+            'data': project_count_series_data,
+            'color': 'turquoise'}
+        partner_count_series = {
+            'name': 'Community Partner Count',
+            'data': partner_count_series_data,
+            'color': 'teal'}
 
-    return render(request, 'charts/projectreport.html',
-                  {
-                      'mission': json.dumps(mission_area1),
-                      'project_count_series': json.dumps(project_count_series_data),
-                      'partner_count_series': json.dumps(partner_count_series_data),
-                      'filter2': filter2,
-                      'max_series_data': json.dumps(max_series_data),
-                  })
+        chart = {
+            'chart': {'type': 'bar'},
+            'title': {'text': '   '},
+            'xAxis': {'title': {'text': 'Mission Areas'}, 'categories': mission_area1},
+            'yAxis': {'title': {'text': 'Projects Count'}, 'min': 0, 'max': Max_count + 5},
+            'legend': {
+                'layout': 'vertical',
+                'align': 'right',
+                'verticalAlign': 'top',
+                'x': -40,
+                'y': 80,
+                'floating': 'true',
+                'borderWidth': 1,
+                'backgroundColor': '#FFFFFF',
+                'shadow': 'true'
+            },
+            'series': [project_count_series, partner_count_series]
+        }
+
+        dump = json.dumps(chart)
+    return render(request, 'charts/projectreport.html',{'chart': dump , 'filter2' : filter2})
 
 
 

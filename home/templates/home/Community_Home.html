@@ -18,7 +18,7 @@
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/panel.css' %}" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
@@ -27,7 +27,7 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script-->
 
 
 <style>
@@ -71,7 +71,7 @@ color:black;
     <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
     <div class="collapse navbar-collapse" id="target">
 
-        <a class="navbar-brand" href="/">
+        <a class="navbar-brand" href="#">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
         <a class ="navbar-brand" href='/CommunityHome' id="uno"><b>University of Nebraska Omaha</b>
                 <b id="cpi">Community Partnership Initiative</b></a>
@@ -209,14 +209,15 @@ political affiliation in its programs, activities, or employment.
 
 <!-- Footer Ends Here-->
 
-
+{% block js %}
+{% endblock %}
 
 
 </body>
 
-<script type="text/javascript">
+<!--script type="text/javascript">
      $(document).ready(function() {
     $('#example').DataTable();
 } );
- </script>
+ </script-->
 </html>

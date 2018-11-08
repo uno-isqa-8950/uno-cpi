@@ -28,6 +28,18 @@
  margin-top: 5px;
 font-weight: bold;
 }
+label:after
+    {
+    content:"*" ;
+    color:red
+    }
+ .help-block
+{
+margin-left: 25px;
+margin-top: 5px;
+
+}
+
 </style>
 {% endblock %}
 {% block selectizeForm %}
@@ -40,7 +52,8 @@ $(document).ready(function(){
   $('#id_campus_partner').select2(
       {
               placeholder: 'Select a Campus Partner',
-              width: '700px'
+              width: '500px',
+              left: '20px'
       }
   );
 });

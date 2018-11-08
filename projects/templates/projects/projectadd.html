@@ -1,49 +1,77 @@
 {% extends 'home/Campus_Home.html' %}
 {% load bootstrap %}
 {% block content %}
-    <style>
+  <style>
     label
     {
-    margin-left: 10px;
+    margin-left: 25px;
     font-weight: bold;
     }
- h4
-{
+
+    h4
+    {
     line-height: 2.7;
     font-size: 1.3em;
-}
+    }
+  .panel-default
+  {
+      margin-top: 20px;
+  }
 
     .btn-custom
     {
         margin-top:20px;
-        margin-left:350px;
+        margin-left:300px;
         width:130px;
     }
+
+    input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status]
+    {
+    width:95%;
+    }
     </style>
-<div class="container">
+<!--<div class="container">
+               <a href="{% url 'SearchForProject' %}" class="row"><span
+                         class="btn btn-custom">Search Project</span></a>
+</div-->
 
-<div class = "container">
-
-{#<div class="row">#}
-{#               <a href="{% url 'SearchForProject' %}" class="row"><span#}
-{#                         class="btn btn-custom">Search Project</span></a>#}
-{#             </div><br><br>#}
-    <div class = "panel panel-default">
-        <div class="panel-heading text-center"><h4><b>Add Project</b></h4></div>
-			<div class="panel-body">
+    <div class = "container">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-10 col-md-10">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4><b>Add Project</b></h4></div>
+			            <div class="panel-body">
 
 
-     <form method="POST" >{% csrf_token %}
-         {{formset.management_form}}
-         {{formset2.management_form}}
-         {{formset3.management_form}}
+                        <form method="POST" >{% csrf_token %}
+                        {{formset.management_form}}
+                        {{formset2.management_form}}
+                        {{formset3.management_form}}
+                        <!--div class="row">
+                            <div class="col-md-12 col-lg-12"-->
+                                {{project.project_name|bootstrap}}
+                            <!--/div>
+                        </div>
+                        <div class ="row">
+                            <div class="col-lg-6 col-md-6"-->
 
-         {{project.project_name|bootstrap}}
-         {{ project.status|bootstrap}}
-         {{project.engagement_type|bootstrap}}
-         {{ course|bootstrap }}
-         {{project.activity_type|bootstrap}}
-         {{ project.facilitator|bootstrap }}
+                            <!--/div>
+                            <div class="col-lg-5 col-md-6"-->
+                                {{project.engagement_type|bootstrap}}
+                            <!--/div>
+                        </div>
+                        <div class ="row"-->
+                            {{ course|bootstrap }}
+                        <!--/div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6"-->
+                                {{project.activity_type|bootstrap}}
+                            <!--/div>
+                            <div class="col-lg-5 col-md-6"-->
+                                {{ project.facilitator|bootstrap }}
+                                 {{ project.status|bootstrap}}
+                            <!--/div>
+                        </div-->
          {{ project.description|bootstrap }}
          {{ project.semester|bootstrap }}
          {{ project.total_uno_students|bootstrap }}
@@ -65,53 +93,54 @@
 
 
 
-         {% for form in formset %}
-         <div class="row form-row spacer">
-                <div class="col-4">
+                  {% for form in formset %}
+         <div class="form-row" id="contact1">
+                <div class="col-lg-12">
                     <label>Mission Information</label>
                     <br>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-12">
                 <div class="input-group">
-                    {{ form|bootstrap }}
+                    {{ form.as_p }}
                     <div class="input-group-append" >
-                              <button class="btn btn-outline-info btn-sm add-form-row">Add more missions</button>
+                              <button class="btn btn-secondary add-form-row">Add more missions</button>
 
                     </div>
                 </div>
                 </div>
          </div>
          {% endfor %}
-
+<!--
          {% for form2 in formset2 %}
-          <div class="row form2-row spacer">
-                <div class="col-4">
+          <div class="form2-row" id="contact2">
+                <div class="col-lg-12">
                     <label>Community Partner Information</label>
                     <br>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-6">
                 <div class="input-group">
-                    {{form2|bootstrap}}
+                    {{form2}}
+                </div>
                     <div class="input-group-append" >
-                              <button class="btn2 btn-outline-info btn-sm add-form2-row">Add more CommunityPartners</button>
+                             <button class="btn btn-secondary add-form2-row">Add more CommunityPartners</button>
 
                     </div>
-                </div>
+
                 </div>
           </div>
          {%endfor%}
-
+-->
          {% for form3 in formset3 %}
-         <div class="row form3-row spacer">
-                <div class="col-4">
+         <div class="form3-row" id="contact1">
+                <div class="col-lg-12">
                     <label>Campus Information</label>
                     <br>
                 </div>
-                <div class="col-4">
+                <div class="col-lg-6">
                 <div class="input-group">
-                    {{ form3|bootstrap }}
+                    {{ form3.as_table }}
                     <div class="input-group-append" >
-                        <button class="btn btn-outline-info btn-sm add-form3-row">Add more Campus</button>
+                        <button class="btn btn-secondary add-form3-row">Add more Campus</button>
                     </div>
                 </div>
                 </div>
@@ -120,8 +149,9 @@
 
         <button type="submit" class="save btn btn-custom">Save</button>
     </form><br><br>
-            </div></div></div></div><br><br>
+                    </div></div></div></div></div><br><br><br>
 {% endblock %}
+
 
 
 {% block custom_js %}

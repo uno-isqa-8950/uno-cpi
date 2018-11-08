@@ -73,25 +73,25 @@ font-weight: bold;
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            {{ community_partner_form.country |bootstrap }}
-                        </div>
-                        <div class="col-md-6">
                             {{ community_partner_form.city |bootstrap }}
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-6">
                             {{ community_partner_form.state |bootstrap }}
                         </div>
-                        <div class="col-md-6">
-                            {{ community_partner_form.county |bootstrap }}
-                        </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-6">
+                            {{ community_partner_form.country |bootstrap }}
+                        </div>
                         <div class="col-md-6">
                             {{ community_partner_form.zip |bootstrap }}
                         </div>
                     </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-6">-->
+                            <!--{{ community_partner_form.zip |bootstrap }}-->
+                        <!--</div>-->
+                    <!--</div>-->
 
 
                     {{ formset.management_form }}

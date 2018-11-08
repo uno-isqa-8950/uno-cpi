@@ -38,8 +38,8 @@ class CampusPartnerContactForm(forms.ModelForm):
         labels = {
             'first_name': ('Contact First Name'),
             'last_name': ('Contact Last Name'),
-            'work_phone': ('Contact Work Phone#'),
-            'cell_phone': ('Contact Cell Phone#'),
+            'work_phone': ('Work Phone#'),
+            'cell_phone': ('Cell Phone#'),
             'email_id': ('Contact Email'),
             'contact_type':('Contact Type'),
         }
@@ -58,7 +58,12 @@ class CommunityPartnerForm(forms.ModelForm):
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country','county',
                   'city', 'state', 'zip')
         labels = {
-            'community_type' : ('Community Type'),
+
+            'website_url': ('Website'),
+            'community_type': ('Community Type'),
+            'address_line1': ('Address Line 1'),
+            'address_line2': ('Address Line 2'),
+
         }
         widgets = {'name': forms.TextInput({'placeholder': 'Community Partner Name'}),
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
@@ -79,6 +84,10 @@ class CommunityContactForm(forms.ModelForm):
         labels = {
             'email_id': ('Contact Email'),
             'contact_type': ('Contact Type'),
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'work_phone': ('Work Phone'),
+            'cell_phone': ('Cell Phone')
         }
         widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
                    'cell_phone': forms.TextInput({'placeholder': '##########'}),
@@ -107,7 +116,7 @@ class CommunityMissionForm(ModelForm):
         fields = ('mission_type' , 'mission_area')
         labels = {
             'mission_type': ('Mission Type'),
-            'mission_area': ('Mission Area'),
+            'mission_area': ('Mission Area')
         }
 
 

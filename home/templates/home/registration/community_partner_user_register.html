@@ -86,7 +86,11 @@ margin-left: 25px;
 margin-top: 5px;
 
 }
-
+label:after
+{
+    content:"*" ;
+    color:red
+}
 label
 {
 margin-left: 25px;
@@ -104,7 +108,9 @@ $(document).ready(function(){
   $('#id_community_partner').select2(
       {
               placeholder: 'Select a Community Partner',
-                            width: '620px'
+                            width: '620px',
+                            left: '30px',
+                             right: '50px'
 
       }
 

@@ -204,32 +204,33 @@ def proj_view_user(request):
 
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, extra =1 , form = ProjectMissionFormset)
-    proj_comm_part= modelformset_factory(ProjectCommunityPartner, extra=1 , form =ProjectCommunityPartnerForm2)
+    #proj_comm_part= modelformset_factory(ProjectCommunityPartner, extra=1 , form =ProjectCommunityPartnerForm2)
     proj_campus_part=modelformset_factory(ProjectCampusPartner, extra=1, form=ProjectCampusPartnerForm)
 
     if request.method == 'POST':
         project = ProjectForm2(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None)
-        formset2 = proj_comm_part(request.POST or None)
+        #formset2 = proj_comm_part(request.POST or None)
         formset3 = proj_campus_part(request.POST or None)
 
 
-        if project.is_valid() and formset.is_valid() and formset2.is_valid():
+        if project.is_valid() and formset.is_valid() :
+            #and formset2.is_valid()
             proj= project.save()
             course = course.save(commit=False)
             course.project_name = proj
             course.save()
             mission_form = formset.save(commit = False)
-            proj_comm_form = formset2.save(commit= False)
+            #proj_comm_form = formset2.save(commit= False)
             proj_campus_form = formset3.save(commit=False)
 
 
-            for k in proj_comm_form:
-                k.project_name = proj
-                # print("in add comm")
-                print(k.project_name)
-                k.save()
+            #for k in proj_comm_form:
+             #   k.project_name = proj
+             #   # print("in add comm")
+             #   print(k.project_name)
+             #   k.save()
             for form in mission_form:
                 form.project_name = proj
                 # print("in add mission")
@@ -246,7 +247,7 @@ def project_total_Add(request):
 
             for x in project:
                 projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                #cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                 camp_part = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
@@ -259,7 +260,7 @@ def project_total_Add(request):
                         'total_uno_faculty': x.total_uno_faculty,
                         'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
                         'total_economic_impact': x.total_economic_impact,
-                        'projmisn': projmisn, 'cp': cp, 'camp_part': camp_part}
+                        'projmisn': projmisn, 'camp_part': camp_part}
                 projects_list.append(data)
             return render(request, 'projects/Projectlist.html', {'project':projects_list } )
 
@@ -267,11 +268,9 @@ def project_total_Add(request):
         project = ProjectForm2()
         course =CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none())
-        formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
+        #formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
-    return render(request,
-                          'projects/projectadd.html',{'project': project, 'formset': formset, 'formset2':formset2, 'formset3': formset3, 'course': course})
-
+    return render(request,'projects/projectadd.html',{'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
 
 def project_edit_new(request,pk):
 

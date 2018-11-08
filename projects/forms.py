@@ -55,6 +55,19 @@ class ProjectForm2(ModelForm):
             'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
         }
         labels = {
+            'project_name': 'Project Name',
+            'engagement_type': 'Engagement Type',
+            'activity_type': 'Activity Type',
+            'total_uno_students': 'Total Number of UNO Students',
+            'total_uno_hours': 'Total Number of UNO Students Hours',
+            'total_k12_students': 'Total Number of K-12 Students',
+            'total_k12_hours': 'Total Number of K-12 Hours',
+            'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
+            'start_date': 'Project Start Date',
+            'end_date': 'Project End Date',
+            'other_details': 'Other Important Details',
+            'outcomes': 'Economic Impact',
+            'address_line1': 'Address Line 1',
             'total_other_community_members':  'Total Other Participants',
 
         }
@@ -64,8 +77,8 @@ class ProjectMissionForm(ModelForm):
         model = ProjectMission
         fields = ('project_name','mission_type' , 'mission',)
         labels = {
-            'mission_type': ('Select mission type'),
-            'mission': ('Select mission'),
+            'mission_type': ('Select Mission Type'),
+            'mission': ('Select Mission'),
         }
 
 
@@ -80,6 +93,7 @@ class ProjectCampusPartnerForm(ModelForm):
     class Meta:
         model = ProjectCampusPartner
         fields = ('campus_partner','total_hours','total_people',)
+
 
 
 class StatusForm(ModelForm):
@@ -104,8 +118,8 @@ class ProjectMissionFormset(forms.ModelForm):
         model = ProjectMission
         fields = ('mission_type', 'mission',)
         labels = {
-            'mission_type': ('Select mission type'),
-            'mission': ('Select mission'),
+            'mission_type': ('Select Mission type'),
+            'mission': ('Select Mission'),
                     }
 
 class ProjectSearchForm(forms.ModelForm):

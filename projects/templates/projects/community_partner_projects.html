@@ -1,4 +1,5 @@
 {% extends 'home/Community_Home.html' %}
+{% load staticfiles %}
 {% block content %}
 <style xmlns="http://www.w3.org/1999/html">
    /* table {
@@ -31,33 +32,25 @@
 <div class="container">
      <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
 
-            <thead>
+                    <thead>
             <tr>
                 <th>Project Name</th>
+                <th>Mission Area</th>
+                <th>Community Partners</th>
+                <th>Campus Partners</th>
                 <th>Engagement Type</th>
-                <th>Activity Type</th>
-                <th>Mission Type</th>
-                <th>Facilitator</th>
+                <th>Academic Year</th>
+                <th>Project Status</th>
                 <th>Semester</th>
-                <th>Start Date </th>
-                <th>End Date </th>
+                <th>Activity Type</th>
                 <th> UNO Students</th>
-                <th> UNO hours</th>
-                <th> UNO Faculty</th>
-                <th>Community Partner Volunteers</th>
-                <th>Community Partner Hours</th>
-                <th>Other Community Members</th>
+                <th> UNO Student Hours</th>
+                <th>UNO Faculty/Staff</th>
                 <th> K12 Students</th>
                 <th> K12 Hours </th>
-
-
-                <th>Status</th>
-
-                <!--<th>Mission</th>-->
-
-
-                <th>CampusPartner</th>
-                <th>Actions</th>
+                <th>Community Participants</th>
+                <th>Description</th>
+                <!--<th>Actions</th>-->
             </tr>
             </thead>
             <tbody>
@@ -67,26 +60,24 @@
                            <br>
 
                             <td>{{ project.name }}</td>
-                            <td>{{ project.engagementType }}</td>
-                            <td>{{ project.activityType }}</td>
                             <td>{% for projmisn in project.projmisn %}
                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
-                            <td>{{ project.facilitator }}</td>
+                            <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
+                            <td>{% for camp in project.camp%}{{camp.campus_partner}}<br> {% endfor %}</td>
+                            <td>{{ project.engagementType }}</td>
                             <td>{{ project.semester }}</td>
-                            <td>{{ project.startDate }}</td>
-                            <td>{{ project.endDate }}</td>
-                            <td>{{project.x.total_uno_students}}</td>
+                            <td>{{ project.status}}</td>
+                            <td>{{ project.semester }}</td>
+                            <td>{{ project.activityType }}</td>
+                            <td>{{project.total_uno_students}}</td>
                             <td>{{project.total_uno_hours}}</td>
-                            <td>{{project.total_uno_faculty}}</td>
-
-                            <td> {% for cp in project.cp %} {{cp.total_people}} <br> <br> {% endfor %} </td>
-                            <td> {% for cp in project.cp %} {{cp.total_hours}} <br> <br> {% endfor %} </td>
-                            <td>{{project.total_other_community_members}}</td>
+                            <td>{{ project.facilitator }}</td>
                             <td>{{project.total_k12_students}}</td>
                             <td>{{project.total_k12_hours}}</td>
-                            <td>{{ project.status}}</td>
-                            <td>{% for camp in project.camp%}{{camp.campus_partner}}<br> {% endfor %}</td>
-                            <td><a href="{% url 'communitypartnerprojectedit' pk=project.pk%}" class="btn btn-danger">Edit</a> </td>
+                            <td>{{project.total_other_community_members}}</td>
+
+                            <td>{{project.description}}</td>
+                            <!--<td><a href="{% url 'communitypartnerprojectedit' pk=project.pk%}" class="btn btn-custom">Edit</a> </td>-->
                            </tr>
 
                 {% endfor %}
@@ -96,13 +87,15 @@
             </tbody>
 
     </table>
+    <br>
+    <br>
 
 </div>
 {%  endblock %}
 
 {% block js %}
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>

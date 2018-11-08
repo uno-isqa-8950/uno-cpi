@@ -84,6 +84,16 @@ margin-top:15px;
                         <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
                     </div>
                 </li>
+              <li class=" nav-item dropdown">
+                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-registered"></i>Register
+                        <span class="caret"></span>
+                    </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
+                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
+                </div>
+                </li>
                 <li class="nav-item">
 
                     <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user-plus"></i>SignUp </a>
@@ -138,7 +148,7 @@ margin-top:15px;
 		.legend {
 			background-color: #fff;
 			border-radius: 10px;
-			bottom: 250px;
+			bottom: 200px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 			position: absolute;
@@ -166,7 +176,7 @@ margin-top:15px;
  		.legend2 {
 			background-color: #fff;
 			border-radius: 10px;
-			bottom: 130px;
+			bottom: 80px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
 			position: absolute;

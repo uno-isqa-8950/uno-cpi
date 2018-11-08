@@ -22,10 +22,10 @@ tr:nth-child(even) {
     <div class="container-fluid" id="align">
         <div class="col-md-12 panel panel-primary">
             <br>
-        <h3>Number of Projects by Engagement Type</h3>
+        <h3>Engagment Types Chart</h3>
             <br>
         <form id="filters-form" method="get">
-            <label>Filter by Mission Type </label>&emsp;&emsp;&emsp;&emsp;
+            <label>Filter by Mission Type </label>&emsp;&emsp;
             <label>Filter by Semester</label>  <br>
 
             <select id="id_mission" name="mission" onchange="this.form.submit()">
@@ -53,12 +53,6 @@ tr:nth-child(even) {
 <script>
      Highcharts.chart('container',{{ chart|safe }});
 </script>
-
-   </div>
-
-    </div>
-
-
-
-
+        </div>
+    </div><br><br>
 {% endblock %}

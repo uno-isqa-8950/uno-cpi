@@ -25,7 +25,7 @@ from .forms import *
 
 
 def home(request):
-    return render(request, 'home/testnew.html',
+    return render(request, 'home/homepage.html',
                   {'home': home})
 
 def map(request):

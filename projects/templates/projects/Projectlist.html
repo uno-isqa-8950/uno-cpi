@@ -1,12 +1,16 @@
 
 {% extends 'home/Campus_Home.html' %}
-
+{% load staticfiles %}
 {% block content %}
 
 <style>
     .btn-custom
     {
-    margin-left:-70px;
+        position: relative;
+        width: 100px;
+        top: 5px;
+        left: 3px;
+        color: #666666;
     }
     .tableName{
 
@@ -76,7 +80,7 @@
                             <td>{{ project.facilitator }}</td>
                             <td>{{ project.description }}</td>
 
-                            <td><a href="{% url 'project_edit_new' pk=project.pk %}" class="btn btn-warning">Edit</a> </td>
+                            <td><a href="{% url 'project_edit_new' pk=project.pk %}" class="btn btn-custom">Edit</a> </td>
                            </tr>
 
                 {% endfor %}
@@ -94,7 +98,8 @@
 
 {% block js %}
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>-->
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>

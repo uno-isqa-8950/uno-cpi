@@ -37,7 +37,30 @@ background: #D3D3D3;
 margin-left:15px;
 margin-top:15px;
 }
-
+.dropdown-submenu{
+    position: relative;
+}
+.dropdown-submenu a::after{
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 3px;
+    top: 40%;
+}
+.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    margin-top: -30px;
+    left: 100%;
+}
+@media (max-width: 992px) {
+    .dropdown-menu{
+        width: 50%;
+    }
+    .dropdown-menu .dropdown-submenu{
+        width: auto;
+    }
+}
 </style>
 
 {% block additionalCSS %}
@@ -72,17 +95,51 @@ margin-top:15px;
                 </div>
                 </li>
                 <li class="nav-item dropdown">
-                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-line-chart"></i>Analytics
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fa fa-line-chart"></i>
+                  Analytics
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                  <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#"> Reports</a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" href="/projectInfo">Mission Area report</a>
+                      <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Engagement Type chart</a>
+                      <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Report</a>
+
+                    </ul>
+                  </li>
+                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts </a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" href="/missionchart">Mission Area Chart</a>
+                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
+
+                    </ul>
+                  </li>
+                </ul>
+                </li>
+{#                <li class="nav-item dropdown">#}
+{#                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">#}
+{#                        <i class="fa fa-line-chart"></i>Analytics#}
+{#                        <span class="caret"></span>#}
+{#                   </a>#}
+{#                    <div class="dropdown-menu" aria-labelledby="dropdown_target">#}
+{#                        <a class="dropdown-item" href="/projectInfo">Mission Area Reports</a>#}
+{#                        <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partner Report</a>#}
+{#                        <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Report</a>#}
+{#                        <a class="dropdown-item" href="/missionchart">Mission area Chart </a>#}
+{#                        <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>#}
+{#                    </div>#}
+{#                </li>#}
+                <li class=" nav-item dropdown">
+                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-registered"></i>Register
                         <span class="caret"></span>
-                   </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href="/projectInfo">Mission Area Reports</a>
-                        <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partner Report</a>
-                        <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Report</a>
-                        <a class="dropdown-item" href="/missionchart">Mission area Chart </a>
-                        <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
-                    </div>
+                    </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
+                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
+                </div>
                 </li>
                 <li class="nav-item">
 

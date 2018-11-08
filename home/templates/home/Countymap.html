@@ -111,11 +111,11 @@ margin-top:15px;
 <body>
 	<style>
 		#map{
-			width: 1010px;
-			height: 100%;
+			width: 1210px;
+			height: 100vh;
 			top: 140px;
 			position: absolute;
-			left: 30px;
+			left: 1%;
 		}
 		.h2 {
 			display: block;
@@ -128,7 +128,7 @@ margin-top:15px;
 		}
 		.filter{
 			position: absolute;
-			left: 1050px;
+			right: 20px;
 			top: 120px;
 		}
 		.selectType{
@@ -226,10 +226,10 @@ margin-top:15px;
 
         .sidebar {
             position: absolute;
-			top: 500px;
+			top: 200px;
 			right: 15px;
 			width: 18%;
-            max-height: 50%;
+            height: 120px;
         }
 
         .sidebar fieldset {
@@ -292,7 +292,7 @@ margin-top:15px;
 	</style>
 	<div>
 		<div id='map' ></div>
-        <h2 class="h2">Overview of our Community Partners</h2>
+        <h2 class="h2">Overview of Community Partners</h2>
 		<div class="filter">
             <h5>Filter by Academic Year</h5>
 			<select id="selectYear" class="selectType">
@@ -312,7 +312,7 @@ margin-top:15px;
 			<div><a href='#' id="justice"><span style='background-color: #2A0A12'></span>Social Justice</a></div>
 		</div>
     <div id="sidebar" class='sidebar'>
-        <input id='valueFilter' type='text' placeholder='Filter results by name' />
+        <input id='valueFilter' type='text' placeholder='Filter by Partner name' />
     </div>
 		<div id='incomelegend' class='legend2'>
 			<h4>Filter by income levels</h4>

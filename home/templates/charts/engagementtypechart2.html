@@ -2,6 +2,13 @@
 {% block content %}
 
 <style>
+
+select[id=id_mission],select[id=id_semester]
+{
+
+    width:200px;
+}
+
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -25,15 +32,16 @@ tr:nth-child(even) {
         <h3>Engagment Types Chart</h3>
             <br>
         <form id="filters-form" method="get">
-            <label>Filter by Mission Type </label>&emsp;&emsp;&emsp;&emsp;
-            <label>Filter by Semester</label>  <br>
+            <label>Filter by Mission Area </label> &emsp;
+
 
             <select id="id_mission" name="mission" onchange="this.form.submit()">
                 {% for mission in missions_filter.form.mission %}
                     {{mission}}
                 {% endfor %}
             </select>
-
+        &emsp;
+            <label>Filter by Semester</label>
             <select id="id_semester" name="semester" onchange="this.form.submit()">
                 {% for sem in semester_filter.form.semester %}
                     {{sem}}

@@ -66,7 +66,7 @@ class ProjectForm2(ModelForm):
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
-            'outcomes': 'Economic Impact',
+            'outcomes': 'Outcomes',
             'address_line1': 'Address Line 1',
             'total_other_community_members':  'Total Other Participants',
 

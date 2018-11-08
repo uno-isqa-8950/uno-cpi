@@ -109,9 +109,9 @@ margin-left:100px;
                             {% for current in theList %}
                                 {% if forloop.parentloop.counter0 == forloop.counter0 %}
                                     {% if current %}
-                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-custom">Add</a> </td>
+                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning">Add</a> </td>
                                     {% else %}
-                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-custom">Add</a> </td>
+                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning disabled">Add</a> </td>
                                      {% endif %}
                                 {% endif %}
                              {% endfor %}

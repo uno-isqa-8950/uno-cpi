@@ -1,5 +1,15 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
+
+<style>
+select[id=id_engagement_type],select[id=id_semester]
+{
+
+    width:200px;
+}
+ </style>
+
+
     <div class="container-fluid" id="align">
         <div class="col-md-12 panel panel-primary">
     <br>
@@ -7,19 +17,21 @@
         <br>
     <form id="filters-form" method="get">
      &emsp;
-         <label>Filter by Engagement Type </label>&emsp;&emsp;&emsp;
+         <label>Filter by Engagement Type </label>
 
-          <label>Filter by Semester</label>  <br> &emsp;
+          &emsp;
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                 {% for engagement in filter2.form.engagement_type %}
                     {{engagement}}
                 {% endfor %}
             </select>
-            &emsp;
+    &emsp;
+            <label>Filter by Semester</label>
             <select id="id_semester" name="semester" onchange="this.form.submit()">
                 {% for sem in filter2.form.semester %}
                     {{sem}}
                 {% endfor %}
+
             </select>
 
         <!--<input type="submit" value="Search" />-->

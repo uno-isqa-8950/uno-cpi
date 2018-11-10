@@ -15,11 +15,11 @@ var map = new mapboxgl.Map({
     // container id specified in the HTML
     container: 'map',
     // style URL
-    style: 'mapbox://styles/mapbox/streets-v10',
+    style: 'mapbox://styles/mapbox/light-v9',
     // initial position in [lon, lat] format
     center: [-95.957309, 41.276479],
     // initial zoom
-    zoom: 12
+    zoom: 5
 });
 
 var popup = new mapboxgl.Popup({
@@ -34,19 +34,16 @@ function parseDescription(message) {
 
     for (var i in message) {
 
+
         if (i == "CommunityPartner") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + 'Community Partner' + '</span>' + ": " + message[i] + "<br>";
         }if (i == "K-12 Partner") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i =="Address"){
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "City"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "State"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "WeitzCECPartner"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "PhoneNumber") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Website"){
             var website = message[i];
@@ -54,18 +51,17 @@ function parseDescription(message) {
             if (!website.includes("http")){
                 website = base.concat(website);
             }
-            string += `<span style="font-weight:bold">${i}</span>: <a target="_blank" href="${website}" class="popup"
-                        style="color:darkblue">${website}</a><br>`;
+            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
         } else if (i == "STATE"){
             string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "NAME"){
             string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Income"){
             string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
-        } else if (i=="districtnumber"){
-            string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>"
         } else if (i=="income"){
             string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
+        } else if (i=="County"){
+            string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
         }
     }
     return string;
@@ -76,54 +72,24 @@ function parseDescription(message) {
 var communityData = ""
 var districtData = "";
 var k12Datas = "";
-$.get("static/GEOJSON/CommunityPartners.geojson", function(data) { //load JSON file from static/GEOJSON
+$.get("static/GEOJSON/CommunityPartners_new.geojson", function(data) { //load JSON file from static/GEOJSON
     communityData = jQuery.parseJSON(data);
     var features=communityData["features"];
 	var count=0;
 	features.forEach(function(feature){
-	    var polyid = 0;
 		feature.properties["id"]=count;
 		count++;
-		if (feature.geometry !== null) {
-            var point = feature.geometry.coordinates;
-            point = turf.point(point);
-            for (var i = 0; i < polygons.length; i++){
-                var poly = polygons[i];
-                poly = turf.polygon(poly);   //variable polygons is called from DistrictList.js
-                if (turf.booleanPointInPolygon(point,poly)) {
-                    polyid = i+1;
-                }
-            }
-
-        }
-
-        feature.properties["districtnumber"] = polyid; //assign value to districtnumber key
 	});
 	console.log(features);
 	communityData["features"]=features;
 })
-$.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
+$.get("static/GEOJSON//K12Partners_new.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Datas = jQuery.parseJSON(data);
     var features=k12Datas["features"];
     var count=0;
 	features.forEach(function(feature){
-	    var polyid = 0;
 		feature.properties["id"]=count;
 		count++;
-		if (feature.geometry !== null) {
-            var point = feature.geometry.coordinates;
-            point = turf.point(point);
-            for (var i = 0; i < polygons.length; i++){
-                var poly = polygons[i];
-                poly = turf.polygon(poly);   //variable polygons is called from DistrictList.js
-                if (turf.booleanPointInPolygon(point,poly)) {
-                    polyid = i+1;
-                }
-            }
-
-        }
-
-        feature.properties["districtnumber"] = polyid; //assign value to districtnumber key
 	});
 	k12Datas["features"]=features;
 })
@@ -160,7 +126,7 @@ map.on('load', function(e) {
                     "fill-opacity": ["case",
                         ["boolean", ["feature-state", "hover"], false],
                         1,
-                        0.4
+                        0.15
                     ],
                     "fill-outline-color": "#0000AA"
                 },
@@ -181,7 +147,7 @@ map.on('load', function(e) {
             "fill-opacity": ["case",
                 ["boolean", ["feature-state", "hover"], false],
                 1,
-                0.08
+                0.15
             ],
             "fill-outline-color": "#0000AA"
         }
@@ -230,7 +196,7 @@ map.on('load', function(e) {
                     "paint": {
                         "circle-radius": 8,
                         "circle-opacity": 0.8,
-                        "circle-color": '#fbb03b'
+                        "circle-color": '#65dc1e'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "Educational Support"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -247,7 +213,7 @@ map.on('load', function(e) {
                     "paint": {
                         "circle-radius": 8,
                         "circle-opacity": 0.8,
-                        "circle-color": '#ADFF2F'
+                        "circle-color": '#17f3d1'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "Economic Sufficiency"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -264,7 +230,7 @@ map.on('load', function(e) {
                     "paint": {
                         "circle-radius": 8,
                         "circle-opacity": 0.8,
-                        "circle-color": '#e55e5e'
+                        "circle-color": '#ba55d3'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "International Service"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -479,7 +445,7 @@ map.on('load', function(e) {
 
     })
 
-
+/*
     //******************************Search Legislative District**********************************
     filterInput.addEventListener("keydown",function(e){
 		if(e.keyCode==8){
@@ -516,38 +482,38 @@ map.on('load', function(e) {
 			var cmValues7=map.queryRenderedFeatures({layers:['k12']});
 			//filter the name(s) that include the input value
 			var filtered1=cmValues1.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log("1:"+districtnumber);
                 console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered2=cmValues2.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered3=cmValues3.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered4=cmValues4.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered5=cmValues5.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered6=cmValues6.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
 			var filtered7=cmValues7.filter(function(feature){
-				var districtnumber=normalize(feature.properties.districtnumber.toString());
+				var districtnumber=normalize(feature.properties.district.toString());
 				console.log(districtnumber==value);
 				return districtnumber==value;
 			});
@@ -617,7 +583,7 @@ map.on('load', function(e) {
 			}
         }
     });
-
+*/
     //******************************search community***********************************************
     var valueFilter=document.getElementById("valueFilter");
 
@@ -757,7 +723,7 @@ map.on('load', function(e) {
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 9
+        zoom: 5
     });
 }
 

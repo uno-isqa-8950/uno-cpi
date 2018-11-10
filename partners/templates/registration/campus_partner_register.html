@@ -33,6 +33,11 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+    label:after
+    {
+    content:"*" ;
+    color:red
+    }
 
 .com-md-12 col-lg-12
 {
@@ -139,6 +144,27 @@ padding: 20 px
             </div></div></div></div><br><br>
 
 {% endblock %}
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_college_name').select2(
+      {
+              placeholder: 'Select a College Name'}
+  );
+});
+$(document).ready(function(){
+  $('#id_department').select2(
+      { placeholder: 'Select a Department'
+      }
+  );
+});
+</script>
+{% endblock %}
+
 
  {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

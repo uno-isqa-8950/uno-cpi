@@ -6,10 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-#<<<<<<< HEAD:projects/migrations/0003_auto_20181028_1338.py
         ('projects', '0001_initial'),
-        ('projects', '0001_initial'),
-#>>>>>>> 4dbcd2dfbd93e43f613a5a6ad69d2a9c47177f0b:projects/migrations/0003_auto_20181024_2337.py
     ]
 
     operations = [

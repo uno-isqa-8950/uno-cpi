@@ -1,4 +1,5 @@
 {% extends 'home/Campus_Home.html' %}
+{% load staticfiles %}
 {% block searchjs %}
 <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -40,10 +41,17 @@ margin-left:100px;
 .searchName{
     text-align: center;
 }
-
+  .btn-custom
+    {
+        position: relative;
+        width: 100px;
+        top: 5px;
+        left: 3px;
+        color: #666666;
+    }
 
 </style>
-<h4 class="searchName">Search From Existing Projects here</h4>
+<h4 class="searchName">Search for Existing Projects here</h4>
 
    <div>
   <form action="." method="GET">
@@ -71,7 +79,7 @@ margin-left:100px;
                 <th> K12 Students</th>
                 <th> K12 Hours </th>
                 <th> UNO Faculty</th>
-                <th>Other Community Members</th>
+                <th>Other Community Participants</th>
                 <th>Status</th>
                 <th>Action</th>
 
@@ -119,7 +127,8 @@ margin-left:100px;
 
 {% block js %}
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>-->
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>

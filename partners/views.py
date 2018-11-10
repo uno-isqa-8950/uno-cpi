@@ -14,6 +14,13 @@ from django.template.loader import render_to_string
 
 def registerCampusPartner(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
+    colleges = []
+    for object in College.objects.order_by('college_name'):
+        colleges.append(object.college_name)
+    departmnts = []
+    for object in Department.objects.order_by('department_name'):
+        departmnts.append(object.department_name)
+
     if request.method == 'POST':
         campus_partner_form = CampusPartnerForm(request.POST)
 
@@ -30,12 +37,17 @@ def registerCampusPartner(request):
     else:
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-    return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form, 'formset': formset})
+    return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form,
+                                                                       'formset': formset,'colleges':colleges,'departments':departmnts})
 
 
 def registerCommunityPartner(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
     CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    commType = []
+    for object in CommunityType.objects.order_by('community_type'):
+        commType.append(object.community_type)
+
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_mission = CommunityMissionFormset(request.POST)
@@ -64,7 +76,7 @@ def registerCommunityPartner(request):
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission}, )
+                   'formset_mission' : formset_mission, 'commType':commType}, )
 
 
 #Campus and Community Partner user Profile

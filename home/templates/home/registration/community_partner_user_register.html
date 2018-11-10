@@ -52,7 +52,7 @@ background-color: #b8b8b8;
 }
 
 
-.form-control
+.form-control, input[type=text]
 {
     width:92%;
     border:2px solid #aaa;
@@ -64,6 +64,7 @@ background-color: #b8b8b8;
     transition:.3s;
     margin-left: 22px;
 }
+
 
 
 
@@ -86,7 +87,11 @@ margin-left: 25px;
 margin-top: 5px;
 
 }
-
+label:after
+{
+    content:"*" ;
+    color:red
+}
 label
 {
 margin-left: 25px;
@@ -94,16 +99,27 @@ margin-top: 5px;
 font-weight: bold;
 }
 </style>
-{% block js1 %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.css" />
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
 <script>
 $(document).ready(function(){
-  $('#id_community_partner').selectize();
+  $('#id_community_partner').select2(
+      {
+              placeholder: 'Select a Community Partner',
+                            width: '620px',
+                            left: '30px',
+                             right: '50px'
+
+      }
+
+  );
 });
 </script>
 {% endblock %}
+
 <div class = "container">
      <div class = "panel panel-default">
 		<div class="panel-heading text-center"><h4>Create a Community Partner User Account</h4></div>

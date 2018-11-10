@@ -1,5 +1,7 @@
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
+
+from university.models import Course
 from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
 from django import forms
 from django.forms import ModelForm
@@ -37,6 +39,8 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
 
         }
 
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 class ProjectForm2(ModelForm):
     class Meta:
@@ -45,29 +49,51 @@ class ProjectForm2(ModelForm):
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
                     'longitude',)
+        widgets = {
+            'start_date': DateInput(),
+            'end_date': DateInput(),
+            'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
+        }
+        labels = {
+            'project_name': 'Project Name',
+            'engagement_type': 'Engagement Type',
+            'activity_type': 'Activity Type',
+            'total_uno_students': 'Total Number of UNO Students',
+            'total_uno_hours': 'Total Number of UNO Students Hours',
+            'total_k12_students': 'Total Number of K-12 Students',
+            'total_k12_hours': 'Total Number of K-12 Hours',
+            'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
+            'start_date': 'Project Start Date',
+            'end_date': 'Project End Date',
+            'other_details': 'Other Important Details',
+            'outcomes': 'Outcomes',
+            'address_line1': 'Address Line 1',
+            'total_other_community_members':  'Total Other Participants',
 
+        }
 
 class ProjectMissionForm(ModelForm):
     class Meta:
         model = ProjectMission
         fields = ('project_name','mission_type' , 'mission',)
         labels = {
-            'mission_type': ('Select mission type'),
-            'mission': ('Select mission'),
+            'mission_type': ('Select Mission Type'),
+            'mission': ('Select Mission'),
         }
 
 
 class ProjectCommunityPartnerForm2(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('community_partner','total_hours','total_people','wages',)
+        fields = ('community_partner','total_hours','total_people',)
 
 
 
 class ProjectCampusPartnerForm(ModelForm):
     class Meta:
         model = ProjectCampusPartner
-        fields = ('campus_partner','total_hours','total_people','wages',)
+        fields = ('campus_partner','total_hours','total_people',)
+
 
 
 class StatusForm(ModelForm):
@@ -92,8 +118,8 @@ class ProjectMissionFormset(forms.ModelForm):
         model = ProjectMission
         fields = ('mission_type', 'mission',)
         labels = {
-            'mission_type': ('Select mission type'),
-            'mission': ('Select mission'),
+            'mission_type': ('Select Mission type'),
+            'mission': ('Select Mission'),
                     }
 
 class ProjectSearchForm(forms.ModelForm):
@@ -107,3 +133,14 @@ class ProjectSearchForm(forms.ModelForm):
     #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
     #     self.fields['project_name'].widget = forms.TextInput(attrs={
     #         'id': 'id_project_name'})
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ('name','prefix', 'number')
+        labels = {
+            'name': ('Course Name'),
+            'prefix': ('Prefix'),
+            'number': ('Course Number')
+        }

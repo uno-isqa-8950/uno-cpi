@@ -1,0 +1,90 @@
+{% extends 'home/Campus_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+      <style>
+    label
+    {
+    margin-left: 10px;
+    font-weight: bold;
+    }
+ input[type=number],textarea[name=project_name],.form-control
+    {
+        width: 90%;
+        height: 10%;
+    }
+ @media (min-width: 700px) {
+     .btn-custom {
+         margin-top: 20px;
+         margin-left: 350px;
+     }
+ }
+    </style>
+<div class="container">
+
+<div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Edit Project</h4></div>
+			<div class="panel-body">
+
+       <form method="POST" class="project-form" >{% csrf_token %}
+        {{project.project_name|bootstrap}}
+         {{ project.status|bootstrap}}
+         {{project.engagement_type|bootstrap}}
+         {{ course|bootstrap }}
+         {{project.activity_type|bootstrap}}
+         {{ project.facilitator|bootstrap }}
+         {{ project.description|bootstrap }}
+         {{ project.semester|bootstrap }}
+         {{ project.total_uno_students|bootstrap }}
+         {{ project.total_uno_hours|bootstrap }}
+         {{ project.total_k12_students|bootstrap }}
+         {{ project.total_k12_hours|bootstrap }}
+         {{ project.total_uno_faculty|bootstrap }}
+         {{ project.total_other_community_members|bootstrap }}
+         {{ project.start_date|bootstrap }}
+         {{ project.end_date|bootstrap }}
+         {{ project.other_details|bootstrap }}
+         {{ project.outcomes|bootstrap }}
+         {{ project.address_line1|bootstrap }}
+         {{ project.city|bootstrap }}
+         {{ project.state|bootstrap }}
+         {{ project.country|bootstrap }}
+         {{ project.zip|bootstrap }}
+        {{ formset_missiondetails|bootstrap }}
+        {{ formset_comm_details|bootstrap }}
+        {{ formset_camp_details|bootstrap }}
+        <button type="submit" class="save btn btn-custom">Update</button>
+    </form><br><br>
+            </div></div></div></div><br><br>
+
+ <script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_name], input#id_name").hide();
+            $("#id_id_name").hide();
+            $("label.control-label[for=id_prefix], input#id_prefix").hide();
+            $("#id_prefix").hide();
+            $("label.control-label[for=id_number], input#id_number").hide();
+            $("#id_number").hide();
+
+            console.log('label.control-label[for=id_name], input#id_name');
+            }
+        $("#id_engagement_type").on('change', function(){
+            var val = $("#id_engagement_type").val();
+            if (val === '4') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
+{% endblock %}

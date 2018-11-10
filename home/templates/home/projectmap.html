@@ -1,4 +1,6 @@
-{% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %} {% block content %}
+{% extends 'home/Dashboard_Extension.html' %}
+{% load staticfiles %}
+{% block content %}
 <!--html lang="en">
 <head>
   <title>Community Partnership Initiative</title>
@@ -15,276 +17,346 @@
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+<link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 <!--link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
-
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css"-->
 
 
 
 <style>
 
-#contact
-{
-background: #D3D3D3;
-}
+    .btn-custom1
+        {
+        position:absolute;
+        top:110px;
+        left:255px;
+        border-color: #282828;
+        background-color: #e22626;
+        color:White;
+        z-index:999;
+        }
 
-#brand
-{
-margin-left:15px;
-margin-top:15px;
-}
 
-</style>
+    .active .btn-custom1
+        {
+        left:40px;
+        background-color: #282828;
+        }
 
-{% block additionalCSS %}
- {% endblock %}
- {% block js1 %}
- {% endblock %}
 
-</head>
-<body>
+    .btn-custom1:hover
+        {
+        background-color: grey;
+        border-color:grey;
+        }
 
-<!-- Navbar Begins -->
 
-<!--nav class="navbar navbar-expand-md navbar-custom sticky-top">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
-    <div class="collapse navbar-collapse" id="target">
-        <a class="navbar-brand" href="/">
-            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
-                <b id="cpi">Community Partnership Initiative</b></a>
-            <ul class="navbar-nav ml-auto">
-                <!--li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
-                </li-->
-<!--li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-tachometer"></i>Map
-                        <span class="caret"></span>
-                    </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/map">Community Partners by Household Income</a>
-                    <a class="dropdown-item" href="/projectmap">Projects by Legislative Districts</a>
-                </div>
-                </li>
-                <li class="nav-item dropdown">
-                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-line-chart"></i>Analytics
-                        <span class="caret"></span>
-                   </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href="/projectInfo">Mission Area Reports</a>
-                        <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partner Report</a>
-                        <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Report</a>
-                        <a class="dropdown-item" href="/missionchart">Mission area Chart </a>
-                        <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
-                    </div>
-                </li>
-              <li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-registered"></i>Register
-                        <span class="caret"></span>
-                    </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
-                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
-                </div>
-                </li>
-                <li class="nav-item">
+    .btn-custom1:focus
+        {
+        box-shadow: 0 0 0 0;
+        }
 
-                    <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user-plus"></i>SignUp </a>
 
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
-                </li>
-            </ul>
-    </div>
-</nav-->
-<style>
     a {
           color: #fff;
           text-decoration: none;
     }
-    .map {
+
+    a:hover
+    {
+        color: #fff;
+    }
+
+	.map {
           position: relative;
-            width: 100%;
-          top: 15%;
-          bottom: 0;
-          height: 100vh;
+          width: 100%;
+          height: calc(100vh - 78px);
+          margin: 78px 0 0 0;
+          }
+
+    input[type=text]
+        {
+        margin-left:10px;
+        width:190px;
         }
-    		.sidebar {
-              	position: absolute;
-    			top: 300px;
-    			right: 10px;
-    			width: 230px;
-    			height: 100px;
-              border-right: 1px solid rgba(0, 0, 0, 0.25);
-            }
-            .sidebar fieldset {
-                background: #ddd;
-                border: none;
-                padding: 5px;
-                margin: 0;
-                width: 100%;
-    	    }
-    	    .sidebar input {
-                display: block;
-                border: none;
-                width: 100%;
-                border-radius: 3px;
-                padding: 10px;
-                margin: 0;
-    	    }
-    		.h2 {
-    			display: block;
-    			font-size: 1.7em;
-    			margin-top: 0.25em;
-    			margin-bottom: 0.67em;
-    			text-align: center;
-    			margin-right: 0;
-    			font-weight: bold;
-    		}
-    		        .listings {
-              height: 100%;
-              overflow: auto;
-              padding-bottom: 60px;
-            }
-            .listings .item {
-              display: block;
-              border-bottom: 1px solid #eee;
-              padding: 10px;
-              text-decoration: none;
-            }
-            .listings .item:last-child { border-bottom: none; }
-            .listings .item .title {
-              display: block;
-              color: #00853e;
-              font-weight: 700;
-            }
-            .listings .item .title small { font-weight: 400; }
-            .listings .item.active .title,
-            .listings .item .title:hover { color: #8cc63f; }
-            .listings .item.active {
-              background-color: #f8f8f8;
-            }
-    		.filter{
-    			position: absolute;
-    			left: 1290px;
-    			top: 140px;
-    		}
-    		.selectType{
-    			width: 200px;
-    			height: 50px;
-    			font-size: 20px;
-    		}
-		.selectYear{
-          left: 0;
-          right: 150px;
-          top: 0px;
-          bottom: 300px;
-          width: 150px;
-            margin-bottom: 5px;
-		}
- 		.legend {
-		    margin-top:20px;
-			background-color: #282828;
-			border-radius: 10px;
-			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-			position: absolute;
-			right: 50px;
-			z-index: 999;
-            padding: 10px;
-            color: white;
-            opacity: .7;
-            margin-bottom: 30px;
 
-		}
-		.legend h4 {
-			margin: 0 0 5px;
-            color: orange;
-            font-size: 14px;
+    select[id=selectYear]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        }
+
+    select[id=selectYear]:focus
+        {
+        border-color:grey;
+        box-shadow:0 0 8px 0 grey;
+        }
+
+    .h2 {
+    		display: block;
+           	font-size: 1.7em;
+    		margin-top: 0.25em;
+    		margin-bottom: 0.67em;
+    		text-align: center;
+    		margin-right: 0;
+    		font-weight: bold;
+    		}
+
+    .listings {
+		    background:#fff;
+		    width:190px;
+		    margin:0 10px;
+		    max-height:200px;
+		    overflow-y:scroll;
+		    border-radius:4px;
+            }
+
+    #valueFilter{
+            margin-bottom:0;
+            }
+
+    .listings .item {
+           display: block;
+           border-bottom: 1px solid #eee;
+           padding: 10px;
+           text-decoration: none;
+            }
+
+    .listings .item:last-child { border-bottom: none; }
+
+    .listings .item .title {
+           display: block;
+           color: #00853e;
+           font-weight: 700;
+            }
+
+    .listings .item .title small { font-weight: 400; }
+    .listings .item.active .title,
+    .listings .item .title:hover { color: #8cc63f; }
+    .listings .item.active {
+     background-color: #f8f8f8;
+            }
+
+    .filter{
+            position: absolute;
+    		left: 1290px;
+    		top: 140px;
+    		}
+
+    .selectType{
+    		width: 200px;
+    		height: 50px;
+    		font-size: 20px;
+    		}
+
+	.selectYear{
+          margin-left: 15px;
+          margin top: 5px;
+          width: 190px;
+          margin-bottom: 15px;
 		}
 
-		.legend div span {
-			border-radius: 100%;
-			display: inline-block;
-			height: 13px;
-			margin-right: 10px;
-			width: 13px;
+ 	.legend {
+        margin-top:20px;
+		background-color: #636060;
+		border-radius: 10px;
+		box-shadow: 0 1px 2px rgba(0,0,0,0.10);
+		font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+		position: relative;
+		left: 10px;
+		right:10px;
+		z-index: 1;
+        padding: 10px;
+        color: white;
+
+        width:230px;
+
 		}
-		.legend-key {
+
+    .legend h4 {
+		margin: 0 0 5px;
+        color: orange;
+        font-size: 14px;
+		}
+
+	.legend div span {
+		border-radius: 100%;
+		display: inline-block;
+		height: 13px;
+		margin-right: 10px;
+		width: 13px;
+		}
+
+	.legend-key {
 		  display: inline-block;
 		  border-radius: 20%;
 		  width: 10px;
 		  height: 10px;
 		  margin-right: 5px;
 		}
-    		.filter-ctrl {
-    			position: absolute;
-    			top: 220px;
-    			right: 20px;
-    			width: 230px;
-    			height: 50px;
+
+    .filter-ctrl {
+          position: absolute;
+          top: 220px;
+    	  right: 20px;
+    	  width: 230px;
+    	  height: 50px;
     		}
-            .dropdown-ctrl {
-            position: absolute;
-    			top: 250px;
-    			right: 20px;
-    			left: 1150px;
-    			width: 230px;
-    			height: 50px;
-    			}
-    		.filter-ctrl input[type=number] {
-    			font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    			width: 100%;
-    			border: 0;
-    			background-color: #fff;
-    			height: 100px;
-    			margin: 0;
-    			color: rgba(0,0,0,0.8);
-    			padding: 10px;
-    			box-shadow: 0 0 0 6px rgba(0,0,0,0.5);
-    			border-radius: 3px;
-    			height: 70px;
+
+    .dropdown-ctrl {
+         position: absolute;
+         top: 250px;
+    	 right: 20px;
+    	 left: 1150px;
+    	 width: 230px;
+    	 height: 50px;
+    	}
+
+   	.filter-ctrl input[type=number] {
+   		font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+   		width: 100%;
+   		border: 0;
+   		background-color: #fff;
+   		height: 100px;
+   		margin: 0;
+   		color: rgba(0,0,0,0.8);
+   		padding: 10px;
+   		box-shadow: 0 0 0 6px rgba(0,0,0,0.5);
+   		border-radius: 3px;
+   		height: 70px;
     		}
-        h3
+
+     h3
         {
             text-align:center;
-
         }
+
+	#overlay-text
+        {
+            z-index: 999;
+            width: 300px;
+            position: absolute;
+            top:70px;
+            right: 75px;
+            color:White;
+            height:50px;
+            text-align:justify;
+            opacity: .8;
+            height:80px;
+            line-height:1.6;
+        }
+
+    #overlay-header
+        {
+            z-index: 999;
+            width: 350px;
+            position: absolute;
+            background-color: #282828;
+            display:block;
+            top:10px;
+            right: 50px;
+            color:White;
+            text-align:center;
+            opacity: .9;
+            height:130px;
+            line-height:2.2;
+            box-shadow: 5px 10px 10px 5px grey;
+        }
+
+
 </style>
-    <div id='map' class='map'>
-    <div id='state-legend' class='legend'>
-        <h3>Filters</h3>
-        <h4>Mission Areas</h4>
-        <div>
-            <a href='#' id="all">All mission areas</a><br>
-            <a href='#' id="educational"><span style='background-color: #65dc1e'></span>Educational Support</a><br>
-            <a href='#' id="economic"><span style='background-color: #17f3d1'></span>Economic Sufficiency</a><br>
-            <a href='#' id="service"><span style='background-color: #e55e5e'></span>International Service</a><br>
-            <a href='#' id="environmental"><span style='background-color: #1743f3'></span>Environmental Stewardship</a><br>
-            <a href='#' id="health"><span style='background-color: #ba55d3'></span>Health & Wellness</a><br>
-            <a href='#' id="justice"><span style='background-color: #2A0A12'></span>Social Justice</a><br>
-        </div><p></p>
-                <h4>Academic Year</h4>
-        <select id="selectYear" class="selectYear">
+
+	<div class="wrapper">
+        <nav id="sidebar">
+
+        <div id='state-legend' class='legend'>
+            <h3>Filters</h3>
+            <h4>Mission Areas</h4>
+            <div>
+                <a href='#' id="all"><span></span><b>All mission areas</b></a><br>
+                <a href='#' id="educational"><span style='background-color: #65dc1e'></span><b>Educational Support</b></a><br>
+                <a href='#' id="economic"><span style='background-color: #17f3d1'></span><b>Economic Sufficiency</b></a><br>
+                <a href='#' id="service"><span style='background-color: #e55e5e'></span><b>International Service</b></a><br>
+                <a href='#' id="environmental"><span style='background-color: #1743f3'></span><b>Environmental Stewardship</b></a><br>
+                <a href='#' id="health"><span style='background-color: #ba55d3'></span><b>Health & Wellness</b></a><br>
+                <a href='#' id="justice"><span style='background-color: #2A0A12'></span><b>Social Justice</b></a><br>
+            </div><p></p>
+
+
+            <h4>Academic Year</h4>
+                    <select id="selectYear" class="selectYear">
                     <option value="all">All years</option>
                     <option value="2018">2017-2018</option>
                     <option value="2017">2016-2017</option>
-        </select><br>
-        <div id="sidebar">
-            <input id='valueFilter' type='text' placeholder='Filter by projects name' />
-        </div><br>
-    </div>
+            </select><br>
+
+            <!--div id="sidebar1"-->
+            <div>
+            <h4>Project Name</h4>
+                <fieldset>
+                    <input id='valueFilter' type='text' placeholder='Projects Name' />
+                    <div id='listings' class='listings'></div>
+                </fieldset>
+
+            </div><br>
+
+        </div>
+
+        </nav>
+
+
+
+        <div id="content">
+
+            <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                <span></span>
+            </button>
+
+            <div id='map' class='map'>
+                <h3 id="overlay-header">Maps: Project</h3>
+                <p id="overlay-text"><b>Project Maps are mapped based on Mission Areas. Use our filters to locate them</b></p>
+            </div>
+
+        </div>
+
     </div>
 
 <script src='{% static "js/projectmapfilter.js" %}'></script>
-</body>
 
-</html>
+
+
+    <!-- jQuery CDN - Slim version (=without AJAX) -->
+    <!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
+    <!-- Popper.JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+
+
+
 {% endblock %}

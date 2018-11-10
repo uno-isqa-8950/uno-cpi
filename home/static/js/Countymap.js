@@ -6,51 +6,23 @@ $.get("static/GEOJSON/NEcounties2.geojson", function(data) { //load JSON file fr
 var k12Data = "";
 var communityData = "";
 var referencedincome = 0;
-$.get("static/GEOJSON/CommunityPartners.geojson", function(data) { //load JSON file from static/GEOJSON
+$.get("static/GEOJSON/CommunityPartners_new.geojson", function(data) { //load JSON file from static/GEOJSON
     communityData = jQuery.parseJSON(data);
     var features=communityData["features"];
 	var count=0;
 	features.forEach(function(feature){
-	    var polyid = 0;
 		feature.properties["id"]=count;
 		count++;
-		if (feature.geometry !== null) {
-            var point = feature.geometry.coordinates;
-            point = turf.point(point);
-            for (var i = 0; i < polygons.length; i++){
-                var poly = polygons[i];
-                poly = turf.polygon(poly);   //variable polygons is called from DistrictList.js
-                if (turf.booleanPointInPolygon(point,poly)) {
-                    polyid = i+1;
-                }
-            };
-        }
-        feature.properties["districtnumber"] = polyid;
 	});
 	communityData["features"]=features;
 });
-$.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file from static/GEOJSON
+$.get("static/GEOJSON//K12Partners_new.geojson", function(data) { //load JSON file from static/GEOJSON
     k12Data = jQuery.parseJSON(data);
     var features=k12Data["features"];
     var count=0;
 	features.forEach(function(feature){
-	    var polyid = 0;
 		feature.properties["id"]=count;
 		count++;
-		if (feature.geometry !== null) {
-            var point = feature.geometry.coordinates;
-            point = turf.point(point);
-            for (var i = 0; i < polygons.length; i++){
-                var poly = polygons[i];
-                poly = turf.polygon(poly);   //variable polygons is called from DistrictList.js
-                if (turf.booleanPointInPolygon(point,poly)) {
-                    polyid = i+1;
-                }
-            }
-
-        }
-
-        feature.properties["districtnumber"] = polyid; //assign value to districtnumber key
 	});
 	k12Data["features"]=features;
 });
@@ -58,15 +30,17 @@ $.get("static/GEOJSON//K-12Partners.geojson", function(data) { //load JSON file 
 
 var map = new mapboxgl.Map({
     container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v10',
+    style: 'mapbox://styles/mapbox/light-v9',
     center: [-95.957309, 41.276479],
-    zoom: 4
+    zoom: 5
 });
+map.addControl(new mapboxgl.NavigationControl());
 
 var popup = new mapboxgl.Popup({
     closeButton: true,
     closeOnClick: true,
 });
+
 
 function parseDescription(message) {
     var string = "";
@@ -74,19 +48,16 @@ function parseDescription(message) {
 
     for (var i in message) {
 
+
         if (i == "CommunityPartner") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + 'Community Partner' + '</span>' + ": " + message[i] + "<br>";
         }if (i == "K-12 Partner") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i =="Address"){
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "City"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "State"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "WeitzCECPartner"){
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "PhoneNumber") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Website"){
             var website = message[i];
@@ -94,23 +65,17 @@ function parseDescription(message) {
             if (!website.includes("http")){
                 website = base.concat(website);
             }
-            string += `<span style="font-weight:bold">${i}</span>: <a target="_blank" href="${website}" class="popup"
-                        style="color:darkblue">${website}</a><br>`;
+            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
         } else if (i == "STATE"){
             string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "NAME"){
             string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Income"){
             string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
-        } else if (i=="districtnumber"){
-            var district = message[i];
-            if (district==0){
-                string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + "N/A" + "<br>"
-            } else {
-                string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>"
-            }
         } else if (i=="income"){
             string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
+        } else if (i=="County"){
+            string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
         }
     }
     return string;
@@ -162,7 +127,7 @@ map.on("load",function() {
 					"paint":{
 						"circle-radius": 8,
 						"circle-opacity": 0.8,
-						"circle-color": '#fbb03b'
+						"circle-color": '#65dc1e'
 					},
 					"filter": ["all",["==", "PrimaryMissionFocus", "Educational Support"],['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]]
 				})
@@ -178,7 +143,7 @@ map.on("load",function() {
 					"paint":{
 						"circle-radius": 8,
 						"circle-opacity": 0.8,
-						"circle-color": '#ADFF2F'
+						"circle-color": '#17f3d1'
 					},
 					"filter": ["all",["==", "PrimaryMissionFocus", "Economic Sufficiency"],['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]]
 				})
@@ -237,13 +202,28 @@ map.on("load",function() {
 
  	//Add k12 style
 	map.addLayer({
+		"id":"county",
+		"type":"fill",
+		"source":"countyData",
+        'paint': {
+            "fill-color": "#888",
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                1,
+                0.0
+            ],
+            "fill-outline-color": "#0000AA"
+        }
+	});
+
+    map.addLayer({
 		"id":"k12",
 		"type":"circle",
 		"source":"k12Data",
 		"paint":{
 			"circle-radius": 8,
 			"circle-opacity": 0.8,
-			"circle-color": '#0000AA'
+			"circle-color": '#f31736'
 		},
 		//Default filter year to 2018 in map
 		"filter":['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]
@@ -251,7 +231,7 @@ map.on("load",function() {
 	//******************************Add a county map **********************************
     countyData.features.forEach(function(feature) {
         var income = feature.properties["Income"];
-        if (30000 <= income && income < 60000) {
+        if (30000 <= income && income < 45000) {
             layerID = "income1";
             if (!map.getLayer(layerID)) {
                 map.addLayer({
@@ -260,20 +240,20 @@ map.on("load",function() {
                     "source": "countyData",
                     'layout': {},
                     'paint': {
-                        "fill-color": "#ADFF2F",
+                        "fill-color": "#c9c8c7",
                         "fill-opacity": ["case",
                             ["boolean", ["feature-state", "hover"], false],
                             1,
                             0.2],
-                        "fill-outline-color": "#888"
+                        "fill-outline-color": "#0000AA"
                     },
                     "filter": ["all",
                         [">=", "Income", 30000],
-                        ["<", "Income", 60000]
+                        ["<", "Income", 45000]
                     ]
                 })
             }
-        } else if (60000 <= income) {
+        } else if (45000 <= income && income < 60000) {
             layerID = "income2";
             if (!map.getLayer(layerID)) {
                 map.addLayer({
@@ -282,23 +262,55 @@ map.on("load",function() {
                     "source": "countyData",
                     'layout': {},
                     'paint': {
-                        "fill-color": "#006400",
+                        "fill-color": "#505050",
                         "fill-opacity": ["case",
                             ["boolean", ["feature-state", "hover"], false],
                             1,
                             0.2],
-                        "fill-outline-color": "#888"
+                        "fill-outline-color": "#0000AA"
                     },
                     "filter": ["all",
-                        [">=", "Income", 60000]
+                        [">=", "Income", 45000],
+                        ["<", "Income", 60000]
                     ]
                 })
             }
+        } else {
+            layerID = "income3";
+            if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    "id": layerID,
+                    "type": "fill",
+                    "source": "countyData",
+                    'layout': {},
+                    'paint': {
+                        "fill-color": "#0c0905",
+                        "fill-opacity": ["case",
+                            ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0.2],
+                        "fill-outline-color": "#0000AA"
+                    },
+                    "filter": [">=", "Income", 60000]
+                })
+            }
         }
+    })
 
         //******************************Add a clickable legend**********************************
 
         var comlist = ["show1", "show2", "show3", "show4", "show5", "show6", "k12"];
+        var edu = document.getElementById("k12partner");
+        edu.addEventListener("click", function(e) {
+            comlist.forEach(function(com) {
+                if (com == "k12") {
+                    map.setLayoutProperty(com, 'visibility', 'visible');
+                } else {
+                    map.setLayoutProperty(com, 'visibility', 'none');
+                }
+            })
+        })
+
         var edu = document.getElementById("all");
         edu.addEventListener("click", function (e) {
             comlist.forEach(function (com) {
@@ -617,6 +629,15 @@ map.on("load",function() {
                 .addTo(map);
             close();
         });
+
+    //******************************click county***********************************************
+
+    map.on('click', 'county', function(e) {
+        popup.setLngLat(e.lngLat)
+            .setHTML('<span style="font-weight:bold">County: </span>' + e.features[0].properties["NAME"])
+            .addTo(map);
+    });
+
     //******************************search community***********************************************
     var valueFilter=document.getElementById("valueFilter");
 
@@ -811,7 +832,8 @@ map.on("load",function() {
     */
         //******************************** Filter by income levels ************************************************
 
-        var countyList = ["income1", "income2"];
+        var countyList = ["income1", "income2", "income3"];
+        var comlist = ["show1", "show2", "show3", "show4", "show5", "show6", "k12"];
         var edu = document.getElementById("allincome");
         edu.addEventListener("click", function (e) {
             countyList.forEach(function (county) {
@@ -821,11 +843,29 @@ map.on("load",function() {
                     map.setLayoutProperty(county, 'visibility', 'visible');
                 }
             })
-
+            map.setFilter("show1",
+                ["==", "PrimaryMissionFocus", "Social Justice"]
+            )
+            map.setFilter("show2",
+                ["==", "PrimaryMissionFocus", "Educational Support"]
+            )
+            map.setFilter("show3",
+                ["==", "PrimaryMissionFocus", "Economic Sufficiency"]
+            )
+            map.setFilter("show4",
+                ["==", "PrimaryMissionFocus", "International Service"]
+            )
+            map.setFilter("show5",
+                ["==", "PrimaryMissionFocus", "Environmental Stewardship"]
+            )
+            map.setFilter("show6",
+                ["==", "PrimaryMissionFocus", "Health & Wellness"]
+            )
+            map.setFilter("k12", null)
         })
 
 
-        var edu = document.getElementById("midincome");
+        var edu = document.getElementById("lowincome");
         edu.addEventListener("click", function (e) {
             countyList.forEach(function (county) {
                 if (county == "income1") {
@@ -834,10 +874,45 @@ map.on("load",function() {
                     map.setLayoutProperty(county, 'visibility', 'none');
                 }
             })
+            map.setFilter("show1",
+                ["all", ["==", "PrimaryMissionFocus", "Social Justice"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("show2",
+                ["all", ["==", "PrimaryMissionFocus", "Educational Support"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("show3",
+                ["all", ["==", "PrimaryMissionFocus", "Economic Sufficiency"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("show4",
+                ["all", ["==", "PrimaryMissionFocus", "International Service"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("show5",
+                ["all", ["==", "PrimaryMissionFocus", "Environmental Stewardship"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("show6",
+                ["all", ["==", "PrimaryMissionFocus", "Health & Wellness"],
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
+            map.setFilter("k12",
+                ["all",
+                    [">=", "income", 30000], ["<", "income", 45000]
+                ]
+            )
 
         })
 
-        var edu = document.getElementById("topincome");
+        var edu = document.getElementById("midincome");
         edu.addEventListener("click", function (e) {
             countyList.forEach(function (county) {
                 if (county == "income2") {
@@ -846,10 +921,89 @@ map.on("load",function() {
                     map.setLayoutProperty(county, 'visibility', 'none');
                 }
             })
+            map.setFilter("show1",
+                ["all", ["==", "PrimaryMissionFocus", "Social Justice"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("show2",
+                ["all", ["==", "PrimaryMissionFocus", "Educational Support"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("show3",
+                ["all", ["==", "PrimaryMissionFocus", "Economic Sufficiency"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("show4",
+                ["all", ["==", "PrimaryMissionFocus", "International Service"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("show5",
+                ["all", ["==", "PrimaryMissionFocus", "Environmental Stewardship"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("show6",
+                ["all", ["==", "PrimaryMissionFocus", "Health & Wellness"],
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
+            map.setFilter("k12",
+                ["all",
+                    [">=", "income", 45000], ["<", "income", 60000]
+                ]
+            )
 
         })
+        var edu = document.getElementById("topincome");
+        edu.addEventListener("click", function (e) {
+            countyList.forEach(function (county) {
+                if (county == "income3") {
+                    map.setLayoutProperty(county, 'visibility', 'visible');
+                } else {
+                    map.setLayoutProperty(county, 'visibility', 'none');
+                }
+            })
+            map.setFilter("show1",
+                ["all", ["==", "PrimaryMissionFocus", "Social Justice"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("show2",
+                ["all", ["==", "PrimaryMissionFocus", "Educational Support"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("show3",
+                ["all", ["==", "PrimaryMissionFocus", "Economic Sufficiency"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("show4",
+                ["all", ["==", "PrimaryMissionFocus", "International Service"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("show5",
+                ["all", ["==", "PrimaryMissionFocus", "Environmental Stewardship"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("show6",
+                ["all", ["==", "PrimaryMissionFocus", "Health & Wellness"],
+                    [">", "income", 60000]
+                ]
+            )
+            map.setFilter("k12",
+                ["all",
+                    [">", "income", 60000]
+                ]
+            )
+        })
     })
-})
 //***********************************search function*****************************************************
 function normalize(string) {
 	return string.trim().toLowerCase();
@@ -929,7 +1083,7 @@ function renderListings(features){
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 9
+        zoom: 5
     });
 }
 

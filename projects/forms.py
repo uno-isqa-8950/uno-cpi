@@ -72,6 +72,37 @@ class ProjectForm2(ModelForm):
 
         }
 
+
+class ProjectFormAdd(ModelForm):
+    class Meta:
+        model = Project
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
+                    'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
+                    'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
+                    'longitude',)
+        widgets = {
+            'start_date': DateInput(),
+            'end_date': DateInput(),
+
+        }
+        labels = {
+            'project_name': 'Project Name',
+            'engagement_type': 'Engagement Type',
+            'activity_type': 'Activity Type',
+            'total_uno_students': 'Total Number of UNO Students',
+            'total_uno_hours': 'Total Number of UNO Students Hours',
+            'total_k12_students': 'Total Number of K-12 Students',
+            'total_k12_hours': 'Total Number of K-12 Hours',
+            'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
+            'start_date': 'Project Start Date',
+            'end_date': 'Project End Date',
+            'other_details': 'Other Important Details',
+            'outcomes': 'Outcomes',
+            'address_line1': 'Address Line 1',
+            'total_other_community_members':  'Total Other Participants',
+
+        }
+
 class ProjectMissionForm(ModelForm):
     class Meta:
         model = ProjectMission

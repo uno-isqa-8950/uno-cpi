@@ -6,7 +6,7 @@ from projects.models import *
 from home.models import *
 from home.filters import *
 from partners.models import *
-from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm
+from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
@@ -208,7 +208,7 @@ def project_total_Add(request):
     proj_campus_part=modelformset_factory(ProjectCampusPartner, extra=1, form=ProjectCampusPartnerForm)
 
     if request.method == 'POST':
-        project = ProjectForm2(request.POST)
+        project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None)
         #formset2 = proj_comm_part(request.POST or None)
@@ -265,7 +265,7 @@ def project_total_Add(request):
             return render(request, 'projects/Projectlist.html', {'project':projects_list } )
 
     else:
-        project = ProjectForm2()
+        project = ProjectFormAdd()
         course =CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none())
         #formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
@@ -292,10 +292,10 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid():
             #print(" validating the forms here")
             instances = project.save()
-            # if  course.is_valid():
-            #     course = course.save(commit=False)
-            #     course.project_name = instances
-            #     course.save()
+            if  course.is_valid():
+                course = course.save(commit=False)
+                course.project_name = instances
+                course.save()
 
             pm = formset_missiondetails.save(commit=False)
             compar= formset_comm_details.save(commit=False)
@@ -344,7 +344,10 @@ def project_edit_new(request,pk):
                             'total_uno_faculty': x.total_uno_faculty,
                             'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
                             'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
-                            'camp_part': list_camp_part_names
+                            'camp_part': list_camp_part_names,
+                            'course' : x.course.name,
+                            'prefix' : x.course.prefix,
+                            'number' : x.course.number
                             }
 
                     projects_list.append(data)

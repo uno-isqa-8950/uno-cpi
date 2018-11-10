@@ -62,7 +62,7 @@ p {
     color: White;
     transition: all 0.3s;
     border-right: 1px solid #ddd;
-    opacity: .8;
+    opacity: .9;
 }
 
 #sidebar.active {

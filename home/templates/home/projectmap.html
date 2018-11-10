@@ -80,8 +80,9 @@
 
     input[type=text]
         {
-        margin-left:10px;
-        width:190px;
+        margin-left:0px;
+        width:210px;
+        margin-top:0px;
         }
 
     select[id=selectYear]
@@ -93,6 +94,10 @@
         padding:4px;
         box-sizing:border-box;
         transition:.3s;
+        margin-left: 0px;
+        margin top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
         }
 
     select[id=selectYear]:focus
@@ -113,8 +118,8 @@
 
     .listings {
 		    background:#fff;
-		    width:190px;
-		    margin:0 10px;
+		    width:210px;
+		    margin:0 0px;
 		    max-height:200px;
 		    overflow-y:scroll;
 		    border-radius:4px;
@@ -158,12 +163,6 @@
     		font-size: 20px;
     		}
 
-	.selectYear{
-          margin-left: 15px;
-          margin top: 5px;
-          width: 190px;
-          margin-bottom: 15px;
-		}
 
  	.legend {
         margin-top:20px;
@@ -279,6 +278,9 @@
         <nav id="sidebar">
 
         <div id='state-legend' class='legend'>
+
+<!-- Filter by Mission Areas -->
+
             <h3>Filters</h3>
             <h4>Mission Areas</h4>
             <div>
@@ -291,6 +293,7 @@
                 <a href='#' id="justice"><span style='background-color: #2A0A12'></span><b>Social Justice</b></a><br>
             </div><p></p>
 
+<!-- Filter by academic year -->
 
             <h4>Academic Year</h4>
                     <select id="selectYear" class="selectYear">
@@ -299,7 +302,8 @@
                     <option value="2017">2016-2017</option>
             </select><br>
 
-            <!--div id="sidebar1"-->
+<!-- Filter by Project Name -->
+
             <div>
             <h4>Project Name</h4>
                 <fieldset>
@@ -308,6 +312,10 @@
                 </fieldset>
 
             </div><br>
+
+            <!--div class='filter-ctrl'>
+    		    <input id='filter-input' type='text' name='filter' placeholder='Filter by districts' />
+            </div-->
 
         </div>
 
@@ -330,6 +338,7 @@
 
     </div>
 
+<!--script src='{% static "js/DistrictList.js" %}'></script-->
 <script src='{% static "js/projectmapfilter.js" %}'></script>
 
 

@@ -292,11 +292,11 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid():
             #print(" validating the forms here")
             instances = project.save()
+
             if  course.is_valid():
-                course = course.save(commit=False)
                 course.project_name = instances
                 course.save()
-
+            print(course)
             pm = formset_missiondetails.save(commit=False)
             compar= formset_comm_details.save(commit=False)
             campar= formset_camp_details.save(commit=False)
@@ -312,6 +312,7 @@ def project_edit_new(request,pk):
                 l.save()
             projects_list = []
             camp_part_names = []
+            course_list = []
             # Get the campus partner id related to the user
             camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
             for c in camp_part_user:
@@ -345,12 +346,11 @@ def project_edit_new(request,pk):
                             'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
                             'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
                             'camp_part': list_camp_part_names,
-                            'course' : x.course.name,
-                            'prefix' : x.course.prefix,
-                            'number' : x.course.number
+
                             }
 
                     projects_list.append(data)
+
                     #print("after projects_list")
 
             return render(request, 'projects/Projectlist.html', {'project': projects_list})
@@ -361,6 +361,7 @@ def project_edit_new(request,pk):
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
             course = CourseForm(request.POST or None , instance=x)
+            print(course)
         proj_mission = ProjectMission.objects.filter(project_name_id=pk)
         proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
         proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)

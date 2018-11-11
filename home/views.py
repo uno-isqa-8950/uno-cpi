@@ -334,7 +334,7 @@ def missionchart(request):
         }
 
         dump = json.dumps(chart)
-    return render(request, 'charts/projectreport.html',{'chart': dump , 'filter2' : filter2})
+    return render(request, 'charts/missionchart.html',{'chart': dump , 'filter2' : filter2})
 
 
 

@@ -10,12 +10,9 @@ from university.models import *
 from .models import User
 from partners.models import CampusPartner, CommunityPartner,CommunityPartnerUser,CommunityPartnerMission, \
     CommunityType, CampusPartnerUser
-from home.models import Contact, MissionArea
+from home.models import Contact, MissionArea, HouseholdIncome
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
-    ProjectCommunityPartner, ProjectMission, Semester
-
-
-
+    ProjectCommunityPartner, ProjectMission, AcademicYear
 
 
 class CampusPartnerUserForm(forms.ModelForm):
@@ -159,13 +156,14 @@ class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
     activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")
     status = forms.ModelChoiceField(queryset=Status.objects.all(), to_field_name="name")
-    semester = forms.ModelChoiceField(queryset=Semester.objects.all(), to_field_name="semester")
+    academic_year = forms.ModelChoiceField(queryset=AcademicYear.objects.all(), to_field_name="academic_year")
 
     class Meta:
         model = Project
         fields = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
-                  'total_uno_students', 'total_uno_hours', 'total_k12_students', 'total_k12_hours', 'total_uno_faculty',
-                  'total_other_community_members', 'other_details', 'outcomes', 'total_economic_impact', 'status')
+                  'academic_year', 'total_uno_students', 'total_uno_hours', 'total_k12_students', 'total_k12_hours',
+                  'total_uno_faculty', 'total_other_community_members', 'other_details', 'outcomes',
+                  'total_economic_impact', 'status')
 
 
 class UploadProjectCampusForm(forms.ModelForm):
@@ -242,6 +240,13 @@ class UploadDepartment(ModelForm):
 
     class Meta:
         model = Department
+        fields = '__all__'
+
+
+class UploadIncome(ModelForm):
+
+    class Meta:
+        model = HouseholdIncome
         fields = '__all__'
 
 

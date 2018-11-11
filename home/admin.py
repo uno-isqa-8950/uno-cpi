@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User
-from .models import Contact, MissionArea
+from .models import Contact, MissionArea, HouseholdIncome
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
 
@@ -42,7 +42,15 @@ class MissionAreaList(admin.ModelAdmin):
     search_fields = ('mission_name', 'description')
 
 
+class HouseholdIncomeList(admin.ModelAdmin):
+
+    list_display = ('county', 'median_income')
+
+    search_fields = ('county', )
+
+
 # admin.site.register(User)
-admin.site.register(Contact,ContactList)
-admin.site.register(MissionArea,MissionAreaList)
+admin.site.register(Contact, ContactList)
+admin.site.register(MissionArea, MissionAreaList)
+admin.site.register(HouseholdIncome, HouseholdIncomeList)
 

@@ -3,11 +3,12 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
     ProjectCommunityPartner, ProjectMission
 from partners.models import CommunityPartner
 
+
 class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['semester', 'engagement_type', ]
+        fields = ['academic_year', 'engagement_type', ]
 
 
 class ProjectMissionFilter(django_filters.FilterSet):
@@ -17,11 +18,11 @@ class ProjectMissionFilter(django_filters.FilterSet):
         fields = ['mission', ]
 
 
-class SemesterFilter(django_filters.FilterSet):
+class AcademicYearFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['semester', ]
+        fields = ['academic_year', ]
 
 
 class ProjectCampusFilter(django_filters.FilterSet):

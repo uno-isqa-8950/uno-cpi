@@ -14,9 +14,9 @@
             </select>
                 </div>
                 <div class="col-md-3">
-            Semester:
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in semester_filter.form.semester %}
+            Academic Year:
+            <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                {% for sem in year_filter.form.academic_year %}
                     {{sem}}
                 {% endfor %}
             </select>

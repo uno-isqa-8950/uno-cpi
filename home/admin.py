@@ -4,7 +4,6 @@ from .models import Contact, MissionArea, HouseholdIncome
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 
 
-
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
     """Define admin model for custom User model with no email field."""
@@ -25,7 +24,6 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'is_active',)
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
-
 
 
 class ContactList(admin.ModelAdmin):

@@ -206,6 +206,26 @@ def upload_campus(request):
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
 
+
+# uploading the campus data via csv file
+
+def upload_income(request):
+    if request.method == 'GET':
+        download_campus_url = '/media/household_income.csv'
+        return render(request, 'import/uploadIncome.html',
+                      {'download_campus_url': download_campus_url})
+    if request.method == 'POST':
+        csv_file = request.FILES["csv_file"]
+        decoded = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded)
+        for row in reader:
+            data_dict = dict(OrderedDict(row))
+            form = UploadIncome(data_dict)
+            if form.is_valid():
+                form.save()
+    return render(request, 'import/uploadIncomeDone.html')
+
+
 # (14) Mission Summary Report: filter by Semester, EngagementType
 
 
@@ -244,7 +264,7 @@ def project_partner_info(request):
                   {'project_filter': project_filter, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
-# (15) Engagement Summary Report: filter by Semester, MissionArea
+# (15) Engagement Summary Report: filter by AcademicYear, MissionArea
 
 
 def engagement_info(request):
@@ -256,9 +276,9 @@ def engagement_info(request):
         campus_filtered_ids = [project.id for project in campus_filter.qs]
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
         project_mission_ids = [p.id for p in missions_filter.qs]
-        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
-        project_semester_ids = [p.id for p in semester_filter.qs]
-        filtered_project_ids = list(set(project_mission_ids) | set(project_semester_ids))
+        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        project_year_ids = [p.id for p in year_filter.qs]
+        filtered_project_ids = list(set(project_mission_ids) | set(project_year_ids))
         filtered_project_list = list(set(campus_filtered_ids).intersection(filtered_project_ids))
         eDict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
@@ -276,7 +296,7 @@ def engagement_info(request):
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
     return render(request, 'reports/15EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList,
+                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
 
 
@@ -335,9 +355,6 @@ def missionchart(request):
 
         dump = json.dumps(chart)
     return render(request, 'charts/projectreport.html',{'chart': dump , 'filter2' : filter2})
-
-
-
 
 
 def EngagementType_Chart(request):

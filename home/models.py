@@ -62,6 +62,7 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
     objects = UserManager()
 
+
 class Contact(models.Model):
     contacttype_choices = (
         ('Primary', 'Primary'),
@@ -86,10 +87,19 @@ class Contact(models.Model):
 
 class MissionArea (models.Model):
     mission_name = models.CharField(max_length=100)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
 
     def __str__(self):
         return str(self.mission_name)
 
 
+class HouseholdIncome(models.Model):
+    id2 = models.IntegerField(null=False, blank=False)
+    county = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    median_income = models.IntegerField(null=False, blank=False)
+    margin_error = models.IntegerField(null=False, blank=False)
+    rank = models.IntegerField(null=False, blank=False)
 
+    def __str__(self):
+        return str(self.county)

@@ -8,8 +8,8 @@ class Project (models.Model):
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField()
-    semester = models.CharField(max_length=20, blank=False)
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False)
+    semester = models.CharField(max_length=20, blank=False, default= 'Fall-2015')
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False , default= 2015-16)
     total_uno_students = models.IntegerField(null=True, blank=True)
     total_uno_hours = models.IntegerField(null=True, blank=True)
     total_k12_students = models.IntegerField(null=True, blank=True)
@@ -103,7 +103,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, default= 2015-16)
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
@@ -111,7 +111,7 @@ class ActivityType(models.Model):
 
 
 class AcademicYear(models.Model):
-    academic_year = models.CharField(max_length=20, unique=True)
+    academic_year = models.CharField(max_length=20, unique=True )
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

@@ -55,22 +55,24 @@ p {
     width: 250px;
     position: fixed;
     top: 78px;
-    left: 0;
+    left: 0px;
     height: 100vh;
     z-index: 999;
-    background: #b8b8b8;
-    color: Black;
+    background: #282828;
+    color: White;
     transition: all 0.3s;
     border-right: 1px solid #ddd;
+    opacity: .9;
 }
 
 #sidebar.active {
     margin-left: -250px;
-}
+    position: fixed;
+    }
 
 #sidebar .sidebar-header {
     padding: 20px;
-    background: #b8b8b8;
+    background: #282828;
 }
 
 
@@ -150,19 +152,14 @@ a.article, a.article:hover {
     CONTENT STYLE
 ----------------------------------------------------- */
 #content {
-    width: calc(100% - 250px);
-    padding: 40px;
+    width: 100%;
+    padding: 0;
     min-height: 100vh;
     transition: all 0.3s;
     position: absolute;
     top: 0;
     right: 0;
 }
-#content.active
-    {
-    width: 100%;
-    }
-
 
 /* ---------------------------------------------------
     MEDIAQUERIES

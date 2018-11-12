@@ -316,15 +316,17 @@ def missionchart(request):
     project_count_series_data = list()
     partner_count_series_data = list()
     max_series_data = list()
-    filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
 
     for m in missions:
-
-        proj_ids = [p.id for p in filter2.qs]
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in project_filter.qs]
         mission_area1.append(m.mission_name)
-
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        proj_year_ids = [p.id for p in year_filter.qs]
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).distinct()
         community_list = [c.community_partner_id for c in p_community]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id). \
             filter(community_partner_id__in=community_list).count()
@@ -365,7 +367,7 @@ def missionchart(request):
         }
 
     chart_dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': chart_dump , 'filter2' : filter2})
+    return render(request, 'charts/missionchart.html',{'chart': chart_dump , 'project_filter' : project_filter , 'year_filter' :year_filter})
 
 
 def EngagementType_Chart(request):

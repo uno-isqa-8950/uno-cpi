@@ -233,6 +233,9 @@ def project_partner_info(request):
     missions = MissionArea.objects.all()
     mission_dict = {}
     mission_list = []
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+
     for m in missions:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.id for project in campus_filter.qs]
@@ -271,6 +274,10 @@ def engagement_info(request):
     engagements = EngagementType.objects.all()
     eDict = {}
     eList = []
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+
     for e in engagements:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.id for project in campus_filter.qs]
@@ -309,8 +316,10 @@ def missionchart(request):
     project_count_series_data = list()
     partner_count_series_data = list()
     max_series_data = list()
+    filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
+
     for m in missions:
-        filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
+
         proj_ids = [p.id for p in filter2.qs]
         mission_area1.append(m.mission_name)
 
@@ -321,20 +330,22 @@ def missionchart(request):
             filter(community_partner_id__in=community_list).count()
         project_count_series_data.append(project_count)
         partner_count_series_data.append(community_count)
-        Max_count = max(
-            list(set(partner_count_series_data) | set(project_count_series_data)))
-        max_series_data.append(Max_count)
 
-        project_count_series = {
+
+    Max_count = max(
+            list(set(partner_count_series_data) | set(project_count_series_data)),default=1)
+    max_series_data.append(Max_count)
+
+    project_count_series = {
             'name': 'Project Count',
             'data': project_count_series_data,
             'color': 'turquoise'}
-        partner_count_series = {
+    partner_count_series = {
             'name': 'Community Partner Count',
             'data': partner_count_series_data,
             'color': 'teal'}
 
-        chart = {
+    chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
             'xAxis': {'title': {'text': 'Mission Areas'}, 'categories': mission_area1},
@@ -353,8 +364,8 @@ def missionchart(request):
             'series': [project_count_series, partner_count_series]
         }
 
-        dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': dump , 'filter2' : filter2})
+    chart_dump = json.dumps(chart)
+    return render(request, 'charts/missionchart.html',{'chart': chart_dump , 'filter2' : filter2})
 
 
 def EngagementType_Chart(request):
@@ -363,7 +374,8 @@ def EngagementType_Chart(request):
     engagment_campus_counts=[]
     project_engagement_series=[]
     engagament_names=[]
-
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     engagement_types = EngagementType.objects.all()
     for et in engagement_types:
         engagament_names.append(et.name)
@@ -388,7 +400,7 @@ def EngagementType_Chart(request):
         p_campus = ProjectCampusPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
         engagment_campus_counts.append(p_campus)
 
-    Max_count = max(list(set(project_engagement_count)|set(engagment_community_counts)|set(engagment_campus_counts)))
+    Max_count = max(list(set(project_engagement_count)|set(engagment_community_counts)|set(engagment_campus_counts)), default=1)
 
     project_engagement_series = {
         'name': 'Project Count',

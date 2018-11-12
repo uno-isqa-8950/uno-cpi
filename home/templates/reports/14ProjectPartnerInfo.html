@@ -20,7 +20,7 @@
 <!--</style>-->
 
 <div class="container">
-        <div class="text-center"><h4>Mission Area report</h4></div>
+        <div class="text-center"><h4>Report : Mission Area</h4></div>
         	<div class="row">
         <!--<div id="filter-panel" class="collapse filter-panel">-->
             <!--<div class="panel">-->
@@ -36,7 +36,7 @@
             </select>
                 </div>
                 <div class="col-md-3">
-            Academic year:
+            Academic Year:
             <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                 {% for sem in project_filter.form.academic_year %}
                     {{sem}}

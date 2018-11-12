@@ -20,6 +20,9 @@ class CampusPartnerUserForm(forms.ModelForm):
     class Meta:
         model = CampusPartnerUser
         fields = ('campus_partner',)
+        labels = {
+            'campus_partner':('Campus Partner')
+        }
 
         campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),

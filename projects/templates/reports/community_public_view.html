@@ -26,12 +26,12 @@ form label{
     <div class="col-md-12 panel panel-primary">
         <br>
         <div class="col-md-12 text-center">
-            <h4>Community Partners Projects Report</h4>
+            <h4>Report : Community Partners  </h4>
         </div>
     <br>
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-md-4 form-group">
-                <label> Academic year  : </label>
+                <label> Academic Year  : </label>
                 <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
                     {% for sem in projects.form.semester %}
                         {{sem}}
@@ -58,8 +58,8 @@ form label{
 
         <table style="width:100%">
             <tr>
-                <th>Community Partner Name</th>
-                <th>Number of projects </th>
+                <th>Community Partners</th>
+                <th>Number Of Projects </th>
             </tr>
             {% for community in communityData %}
             <tr>

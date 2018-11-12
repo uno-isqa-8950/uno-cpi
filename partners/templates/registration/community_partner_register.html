@@ -45,6 +45,11 @@ input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0
 	width:120px;
 }
 
+.panel-default
+  {
+      margin-top: 20px;
+  }
+
 
 
 label
@@ -62,7 +67,7 @@ font-weight: bold;
     <div class = "row justify-content-md-center">
         <div class="col-lg-9 col-md-12">
             <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Register Community Partner </h4></div>
+		        <div class="panel-heading text-center"><h4>Register : Community Partner </h4></div>
 			    <div class="panel-body">
                     <form action="." method="post">
                     <div class="row">
@@ -184,6 +189,7 @@ font-weight: bold;
 $(document).ready(function(){
   $('#id_community_type').select2(
       {
+
               placeholder: 'Select a Community Type',
               width: '640px',
               height:'155'

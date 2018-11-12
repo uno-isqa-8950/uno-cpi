@@ -1,8 +1,7 @@
 from django.contrib import admin
 from .models import User
-from .models import Contact, MissionArea
+from .models import Contact, MissionArea, HouseholdIncome
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-
 
 
 @admin.register(User)
@@ -27,7 +26,6 @@ class UserAdmin(DjangoUserAdmin):
     ordering = ('email',)
 
 
-
 class ContactList(admin.ModelAdmin):
 
     list_display = ('first_name', 'last_name', 'work_phone', 'cell_phone', 'email_id', 'contact_type','community_partner', 'campus_partner')
@@ -42,7 +40,15 @@ class MissionAreaList(admin.ModelAdmin):
     search_fields = ('mission_name', 'description')
 
 
+class HouseholdIncomeList(admin.ModelAdmin):
+
+    list_display = ('county', 'median_income')
+
+    search_fields = ('county', )
+
+
 # admin.site.register(User)
-admin.site.register(Contact,ContactList)
-admin.site.register(MissionArea,MissionAreaList)
+admin.site.register(Contact, ContactList)
+admin.site.register(MissionArea, MissionAreaList)
+admin.site.register(HouseholdIncome, HouseholdIncomeList)
 

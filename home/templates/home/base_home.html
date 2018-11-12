@@ -61,6 +61,7 @@ margin-top:15px;
         width: auto;
     }
 }
+
 </style>
 
 {% block additionalCSS %}
@@ -86,39 +87,40 @@ margin-top:15px;
                 </li-->
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-tachometer"></i>Map
+                        <i class="fa fa-globe"></i>Maps
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/map">Community Partners by Household Income</a>
-                    <a class="dropdown-item" href="/projectmap">Projects by Legislative Districts</a>
+                    <a class="dropdown-item" href="/map">Community Partners </a>
+                    <a class="dropdown-item" href="/projectmap">Projects </a>
                 </div>
                 </li>
                 <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <i class="fa fa-line-chart"></i>
-                  Analytics
-                </a>
-                <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-line-chart"></i>Analytics
+                        <span class="caret"></span>
+                   </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
 
-                  <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#"> Reports</a>
+                  <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                     <ul class="dropdown-menu">
-                      <a class="dropdown-item" href="/projectInfo">Mission Area report</a>
-                      <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partner Report</a>
-                      <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Project Report</a>
+                      <a class="dropdown-item" href="/projectInfo">Mission Area</a>
+                      <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                      <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
 
                     </ul>
                   </li>
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts </a>
+                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
                     <ul class="dropdown-menu">
-                      <a class="dropdown-item" href="/missionchart">Mission Area Chart</a>
-                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Type Chart</a>
+                      <a class="dropdown-item" href="/missionchart">Mission Area</a>
+                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Type</a>
 
                     </ul>
                   </li>
                 </ul>
                 </li>
-              <li class=" nav-item dropdown">
+                </li>
+                <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-registered"></i>Register
                         <span class="caret"></span>
@@ -131,7 +133,6 @@ margin-top:15px;
                 <li class="nav-item">
 
                     <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user-plus"></i>SignUp </a>
-
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>

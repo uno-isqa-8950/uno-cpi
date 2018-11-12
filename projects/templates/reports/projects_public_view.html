@@ -1,5 +1,7 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+
 
 <style>
 table {
@@ -20,13 +22,34 @@ tr:nth-child(even) {
 form label{
   font-weight:bold;
 }
+
+.bs-example{
+    	margin: 100px 50px;
+    }
+.fa-question{
+   color:blue;
+    background-color:lightblue;
+    width:20px;
+    height:20px;
+    display:inline-block;
+    border-radius:100%;
+    font-size:15px;
+    text-align:center;
+    text-decoration:none;
+    -webkit-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+    -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+    box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
+}
 </style>
 
 <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">
         <br>
-        <div class="col-md-12 text-center">
-            <h3>Projects Report</h3>
+        <div class="col-md-12 text-center" class="bs-example">
+            <h3>Report : Projects </h3>
+            <div class="col-md-12 text-right">
+           <i class="fas fa-question" href="#" data-toggle="tooltip" title="The report gives the information about the project information "></i>
+            </div>
         </div> <br>
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-md-6 form-group">
@@ -50,8 +73,8 @@ form label{
         <table style="width:100%">
             <tr>
                 <th>Project Name</th>
-                <th>Campus Partner Name</th>
-                <th>Community Partner Name</th>
+                <th>Campus Partner </th>
+                <th>Community Partner </th>
                 <th>Engagement Type</th>
             </tr>
 
@@ -69,5 +92,11 @@ form label{
 </div>
 <br>
 <br>
-
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
+</script>
 {% endblock %}

@@ -10,7 +10,7 @@ class EducationSystem (models.Model):
 
 class University (models.Model):
     name = models.CharField(max_length=255, unique=True)
-    education_system = models.ForeignKey(EducationSystem,on_delete=models.CASCADE)
+    education_system = models.ForeignKey(EducationSystem, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.name)

@@ -92,9 +92,10 @@ input[type=file]
       <label for="id_field">Choose File Type:</label>
         <select onchange="location = this.options[this.selectedIndex].value;">
             <option>Please select</option>
-            <option value="{% url 'upload_project' %}" selected="selected">Project</option>
             <option value="{% url 'upload_campus' %}">Campus</option>
             <option value="{% url 'upload_community' %}">Community</option>
+            <option value="{% url 'upload_project' %}" selected="selected">Project</option>
+            <option value="{% url 'upload_income' %}">Household Income</option>
         </select>​
     <div class="form-group">
         <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>

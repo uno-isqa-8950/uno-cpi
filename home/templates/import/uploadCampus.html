@@ -44,7 +44,9 @@ h4
 
 #position1
 {
+color: red;
 margin-right: auto;
+margin-left: 3000;
 }
 
 label, #heading
@@ -105,8 +107,11 @@ br
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
     </div>
-     <div
-        <button class="btn btn-success" id="button-align"> <span class = "glyphicon glyphicon-download"></span>Test </button>
+        <!--
+     <div>
+         <form action>
+        <button class="btn" id="button-align"> <span class = "glyphicon glyphicon-download"></span>Test </button>
+         </form>
     </div>
         <div id="position1">
         <form action={{ download_campus_url }}  method="GET">
@@ -119,21 +124,41 @@ br
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
              <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
         </div>
+
+
         <div class = "#dvLoading"></div>
         </form>
     </div>
+    -->
+        <div class="form-group">
+        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
+            <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
+        </div>
+        </div>
+
+        <div id="position1">
+        <form action={{ download_campus_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
+        </form>
+    </div>
+
+
 
     </div>
     </div>
 
 </form></div></div>
-</div>
+<div id="position1">
+        <form action={{ download_campus_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
+        </form>
+    </div>
     <!-- id="position1">
         <form action={{ download_campus_url }}  method="GET">
         <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
         </form>
-    </div>
-<br><br><br><br><br><br><br><br><br><br> -->
+    </div>-->
+<br><br><br><br><br><br><br><br><br><br>
     <script>
 
 	</script>

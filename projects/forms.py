@@ -31,7 +31,7 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
         fields = ('project_name','total_hours','total_people','wages')
         labels = {
             'total_hours': ('Community Hours'),
-            'total_people':('Community Volunteer'),
+            'total_people':('Community Volunteers'),
         }
         widgets = {
 
@@ -59,7 +59,7 @@ class ProjectForm2(ModelForm):
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
             'total_uno_students': 'Total Number of UNO Students',
-            'total_uno_hours': 'Total Number of UNO Students Hours',
+            'total_uno_hours': 'Total Number of UNO Student Hours',
             'total_k12_students': 'Total Number of K-12 Students',
             'total_k12_hours': 'Total Number of K-12 Hours',
             'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
@@ -78,7 +78,7 @@ class ProjectMissionForm(ModelForm):
         fields = ('project_name','mission_type' , 'mission',)
         labels = {
             'mission_type': ('Select Mission Type'),
-            'mission': ('Select Mission'),
+            'mission': ('Select Mission Area'),
         }
 
 
@@ -118,8 +118,8 @@ class ProjectMissionFormset(forms.ModelForm):
         model = ProjectMission
         fields = ('mission_type', 'mission',)
         labels = {
-            'mission_type': ('Select Mission type'),
-            'mission': ('Select Mission'),
+            'mission_type': ('Select Mission Type'),
+            'mission': ('Select Mission Area'),
                     }
 
 class ProjectSearchForm(forms.ModelForm):

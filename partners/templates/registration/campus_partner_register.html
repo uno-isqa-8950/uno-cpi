@@ -39,13 +39,22 @@ font-weight: bold;
     color:red
     }
 
-.com-md-12 col-lg-12
+.col-md-12 col-lg-12
+{
+text ="Text"
+color: red;
+background-color: #4CAF50
+padding: 20 px
+}
+
+.row
 {
 text ="Text"
 color: red;
 padding: 20 px
-}
+float: right;
 
+}
 
 </style>
 <div class = "container">
@@ -60,8 +69,8 @@ padding: 20 px
 
                     <form action="." method="post">
                     {% csrf_token %}
-                    <div class="row">
-                        <div class="col-md-12 col-lg-12">
+                    <div class="row" placeholder = "Select">
+                        <div class="col-md-12 col-lg-12" placeholder = "select">
                             {{ campus_partner_form.name|bootstrap }}
                         </div>
                     </div>
@@ -127,7 +136,7 @@ padding: 20 px
 
                     <div class="input-group-append" >
                         <!--button-- class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button-->
-                        <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                        <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add Additional Contact </button>
                     </div>
 
                 </div>
@@ -153,7 +162,7 @@ padding: 20 px
 $(document).ready(function(){
   $('#id_college_name').select2(
       {
-              placeholder: 'Select a College Name'}
+              placeholder: 'Test'}
   );
 });
 $(document).ready(function(){

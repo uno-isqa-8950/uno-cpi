@@ -20,6 +20,8 @@ class CampusPartnerForm(forms.ModelForm):
             'college_name': ('College Name'),
              }
 
+        widgets = {'name': forms.TextInput({'placeholder': 'Enter the name of your department, such as "Anthropology"'})}
+
     def __init__(self, *args, **kwargs):
         super(CampusPartnerForm, self).__init__(*args, **kwargs)
         self.fields['college_name'].empty_label = " Select College"
@@ -38,15 +40,15 @@ class CampusPartnerContactForm(forms.ModelForm):
         labels = {
             'first_name': ('Contact First Name'),
             'last_name': ('Contact Last Name'),
-            'work_phone': ('Work Phone#'),
-            'cell_phone': ('Cell Phone#'),
+            'work_phone': ('Work Phone'),
+            'cell_phone': ('Cell Phone'),
             'email_id': ('Contact Email'),
             'contact_type':('Contact Type'),
         }
 
-        widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
-                   'cell_phone': forms.TextInput({'placeholder': '##########'}),
-                   'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
+        widgets = {'work_phone': forms.TextInput({'placeholder': '4021234567'}),
+                   'cell_phone': forms.TextInput({'placeholder': '4029999999'}),
+                   'email_id': forms.TextInput({'placeholder': 'davidsmith@unomaha.edu'}),
                    }
 
 
@@ -89,8 +91,8 @@ class CommunityContactForm(forms.ModelForm):
             'work_phone': ('Work Phone'),
             'cell_phone': ('Cell Phone')
         }
-        widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
-                   'cell_phone': forms.TextInput({'placeholder': '##########'}),
+        widgets = {'work_phone': forms.TextInput({'placeholder': '4021111111'}),
+                   'cell_phone': forms.TextInput({'placeholder': '4029999999'}),
                   }
 
     def validateEmail(email_id):

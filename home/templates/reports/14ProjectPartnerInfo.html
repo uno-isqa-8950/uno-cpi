@@ -1,32 +1,11 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
 
-<!--<style>-->
-<!--table {-->
-    <!--font-family: arial, sans-serif;-->
-    <!--border-collapse: collapse;-->
-    <!--width: 100%;-->
-<!--}-->
-
-<!--td, th {-->
-    <!--border: 1px solid #dddddd;-->
-    <!--text-align: left;-->
-    <!--padding: 8px;-->
-<!--}-->
-
-<!--tr:nth-child(even) {-->
-    <!--background-color: #dddddd;-->
-<!--}-->
-<!--</style>-->
-
 <div class="container">
         <div class="text-center"><h4>Report : Mission Area</h4></div>
         	<div class="row">
-        <!--<div id="filter-panel" class="collapse filter-panel">-->
-            <!--<div class="panel">-->
-                <!--<div class="panel-body">-->
+
             <form class="form-inline" role="form" id="filters-form" method="get">
-                <!--<div class="form-group">-->
             <div class="col-md-3">
                 Engagement Type:
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
@@ -53,13 +32,7 @@
             </div>
             </form> </div>
                 </div>
-            <!--</div>-->
-        <!--</div>-->
-            <!--</div>-->
-    <!--</div>-->
-        <!--<button type="button" class="btn btn-custom" data-toggle="collapse" data-target="#filter-panel">-->
-            <!--<span class="glyphicon glyphicon-cog"></span> Filters-->
-        <!--</button>-->
+
 <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
   <thead>
     <tr>
@@ -83,7 +56,6 @@
    </tbody>
 </table>
             <br>
-        <!--</div>-->
 <br>
 <br>
 

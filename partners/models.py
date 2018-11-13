@@ -36,7 +36,7 @@ class CommunityPartnerMission(models.Model):
         ('Other', 'Other'),
     )
     mission_type = models.CharField(max_length=20, choices=mission_choices, default=False)
-    mission_area= models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
+    mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,
                                           related_name='communitypartnermission', null=True)
 

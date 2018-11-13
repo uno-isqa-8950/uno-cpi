@@ -6,6 +6,7 @@ from projects.models import *
 from home.models import *
 from home.filters import *
 from partners.models import *
+from projects.models import *
 from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from itertools import chain
@@ -454,6 +455,9 @@ def projectsPublicReport(request):
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     projectsData = []
+    missArea=[]
+    for object in MissionArea.objects.order_by('mission_name'):
+        missArea.append(object.mission_name)
 
     for mission in missions.qs:
         # import pdb; pdb.set_trace()
@@ -488,11 +492,19 @@ def projectsPublicReport(request):
 # List of community Partners Public View 
 
 def communityPublicReport(request):
-    
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     communityData = []
+    missionArea=[]
+    for object in MissionArea.objects.order_by('mission_name'):
+        missionArea.append(object.mission_name)
+    acadYear=[]
+    for object in AcademicYear.objects.order_by('academic_year'):
+        acadYear.append(object.academic_year)
+    yesOrNo=[]
+    for object in CampusPartner.objects.order_by('active'):
+        yesOrNo.append(object.active)
 
     for partner in communityPartners.qs:
         data={}
@@ -510,8 +522,8 @@ def communityPublicReport(request):
         data['communityProjects'] = count
         communityData.append(data)
 
-
     return render(request, 'reports/community_public_view.html',
                    {'communityPartners': communityPartners, "projects": projects, 
-                    'communityData': communityData, 'missions': missions})
+                    'communityData': communityData, 'missions': missions,'missionArea':missionArea,'acadYear':acadYear,
+                    'yesOrNo':yesOrNo})
 

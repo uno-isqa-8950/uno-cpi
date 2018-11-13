@@ -22,6 +22,30 @@ form label{
 }
 </style>
 
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_mission').select2(
+      {
+              placeholder: 'Select a Mission Area'
+      }
+  );
+  $('#id_semester').select2(
+      {
+              placeholder: 'Select Academic Year'
+      }
+  );
+  $('#id_weitz_cec_part').select2(
+      {
+              placeholder: 'Select if Weitz Parrner'
+      }
+  );
+});
+</script>
+{% endblock %}
+
 <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">
         <br>

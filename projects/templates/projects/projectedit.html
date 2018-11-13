@@ -30,7 +30,7 @@
         {{project.project_name|bootstrap}}
          {{ project.status|bootstrap}}
          {{project.engagement_type|bootstrap}}
-         {{ course|bootstrap }}
+         {{ course.number|bootstrap }}
          {{project.activity_type|bootstrap}}
          {{ project.facilitator|bootstrap }}
          {{ project.description|bootstrap }}
@@ -57,34 +57,34 @@
     </form><br><br>
             </div></div></div></div><br><br>
 
- <script>
-    $(function(){
-        function hideInputs() {
-            $("label.control-label[for=id_name], input#id_name").hide();
-            $("#id_id_name").hide();
-            $("label.control-label[for=id_prefix], input#id_prefix").hide();
-            $("#id_prefix").hide();
-            $("label.control-label[for=id_number], input#id_number").hide();
-            $("#id_number").hide();
-
-            console.log('label.control-label[for=id_name], input#id_name');
-            }
-        $("#id_engagement_type").on('change', function(){
-            var val = $("#id_engagement_type").val();
-            if (val === '4') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-        hideInputs();
-    });
-</script>
+{# <script>#}
+{#    $(function(){#}
+{#        function hideInputs() {#}
+{#            $("label.control-label[for=id_name], input#id_name").hide();#}
+{#            $("#id_id_name").hide();#}
+{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
+{#            $("#id_prefix").hide();#}
+{#            $("label.control-label[for=id_number], input#id_number").hide();#}
+{#            $("#id_number").hide();#}
+{##}
+{#            console.log('label.control-label[for=id_name], input#id_name');#}
+{#            }#}
+{#        $("#id_engagement_type").on('value', function(){#}
+{#            var val = $("#id_engagement_type").val();#}
+{#            if (val === '4') {#}
+{#               $("#id_name").show();#}
+{#               $("label.control-label[for=id_name], input#id_name").show();#}
+{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
+{#            $("#id_prefix").show();#}
+{#            $("label.control-label[for=id_number], input#id_number").show();#}
+{#            $("#id_number").show();#}
+{##}
+{#            }#}
+{#            else {#}
+{#                hideInputs();#}
+{#            }#}
+{#        });#}
+{#        hideInputs();#}
+{#    });#}
+{#</script>#}
 {% endblock %}

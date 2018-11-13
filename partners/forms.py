@@ -118,7 +118,7 @@ class CommunityMissionForm(ModelForm):
         fields = ('mission_type' , 'mission_area')
         labels = {
             'mission_type': ('Mission Type'),
-            'mission_area': ('Mission Area')
+            'mission_area': ('Mission Area'),
         }
 
 

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Project, ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, EngagementType, \
-    ActivityType, Status, Semester
+    ActivityType, Status, AcademicYear
 
 
 class ProjectList(admin.ModelAdmin):
@@ -57,10 +57,10 @@ class StatusList(admin.ModelAdmin):
     search_fields = ('name',)
 
 
-class SemesterList(admin.ModelAdmin):
+class AcademicYearList(admin.ModelAdmin):
 
-    list_display = ('semester', 'description')
-    search_fields = ('semester',)
+    list_display = ('academic_year', 'description')
+    search_fields = ('academic_year',)
 
 
 admin.site.register(Project, ProjectList)
@@ -70,4 +70,4 @@ admin.site.register(ProjectCampusPartner, ProjectCampusPartnerList)
 admin.site.register(EngagementType, EngagementTypeList)
 admin.site.register(ActivityType, ActivityTypeList)
 admin.site.register(Status, StatusList)
-admin.site.register(Semester, SemesterList)
+admin.site.register(AcademicYear, AcademicYearList)

@@ -80,23 +80,13 @@ input[type=file]
 
 
 <div class="">
-    <div class="position"><h2> Upload Projects</h2></div>
-
-<form id='upload_form' action="{% url 'upload_project' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+    <div class="position"><h2> Upload Household Income</h2></div>
+<form id='upload_form' action="{% url 'upload_income' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
         <div class="panel-heading" ><h4 id="heading">Select CSV file for Import:</h4></div>
 
     <div class="panel-body">
-
-      <label for="id_field">Choose File Type:</label>
-        <select onchange="location = this.options[this.selectedIndex].value;">
-            <option>Please select</option>
-            <option value="{% url 'upload_campus' %}">Campus</option>
-            <option value="{% url 'upload_community' %}">Community</option>
-            <option value="{% url 'upload_project' %}" selected="selected">Project</option>
-            <option value="{% url 'upload_income' %}">Household Income</option>
-        </select>​
     <div class="form-group">
         <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
         <div class="col-md-12">
@@ -115,16 +105,12 @@ input[type=file]
 
 </form></div></div>
 </div>
+
     <div id="position1">
-        <form action={{ download_projects_url }}  method="GET">
+        <form action={{ download_income_url }}  method="GET">
         <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
         </form><br><br><br>
     </div>
-
-
-    <script>
-
-	</script>
 
 
 {% endblock %}

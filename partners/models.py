@@ -11,7 +11,7 @@ class CommunityPartner(models.Model):
     )
     name = models.CharField(max_length=255, unique=True)
     website_url = models.URLField(max_length=100, blank=True)
-    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True)
+    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
     k12_level =  models.CharField(max_length=20,null=False, blank=True)
     address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
@@ -42,7 +42,7 @@ class CommunityPartnerMission(models.Model):
 
 
 class CommunityType(models.Model):
-    community_type = models.CharField(max_length=50)
+    community_type = models.CharField(max_length=50,verbose_name="Community Type")
 
     def __str__(self):
         return str(self.community_type)
@@ -66,12 +66,13 @@ class CampusPartner(models.Model):
 
 
 class CampusPartnerUser(models.Model):
-    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE,null=False,unique=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL , on_delete=models.CASCADE,null=True)
+    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE, null=False,unique=False)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
 
 class CommunityPartnerUser(models.Model):
-     community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE, related_name='communitypartner',null=True)
-     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,null=True)
+     community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE,
+                                           related_name='communitypartner', null=True)
+     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
 

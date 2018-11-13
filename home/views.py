@@ -206,6 +206,26 @@ def upload_campus(request):
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
 
+
+# uploading the campus data via csv file
+
+def upload_income(request):
+    if request.method == 'GET':
+        download_campus_url = '/media/household_income.csv'
+        return render(request, 'import/uploadIncome.html',
+                      {'download_campus_url': download_campus_url})
+    if request.method == 'POST':
+        csv_file = request.FILES["csv_file"]
+        decoded = csv_file.read().decode('utf-8').splitlines()
+        reader = csv.DictReader(decoded)
+        for row in reader:
+            data_dict = dict(OrderedDict(row))
+            form = UploadIncome(data_dict)
+            if form.is_valid():
+                form.save()
+    return render(request, 'import/uploadIncomeDone.html')
+
+
 # (14) Mission Summary Report: filter by Semester, EngagementType
 
 
@@ -213,6 +233,9 @@ def project_partner_info(request):
     missions = MissionArea.objects.all()
     mission_dict = {}
     mission_list = []
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+
     for m in missions:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.id for project in campus_filter.qs]
@@ -244,21 +267,25 @@ def project_partner_info(request):
                   {'project_filter': project_filter, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
-# (15) Engagement Summary Report: filter by Semester, MissionArea
+# (15) Engagement Summary Report: filter by AcademicYear, MissionArea
 
 
 def engagement_info(request):
     engagements = EngagementType.objects.all()
     eDict = {}
     eList = []
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+
     for e in engagements:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.id for project in campus_filter.qs]
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
         project_mission_ids = [p.id for p in missions_filter.qs]
-        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
-        project_semester_ids = [p.id for p in semester_filter.qs]
-        filtered_project_ids = list(set(project_mission_ids) | set(project_semester_ids))
+        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        project_year_ids = [p.id for p in year_filter.qs]
+        filtered_project_ids = list(set(project_mission_ids) | set(project_year_ids))
         filtered_project_list = list(set(campus_filtered_ids).intersection(filtered_project_ids))
         eDict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
@@ -276,7 +303,7 @@ def engagement_info(request):
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
     return render(request, 'reports/15EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'semester_filter': semester_filter, 'eList': eList,
+                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
 
 
@@ -289,32 +316,38 @@ def missionchart(request):
     project_count_series_data = list()
     partner_count_series_data = list()
     max_series_data = list()
-    for m in missions:
-        filter2 = ProjectFilter(request.GET, queryset=Project.objects.all())
-        proj_ids = [p.id for p in filter2.qs]
-        mission_area1.append(m.mission_name)
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
 
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).count()
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
+    for m in missions:
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        proj_ids = [p.id for p in project_filter.qs]
+        mission_area1.append(m.mission_name)
+        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        proj_year_ids = [p.id for p in year_filter.qs]
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).distinct()
         community_list = [c.community_partner_id for c in p_community]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id). \
             filter(community_partner_id__in=community_list).count()
         project_count_series_data.append(project_count)
         partner_count_series_data.append(community_count)
-        Max_count = max(
-            list(set(partner_count_series_data) | set(project_count_series_data)))
-        max_series_data.append(Max_count)
 
-        project_count_series = {
+
+    Max_count = max(
+            list(set(partner_count_series_data) | set(project_count_series_data)),default=1)
+    max_series_data.append(Max_count)
+
+    project_count_series = {
             'name': 'Project Count',
             'data': project_count_series_data,
             'color': 'turquoise'}
-        partner_count_series = {
+    partner_count_series = {
             'name': 'Community Partner Count',
             'data': partner_count_series_data,
             'color': 'teal'}
 
-        chart = {
+    chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
             'xAxis': {'title': {'text': 'Mission Areas'}, 'categories': mission_area1},
@@ -333,11 +366,8 @@ def missionchart(request):
             'series': [project_count_series, partner_count_series]
         }
 
-        dump = json.dumps(chart)
-    return render(request, 'charts/projectreport.html',{'chart': dump , 'filter2' : filter2})
-
-
-
+    chart_dump = json.dumps(chart)
+    return render(request, 'charts/missionchart.html',{'chart': chart_dump , 'project_filter' : project_filter , 'year_filter' :year_filter})
 
 
 def EngagementType_Chart(request):
@@ -346,7 +376,8 @@ def EngagementType_Chart(request):
     engagment_campus_counts=[]
     project_engagement_series=[]
     engagament_names=[]
-
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     engagement_types = EngagementType.objects.all()
     for et in engagement_types:
         engagament_names.append(et.name)
@@ -354,9 +385,10 @@ def EngagementType_Chart(request):
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
         project_mission_ids = [p.project_name_id for p in missions_filter.qs]
 
-        semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
-        project_semester_ids = [p.id for p in semester_filter.qs]
-        proj_id_sem= Project.objects.filter(semester_id__in=project_semester_ids).filter(id__in = project_mission_ids)
+        #semester_filter = SemesterFilter(request.GET, queryset=Semester.objects.all())
+        academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        project_academicyear_ids = [p.id for p in academicyear_filter.qs]
+        proj_id_sem= Project.objects.filter(academic_year_id__in=project_academicyear_ids).filter(id__in = project_mission_ids)
         filtered_project_list = [p.id for p in proj_id_sem]
 
         project_count = Project.objects.filter(engagement_type_id=et.id).filter(id__in=filtered_project_list).count()
@@ -370,7 +402,7 @@ def EngagementType_Chart(request):
         p_campus = ProjectCampusPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
         engagment_campus_counts.append(p_campus)
 
-    Max_count = max(list(set(project_engagement_count)|set(engagment_community_counts)|set(engagment_campus_counts)))
+    Max_count = max(list(set(project_engagement_count)|set(engagment_community_counts)|set(engagment_campus_counts)), default=1)
 
     project_engagement_series = {
         'name': 'Project Count',
@@ -406,4 +438,4 @@ def EngagementType_Chart(request):
 
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
-                 {'chart': dump,'missions_filter':missions_filter,'semester_filter':semester_filter})
+                 {'chart': dump,'missions_filter':missions_filter,'academicyear_filter':academicyear_filter})

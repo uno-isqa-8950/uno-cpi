@@ -26,13 +26,15 @@ tr:nth-child(even) {
 }
 </style>
 
-    <div class="container-fluid" id="align">
-        <div class="col-md-12 panel panel-primary">
-            <br>
-        <h3>Engagment Types Chart</h3>
-            <br>
+   <div class="container-fluid" id="align">
+    <div class="col-md-12 panel panel-primary">
+        <br>
+        <div class="col-md-12 text-center">
+            <h3>Chart : Engagement Type </h3>
+        </div>
+        <br>
         <form id="filters-form" method="get">
-            <label>Filter by Mission Area </label> &emsp;
+            <label>Mission Area </label> &emsp;
 
 
             <select id="id_mission" name="mission" onchange="this.form.submit()">
@@ -41,9 +43,9 @@ tr:nth-child(even) {
                 {% endfor %}
             </select>
         &emsp;
-            <label>Filter by Semester</label>
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in semester_filter.form.semester %}
+            <label>Academic Year</label>
+            <select id="id_semester" name="Academic year" onchange="this.form.submit()">
+                {% for sem in academicyear_filter.form.academic_year %}
                     {{sem}}
                 {% endfor %}
             </select>

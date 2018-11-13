@@ -6,7 +6,11 @@ select[id=id_engagement_type],select[id=id_semester]
 {
 
     width:200px;
+
 }
+.bs-example{
+    	margin: 100px 50px;
+    }
  </style>
 
 
@@ -17,18 +21,18 @@ select[id=id_engagement_type],select[id=id_semester]
         <br>
     <form id="filters-form" method="get">
      &emsp;
-         <label>Filter by Engagement Type </label>
+         <label> Engagement Type </label>
 
           &emsp;
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                {% for engagement in filter2.form.engagement_type %}
+                {% for engagement in project_filter.form.engagement_type %}
                     {{engagement}}
                 {% endfor %}
             </select>
     &emsp;
-            <label>Filter by Semester</label>
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in filter2.form.semester %}
+            <label> Academic year</label>
+            <select id="id_semester" name="Academic year" onchange="this.form.submit()">
+                {% for sem in year_filter.form.academic_year%}
                     {{sem}}
                 {% endfor %}
 
@@ -52,5 +56,14 @@ select[id=id_engagement_type],select[id=id_semester]
         Highcharts.chart('container', {{ chart|safe }});
     </script>
     </div> <br> <br>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
+</script>
+    </div>
 {% endblock %}
 

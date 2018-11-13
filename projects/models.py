@@ -8,11 +8,12 @@ class Project (models.Model):
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField()
-    semester = models.ForeignKey('Semester', on_delete=models.CASCADE, null=True)
-    total_uno_students = models.IntegerField()
-    total_uno_hours = models.IntegerField()
-    total_k12_students = models.IntegerField(null=True, blank=False)
-    total_k12_hours = models.IntegerField()
+    semester = models.CharField(max_length=20, blank=False, default= 'Fall-2015')
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False , default= 2015-16)
+    total_uno_students = models.IntegerField(null=True, blank=True)
+    total_uno_hours = models.IntegerField(null=True, blank=True)
+    total_k12_students = models.IntegerField(null=True, blank=True)
+    total_k12_hours = models.IntegerField(null=True, blank=True)
     total_uno_faculty = models.IntegerField(blank=True, null=True)
     total_other_community_members = models.IntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
@@ -27,6 +28,9 @@ class Project (models.Model):
     city = models.CharField(max_length=25, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
     zip = models.IntegerField(null=True, blank=True)
+    county = models.CharField(max_length=100, blank=True, null=True)
+    legislative_district = models.IntegerField(null=True, blank=True)
+    median_household_income = models.IntegerField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
@@ -79,10 +83,12 @@ class ProjectCampusPartner (models.Model):
     def __str__(self):
         return str(self.project_name)
 
+# Models below are Project lookup tables, must have values to insert project data
+
 
 class Status(models.Model):
     name = models.CharField(max_length=80, unique=True)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -90,24 +96,24 @@ class Status(models.Model):
 
 class EngagementType(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=255)
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=255)
+    name = models.CharField(max_length=100, unique=True, default= 2015-16)
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
 
 
-class Semester(models.Model):
-    semester = models.CharField(max_length=20, unique=True)
-    description = models.CharField(max_length=255)
+class AcademicYear(models.Model):
+    academic_year = models.CharField(max_length=20, unique=True )
+    description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
-        return str(self.semester)
+        return str(self.academic_year)
 

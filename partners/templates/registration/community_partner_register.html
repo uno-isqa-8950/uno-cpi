@@ -59,6 +59,17 @@ margin-top: 5px;
 font-weight: bold;
 }
 
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+
+}
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
+
+
 
 </style>
 
@@ -74,6 +85,9 @@ font-weight: bold;
                         <div class="col-lg-12 col-md-12">
                             {% csrf_token %}
                             {{ community_partner_form.name |bootstrap }}
+                            <div class = "row">
+                       <div class="col-lg-12 col-md-12 col-sm-12">
+
                             {{ community_partner_form.website_url |bootstrap }}
                             {{ community_partner_form.community_type |bootstrap }}
                             {{ community_partner_form.k12_level |bootstrap }}
@@ -97,6 +111,8 @@ font-weight: bold;
                             {{ community_partner_form.zip |bootstrap }}
                         </div>
                     </div>
+                  </div>
+              </div>
                     <!--<div class="row">-->
                         <!--<div class="col-md-6">-->
                             <!--{{ community_partner_form.zip |bootstrap }}-->
@@ -284,4 +300,3 @@ $(document).on('click', '.remove-form-row', function(e){
     });
 </script>
 {% endblock %}
-

@@ -22,6 +22,10 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=255, unique=True)),
                 ('weitz_cec_part', models.CharField(choices=[('Yes', 'Yes'), ('No', 'No')], default=False, max_length=6)),
                 ('active', models.BooleanField(default=False)),
+                ('education_system', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='university.EducationSystem')),
+                ('university', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='university.University')),
+                ('college_name', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, to='university.College')),
+                ('department', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='university.Department')),
             ],
         ),
         migrations.CreateModel(

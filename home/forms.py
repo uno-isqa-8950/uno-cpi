@@ -63,7 +63,6 @@ class UserForm1(forms.ModelForm):
         }
 
         labels = {
-
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email')
@@ -71,12 +70,18 @@ class UserForm1(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
+        if not firstname:
+           raise forms.ValidationError("Please enter your First Name")
+
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have numbers")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
+        if not lastname:
+           raise forms.ValidationError("Please enter your Last Name")
+
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have numbers")
         return lastname
@@ -88,7 +93,6 @@ class UserForm1(forms.ModelForm):
         return email
 
     def clean_password2(self):
-
         pas = self.cleaned_data['password']
         cd =   self.cleaned_data['password2']
         MIN_LENGTH=8

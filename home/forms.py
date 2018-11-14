@@ -215,6 +215,22 @@ class UploadCommunityForm(forms.ModelForm):
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
 
 
+class UploadCommunityMissionForm(forms.ModelForm):
+    mission_area = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
+    community_partner = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
+                                               to_field_name="name")
+
+    class Meta:
+        model = CommunityPartnerMission
+        fields = '__all__'
+        mission_choices = (
+            ('Primary', 'Primary'),
+            ('Secondary', 'Secondary'),
+            ('Other', 'Other'),
+        )
+        mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))
+
+
 class UploadCampusForm(forms.ModelForm):
     university = forms.ModelChoiceField(queryset=University.objects.all(), to_field_name="name")
     education_system = forms.ModelChoiceField(queryset=EducationSystem.objects.all(), to_field_name="name")

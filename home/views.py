@@ -194,8 +194,10 @@ def upload_campus(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
+            print("data_dict", data_dict)
             college_count = College.objects.filter(college_name=data_dict['college_name']).count()
-            if college_count == 0:
+            print("college_count", college_count)
+            if not college_count:
                 form_college = UploadCollege(data_dict)
                 if form_college.is_valid():
                     form_college.save()
@@ -203,8 +205,9 @@ def upload_campus(request):
                     print(form)
                     if form.is_valid():
                         form.save()
-            elif college_count == 1:
+            else:
                 form = UploadCampusForm(data_dict)
+                print ("form", form)
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')

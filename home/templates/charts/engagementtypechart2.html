@@ -44,7 +44,7 @@ tr:nth-child(even) {
             </select>
         &emsp;
             <label>Academic Year</label>
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
+            <select id="id_semester" name="Academic year" onchange="this.form.submit()">
                 {% for sem in academicyear_filter.form.academic_year %}
                     {{sem}}
                 {% endfor %}

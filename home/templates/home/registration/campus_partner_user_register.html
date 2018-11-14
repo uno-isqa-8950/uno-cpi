@@ -116,12 +116,24 @@ margin-left:22px
 	         <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Register : Campus Partner User </h4></div>
 			        <div class="panel-body">
-<!--<h4> Create a Campus Partner User Account</h4>-->
-<!--<form method="post" action="#">-->
- <!--<div class="formUser">-->
+
                      <form action="." method="post">
+
                         {% csrf_token %}
-                        {{ user_form|bootstrap }}
+
+                        {{ form.non_field_errors }}
+
+                          {% for hidden_field in form.hidden_fields %}
+                          {{ hidden_field.errors }}
+                          {{ hidden_field }}
+                          {% endfor %}
+
+                        {% for field in user_form.visible_fields %}
+                          
+                          {{ field|bootstrap }}
+
+                        {% endfor %}
+                        
                         <div class = "row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                         {{ campus_partner_user_form|bootstrap }}
@@ -137,13 +149,5 @@ margin-left:22px
 </div>
 
 <br><br>
-
-<!--<div class="boxContainer">-->
-  <!--<p><input type="submit" value="Create My Account" class="button"></p>-->
-<!--</div>-->
-<!--</form>-->
- <!--</div>-->
-
-<!--</form>-->
 
 {% endblock %}

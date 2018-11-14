@@ -50,7 +50,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='  Atleast 8 characters having 1 digit and 1 special character')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 
@@ -80,6 +80,12 @@ class UserForm1(forms.ModelForm):
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have numbers")
         return lastname
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "edu" != email.split("@")[1].split('.')[1]:
+            raise forms.ValidationError("Please use .edu email ")
+        return email
 
     def clean_password2(self):
 
@@ -99,9 +105,6 @@ class UserForm1(forms.ModelForm):
                     raise forms.ValidationError("Password should have atleast one digit")
                 if not any(char in special_characters for char in pas):
                     raise forms.ValidationError("Password should have atleast one Special Character")
-
-
-
 
 
 class UserForm(forms.ModelForm):

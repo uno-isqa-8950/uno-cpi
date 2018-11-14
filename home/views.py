@@ -85,6 +85,10 @@ def registerCampusPartnerUser(request):
             campuspartneruser.save()
 
             return render(request, 'home/register_done.html', )
+    else:
+        user_form = UserForm1(request.POST)
+        campus_partner_user_form = CampusPartnerUserForm(request.POST)
+
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})

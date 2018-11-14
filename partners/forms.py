@@ -25,10 +25,6 @@ class CampusPartnerForm(forms.ModelForm):
         self.fields['college_name'].empty_label = " Select College"
 
 
-
-
-
-
 class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
@@ -38,8 +34,8 @@ class CampusPartnerContactForm(forms.ModelForm):
         labels = {
             'first_name': ('Contact First Name'),
             'last_name': ('Contact Last Name'),
-            'work_phone': ('Work Phone#'),
-            'cell_phone': ('Cell Phone#'),
+            'work_phone': ('Work Phone'),
+            'cell_phone': ('Cell Phone'),
             'email_id': ('Contact Email'),
             'contact_type':('Contact Type'),
         }
@@ -49,7 +45,17 @@ class CampusPartnerContactForm(forms.ModelForm):
                    'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
                    }
 
+    def clean_first_name(self):
+            firstname = self.cleaned_data['first_name']
+            if any(char.isdigit() for char in firstname):
+                raise forms.ValidationError("First Name cannot have digits")
+            return firstname
 
+    def clean_last_name(self):
+            lastname = self.cleaned_data['last_name']
+            if any(char.isdigit() for char in lastname):
+                raise forms.ValidationError("Last Name cannot have digits")
+            return lastname
 
 class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')
@@ -70,6 +76,23 @@ class CommunityPartnerForm(forms.ModelForm):
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
 
+    def clean_country(self):
+            name = self.cleaned_data['country']
+            if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid Country Name")
+            return name
+
+    def clean_state(self):
+            name = self.cleaned_data['state']
+            if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid State Name")
+            return name
+
+    def clean_city(self):
+            name = self.cleaned_data['city']
+            if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid City Name")
+            return name
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -101,6 +124,21 @@ class CommunityContactForm(forms.ModelForm):
             return True
         except ValidationError:
             return False
+
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        return lastname
+
+
+
 
 class CommunityMissionForm(ModelForm):
 

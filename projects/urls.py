@@ -18,5 +18,7 @@ urlpatterns = [
     url(r'^projectSearch/', views.SearchForProject, name='SearchForProject'),
     url(r'^projectSearchAdd/(?P<pk>\d+)/', views.SearchForProjectAdd, name='projectSearchAdd'),
     path('projectspublicreport/', views.projectsPublicReport, name='projectspublicreport'),
-    path('communitypublicreport/', views.communityPublicReport, name='communitypublicreport')
+    path('communitypublicreport/', views.communityPublicReport, name='communitypublicreport'),
+    path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
+
 ]

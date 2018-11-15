@@ -27,10 +27,6 @@ class CampusPartnerForm(forms.ModelForm):
         self.fields['college_name'].empty_label = " Select College"
 
 
-
-
-
-
 class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
@@ -52,7 +48,6 @@ class CampusPartnerContactForm(forms.ModelForm):
                    }
 
 
-
 class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')
     class Meta:
@@ -71,7 +66,6 @@ class CommunityPartnerForm(forms.ModelForm):
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
-
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -103,6 +97,7 @@ class CommunityContactForm(forms.ModelForm):
             return True
         except ValidationError:
             return False
+
 
 class CommunityMissionForm(ModelForm):
 

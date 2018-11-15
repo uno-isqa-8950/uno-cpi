@@ -85,6 +85,10 @@ def registerCampusPartnerUser(request):
             campuspartneruser.save()
 
             return render(request, 'home/register_done.html', )
+    else:
+        user_form = UserForm1(request.POST)
+        campus_partner_user_form = CampusPartnerUserForm(request.POST)
+
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
@@ -172,9 +176,12 @@ def upload_community(request):
         community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
         if community_count == 0:
             form = UploadCommunityForm(data_dict)
-            print(form)
             if form.is_valid():
                 form.save()
+                form_mission = UploadCommunityMissionForm(data_dict)
+                print(form_mission)
+                if form_mission.is_valid():
+                    form_mission.save()
     return render(request, 'import/uploadCommunityDone.html')
 
 # uploading the campus data via csv file
@@ -191,8 +198,10 @@ def upload_campus(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
+            print("data_dict", data_dict)
             college_count = College.objects.filter(college_name=data_dict['college_name']).count()
-            if college_count == 0:
+            print("college_count", college_count)
+            if not college_count:
                 form_college = UploadCollege(data_dict)
                 if form_college.is_valid():
                     form_college.save()
@@ -200,8 +209,9 @@ def upload_campus(request):
                     print(form)
                     if form.is_valid():
                         form.save()
-            elif college_count == 1:
+            else:
                 form = UploadCampusForm(data_dict)
+                print ("form", form)
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
@@ -238,7 +248,7 @@ def project_partner_info(request):
 
     for m in missions:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.id for project in campus_filter.qs]
+        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_filtered_ids = [project.id for project in project_filter.qs]
         project_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
@@ -246,9 +256,12 @@ def project_partner_info(request):
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
         p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
+        print(p_community)
         community_list = [c.community_partner_id for c in p_community]
+        print(community_list)
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
             filter(community_partner_id__in=community_list).count()
+        print(community_count)
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
         total_uno_students = 0
@@ -262,7 +275,7 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
-    print(mission_list)
+    # print(mission_list)
     return render(request, 'reports/14ProjectPartnerInfo.html',
                   {'project_filter': project_filter, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
@@ -272,25 +285,23 @@ def project_partner_info(request):
 
 def engagement_info(request):
     engagements = EngagementType.objects.all()
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+
     eDict = {}
     eList = []
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
-
     for e in engagements:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.id for project in campus_filter.qs]
+        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-        project_mission_ids = [p.id for p in missions_filter.qs]
-        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
+        project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_year_ids = [p.id for p in year_filter.qs]
-        filtered_project_ids = list(set(project_mission_ids) | set(project_year_ids))
+        print(project_year_ids)
+        filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
         filtered_project_list = list(set(campus_filtered_ids).intersection(filtered_project_ids))
         eDict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
         eDict['project_count'] = project_count
-        print(project_count)
         total_uno_students = 0
         total_uno_hours = 0
         projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
@@ -305,6 +316,36 @@ def engagement_info(request):
     return render(request, 'reports/15EngagementTypeReport.html',
                   {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
+
+
+# (15) Engagement Summary Report: filter by AcademicYear, MissionArea
+
+
+def unique_count(request):
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_year_ids = [p.id for p in year_filter.qs]
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    mission_ids = [m.mission_id for m in missions_filter.qs]
+    project_missions = [p.project_name_id for p in missions_filter.qs]
+    print(project_missions)
+    unique_project_ids = list(set(campus_filtered_ids).intersection(project_year_ids))
+    total_unique_project = list(set(unique_project_ids).intersection(project_missions))
+    unique_project = len(total_unique_project)
+
+    #community partner count
+    community_mission_filter = CommunityPartnerMission.objects.filter(mission_area_id__in=mission_ids)
+    community_mission_ids = [c.community_partner_id for c in community_mission_filter]
+    print(community_mission_filter)
+    # unique_community_ids = ProjectCommunityPartner.objects.filter(project_name_id__in=unique_project_ids)
+    # total_unique_community = list(set(community_mission_ids).intersection(unique_community_ids))
+    unique_community = len(community_mission_ids)
+
+    return render(request, 'reports/8CountOfUniqueCommunityPartner.html',
+                  {'missions_filter': missions_filter, 'year_filter': year_filter,
+                   'campus_filter': campus_filter, 'unique_project': unique_project,
+                   'unique_community': unique_community, 'community_mission_filter': community_mission_filter})
 
 
 # Chart for projects with mission areas

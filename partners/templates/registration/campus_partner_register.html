@@ -43,6 +43,14 @@ font-weight: bold;
   {
       margin-top: 20px;
   }
+	.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+}
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 
 }
 
@@ -62,6 +70,8 @@ font-weight: bold;
                     <div class="row" placeholder = "Select">
                         <div class="col-md-12 col-lg-12" placeholder = "select">
                             {{ campus_partner_form.name|bootstrap }}
+														<div class = "row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
                         </div>
                     </div>
 
@@ -74,6 +84,8 @@ font-weight: bold;
                             {{ campus_partner_form.department|bootstrap }}
                         </div>
                     </div>
+									</div>
+							</div>
 
       {{ formset.management_form }}
       {% for form in formset %}

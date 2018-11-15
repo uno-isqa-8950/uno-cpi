@@ -1,70 +1,51 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
 
-<style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-</style>
-
-    <div class="container-fluid" id="align">
-        <div class="col-md-10 panel panel-primary">
-            <br>
-        <h3>Summary Report : Mission Area </h3>
-            <br>
-        <form id="filters-form" method="get">
-            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                {% for engagement in filter.form.engagement_type %}
-                    {{engagement}}
+<div class="container">
+        <div class="text-center"><h4>Unique Count of Projects  and Community Partners </h4></div>
+        	<div class="row">
+            <form class="form-inline" role="form" id="filters-form" method="get">
+            <div class="col-md-3">
+             Mission Area:
+            <select id="id_mission" name="mission" onchange="this.form.submit()">
+                {% for mission in missions_filter.form.mission %}
+                    {{mission}}
                 {% endfor %}
             </select>
-
-            <select id="id_semester" name="semester" onchange="this.form.submit()">
-                {% for sem in filter.form.semester %}
+                </div>
+                <div class="col-md-3">
+            Academic Year:
+            <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                {% for sem in year_filter.form.academic_year %}
                     {{sem}}
                 {% endfor %}
             </select>
+                    </div>
+                <div class="col-md-2">
+            Campus Partner:
+            <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                {% for campus in campus_filter.form.campus_partner %}
+                    {{campus}}
+                {% endfor %}
+            </select>
+            </div>
+            </form> </div>
+                </div>
+<br>
+<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+    <tr> <th> Unique Project Count </th> </tr>
 
-        <!--<input type="submit" value="Search" />-->
-    </form>
-    <!--{% for obj in filter.qs %}-->
-        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
-    <!--{% endfor %}-->
-
-<table style="width:100%">
-  <tr>
-    <th>Mission Areas</th>
-    <th>Community Count</th>
-    <th>Project Count</th>
-    <th>Total UNO Students</th>
-    <th>Total UNO Hours</th>
-
-  </tr>
-   {% for m in mList %}
-        <tr>
-            <td>{{m.mission_name}}</td>
-            <td>{{m.community_count}}</td>
-            <td>{{m.project_count}}</td>
-            <td>{{m.total_uno_students}}</td>
-            <td>{{m.total_uno_hours}}</td>
-        </tr>
-    {% endfor %}
+    <tr> <td> {{unique_project}} </td> </tr>
 </table>
-            <br>
-    </div>
-        </div>
+<br>
+<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+    <tr> <th> Unique Community partner Count</th>  </tr>
+
+    <tr><td> {{unique_community}} </td> </tr>
+</table>
+
+     <br>
 <br>
 <br>
 

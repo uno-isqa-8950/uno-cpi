@@ -63,7 +63,6 @@ class UserForm1(forms.ModelForm):
         }
 
         labels = {
-
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
             'email': ('Email')
@@ -71,18 +70,29 @@ class UserForm1(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
+        if not firstname:
+           raise forms.ValidationError("Please enter your First Name")
+
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have numbers")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
+        if not lastname:
+           raise forms.ValidationError("Please enter your Last Name")
+
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have numbers")
         return lastname
+    
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "edu" != email.split("@")[1].split('.')[1]:
+            raise forms.ValidationError("Please use .edu email ")
+        return email
 
     def clean_password2(self):
-
         pas = self.cleaned_data['password']
         cd =   self.cleaned_data['password2']
         MIN_LENGTH=8
@@ -99,9 +109,6 @@ class UserForm1(forms.ModelForm):
                     raise forms.ValidationError("Password should have at least one digit")
                 if not any(char in special_characters for char in pas):
                     raise forms.ValidationError("Password should have at least one Special Character")
-
-
-
 
 
 class UserForm(forms.ModelForm):
@@ -213,6 +220,22 @@ class UploadCommunityForm(forms.ModelForm):
             ('False', 'No'),
         )
         weitz_cec_part = forms.ChoiceField(widget=forms.Select(choices=TRUE_FALSE_CHOICES))
+
+
+class UploadCommunityMissionForm(forms.ModelForm):
+    mission_area = forms.ModelChoiceField(queryset=MissionArea.objects.all(), to_field_name="mission_name")
+    community_partner = forms.ModelChoiceField(queryset=CommunityPartner.objects.all(),
+                                               to_field_name="name")
+
+    class Meta:
+        model = CommunityPartnerMission
+        fields = '__all__'
+        mission_choices = (
+            ('Primary', 'Primary'),
+            ('Secondary', 'Secondary'),
+            ('Other', 'Other'),
+        )
+        mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))
 
 
 class UploadCampusForm(forms.ModelForm):

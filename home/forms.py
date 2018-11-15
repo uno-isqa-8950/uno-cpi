@@ -50,17 +50,17 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput, help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email' )
-        help_texts = {
+        # help_texts = {
 
-            'email': None,
-        }
+        #     'email': None,
+        # }
 
         labels = {
             'first_name': ('First Name'),
@@ -70,8 +70,6 @@ class UserForm1(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
-        if not firstname:
-           raise forms.ValidationError("Please enter your First Name")
 
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have numbers")
@@ -79,8 +77,6 @@ class UserForm1(forms.ModelForm):
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
-        if not lastname:
-           raise forms.ValidationError("Please enter your Last Name")
 
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have numbers")

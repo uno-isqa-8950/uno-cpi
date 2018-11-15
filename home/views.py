@@ -62,7 +62,6 @@ def signupuser(request):
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
     user_form = UserForm1()
-    print(campus_partner_user_form)
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
@@ -70,17 +69,12 @@ def registerCampusPartnerUser(request):
         user_form = UserForm1(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
-        # community_partner_form = CommunityPartnerForm(request.POST)
         if user_form.is_valid() and campus_partner_user_form.is_valid():
-            # and community_partner_form.is_valid():
-            # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.is_campuspartner = True
             new_user.save()
 
-            # cpu = CampusPartnerUser(campuspartner=CampusPartner.objects.filter(
-            #         campus_partner_name=campus_partner_form.cleaned_data['campus_partner_name'])[0], user=new_user)
             campuspartneruser = CampusPartnerUser(campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
             campuspartneruser.save()
 

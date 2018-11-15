@@ -117,38 +117,19 @@ margin-left:22px
 	         <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Register : Campus Partner User </h4></div>
 			        <div class="panel-body">
+                <form action="." method="post">{% csrf_token %}
 
-                     <form method="post" novalidate>
-
-                        {% csrf_token %}
-
-                        {% for hidden_field in user_form.hidden_fields %}
-                          {{ hidden_field }}
-                        {% endfor %}
-
-                        {% for field in user_form.visible_fields %}
-
-                        <div class="form-group">
-                          {{ field.label_tag }}
-                          {{ field|bootstrap }}
-                          {% if field.help_text %}
-                            <small class="form-text text-muted">{{ field.help_text }}</small>
-                          {% endif %}
-                        </div>
+                  {{ user_form|bootstrap }}
                           
-                          
-
-                        {% endfor %}
-                        
-                        <div class = "row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                        {{ campus_partner_user_form|bootstrap }}
-                        </div>
-                        </div>
-                        <br>
-                        <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
-                     </form>
+                  <div class = "row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      {{ campus_partner_user_form|bootstrap }}
+                    </div>
                   </div>
+                  <br>
+                  <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
+                </form>
+              </div>
              </div>
         </div>
     </div>

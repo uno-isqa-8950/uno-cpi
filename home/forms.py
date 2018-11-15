@@ -50,23 +50,16 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput, help_text='Atleast 8 characters having 1 digit and 1 special character')
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+    first_name = forms.CharField(label='First Name', required=True)
+    last_name = forms.CharField(label='Last Name', required=True)
+    email = forms.EmailField(label='Email', required=True)
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email' )
-        # help_texts = {
-
-        #     'email': None,
-        # }
-
-        labels = {
-            'first_name': ('First Name'),
-            'last_name': ('Last Name'),
-            'email': ('Email')
-        }
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
@@ -94,8 +87,8 @@ class UserForm1(forms.ModelForm):
         MIN_LENGTH=8
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if pas and cd:
-            if pas !=cd:
-             raise forms.ValidationError('Passwords don\'t match.')
+            if pas != cd:
+                raise forms.ValidationError('Passwords don\'t match.')
             else:
                 if len(pas)<MIN_LENGTH:
                     raise forms.ValidationError("Password should have atleast %d characters"%MIN_LENGTH)

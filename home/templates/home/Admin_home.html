@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+  <title>Community Partnership Initiative</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
+  <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
+  <link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
+
+
+
+
+<style>
+
+#contact
+{
+background: #D3D3D3;
+}
+
+#brand
+{
+margin-left:15px;
+margin-top:15px;
+}
+.dropdown-submenu{
+    position: relative;
+}
+.dropdown-submenu a::after{
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 3px;
+    top: 40%;
+}
+.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    margin-top: -30px;
+    left: 100%;
+}
+@media (max-width: 992px) {
+    .dropdown-menu{
+        width: 50%;
+    }
+    .dropdown-menu .dropdown-submenu{
+        width: auto;
+    }
+}
+
+</style>
+
+{% block additionalCSS %}
+ {% endblock %}
+ {% block js1 %}
+ {% endblock %}
+
+</head>
+<body>
+
+<!-- Navbar Begins -->
+
+<nav class="navbar navbar-expand-md navbar-custom sticky-top">
+    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
+    <div class="collapse navbar-collapse" id="target">
+        <a class="navbar-brand" href="/">
+            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
+                <b id="cpi">Community Partnership Initiative</b></a>
+            <ul class="navbar-nav ml-auto">
+                <!--li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
+                </li-->
+                <li class=" nav-item dropdown">
+                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-globe"></i>Maps
+                        <span class="caret"></span>
+                    </a>
+                <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="/map">Community Partners </a>
+                    <a class="dropdown-item" href="/projectmap">Projects </a>
+                </div>
+                </li>
+                <li class="nav-item dropdown">
+                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-line-chart"></i>Analytics
+                        <span class="caret"></span>
+                   </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                  <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" href="/projectInfo">Mission Area</a>
+                      <a class="dropdown-item" href="/engageType">Engagement Type</a>
+                      <a class="dropdown-item" href="/countProjectCP">Count of Projects, Community Partners</a>
+                      <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                      <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+
+                    </ul>
+                  </li>
+                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
+                    <ul class="dropdown-menu">
+                      <a class="dropdown-item" href="/missionchart">Mission Area</a>
+                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Type</a>
+
+                    </ul>
+                  </li>
+                </ul>
+                </li>
+                </li>
+
+                <li class="nav-item">
+
+                    <a class="nav-link" href='/Adminframe'><i class="fa fa-admin"></i>Administrator </a>
+                </li>
+                 <li class="nav-item dropdown">
+                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
+                    <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30"><span id="pic">{{ user.first_name }}</span>
+                  <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+{#                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>#}
+                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
+                </div>
+              </li>
+            </ul>
+    </div>
+</nav>
+
+
+
+<!-- Navbar ends-->
+
+
+
+
+<div class="container">
+
+{% block content %}
+<!-- About -->
+    <section id="impact">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 text-center">
+            <h3 class="section-heading text-uppercase">Welcome Admin</h3>
+            <h3 class="section-subheading text-muted"> Community Partnership Initiative</h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <ul class="timeline">
+              <li>
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="{% static 'img/about/1.jpg' %}">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <!--h4>2009-2011</h4-->
+                    <h4 class="subheading">Humble Beginings</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">Community Engagement and service are fundemental components of UNO's identity. This commitment to engagement is reflected in UNO's academics, student body, partnerships and institutional framework.</p>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-inverted">
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="{% static 'img/about/2.jpg' %}" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <!--h4>2009-2011</h4-->
+                    <h4 class="subheading">Achievements</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">UNO is Nebraska's metropolitan university -- a university with strong academic values and significant relationships with our community that transforms and improves life.!</p>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="{% static 'img/about/3.jpg' %}" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <!--h4>2009-2011</h4-->
+                    <h4 class="subheading">UNO</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">UNO is Nebraska's metropolitan university -- a university with strong academic values and significant relationships with our community that transforms and improves life.!</p>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-inverted">
+                <div class="timeline-image">
+                  <img class="rounded-circle img-fluid" src="{% static 'img/about/4.jpg' %}" alt="">
+                </div>
+                <div class="timeline-panel">
+                  <div class="timeline-heading">
+                    <!--h4>2009-2011</h4-->
+                    <h4 class="subheading">Our Involvement</h4>
+                  </div>
+                  <div class="timeline-body">
+                    <p class="text-muted">UNO is Nebraska's metropolitan university -- a university with strong academic values and significant relationships with our community that transforms and improves life.!</p>
+                  </div>
+                </div>
+              </li>
+              <li class="timeline-inverted">
+                <div class="timeline-image">
+                  <h4>Be Part
+                    <br>Of Our
+                    <br>DNA!</h4>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+<!-- About Ends here-->
+
+
+{% endblock %}
+
+</div>
+
+
+
+
+
+<footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3">
+            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          </div>
+          <div class="col-md-6">
+            <ul class="footertext">
+                UNO is an AA/EEO /ADA institution. For questions, accommodations or assistance
+please call/contact ADA/504 coordinator (phone: 402.554.3490 or TTY
+402.554.2978) or the director of Accessibility Services Center (phone:
+402.554.2872). The University of Nebraska does not discriminate based on race,
+color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity,
+religion, disability, age, genetic information, veteran status, marital status, and/or
+political affiliation in its programs, activities, or employment.
+            </ul>
+          </div>
+          <div class="col-md-3">
+              <ul class="imgadjust">
+                <img src="{% static 'img/UNOFooter1.png' %}">
+              </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+
+
+<!-- Footer Ends Here-->
+{% block js %}{% endblock %}
+{% block custom_js %}{% endblock %}
+{% block selectizeForm %}
+{% endblock %}
+
+<!--script type="text/javascript" src="js/mdb.min.js"></script>
+
+<!--Google Maps-->
+
+<script src="https://maps.google.com/maps/api/js?key=AIzaSyDS02IVaJ6bEWPVh5O2kenFRSQSsSVM3oo&libraries=places"></script>
+<!-- Google Maps settings -->
+<script>
+  // Regular map
+  function regular_map() {
+    var var_location = new google.maps.LatLng(41.2470919, -96.016953);
+
+    var var_mapoptions = {
+      center: var_location,
+      zoom: 14
+    };
+
+    var var_map = new google.maps.Map(document.getElementById("map-container"),
+      var_mapoptions);
+
+    var var_marker = new google.maps.Marker({
+      position: var_location,
+      map: var_map,
+      title: "Barbara Weitz CEC"
+    });
+  }
+
+  // Initialize maps
+  google.maps.event.addDomListener(window, 'load', regular_map);
+</script>
+
+
+</body>
+</html>

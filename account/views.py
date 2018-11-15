@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
 from django.contrib import messages
 from home.models import User
@@ -45,3 +45,7 @@ def CommunityHome(request):
 
 def admin(request):
     return render(request, 'home/Admin_home.html',{'admin': admin})
+
+
+def logout_view(request):
+    logout(request)

@@ -94,8 +94,11 @@ margin-top:15px;
                   <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                     <ul class="dropdown-menu">
                       <a class="dropdown-item" href="/projectInfo">Mission Area</a>
+                      <a class="dropdown-item" href="/engageType">Engagement Type</a>
+                      <a class="dropdown-item" href="/countProjectCP">Count of Projects, Community Partners</a>
                       <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                       <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+
 
                     </ul>
                   </li>
@@ -124,9 +127,11 @@ margin-top:15px;
                     <a class="nav-link" href='/registerCampusPartnerUser/'><i class="fa fa-user-plus"></i>SignUp </a>
 
                 </li>
+
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
                 </li>
+
             </ul>
     </div>
 </nav>

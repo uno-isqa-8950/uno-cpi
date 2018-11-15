@@ -50,7 +50,13 @@ def CommunityHome(request):
     return render(request, 'home/Community_Home.html',
                   {'CommunityHome': CommunityHome})
 
+def AdminHome(request):
+    return render(request, 'home/Admin_home.html',
+                  {'AdminHome': AdminHome})
 
+def Adminframe(request):
+    return render(request, 'home/admin_frame.html',
+                  {'Adminframe': Adminframe})
 def signup(request):
     return render(request, 'home/registration/signuporganization.html', {'signup': signup})
 

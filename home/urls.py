@@ -27,5 +27,8 @@ urlpatterns = [
    path('engageType/', views.engagement_info, name='engagement_info'),
    path('engagementtypechart2/' , views.EngagementType_Chart, name = 'EngagementType_Chart'),
    path('countProjectCP/', views.unique_count, name='unique_count'),
+   path('AdminHome/', views.AdminHome , name= 'adminhome'),
+   path('Adminframe/', views.Adminframe, name='Adminframe'),
+
 
 ]

@@ -20,6 +20,9 @@ tr:nth-child(even) {
 form label{
   font-weight:bold;
 }
+    .panel{
+        margin-top: 10px;
+    }
 </style>
 
 <div class="container-fluid" id="align">
@@ -33,7 +36,7 @@ form label{
             <div class="col-md-4 form-group">
                 <label> Academic Year  : </label>
                 <select class="form-control id="id_semester" name="semester" onchange="this.form.submit()">
-                    {% for sem in projects.form.semester %}
+                    {% for sem in projects.form.academic_year %}
                         {{sem}}
                     {% endfor %}
                 </select>
@@ -56,22 +59,60 @@ form label{
             </div>
         </form>
 
-        <table style="width:100%">
+        <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+            <thead>
             <tr>
                 <th>Community Partners</th>
                 <th>Number Of Projects </th>
             </tr>
+        </thead>
+            <tbody>
             {% for community in communityData %}
             <tr>
                 <td>{{community.name}}</td>
                 <td>{{community.communityProjects}}</td>
             </tr>
             {% endfor %}
+            </tbody>
         </table>
         <br>
     </div>
 </div>
 <br>
-<br>
+<br> <br> <br>
 
+{% endblock %}
+
+
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftp',
+       buttons: {
+       name: 'primary',
+       buttons: ['copy', 'csv', 'excel', 'pdf']
+       }
+   });
+
+   } );
+</script>
+<style>
+.btn-group{float:right;, labels:"Export"}
+   #example_length{float:left; margin:0 0 0 0px;}
+   #example_length select{width:80%;}
+div.dataTables_wrapper div.dataTables_filter label
+{
+    float:left;
+    margin-left:300px;
+
+}
+</style>
 {% endblock %}

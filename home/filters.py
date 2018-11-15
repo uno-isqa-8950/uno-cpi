@@ -1,8 +1,8 @@
 import django_filters
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
     ProjectCommunityPartner, ProjectMission
-from partners.models import CommunityPartner
-
+from partners.models import CommunityPartner, CommunityPartnerMission
+from home.models import MissionArea
 
 class ProjectFilter(django_filters.FilterSet):
 
@@ -38,3 +38,16 @@ class communityPartnerFilter(django_filters.FilterSet):
         model = CommunityPartner
         fields = ["weitz_cec_part"]
 
+
+class CommunityMissionFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ["community_partner"]
+
+
+class MissionAreaFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = MissionArea
+        fields = ["mission_name"]

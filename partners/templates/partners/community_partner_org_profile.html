@@ -2,15 +2,22 @@
 {% load bootstrap %}
 {% block content %}
  <style>
- .btn-custom
+
+/* .btn-custom
 {
     background-color: #C0C0C0;
     position: relative;
     width:90px;
     top:15px;
     font-family: Helvetica;
-    left: 250px;
+    left: 0px;
 }
+*/
+.btn-custom
+{
+margin-left: -200px;
+}
+
  .btn-custom:hover
 {
     background-color:#D3D3D3;
@@ -43,7 +50,7 @@
 width: 650px;
 margin-left: auto;
 margin-right:auto;
-margin-top:80px;
+margin-top:20px;
 height: relative;
 font-family: Helvetica;
 box-shadow: 5px 10px 20px 5px grey;
@@ -99,7 +106,7 @@ font-variant: normal;
 
 <div class = "container">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+    <div class="panel-heading text-center"><h4>Organization Profile</h4></div>
       <div class="panel-body">
         <!-- <div class="col-12">
           <br>
@@ -246,7 +253,7 @@ font-variant: normal;
 
       </div>
         <div class="text-center">
-          <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
+          <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-custom" role="button" style = "background-color: #b8b8b8"> Edit </a>
         </div>
         <br>
 

@@ -108,7 +108,7 @@ class UserForm1(forms.ModelForm):
                 if pas.isalpha():
                     raise forms.ValidationError("Password should have at least one digit")
                 if not any(char in special_characters for char in pas):
-                    raise forms.ValidationError("Password should have at least one Special Character")
+                    raise forms.ValidationError("Password should have at least one special character")
 
 
 class UserForm(forms.ModelForm):

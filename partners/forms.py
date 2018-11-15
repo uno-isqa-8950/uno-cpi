@@ -10,6 +10,7 @@ from django.forms import inlineformset_factory
 
 class CampusPartnerForm(forms.ModelForm):
     department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
+
     class Meta:
         model = CampusPartner
         fields = ('name', 'college_name', 'department',)

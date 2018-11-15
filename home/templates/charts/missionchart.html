@@ -8,20 +8,30 @@ select[id=id_engagement_type],select[id=id_semester]
     width:200px;
 
 }
+
 .bs-example{
     	margin: 100px 50px;
     }
+form label{
+  font-weight:bold;
+}
+    .panel{
+    margin-top: 10px;
+}
  </style>
 
 
     <div class="container-fluid" id="align">
         <div class="col-md-12 panel panel-primary">
     <br>
-    <h4>Number of Projects and Community Partners by Mission Area</h4>
+     <div class="col-md-12 text-center">
+    <h3>Chart : Mission Area</h3>
+     </div>
         <br>
-    <form id="filters-form" method="get">
-     &emsp;
-         <label> Engagement Type </label>
+    <!--<form id="filters-form" method="get">-->
+    <form class="form-inline" id="filters-form" method="get">
+     <div class="col-md-6 form-group">
+         <label> Engagement Type : </label>
 
           &emsp;
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
@@ -29,15 +39,16 @@ select[id=id_engagement_type],select[id=id_semester]
                     {{engagement}}
                 {% endfor %}
             </select>
-    &emsp;
-            <label> Academic year</label>
+         &emsp;</div>
+        <div class="col-md-6 form-group">
+            <label> Academic Year : </label>
             <select id="id_semester" name="Academic year" onchange="this.form.submit()">
                 {% for sem in year_filter.form.academic_year%}
                     {{sem}}
                 {% endfor %}
 
             </select>
-
+        </div>
         <!--<input type="submit" value="Search" />-->
     </form>
 
@@ -55,7 +66,7 @@ select[id=id_engagement_type],select[id=id_semester]
 
         Highcharts.chart('container', {{ chart|safe }});
     </script>
-    </div> <br> <br>
+    </div> <br> <br> <br><br>
 
 <script type="text/javascript">
 $(document).ready(function(){

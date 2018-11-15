@@ -8,7 +8,10 @@ select[id=id_mission],select[id=id_semester]
 
     width:200px;
 }
+.panel{
+    margin-top: 10px;
 
+}
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
@@ -24,6 +27,9 @@ td, th {
 tr:nth-child(even) {
     background-color: #dddddd;
 }
+    form label{
+  font-weight:bold;
+}
 </style>
 
    <div class="container-fluid" id="align">
@@ -33,8 +39,9 @@ tr:nth-child(even) {
             <h3>Chart : Engagement Type </h3>
         </div>
         <br>
-        <form id="filters-form" method="get">
-            <label>Mission Area </label> &emsp;
+        <form class="form-inline" id="filters-form" method="get">
+            <div class="col-md-6 form-group">
+            <label>Mission Area : </label> &emsp;
 
 
             <select id="id_mission" name="mission" onchange="this.form.submit()">
@@ -42,13 +49,15 @@ tr:nth-child(even) {
                     {{mission}}
                 {% endfor %}
             </select>
-        &emsp;
-            <label>Academic Year</label>
+            </div>
+            <div class="col-md-6 form-group">&emsp;
+            <label>Academic Year :</label>
             <select id="id_semester" name="Academic year" onchange="this.form.submit()">
                 {% for sem in academicyear_filter.form.academic_year %}
                     {{sem}}
                 {% endfor %}
             </select>
+            </div>
 
         <!--<input type="submit" value="Search" />-->
     </form>
@@ -64,5 +73,5 @@ tr:nth-child(even) {
      Highcharts.chart('container',{{ chart|safe }});
 </script>
         </div>
-    </div><br><br>
+    </div><br><br><br><br>
 {% endblock %}

@@ -50,7 +50,13 @@ def CommunityHome(request):
     return render(request, 'home/Community_Home.html',
                   {'CommunityHome': CommunityHome})
 
+def AdminHome(request):
+    return render(request, 'home/Admin_home.html',
+                  {'AdminHome': AdminHome})
 
+def Adminframe(request):
+    return render(request, 'home/admin_frame.html',
+                  {'Adminframe': Adminframe})
 def signup(request):
     return render(request, 'home/registration/signuporganization.html', {'signup': signup})
 
@@ -85,6 +91,10 @@ def registerCampusPartnerUser(request):
             campuspartneruser.save()
 
             return render(request, 'home/register_done.html', )
+    else:
+        user_form = UserForm1(request.POST)
+        campus_partner_user_form = CampusPartnerUserForm(request.POST)
+
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
@@ -194,8 +204,10 @@ def upload_campus(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
+            print("data_dict", data_dict)
             college_count = College.objects.filter(college_name=data_dict['college_name']).count()
-            if college_count == 0:
+            print("college_count", college_count)
+            if not college_count:
                 form_college = UploadCollege(data_dict)
                 if form_college.is_valid():
                     form_college.save()
@@ -203,8 +215,9 @@ def upload_campus(request):
                     print(form)
                     if form.is_valid():
                         form.save()
-            elif college_count == 1:
+            else:
                 form = UploadCampusForm(data_dict)
+                print ("form", form)
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')

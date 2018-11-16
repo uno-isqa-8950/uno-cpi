@@ -9,4 +9,5 @@ urlpatterns = [
 
     path('loginPage/', views.user_login, name='loginPage'),
 
+
 ]

@@ -57,6 +57,19 @@ class CampusPartnerContactForm(forms.ModelForm):
                 raise forms.ValidationError("Last Name cannot have digits")
             return lastname
 
+    def clean_work_phone(self):
+             workphone = self.cleaned_data['work_phone']
+             if any(char.isalpha() for char in workphone):
+                 raise forms.ValidationError("Work Phone cannot have digits")
+             return workphone
+
+    def clean_cell_phone(self):
+        cellphone = self.cleaned_data['cell_phone']
+        if any(char.isalpha() for char in cellphone):
+            raise forms.ValidationError("Cell Phone cannot have digits")
+        return cellphone
+
+
 class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')
     class Meta:

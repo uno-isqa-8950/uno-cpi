@@ -1,7 +1,5 @@
 from django.db import connection
 from django.http import HttpResponse
-from django.shortcuts import render,redirect
-from django.shortcuts import render, get_object_or_404
 from projects.models import *
 from home.models import *
 from home.filters import *
@@ -10,9 +8,9 @@ from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampus
 from django.contrib.auth.decorators import login_required
 from itertools import chain
 
-from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
+from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
 from .forms import ProjectForm, ProjectMissionForm
-from django.shortcuts import render, get_object_or_404 , get_list_or_404
+from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
@@ -50,11 +48,16 @@ def communitypartnerproject(request):
          projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
          cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
          camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-         proj_cam_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-         for proj_cam_par in proj_cam_par:
-            camp_part = CampusPartner.objects.get(id=proj_cam_par.campus_partner_id)
+         #proj_cam_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+         #for proj_cam_par in proj_cam_par:
+          #  camp_part = CampusPartner.objects.get(id=proj_cam_par.campus_partner_id)
 
-            camp_part_names.append(camp_part)
+            #camp_part_names.append(camp_part)
+         #list_comm_part_names = comm_part_names
+         #comm_part_names = []
+         for proj_comm_par in proj_comm_par:
+            comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
+            comm_part_names.append(comm_part)
          list_comm_part_names = comm_part_names
          comm_part_names = []
          #total_project_hours += proj_cam_par.total_hours
@@ -68,7 +71,7 @@ def communitypartnerproject(request):
             'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
             'total_uno_faculty': x.total_uno_faculty,
             'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp':camp, 'camp_part':list_comm_part_names
+            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'proj_comm': proj_comm, 'camp':camp, 'camp_part':list_comm_part_names
              }
 
          projects_list.append(data)
@@ -76,6 +79,7 @@ def communitypartnerproject(request):
 
 
     return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+
 def communitypartnerprojectedit(request,pk):
 
     mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
@@ -447,7 +451,8 @@ def SearchForProjectAdd(request,pk):
     return redirect("proj_view_user")
 
 
-# List Projects for Public View 
+# List Projects for Public View
+
 
 def projectsPublicReport(request):
     
@@ -515,3 +520,32 @@ def communityPublicReport(request):
                    {'communityPartners': communityPartners, "projects": projects, 
                     'communityData': communityData, 'missions': missions})
 
+
+# List Projects for Private View 
+
+def projectsPrivateReport(request):
+
+    campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+    campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
+    projectsCampus = ProjectCampusPartner.objects.select_related('project_name').filter(campus_partner=campus_partner.id)
+    project_ids = [p.id for p in projectsCampus]
+    projects = ProjectFilter(request.GET, queryset=Project.objects.filter(id__in=project_ids))
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    projectsData = []
+
+    for mission in missions.qs:
+        print (mission.project_name)
+        for project in projects.qs:
+            if str(mission.project_name) == str(project.project_name):
+                data = {}
+                data['projectName'] = project.project_name
+                data['engagementType'] = project.engagement_type
+                data['total_UNO_students'] = project.total_uno_students
+                data['total_hours'] = project.total_uno_hours
+                data['economic_impact'] = project.total_economic_impact
+                projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
+                data['campusPartner'] = projectCampus.campus_partner
+                projectsData.append(data)
+
+    return render(request, 'reports/projects_private_view.html',
+                   {'filter': projects, 'projectsData': projectsData, "missions": missions})

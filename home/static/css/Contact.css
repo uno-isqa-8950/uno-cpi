@@ -1,0 +1,117 @@
+/* Contact Begins*/
+
+#fontfix
+{
+font-size:19px;
+}
+
+#style1
+{
+z-index: 999;
+background-color: #484848;
+box-shadow: 2px 2px 2px 2px #282828;
+Opacity:.9;
+border-radius:4px;
+}
+
+
+#contact3
+{
+z-index: 999;
+background-color: #585858;
+box-shadow: 5px 15px 15px 5px #282828;
+Opacity:.8;
+border-radius:4px;
+}
+
+
+section#contact {
+
+    background-color: grey;
+    background-image: url(../img/map-image.png);
+    background-repeat: no-repeat;
+    background-position: center;
+
+}
+section {
+
+    padding: 45px 0;
+
+}
+
+section#contact .section-heading {
+  color: #fff;
+}
+
+section#contact .form-group {
+  margin-bottom: 25px;
+}
+
+section#contact .form-group input,
+section#contact .form-group textarea {
+  padding: 8px;
+}
+
+section#contact .form-group input.form-control {
+  height: auto;
+}
+
+section#contact .form-group textarea.form-control {
+  height: 184px;
+}
+
+section#contact .form-control:focus {
+  border-color: grey;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+section#contact ::-webkit-input-placeholder {
+  font-weight: 700;
+  color: #ced4da;
+  font-family: 'Helvetica';
+}
+
+section#contact :-moz-placeholder {
+  font-weight: 700;
+  color: #ced4da;
+  font-family: 'Helvetica';
+}
+
+section#contact ::-moz-placeholder {
+  font-weight: 700;
+  color: #ced4da;
+  font-family: 'Helvetica'
+}
+
+section#contact :-ms-input-placeholder {
+  font-weight: 700;
+  color: #ced4da;
+  font-family: 'Helvetica'
+}
+
+
+section {
+  padding: 100px 0;
+}
+
+section h2.section-heading {
+  font-size: 40px;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+section h3.section-subheading {
+  font-size: 16px;
+  font-weight: 400;
+  font-style: italic;
+  margin-bottom: 75px;
+  text-transform: none;
+  font-family: 'Helvetica'
+}
+
+@media (min-width: 768px) {
+  section {
+    padding: 45px 0;
+  }
+}

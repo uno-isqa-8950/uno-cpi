@@ -79,7 +79,7 @@ $(document).ready(function(){
 
             <form class="form-inline" role="form" id="filters-form" method="get">
             <div class="col-md-4 form-group">
-                <label>    Engagement Type : </label>
+                <label for="id_engagement_type">    Engagement Type : </label>
                 <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                     {% for engagement in project_filter.form.engagement_type %}
                         {{engagement}}
@@ -87,7 +87,7 @@ $(document).ready(function(){
                 </select>
             </div>
             <div class="col-md-5 form-group">
-                  <label> Academic Year: </label>
+                  <label for="academic_year"> Academic Year: </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     {% for sem in project_filter.form.academic_year %}
                         {{sem}}
@@ -95,7 +95,7 @@ $(document).ready(function(){
                 </select>
             </div>
             <div class="col-md-3 form-group">
-               <label> Campus Partner: </label>
+               <label for="campus_partner"> Campus Partner: </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                     {% for campus in campus_filter.form.campus_partner %}
                         {{campus}}

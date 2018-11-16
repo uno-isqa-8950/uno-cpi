@@ -33,7 +33,41 @@ tr:nth-child(even) {
 .bs-example{
     	margin: 100px 50px;
     }
+     .select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 </style>
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'All Engagement Types',
+      }
+  );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+});
+</script>
+{% endblock %}
 
 <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">

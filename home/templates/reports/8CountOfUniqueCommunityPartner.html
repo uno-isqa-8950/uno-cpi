@@ -32,6 +32,17 @@ tr:nth-child(even) {
 .bs-example{
     	margin: 100px 50px;
     }
+
+     .select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 </style>
 
 {% block selectizeForm %}
@@ -51,7 +62,7 @@ $(document).ready(function(){
   );
   $('#id_mission').select2(
       {
-              placeholder: 'Select the Mission Area',
+              placeholder: 'All Mission Area',
       }
   );
 });

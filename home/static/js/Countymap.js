@@ -1,8 +1,6 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
-var countyData = "";
-$.get("static/GEOJSON/NEcounties2.geojson", function(data) { //load JSON file from static/GEOJSON
-    countyData = jQuery.parseJSON(data);
-});
+var countyData = JSON.parse(document.getElementById('county-data').textContent); //load the variable from views.py. See the line from html first
+
 var k12Data = "";
 var communityData = "";
 var referencedincome = 0;
@@ -32,7 +30,8 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     center: [-95.957309, 41.276479],
-    zoom: 5
+    // initial zoom
+    zoom: 6
 });
 map.addControl(new mapboxgl.NavigationControl());
 
@@ -76,6 +75,8 @@ function parseDescription(message) {
             string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
         } else if (i=="County"){
             string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
+        } else if (i=="district"){
+            string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>"
         }
     }
     return string;
@@ -97,6 +98,21 @@ map.on("load",function() {
         type: "geojson",
         data: k12Data,
     });
+ 	//Add k12 style
+	map.addLayer({
+		"id":"county",
+		"type":"fill",
+		"source":"countyData",
+        'paint': {
+            "fill-color": "#888",
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                1,
+                0.0
+            ],
+            "fill-outline-color": "#0000AA"
+        }
+	});
 
     communityData.features.forEach(function(feature){
 		var primary=feature.properties["PrimaryMissionFocus"];
@@ -111,7 +127,7 @@ map.on("load",function() {
 					"paint":{
 						"circle-radius": 8,
 						"circle-opacity": 0.8,
-						"circle-color": '#2A0A12'
+						"circle-color": '#FFFF00'
 					},
 					"filter": ["all",["==", "PrimaryMissionFocus", "Social Justice"],['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]]
 				})
@@ -200,30 +216,14 @@ map.on("load",function() {
 
 	})
 
- 	//Add k12 style
-	map.addLayer({
-		"id":"county",
-		"type":"fill",
-		"source":"countyData",
-        'paint': {
-            "fill-color": "#888",
-            "fill-opacity": ["case",
-                ["boolean", ["feature-state", "hover"], false],
-                1,
-                0.0
-            ],
-            "fill-outline-color": "#0000AA"
-        }
-	});
-
     map.addLayer({
 		"id":"k12",
 		"type":"circle",
 		"source":"k12Data",
 		"paint":{
 			"circle-radius": 8,
-			"circle-opacity": 0.8,
-			"circle-color": '#f31736'
+			"circle-opacity": 1,
+			"circle-color": '#2F4F4F'
 		},
 		//Default filter year to 2018 in map
 		"filter":['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]
@@ -240,11 +240,11 @@ map.on("load",function() {
                     "source": "countyData",
                     'layout': {},
                     'paint': {
-                        "fill-color": "#c9c8c7",
+                        "fill-color": "#A4A4A4",
                         "fill-opacity": ["case",
                             ["boolean", ["feature-state", "hover"], false],
                             1,
-                            0.2],
+                            0.5],
                         "fill-outline-color": "#0000AA"
                     },
                     "filter": ["all",
@@ -262,11 +262,11 @@ map.on("load",function() {
                     "source": "countyData",
                     'layout': {},
                     'paint': {
-                        "fill-color": "#505050",
+                        "fill-color": "#6E6E6E",
                         "fill-opacity": ["case",
                             ["boolean", ["feature-state", "hover"], false],
                             1,
-                            0.2],
+                            0.5],
                         "fill-outline-color": "#0000AA"
                     },
                     "filter": ["all",
@@ -284,11 +284,11 @@ map.on("load",function() {
                     "source": "countyData",
                     'layout': {},
                     'paint': {
-                        "fill-color": "#0c0905",
+                        "fill-color": "#424242",
                         "fill-opacity": ["case",
                             ["boolean", ["feature-state", "hover"], false],
                             1,
-                            0.2],
+                            0.8],
                         "fill-outline-color": "#0000AA"
                     },
                     "filter": [">=", "Income", 60000]
@@ -1083,7 +1083,7 @@ function renderListings(features){
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 5
+        zoom: 8
     });
 }
 

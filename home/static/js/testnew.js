@@ -19,7 +19,7 @@ var map = new mapboxgl.Map({
     // initial position in [lon, lat] format
     center: [-95.957309, 41.276479],
     // initial zoom
-    zoom: 5
+    zoom: 6
 });
 
 var popup = new mapboxgl.Popup({
@@ -160,7 +160,7 @@ map.on('load', function(e) {
 		"paint":{
 			"circle-radius": 8,
 			"circle-opacity": 0.8,
-			"circle-color": '#0000AA'
+			"circle-color": '#2F4F4F'
 		},
 		//Default filter year to 2018 in map
 		"filter":['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]
@@ -178,8 +178,8 @@ map.on('load', function(e) {
                     "source": "communityDatas",
                     "paint": {
                         "circle-radius": 8,
-                        "circle-opacity": 0.8,
-                        "circle-color": '#2A0A12'
+                        "circle-opacity": 1,
+                        "circle-color": '#FFFF00'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "Social Justice"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -230,7 +230,7 @@ map.on('load', function(e) {
                     "paint": {
                         "circle-radius": 8,
                         "circle-opacity": 0.8,
-                        "circle-color": '#ba55d3'
+                        "circle-color": '#e55e5e'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "International Service"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -247,7 +247,7 @@ map.on('load', function(e) {
                     "paint": {
                         "circle-radius": 8,
                         "circle-opacity": 0.8,
-                        "circle-color": '#3bb2d0'
+                        "circle-color": '#1743f3'
                     },
                     "filter": ["all", ["==", "PrimaryMissionFocus", "Environmental Stewardship"],
                         ['in', "time", "Spring 2018", "Fall 2018", "Summer 2018", "winter 2018"]
@@ -723,7 +723,7 @@ map.on('load', function(e) {
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 5
+        zoom: 8
     });
 }
 

@@ -400,7 +400,33 @@
             box-shadow: 5px 10px 10px 5px grey;
         }
 
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 </style>
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#selectYear').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+
+</script>
+{% endblock %}
+
 	<div class="wrapper">
         <nav id="sidebar">
                 <div id='state-legend' class='legend'>
@@ -426,6 +452,7 @@
                             <option value="all">All Years</option>
                             <option value="2018">2017-2018</option>
                             <option value="2017">2016-2017</option>
+
                         </select>
                     </div>
                     <div>

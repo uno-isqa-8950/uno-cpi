@@ -52,3 +52,4 @@ admin.site.register(Contact, ContactList)
 admin.site.register(MissionArea, MissionAreaList)
 admin.site.register(HouseholdIncome, HouseholdIncomeList)
 admin.site.site_header = "UNO CPI Admin "
+

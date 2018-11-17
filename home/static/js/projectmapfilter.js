@@ -8,7 +8,8 @@ var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
     center: [-95.957309, 41.276479],
-    zoom: 5
+    // initial zoom
+    zoom: 6
 });
 map.addControl(new mapboxgl.NavigationControl());
 
@@ -25,10 +26,10 @@ function parseDescription(message) {
     for (var i in message) {
 
         if (i == "ProjectName") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + " : " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + 'Project Name' + '</span>' + " : " + message[i] + "<br>"
         }
         if (i == "ProjectMission") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + " : " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + 'Project Mission Area' + '</span>' + " : " + message[i] + "<br>"
         } else if (i == "Website") {
             var website = message[i];
             var base = "http://";
@@ -46,7 +47,7 @@ function parseDescription(message) {
         } else if (i == "City") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "district") {
-            string += '<span style="font-weight:bold">' + "District Number" + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>";
         } else if (i=="income"){
             string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
         } else if (i=="County"){
@@ -146,7 +147,7 @@ map.on("load", function() {
                         "paint": {
                             "circle-radius": 8,
                             "circle-opacity": 0.8,
-                            "circle-color": '#2A0A12'
+                            "circle-color": '#FFFF00'
                         },
                         "filter": ["all", ["==", "ProjectMission", "Social Justice"],
                             ['in', "Semester", "Fall 2016", "Spring 2017", "Summer 2017", "Fall 2017",
@@ -520,7 +521,7 @@ map.on("load", function() {
     function flyToStore(currentFeature) {
         map.flyTo({
             center: currentFeature.geometry.coordinates,
-            zoom: 5
+            zoom: 8
         });
     }
 

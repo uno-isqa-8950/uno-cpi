@@ -453,7 +453,7 @@ def SearchForProjectAdd(request,pk):
 
 # List Projects for Public View
 
-@login_required()
+
 def projectsPublicReport(request):
     
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())

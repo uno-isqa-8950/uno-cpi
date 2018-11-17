@@ -30,7 +30,36 @@ tr:nth-child(even) {
     form label{
   font-weight:bold;
 }
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 </style>
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_mission').select2(
+      {
+              placeholder: 'All Mission Areas',
+      }
+  );
+  $('#id_semester').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+});
+</script>
+{% endblock %}
+
 
    <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">
@@ -41,7 +70,7 @@ tr:nth-child(even) {
         <br>
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-md-6 form-group">
-            <label>Mission Area : </label> &emsp;
+            <label for="id_mission">Mission Area : </label> &emsp;
 
 
             <select id="id_mission" name="mission" onchange="this.form.submit()">
@@ -51,7 +80,7 @@ tr:nth-child(even) {
             </select>
             </div>
             <div class="col-md-6 form-group">&emsp;
-            <label>Academic Year :</label>
+            <label for="id_semester">Academic Year :</label>
             <select id="id_semester" name="Academic year" onchange="this.form.submit()">
                 {% for sem in academicyear_filter.form.academic_year %}
                     {{sem}}

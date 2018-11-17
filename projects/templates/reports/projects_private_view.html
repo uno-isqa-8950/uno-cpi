@@ -43,7 +43,39 @@ form label{
     -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
     box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
 }
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 </style>
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+$(document).ready(function(){
+  $('#id_mission').select2(
+      { placeholder: 'Select a Mission'
+      }
+  );
+});
+</script>
+{% endblock %}
+
 
 <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">
@@ -56,16 +88,16 @@ form label{
         </div> <br>
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-md-6 form-group">
-                <label> Academic Year : </label>
-                <select class="form-control id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                <label for="id_academic_year"> Academic Year : </label>
+                <select class="form-control" id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     {% for year in filter.form.academic_year %}
                         {{year}}
                     {% endfor %}
                 </select>
             </div>
             <div class="col-md-6 form-group">
-                <label> Mission Area : </label>
-                <select class="form-control id="id_mission" name="mission" onchange="this.form.submit()">
+                <label for ="id_mission"> Mission Area : </label>
+                <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
                     {% for mission in missions.form.mission %}
                         {{mission}}
                     {% endfor %}

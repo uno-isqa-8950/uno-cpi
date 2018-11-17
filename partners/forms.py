@@ -51,25 +51,25 @@ class CampusPartnerContactForm(forms.ModelForm):
     def clean_first_name(self):
             firstname = self.cleaned_data['first_name']
             if any(char.isdigit() for char in firstname):
-                raise forms.ValidationError("First Name cannot have digits")
+                raise forms.ValidationError("First name cannot have digits")
             return firstname
 
     def clean_last_name(self):
             lastname = self.cleaned_data['last_name']
             if any(char.isdigit() for char in lastname):
-                raise forms.ValidationError("Last Name cannot have digits")
+                raise forms.ValidationError("Last name cannot have digits")
             return lastname
 
     def clean_work_phone(self):
              workphone = self.cleaned_data['work_phone']
              if any(char.isalpha() for char in workphone):
-                 raise forms.ValidationError("Work Phone cannot have digits")
+                 raise forms.ValidationError("Work phone cannot have letters")
              return workphone
 
     def clean_cell_phone(self):
         cellphone = self.cleaned_data['cell_phone']
         if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have digits")
+            raise forms.ValidationError("Cell phone cannot have letters")
         return cellphone
 
 
@@ -89,7 +89,7 @@ class CommunityPartnerForm(forms.ModelForm):
         }
         widgets = {'name': forms.TextInput({'placeholder': 'Community Partner Name'}),
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
-                   'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
+                   'k12_level' :forms.TextInput({'placeholder': 'If your community type is K-12, please provide the K-12 level.'}),
                    }
 
     def clean_country(self):
@@ -101,13 +101,13 @@ class CommunityPartnerForm(forms.ModelForm):
     def clean_state(self):
             name = self.cleaned_data['state']
             if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid State Name")
+                raise forms.ValidationError("Invalid state name")
             return name
 
     def clean_city(self):
             name = self.cleaned_data['city']
             if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid City Name")
+                raise forms.ValidationError("Invalid city name")
             return name
 
 
@@ -144,13 +144,13 @@ class CommunityContactForm(forms.ModelForm):
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
+            raise forms.ValidationError("First name cannot have digits")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
+            raise forms.ValidationError("Last name cannot have digits")
         return lastname
 
 

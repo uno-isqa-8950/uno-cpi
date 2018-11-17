@@ -109,7 +109,7 @@ def userProfileUpdate(request):
             if user_form.is_valid() and avatar_form.is_valid():
                 user_form.save()
                 avatar_form.save()
-                messages.success(request, 'Your profile was successfully updated!')
+                messages.success(request, 'Your profile was successfully updated.')
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
@@ -136,7 +136,7 @@ def userProfileUpdate(request):
             if user_form.is_valid()and avatar_form.is_valid():
                 user_form.save()
                 avatar_form.save()
-                messages.success(request, 'Your profile was successfully updated!')
+                messages.success(request, 'Your profile was successfully updated.')
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
@@ -207,7 +207,7 @@ def orgProfileUpdate(request):
                 community_org_form.save()
                 contacts_form.save()
                 missions_form.save()
-                messages.success(request, 'Organisation profile was successfully updated!')
+                messages.success(request, 'Organization profile was successfully updated.')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
@@ -235,7 +235,7 @@ def orgProfileUpdate(request):
 
             if contacts_form.is_valid():
                 contacts_form.save()
-                messages.success(request, 'Organisation profile was successfully updated!')
+                messages.success(request, 'Organization profile was successfully updated.')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')

@@ -26,7 +26,7 @@ class CampusPartnerUserForm(forms.ModelForm):
 
         campus_partner = forms.ModelChoiceField(
         queryset=CampusPartner.objects.order_by().distinct('name'),
-        label='Campus Partner Name', help_text='Please Register your Organization if not found in list')
+        label='Campus Partner Name', help_text='Please register your organization if not found in list.')
         #print(campus_partner)
 
     def clean_email_id (self):
@@ -34,7 +34,7 @@ class CampusPartnerUserForm(forms.ModelForm):
         domain = data.split('.')[1]
         domain_list = ["edu" ]
         if domain not in domain_list:
-            raise forms.ValidationError("Please use your university ( .edu) email to signup ")
+            raise forms.ValidationError("Please use your university ( .edu) email.")
         return data
 
 class CommunityPartnerUserForm(forms.ModelForm):
@@ -45,12 +45,12 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
         community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
-                                 label='Community Partner Name',help_text='Please Register your Organization if not found in list')
+                                 label='Community Partner Name',help_text='Please register your organization if not found in list.')
 
 
 
 class UserForm1(forms.ModelForm):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Password should be at least 8 characters, including 1 digit and 1 special character')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Password should be at least 8 characters, including 1 digit and 1 special character.')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
 
@@ -70,26 +70,26 @@ class UserForm1(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
-        if not firstname:
-           raise forms.ValidationError("Please enter your First Name")
+        #if not firstname:
+           #raise forms.ValidationError("Please enter your First Name")
 
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have numbers")
+            raise forms.ValidationError("First name cannot have numbers")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
-        if not lastname:
-           raise forms.ValidationError("Please enter your Last Name")
+        #if not lastname:
+           #raise forms.ValidationError("Please enter your Last Name")
 
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have numbers")
+            raise forms.ValidationError("Last name cannot have numbers")
         return lastname
     
     def clean_email(self):
         email = self.cleaned_data['email']
         if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+            raise forms.ValidationError("Please use .edu email")
         return email
 
     def clean_password2(self):
@@ -158,7 +158,7 @@ class CommunityPartnerForm(forms.ModelForm):
         domain = data.split('@')[1]
         domain_list = [".edu" ]
         if domain not in domain_list:
-            raise forms.ValidationError("Please use a .edu email ")
+            raise forms.ValidationError("Please use a .edu email")
         return data
 
 

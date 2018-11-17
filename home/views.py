@@ -28,6 +28,11 @@ def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
+def Contactus(request):
+    return render(request, 'home/ContactUs.html',
+                  {'Contactus': Contactus})
+
+
 def map(request):
     return render(request, 'home/Countymap.html',
                   {'map': map})
@@ -486,3 +491,10 @@ def EngagementType_Chart(request):
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
                  {'chart': dump,'missions_filter':missions_filter,'academicyear_filter':academicyear_filter})
+
+######## export data to Javascript (Testing) ################################
+def countyData(request):
+    json_data = open('home/static/GEOJSON/NECounties2.geojson')
+    countyData = json.load(json_data)
+    return render(request, 'home/Countymap.html',
+                  {'countyData': countyData})

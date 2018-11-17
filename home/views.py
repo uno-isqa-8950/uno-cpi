@@ -28,6 +28,11 @@ def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
+def Contactus(request):
+    return render(request, 'home/ContactUs.html',
+                  {'Contactus': Contactus})
+
+
 def map(request):
     return render(request, 'home/Countymap.html',
                   {'map': map})

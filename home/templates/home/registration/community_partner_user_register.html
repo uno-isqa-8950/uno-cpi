@@ -103,6 +103,7 @@ font-weight: bold;
 .select2-container--default .select2-selection--single
 {
 margin-left:22px;
+width:100%
 
 }
 .select2-container--open .select2-dropdown--below
@@ -142,7 +143,7 @@ $(document).ready(function(){
     {% csrf_token %}
 
    {{ user_form|bootstrap }}
-   {{ community_partner_user_form|bootstrap
+   {{ community_partner_user_form|bootstrap}}
      <div class = "row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                      </div>

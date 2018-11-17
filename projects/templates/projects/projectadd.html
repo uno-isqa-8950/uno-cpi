@@ -29,12 +29,45 @@
     {
     width:95%;
     }
+
+     .select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
     </style>
 <!--<div class="container">
                <a href="{% url 'SearchForProject' %}" class="row"><span
                          class="btn btn-custom">Search Project</span></a>
 </div-->
-
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
+  $('#activity_type').select2(
+      {
+              placeholder: 'Select Activity Type',
+      }
+  );
+  $('#status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+});
+</script>
+{% endblock %}
     <div class = "container">
         <div class="row justify-content-md-center">
 		    <div class="col-lg-10 col-md-10">

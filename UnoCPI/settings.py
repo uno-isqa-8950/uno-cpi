@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myproject',
+        'NAME': 'myproject3',
         'USER': 'myprojectuser',
         'PASSWORD': 'password',
         'HOST': 'localhost',
@@ -115,12 +115,6 @@ DATABASES = {
 }
 
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 19e38cd410052f22e52d98864c60836337873699
 ##Extending the user model to home
 
 AUTH_USER_MODEL = 'home.User'

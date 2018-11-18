@@ -18,7 +18,69 @@
          margin-left: 350px;
      }
  }
+
+ .select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+
+}
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
+
     </style>
+ {% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
+  $('#id_activity_type').select2(
+      {
+              placeholder: 'Select an Activity Type',
+      }
+  );
+  $('#id_status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+  $('#id_projectmission_set-0-mission_type').select2(
+      {
+              placeholder: 'Select a Mission Type',
+      }
+  );
+  $('#id_projectmission_set-0-mission').select2(
+      {
+              placeholder: 'Select a Mission',
+      }
+  );
+  $('#id_projectcommunitypartner_set-0-community_partner').select2(
+      {
+              placeholder: 'Select a Community Partner',
+      }
+  );
+   $('#id_projectcampuspartner_set-0-campus_partner').select2(
+      {
+              placeholder: 'Select an Campus Partner',
+      }
+  );
+   $('#id_projectcampuspartner_set-1-campus_partner').select2(
+      {
+              placeholder: 'Select an Campus Partner',
+      }
+  );
+});
+</script>
+{% endblock %}
+
+
 <div class="container">
 
 <div class = "container">

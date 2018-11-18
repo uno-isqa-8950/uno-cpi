@@ -4,18 +4,6 @@
 
 <style type="text/css">
 
-.forget
-{
-	position: relative;
-	left: 95px;
-	top: 10px;
-	width: 100px;
-	height: 40px;
-	border-radius: 6px;
-	color: #007eff;
-}
-
-
 
 @media (max-width: 700px)
 {
@@ -25,6 +13,23 @@ font-size:1.3em
 }
 }
 
+label
+{
+margin-left:22px;
+font-size:18px;
+margin-top:10px;
+}
+
+label:after
+    {
+    content:"*" ;
+    color:red
+    }
+
+input[type=password],[type=email]
+{
+width:92%;
+}
 
 </style>
 
@@ -38,7 +43,7 @@ font-size:1.3em
         </div>
     {% endfor %}
     <div class ="row justify-content-md-center">
-        <div class="col-xl-4 col-md-6">
+        <div class="col-xl-8 col-md-8 col-sm-6">
 	        <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Login</h4></div>
 	    	        <div class="panel-body">
@@ -46,14 +51,25 @@ font-size:1.3em
                         <div class="login-form">
                             <form action='.' method="post">
                             {% csrf_token %}
-							<label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
+							<!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
+                            <label><b>Email</b></label>
 			                <input class="input" type="email" name="email"  placeholder="Email" required>
             			    <br>
+                            <label><b>Password</b></label>
             			    <input class="input" type="password" name="password" placeholder="Password" required><br>
-
-                            <p><button type="submit" class="btn btn-custom">Login</button></p>
-            			    <a href='/password_reset/' class="forget">Forgot Password?</a><br><br>
-
+                            <div class="row justify-content-md-center">
+                                <div class="col-xl-6 col-md-9">
+                                    <p><button type="submit" class="btn btn-custom">Login</button></p><br>
+                                </div>
+                            </div>
+                            <div class="row justify-content-md-center">
+                                <div class="col-md-6" style="text-align:center;">
+            			            <a style="color:blue;" href='/password_reset/'>Forgot Password?</a><br>
+                                </div>
+                                <div class="col-md-12" style="text-align:center;">
+                                    <a style="color:blue;" href='/registerCampusPartnerUser/'>Create Campus Partner User Account</a><br><br>
+                                </div>
+                            </div>
 		                    </form>
            	            </div>
 	                </div>

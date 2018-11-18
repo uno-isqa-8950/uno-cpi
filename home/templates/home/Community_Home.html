@@ -71,31 +71,51 @@ color:black;
     <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
     <div class="collapse navbar-collapse" id="target">
 
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="/">
             <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
-        <a class ="navbar-brand" href='/CommunityHome' id="uno"><b>University of Nebraska Omaha</b>
+        <a class ="navbar-brand" href='/' id="uno"><b>University of Nebraska Omaha</b>
                 <b id="cpi">Community Partnership Initiative</b></a>
 
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
-                </li>
+                <li class=" nav-item dropdown">
+                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                            <i class="fa fa-globe"></i>Maps
+                            <span class="caret"></span>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown_target">
+                            <a class="dropdown-item" href="/map">Community Partners </a>
+                            <a class="dropdown-item" href="/projectmap">Projects </a>
+                        </div>
+                    </li>
+                <li class="nav-item dropdown">
+                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                            <i class="fa fa-line-chart"></i>Analytics
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
+                                <ul class="dropdown-menu">
+                                    <a class="dropdown-item" href="/projectInfo">Mission Area</a>
+                                    <a class="dropdown-item" href="/engageType">Engagement Type</a>
+                                    <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>
+                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+                                </ul>
+                            </li>
+                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
+                                <ul class="dropdown-menu">
+                                    <a class="dropdown-item" href="/missionchart">Mission Area</a>
+                                    <a class="dropdown-item" href="/engagementtypechart2">Engagement Type</a>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
                 <li class="nav-item">
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-product-hunt"></i>Project</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-line-chart"></i>Reports</a>
-                </li>
-                <!-- <li class="nav-item dropdown">
-                  <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='/profile/campuspartneruserprofile/'>
-                    <i class="fa fa-user-circle-o"></i>Profiles
-                    <span class="caret"></span>
-                  </a>
-                  <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}">My Profile</a>
-                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'>Organization Profile</a>
-                  </div>
-                </li> -->
+
+
                 <li class="nav-item dropdown">
                   <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                       <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30"><span id="pic">{{ user.first_name  }}</span>

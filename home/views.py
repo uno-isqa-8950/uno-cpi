@@ -6,8 +6,9 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.urls import reverse
 from home.decorators import campuspartner_required
-# CSV, OrderedDict are used for uploading the data
+from django.contrib.auth import authenticate, login, logout
 import csv
+
 from collections import OrderedDict
 # importing models in home views.py
 from .models import *
@@ -56,7 +57,9 @@ def CommunityHome(request):
                   {'CommunityHome': CommunityHome})
 
 def AdminHome(request):
-    return render(request, 'home/Admin_home.html',
+    user = authenticate(request)
+
+    return render(request, 'home/admin_frame.html',
                   {'AdminHome': AdminHome})
 
 def Adminframe(request):

@@ -20,5 +20,6 @@ urlpatterns = [
     path('projectspublicreport/', views.projectsPublicReport, name='projectspublicreport'),
     path('communitypublicreport/', views.communityPublicReport, name='communitypublicreport'),
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
+    path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
 
 ]

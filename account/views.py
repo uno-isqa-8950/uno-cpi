@@ -24,7 +24,7 @@ def user_login(request):
                     response = redirect('/CommunityHome')
                     return response
                 elif user.is_superuser:
-
+                    login(request, user)
                     response = redirect('/AdminHome')
                     return response
             else:

@@ -4,6 +4,7 @@ from projects.models import *
 from home.models import *
 from home.filters import *
 from partners.models import *
+from university.models import Course
 from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from itertools import chain
@@ -281,6 +282,7 @@ def project_edit_new(request,pk):
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=ProjectCommunityPartnerForm2)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=ProjectCampusPartnerForm)
+    proj_course=inlineformset_factory(Project,Course,extra=0,form=CourseForm)
     #print('print input to edit')
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)

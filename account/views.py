@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
 from django.contrib import messages
-from home.models import User
+
 
 # Create your views here.
 
@@ -24,6 +24,7 @@ def user_login(request):
                     response = redirect('/CommunityHome')
                     return response
                 elif user.is_superuser:
+
                     response = redirect('/AdminHome')
                     return response
             else:
@@ -44,7 +45,7 @@ def CommunityHome(request):
 
 
 def admin(request):
-    return render(request, 'home/Admin_home.html',{'admin': admin})
+    return render(request, "home/admin_frame.html",{'admin': admin})
 
 
 def logout_view(request):

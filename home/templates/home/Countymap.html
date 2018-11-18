@@ -277,33 +277,19 @@
             line-height:2.2;
             box-shadow: 5px 10px 10px 5px grey;
         }
-  .select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
 
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+      .select2-container--default .select2-selection--single
+        {
+        width:100%
+        }
+
+      .select2-container--open .select2-dropdown--below
+        {
+
+        }
 
 </style>
-{% block selectizeForm %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
-<script>
-$(document).ready(function(){
-  $('#selectYear').select2(
-      {
-              placeholder: 'Select an Academic Year'}
-  );
-});
-
-</script>
-{% endblock %}
 
 <div class="wrapper">
         <nav id="sidebar">
@@ -324,13 +310,13 @@ $(document).ready(function(){
                 <h4>Community Type</h4>
                 <div><a href='#' id="k12partner"><span style='background-color: #2F4F4F'></span><b>K12 Partners</b></a></div><br>
 
-            <h4 for="selectYear">Academic Year</h4>
+            <h4>Academic Year</h4>
 
                 <select id="selectYear" class="selectYear">
                     <option value="all">All Academic Years</option>
                     <option value="2018">2017-2018</option>
                     <option value="2017">2016-2017</option>
-                </select><br>
+                </select><br><br>
         <!--div id="sidebar"-->
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
@@ -378,8 +364,24 @@ $(document).ready(function(){
 		    <script type="text/javascript">
         var countyData = "{{countymap}}";
     </script>-->
-<script type="text/javascript" src='{% static "js/Countymap.js" %}'></script>
 
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('.selectYear').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+
+</script>
+{% endblock %}
+
+<script type="text/javascript" src='{% static "js/Countymap.js" %}'></script>
 
 
     <!-- jQuery CDN - Slim version (=without AJAX) -->

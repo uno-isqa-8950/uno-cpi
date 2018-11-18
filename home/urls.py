@@ -10,7 +10,7 @@ urlpatterns = [
    path('home',views.home, name='home'),
    path('campusHome',views.campusHome, name='campusHome'),
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
-   path('map', views.map, name='map'),
+   path('map', views.countyData, name='map'),
    path('projectmap', views.projectmap, name='projectmap'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('registerCommunityPartnerUser/', views.registerCommunityPartnerUser, name='registerCommunityPartnerUser'),
@@ -29,6 +29,7 @@ urlpatterns = [
    path('countProjectCP/', views.unique_count, name='unique_count'),
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
+   path('Contactus',views.Contactus,name='Contactus')
 
 
 

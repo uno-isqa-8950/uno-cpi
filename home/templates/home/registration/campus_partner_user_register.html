@@ -39,6 +39,16 @@ margin-left: 25px;
 margin-top: 5px;
 
 }
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 
 </style>
 {% endblock %}
@@ -52,8 +62,8 @@ $(document).ready(function(){
   $('#id_campus_partner').select2(
       {
               placeholder: 'Select a Campus Partner',
-              width: '500px',
               left: '20px'
+
       }
   );
 });
@@ -104,7 +114,9 @@ height:100px;
 .select2-container--default .select2-selection--single
 {
 margin-left:22px;
+width:100%
 }
+
 .select2-container--open .select2-dropdown--below
 {
 margin-left:22px
@@ -117,33 +129,19 @@ margin-left:22px
 	         <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Register : Campus Partner User </h4></div>
 			        <div class="panel-body">
+                <form action="." method="post">{% csrf_token %}
 
-                     <form action="." method="post">
-
-                        {% csrf_token %}
-
-                        {{ form.non_field_errors }}
-
-                          {% for hidden_field in form.hidden_fields %}
-                          {{ hidden_field.errors }}
-                          {{ hidden_field }}
-                          {% endfor %}
-
-                        {% for field in user_form.visible_fields %}
+                  {{ user_form|bootstrap }}
                           
-                          {{ field|bootstrap }}
-
-                        {% endfor %}
-                        
-                        <div class = "row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                        {{ campus_partner_user_form|bootstrap }}
-                        </div>
-                        </div>
-                        <br>
-                        <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
-                     </form>
+                  <div class = "row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                      {{ campus_partner_user_form|bootstrap }}
+                    </div>
                   </div>
+                  <br>
+                  <p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
+                </form>
+              </div>
              </div>
         </div>
     </div>

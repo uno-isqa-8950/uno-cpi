@@ -29,12 +29,45 @@
     {
     width:95%;
     }
+
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+}
+
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
     </style>
 <!--<div class="container">
                <a href="{% url 'SearchForProject' %}" class="row"><span
                          class="btn btn-custom">Search Project</span></a>
 </div-->
-
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
+  $('#id_activity_type').select2(
+      {
+              placeholder: 'Select an Activity Type',
+      }
+  );
+  $('#id_status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+});
+</script>
+{% endblock %}
     <div class = "container">
         <div class="row justify-content-md-center">
 		    <div class="col-lg-10 col-md-10">
@@ -58,6 +91,9 @@
                             <!--/div>
                             <div class="col-lg-5 col-md-6"-->
                                 {{project.engagement_type|bootstrap}}
+                                <div class = "row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+
                             <!--/div>
                         </div>
                         <div class ="row"-->
@@ -89,8 +125,8 @@
          {{ project.state|bootstrap }}
          {{ project.country|bootstrap }}
          {{ project.zip|bootstrap }}
-
-
+        </div>
+        </div>
 
 
                   {% for form in formset %}
@@ -147,9 +183,10 @@
          </div>
          {% endfor %}
 
-        <button type="submit" class="save btn btn-custom">Save</button>
+        <button type="submit" class="save btn btn-custom">Submit</button>
+
     </form><br><br>
-                    </div></div></div></div></div><br><br><br>
+    </div></div></div></div><br><br><br>
 {% endblock %}
 
 

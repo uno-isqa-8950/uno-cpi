@@ -234,7 +234,7 @@
 
 		.legend {
 		    margin-top:20px;
-			background-color: #636060;
+			background-color: #282828;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -400,38 +400,47 @@
             box-shadow: 5px 10px 10px 5px grey;
         }
 
+.select2-container--default .select2-selection--single
+{
+
+width:100%;
+}
+
+
 </style>
+
+
+
 	<div class="wrapper">
         <nav id="sidebar">
                 <div id='state-legend' class='legend'>
                     <h3>Filters</h3>
                     <h4>Mission Areas</h4>
                     <div>
-                        <a href='#' id="all"><span></span><b>All Mission Areas</b></a><br>
-                        <a href='#' id="educational"><span style='background-color: #fbb03b'></span><b>Educational Support</b></a><br>
-                        <a href='#' id="economic"><span style='background-color: #ADFF2F'></span><b>Economic Sufficiency</b></a><br>
+                    <a href='#' id="all"><span style='background-color: black'></span><b>All Mission Areas</b></a><br>
+                        <a href='#' id="educational"><span style='background-color: #65dc1e'></span><b>Educational Support</b></a><br>
+                        <a href='#' id="economic"><span style='background-color: #17f3d1'></span><b>Economic Sufficiency</b></a><br>
                         <a href='#' id="service"><span style='background-color: #e55e5e'></span><b>International Service</b></a><br>
-                        <a href='#' id="environmental"><span style='background-color: #3bb2d0'></span><b>Environmental Stewardship</b></a><br>
+                        <a href='#' id="environmental"><span style='background-color: #1743f3'></span><b>Environmental Stewardship</b></a><br>
                         <a href='#' id="health"><span style='background-color: #ba55d3'></span><b>Health & Wellness</b></a><br>
-                        <a href='#' id="justice"><span style='background-color: #2A0A12'></span><b>Social Justice</b></a><br>
+                        <a href='#' id="justice"><span style='background-color: #FFFF00'></span><b>Social Justice</b></a><br>
                     </div>
                     <br>
                     <h4>Community Type</h4>
-                    <div><a href='#' id="k12partner"><span style='background-color: #0000AA'></span><b>K12 Partners</b></a></div>
+                    <div><a href='#' id="k12partner"><span style='background-color: #2F4F4F'></span><b>K12 Partners</b></a></div>
                     <br>
 
-                    <div>
-                        <h4>Academic Years</h4>
+
+                        <h4>Academic Year</h4>
                         <select id="selectYear" class="selectYear">
-                            <option value="all">All Years</option>
+                            <option value="all">All Academic Years</option>
                             <option value="2018">2017-2018</option>
                             <option value="2017">2016-2017</option>
                         </select>
-                    </div>
+                    &emsp;
                     <div>
                         <!--div id="sidebar1"-->
-                            <h4>Community Partner</h4>
-                            <input id='valueFilter' type='text' placeholder='Search Partner' />
+                            <input id='valueFilter' type='text' placeholder='Search Community Partner' />
                         <!--/div-->
                     </div>
                     <br>
@@ -453,6 +462,23 @@
 <!--div class='filter-ctrl'>
         <input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />
     </div-->
+
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#selectYear').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+
+</script>
+{% endblock %}
 
 <script src='{% static "js/testnew.js" %}'></script>
 

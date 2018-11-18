@@ -20,6 +20,20 @@ function myFunction1() {
 }
 </script>
 {% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+
+});
+</script>
+{% endblock %}
 {% block content %}
 <style>
 
@@ -49,6 +63,17 @@ margin-left:100px;
         left: 3px;
         color: #666666;
     }
+
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+
+}
+.select2-container--open .select2-dropdown--below
+{
+margin-left:22px
+}
 
 </style>
 <h4 class="searchName">Search for Existing Projects here</h4>

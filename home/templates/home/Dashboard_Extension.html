@@ -114,6 +114,11 @@ margin-top:15px;
                 </li>
                 </li>
                 {% if user.is_authenticated and user.is_campuspartner %}
+                <li class="nav-item">
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-product-hunt"></i>Project</a>
+                </li>
+               {% endif %}
+               {% if user.is_authenticated and user.is_campuspartner %}
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-product-hunt"></i>
@@ -128,7 +133,12 @@ margin-top:15px;
                 </li>
                 <li class="nav-item">
                 <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
-              </li>
+                </li>
+               {% endif %}
+               {% if  user.is_authenticated and user.is_communitypartner %}
+                <li class="nav-item">
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-product-hunt"></i>Project</a>
+                </li>
                {% endif %}
                {% if not user.is_authenticated %}
                 <li class=" nav-item dropdown">
@@ -148,7 +158,7 @@ margin-top:15px;
 
                 </li-->
 
-                {% if user.is_authenticated and user.is_superuser or user.is_campuspartner %}
+                {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
                      <li class="nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                         <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30"><span id="pic">{{ user.first_name }}</span>

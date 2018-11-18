@@ -53,7 +53,7 @@ input[type=text],[type=password],[type=email]
 
 }
 
-input[id=id_start_date],input[id=id_end_date],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
+input[id=id_start_date],input[id=id_end_date],select[id=id_academic_year],select[id=id_campus_partner],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
 {
     width:85%;
     border:2px solid #aaa;

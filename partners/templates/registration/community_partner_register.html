@@ -81,7 +81,7 @@ margin-left:22px
             <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Register : Community Partner </h4></div>
 			    <div class="panel-body">
-                    <form action="." method="post">
+                    <form action="." onfocusout="return validateForm()"  method="post">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
                             {% csrf_token %}
@@ -299,4 +299,71 @@ $(document).on('click', '.remove-form-row', function(e){
         hideInputs();
     });
 </script>
+
+
+<script>
+    function validateForm() {
+        var id = event.target.id;
+        var name = event.target.name;
+        console.log(id);
+        console.log(name);
+        console.log(document.getElementById(id).value);
+        {
+            console.log("helloooo");
+            if(id.includes("country")||id.includes("city")|| id.includes("state") || id.includes("county")
+            || id.includes("first_name") || id.includes("last_name")){
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+            }
+            if (id.includes("zip") || id.includes("work_phone") || id.includes("cell_phone")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+            }
+
+            if(id.includes("email_id")){
+                if (! /\S+@\S+/.test(document.getElementById(id).value)){
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+
+                }
+                 else {
+                 document.getElementById(id).style.borderColor = "gray";
+                  $('#'+id+'-error').remove();
+                  return true;
+            }
+
+            }
+
+
+        }
+    }
+
+
+</script>
+
+
+
 {% endblock %}

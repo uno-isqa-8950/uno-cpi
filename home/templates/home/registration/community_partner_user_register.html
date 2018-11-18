@@ -139,7 +139,7 @@ $(document).ready(function(){
 <!--<h4> Create a Campus Partner User Account</h4>-->
 <!--<form method="post" action="#">-->
  <!--<div class="formUser">-->
-     <form action="." method="post">
+     <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
     {% csrf_token %}
 
    {{ user_form|bootstrap }}
@@ -165,4 +165,38 @@ $(document).ready(function(){
 
 <!--</form>-->
 
+<script>
+function validateForm()
+{   var id = event.target.id;
+    var name = event.target.name;
+    if(id.includes("first_name") || id.includes("last_name")){
+    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+       $('#'+id+'-error').remove();
+       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+       document.getElementById(id).style.borderColor = "red";
+       return false;
+    }
+    else {
+         document.getElementById(id).style.borderColor = "gray";
+         $('#'+id+'-error').remove();
+         return true;
+         }
+    }
+    if(id.includes("email")){
+    if (! /\S+@\S+/.test(document.getElementById(id).value)){
+        $('#'+id+'-error').remove();
+        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+        document.getElementById(id).style.borderColor = "red";
+        return false;
+     }
+    else {
+       document.getElementById(id).style.borderColor = "gray";
+       $('#'+id+'-error').remove();
+       return true;
+          }
+
+    }
+
+}
+</script>
 {% endblock %}

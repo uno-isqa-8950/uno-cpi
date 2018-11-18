@@ -310,3 +310,22 @@ class CampusPartnerAvatar(ModelForm):
             pass
 
         return avatar
+
+
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(required=True)
+    contact_email = forms.EmailField(required=True)
+    topic = forms.CharField(required=True)
+    content = forms.CharField(
+        required=True,
+        widget=forms.Textarea()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['contact_name'].widget.attrs['placeholder'] = "Full Name"
+        self.fields['contact_email'].widget.attrs['placeholder'] = "Your Email"
+        #self.fields['topic'].label = "Subject"
+        self.fields['topic'].widget.attrs['placeholder'] = 'Subject'
+        #self.fields['content'].label = "Message"
+        self.fields['content'].widget.attrs['placeholder'] = 'Message'

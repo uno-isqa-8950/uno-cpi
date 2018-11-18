@@ -46,22 +46,22 @@ class CampusPartnerContactForm(forms.ModelForm):
                    }
 
     def clean_first_name(self):
-            firstname = self.cleaned_data['first_name']
-            if any(char.isdigit() for char in firstname):
-                raise forms.ValidationError("First Name cannot have digits")
-            return firstname
+        firstname = self.cleaned_data['first_name']
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        return firstname
 
     def clean_last_name(self):
-            lastname = self.cleaned_data['last_name']
-            if any(char.isdigit() for char in lastname):
-                raise forms.ValidationError("Last Name cannot have digits")
-            return lastname
+        lastname = self.cleaned_data['last_name']
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        return lastname
 
     def clean_work_phone(self):
-             workphone = self.cleaned_data['work_phone']
-             if any(char.isalpha() for char in workphone):
-                 raise forms.ValidationError("Work Phone cannot have digits")
-             return workphone
+        workphone = self.cleaned_data['work_phone']
+        if any(char.isalpha() for char in workphone):
+            raise forms.ValidationError("Work Phone cannot have digits")
+        return workphone
 
     def clean_cell_phone(self):
         cellphone = self.cleaned_data['cell_phone']

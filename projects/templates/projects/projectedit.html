@@ -88,7 +88,7 @@ $(document).ready(function(){
 		<div class="panel-heading text-center"><h4>Edit Project</h4></div>
 			<div class="panel-body">
 
-       <form method="POST" class="project-form" >{% csrf_token %}
+       <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
         {{project.project_name|bootstrap}}
          {{ project.status|bootstrap}}
          {{project.engagement_type|bootstrap}}
@@ -149,4 +149,68 @@ $(document).ready(function(){
 {#        hideInputs();#}
 {#    });#}
 {#</script>#}
+
+
+<script>
+
+function validateFormsets(){
+
+     var id =event.target.id;
+     var name = event.target.name;
+     console.log(id);
+     console.log(name);
+     console.log(document.getElementById(id).value);
+    { console.log("helloooo");
+        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members") || id.includes("zip")
+        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+
+        }
+
+        if(id.includes("country")||id.includes("city")|| id.includes("state")){
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+        }
+        if(id.includes("total_economic_impact")){
+
+            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
+            {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+
+            }
+        }
+    }
+return true;
+
+}
+
+</script>
+
 {% endblock %}

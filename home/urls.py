@@ -29,7 +29,8 @@ urlpatterns = [
    path('countProjectCP/', views.unique_count, name='unique_count'),
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
-   path('Contactus',views.Contactus,name='Contactus')
+   path('Contactus',views.Contactus,name='Contactus'),
+   path('thanks/', views.thanks, name='thanks')
 
 
 

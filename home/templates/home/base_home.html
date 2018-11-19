@@ -98,12 +98,12 @@ margin-top:15px;
                                     <a class="dropdown-item" href="/engageType">Engagement Type</a>
                                     <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>
                                     {% if  user.is_authenticated and user.is_superuser or user.is_campuspartner  %}
-                                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                                    <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Project Report</a>
+                                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners (Private View)</a>
+                                    <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Project Report(Private View)</a>
 
                                     {% else %}
-                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners(Private View)</a>
-                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects(Private View)</a>
+                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
                                     {% endif %}
                                 </ul>
                             </li>

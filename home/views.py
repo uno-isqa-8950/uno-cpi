@@ -126,8 +126,7 @@ def signupuser(request):
 
 
 def registerCampusPartnerUser(request):
-    campus_partner_user_form = CampusPartnerUserForm()
-    user_form = CampususerForm()
+
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)

@@ -4,60 +4,38 @@
 
 
 <style>
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
-
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-form label{
-  font-weight:bold;
-}
-.panel{
-    margin-top: 10px;
-}
-.bs-example{
-    	margin: 100px 50px;
+    .form-inline label
+    {
+    font-weight:bold;
+    text-align:left;
+    margin-bottom:10px;
+    display:inline;
+    margin-left:22px;
     }
-.fa-question{
-   color:blue;
-    background-color:lightblue;
-    width:20px;
-    height:20px;
-    display:inline-block;
-    border-radius:100%;
-    font-size:15px;
-    text-align:center;
-    text-decoration:none;
-    -webkit-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
-    -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
-    box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
-}
 
-.select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
+     .select2-container--default .select2-selection--single
+     {
+        margin-left:22px;
+        width:100%;
+     }
 
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+    .select2-container--open .select2-dropdown--below
+    {
+    margin-left:22px
+    }
+
+    .form-inline .form-group
+    {
+    display:inline-grid;
+    margin-bottom:30px;
+    margin-top:10px;
+    }
+
+
 </style>
 
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
 <script>
 $(document).ready(function(){
   $('#id_semester').select2(
@@ -72,16 +50,45 @@ $(document).ready(function(){
   );
 });
 </script>
-{% endblock %}
-<div class="container-fluid" id="align">
-    <div class="col-md-12 panel panel-primary">
+
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+           <div class="card" style="padding: 5px;margin-top:50px;background-color:#B3B3B3;">
+               <label style="text-align:justify;"><b style="font-size:17px;text-align:center;"><h4 style="line-height:.8em;padding-top:10px;">Report : Community Partners</h4></b></label>
+           </div>
+        </div>
+    </div>
+</div>
         <br>
-        <div class="col-md-12 text-center" class="bs-example">
-            <h3>Report : Projects </h3>
-            <div class="col-md-12 text-right">
-           <i class="fas fa-question" href="#" data-toggle="tooltip" title="The report gives the information about the project information "></i>
-            </div>
-        </div> <br>
+<div class="container">
+    <div class="card" style="padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
+        <!-- Collapse buttons -->
+        <div>
+            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" />
+
+            <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
+                "click",
+                function(event) {
+                if (event.target.value === "Show Filters") {
+                    event.target.value = "Hide Filters";
+                } else {
+                        event.target.value = "Show Filters";
+                        }
+                },
+                false
+                );
+            </script>
+
+        </div>
+<!-- / Collapse buttons -->
+
+<!-- Collapsible element -->
+        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class="collapse" id="collapseExample">
+
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-md-6 form-group">
                 <label for="id_semester"> Academic Year : </label>
@@ -100,7 +107,9 @@ $(document).ready(function(){
                 </select>
             </div>
         </form>
-<br>
+</div>
+</div>
+<div style="margin-top:15px;">
         <table  id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
 
@@ -122,19 +131,12 @@ $(document).ready(function(){
             {% endfor %}
             </tbody>
         </table>
+       </div></div>
+
         <br>
-    </div>
 </div>
-<br>
-<br> <br> <br>
-<script type="text/javascript">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip({
-        placement : 'top'
-    });
-});
-</script>
 {% endblock %}
+
 
 {% block js %}
 
@@ -155,6 +157,13 @@ $(document).ready(function(){
    });
 
    } );
+</script>
+    <script type="text/javascript">
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
 </script>
 <style>
 .btn-group{float:right;, labels:"Export"}

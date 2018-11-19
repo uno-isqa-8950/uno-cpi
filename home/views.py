@@ -86,6 +86,10 @@ def map(request):
     return render(request, 'home/Countymap.html',
                   {'map': map})
 
+def districtmap(request):
+    return render(request, 'home/Districtmap.html',
+                  {'districtmap': districtmap})
+
 def projectmap(request):
     return render(request, 'home/projectmap.html',
                   {'projectmap': projectmap})

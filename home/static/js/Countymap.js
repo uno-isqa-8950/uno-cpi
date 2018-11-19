@@ -3,7 +3,6 @@ var countyData = JSON.parse(document.getElementById('county-data').textContent);
 
 var k12Data = "";
 var communityData = "";
-var referencedincome = 0;
 $.get("static/GEOJSON/CommunityPartners_new.geojson", function(data) { //load JSON file from static/GEOJSON
     communityData = jQuery.parseJSON(data);
     var features=communityData["features"];
@@ -24,7 +23,11 @@ $.get("static/GEOJSON//K12Partners_new.geojson", function(data) { //load JSON fi
 	});
 	k12Data["features"]=features;
 });
-
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -33,6 +36,98 @@ var map = new mapboxgl.Map({
     // initial zoom
     zoom: 6
 });
+
+map.on("load",function() {
+
+    //Get Legislative District Data
+    map.addSource('countyData', {
+        type: 'geojson',
+        data: countyData,
+    });
+
+    map.addLayer({
+        "id": "county",
+        "type": "fill",
+        "source": "countyData",
+        'paint': {
+            "fill-color": "#888",
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                1,
+                0.0
+            ],
+            "fill-outline-color": "#0000AA"
+        }
+    });
+    countyData.features.forEach(function(feature) {
+        var income = feature.properties["Income"];
+        if (30000 <= income && income < 45000) {
+            layerID = "income1";
+            if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    "id": layerID,
+                    "type": "fill",
+                    "source": "countyData",
+                    'layout': {},
+                    'paint': {
+                        "fill-color": "#A4A4A4",
+                        "fill-opacity": ["case",
+                            ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0.5],
+                        "fill-outline-color": "#0000AA"
+                    },
+                    "filter": ["all",
+                        [">=", "Income", 30000],
+                        ["<", "Income", 45000]
+                    ]
+                })
+            }
+        } else if (45000 <= income && income < 60000) {
+            layerID = "income2";
+            if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    "id": layerID,
+                    "type": "fill",
+                    "source": "countyData",
+                    'layout': {},
+                    'paint': {
+                        "fill-color": "#6E6E6E",
+                        "fill-opacity": ["case",
+                            ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0.5],
+                        "fill-outline-color": "#0000AA"
+                    },
+                    "filter": ["all",
+                        [">=", "Income", 45000],
+                        ["<", "Income", 60000]
+                    ]
+                })
+            }
+        } else {
+            layerID = "income3";
+            if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    "id": layerID,
+                    "type": "fill",
+                    "source": "countyData",
+                    'layout': {},
+                    'paint': {
+                        "fill-color": "#424242",
+                        "fill-opacity": ["case",
+                            ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0.8],
+                        "fill-outline-color": "#0000AA"
+                    },
+                    "filter": [">=", "Income", 60000]
+                })
+            }
+        }
+    })
+})
+
 map.addControl(new mapboxgl.NavigationControl());
 
 var popup = new mapboxgl.Popup({
@@ -70,9 +165,9 @@ function parseDescription(message) {
         } else if (i == "NAME"){
             string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Income"){
-            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + formatter.format(message[i]) + "<br>";
         } else if (i=="income"){
-            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + formatter.format(message[i]) + "<br>"
         } else if (i=="County"){
             string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
         } else if (i=="district"){
@@ -84,11 +179,6 @@ function parseDescription(message) {
 
 map.on("load",function() {
 
-    //Get Legislative District Data
-    map.addSource('countyData', {
-        type: 'geojson',
-        data: countyData,
-    });
     map.addSource('communityData', {
         type: 'geojson',
         data: communityData,
@@ -98,21 +188,6 @@ map.on("load",function() {
         type: "geojson",
         data: k12Data,
     });
- 	//Add k12 style
-	map.addLayer({
-		"id":"county",
-		"type":"fill",
-		"source":"countyData",
-        'paint': {
-            "fill-color": "#888",
-            "fill-opacity": ["case",
-                ["boolean", ["feature-state", "hover"], false],
-                1,
-                0.0
-            ],
-            "fill-outline-color": "#0000AA"
-        }
-	});
 
     communityData.features.forEach(function(feature){
 		var primary=feature.properties["PrimaryMissionFocus"];
@@ -229,73 +304,7 @@ map.on("load",function() {
 		"filter":['in',"time","Spring 2018","Fall 2018","Summer 2018","winter 2018"]
 	});
 	//******************************Add a county map **********************************
-    countyData.features.forEach(function(feature) {
-        var income = feature.properties["Income"];
-        if (30000 <= income && income < 45000) {
-            layerID = "income1";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#A4A4A4",
-                        "fill-opacity": ["case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all",
-                        [">=", "Income", 30000],
-                        ["<", "Income", 45000]
-                    ]
-                })
-            }
-        } else if (45000 <= income && income < 60000) {
-            layerID = "income2";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#6E6E6E",
-                        "fill-opacity": ["case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all",
-                        [">=", "Income", 45000],
-                        ["<", "Income", 60000]
-                    ]
-                })
-            }
-        } else {
-            layerID = "income3";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#424242",
-                        "fill-opacity": ["case",
-                            ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.8],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": [">=", "Income", 60000]
-                })
-            }
-        }
-    })
+
 
         //******************************Add a clickable legend**********************************
 
@@ -1083,7 +1092,7 @@ function renderListings(features){
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 8
+        zoom: 6
     });
 }
 

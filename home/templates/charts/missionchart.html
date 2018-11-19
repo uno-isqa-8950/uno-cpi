@@ -48,7 +48,7 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 
-    <div class="container-fluid" id="align">
+    <div class="container">
         <div class="col-md-12 panel panel-primary">
     <br>
      <div class="col-md-12 text-center">
@@ -78,30 +78,25 @@ $(document).ready(function(){
         </div>
         <!--<input type="submit" value="Search" />-->
     </form>
-
+<br> <br>
 
 
   <div id="container"></div>
- <br> <br> <br>
-
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
 
-
- <br> <br> <br>
-
-    <script>
-
-        Highcharts.chart('container', {{ chart|safe }});
-    </script>
-    </div> <br> <br> <br><br>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip({
-        placement : 'top'
-    });
-});
+<script>
+     Highcharts.chart('container',{{ chart|safe }});
 </script>
-    </div>
+         </div>
+    </div><br><br><br><br>
 {% endblock %}
+{#<script type="text/javascript">#}
+{#$(document).ready(function(){#}
+{#    $('[data-toggle="tooltip"]').tooltip({#}
+{#        placement : 'top'#}
+{#    });#}
+
+{#</script>#}
+
+{#{% endblock %}#}
 

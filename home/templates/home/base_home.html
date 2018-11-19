@@ -79,7 +79,8 @@ margin-top:15px;
                             <span class="caret"></span>
                         </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                            <a class="dropdown-item" href="/map">Community Partners </a>
+                            <a class="dropdown-item" href="/districtmap">Legislative District Map</a>
+                            <a class="dropdown-item" href="/map">Household Income Map</a>
                             <a class="dropdown-item" href="/projectmap">Projects </a>
                         </div>
                     </li>
@@ -96,12 +97,13 @@ margin-top:15px;
                                     <a class="dropdown-item" href="/projectInfo">Mission Area</a>
                                     <a class="dropdown-item" href="/engageType">Engagement Type</a>
                                     <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>
-                                    {% if not user.is_authenticated  %}
-                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
-                                    {% else %}
+                                    {% if  user.is_authenticated and user.is_superuser or user.is_campuspartner  %}
                                     <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
                                     <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Project Report</a>
+
+                                    {% else %}
+                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
                                     {% endif %}
                                 </ul>
                             </li>
@@ -149,7 +151,7 @@ margin-top:15px;
                     </div>
                     </li>
                 {% endif %}
-                {% if user.is_authenticated and user.is_superuser or user.is_campuspartner %}
+                {% if user.is_authenticated and user.is_superuser  %}
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-cogs"></i>

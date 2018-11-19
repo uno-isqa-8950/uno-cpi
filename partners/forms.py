@@ -95,7 +95,7 @@ class CommunityPartnerForm(forms.ModelForm):
     def clean_country(self):
             name = self.cleaned_data['country']
             if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid Country Name")
+                raise forms.ValidationError("Invalid country Name")
             return name
 
     def clean_state(self):

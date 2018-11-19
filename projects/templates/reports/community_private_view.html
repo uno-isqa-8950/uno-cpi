@@ -1,4 +1,4 @@
-{% extends 'home/base_home.html' %}
+{% extends 'home/Campus_Home.html' %}
 {% block content %}
 
 <style>
@@ -36,29 +36,7 @@ margin-left:22px
 }
 </style>
 
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-  $('#id_semester').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
-  $('#id_weitz_cec_part').select2(
-      {
-              placeholder: 'Select if CEC Partner',
-      }
-  );
-  $('#id_mission').select2(
-      {
-              placeholder: 'All Mission Areas',
-      }
-  );
-});
-</script>
-{% endblock %}
+
 <div class="container-fluid" id="align">
     <div class="col-md-12 panel panel-primary">
         <br>
@@ -98,14 +76,30 @@ $(document).ready(function(){
             <thead>
             <tr>
                 <th>Community Partners</th>
+                <th>Website</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Cell Phone</th>
+                <th>Email</th>
                 <th>Number Of Projects</th>
+                <th>Number of UNO Students</th>
+                <th>Number of Hours</th>
+                <th>Economic Impact</th>
             </tr>
         </thead>
             <tbody>
             {% for community in communityData %}
             <tr>
-                <td>{{community.name}}</td>
+                <td>{{community.communityPartnerName}}</td>
+                <td>{{community.website}}</td>
+                <td>{{community.firstName}}</td>
+                <td>{{community.lastName}}</td>
+                <td>{{community.cellPhone}}</td>
+                <td>{{community.email}}</td>
                 <td>{{community.communityProjects}}</td>
+                <td>{{community.total_UNO_students}}</td>
+                <td>{{community.total_hours}}</td>
+                <td>{{community.economic_impact}}</td>
             </tr>
             {% endfor %}
             </tbody>
@@ -116,38 +110,4 @@ $(document).ready(function(){
 <br>
 <br> <br> <br>
 
-{% endblock %}
-
-
-{% block js %}
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-
-<script type="text/javascript">
-   $(document).ready(function() {
-   $('#example').DataTable({
-       dom: 'B<"clear">lftp',
-       buttons: {
-       name: 'primary',
-       buttons: ['copy', 'csv', 'excel', 'pdf']
-       }
-   });
-
-   } );
-</script>
-<style>
-.btn-group{float:right;, labels:"Export"}
-   #example_length{float:left; margin:0 0 0 0px;}
-   #example_length select{width:80%;}
-div.dataTables_wrapper div.dataTables_filter label
-{
-    float:left;
-    margin-left:300px;
-
-}
-</style>
 {% endblock %}

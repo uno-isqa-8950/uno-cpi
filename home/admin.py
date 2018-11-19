@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import User
 from .models import Contact, MissionArea, HouseholdIncome
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-
+from django.contrib.admin import AdminSite
 
 @admin.register(User)
 class UserAdmin(DjangoUserAdmin):
@@ -52,4 +52,6 @@ admin.site.register(Contact, ContactList)
 admin.site.register(MissionArea, MissionAreaList)
 admin.site.register(HouseholdIncome, HouseholdIncomeList)
 admin.site.site_header = "UNO CPI Admin "
+admin.site.site_url = False
+
 

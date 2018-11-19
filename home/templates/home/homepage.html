@@ -316,7 +316,7 @@
 
 		.legend {
 		    margin-top:20px;
-			background-color: #636060;
+			background-color: #282828;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -498,30 +498,14 @@
 
 .select2-container--default .select2-selection--single
 {
-margin-left:22px;
-width:100%
+
+width:100%;
 }
 
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+
 </style>
-{% block selectizeForm %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
-<script>
-$(document).ready(function(){
-  $('#selectYear').select2(
-      {
-              placeholder: 'Select an Academic Year'}
-  );
-});
-
-</script>
-{% endblock %}
 
 	<div class="wrapper">
         <nav id="sidebar">
@@ -542,14 +526,14 @@ $(document).ready(function(){
                     <div><a href='#' id="k12partner"><span style='background-color: #2F4F4F'></span><b>K12 Partners</b></a></div>
                     <br>
 
-                    <div>
+
+                        <h4>Academic Year</h4>
                         <select id="selectYear" class="selectYear">
                             <option value="all">All Academic Years</option>
                             <option value="2018">2017-2018</option>
                             <option value="2017">2016-2017</option>
-
                         </select>
-                    </div>
+                    &emsp;
                     <div>
                         <!--div id="sidebar1"-->
                             <input id='valueFilter' type='text' placeholder='Search Community Partner' />
@@ -594,6 +578,23 @@ $(document).ready(function(){
 </html>
 =======
     </div-->
+
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#selectYear').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+
+</script>
+{% endblock %}
 
 <script src='{% static "js/testnew.js" %}'></script>
 

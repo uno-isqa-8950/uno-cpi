@@ -72,6 +72,12 @@ class CampusPartnerContactForm(forms.ModelForm):
             raise forms.ValidationError("Cell phone cannot have letters")
         return cellphone
 
+    def clean_email_id(self):
+        email = self.cleaned_data['email_id']
+        if "edu" != email.split("@")[1].split('.')[1]:
+            raise forms.ValidationError("Please use .edu email ")
+        return email
+
 
 class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')

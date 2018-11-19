@@ -21,7 +21,11 @@ var map = new mapboxgl.Map({
     // initial zoom
     zoom: 6
 });
-
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
 var popup = new mapboxgl.Popup({
     closeButton: true,
     closeOnClick: true
@@ -57,11 +61,13 @@ function parseDescription(message) {
         } else if (i == "NAME"){
             string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Income"){
-            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + 'Household Income' + '</span>' + ": " + formatter.format(message[i]) + "<br>";
         } else if (i=="income"){
-            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + formatter.format(message[i]) + "<br>"
         } else if (i=="County"){
             string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
+        } else if (i=="district"){
+            string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>"
         }
     }
     return string;
@@ -723,7 +729,7 @@ map.on('load', function(e) {
 function flyToStore(currentFeature) {
     map.flyTo({
         center: currentFeature.geometry.coordinates,
-        zoom: 8
+        zoom: 6
     });
 }
 

@@ -109,7 +109,7 @@ $(document).ready(function(){
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-md-3 form-group">
             <label for="id_campus_partner"> Campus Partner: </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                     {% for campus in campus_filter.form.campus_partner %}
@@ -149,6 +149,29 @@ $(document).ready(function(){
     </div>
     <br>
 <br> <br> <br>
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'All Engagement Types',
+      }
+  );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+});
+</script>
 {% endblock %}
 
 

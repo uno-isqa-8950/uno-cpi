@@ -17,11 +17,11 @@ def user_login(request):
             if user is not None:
                 if user.is_campuspartner:
                     login(request, user)
-                    response = redirect('/campusHome')
+                    response = redirect('/campususerproject')
                     return response
                 elif user.is_communitypartner:
                     login(request, user)
-                    response = redirect('/CommunityHome')
+                    response = redirect('/communitypartnerproject')
                     return response
                 elif user.is_superuser:
                     login(request, user)
@@ -37,11 +37,11 @@ def user_login(request):
 
 
 def campushome(request):
-    return render(request, 'home/Campus_Home.html',{'campushome': campushome})
+    return render(request, 'projects/Projectlist.html',{'campushome': campushome})
 
 
 def CommunityHome(request):
-    return render(request, 'home/Community_Home.html',{'CommunityHome': CommunityHome})
+    return render(request, 'projects/community_partner_projects.html',{'CommunityHome': CommunityHome})
 
 
 def admin(request):

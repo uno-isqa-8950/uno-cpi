@@ -31,9 +31,6 @@
 
 </style>
 
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
   $('#id_academic_year').select2(
@@ -53,7 +50,7 @@ $(document).ready(function(){
   );
 });
 </script>
-{% endblock %}
+
 <!--<div class="container">-->
         <!--<div class="text-center">-->
 <div class="container">
@@ -143,6 +140,29 @@ $(document).ready(function(){
 <br>
 <br>
 
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'All Engagement Types',
+      }
+  );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+});
+</script>
 {% endblock %}
 
 {% block js %}

@@ -73,7 +73,7 @@ def Contactus(request):
         return redirect('thanks')
 
 
-    return render(request, 'home/contactus.html', {
+    return render(request, 'home/ContactUs.html', {
     'form': form_class,
 })
 

@@ -123,12 +123,12 @@ def signupuser(request):
 
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
-    user_form = UserForm1()
+    user_form = CampususerForm()
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
-        user_form = UserForm1(request.POST)
+        user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
         if user_form.is_valid() and campus_partner_user_form.is_valid():
@@ -142,7 +142,7 @@ def registerCampusPartnerUser(request):
 
             return render(request, 'home/register_done.html', )
     else:
-        user_form = UserForm1(request.POST)
+        user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
     return render(request,
@@ -152,13 +152,13 @@ def registerCampusPartnerUser(request):
 
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
-    user_form = UserForm1()
+    user_form = CommunityuserForm()
     commPartner = []
     for object in CommunityPartner.objects.order_by('name'):
         commPartner.append(object.name)
 
     if request.method == 'POST':
-        user_form = UserForm1(request.POST)
+        user_form = CommunityuserForm(request.POST)
         # campus_partner_form = CampusPartnerForm(request.POST)
         community_partner_user_form = CommunityPartnerUserForm(request.POST)
         if user_form.is_valid() and community_partner_user_form.is_valid():

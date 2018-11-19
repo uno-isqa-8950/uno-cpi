@@ -539,7 +539,7 @@ def EngagementType_Chart(request):
 
 ######## export data to Javascript (Testing) ################################
 def countyData(request):
-    json_data = open('home/static/GEOJSON/NECounties2.geojson')
+    json_data = open('home/static/GEOJSON/NEcounties2.geojson')
     countyData = json.load(json_data)
     return render(request, 'home/Countymap.html',
                   {'countyData': countyData})

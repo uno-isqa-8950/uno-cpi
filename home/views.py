@@ -8,7 +8,6 @@ from django.urls import reverse
 from home.decorators import campuspartner_required
 from django.contrib.auth import authenticate, login, logout
 import csv
-
 from collections import OrderedDict
 # importing models in home views.py
 from .models import *
@@ -23,15 +22,64 @@ from .filters import *
 from django.db.models import Sum
 # importing forms into home views.py
 from .forms import *
+from django.shortcuts import render, redirect
+from django.template.loader import get_template
+from django.core.mail import EmailMessage
+
 
 
 def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
+#def Contactus(request):
+#    return render(request, 'home/ContactUs.html',
+#                  {'Contactus': Contactus})
+
 def Contactus(request):
-    return render(request, 'home/ContactUs.html',
-                  {'Contactus': Contactus})
+    form_class = ContactForm
+    if request.method == 'POST':
+        form = form_class(data=request.POST)
+
+        if form.is_valid():
+            contact_name = request.POST.get(
+                'contact_name'
+                , '')
+            contact_email = request.POST.get(
+                'contact_email'
+                , '')
+            topic =request.POST.get('topic','')
+            form_content = request.POST.get('content', '')
+
+            # Email the profile with the
+            # contact information
+            template = get_template('home/contact_template.txt')
+        context = {
+            'contact_name': contact_name,
+            'contact_email': contact_email,
+            'topic':topic,
+            'form_content': form_content,
+        }
+        content = template.render(context)
+
+        email = EmailMessage(
+            "CPI Contact Form submission",
+            content,
+            "Community Partnership Initiative" + '',
+            ['capstoneteam2018cpi@gmail.com'],
+            headers={'Reply-To': contact_email}
+        )
+        email.send()
+        return redirect('thanks')
+
+
+    return render(request, 'home/contactus.html', {
+    'form': form_class,
+})
+
+def thanks(request):
+    return render(request, 'home/thanks.html',
+                  {'thank': thanks})
 
 
 def map(request):
@@ -75,12 +123,12 @@ def signupuser(request):
 
 def registerCampusPartnerUser(request):
     campus_partner_user_form = CampusPartnerUserForm()
-    user_form = UserForm1()
+    user_form = CampususerForm()
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
-        user_form = UserForm1(request.POST)
+        user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
         if user_form.is_valid() and campus_partner_user_form.is_valid():
@@ -94,7 +142,7 @@ def registerCampusPartnerUser(request):
 
             return render(request, 'home/register_done.html', )
     else:
-        user_form = UserForm1(request.POST)
+        user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
     return render(request,
@@ -104,13 +152,13 @@ def registerCampusPartnerUser(request):
 
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
-    user_form = UserForm1()
+    user_form = CommunityuserForm()
     commPartner = []
     for object in CommunityPartner.objects.order_by('name'):
         commPartner.append(object.name)
 
     if request.method == 'POST':
-        user_form = UserForm1(request.POST)
+        user_form = CommunityuserForm(request.POST)
         # campus_partner_form = CampusPartnerForm(request.POST)
         community_partner_user_form = CommunityPartnerUserForm(request.POST)
         if user_form.is_valid() and community_partner_user_form.is_valid():

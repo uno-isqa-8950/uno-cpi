@@ -38,7 +38,7 @@ left:280px;
                 <div class="panel-heading text-center"><h4><b>My Profile</b></h4></div>
                 <div class="panel-body">
                     <div class="body">
-                        <form  action="." id="id_avatar" method="post"  enctype="multipart/form-data">
+                        <form  action="." id="id_avatar" method="post"  onfocusout="return validateForm()"  enctype="multipart/form-data">
                         {% if messages %}
                             <ul class="messages">
                             {% for message in messages %}
@@ -59,8 +59,8 @@ left:280px;
                         </div></div>
                         {% for field in user_form %}
                             <div class="form-group">
-                                <label for="{{field.label}}">{{field.label}}</label>
-                                    <input type="text" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" required>
+                                <label for="{{field.name}}">{{field.label}}</label>
+                                    <input type="text" class="form-control" name="{{field.label}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
                             </div>
                         {% endfor %}
                         <div class="form-group">
@@ -79,5 +79,47 @@ left:280px;
     </div>
 </div>
   <br><br>
+
+
+
+<script>
+function validateForm()
+{ console.log("in form");
+    var id = event.target.id;
+    var name = event.target.name;
+    console.log(id, name);
+    if(id.includes("first_name") || id.includes("last_name")){
+        console.log("in form 22");
+    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+       $('#'+id+'-error').remove();
+       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+       document.getElementById(id).style.borderColor = "red";
+       return false;
+    }
+    else {
+         document.getElementById(id).style.borderColor = "gray";
+         $('#'+id+'-error').remove();
+         return true;
+         }
+    }
+        if(id.includes("email")){
+    if (! /\S+@\S+/.test(document.getElementById(id).value)){
+        $('#'+id+'-error').remove();
+        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+        document.getElementById(id).style.borderColor = "red";
+        return false;
+     }
+    else {
+       document.getElementById(id).style.borderColor = "gray";
+       $('#'+id+'-error').remove();
+       return true;
+          }
+
+    }
+
+}
+
+
+</script>
 
 {% endblock %}

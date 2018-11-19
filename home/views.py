@@ -414,8 +414,8 @@ def missionchart(request):
 
     missions = MissionArea.objects.all()
     mission_area1 = list()
-    project_count_series_data = list()
-    partner_count_series_data = list()
+    project_count_data = list()
+    partner_count_data = list()
     max_series_data = list()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
@@ -431,28 +431,26 @@ def missionchart(request):
         community_list = [c.community_partner_id for c in p_community]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id). \
             filter(community_partner_id__in=community_list).count()
-        project_count_series_data.append(project_count)
-        partner_count_series_data.append(community_count)
+        project_count_data.append(project_count)
+        partner_count_data.append(community_count)
 
-
-    Max_count = max(
-            list(set(partner_count_series_data) | set(project_count_series_data)),default=1)
-    max_series_data.append(Max_count)
+    Max_count = max(list(set(partner_count_data) | set(project_count_data)),default=1)
+    # max_series_data.append(Max_count)
 
     project_count_series = {
             'name': 'Project Count',
-            'data': project_count_series_data,
+            'data': project_count_data,
             'color': 'turquoise'}
     partner_count_series = {
             'name': 'Community Partner Count',
-            'data': partner_count_series_data,
+            'data': partner_count_data,
             'color': 'teal'}
 
     chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
             'xAxis': {'title': {'text': 'Mission Areas'}, 'categories': mission_area1},
-            'yAxis': {'title': {'text': 'Projects Count'}, 'min': 0, 'max': Max_count + 5},
+            'yAxis': {'title': {'text': 'Projects Count'}, 'min': 0, 'max': Max_count+5},
             'legend': {
                 'layout': 'vertical',
                 'align': 'right',
@@ -467,8 +465,8 @@ def missionchart(request):
             'series': [project_count_series, partner_count_series]
         }
 
-    chart_dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': chart_dump , 'project_filter' : project_filter , 'year_filter' :year_filter})
+    dump = json.dumps(chart)
+    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter , 'year_filter' :year_filter})
 
 
 def EngagementType_Chart(request):

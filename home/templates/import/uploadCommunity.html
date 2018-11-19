@@ -10,12 +10,19 @@
         width: 600px;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 50px;
         height: relative;
             }
 
     .btn-custom
         {
-        margin-left:120px;
+        margin-left:370px;
+        margin-top:10px;
+        }
+     .btn-success
+        {
+        margin-left:20px;
+        margin-top:-35px;
         }
     .form-control
         {
@@ -42,11 +49,6 @@ h4
     text-align: center;
 }
 
-#position1
-{
-margin-left:500px;
-margin-right: auto;
-}
 
 label, #heading
 {
@@ -78,33 +80,38 @@ input[type=file]
       <label for="id_field">Choose File Type:</label>
         <select onchange="location = this.options[this.selectedIndex].value;">
             <option>Please select</option>
-            <option value="{% url 'upload_project' %}" >Project</option>
             <option value="{% url 'upload_campus' %}">Campus</option>
             <option value="{% url 'upload_community' %}" selected="selected">Community</option>
+            <option value="{% url 'upload_project' %}" >Project</option>
+            <option value="{% url 'upload_income' %}">Household Income</option>
         </select>​
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
         <div class="col-md-12">
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
     </div>
-
+<!--
     <div class="form-group">
         <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
         </div>
-
+-->
+    <div>
+        <form>
+        <button class="btn btn-custom" id="button-align"> <span class="glyphicon glyphicon-upload"></span>Upload</button>
+        </form>
+    </div>
+    <div id="position1">
+        <form action={{ download_community_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample</button>
+        </form>
+    </div>
     </div>
     </div>
     </div>
 
 </form></div></div>
-    <div id="position1">
-        <form action={{ download_community_url }}  method="GET">
-        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
-        </form><br><br><br>
-    </div>
-
+<br><br><br><br><br><br>
     <script>
 
 	</script>

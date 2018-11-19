@@ -10,12 +10,19 @@
         width: 600px;
         margin-left: auto;
         margin-right: auto;
+        margin-top: 50px;
         height: relative;
             }
 
     .btn-custom
         {
-        margin-left:120px;
+        margin-left:370px;
+        margin-top:10px;
+        }
+     .btn-success
+        {
+        margin-left:20px;
+        margin-top:-35px;
         }
     .form-control
         {
@@ -42,13 +49,6 @@ h4
     text-align: center;
 }
 
-#position1
-{
-color: red;
-margin-right: auto;
-margin-left: 3000;
-}
-
 label, #heading
 {
  margin-top: 15px;
@@ -73,12 +73,6 @@ input[type=file]
     margin: -25px 0 0 -25px;
 }
 
-br
-{
-    line-height: 150%;
-}
-
-
 </style>
 
 
@@ -87,7 +81,7 @@ br
 
 <div class="">
     <div class="position"><h2> Upload Campus Partners</h2></div>
-<form id="">
+<form id='upload_form' action="{% url 'upload_campus' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
 {% csrf_token %}
     <div class="panel panel-default">
         <div class="panel-heading" ><h4 id="heading">Select CSV file for Import:</h4></div>
@@ -97,12 +91,12 @@ br
       <label for="id_field">Choose File Type:</label>
         <select onchange="location = this.options[this.selectedIndex].value;">
             <option>Please select</option>
-            <option value="{% url 'upload_project' %}" >Project</option>
             <option value="{% url 'upload_campus' %}" selected="selected">Campus</option>
             <option value="{% url 'upload_community' %}">Community</option>
+            <option value="{% url 'upload_project' %}" >Project</option>
+            <option value="{% url 'upload_income' %}">Household Income</option>
         </select>​
     <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
         <div class="col-md-12">
             <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
         </div>
@@ -129,36 +123,29 @@ br
         <div class = "#dvLoading"></div>
         </form>
     </div>
-    -->
-        <div class="form-group">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-            <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
-        </div>
-        </div>
+
 
         <div id="position1">
-        <form action={{ download_campus_url }}  method="GET">
-        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
+        <button class="btn btn-custom" id="button-align"> <span class="glyphicon glyphicon-upload"></span>Upload</button>
+    </div>
+    -->
+        <div>
+        <form>
+        <button class="btn btn-custom" id="button-align"> <span class="glyphicon glyphicon-upload"></span>Upload</button>
         </form>
     </div>
-
+    <div>
+        <form action={{ download_campus_url }}  method="GET">
+        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample</button>
+        </form>
+    </div>
 
 
     </div>
     </div>
 
 </form></div></div>
-<div id="position1">
-        <form action={{ download_campus_url }}  method="GET">
-        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
-        </form>
-    </div>
-    <!-- id="position1">
-        <form action={{ download_campus_url }}  method="GET">
-        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
-        </form>
-    </div>-->
-<br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br>
     <script>
 
 	</script>

@@ -10,7 +10,28 @@ from partners.models import *
 from home.models import Contact as ContactModel, Contact, User, MissionArea
 from home.forms import userUpdateForm
 from django.template.loader import render_to_string
+import googlemaps
+from shapely.geometry import shape, Point
+import pandas as pd
+import json
+gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
 
+def countyGEO():
+    with open('home/static/GEOJSON/NEcounties2.geojson') as f:
+        geojson1 = json.load(f)
+
+    county = geojson1["features"]
+    return county
+
+##### Get the district GEOJSON ##############
+def districtGEO():
+    with open('home/static/GEOJSON/ID2.geojson') as f:
+        geojson = json.load(f)
+
+    district = geojson["features"]
+    return district
+countyData = countyGEO()
+district = districtGEO()
 
 def registerCampusPartner(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
@@ -55,6 +76,31 @@ def registerCommunityPartner(request):
 
         if community_partner_form.is_valid() and formset.is_valid():
             community_partner = community_partner_form.save()
+######## Minh's code to add coordinates, household income and district ######################
+            address = community_partner.address_line1
+            if (address != "N/A"):  # check if a community partner's address is there
+
+                fulladdress = community_partner.address_line1 + ' ' + community_partner.city
+                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
+                community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
+            community_partner.save()
+            coord = Point([community_partner.longitude, community_partner.latitude])
+            for i in range(len(district)):          #iterate through a list of district polygons
+                property = district[i]
+                polygon = shape(property['geometry'])  #get the polygons
+                if polygon.contains(coord):         #check if a partner is in a polygon
+                    community_partner.legislative_district = property["id"] #assign the district number to a partner
+            community_partner.save()
+            for m in range(len(countyData)): #iterate through the County Geojson
+                properties2 = countyData[m]
+                polygon = shape(properties2['geometry']) #get the polygon
+                if polygon.contains(coord):             #check if the partner in question belongs to a polygon
+                    community_partner.county = properties2['properties']['NAME']
+                    community_partner.median_household_income = properties2['properties']['Income']
+            community_partner.save()
+######## Minh's code ends here ######################
+
             contacts = formset.save(commit=False)
             missions = formset_mission.save(commit=False)
 

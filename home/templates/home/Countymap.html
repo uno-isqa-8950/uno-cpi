@@ -292,6 +292,21 @@
 
 
 <div class="wrapper">
+                <div id="content">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                    <span></span>
+                </button>
+
+                <div id='map' class='map'>
+                    {{ countyData | json_script:"county-data"}}
+                    <h3 id="overlay-header">Maps: Household Income</h3>
+                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
+
+                </div>
+
+            </div>
+
         <nav id="sidebar">
 
             <div id='state-legend' class='legend'>
@@ -310,15 +325,17 @@
                 <h4>Community Type</h4>
                 <div><a href='#' id="k12partner"><span style='background-color: #2F4F4F'></span><b>K12 Partners</b></a></div><br>
 
+            <h4>Academic Year</h4>
+
                 <select id="selectYear" class="selectYear">
                     <option value="all">All Academic Years</option>
                     <option value="2018">2017-2018</option>
                     <option value="2017">2016-2017</option>
-                </select><br>
+                </select><br><br>
         <!--div id="sidebar"-->
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
-            </div>
+            </div><br>
 
         <div id='incomelegend'>
             <div>
@@ -332,21 +349,7 @@
 
         </nav>
 
-
-            <div id="content">
-
-                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
-                    <span></span>
-                </button>
-
-                <div id='map' class='map'>
-                    {{ countyData | json_script:"county-data" }} <!-- load the data from views.py -->
-                    <h3 id="overlay-header">Maps: Household Income</h3>
-                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
-
-                </div>
-
-            </div>
+{{ collection | json_script:"commPartner-data"}}
 
 
 
@@ -363,21 +366,6 @@
         var countyData = "{{countymap}}";
     </script>-->
 
-{% block selectizeForm %}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
-<!--script>
-$(document).ready(function(){
-  $('.selectYear').select2(
-      {
-              placeholder: 'Select an Academic Year'}
-  );
-});
-
-</script-->
-{% endblock %}
 
 <script type="text/javascript" src='{% static "js/Countymap.js" %}'></script>
 

@@ -29,13 +29,6 @@ class CampusPartnerUserForm(forms.ModelForm):
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
         #print(campus_partner)
 
-    def clean_email_id (self):
-        data = self.cleaned_data.get('email_id')
-        domain = data.split('.')[1]
-        domain_list = ["edu" ]
-        if domain not in domain_list:
-            raise forms.ValidationError("Please use your university ( .edu) emails to signup ")
-        return data
 
 class CommunityPartnerUserForm(forms.ModelForm):
 

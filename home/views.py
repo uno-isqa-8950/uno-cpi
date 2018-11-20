@@ -73,7 +73,7 @@ def Contactus(request):
         return redirect('thanks')
 
 
-    return render(request, 'home/contactus.html', {
+    return render(request, 'home/ContactUs.html', {
     'form': form_class,
 })
 
@@ -126,8 +126,7 @@ def signupuser(request):
 
 
 def registerCampusPartnerUser(request):
-    campus_partner_user_form = CampusPartnerUserForm()
-    user_form = CampususerForm()
+
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)

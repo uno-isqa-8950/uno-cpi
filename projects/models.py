@@ -51,7 +51,6 @@ class Project (models.Model):
 class ProjectMission (models.Model):
     mission_choices = (
         ('Primary', 'Primary'),
-        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -103,7 +102,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True, default= 2015-16)
+    name = models.CharField(max_length=100, unique=True, default= 'Training/Workshop/presentation')
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

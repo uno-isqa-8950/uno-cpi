@@ -19,45 +19,25 @@
 
     .select2-container--open .select2-dropdown--below
     {
-    margin-left:22px
+        margin-left:22px
     }
 
     .form-inline .form-group
     {
-    display:inline-grid;
-    margin-bottom:30px;
-    margin-top:10px;
+        display:inline-grid;
+        margin-bottom:30px;
+        margin-top:10px;
     }
 
 
 </style>
 
-<script>
-$(document).ready(function(){
-  $('#id_academic_year').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
-  $('#id_campus_partner').select2(
-      {
-              placeholder: 'All Campus Partners',
-      }
-  );
-  $('#id_mission').select2(
-      {
-              placeholder: 'All Mission Areas',
-      }
-  );
-});
-</script>
-
 
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-           <div class="card" style="padding: 5px;margin-top:50px;background-color:#B3B3B3;">
-               <label style="text-align:justify;"><b style="font-size:17px;text-align:center;"><h4 style="line-height:.8em;padding-top:10px;">Report : Engagement Type</h4></b></label>
+           <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
+               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:white;"><h4 style="line-height:.8em;padding-top:10px;">Report: Engagement Type</h4></b></label>
            </div>
         </div>
     </div>
@@ -67,17 +47,17 @@ $(document).ready(function(){
     <div class="card" style="padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
-                if (event.target.value === "Show Filters") {
-                    event.target.value = "Hide Filters";
+                if (event.target.value === "Hide Filters") {
+                    event.target.value = "Show Filters";
                 } else {
-                        event.target.value = "Show Filters";
+                        event.target.value = "Hide Filters";
                         }
                 },
                 false
@@ -89,11 +69,11 @@ $(document).ready(function(){
 
 <!-- Collapsible element -->
         <div class="card" style="border: 2px solid #C3C3C3;">
-        <div class="collapse" id="collapseExample">
+        <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
             <form class="form-inline" role="form" id="filters-form" method="get">
-            <div class="col-md-4 form-group">
+            <div class="col-lg-3 col-md-5 form-group">
             <label for="id_mission"> Mission Area: </label>
                 <select id="id_mission" name="mission" onchange="this.form.submit()">
                     {% for mission in missions_filter.form.mission %}
@@ -101,7 +81,7 @@ $(document).ready(function(){
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-4 form-group">
+            <div class="col-lg-3 col-md-5 form-group">
             <label for="id_academic_year"> Academic Year: </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     {% for sem in year_filter.form.academic_year %}
@@ -109,7 +89,7 @@ $(document).ready(function(){
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-3 form-group">
+            <div class="col-lg-3 col-md-5 form-group">
             <label for="id_campus_partner"> Campus Partner: </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                     {% for campus in campus_filter.form.campus_partner %}
@@ -129,7 +109,7 @@ $(document).ready(function(){
     <th>Engagement Type</th>
     <th>Project Count</th>
     <th>Total UNO Students</th>
-    <th>Total UNO Hours</th>
+    <th>Total UNO Student Hours</th>
 
   </tr>
     <thead>
@@ -155,9 +135,9 @@ $(document).ready(function(){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  $('#id_engagement_type').select2(
+  $('#id_academic_year').select2(
       {
-              placeholder: 'All Engagement Types',
+              placeholder: 'All Academic Years',
       }
   );
   $('#id_campus_partner').select2(
@@ -165,9 +145,9 @@ $(document).ready(function(){
               placeholder: 'All Campus Partners',
       }
   );
-  $('#id_academic_year').select2(
+  $('#id_mission').select2(
       {
-              placeholder: 'All Academic Years',
+              placeholder: 'All Mission Areas',
       }
   );
 });
@@ -186,24 +166,47 @@ $(document).ready(function(){
 <script type="text/javascript">
    $(document).ready(function() {
    $('#example').DataTable({
-       dom: 'B<"clear">lftp',
+       dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['copy', 'csv', 'excel', 'pdf']
+       buttons: ['csv', 'excel', 'pdf']
        }
    });
 
    } );
 </script>
 <style>
-.btn-group{float:right;, labels:"Export"}
-   #example_length{float:left; margin:0 0 0 0px;}
-   #example_length select{width:80%;}
-div.dataTables_wrapper div.dataTables_filter label
-{
-    float:left;
-    margin-left:300px;
+    .btn-group{float:left;, labels:"Export"}
+    #example_length{float:left; margin:0 0 0 0px;}
+    #example_length select{width:50%;}
 
-}
+
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    margin-left:210px;
+    }
+
+
+    div.dataTables_wrapper div.dataTables_filter label
+    {
+    float:right;
+    }
+
+
+    @media (max-width: 900px)
+    {
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        float:left;
+        margin-left:50px;
+    }
+    #example_length select{width:35%;}
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+
 </style>
 {% endblock %}

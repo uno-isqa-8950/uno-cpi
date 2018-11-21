@@ -35,7 +35,9 @@
                       </div>
 
                       <div class="col-md-6" id="style1">
-                         {{ form.contact_name|bootstrap }}
+                          <div class="form-group" style="margin-top:23px;">
+                            {{ form.contact_name|bootstrap }}
+                          </div>
                          {{ form.contact_email|bootstrap }}
                          {{ form.topic|bootstrap }}
                          {{ form.content|bootstrap }}

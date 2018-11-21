@@ -45,29 +45,7 @@ margin-left:22px
                <a href="{% url 'SearchForProject' %}" class="row"><span
                          class="btn btn-custom">Search Project</span></a>
 </div-->
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-  $('#id_engagement_type').select2(
-      {
-              placeholder: 'Select an Engagement Type',
-      }
-  );
-  $('#id_activity_type').select2(
-      {
-              placeholder: 'Select an Activity Type',
-      }
-  );
-  $('#id_status').select2(
-      {
-              placeholder: 'Select a Status',
-      }
-  );
-});
-</script>
-{% endblock %}
+
     <div class = "container">
         <div class="row justify-content-md-center">
 		    <div class="col-lg-10 col-md-10">
@@ -110,7 +88,7 @@ $(document).ready(function(){
                         </div-->
          {{ project.description|bootstrap }}
          {{ project.semester|bootstrap }}
-         {{ project.|bootstrap }}
+         {{ project.academic_year|bootstrap }}
 
          {{ project.total_uno_students|bootstrap }}
          {{ project.total_uno_hours|bootstrap }}
@@ -188,7 +166,7 @@ $(document).ready(function(){
         <button type="submit" class="save btn btn-custom">Submit</button>
 
     </form><br><br>
-    </div></div></div></div><br><br><br>
+                        </div> </div></div></div></div><br><br><br>
 {% endblock %}
 
 
@@ -290,34 +268,62 @@ $(document).on('click', '.remove-form3-row', function(e){
 });
 
 </script>
-{#<script>#}
-{#    $(function(){#}
-{#        function hideInputs() {#}
-{#            $("label.control-label[for=id_name], input#id_name").hide();#}
-{#            $("#id_id_name").hide();#}
-{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
-{#            $("#id_prefix").hide();#}
-{#            $("label.control-label[for=id_number], input#id_number").hide();#}
-{#            $("#id_number").hide();#}
-{##}
-{#            console.log('label.control-label[for=id_name], input#id_name');#}
-{#            }#}
-{#        $("#id_engagement_type").on('change', function(){#}
-{#            var val = $("#id_engagement_type").val();#}
-{#            if (val === '4') {#}
-{#               $("#id_name").show();#}
-{#               $("label.control-label[for=id_name], input#id_name").show();#}
-{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
-{#            $("#id_prefix").show();#}
-{#            $("label.control-label[for=id_number], input#id_number").show();#}
-{#            $("#id_number").show();#}
-{##}
-{#            }#}
-{#            else {#}
-{#                hideInputs();#}
-{#            }#}
-{#        });#}
-{#        hideInputs();#}
-{#    });#}
-{#</script>#}
+<script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_name], input#id_name").hide();
+            $("#id_id_name").hide();
+            $("label.control-label[for=id_prefix], input#id_prefix").hide();
+            $("#id_prefix").hide();
+            $("label.control-label[for=id_number], input#id_number").hide();
+            $("#id_number").hide();
+
+            console.log('label.control-label[for=id_name], input#id_name');
+            }
+        $("#id_engagement_type").on('change', function(){
+            var val = $("#id_engagement_type").val();
+            if (val === '3') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
+  $('#id_activity_type').select2(
+      {
+              placeholder: 'Select an Activity Type',
+      }
+  );
+  $('#id_status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'Select a Academic Year',
+      }
+  );
+});
+</script>
 {% endblock %}

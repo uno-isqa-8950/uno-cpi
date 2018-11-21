@@ -1,6 +1,10 @@
 from decimal import *
 from django.db import connection
 from django.http import HttpResponse
+from numpy import shape
+from home.decorators import communitypartner_required, campuspartner_required
+from home.views import gmaps
+from partners.views import district, countyData
 from projects.models import *
 from home.models import *
 from home.filters import *
@@ -8,8 +12,6 @@ from partners.models import *
 from university.models import Course
 from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
-from itertools import chain
-
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
 from .forms import ProjectForm, ProjectMissionForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
@@ -17,9 +19,15 @@ from django.utils import timezone
 from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
+import googlemaps
+from shapely.geometry import shape, Point
+import pandas as pd
+import json
+gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
 
 
-
+@login_required()
+@communitypartner_required()
 def communitypartnerhome(request):
     usertype = User.objects.get(is_communitypartner=True)
 #    print(usertype.is_communitypartner)
@@ -28,6 +36,8 @@ def communitypartnerhome(request):
                   {'communitypartnerhome': communitypartnerhome,'usertype':usertype})
 
 
+@login_required()
+@communitypartner_required()
 def communitypartnerproject(request):
     print(request.user.id)
     projects_list=[]
@@ -79,6 +89,9 @@ def communitypartnerproject(request):
 
     return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
 
+
+@login_required()
+@communitypartner_required()
 def communitypartnerprojectedit(request,pk):
 
     mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, form=ProjectMissionForm)
@@ -156,7 +169,8 @@ def communitypartnerprojectedit(request,pk):
         return render(request, 'projects/community_partner_projects_edit.html', {'project':project,
                                                                                  'comp_proj_form': comp_proj_form})
 
-
+@login_required()
+@campuspartner_required()
 def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
@@ -204,7 +218,8 @@ def proj_view_user(request):
     return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
 
-
+@login_required()
+@campuspartner_required()
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, extra =1 , form = ProjectMissionFormset)
     #proj_comm_part= modelformset_factory(ProjectCommunityPartner, extra=1 , form =ProjectCommunityPartnerForm2)
@@ -218,12 +233,36 @@ def project_total_Add(request):
         formset3 = proj_campus_part(request.POST or None)
 
 
-        if project.is_valid() and formset.is_valid() :
+        if project.is_valid() and formset.is_valid()  :
             #and formset2.is_valid()
+            ##Convert address to cordinates and save the legislatve district and household income
             proj= project.save()
+            address = proj.address_line1
+            if (address != "N/A"):  # check if a community partner's address is there
+
+                fulladdress = proj.address_line1 + ' ' + proj.city
+                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                proj.latitude = geocode_result[0]['geometry']['location']['lat']
+                proj.longitude = geocode_result[0]['geometry']['location']['lng']
+                proj.save()
+            coord = Point([proj.longitude, proj.latitude])
+            for i in range(len(district)):  # iterate through a list of district polygons
+                property = district[i]
+                polygon = shape(property['geometry'])  # get the polygons
+                if polygon.contains(coord):  # check if a partner is in a polygon
+                    proj.legislative_district = property["id"]  # assign the district number to a partner
+                    proj.save()
+            for m in range(len(countyData)):  # iterate through the County Geojson
+                properties2 = countyData[m]
+                polygon = shape(properties2['geometry'])  # get the polygon
+                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                    proj.county = properties2['properties']['NAME']
+                    proj.median_household_income = properties2['properties']['Income']
+                    proj.save()
             course = course.save(commit=False)
             course.project_name = proj
             course.save()
+
             mission_form = formset.save(commit = False)
             #proj_comm_form = formset2.save(commit= False)
             proj_campus_form = formset3.save(commit=False)
@@ -273,8 +312,10 @@ def project_total_Add(request):
         formset = mission_details(queryset=ProjectMission.objects.none())
         #formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
-    return render(request,'projects/projectadd.html',{'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
+        return render(request,'projects/projectadd.html',{'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
 
+@login_required()
+@campuspartner_required()
 def project_edit_new(request,pk):
 
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
@@ -373,11 +414,12 @@ def project_edit_new(request,pk):
         formset_comm_details = proj_comm_part_edit(instance=x)
         formset_camp_details = proj_campus_part_edit(instance=x)
         print("in else project_edit 7777777")
-        return render(request,'projects/projectedit.html',{'project': project, 'course' : course,
+    return render(request,'projects/projectedit.html',{'project': project, 'course' : course,
                                                'formset_missiondetails':formset_missiondetails,
                                                'formset_comm_details': formset_comm_details,
                                                'formset_camp_details':formset_camp_details})
 
+@login_required()
 def SearchForProject(request):
     names=[]
     for project in Project.objects.all():
@@ -427,9 +469,10 @@ def SearchForProject(request):
         #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
         #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
         #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
-    return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
+        return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
 
 
+@login_required()
 def SearchForProjectAdd(request,pk):
     foundProject = None
     names = []
@@ -526,7 +569,7 @@ def communityPublicReport(request):
 
 
 # List Projects for Private View 
-
+@login_required()
 def projectsPrivateReport(request):
 
     campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
@@ -554,7 +597,7 @@ def projectsPrivateReport(request):
     return render(request, 'reports/projects_private_view.html',
                    {'filter': projects, 'projectsData': projectsData, "missions": missions})
 
-
+@login_required()
 def communityPrivateReport(request):
 
     campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)

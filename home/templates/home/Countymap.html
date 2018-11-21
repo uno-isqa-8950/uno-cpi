@@ -88,7 +88,20 @@
         border-color:grey;
         box-shadow:0 0 8px 0 grey;
         }
-
+    select[id=selectDistrict]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin-top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
 
 	.h2 {
 			display: block;
@@ -302,7 +315,9 @@
                     {{ countyData | json_script:"county-data"}}
                     <h3 id="overlay-header">Maps: Household Income</h3>
                     <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
-
+                    {{ collection | json_script:"commPartner-data"}}
+                    {{ Missionlist | json_script:"missionlist"}}
+                    {{ CommTypeList | json_script:"CommTypelist"}}
                 </div>
 
             </div>
@@ -312,7 +327,7 @@
             <div id='state-legend' class='legend'>
                 <h3>Filters</h3>
             <h4>Mission Areas</h4>
-                <div>
+                <div id='legend'>
                     <a href='#' id="all"><span style='background-color: black'></span><b>All Mission Areas</b></a><br>
                     <a href='#' id="educational"><span style='background-color: #65dc1e'></span><b>Educational Support</b></a><br>
                     <a href='#' id="economic"><span style='background-color: #17f3d1'></span><b>Economic Sufficiency</b></a><br>
@@ -321,22 +336,26 @@
                     <a href='#' id="health"><span style='background-color: #ba55d3'></span><b>Health & Wellness</b></a><br>
                     <a href='#' id="justice"><span style='background-color: #FFFF00'></span><b>Social Justice</b></a><br>
                 </div><p></p>
-
-                <h4>Community Type</h4>
-                <div><a href='#' id="k12partner"><span style='background-color: #2F4F4F'></span><b>K12 Partners</b></a></div><br>
-
             <h4>Academic Year</h4>
 
                 <select id="selectYear" class="selectYear">
                     <option value="all">All Academic Years</option>
                     <option value="2018">2017-2018</option>
                     <option value="2017">2016-2017</option>
-                </select><br><br>
+                </select>
         <!--div id="sidebar"-->
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
-            </div><br>
-
+            </div>
+                        <select id="selectDistrict" class="selectDistrict">
+                            <option value="alltypes">All Community types</option>
+                            <option value="Business">Business</option>
+                            <option value="Government Agency">Government Agency</option>
+                            <option value="Higher Education Institution">Higher Education Institution</option>
+                            <option value="K-12">K12</option>
+                            <option value="Nonprofit">Non-profit</option>
+                        </select>
+                <br>
         <div id='incomelegend'>
             <div>
                 <a href='#' id="allincome"><span style='background-color: black'></span><b>All income levels</b></a><br>
@@ -349,7 +368,6 @@
 
         </nav>
 
-{{ collection | json_script:"commPartner-data"}}
 
 
 

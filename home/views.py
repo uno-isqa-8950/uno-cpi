@@ -29,7 +29,7 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 
-gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
+gmaps = googlemaps.Client(key='')
 
 
 def home(request):
@@ -566,15 +566,16 @@ def countyData(request):
     commPartners = CommunityPartner.objects.filter() #get all the community partners
 
     collection = {'type': 'FeatureCollection', 'features': []} #create the shell of GEOJSON
-
+    Missionlist = [] ## a placeholder array of unique mission areas
+    CommTypelist = [] ## a placeholder array of unique community type
     for commPartner in commPartners: #iterate through all community partners
         #prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
                                                      'Website': '', 'Legislative District Number': '',
-                                                     'Income': '', 'County': '', 'Mission Area': ''},
+                                                     'Income': '', 'County': '', 'Mission Area': '',
+                                                     'CommunityType': ''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (commPartner.address_line1 != "N/A"): #check if a community partner's address is there
-            fulladdress = commPartner.address_line1 + ' ' + commPartner.city
             fulladdress = commPartner.address_line1 + ' ' + commPartner.city
             geocode_result = gmaps.geocode(fulladdress) #get the coordinates
             commPartner.latitude = geocode_result[0]['geometry']['location']['lat']
@@ -610,10 +611,26 @@ def countyData(request):
             feature['properties']['Legislative District Number'] = commPartner.legislative_district
             feature['properties']['Income'] = commPartner.median_household_income
             feature['properties']['County'] = commPartner.county
-            #feature['properties']['Mission Area'] = missionarea
+            ### get the mission area######
+            community_qs = CommunityPartnerMission.objects.filter(community_partner__id=commPartner.id)
+            community_mission = [c.mission_area for c in community_qs]
+
+            try:
+                feature['properties']['Mission Area'] = str(community_mission[0])
+                if (str(community_mission[0]) not in Missionlist):  #check if the mission area is already recorded
+                    Missionlist.append(str(community_mission[0]))   #add
+                feature['properties']['CommunityType'] = str(commPartner.community_type)
+                if (str(commPartner.community_type) not in CommTypelist): #check if the community type is already recorded
+                    CommTypelist.append(str(commPartner.community_type)) #add
+            except:
+                print("No mission")
             collection['features'].append(feature)  #create the geojson
     #jsonstring = pd.io.json.dumps(collection)
     json_data = open('home/static/GEOJSON/NECounties2.geojson')
     county = json.load(json_data)
     return render(request, 'home/Countymap.html',
-                  {'countyData': county, 'collection': collection})
+                  {'countyData': county, 'collection': collection,
+                   'Missionlist': sorted(Missionlist),
+                   'CommTypeList': sorted(CommTypelist) #pass the array of unique mission areas and community types
+                   }
+                  )

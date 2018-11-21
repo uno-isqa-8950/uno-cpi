@@ -163,7 +163,6 @@ class CommunityMissionForm(ModelForm):
 
     mission_choices = (
         ('Primary', 'Primary'),
-        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
 

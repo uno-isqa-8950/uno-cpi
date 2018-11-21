@@ -110,6 +110,8 @@ $(document).ready(function(){
                         </div-->
          {{ project.description|bootstrap }}
          {{ project.semester|bootstrap }}
+         {{ project.|bootstrap }}
+
          {{ project.total_uno_students|bootstrap }}
          {{ project.total_uno_hours|bootstrap }}
          {{ project.total_k12_students|bootstrap }}
@@ -288,34 +290,34 @@ $(document).on('click', '.remove-form3-row', function(e){
 });
 
 </script>
-<script>
-    $(function(){
-        function hideInputs() {
-            $("label.control-label[for=id_name], input#id_name").hide();
-            $("#id_id_name").hide();
-            $("label.control-label[for=id_prefix], input#id_prefix").hide();
-            $("#id_prefix").hide();
-            $("label.control-label[for=id_number], input#id_number").hide();
-            $("#id_number").hide();
-
-            console.log('label.control-label[for=id_name], input#id_name');
-            }
-        $("#id_engagement_type").on('change', function(){
-            var val = $("#id_engagement_type").val();
-            if (val === '4') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-        hideInputs();
-    });
-</script>
+{#<script>#}
+{#    $(function(){#}
+{#        function hideInputs() {#}
+{#            $("label.control-label[for=id_name], input#id_name").hide();#}
+{#            $("#id_id_name").hide();#}
+{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
+{#            $("#id_prefix").hide();#}
+{#            $("label.control-label[for=id_number], input#id_number").hide();#}
+{#            $("#id_number").hide();#}
+{##}
+{#            console.log('label.control-label[for=id_name], input#id_name');#}
+{#            }#}
+{#        $("#id_engagement_type").on('change', function(){#}
+{#            var val = $("#id_engagement_type").val();#}
+{#            if (val === '4') {#}
+{#               $("#id_name").show();#}
+{#               $("label.control-label[for=id_name], input#id_name").show();#}
+{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
+{#            $("#id_prefix").show();#}
+{#            $("label.control-label[for=id_number], input#id_number").show();#}
+{#            $("#id_number").show();#}
+{##}
+{#            }#}
+{#            else {#}
+{#                hideInputs();#}
+{#            }#}
+{#        });#}
+{#        hideInputs();#}
+{#    });#}
+{#</script>#}
 {% endblock %}

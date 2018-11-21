@@ -5,7 +5,7 @@ from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
 from django.urls import reverse
-from home.decorators import campuspartner_required
+from home.decorators import campuspartner_required, admin_required
 from django.contrib.auth import authenticate, login, logout
 import csv
 from collections import OrderedDict
@@ -102,22 +102,22 @@ def cpipage(request):
     return render(request, 'home/CpiHome.html',
                   {'cpipage': cpipage})
 
-
+@login_required()
 def campusHome(request):
     return render(request, 'home/Campus_Home.html',
                   {'campusHome': campusHome})
 
-
+@login_required()
 def CommunityHome(request):
     return render(request, 'home/Community_Home.html',
                   {'CommunityHome': CommunityHome})
-
+@login_required()
 def AdminHome(request):
     user = authenticate(request)
 
     return render(request, 'home/admin_frame.html',
                   {'AdminHome': AdminHome})
-
+@login_required()
 def Adminframe(request):
     return render(request, 'home/admin_frame.html',
                   {'Adminframe': Adminframe})
@@ -157,6 +157,7 @@ def registerCampusPartnerUser(request):
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
 
 
+@login_required()
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
     user_form = CommunityuserForm()
@@ -187,7 +188,8 @@ def registerCommunityPartnerUser(request):
 
 # uploading the projects data via csv file
 
-
+@login_required()
+@admin_required()
 def upload_project(request):
     if request.method == 'GET':
         download_projects_url = '/media/projects_sample.csv'
@@ -226,6 +228,8 @@ def upload_project(request):
 # uploading the community data via csv file
 
 
+@login_required()
+@admin_required()
 def upload_community(request):
     if request.method == 'GET':
         download_community_url = '/media/community_sample.csv'
@@ -250,6 +254,8 @@ def upload_community(request):
 # uploading the campus data via csv file
 
 
+@login_required()
+@admin_required()
 def upload_campus(request):
     if request.method == 'GET':
         download_campus_url = '/media/campus_sample.csv'
@@ -281,7 +287,8 @@ def upload_campus(request):
 
 
 # uploading the campus data via csv file
-
+@login_required()
+@admin_required()
 def upload_income(request):
     if request.method == 'GET':
         download_campus_url = '/media/household_income.csv'

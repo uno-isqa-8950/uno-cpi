@@ -247,6 +247,24 @@ function validateForm() {
     console.log("informs");
     var id = event.target.id;
     var name = event.target.name;
+    if (id.includes("work_phone")|| id.includes("cell_phone")){
+        phoneMask(event)
+        }
+    function phoneMask(event) {
+    const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
+    const isPhoneFormatted = validPhoneFormat.test(event.target.value);
+
+    if(!isPhoneFormatted) {
+        const phoneInput = event.target.value.replace(/\D/g, "");
+        const thirdPhoneDigit = 3;
+        const sixthPhoneDigit = 6;
+        const tenthPhoneDigit = 10;
+        const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
+        const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
+        const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
+        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+    }
+}
     if(id.includes("email_id")){
     if (! /\S+@\S+/.test(document.getElementById(id).value)){
         $('#'+id+'-error').remove();
@@ -261,7 +279,7 @@ function validateForm() {
           }
 
     }
-    var numbers = /^[0-9]+$/;
+    var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
     if (id.includes("work_phone") || id.includes("cell_phone")) {
     if (!(document.getElementById(id).value).match(numbers)) {
         console.log("good test")

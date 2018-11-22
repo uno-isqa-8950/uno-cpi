@@ -305,6 +305,24 @@ $(document).on('click', '.remove-form-row', function(e){
     function validateForm() {
         var id = event.target.id;
         var name = event.target.name;
+        if (id.includes("work_phone")|| id.includes("cell_phone")){
+        phoneMask(event)
+        }
+    function phoneMask(event) {
+    const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
+    const isPhoneFormatted = validPhoneFormat.test(event.target.value);
+
+    if(!isPhoneFormatted) {
+        const phoneInput = event.target.value.replace(/\D/g, "");
+        const thirdPhoneDigit = 3;
+        const sixthPhoneDigit = 6;
+        const tenthPhoneDigit = 10;
+        const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
+        const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
+        const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
+        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+    }
+}
         console.log(id);
         console.log(name);
         console.log(document.getElementById(id).value);
@@ -326,7 +344,22 @@ $(document).on('click', '.remove-form-row', function(e){
             }
 
             }
-            if (id.includes("zip") || id.includes("work_phone") || id.includes("cell_phone")) {
+              var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+    if (id.includes("work_phone") || id.includes("cell_phone")) {
+    if (!(document.getElementById(id).value).match(numbers)) {
+        console.log("good test")
+        $('#'+id+'-error').remove();
+        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+        document.getElementById(id).style.borderColor = "red";
+        return false;
+    }
+    else {
+        document.getElementById(id).style.borderColor = "gray";
+        $('#'+id+'-error').remove();
+        return true;
+         }
+    }
+            if (id.includes("zip")) {
             if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
                 $('#'+id+'-error').remove();
                 $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');

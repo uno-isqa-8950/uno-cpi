@@ -56,16 +56,20 @@ class CampususerForm(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have numbers")
+            raise forms.ValidationError("First Name cannot have digits")
+        if not any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have numbers")
+            raise forms.ValidationError("Last Name cannot have digits")
+        if not any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
     
     def clean_email(self):
@@ -107,16 +111,20 @@ class CommunityuserForm(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have numbers")
+            raise forms.ValidationError("First Name cannot have digits")
+        if not any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have numbers")
+            raise forms.ValidationError("Last Name cannot have digits")
+        if not any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
 
@@ -182,13 +190,6 @@ class CommunityPartnerForm(forms.ModelForm):
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-    # def clean_email (self):
-    #     data = self.cleaned_data.get('email')
-    #     domain = data.split('@')[1]
-    #     domain_list = [".edu" ]
-    #     if domain not in domain_list:
-    #         raise forms.ValidationError("Please use .edu email ")
-    #     return data
 
 
 class UploadProjectForm(forms.ModelForm):

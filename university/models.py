@@ -17,7 +17,7 @@ class University (models.Model):
 
 
 class College (models.Model):
-    college_name = models.CharField(max_length=50, unique=True)
+    college_name = models.CharField(max_length=255, unique=True)
     university = models.ForeignKey(University, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -25,7 +25,7 @@ class College (models.Model):
 
 
 class Department(models.Model):
-    department_name = models.CharField(max_length=30)
+    department_name = models.CharField(max_length=255)
     college_name = models.ForeignKey(College, on_delete=models.CASCADE)
 
     def __str__(self):

@@ -7,9 +7,9 @@ class Project (models.Model):
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
-    description = models.TextField(blank=True, null=True)
-    semester = models.CharField(max_length=20, blank=False, default= 'Fall-2015')
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False )
+    description = models.TextField()
+    semester = models.CharField(max_length=50, blank=False, default= 'Fall-2015')
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False , default= 2015-16)
     total_uno_students = models.IntegerField(null=True, blank=True)
     total_uno_hours = models.IntegerField(null=True, blank=True)
     total_k12_students = models.IntegerField(null=True, blank=True)
@@ -18,7 +18,8 @@ class Project (models.Model):
     total_other_community_members = models.IntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    other_details = models.CharField(max_length=100, null=True, blank=True)
+    # other_details = models.CharField(max_length=100, null=True, blank=True)
+    other_details = models.TextField()
     outcomes = models.CharField(max_length=100, null=True, blank=True)
     status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True)
     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True)
@@ -27,7 +28,7 @@ class Project (models.Model):
     country = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=25, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
-    zip = models.IntegerField(null=True, blank=True)
+    zip = models.CharField(max_length=10, blank=True, null=True)
     county = models.CharField(max_length=100, blank=True, null=True)
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
@@ -51,6 +52,7 @@ class Project (models.Model):
 class ProjectMission (models.Model):
     mission_choices = (
         ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
@@ -102,7 +104,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True, default= 'Training/Workshop/presentation')
+    name = models.CharField(max_length=100, unique=True, default= 2015-16)
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
@@ -110,9 +112,14 @@ class ActivityType(models.Model):
 
 
 class AcademicYear(models.Model):
-    academic_year = models.CharField(max_length=20, unique=True)
+    academic_year = models.CharField(max_length=20, unique=True )
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):
         return str(self.academic_year)
 
+
+#table added
+class MedianHouseholdIncome(models.Model):
+    state=models.CharField(max_length=80, unique=True)
+    income=models.IntegerField(null=True, blank=True)

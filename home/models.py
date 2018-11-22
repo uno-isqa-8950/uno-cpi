@@ -47,7 +47,7 @@ class UserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', False)
 
         if extra_fields.get('is_campuspartner') is not True:
-            raise ValueError('Campus Partner must have is_campuspartner=True.')
+            raise ValueError('Canpus Partner must have is_campuspartner=True.')
 
         return self._create_user(email, password, **extra_fields)
 

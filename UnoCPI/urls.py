@@ -28,5 +28,6 @@ urlpatterns = [
     path('', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('', include('projects.urls')),
+    path('', include('addData.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

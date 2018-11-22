@@ -10,22 +10,26 @@ class CommunityPartner(models.Model):
         ('No', 'No'),
     )
     name = models.CharField(max_length=255, unique=True)
-    website_url = models.URLField(max_length=100, blank=True)
+    # website_url = models.URLField(max_length=100, blank=True)
+    website_url = models.URLField(max_length=500, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
-    k12_level =  models.CharField(max_length=20,null=False, blank=True)
+    # k12_level =  models.CharField(max_length=20,null=False, blank=True)
+    k12_level =  models.CharField(max_length=20,blank=True,null=True)
     address_line1 = models.CharField(max_length=1024, blank=True)
     address_line2 = models.CharField(max_length=1024, blank=True)
-    county = models.CharField(max_length=100, blank=True)
+    # county = models.CharField(max_length=100, blank=True)
+    county = models.CharField(max_length=100, blank=True,null=True)
     country = models.CharField(max_length=100, blank=True)
     city = models.CharField(max_length=25, blank=True)
     state = models.CharField(max_length=15, blank=True)
     zip = models.CharField(max_length=10, blank=True)
+    phone=models.CharField(max_length=20,blank=True)#added
     latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    legislative_district = models.IntegerField(null=True, blank=True)
+    income=models.IntegerField(null=True, blank=True)
     active = models.BooleanField(default=False)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
-    legislative_district = models.IntegerField(null=True, blank=True)
-    median_household_income = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -34,10 +38,11 @@ class CommunityPartner(models.Model):
 class CommunityPartnerMission(models.Model):
     mission_choices = (
         ('Primary', 'Primary'),
+        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
     mission_type = models.CharField(max_length=20, choices=mission_choices, default=False)
-    mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
+    mission_area= models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,
                                           related_name='communitypartnermission', null=True)
 

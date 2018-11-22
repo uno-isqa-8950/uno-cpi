@@ -46,9 +46,9 @@ class CampususerForm(forms.ModelForm):
 
     password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    first_name = forms.CharField(label='First Name', required=True)
-    last_name = forms.CharField(label='Last Name', required=True)
-    email = forms.EmailField(label='Email', required=True)
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
 
     class Meta:
         model = User

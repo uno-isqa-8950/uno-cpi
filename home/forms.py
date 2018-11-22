@@ -281,7 +281,6 @@ class UploadCommunityMissionForm(forms.ModelForm):
         fields = '__all__'
         mission_choices = (
             ('Primary', 'Primary'),
-            ('Secondary', 'Secondary'),
             ('Other', 'Other'),
         )
         mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))

@@ -47,7 +47,7 @@ class CampusPartnerContactForm(forms.ModelForm):
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have digits")
-        if not any(char in special_characters for char in firstname):
+        if any(char in special_characters for char in firstname):
             raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
@@ -56,7 +56,7 @@ class CampusPartnerContactForm(forms.ModelForm):
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have digits")
-        if not any(char in special_characters for char in lastname):
+        if any(char in special_characters for char in lastname):
             raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
@@ -103,7 +103,7 @@ class CommunityPartnerForm(forms.ModelForm):
             special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
                 raise forms.ValidationError("Invalid Country Name")
-            if not any(char in special_characters for char in name):
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid Country Name")
             return name
 
@@ -112,7 +112,7 @@ class CommunityPartnerForm(forms.ModelForm):
             special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
                 raise forms.ValidationError("Invalid State Name")
-            if not any(char in special_characters for char in name):
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid State Name")
             return name
 
@@ -121,7 +121,7 @@ class CommunityPartnerForm(forms.ModelForm):
             special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
                 raise forms.ValidationError("Invalid City Name")
-            if not any(char in special_characters for char in name):
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid City Name")
             return name
 
@@ -159,7 +159,7 @@ class CommunityContactForm(forms.ModelForm):
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have digits")
-        if not any(char in special_characters for char in firstname):
+        if any(char in special_characters for char in firstname):
             raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
@@ -168,7 +168,7 @@ class CommunityContactForm(forms.ModelForm):
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have digits")
-        if not any(char in special_characters for char in lastname):
+        if any(char in special_characters for char in lastname):
             raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 

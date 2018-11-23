@@ -74,11 +74,17 @@ class ProjectForm2(ModelForm):
 
 
 class ProjectFormAdd(ModelForm):
+    address_line1= forms.CharField(required=True)
+    country = forms.CharField(required=True)
+    city = forms.CharField(required=True)
+    state = forms.CharField(required=True)
+    zip = forms.IntegerField(required=True)
+
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
-                    'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
+                    'status','total_economic_impact', 'address_line1'  ,'country' ,'city', 'state','zip','latitude',
                     'longitude','academic_year')
         widgets = {
             'start_date': DateInput(),
@@ -167,6 +173,10 @@ class ProjectSearchForm(forms.ModelForm):
 
 
 class CourseForm(forms.ModelForm):
+    name = forms.CharField(required=False)
+    prefix = forms.CharField(required=False)
+    number = forms.CharField(required=False)
+
     class Meta:
         model = Course
         fields = ('name','prefix', 'number')

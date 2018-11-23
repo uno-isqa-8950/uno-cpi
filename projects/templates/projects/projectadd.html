@@ -269,36 +269,36 @@ $(document).on('click', '.remove-form3-row', function(e){
 });
 
 </script>
-{#<script>#}
-{#    $(function(){#}
-{#        function hideInputs() {#}
-{#            $("label.control-label[for=id_name], input#id_name").hide();#}
-{#            $("#id_id_name").hide();#}
-{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
-{#            $("#id_prefix").hide();#}
-{#            $("label.control-label[for=id_number], input#id_number").hide();#}
-{#            $("#id_number").hide();#}
-{##}
-{#            console.log('label.control-label[for=id_name], input#id_name');#}
-{#            }#}
-{#        $("#id_engagement_type").on('change', function(){#}
-{#            var val = $("#id_engagement_type").val();#}
-{#            if (val === '3') {#}
-{#               $("#id_name").show();#}
-{#               $("label.control-label[for=id_name], input#id_name").show();#}
-{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
-{#            $("#id_prefix").show();#}
-{#            $("label.control-label[for=id_number], input#id_number").show();#}
-{#            $("#id_number").show();#}
-{##}
-{#            }#}
-{#            else {#}
-{#                hideInputs();#}
-{#            }#}
-{#        });#}
-{#        hideInputs();#}
-{#    });#}
-{#</script>#}
+<script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_name], input#id_name").hide();
+            $("#id_id_name").hide();
+            $("label.control-label[for=id_prefix], input#id_prefix").hide();
+            $("#id_prefix").hide();
+            $("label.control-label[for=id_number], input#id_number").hide();
+            $("#id_number").hide();
+
+            console.log('label.control-label[for=id_name], input#id_name');
+            }
+        $("#id_engagement_type").on('change', function(){
+            var val = $("#id_engagement_type").val();
+            if (val === '3') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
 {% endblock %}
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>

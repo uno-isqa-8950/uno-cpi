@@ -237,9 +237,15 @@ def project_total_Add(request):
             #and formset2.is_valid()
             ##Convert address to cordinates and save the legislatve district and household income
             proj= project.save()
-            course = course.save(commit=False)
-            course.project_name = proj
-            course.save()
+            ##Project name append
+
+            proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            print(proj.project_name)
+            if (proj.engagement_type == "Service Learning"):
+                course = course.save(commit=False)
+                course.project_name = proj
+                course.save()
+
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
 
@@ -247,8 +253,21 @@ def project_total_Add(request):
                 geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
                 proj.latitude = geocode_result[0]['geometry']['location']['lat']
                 proj.longitude = geocode_result[0]['geometry']['location']['lng']
-                proj.save()
+                #### checking lat and long are incorrect
+                if (proj.latitude == '0') or (proj.longitude == '0'):
+                    project = ProjectFormAdd()
+                    course = CourseForm()
+                    formset = mission_details(queryset=ProjectMission.objects.none())
+                    # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
+                    formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
+                    print('hello')
+                return render(request, 'projects/projectadd.html',
+                              {'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
+
+
+            proj.save()
             coord = Point([proj.longitude, proj.latitude])
+
             for i in range(len(district)):  # iterate through a list of district polygons
                 property = district[i]
                 polygon = shape(property['geometry'])  # get the polygons

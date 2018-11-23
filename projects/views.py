@@ -316,7 +316,7 @@ def project_total_Add(request):
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                         'activityType': x.activity_type,
-                        'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
+                        'facilitator': x.facilitator, 'semester': x.semester,'academic_year': x.academic_year, 'status': x.status,'description':x.description,
                         'startDate': x.start_date,
                         'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
                         'total_uno_hours': x.total_uno_hours,
@@ -340,7 +340,7 @@ def project_total_Add(request):
 @login_required()
 @campuspartner_required()
 def project_edit_new(request,pk):
-
+    # a = get_object_or_404(Project, id=pk)
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=ProjectCommunityPartnerForm2)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=ProjectCampusPartnerForm)
@@ -349,8 +349,8 @@ def project_edit_new(request,pk):
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
-            course = CourseForm(request.POST or None, instance=x)
-            #print("in for loop")
+
+        course = CourseForm(request.POST or None, instance= x)
         formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
@@ -404,7 +404,7 @@ def project_edit_new(request,pk):
 
                         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                                 'activityType': x.activity_type,
-                                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
+                                'facilitator': x.facilitator, 'semester': x.semester,'academic_year': x.academic_year, 'status': x.status,'description':x.description,
                                 'startDate': x.start_date,
                                 'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
                                 'total_uno_hours': x.total_uno_hours,
@@ -414,6 +414,8 @@ def project_edit_new(request,pk):
                                 'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
                                 'camp_part': list_camp_part_names,
 
+
+
                                 }
 
                         projects_list.append(data)
@@ -422,21 +424,25 @@ def project_edit_new(request,pk):
 
                 return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
-        else:
+    else:
             #print(" Project_edit_new else")
             proj_edit = Project.objects.filter(id=pk)
+
             for x in proj_edit:
                 project = ProjectForm2(request.POST or None, instance=x)
-                course = CourseForm(request.POST or None , instance=x)
-                print(course)
+
+
+            coursedetail = Course.objects.filter(project_name_id=pk)
+            course = CourseForm(instance = x)
+            print(course)
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
+            # course_details = course(instance= x)
             formset_missiondetails = mission_edit_details(instance=x)
             formset_comm_details = proj_comm_part_edit(instance=x)
             formset_camp_details = proj_campus_part_edit(instance=x)
-            print("in else project_edit 7777777")
-            return render(request,'projects/projectedit.html',{'project': project, 'course' : course,
+            return render(request,'projects/projectedit.html',{'project': project, 'course' : course ,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details})

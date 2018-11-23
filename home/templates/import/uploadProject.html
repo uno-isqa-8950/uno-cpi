@@ -4,59 +4,12 @@
 <style>
 /* Style the buttons */
 
-@media (min-width: 700px)
-{
-    .panel {
-        width: 600px;
-        margin-left: auto;
-        margin-right: auto;
-        height: relative;
-            }
-
-    .btn-custom
-        {
-        margin-left:120px;
-        }
-    .form-control
-        {
-        width:90%;
-        }
-}
-
 @media (max-width: 600px)
 {
-h4
+.btn-primary
 {
-    font-size:1.3em;
+margin-top:10px;
 }
-
-.btn-custom
-{
-    margin-left:-10px;
-}
-}
-
-.position
-{
-    margin-top:20px;
-    text-align: center;
-}
-
-#position1
-{
-margin-left:1085px;
-margin-right: auto;
-}
-
-label, #heading
-{
- margin-top: 15px;
- margin-left: 10px;
- }
-
-input[type=file]
-{
-    padding:0px;
 }
 
 
@@ -77,54 +30,60 @@ input[type=file]
 
 
 <div class="container">
-
-
-<div class="">
-    <div class="position"><h2> Upload Projects</h2></div>
-
-<form id='upload_form' action="{% url 'upload_project' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
-{% csrf_token %}
-    <div class="panel panel-default">
-        <div class="panel-heading" ><h4 id="heading">Select CSV file for Import:</h4></div>
-
-    <div class="panel-body">
-
-      <label for="id_field">Choose File Type:</label>
-        <select onchange="location = this.options[this.selectedIndex].value;">
-            <option>Please select</option>
-            <option value="{% url 'upload_campus' %}">Campus</option>
-            <option value="{% url 'upload_community' %}">Community</option>
-            <option value="{% url 'upload_project' %}" selected="selected">Project</option>
-            <option value="{% url 'upload_income' %}">Household Income</option>
-        </select>​
-    <div class="form-group">
-        <label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label>
-        <div class="col-md-12">
-            <input type="file" accept=".csv" name="csv_file" id="csv_file" required="True" class="form-control">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
+                <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Upload: Project</h4></b></label>
+            </div>
         </div>
     </div>
+<!--/div-->
 
-    <div class="form-group">
-        <div class="col-md-3 col-sm-3 col-xs-12 col-md-offset-3" style="margin-bottom:10px;">
-             <button class="btn btn-custom"> <span class="glyphicon glyphicon-upload" style="margin-right:5px; align-content: center " ></span>Upload </button><br><br><br>
-        </div>
+<!--div class="container"-->
+    <div class="card" style="margin-top:10px;padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
+            <form id='upload_form' action="{% url 'upload_project' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
+                {% csrf_token %}
+                <div class="row" style="margin-top:10px;">
+                    <div class="col-lg-2 col-md-4" style="margin-left:18px;margin-top:5px;">
+                        <label for="id_field"><b>Select CSV File:</b></label>
+                    </div>
+                        <div class="col-lg-3 col-md-5 col-sm-2">
+                            <select class="custom-select" onchange="location = this.options[this.selectedIndex].value;">
+                                <option value="#">Please select</option>
+                                <option value="{% url 'upload_campus' %}">Campus</option>
+                                <option value="{% url 'upload_community' %}">Community</option>
+                                <option value="{% url 'upload_project' %}" selected="selected">Project</option>
+                                <option value="{% url 'upload_income' %}">Household Income</option>
+                            </select>​
+                        </div>
+                </div>
+                        <!--div class="form-group"-->
+                            <!--label for= "name" class="col-md-3 col-sm-3 col-xs-12 control-label"> Choose File: </label-->
+                        <div class="row" style="margin-top:15px;margin-left:2px;">
+                            <div class="col-lg-9 col-md-9">
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="customFile" accept=".csv" name="csv_file" required="True">
+                                    <label class="custom-file-label" for="customFile">Choose file</label>
+                                </div>
+                            </div>
+                                <div class="col-lg-3 col-md-3 col-sm-3">
+                                    <button class="btn btn-primary"> <span class="glyphicon glyphicon-upload" ></span>Upload </button>
+                                </div>
+                        </div>
+                        <!--div class="form-group"-->
+                        <!--/div-->
+                    <!--/div-->
+            </form>
+
+            <div class="col-lg-3 col-md-3 col-sm-3">
+                <form action={{ download_projects_url }}  method="GET">
+                    <button class="btn btn-success"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
+                </form><br>
+            </div>
 
     </div>
-    </div>
-    </div>
-
-</form></div></div>
 </div>
-    <div id="position1">
-        <form action={{ download_projects_url }}  method="GET">
-        <button class="btn btn-success" id="button-align"> <span class="glyphicon glyphicon-download" style="margin-right:5px;"></span>Download Sample </button>
-        </form><br><br><br>
-    </div>
 
-
-    <script>
-
-	</script>
-
+<br><br><br>
 
 {% endblock %}

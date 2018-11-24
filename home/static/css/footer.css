@@ -10,8 +10,9 @@ footer {
   padding: 5px 0;
   text-align: center;
   background-color: #282828;
-  position: absolute;
   width: 100%
+  position:absolute;
+
   /*color:#999;*/
 }
 

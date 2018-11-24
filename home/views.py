@@ -240,13 +240,17 @@ def upload_community(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
+        if data_dict['address_line1'] != '':
+            full_address = data_dict['address_line1'] + ' ' + data_dict['city'] + ' ' + data_dict['state']
+            geocode_result = gmaps.geocode(full_address)
+            data_dict['latitude'] = round(geocode_result[0]['geometry']['location']['lat'], 7)
+            data_dict['longitude'] = round(geocode_result[0]['geometry']['location']['lng'], 7)
         community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
         if community_count == 0:
             form = UploadCommunityForm(data_dict)
             if form.is_valid():
                 form.save()
                 form_mission = UploadCommunityMissionForm(data_dict)
-                print(form_mission)
                 if form_mission.is_valid():
                     form_mission.save()
     return render(request, 'import/uploadCommunityDone.html')

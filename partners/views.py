@@ -80,7 +80,7 @@ def registerCommunityPartner(request):
             address = community_partner.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
 
-                fulladdress = community_partner.address_line1 + ' ' + community_partner.city
+                fulladdress = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
                 geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
                 community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
                 community_partner.longitude = geocode_result[0]['geometry']['location']['lng']

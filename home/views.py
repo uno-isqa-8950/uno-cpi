@@ -543,7 +543,7 @@ def EngagementType_Chart(request):
                  {'chart': dump,'missions_filter':missions_filter,'academicyear_filter':academicyear_filter})
 
 def countyGEO():
-    with open('home/static/GEOJSON/NEcounties2.geojson') as f:
+    with open('home/static/GEOJSON/USCounties_final.geojson') as f:
         geojson1 = json.load(f)
 
     county = geojson1["features"]
@@ -557,26 +557,24 @@ def districtGEO():
     district = geojson["features"]
     return district
 
-######## export data to Javascript (Testing) ################################
-def countyData(request):
-
+def GEOJSON():
     countyData = countyGEO()
     district = districtGEO()
-
     commPartners = CommunityPartner.objects.filter() #get all the community partners
 
     collection = {'type': 'FeatureCollection', 'features': []} #create the shell of GEOJSON
     Missionlist = [] ## a placeholder array of unique mission areas
     CommTypelist = [] ## a placeholder array of unique community type
+    CampusPartnerlist = []
     for commPartner in commPartners: #iterate through all community partners
         #prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
                                                      'Website': '', 'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'CommunityType': ''},
+                                                     'CommunityType': '', 'Campus Partner':''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (commPartner.address_line1 != "N/A"): #check if a community partner's address is there
-            fulladdress = commPartner.address_line1 + ' ' + commPartner.city
+            fulladdress = commPartner.address_line1 + ' ' + commPartner.city + ' ' + commPartner.state
             geocode_result = gmaps.geocode(fulladdress) #get the coordinates
             commPartner.latitude = geocode_result[0]['geometry']['location']['lat']
             commPartner.longitude = geocode_result[0]['geometry']['location']['lng']
@@ -591,7 +589,7 @@ def countyData(request):
                 polygon = shape(property['geometry'])  #get the polygons
                 if polygon.contains(coord):         #check if a partner is in a polygon
                     commPartner.legislative_district = property["id"] #assign the district number to a partner
-            commPartner.income = 0          #placeholder value of the income
+            commPartner.median_household_income = 0          #placeholder value of the income
 
             ### get the county name and household income ###
             for m in range(len(countyData)): #iterate through the County Geojson
@@ -614,23 +612,64 @@ def countyData(request):
             ### get the mission area######
             community_qs = CommunityPartnerMission.objects.filter(community_partner__id=commPartner.id)
             community_mission = [c.mission_area for c in community_qs]
-
+            project_ids = ProjectCommunityPartner.objects.filter(community_partner_id=commPartner.id)
+            project_id_list = [p.project_name_id for p in project_ids]
+            campus_ids = ProjectCampusPartner.objects.filter(project_name_id__in=project_id_list)
+            campus_id_list = [str(c.campus_partner) for c in campus_ids]
             try:
                 feature['properties']['Mission Area'] = str(community_mission[0])
                 if (str(community_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     Missionlist.append(str(community_mission[0]))   #add
                 feature['properties']['CommunityType'] = str(commPartner.community_type)
+                if campus_id_list:
+                    feature['properties']['Campus Partner'] = list(set(campus_id_list))
+                    CampusPartnerlist.append(list(set(campus_id_list)))
                 if (str(commPartner.community_type) not in CommTypelist): #check if the community type is already recorded
                     CommTypelist.append(str(commPartner.community_type)) #add
             except:
                 print("No mission")
             collection['features'].append(feature)  #create the geojson
-    #jsonstring = pd.io.json.dumps(collection)
-    json_data = open('home/static/GEOJSON/NECounties2.geojson')
+
+    return (collection, Missionlist, CommTypelist, CampusPartnerlist)
+
+######## export data to Javascript for Household map ################################
+def countyData(request):
+    Campuspartner = GEOJSON()[3]
+    print(Campuspartner)
+    # Campuspartner = set(Campuspartner[0])
+    # Campuspartner = list(Campuspartner)
+    json_data = open('home/static/GEOJSON/USCounties_final.geojson')
     county = json.load(json_data)
+
     return render(request, 'home/Countymap.html',
-                  {'countyData': county, 'collection': collection,
-                   'Missionlist': sorted(Missionlist),
-                   'CommTypeList': sorted(CommTypelist) #pass the array of unique mission areas and community types
+                  {'countyData': county, 'collection': GEOJSON()[0],
+                   'Missionlist': sorted(GEOJSON()[1]),
+                   'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
+                   'Campuspartner': sorted(Campuspartner)
+                   }
+                  )
+
+def partnerdata(request):
+    Campuspartner = GEOJSON()[3]
+    print(Campuspartner)
+
+    return render(request, 'home/homepage.html',
+                  {'collection': GEOJSON()[0],
+                   'Missionlist': sorted(GEOJSON()[1]),
+                   'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
+                   'Campuspartner': sorted(Campuspartner)
+                   }
+                  )
+
+def districtdata(request):
+    Campuspartner = GEOJSON()[3]
+    print(Campuspartner)
+    json_data = open('home/static/GEOJSON/ID2.geojson')
+    district = json.load(json_data)
+    return render(request, 'home/Districtmap.html',
+                  {'districtData': district, 'collection': GEOJSON()[0],
+                   'Missionlist': sorted(GEOJSON()[1]),
+                   'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
+                   'Campuspartner': sorted(Campuspartner)
                    }
                   )

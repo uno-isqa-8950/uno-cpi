@@ -1,3 +1,5 @@
-from django.test import TestCase
+def prepared():
+    return (0,1,2)
 
-# Create your tests here.
+test = ["Kimi", "Seb", "Nando", "Kimi"]
+print(set(test))

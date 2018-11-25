@@ -641,3 +641,55 @@ def countyData(request):
                    'CommTypeList': sorted(CommTypelist) #pass the array of unique mission areas and community types
                    }
                   )
+
+def projectData(request):
+
+    countyData = countyGEO()
+    district = districtGEO()
+
+    projects = Project.objects.filter() #get all the projects
+
+    collection = {'type': 'FeatureCollection', 'features': []} #create the shell of GEOJSON
+    Missionlist = [] ## a placeholder array of unique mission areas
+    # CommTypelist = [] ## a placeholder array of unique community type
+    for project in projects: #iterate through all projects
+        #prepare the shell of the features key inside the GEOJSON
+        feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '','Engagement Type': '',
+                                                      'Legislative District Number': '',
+                                                     'Income': '', 'County': '', 'Mission Area': '',
+                                                     },
+                   'geometry': {'type': 'Point', 'coordinates': []}}
+        if (project.address_line1 != "N/A"): #check if a project address is there
+                    #missionarea = CommunityPartnerMission.objects.filter(community_partner_id=commPartner.id).filter()
+            #missionarea = missionarea.mission_type
+            fulladdress = project.address_line1 + ' ' + project.city
+            ### set the value for the feature variable  ######
+            feature['geometry']['coordinates'] = [project.longitude, project.latitude]
+            feature['properties']['Project Name'] = project.project_name
+            feature['properties']['Address'] = fulladdress
+            feature['properties']['Engagement Type'] = project.engagement_type
+            feature['properties']['Activity Type'] = project.activity_type
+            feature['properties']['Academic year'] = project.academic_year__id
+            feature['properties']['Legislative District Number'] = project.legislative_district
+            feature['properties']['Income'] = project.median_household_income
+            feature['properties']['County'] = project.county
+            ### get the mission area######
+            project_qs = ProjectMission.objects.filter(project_name__id=project.id)
+            project_mission = [p.mission_area for p in project_qs]
+
+            try:
+                feature['properties']['Mission Area'] = str(project_mission[0])
+                if (str(project_mission[0]) not in Missionlist):  #check if the mission area is already recorded
+                    Missionlist.append(str(project_mission[0]))   #add
+
+            except:
+                print("No mission")
+            collection['features'].append(feature)  #create the geojson
+    #jsonstring = pd.io.json.dumps(collection)
+    json_data = open('home/static/GEOJSON/NECounties2.geojson')
+    county = json.load(json_data)
+    return render(request, 'home/projectmap.html',
+                  {'countyData': county,'collection': collection,
+                   'Missionlist': sorted(Missionlist),
+                      }
+                  )

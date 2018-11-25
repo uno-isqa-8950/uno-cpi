@@ -1,29 +1,12 @@
 {% extends 'home/Dashboard_Extension.html' %}
 {% load staticfiles %}
 {% block content %}
-<!--html lang="en">
-<head>
-  <title>Community Partnership Initiative</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
 
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script-->
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />
 <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-<!--link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css"-->
 
 
 
@@ -290,6 +273,22 @@ $(document).ready(function(){
 
 
 	<div class="wrapper">
+        <div id="content">
+
+                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                    <span></span>
+                </button>
+
+                <div id='map' class='map'>
+                    {{ countyData | json_script:"county-data"}}
+                    <h3 id="overlay-header">Maps: Household Income</h3>
+                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
+                    {{ collection | json_script:"project-data"}}
+                    {{ Missionlist | json_script:"missionlist"}}
+
+                </div>
+
+            </div>
         <nav id="sidebar">
 
         <div id='state-legend' class='legend'>

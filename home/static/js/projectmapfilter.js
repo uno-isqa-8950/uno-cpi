@@ -1,4 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibWluaGR1b25nMjQzIiwiYSI6ImNqbHNvM3l0cTAxaXMzcHBiYnpvNjBsaXAifQ.NO598_UKYbyOIok45baiWA'
+var colorcode = ['#17f3d1','#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00']
+var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
+var projectData = JSON.parse(document.getElementById('project-data').textContent); //load the variable from views.py. See the line from html first
 
 var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts
 var names = [];
@@ -11,17 +14,27 @@ var map = new mapboxgl.Map({
     // initial zoom
     zoom: 6
 });
+
+
 map.addControl(new mapboxgl.NavigationControl());
+var countyData = JSON.parse(document.getElementById('county-data').textContent);
+
+
+var popup = new mapboxgl.Popup({
+    closeButton: true,
+    closeOnClick: true,
+});
+
 var formatter = new Intl.NumberFormat('en-US', {
   style: 'currency',
   currency: 'USD',
   minimumFractionDigits: 2,
 });
-var popup;
-popup = new mapboxgl.Popup({
-    closeButton: true,
-    closeOnClick: true
-});
+// var popup;
+// popup = new mapboxgl.Popup({
+//     closeButton: true,
+//     closeOnClick: true
+// });
 
 function parseDescription(message) {
     var string = ""
@@ -63,24 +76,110 @@ function parseDescription(message) {
 
 ///****************Load data*************************//
 
-var districtData = "";
-var projectData = "";
-$.get("static/GEOJSON/ID2.geojson", function(data) { //load JSON file from static/GEOJSON
-    districtData = jQuery.parseJSON(data);
-});
-$.get("static/GEOJSON/Projects_new.geojson", function(data) { //load JSON file from static/GEOJSON
-    projectData = jQuery.parseJSON(data);
-    var features = projectData["features"];
-    var count = 0;
-    features.forEach(function(feature) {
-        feature.properties["id"] = count;
-        count++;
-    });
-    projectData["features"] = features;
-});
+map.on("load",function() {
 
+    map.addSource('projectData', {
+        type: 'geojson',
+        data: projectData,
+    });
+    map.addSource('countyData', {
+            type: 'geojson',
+            data: countyData,
+    });
+    map.addLayer({
+            "id": "county",
+            "type": "fill",
+            "source": "countyData",
+            'paint': {
+                "fill-color": "#888",
+                "fill-opacity": ["case",
+                    ["boolean", ["feature-state", "hover"], false],
+                    1,
+                    0.3
+                ],
+                "fill-outline-color": "#0000AA"
+            }
+    });
+    projectData.features.forEach(function(feature) {
+        var primary = feature.properties["Mission Area"];
+
+        var base = "show"
+        for (var i = 0; i < Missionarea.length; i++) {
+            if (primary == Missionarea[i]) {
+                layerID = base + (i + 1);
+                if (!map.getLayer(layerID)) {
+                    map.addLayer({
+                        "id": layerID,
+                        "type": "circle",
+                        "source": "communityData",
+                        "paint": {
+                            "circle-radius": 8,
+                            "circle-opacity": 1,
+                            "circle-color": colorcode[i],
+                        },
+                        "filter": ["all",["==", "Mission Area", primary]]
+                    })
+                }
+            }
+        }
+    });
+    map.on("click", "show2", function (e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show3", function (e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show4", function (e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show5", function (e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show6", function (e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
 //Get style
-map.on("load", function() {
+// map.on("load", function() {
 /*
     //Get Legislative District Data
     map.addSource('districtData', {

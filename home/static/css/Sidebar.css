@@ -53,12 +53,13 @@ p {
 ----------------------------------------------------- */
 #sidebar {
     width: 250px;
-    position: fixed;
-    top: 78px;
-    left: 0px;
-    height: 100vh;
+    position: absolute;
+    top: 98px;
+    left: -250px;
+    height: calc(100vh - 120px);
+    border-radius:4px;
     z-index: 999;
-    background: #282828;
+    background: #636568;
     color: White;
     transition: all 0.3s;
     border-right: 1px solid #ddd;
@@ -66,9 +67,8 @@ p {
 }
 
 #sidebar.active {
-    margin-left: -250px;
-    position: fixed;
-    }
+    left: 0px;
+        }
 
 #sidebar .sidebar-header {
     padding: 20px;
@@ -154,17 +154,23 @@ a.article, a.article:hover {
 #content {
     width: 100%;
     padding: 0;
-    min-height: 100vh;
+    min-height: calc(100% - 150px);
     transition: all 0.3s;
     position: absolute;
     top: 0;
     right: 0;
 }
 
+#content.active
+    {
+    width: calc(100% - 250px);
+    }
+
+
 /* ---------------------------------------------------
     MEDIAQUERIES
 ----------------------------------------------------- */
-/*@media (max-width: 768px) {
+@media (max-width: 768px) {
     #sidebar {
         margin-left: -250px;
     }

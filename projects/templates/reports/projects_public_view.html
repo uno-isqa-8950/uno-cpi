@@ -80,6 +80,7 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_semester"> Academic Year : </label>
                 <select class="form-control" id="id_semester" name="semester" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for sem in filter.form.academic_year %}
                         {{sem}}
                     {% endfor %}
@@ -88,6 +89,7 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_mission"> Mission Area : </label>
                 <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for mission in missions.form.mission %}
                         {{mission}}
                     {% endfor %}

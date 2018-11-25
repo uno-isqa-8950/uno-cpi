@@ -10,8 +10,8 @@
     .btn-custom1
         {
         position:absolute;
-        top:110px;
-        left:255px;
+        top:130px;
+        left:40px;
         border-color: #282828;
         background-color: #e22626;
         color:White;
@@ -49,11 +49,20 @@
         color:#fff;
     }
 
+    .mapboxgl-map:-webkit-full-screen
+    {
+          width: 100%;
+          height: calc(100vh -200px);
+          margin: 0px 0 0 0;
+
+    }
+
+
     .map {
           position: relative;
           width: 100%;
-          height: calc(100vh - 78px);
-          margin: 78px 0 0 0;
+          height: calc(100vh - 200px);
+          margin: 0px 0 0 0;
         }
 
 
@@ -139,7 +148,7 @@
 
 	.legend {
 		    margin-top:20px;
-			background-color: #282828;
+			background-color: #636568;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -196,32 +205,7 @@
 			height: 70px;
 		}
 
-   /* .sidebar {
-            position: absolute;
-			top: 200px;
-			right: 15px;
-			width: 18%;
-            height: 120px;
-        }
 
-    .sidebar fieldset {
-            background: #ddd;
-            border: none;
-            padding: 3px;
-            margin: 0;
-            width: 100%;
-            height: 50px;
-	    }
-
-    .sidebar input {
-            border: 2px solid #aaa;
-            display: block;
-            width: 85%;
-            border-radius: 3px;
-            padding: 10px;
-            height: 35px;
-            margin-right: 0px;
-	    }*/
 
     .heading {
           background: #fff;
@@ -312,21 +296,6 @@
 </style>
 
 <div class="wrapper">
-    <div id="content">
-
-        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
-                    <span></span>
-                </button>
-
-        <div id='map' class='map'>
-            {{ countyData | json_script:"county-data"}}
-            <h3 id="overlay-header">Maps: Household Income</h3>
-            <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
-            {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}} {{ Campuspartner | json_script:"campusPartner-list"}}
-        </div>
-
-    </div>
-
     <nav id="sidebar">
 
         <div id='state-legend' class='legend'>
@@ -358,6 +327,70 @@
 
     </nav>
 
+    <div id="content">
+                <div class = "container-fluid" style="margin-top:78px;">
+                    <div class="row justify-content-md-center">
+                        <div class="col-xl-12 col-md-12 col-sm-12">
+                            <div>
+                                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                                    <span></span>
+                                </button>
+                            </div>
+                            <div class="card" style="padding: 10px;margin-top:20px;background-color:#636568;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                                <div class="row">
+                                    <div class="col-lg-3" style="border-right: 1px solid grey;">
+                                        <div style="box-sizing: border-box;padding:5px;background-color:#434548;">
+                                            <label>Maps: Household Income</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-9">
+                                        <div style="box-sizing: border-box; padding:5px;">
+                                            <label>Unique Community Partners: <b>256</b></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+		                <div class="col-xl-12 col-md-12 col-sm-12">
+                            <div class="card" style="margin-top:5px;box-shadow: 2px 8px 8px 2px grey;">
+                                <div id='map' class='map'>
+                                    {{ countyData | json_script:"county-data"}}
+                                        <!--h3 id="overlay-header">Maps: Household Income</h3>
+                                        <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
+                                        {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}} {{ Campuspartner | json_script:"campusPartner-list"}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>&emsp;
+<footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3" style="margin-top:8px;">
+            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
+               <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          </div>
+          <div class="col-md-6">
+            <ul class="footertext">
+                UNO is an AA/EEO /ADA institution. For questions, accommodations or assistance
+please call/contact ADA/504 coordinator (phone: 402.554.3490 or TTY
+402.554.2978) or the director of Accessibility Services Center (phone:
+402.554.2872). The University of Nebraska does not discriminate based on race,
+color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity,
+religion, disability, age, genetic information, veteran status, marital status, and/or
+political affiliation in its programs, activities, or employment.
+            </ul>
+          </div>
+          <div class="col-md-3">
+              <ul class="imgadjust">
+                <img src="{% static 'img/UNOFooter1.png' %}">
+              </ul>
+          </div>
+        </div>
+      </div>
+</footer>
+
+    </div>
 </div>
 
 <!--<div class='filter-ctrl'>-->

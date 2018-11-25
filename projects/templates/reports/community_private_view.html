@@ -48,6 +48,7 @@ margin-left:22px
             <div class="col-md-4 form-group">
                 <label for="id_semester"> Academic Year  : </label>
                 <select class="form-control" id="id_semester" name="semester" onchange="this.form.submit()">
+
                     {% for sem in projects.form.academic_year %}
                         {{sem}}
                     {% endfor %}

@@ -75,6 +75,8 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_semester"> Academic Year  : </label>
                 <select class="form-control" id="id_semester" name="semester" onchange="this.form.submit()">
+                                          <option> All </option>
+
                     {% for sem in projects.form.academic_year %}
                         {{sem}}
                     {% endfor %}
@@ -83,6 +85,8 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_mission"> Mission Area : </label>
                 <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                                      <option> All </option>
+
                     {% for mission in missions.form.mission %}
                         {{mission}}
                     {% endfor %}
@@ -91,6 +95,8 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_weitz_cec_part"> CEC Partner : </label>
                 <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                                      <option> All </option>
+
                     {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                         {{weitz_cec_part}}
                     {% endfor %}

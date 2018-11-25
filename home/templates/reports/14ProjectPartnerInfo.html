@@ -79,6 +79,8 @@
                             <div class="col-lg-3 col-md-5 form-group">
                                 <label for="id_engagement_type"> Engagement Type: </label>
                                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                                                          <option> All </option>
+
                                         {% for engagement in project_filter.form.engagement_type %}
                                             {{engagement}}
                                         {% endfor %}
@@ -89,6 +91,8 @@
                         <div class="col-lg-3 col-md-5 form-group">
                             <label for="academic_year"> Academic Year: </label>
                                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                                                          <option> All </option>
+
                                         {% for sem in project_filter.form.academic_year %}
                                             {{sem}}
                                         {% endfor %}
@@ -100,6 +104,8 @@
                             <label for="campus_partner"> Campus Partner: </label>
 
                                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                                                          <option> All </option>
+
                                         {% for campus in campus_filter.form.campus_partner %}
                                             {{campus}}
                                         {% endfor %}

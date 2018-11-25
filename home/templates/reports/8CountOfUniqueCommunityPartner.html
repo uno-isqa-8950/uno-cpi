@@ -96,6 +96,8 @@ $(document).ready(function(){
             <div class="col-md-4 form-group">
             <label for="id_mission"> Mission Area: </label>
                 <select id="id_mission" name="mission" onchange="this.form.submit()">
+                    <option> All </option>
+
                     {% for mission in missions_filter.form.mission %}
                         {{mission}}
                     {% endfor %}
@@ -104,6 +106,8 @@ $(document).ready(function(){
             <div class="col-md-3 form-group">
                 <label for="id_academic_year"> Academic Year: </label>
                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                        <option> All </option>
+
                         {% for sem in year_filter.form.academic_year %}
                             {{sem}}
                         {% endfor %}
@@ -112,6 +116,7 @@ $(document).ready(function(){
            <div class="col-md-3 form-group">
                    <label for="id_campus_partner"> Campus Partner: </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for campus in campus_filter.form.campus_partner %}
                         {{campus}}
                     {% endfor %}

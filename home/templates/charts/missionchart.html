@@ -62,6 +62,7 @@ $(document).ready(function(){
 
           &emsp;
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                                                                 <option> All </option>
                 {% for engagement in project_filter.form.engagement_type %}
                     {{engagement}}
                 {% endfor %}
@@ -70,7 +71,8 @@ $(document).ready(function(){
         <div class="col-md-6 form-group">
             <label for="id_semester"> Academic Year : </label>
             <select id="id_semester" name="Academic year" onchange="this.form.submit()">
-                {% for sem in year_filter.form.academic_year%}
+                                                 <option> All </option>
+                           {% for sem in year_filter.form.academic_year%}
                     {{sem}}
                 {% endfor %}
 

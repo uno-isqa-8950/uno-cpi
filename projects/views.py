@@ -600,16 +600,11 @@ def communityPublicReport(request):
 @login_required()
 def projectsPrivateReport(request):
 
-    campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-    campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
-    projectsCampus = ProjectCampusPartner.objects.select_related('project_name').filter(campus_partner=campus_partner.id)
-    project_ids = [p.id for p in projectsCampus]
-    projects = ProjectFilter(request.GET, queryset=Project.objects.filter(id__in=project_ids))
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     projectsData = []
 
     for mission in missions.qs:
-        print (mission.project_name)
         for project in projects.qs:
             if str(mission.project_name) == str(project.project_name):
                 data = {}
@@ -618,9 +613,44 @@ def projectsPrivateReport(request):
                 data['total_UNO_students'] = project.total_uno_students
                 data['total_hours'] = project.total_uno_hours
                 data['economic_impact'] = project.total_economic_impact
-                projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
-                data['campusPartner'] = projectCampus.campus_partner
+                try:
+                    projectCommunity = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                    data['communityPartner'] = ""
+                    for comu in projectCommunity:
+                        if data['communityPartner'] == "":
+                            data['communityPartner'] = comu.community_partner
+                        else:
+                           data['communityPartner'] = data['communityPartner'] + ", " + comu.community_partner
+                except ProjectCommunityPartner.DoesNotExist:
+                    data['communityPartner'] = ""
+        
+                try:
+                    projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
+                    data['campusPartner'] = projectCampus.campus_partner
+                except ProjectCampusPartner.DoesNotExist:
+                    data['campusPartner'] = ""
                 projectsData.append(data)
+
+    # campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+    # campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
+    # projectsCampus = ProjectCampusPartner.objects.select_related('project_name').filter(campus_partner=campus_partner.id)
+    # project_ids = [p.id for p in projectsCampus]
+    # projects = ProjectFilter(request.GET, queryset=Project.objects.filter(id__in=project_ids))
+    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    # projectsData = []
+
+    # for mission in missions.qs:
+    #     for project in projects.qs:
+    #         if str(mission.project_name) == str(project.project_name):
+    #             data = {}
+    #             data['projectName'] = project.project_name
+    #             data['engagementType'] = project.engagement_type
+    #             data['total_UNO_students'] = project.total_uno_students
+    #             data['total_hours'] = project.total_uno_hours
+    #             data['economic_impact'] = project.total_economic_impact
+    #             projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
+    #             data['campusPartner'] = projectCampus.campus_partner
+    #             projectsData.append(data)
 
     return render(request, 'reports/projects_private_view.html',
                    {'filter': projects, 'projectsData': projectsData, "missions": missions})
@@ -628,25 +658,14 @@ def projectsPrivateReport(request):
 @login_required()
 def communityPrivateReport(request):
 
-    campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-    campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
-    projectsCampus = ProjectCampusPartner.objects.select_related('project_name').filter(campus_partner=campus_partner.id)
-    project_names = [p.id for p in projectsCampus]
-
-    projectsCommunity = ProjectCommunityPartner.objects.filter(project_name__in=project_names)
-    project_names = [p.project_name for p in projectsCommunity]
-    communtiy_names= [p.community_partner for p in projectsCommunity]
-    
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(name__in=communtiy_names))
-    projects = ProjectFilter(request.GET, queryset=Project.objects.filter(project_name__in=project_names))
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     communityData = []
 
     for partner in communityPartners.qs:
-        print ("partner", partner, partner.id)
         data={}
-        count = 0
-        data['communityPartnerName'] = partner.name
+        data["name"] = partner.name
         data['website'] = partner.website_url
         try:
             contact = Contact.objects.get(community_partner=partner.id, contact_type='Primary')
@@ -663,26 +682,82 @@ def communityPrivateReport(request):
             data['lastName'] = ""
             data['cellPhone'] = ""
             data['email'] = ""
-        for project in projectsCommunity:
-            if str(partner.name) == str(project.community_partner):
-                for i in projects.qs:
-                    if str(i.project_name) == str(project.project_name):
-                        count +=1
-                        projectMissions = ProjectMission.objects.filter(project_name=i)
-                        for mission in projectMissions:
-                            if mission in missions.qs:
-                                data["mission"] = "exists"
-                        if "total_hours" in data:
-                            data['total_UNO_students'] = int(data['total_UNO_students']) + int(i.total_uno_students)
-                            data['total_hours'] = int(data['total_hours']) + int(i.total_uno_hours)
-                            data['economic_impact'] = Decimal(data['economic_impact']) + Decimal(i.total_economic_impact)
-                        else:
-                            data['total_UNO_students'] = int(i.total_uno_students)
-                            data['total_hours'] = int(i.total_uno_hours)
-                            data['economic_impact'] = Decimal(i.total_economic_impact)
-        if "total_hours" and "mission" in data:
-            data['communityProjects'] = count
-            communityData.append(data)
+        communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
+        count = 0
+        for cproject in communityProjects:
+            project = cproject.project_name
+            projectMissions = ProjectMission.objects.filter(project_name=project)
+            if project in projects.qs:
+                if "total_hours" in data:
+                    data['total_UNO_students'] = int(data['total_UNO_students']) + int(project.total_uno_students)
+                    data['total_hours'] = int(data['total_hours']) + int(project.total_uno_hours)
+                    data['economic_impact'] = Decimal(data['economic_impact']) + Decimal(project.total_economic_impact)
+                else:
+                    data['total_UNO_students'] = int(project.total_uno_students)
+                    data['total_hours'] = int(project.total_uno_hours)
+                    data['economic_impact'] = Decimal(project.total_economic_impact)
+                count +=1
+            for mission in projectMissions:
+                if mission in missions.qs and count == 0:
+                    count +=1
+        data['communityProjects'] = count
+        communityData.append(data)
+
+    # campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+    # campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
+    # projectsCampus = ProjectCampusPartner.objects.select_related('project_name').filter(campus_partner=campus_partner.id)
+    # project_names = [p.id for p in projectsCampus]
+
+    # projectsCommunity = ProjectCommunityPartner.objects.filter(project_name__in=project_names)
+    # project_names = [p.project_name for p in projectsCommunity]
+    # communtiy_names= [p.community_partner for p in projectsCommunity]
+    
+    # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(name__in=communtiy_names))
+    # projects = ProjectFilter(request.GET, queryset=Project.objects.filter(project_name__in=project_names))
+    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    # communityData = []
+
+    # for partner in communityPartners.qs:
+    #     print ("partner", partner, partner.id)
+    #     data={}
+    #     count = 0
+    #     data['communityPartnerName'] = partner.name
+    #     data['website'] = partner.website_url
+    #     try:
+    #         contact = Contact.objects.get(community_partner=partner.id, contact_type='Primary')
+    #     except Contact.DoesNotExist:
+    #         contact = None
+        
+    #     if contact:
+    #         data['firstName'] = contact.first_name
+    #         data['lastName'] = contact.last_name
+    #         data['cellPhone'] = contact.cell_phone
+    #         data['email'] = contact.email_id
+    #     else:
+    #         data['firstName'] = ""
+    #         data['lastName'] = ""
+    #         data['cellPhone'] = ""
+    #         data['email'] = ""
+    #     for project in projectsCommunity:
+    #         if str(partner.name) == str(project.community_partner):
+    #             for i in projects.qs:
+    #                 if str(i.project_name) == str(project.project_name):
+    #                     count +=1
+    #                     projectMissions = ProjectMission.objects.filter(project_name=i)
+    #                     for mission in projectMissions:
+    #                         if mission in missions.qs:
+    #                             data["mission"] = "exists"
+    #                     if "total_hours" in data:
+    #                         data['total_UNO_students'] = int(data['total_UNO_students']) + int(i.total_uno_students)
+    #                         data['total_hours'] = int(data['total_hours']) + int(i.total_uno_hours)
+    #                         data['economic_impact'] = Decimal(data['economic_impact']) + Decimal(i.total_economic_impact)
+    #                     else:
+    #                         data['total_UNO_students'] = int(i.total_uno_students)
+    #                         data['total_hours'] = int(i.total_uno_hours)
+    #                         data['economic_impact'] = Decimal(i.total_economic_impact)
+    #     if "total_hours" and "mission" in data:
+    #         data['communityProjects'] = count
+    #         communityData.append(data)
 
     return render(request, 'reports/community_private_view.html',
                    {'communityPartners': communityPartners, "projects": projects, 

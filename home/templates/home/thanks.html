@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+{% extends "home/base_home.html" %}
+  {% block content %}
+<html lang="en">
+<head>
+
+</head>
+
+<style>
+ @media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+
+</style>
+
+<body>
+
+    <title>Message Submission</title>
+
+<div class="container">
+ <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Thank You</h4></div>
+			<div class="panel-body">
+                <p> Thank you for reaching out to us with your question, we will get back to you at the earliest.</p>&emsp;
+</div></div></div><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}
+
+</body>
+</html>

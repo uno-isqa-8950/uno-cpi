@@ -1,4 +1,4 @@
-{% extends 'home/Campus_Home.html' %}
+{% extends 'home/base_home.html' %}
 {% block content %}
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
@@ -90,6 +90,7 @@ $(document).ready(function(){
             <div class="col-md-6 form-group">
                 <label for="id_academic_year"> Academic Year : </label>
                 <select class="form-control" id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for year in filter.form.academic_year %}
                         {{year}}
                     {% endfor %}
@@ -98,6 +99,7 @@ $(document).ready(function(){
             <div class="col-md-6 form-group">
                 <label for ="id_mission"> Mission Area : </label>
                 <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for mission in missions.form.mission %}
                         {{mission}}
                     {% endfor %}

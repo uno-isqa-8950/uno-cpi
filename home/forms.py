@@ -29,13 +29,6 @@ class CampusPartnerUserForm(forms.ModelForm):
         label='Campus Partner Name', help_text='Please Register Your Organization if not found in list')
         #print(campus_partner)
 
-    def clean_email_id (self):
-        data = self.cleaned_data.get('email_id')
-        domain = data.split('.')[1]
-        domain_list = ["edu" ]
-        if domain not in domain_list:
-            raise forms.ValidationError("Please use your university ( .edu) emails to signup ")
-        return data
 
 class CommunityPartnerUserForm(forms.ModelForm):
 
@@ -49,13 +42,13 @@ class CommunityPartnerUserForm(forms.ModelForm):
 
 
 
-class UserForm1(forms.ModelForm):
+class CampususerForm(forms.ModelForm):
 
     password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-    first_name = forms.CharField(label='First Name', required=True)
-    last_name = forms.CharField(label='Last Name', required=True)
-    email = forms.EmailField(label='Email', required=True)
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
 
     class Meta:
         model = User
@@ -63,16 +56,20 @@ class UserForm1(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have numbers")
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
-
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have numbers")
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
     
     def clean_email(self):
@@ -92,6 +89,58 @@ class UserForm1(forms.ModelForm):
             else:
                 if len(pas)<MIN_LENGTH:
                     raise forms.ValidationError("Password should have atleast %d characters"%MIN_LENGTH)
+                if pas.isdigit():
+                    raise forms.ValidationError("Password should not be all numeric")
+                if pas.isalpha():
+                    raise forms.ValidationError("Password should have atleast one digit")
+                if not any(char in special_characters for char in pas):
+                    raise forms.ValidationError("Password should have atleast one Special Character")
+
+
+class CommunityuserForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,
+                               help_text='Atleast 8 characters having 1 digit and 1 special character')
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput,
+                                help_text='Atleast 8 characters having 1 digit and 1 special character')
+    first_name = forms.CharField(label='First Name', required=True)
+    last_name = forms.CharField(label='Last Name', required=True)
+    email = forms.EmailField(label='Email', required=True)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
+
+
+    def clean_password2(self):
+        pas = self.cleaned_data['password']
+        cd = self.cleaned_data['password2']
+        MIN_LENGTH = 8
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if pas and cd:
+            if pas != cd:
+                raise forms.ValidationError('Passwords don\'t match.')
+            else:
+                if len(pas) < MIN_LENGTH:
+                    raise forms.ValidationError("Password should have atleast %d characters" % MIN_LENGTH)
                 if pas.isdigit():
                     raise forms.ValidationError("Password should not be all numeric")
                 if pas.isalpha():
@@ -136,19 +185,30 @@ class CommunityPartnerForm(forms.ModelForm):
             'email': ('Email ID')
         }
 
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
     def clean_password2(self):
         cd = self.cleaned_data
         if cd['password'] != cd['password2']:
             raise forms.ValidationError('Passwords don\'t match.')
         return cd['password2']
 
-    def clean_email (self):
-        data = self.cleaned_data.get('email')
-        domain = data.split('@')[1]
-        domain_list = [".edu" ]
-        if domain not in domain_list:
-            raise forms.ValidationError("Please use .edu email ")
-        return data
 
 
 class UploadProjectForm(forms.ModelForm):
@@ -221,7 +281,6 @@ class UploadCommunityMissionForm(forms.ModelForm):
         fields = '__all__'
         mission_choices = (
             ('Primary', 'Primary'),
-            ('Secondary', 'Secondary'),
             ('Other', 'Other'),
         )
         mission_type = forms.ChoiceField(widget=forms.Select(choices=mission_choices))
@@ -310,3 +369,22 @@ class CampusPartnerAvatar(ModelForm):
             pass
 
         return avatar
+
+
+class ContactForm(forms.Form):
+    contact_name = forms.CharField(required=True)
+    contact_email = forms.EmailField(required=True)
+    topic = forms.CharField(required=True)
+    content = forms.CharField(
+        required=True,
+        widget=forms.Textarea()
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['contact_name'].widget.attrs['placeholder'] = "Full Name"
+        self.fields['contact_email'].widget.attrs['placeholder'] = "Your Email"
+        #self.fields['topic'].label = "Subject"
+        self.fields['topic'].widget.attrs['placeholder'] = 'Subject'
+        #self.fields['content'].label = "Message"
+        self.fields['content'].widget.attrs['placeholder'] = 'Message'

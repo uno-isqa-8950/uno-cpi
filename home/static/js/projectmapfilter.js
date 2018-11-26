@@ -12,7 +12,11 @@ var map = new mapboxgl.Map({
     zoom: 6
 });
 map.addControl(new mapboxgl.NavigationControl());
-
+var formatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  minimumFractionDigits: 2,
+});
 var popup;
 popup = new mapboxgl.Popup({
     closeButton: true,
@@ -49,7 +53,7 @@ function parseDescription(message) {
         } else if (i == "district") {
             string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>";
         } else if (i=="income"){
-            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + message[i] + "<br>"
+            string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + formatter.format(message[i]) + "<br>"
         } else if (i=="County"){
             string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
         }
@@ -77,18 +81,19 @@ $.get("static/GEOJSON/Projects_new.geojson", function(data) { //load JSON file f
 
 //Get style
 map.on("load", function() {
-
+/*
     //Get Legislative District Data
     map.addSource('districtData', {
         type: 'geojson',
         data: districtData,
     });
-
+*/
     //Get Project data
     map.addSource("projectData", {
         type: "geojson",
         data: projectData,
     });
+/*
     //This function is to create multiple layers, each of which corresponds to the number of the district
     districtData.features.forEach(function(feature) {
         var symbol = feature.properties['id'];
@@ -131,7 +136,7 @@ map.on("load", function() {
             "fill-outline-color": "#0000AA"
         }
     });
-
+*/
     //add project layer
     projectData.features.forEach(function(feature) {
             var primary = feature.properties["ProjectMission"];
@@ -521,7 +526,7 @@ map.on("load", function() {
     function flyToStore(currentFeature) {
         map.flyTo({
             center: currentFeature.geometry.coordinates,
-            zoom: 8
+            zoom: 6
         });
     }
 
@@ -752,12 +757,13 @@ map.on("load", function() {
 */
     //******************************Search Community Part**********************************
     //******************************Show data when the mouse moves on it**********************************
-
+/*
     map.on('click', 'district', function(e) {
         popup.setLngLat(e.lngLat)
             .setHTML('<span style="font-weight:bold">District Number: </span>' + e.features[0].properties["id"])
             .addTo(map);
     });
+    */
     //****************************Event when clicking on partners*******************************************
     map.on("click", "show1", function(e) {
         map.getCanvas().style.cursor = 'pointer';

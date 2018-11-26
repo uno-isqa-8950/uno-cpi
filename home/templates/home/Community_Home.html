@@ -17,7 +17,7 @@
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/panel.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
   <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
@@ -52,7 +52,31 @@ color:black;
         margin-top:100px;
         margin-left: 250px;
     }
-
+ {#Please do not remove the below css it is for dropdowns#}
+.dropdown-submenu{
+    position: relative;
+}
+.dropdown-submenu a::after{
+    transform: rotate(-90deg);
+    position: absolute;
+    right: 3px;
+    top: 40%;
+}
+.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute !important;
+    margin-top: -30px;
+    left: 100%;
+}
+@media (max-width: 992px) {
+    .dropdown-menu{
+        width: 50%;
+    }
+    .dropdown-menu .dropdown-submenu{
+        width: auto;
+    }
+}
 
 </style>
 
@@ -82,9 +106,10 @@ color:black;
                             <i class="fa fa-globe"></i>Maps
                             <span class="caret"></span>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                            <a class="dropdown-item" href="/map">Community Partners </a>
-                            <a class="dropdown-item" href="/projectmap">Projects </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                            <a class="dropdown-item" href="/districtmap">Legislative District Map</a>
+                            <a class="dropdown-item" href="/map">Household Income Map</a>
+                            <a class="dropdown-item" href="/projectmap">Projects</a>
                         </div>
                     </li>
                 <li class="nav-item dropdown">
@@ -202,8 +227,9 @@ color:black;
 <footer>
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3">
-            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          <div class="col-md-3" style="margin-top:8px;">
+            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
+               <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
           </div>
           <div class="col-md-6">
             <ul class="footertext">

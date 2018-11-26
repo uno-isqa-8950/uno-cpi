@@ -6,11 +6,12 @@ from django.conf import settings
 
 urlpatterns = [
 
-   path('', views.home, name='home'),
-   path('home',views.home, name='home'),
+   path('', views.partnerdata, name='home'),
+   path('home',views.partnerdata, name='home'),
    path('campusHome',views.campusHome, name='campusHome'),
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
    path('map', views.countyData, name='map'),
+   path('districtmap', views.districtdata, name='districtmap'),
    path('projectmap', views.projectmap, name='projectmap'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('registerCommunityPartnerUser/', views.registerCommunityPartnerUser, name='registerCommunityPartnerUser'),
@@ -29,7 +30,8 @@ urlpatterns = [
    path('countProjectCP/', views.unique_count, name='unique_count'),
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
-   path('Contactus',views.Contactus,name='Contactus')
+   path('Contactus',views.Contactus,name='Contactus'),
+   path('thanks/', views.thanks, name='thanks')
 
 
 

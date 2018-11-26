@@ -20,10 +20,12 @@ class CommunityPartner(models.Model):
     city = models.CharField(max_length=25, blank=True)
     state = models.CharField(max_length=15, blank=True)
     zip = models.CharField(max_length=10, blank=True)
-    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
-    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     active = models.BooleanField(default=False)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
+    legislative_district = models.IntegerField(null=True, blank=True)
+    median_household_income = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
         return str(self.name)
@@ -32,7 +34,6 @@ class CommunityPartner(models.Model):
 class CommunityPartnerMission(models.Model):
     mission_choices = (
         ('Primary', 'Primary'),
-        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
     mission_type = models.CharField(max_length=20, choices=mission_choices, default=False)

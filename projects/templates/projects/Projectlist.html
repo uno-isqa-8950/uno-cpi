@@ -18,12 +18,52 @@
     }
 
 </style>
+<style>
+    #loading {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 1;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  border: 16px solid #f3f3f3;
+  border-bottom: 16px solid red;
+  border-top: 16px solid gray;
+  border-radius: 50%;
+
+  width: 80px;
+  height: 80px;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+</style>
 
 
 
-        <h4 class="tableName">{{ user.first_name }}'s Projects</h4>
 
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+           <div class="card" style="padding: 5px;margin-top:50px;background-color:#B3B3B3;">
+               <label style="text-align:justify;"><b style="font-size:17px;text-align:center;"><h4 style="line-height:.8em;padding-top:10px;">Projects</h4></b></label>
+           </div>
+        </div>
+    </div>
+</div>
 
+<div class="loader" id =loading></div>
        <div class="container">
 {#       <div class="row">#}
 {#               <a href="{% url 'project_total_Add' %}" class="row"><span#}
@@ -40,6 +80,7 @@
                 <th>Academic Year</th>
                 <th>Status</th>
                 <th>Semester</th>
+                <th>Academic Year</th>
                 <th>Start Date </th>
                 <th>End Date </th>
                 <th> UNO Students</th>
@@ -68,6 +109,7 @@
                             <td>{{ project.semester }}</td>
                             <td>{{ project.status}}</td>
                             <td>{{ project.semester }}</td>
+                           <td>{{ project.academic_year }}</td>
                             <td>{{ project.startDate }}</td>
                             <td>{{ project.endDate }}</td>
                             <td>{{project.total_uno_students}}</td>
@@ -110,5 +152,12 @@
     $('#example').DataTable();
     } );
  </script>
+
+
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+window.onload = function(){ document.getElementById("loading").style.display = "none" }
+
+</script>
 
 {% endblock %}

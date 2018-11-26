@@ -18,10 +18,10 @@
   <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/panel.css' %}" rel="stylesheet" type="text/css">
+  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
 
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
+  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
 
@@ -30,7 +30,7 @@
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
   <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script-->
 
 
 <style>
@@ -108,17 +108,16 @@ padding: 0px 8px;
 
             {% if user.is_authenticated %}
             <ul class="navbar-nav ml-auto">
-              <!--li class="nav-item">
-                <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
-              </li-->
+
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-globe"></i>Maps
                         <span class="caret"></span>
                     </a>
-                <div class="dropdown-menu" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/map">Community Partners </a>
-                    <a class="dropdown-item" href="/projectmap">Projects </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    <a class="dropdown-item" href="/districtmap">Legislative District Map</a>
+                    <a class="dropdown-item" href="/map">Household Income Map</a>
+                    <a class="dropdown-item" href="/projectmap">Projects</a>
                 </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -132,8 +131,9 @@ padding: 0px 8px;
                     <ul class="dropdown-menu">
                        <a class="dropdown-item" href="/engageType">Engagement Type</a>
                       <a class="dropdown-item" href="/countProjectCP">Count of Projects, Community Partners</a>
-                      <a class="dropdown-item" href="#">Community Partners</a>
-                      <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a>
+                     <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>
+                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
+                    <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Project Report</a>
 
                     </ul>
                   </li>
@@ -160,13 +160,7 @@ padding: 0px 8px;
                     <a class="dropdown-item" href='/project_total_Add/'>Add Project</a>
                 </div>
                 </li>
-              <li class="nav-item dropdown">
-                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#"><i class="fa fa-line-chart"></i>Analytics</a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                    <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Project Report</a>
-                </div>
-              </li>
+
               <li class="nav-item">
                 <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
               </li>
@@ -246,8 +240,9 @@ padding: 0px 8px;
 <footer>
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-3">
-            <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          <div class="col-md-3" style="margin-top:8px;">
+            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
+               <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
           </div>
           <div class="col-md-6">
             <ul class="footertext">

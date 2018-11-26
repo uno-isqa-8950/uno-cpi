@@ -48,7 +48,7 @@ $(document).ready(function(){
 </script>
 {% endblock %}
 
-    <div class="container-fluid" id="align">
+    <div class="container">
         <div class="col-md-12 panel panel-primary">
     <br>
      <div class="col-md-12 text-center">
@@ -62,6 +62,7 @@ $(document).ready(function(){
 
           &emsp;
             <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                                                                 <option> All </option>
                 {% for engagement in project_filter.form.engagement_type %}
                     {{engagement}}
                 {% endfor %}
@@ -70,7 +71,8 @@ $(document).ready(function(){
         <div class="col-md-6 form-group">
             <label for="id_semester"> Academic Year : </label>
             <select id="id_semester" name="Academic year" onchange="this.form.submit()">
-                {% for sem in year_filter.form.academic_year%}
+                                                 <option> All </option>
+                           {% for sem in year_filter.form.academic_year%}
                     {{sem}}
                 {% endfor %}
 
@@ -78,30 +80,25 @@ $(document).ready(function(){
         </div>
         <!--<input type="submit" value="Search" />-->
     </form>
-
+<br> <br>
 
 
   <div id="container"></div>
- <br> <br> <br>
-
   <script src="https://code.highcharts.com/highcharts.src.js"></script>
 
-
- <br> <br> <br>
-
-    <script>
-
-        Highcharts.chart('container', {{ chart|safe }});
-    </script>
-    </div> <br> <br> <br><br>
-
-<script type="text/javascript">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip({
-        placement : 'top'
-    });
-});
+<script>
+     Highcharts.chart('container',{{ chart|safe }});
 </script>
-    </div>
+         </div>
+    </div><br><br><br><br>
 {% endblock %}
+{#<script type="text/javascript">#}
+{#$(document).ready(function(){#}
+{#    $('[data-toggle="tooltip"]').tooltip({#}
+{#        placement : 'top'#}
+{#    });#}
+
+{#</script>#}
+
+{#{% endblock %}#}
 

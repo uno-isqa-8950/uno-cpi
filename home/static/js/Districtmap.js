@@ -66,7 +66,7 @@ for (i = 0; i < CampusPartnerlist.length; i++) {
 $('#selectCampus').html(select3);
 //*********************************** Load the county data here. Should be down here. Otherwise it won't load *****************************************************
 
-var countyData = JSON.parse(document.getElementById('county-data').textContent);
+var districtData = JSON.parse(document.getElementById('district-data').textContent);
 //*********************************** Format the popup *****************************************************
 
 var formatter = new Intl.NumberFormat('en-US', { //this is to format the current on the pop-up
@@ -140,138 +140,28 @@ map.on("load", function() {
         type: 'geojson',
         data: communityData,
     });
-    map.addSource('countyData', {
+    map.addSource('districtData', {
         type: 'geojson',
-        data: countyData,
+        data: districtData,
     });
 //*********************************** Load the county in different household income levels *****************************************************
 
-    countyData.features.forEach(function(feature) {
-        var income = feature.properties["Income"];
-        if (income < 25000) {
-            layerID = "income1";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#B8B8B8",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", ["<", "Income", 25000]]
-                })
-            }
-        } else if (25000 <= income && income < 40000) {
-            layerID = "income2";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#989898",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", [">=", "Income", 25000],
-                        ["<", "Income", 40000]
-                    ]
-                })
-            }
-        } else if (40000 <= income && income < 60000) {
-            layerID = "income3";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#808080",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", [">=", "Income", 40000],
-                        ["<", "Income", 60000]
-                    ]
-                })
-            }
-        } else if (60000 <= income && income < 80000) {
-            layerID = "income4";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#686868",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", [">=", "Income", 60000],
-                        ["<", "Income", 80000]
-                    ]
-                })
-            }
-        } else if (80000 <= income && income < 100000) {
-            layerID = "income5";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#505050",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", [">=", "Income", 80000],
-                        ["<", "Income", 100000]
-                    ]
-                })
-            }
-        } else if (100000 <= income) {
-            layerID = "income6";
-            if (!map.getLayer(layerID)) {
-                map.addLayer({
-                    "id": layerID,
-                    "type": "fill",
-                    "source": "countyData",
-                    'layout': {},
-                    'paint': {
-                        "fill-color": "#303030",
-                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
-                            1,
-                            0.5
-                        ],
-                        "fill-outline-color": "#0000AA"
-                    },
-                    "filter": ["all", [">=", "Income", 100000]]
-                })
-            }
+    map.addLayer({
+        "id": "district",
+        "type": "fill",
+        "source": "districtData",
+        'layout': {},
+        'paint': {
+            "fill-color": "#888",
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                1,
+                0.15
+            ],
+            "fill-outline-color": "#0000AA"
         }
-    })
+    });
+
 //*********************************** Load partners *****************************************************
 
     communityData.features.forEach(function(feature) {
@@ -403,7 +293,6 @@ map.on("load", function() {
         }
     })
 
-
     var selectCampus = document.getElementById('selectCampus');
     selectCampus.addEventListener("change", function(e) {
         var value = e.target.value.trim();
@@ -474,220 +363,6 @@ map.on("load", function() {
             ])
         }
 
-    })
-//*********************************** Household income filter *****************************************************
-
-    var countyList = ["income1", "income2", "income3", "income4", "income5", "income5"];
-    var edu = document.getElementById("allincome");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income1") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            }
-        })
-        map.setFilter("show1", ["==", "Mission Area", Missionarea[0]])
-        map.setFilter("show2", ["==", "Mission Area", Missionarea[1]])
-        map.setFilter("show3", ["==", "Mission Area", Missionarea[2]])
-        map.setFilter("show4", ["==", "Mission Area", Missionarea[3]])
-        map.setFilter("show5", ["==", "Mission Area", Missionarea[4]])
-        map.setFilter("show6", ["==", "Mission Area", Missionarea[5]])
-    })
-
-
-    var edu = document.getElementById("income1");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income1") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            ["<", "Income", 25000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            ["<", "Income", 25000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            ["<", "Income", 25000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            ["<", "Income", 25000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            ["<", "Income", 25000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            ["<", "Income", 25000]
-        ])
-    })
-
-    var edu = document.getElementById("income2");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income2") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            [">=", "Income", 25000],
-            ["<", "Income", 40000]
-        ])
-    })
-    var edu = document.getElementById("income3");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income3") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            [">=", "Income", 40000],
-            ["<", "Income", 60000]
-        ])
-    })
-    var edu = document.getElementById("income4");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income4") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            [">=", "Income", 60000],
-            ["<", "Income", 80000]
-        ])
-    })
-    var edu = document.getElementById("income5");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income5") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            [">=", "Income", 80000],
-            ["<", "Income", 100000]
-        ])
-    })
-    var edu = document.getElementById("income6");
-    edu.addEventListener("click", function(e) {
-        countyList.forEach(function(county) {
-            if (county == "income6") {
-                map.setLayoutProperty(county, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(county, 'visibility', 'none');
-            }
-        })
-        map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-            [">=", "Income", 100000]
-        ])
-        map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-            [">=", "Income", 100000]
-        ])
-        map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-            [">=", "Income", 100000]
-        ])
-        map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-            [">=", "Income", 100000]
-        ])
-        map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-            [">=", "Income", 100000]
-        ])
-        map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-            [">=", "Income", 100000]
-        ])
     })
 
 //*********************************** Search function *****************************************************

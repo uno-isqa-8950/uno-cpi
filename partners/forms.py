@@ -39,34 +39,37 @@ class CampusPartnerContactForm(forms.ModelForm):
             'email_id': ('Contact Email'),
             'contact_type':('Contact Type'),
         }
-
-        widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
-                   'cell_phone': forms.TextInput({'placeholder': '##########'}),
+        widgets = {
                    'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
                    }
-
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
     def clean_work_phone(self):
         workphone = self.cleaned_data['work_phone']
         if any(char.isalpha() for char in workphone):
-            raise forms.ValidationError("Work Phone cannot have digits")
+            raise forms.ValidationError("Work Phone cannot have alphabets")
         return workphone
 
     def clean_cell_phone(self):
         cellphone = self.cleaned_data['cell_phone']
         if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have digits")
+            raise forms.ValidationError("Cell Phone cannot have alphabets")
         return cellphone
 
     def clean_email_id(self):
@@ -97,19 +100,28 @@ class CommunityPartnerForm(forms.ModelForm):
 
     def clean_country(self):
             name = self.cleaned_data['country']
+            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid Country Name")
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid Country Name")
             return name
 
     def clean_state(self):
             name = self.cleaned_data['state']
+            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid State Name")
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid State Name")
             return name
 
     def clean_city(self):
             name = self.cleaned_data['city']
+            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
             if any(char.isdigit() for char in name):
+                raise forms.ValidationError("Invalid City Name")
+            if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid City Name")
             return name
 
@@ -131,9 +143,7 @@ class CommunityContactForm(forms.ModelForm):
             'work_phone': ('Work Phone'),
             'cell_phone': ('Cell Phone')
         }
-        widgets = {'work_phone': forms.TextInput({'placeholder': '##########'}),
-                   'cell_phone': forms.TextInput({'placeholder': '##########'}),
-                  }
+
 
     def validateEmail(email_id):
         from django.core.validators import validate_email
@@ -146,24 +156,39 @@ class CommunityContactForm(forms.ModelForm):
 
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
             raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
             raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
+    def clean_work_phone(self):
+        workphone = self.cleaned_data['work_phone']
+        if any(char.isalpha() for char in workphone):
+            raise forms.ValidationError("Work Phone cannot have alphabets")
+        return workphone
 
+    def clean_cell_phone(self):
+        cellphone = self.cleaned_data['cell_phone']
+        if any(char.isalpha() for char in cellphone):
+            raise forms.ValidationError("Cell Phone cannot have alphabets")
+        return cellphone
 
 
 class CommunityMissionForm(ModelForm):
 
     mission_choices = (
         ('Primary', 'Primary'),
-        ('Secondary', 'Secondary'),
         ('Other', 'Other'),
     )
 

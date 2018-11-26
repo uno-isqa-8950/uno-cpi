@@ -81,7 +81,8 @@ margin-top:15px;
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/map">Community Partners</a>
+                    <a class="dropdown-item" href="/districtmap">Legislative District Map</a>
+                    <a class="dropdown-item" href="/map">Household Income Map</a>
                     <a class="dropdown-item" href="/projectmap">Projects</a>
                 </div>
                 </li>
@@ -97,7 +98,7 @@ margin-top:15px;
                       <a class="dropdown-item" href="/projectInfo">Mission Area</a>
                       <a class="dropdown-item" href="/engageType">Engagement Type</a>
                       <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>
-                      {% if not user.is_authenticated  %}
+                      {% if not user.is_authenticated or user.is_communitypartner %}
                          <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                          <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
                       {% else %}
@@ -146,7 +147,7 @@ margin-top:15px;
                {% if not user.is_authenticated %}
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-building"></i>Register
+                        <i class="fa fa-hand-o-right"></i>Register
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">

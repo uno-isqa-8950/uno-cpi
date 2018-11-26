@@ -31,54 +31,7 @@ margin-left:22px
 }
 
     </style>
- {% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-  $('#id_engagement_type').select2(
-      {
-              placeholder: 'Select an Engagement Type',
-      }
-  );
-  $('#id_activity_type').select2(
-      {
-              placeholder: 'Select an Activity Type',
-      }
-  );
-  $('#id_status').select2(
-      {
-              placeholder: 'Select a Status',
-      }
-  );
-  $('#id_projectmission_set-0-mission_type').select2(
-      {
-              placeholder: 'Select a Mission Type',
-      }
-  );
-  $('#id_projectmission_set-0-mission').select2(
-      {
-              placeholder: 'Select a Mission',
-      }
-  );
-  $('#id_projectcommunitypartner_set-0-community_partner').select2(
-      {
-              placeholder: 'Select a Community Partner',
-      }
-  );
-   $('#id_projectcampuspartner_set-0-campus_partner').select2(
-      {
-              placeholder: 'Select an Campus Partner',
-      }
-  );
-   $('#id_projectcampuspartner_set-1-campus_partner').select2(
-      {
-              placeholder: 'Select an Campus Partner',
-      }
-  );
-});
-</script>
-{% endblock %}
+
 
 
 <div class="container">
@@ -92,7 +45,10 @@ $(document).ready(function(){
         {{project.project_name|bootstrap}}
          {{ project.status|bootstrap}}
          {{project.engagement_type|bootstrap}}
+         {{ course.name|bootstrap }}
+         {{ course.prefix|bootstrap }}
          {{ course.number|bootstrap }}
+
          {{project.activity_type|bootstrap}}
          {{ project.facilitator|bootstrap }}
          {{ project.description|bootstrap }}
@@ -119,40 +75,14 @@ $(document).ready(function(){
     </form><br><br>
             </div></div></div></div><br><br>
 
-{# <script>#}
-{#    $(function(){#}
-{#        function hideInputs() {#}
-{#            $("label.control-label[for=id_name], input#id_name").hide();#}
-{#            $("#id_id_name").hide();#}
-{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
-{#            $("#id_prefix").hide();#}
-{#            $("label.control-label[for=id_number], input#id_number").hide();#}
-{#            $("#id_number").hide();#}
-{##}
-{#            console.log('label.control-label[for=id_name], input#id_name');#}
-{#            }#}
-{#        $("#id_engagement_type").on('value', function(){#}
-{#            var val = $("#id_engagement_type").val();#}
-{#            if (val === '4') {#}
-{#               $("#id_name").show();#}
-{#               $("label.control-label[for=id_name], input#id_name").show();#}
-{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
-{#            $("#id_prefix").show();#}
-{#            $("label.control-label[for=id_number], input#id_number").show();#}
-{#            $("#id_number").show();#}
-{##}
-{#            }#}
-{#            else {#}
-{#                hideInputs();#}
-{#            }#}
-{#        });#}
-{#        hideInputs();#}
-{#    });#}
-{#</script>#}
+
+{% endblock %}
 
 
-<script>
 
+{% block custom_js %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script type="text/javascript">
 function validateFormsets(){
 
      var id =event.target.id;
@@ -213,4 +143,86 @@ return true;
 
 </script>
 
+{#<script>#}
+{#    $(function(){#}
+{#        function hideInputs() {#}
+{#            $("label.control-label[for=id_name], input#id_name").hide();#}
+{#            $("#id_id_name").hide();#}
+{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
+{#            $("#id_prefix").hide();#}
+{#            $("label.control-label[for=id_number], input#id_number").hide();#}
+{#            $("#id_number").hide();#}
+{##}
+{#            console.log('label.control-label[for=id_name], input#id_name');#}
+{#            }#}
+{#        $("#id_engagement_type").on('change', function(){#}
+{#            var val = $("#id_engagement_type").val();#}
+{#            if (val === '3') {#}
+{#               $("#id_name").show();#}
+{#               $("label.control-label[for=id_name], input#id_name").show();#}
+{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
+{#            $("#id_prefix").show();#}
+{#            $("label.control-label[for=id_number], input#id_number").show();#}
+{#            $("#id_number").show();#}
+{##}
+{#            }#}
+{#            else {#}
+{#                hideInputs();#}
+{#            }#}
+{#        });#}
+{#        hideInputs();#}
+{#    });#}
+{#</script>#}
+
+
+
+
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  {#$('#id_engagement_type').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select an Engagement Type',#}
+  {#    }#}
+  {#);#}
+  $('#id_activity_type').select2(
+      {
+              placeholder: 'Select an Activity Type',
+      }
+  );
+  $('#id_status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+  $('#id_projectmission_set-0-mission_type').select2(
+      {
+              placeholder: 'Select a Mission Type',
+      }
+  );
+  $('#id_projectmission_set-0-mission').select2(
+      {
+              placeholder: 'Select a Mission',
+      }
+  );
+  $('#id_projectcommunitypartner_set-0-community_partner').select2(
+      {
+              placeholder: 'Select a Community Partner',
+      }
+  );
+   $('#id_projectcampuspartner_set-0-campus_partner').select2(
+      {
+              placeholder: 'Select an Campus Partner',
+      }
+  );
+   $('#id_projectcampuspartner_set-1-campus_partner').select2(
+      {
+              placeholder: 'Select an Campus Partner',
+      }
+  );
+});
+</script>
 {% endblock %}

@@ -201,7 +201,7 @@ def userProfileUpdate(request):
                     )
 
 
-# Community Partner org Profile
+# Campus and Community Partner org Profile
 
 @login_required
 def orgProfile(request):
@@ -229,7 +229,7 @@ def orgProfile(request):
                            })
 
 
-# Community Partner org Update Profile
+# Campus and Community Partner org Update Profile
 
 @login_required
 def orgProfileUpdate(request):

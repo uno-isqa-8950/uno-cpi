@@ -86,19 +86,27 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'd19g3rhgb1f6sq',
+#         'USER': 'mmyjopixtfpnsl',
+#         'PASSWORD': 'd054871110c3b9186d80452bc2afb7acdd86abffc0a0df43aadcaf21939766c5',
+#         'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
+#         'PORT': 5432,
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd19g3rhgb1f6sq',
-        'USER': 'mmyjopixtfpnsl',
-        'PASSWORD': 'd054871110c3b9186d80452bc2afb7acdd86abffc0a0df43aadcaf21939766c5',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
+        'NAME': 'myproject2',
+        'USER': 'myprojectuser',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
         'PORT': 5432,
     }
 }
-
-
-
 
 ##Extending the user model to home
 

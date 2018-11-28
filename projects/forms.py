@@ -86,9 +86,9 @@ class ProjectForm2(ModelForm):
 
         if len(sem) < 0:
             raise forms.ValidationError("Semester should contain -")
-        if sem[0] not in ['fall', 'spring', 'summer']:
-            raise forms.ValidationError("Please enter summer, spring or fall")
-        if len(int(sem[1])) == 4:
+        if sem[0] not in ['Fall', 'Spring', 'Summer']:
+            raise forms.ValidationError("Please enter Summer, Spring or Fall")
+        if len(int(sem[1])) != 4:
             raise forms.ValidationError("Year should contain 4 digits")
 
     def clean_total_uno_students(self):
@@ -210,9 +210,9 @@ class ProjectFormAdd(ModelForm):
 
         if len(sem) < 0:
             raise forms.ValidationError("Semester should contain -")
-        if sem[0] not in ['fall', 'spring', 'summer']:
-            raise forms.ValidationError("Please enter summer, spring or fall")
-        if len(int(sem[1])) == 4:
+        if sem[0] not in ['Fall', 'Spring', 'Summer']:
+            raise forms.ValidationError("Please enter Summer, Spring or Fall")
+        if len(int(sem[1])) != 4:
             raise forms.ValidationError("Year should contain 4 digits")
 
     def clean_total_uno_students(self):

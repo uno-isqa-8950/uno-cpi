@@ -135,7 +135,7 @@ def registerCampusPartnerUser(request):
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
-        user_form = CampususerForm(request.POST)
+        user_form = userForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
         if user_form.is_valid() and campus_partner_user_form.is_valid():
@@ -149,8 +149,8 @@ def registerCampusPartnerUser(request):
 
             return render(request, 'home/register_done.html', )
     else:
-        user_form = CampususerForm(request.POST)
-        campus_partner_user_form = CampusPartnerUserForm(request.POST)
+        user_form = userForm()
+        campus_partner_user_form = CampusPartnerUserForm()
 
     return render(request,
                   'home/registration/campus_partner_user_register.html',
@@ -160,24 +160,19 @@ def registerCampusPartnerUser(request):
 @login_required()
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
-    user_form = CommunityuserForm()
+    user_form = userForm()
     commPartner = []
     for object in CommunityPartner.objects.order_by('name'):
         commPartner.append(object.name)
 
     if request.method == 'POST':
-        user_form = CommunityuserForm(request.POST)
-        # campus_partner_form = CampusPartnerForm(request.POST)
+        user_form = userForm(request.POST)
         community_partner_user_form = CommunityPartnerUserForm(request.POST)
         if user_form.is_valid() and community_partner_user_form.is_valid():
-            # and campus_partner_form.is_valid()
-            # Create a new user object but avoid saving it yet
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
             new_user.is_communitypartner = True
             new_user.save()
-            # cpu = CommunityPartnerUser(communitypartner=CommunityPartner.objects.filter(
-            #        name=community_partner_form.cleaned_data['name'])[0], user=new_user)
             communitypartneruser = CommunityPartnerUser(community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
             communitypartneruser.save()
             return render(request, 'home/communityuser_register_done.html', )

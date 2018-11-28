@@ -204,21 +204,21 @@ class ProjectFormAdd(ModelForm):
 
         return facilitator
 
-    def clean_semester(self):
-        semester = self.cleaned_data['semester']
-        sem = semester.split('-')
-
-        if len(sem) < 0:
-            raise forms.ValidationError("Semester should contain -")
-        if sem[0] not in ['fall', 'spring', 'summer']:
-            raise forms.ValidationError("Please enter summer, spring or fall")
-        if len(int(sem[1])) == 4:
-            raise forms.ValidationError("Year should contain 4 digits")
+    # def clean_semester(self):
+    #     semester = self.cleaned_data['semester']
+    #     sem = semester.split('-')
+    #
+    #     if len(sem) < 0:
+    #         raise forms.ValidationError("Semester should contain -")
+    #     if sem[0] not in ['fall', 'spring', 'summer']:
+    #         raise forms.ValidationError("Please enter summer, spring or fall")
+    #     if len(int(sem[1])) == 4:
+    #         raise forms.ValidationError("Year should contain 4 digits")
 
     def clean_total_uno_students(self):
         total_uno_students = self.cleaned_data['total_uno_students']
     
-        if type(total_uno_students) != int:
+        if type(total_uno_students) != int :
             raise forms.ValidationError("Students cannot have Decimals")
         return total_uno_students
 
@@ -364,7 +364,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ('name','prefix', 'number' , 'project_name')
+        fields = ('name','prefix', 'number',)
         labels = {
             'name': ('Course Name'),
             'prefix': ('Prefix'),

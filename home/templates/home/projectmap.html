@@ -68,7 +68,7 @@
         margin-top:0px;
         }
 
-    select[id=selectYear]
+    select[id=selectYear ]
         {
         width:85%;
         border:2px solid #aaa;
@@ -89,6 +89,45 @@
         box-shadow:0 0 8px 0 grey;
         }
 
+    select[id=selectDistrict ]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
+    select[id=selectDistrict]:focus
+        {
+        border-color:grey;
+        box-shadow:0 0 8px 0 grey;
+        }
+
+    select[id=selectEngagement ]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
+    select[id=selectEngagement]:focus
+        {
+        border-color:grey;
+        box-shadow:0 0 8px 0 grey;
+        }
     .h2 {
     		display: block;
            	font-size: 1.7em;
@@ -267,6 +306,16 @@ $(document).ready(function(){
       {
               placeholder: 'Select an Academic Year'}
   );
+
+  $('#selectDistrict').select2(
+      {
+              placeholder: 'Select Legislative District'}
+  );
+
+  $('#selectEngagement').select2(
+      {
+              placeholder: 'Select Engagement Type'}
+  );
 });
 </script>
 {% endblock %}
@@ -281,33 +330,34 @@ $(document).ready(function(){
 
                 <div id='map' class='map'>
                     {{ countyData | json_script:"county-data"}}
-                    <h3 id="overlay-header">Maps: Household Income</h3>
-                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>
+                    <h3 id="overlay-header">Maps: Projects</h3>
+                    <p id="overlay-text"><b>Project Map. Use our filters to please your eyes</b></p>
                     {{ collection | json_script:"project-data"}}
                     {{ Missionlist | json_script:"missionlist"}}
+                    {{ Engagementlist | json_script:"engagementlist"}}
 
                 </div>
 
-            </div>
+        </div>
         <nav id="sidebar">
 
         <div id='state-legend' class='legend'>
-
-<!-- Filter by Mission Areas -->
-
             <h3>Filters</h3>
             <h4>Mission Areas</h4>
-            <div>
-                    <a href='#' id="all"><span style='background-color: black'></span><b>All Mission Areas</b></a><br>
-                <a href='#' id="educational"><span style='background-color: #65dc1e'></span><b>Educational Support</b></a><br>
-                <a href='#' id="economic"><span style='background-color: #17f3d1'></span><b>Economic Sufficiency</b></a><br>
-                <a href='#' id="service"><span style='background-color: #e55e5e'></span><b>International Service</b></a><br>
-                <a href='#' id="environmental"><span style='background-color: #1743f3'></span><b>Environmental Stewardship</b></a><br>
-                <a href='#' id="health"><span style='background-color: #ba55d3'></span><b>Health & Wellness</b></a><br>
-                <a href='#' id="justice"><span style='background-color: #FFFF00'></span><b>Social Justice</b></a><br>
-            </div><p></p>
+            <div id='legend'>
+            </div>
+             <br>
+             <select id="selectDistrict" class="selectDistrict">
+                </select>
+             <br><br>
+            <!--div id="sidebar"-->
 
-<!-- Filter by academic year -->
+                 <!-- Filter by Enagagement type -->
+
+             <select id="selectEngagement" class="selectEngagement"></select>
+            <br><br>
+
+             <!-- Filter by academic year -->
                     <select id="selectYear" class="selectYear">
                     <option value="all">All academic years</option>
                     <option value="2018">2017-2018</option>
@@ -333,6 +383,8 @@ $(document).ready(function(){
         </nav>
 
 
+    </div>
+
 
         <div id="content">
 
@@ -340,10 +392,10 @@ $(document).ready(function(){
                 <span></span>
             </button>
 
-            <div id='map' class='map'>
-                <h3 id="overlay-header">Maps: Projects</h3>
-                <p id="overlay-text"><b>Project Maps are mapped based on Mission Areas. Use our filters to locate them</b></p>
-            </div>
+{#            <div id='map' class='map'>#}
+{#                <h3 id="overlay-header">Maps: Projects</h3>#}
+{#                <p id="overlay-text"><b>Project Maps are mapped based on Mission Areas. Use our filters to locate them</b></p>#}
+{#            </div>#}
 
         </div>
 

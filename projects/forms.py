@@ -179,7 +179,7 @@ class CourseForm(forms.ModelForm):
 
     class Meta:
         model = Course
-        fields = ('name','prefix', 'number' , 'project_name')
+        fields = ('name','prefix', 'number' )
         labels = {
             'name': ('Course Name'),
             'prefix': ('Prefix'),

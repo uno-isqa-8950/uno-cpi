@@ -731,16 +731,16 @@ def districtdata(request):
                    }
                   )
 
-def projectData(request):
+##Geojson for projects
 
-    countyData = countyGEO()
-    district = districtGEO()
+def GEOJSON2():
 
     projects = Project.objects.filter() #get all the projects
 
     collection = {'type': 'FeatureCollection', 'features': []} #create the shell of GEOJSON
     Missionlist = [] ## a placeholder array of unique mission areas
-    # CommTypelist = [] ## a placeholder array of unique community type
+    Engagementlist = []
+    Academicyearlist = []
     for project in projects: #iterate through all projects
         #prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '','Engagement Type': '',
@@ -749,36 +749,55 @@ def projectData(request):
                                                      },
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (project.address_line1 != "N/A"): #check if a project address is there
-                    #missionarea = CommunityPartnerMission.objects.filter(community_partner_id=commPartner.id).filter()
-            #missionarea = missionarea.mission_type
-            fulladdress = project.address_line1 + ' ' + project.city
+
+            fulladdress = project.address_line1 + ' ' + project.city + ' ' + project.state
             ### set the value for the feature variable  ######
             feature['geometry']['coordinates'] = [project.longitude, project.latitude]
             feature['properties']['Project Name'] = project.project_name
             feature['properties']['Address'] = fulladdress
-            feature['properties']['Engagement Type'] = project.engagement_type
-            feature['properties']['Activity Type'] = project.activity_type
-            feature['properties']['Academic year'] = project.academic_year__id
+            feature['properties']['Activity Type'] = str(project.activity_type)
+            feature['properties']['Academic year'] = str(project.academic_year)
             feature['properties']['Legislative District Number'] = project.legislative_district
             feature['properties']['Income'] = project.median_household_income
             feature['properties']['County'] = project.county
             ### get the mission area######
             project_qs = ProjectMission.objects.filter(project_name__id=project.id)
-            project_mission = [p.mission_area for p in project_qs]
+            project_mission = [p.mission for p in project_qs]
 
             try:
+                feature['properties']['Engagement Type'] = str(project.engagement_type)
+                if (str(project.engagement_type) not in Engagementlist):
+                    Engagementlist.append(str(project.engagement_type))
+
+                feature['properties']['Academic year'] = str(project.academic_year)
+                if (str(project.academic_year) not in Academicyearlist):
+                    Academicyearlist.append(str(project.academic_year))
+
                 feature['properties']['Mission Area'] = str(project_mission[0])
                 if (str(project_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     Missionlist.append(str(project_mission[0]))   #add
+                print('hello i am in loop')
+                print(Engagementlist)
 
             except:
                 print("No mission")
             collection['features'].append(feature)  #create the geojson
     #jsonstring = pd.io.json.dumps(collection)
-    json_data = open('home/static/GEOJSON/NECounties2.geojson')
-    county = json.load(json_data)
-    return render(request, 'home/projectmap.html',
-                  {'countyData': county,'collection': collection,
-                   'Missionlist': sorted(Missionlist),
-                      }
-                  )
+    return (collection, Missionlist, Engagementlist)
+
+
+ ###Project map export to javascript
+
+def projectdata(request):
+
+   json_data = open('home/static/GEOJSON/USCounties_final.geojson')
+   county = json.load(json_data)
+
+   return render(request, 'home/projectmap.html',
+                      {'countyData': county, 'collection': GEOJSON2()[0],
+                       'Missionlist': sorted(GEOJSON2()[1])
+                       }
+                      )
+
+
+

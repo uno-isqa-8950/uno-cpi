@@ -219,7 +219,7 @@ def upload_project(request):
                     form_campus = UploadProjectCampusForm(data_dict)
                     form_community = UploadProjectCommunityForm(data_dict)
                     form_mission = UploadProjectMissionForm(data_dict)
-                    if form_campus.is_valid and form_community.is_valid() and form_mission.is_valid():
+                    if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
                         form_campus.save()
                         form_community.save()
                         form_mission.save()
@@ -291,9 +291,7 @@ def upload_campus(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
-            print("data_dict", data_dict)
             college_count = College.objects.filter(college_name=data_dict['college_name']).count()
-            print("college_count", college_count)
             if not college_count:
                 form_college = UploadCollege(data_dict)
                 if form_college.is_valid():
@@ -304,7 +302,6 @@ def upload_campus(request):
                         form.save()
             else:
                 form = UploadCampusForm(data_dict)
-                print ("form", form)
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')

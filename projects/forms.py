@@ -30,8 +30,8 @@ class ProjectCommunityPartnerForm(forms.ModelForm):
         model = ProjectCommunityPartner
         fields = ('project_name','total_hours','total_people','wages')
         labels = {
-            'total_hours': ('Community Hours'),
-            'total_people':('Community Volunteer'),
+            'total_hours': ('Hours'),
+            'total_people':('Volunteers'),
         }
         widgets = {
 
@@ -67,7 +67,7 @@ class ProjectForm2(ModelForm):
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            'address_line1': 'Address Line 1',
+            'address_line1': 'Address Line',
             'total_other_community_members':  'Total Other Participants',
             'academic_year': 'Academic Year'
         }
@@ -182,16 +182,16 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            'total_uno_students': 'Total Number of UNO Students',
-            'total_uno_hours': 'Total Number of UNO Students Hours',
-            'total_k12_students': 'Total Number of K-12 Students',
-            'total_k12_hours': 'Total Number of K-12 Hours',
-            'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
+            'total_uno_students': 'Total Number Of UNO Students',
+            'total_uno_hours': 'Total Number Of UNO Students Hours',
+            'total_k12_students': 'Total Number Of K-12 Students',
+            'total_k12_hours': 'Total Number Of K-12 Hours',
+            'total_uno_faculty': 'Total Number Of UNO Faculty/Staff',
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            'address_line1': 'Address Line 1',
+            'address_line1': 'Address Line',
             'total_other_community_members':  'Total Other Participants',
             'academic_year': 'Academic Year',
         }
@@ -289,8 +289,9 @@ class ProjectMissionForm(ModelForm):
         model = ProjectMission
         fields = ('project_name','mission_type' , 'mission',)
         labels = {
-            'mission_type': ('Select Mission Type'),
-            'mission': ('Select Mission'),
+            'project_name' : ('Project Name'),
+            'mission_type': ('Mission Type'),
+            'mission': ('Mission'),
         }
 
 
@@ -298,14 +299,22 @@ class ProjectCommunityPartnerForm2(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
         fields = ('community_partner','total_hours','total_people',)
-
+        labels = {
+            'community_partner': ('Community Partner'),
+            'total_hours': ('Hours'),
+            'total_people': ('Volunteers'),
+        }
 
 
 class ProjectCampusPartnerForm(ModelForm):
     class Meta:
         model = ProjectCampusPartner
         fields = ('campus_partner','total_hours','total_people',)
-
+        labels = {
+            'campus_partner':('Campus Partner'),
+            'total_hours': ('Hours'),
+            'total_people': ('Volunteers'),
+        }
 
 
 class StatusForm(ModelForm):
@@ -314,7 +323,7 @@ class StatusForm(ModelForm):
         fields = ('name','description',)
 
 class EngagementTypeForm(ModelForm):
-    name = ModelChoiceField(EngagementType.objects.all(), empty_label= 'Select Enagagement Type')
+    name = ModelChoiceField(EngagementType.objects.all(), empty_label= 'Enagagement Type')
     class Meta:
         model = EngagementType
         fields =('name','description',)
@@ -330,8 +339,8 @@ class ProjectMissionFormset(forms.ModelForm):
         model = ProjectMission
         fields = ('mission_type', 'mission',)
         labels = {
-            'mission_type': ('Select Mission type'),
-            'mission': ('Select Mission'),
+            'mission_type': ('Mission Type'),
+            'mission': ('Mission Area'),
                     }
 
 class ProjectSearchForm(forms.ModelForm):
@@ -340,6 +349,7 @@ class ProjectSearchForm(forms.ModelForm):
         fields = ('project_name',)
         labels = {
             'project_name':('Project Name'),
+
          }
      # def __init__(self, *args, **kwargs):
     #     super(ProjectSearchForm, self).__init__(*args, **kwargs)

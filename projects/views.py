@@ -53,7 +53,6 @@ def communitypartnerproject(request):
     proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
     for f in proj_comm:
         print(f)
-        #total_hours = 0
         k=list(Project.objects.filter(id = f.project_name_id))
         print(k)
         for x in k:
@@ -72,7 +71,7 @@ def communitypartnerproject(request):
          #total_project_hours += proj_cam_par.total_hours
          #print(total_project_hours)
          data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-            'activityType': x.activity_type, 'academicYear':x.academic_year,
+            'activityType': x.activity_type,
             'facilitator': x.facilitator, 'semester': x.semester , 'status': x.status,
             'startDate': x.start_date,
             'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
@@ -186,7 +185,6 @@ def proj_view_user(request):
 
     for f in proj_camp:
         #print(l)
-        tot_hours = 0
         k=list(Project.objects.filter(id = f.project_name_id))
         #print(k)
         for x in k:
@@ -197,17 +195,12 @@ def proj_view_user(request):
             camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
             #print("camp_part is")
             #print(camp_part)
-            #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
-            # total_project_hours += proj_camp_par.total_hours
-            #x.total_uno_hours = tot_hours
-            #x.total_uno_students += proj_camp_par.total_people
-            #x.save()
             camp_part_names.append(camp_part)
          list_camp_part_names = camp_part_names
          camp_part_names = []
 
          data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-            'activityType': x.activity_type, 'academicYear':x.academic_year,
+            'activityType': x.activity_type,
             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
             'startDate': x.start_date,
             'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
@@ -373,7 +366,6 @@ def project_edit_new(request,pk):
             # get all the project names base on the campus partner id
             proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
             for f in proj_camp:
-                tot_hours = 0
                 k = list(Project.objects.filter(id=f.project_name_id))
                 # print(k)
                 for x in k:
@@ -383,17 +375,13 @@ def project_edit_new(request,pk):
                     proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
                     for proj_camp_par in proj_camp_par:
                         camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                        tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
-                        # total_project_hours += proj_camp_par.total_hours
-                        x.total_uno_hours = tot_hours
-                        x.total_uno_students += proj_camp_par.total_people
-                        x.save()
+
                         camp_part_names.append(camp_part)
                     list_camp_part_names = camp_part_names
                     camp_part_names = []
 
                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                            'activityType': x.activity_type, 'academicYear':x.academic_year,
+                            'activityType': x.activity_type,
                             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
                             'startDate': x.start_date,
                             'endDate': x.end_date, 'total_uno_students': x.total_uno_students,

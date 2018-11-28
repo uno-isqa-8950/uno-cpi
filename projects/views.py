@@ -175,6 +175,7 @@ def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
     camp_part_names=[]
+    p=0
     # Get the campus partner id related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     for c in camp_part_user:

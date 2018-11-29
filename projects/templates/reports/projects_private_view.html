@@ -4,36 +4,39 @@
 
 
 <style>
-    .panel{
-        margin-top: 10px;
+
+    .form-inline label
+    {
+        font-weight:bold;
+        text-align:left;
+        margin-bottom:10px;
+        display:inline;
+        margin-left:22px;
     }
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-}
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
+     .select2-container--default .select2-selection--single
+     {
+        margin-left:22px;
+        width:100%;
+     }
 
-tr:nth-child(even) {
-    background-color: #dddddd;
-}
-form label{
-  font-weight:bold;
-}
-
-.bs-example{
-    	margin: 100px 50px;
+    .select2-container--open .select2-dropdown--below
+    {
+        margin-left:22px
     }
+
+    .form-inline .form-group
+    {
+        display:inline-grid;
+        margin-bottom:30px;
+        margin-top:10px;
+    }
+
 .fa-question{
-   color:blue;
-    background-color:lightblue;
-    width:20px;
-    height:20px;
+   color:black;
+    background-color:lightgrey;
+    width:18px;
+    height:15px;
     display:inline-block;
     border-radius:100%;
     font-size:15px;
@@ -43,51 +46,49 @@ form label{
     -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
     box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
 }
-.select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
-
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
 </style>
 
-{% block selectizeForm %}
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
-<script>
-$(document).ready(function(){
-  $('#id_academic_year').select2(
-      {
-              placeholder: 'Select an Academic Year'}
-  );
-});
-$(document).ready(function(){
-  $('#id_mission').select2(
-      { placeholder: 'Select a Mission'
-      }
-  );
-});
-</script>
-{% endblock %}
-
-
-<div class="container-fluid" id="align">
-    <div class="col-md-12 panel panel-primary">
-        <br>
-        <div class="col-md-12 text-center" class="bs-example">
-            <h3>Report : Projects </h3>
-            <div class="col-md-12 text-right">
-           <i class="fas fa-question" href="#" data-toggle="tooltip" title="The report gives the information about the project information "></i>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+           <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;opacity:.8;">
+               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Projects</h4></b></label>
+               <div class="col-md-12 text-right">
+           <i class="fas fa-question" href="#" data-toggle="tooltip" title="The report gives the information about the project and the impact measured"></i>
             </div>
-        </div> <br>
+           </div>
+        </div>
+    </div>
+</div>
+        <br>
+<div class="container">
+    <div class="card" style="padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
+        <!-- Collapse buttons -->
+        <div>
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" />
+
+            <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
+                "click",
+                function(event) {
+                if (event.target.value === "Hide Filters") {
+                    event.target.value = "Show Filters";
+                } else {
+                        event.target.value = "Hide Filters";
+                        }
+                },
+                false
+                );
+            </script>
+
+        </div>
+<!-- / Collapse buttons -->
+    <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class="collapse show" id="collapseExample">
+
         <form class="form-inline" id="filters-form" method="get">
-            <div class="col-md-6 form-group">
+            <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_academic_year"> Academic Year : </label>
                 <select class="form-control" id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -96,7 +97,7 @@ $(document).ready(function(){
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-md-6 form-group">
+            <div class="col-lg-3 col-md-5 form-group">
                 <label for ="id_mission"> Mission Area : </label>
                 <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
                     <option> All </option>
@@ -106,8 +107,12 @@ $(document).ready(function(){
                 </select>
             </div>
         </form>
+        </div>
+    </div>
 
-        <table style="width:100%">
+       <div style="margin-top:15px;">
+        <table  id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+            <thead>
             <tr>
                 <th>Project Name</th>
                 <th>Campus Partner </th>
@@ -129,10 +134,11 @@ $(document).ready(function(){
             </tr>
             {% endfor %}
         </table>
+         </div></div><br><br><br>
+
         <br>
-    </div>
 </div>
-<br>
+
 <br> <br> <br>
 <script type="text/javascript">
 $(document).ready(function(){
@@ -141,4 +147,81 @@ $(document).ready(function(){
     });
 });
 </script>
+{% endblock %}
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_academic_year').select2(
+      {
+              placeholder: 'Select an Academic Year'}
+  );
+});
+$(document).ready(function(){
+  $('#id_mission').select2(
+      { placeholder: 'Select a Mission'
+      }
+  );
+});
+</script>
+{% endblock %}
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       buttons: {
+       name: 'primary',
+       buttons: ['csv', 'excel', 'pdf']
+       }
+   });
+
+   } );
+</script>
+<style>
+
+    .btn-group{float:left;, labels:"Export"}
+    #example_length{float:left; margin:0 0 0 0px;}
+    #example_length select{width:50%;}
+
+
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    margin-left:210px;
+    }
+
+
+    div.dataTables_wrapper div.dataTables_filter label
+    {
+    float:right;
+    }
+
+
+    @media (max-width: 900px)
+    {
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        float:left;
+        margin-left:50px;
+    }
+    #example_length select{width:35%;}
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+
+</style>
 {% endblock %}

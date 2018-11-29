@@ -373,3 +373,5 @@ class CourseForm(forms.ModelForm):
             'prefix': ('Prefix'),
             'number': ('Course Number')
         }
+
+

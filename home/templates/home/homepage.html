@@ -52,7 +52,7 @@
     .mapboxgl-map:-webkit-full-screen
     {
           width: 100%;
-          height: calc(100vh -200px);
+          height: calc(100vh - 200px);
           margin: 0px 0 0 0;
 
     }
@@ -316,7 +316,7 @@
 
     <div id="content">
 
-                <div class = "container" style="margin-top:78px;">
+                <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
                             <div>
@@ -333,8 +333,10 @@
                                     </div>
                                     <div class="col-lg-9 col-md-7">
                                         <div style="box-sizing: border-box; padding:5px;">
-                                            <label>Unique Community Partners: <b>256</b></label>
+                                            <label>Unique Community Partners: <b id = "totalnumber">{{ number }}</b></label>
                                         </div>
+                                        <!--<label style="box-sizing: border-box;">Unique Community Partners:</label>-->
+                                        <!--<div id = "totalnumber">{{ number }}</div>-->
                                     </div>
                                 </div>
                             </div>

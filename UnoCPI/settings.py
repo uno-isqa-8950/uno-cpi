@@ -97,12 +97,23 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 #     }
 # }
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'myproject2',
+#         'USER': 'myprojectuser',
+#         'PASSWORD': 'password',
+#         'HOST': 'localhost',
+#         'PORT': 5432,
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'myproject2',
-        'USER': 'myprojectuser',
-        'PASSWORD': 'password',
+        'NAME': 'reports_new',
+        'USER': 'naresh',
+        'PASSWORD': 'naresh',
         'HOST': 'localhost',
         'PORT': 5432,
     }

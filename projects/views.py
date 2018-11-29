@@ -649,43 +649,36 @@ def communityPrivateReport(request):
         data["name"] = partner.name
         data['website'] = partner.website_url
         try:
-            contact = Contact.objects.get(community_partner=partner.id, contact_type='Primary')
+            contact = Contact.objects.get(community_partner=partner, contact_type='Primary')
         except Contact.DoesNotExist:
             contact = None
         
         if contact:
-            data['firstName'] = contact.first_name
-            data['lastName'] = contact.last_name
-            data['cellPhone'] = contact.cell_phone
             data['email'] = contact.email_id
         else:
-            # data['firstName'] = ""
-            # data['lastName'] = ""
-            # data['cellPhone'] = ""
             data['email'] = ""
+
         communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
         count = 0
         for cproject in communityProjects:
             project = cproject.project_name
             projectMissions = ProjectMission.objects.filter(project_name=project)
             if project in projects.qs:
-                if "total_hours" != "" and "":
-                    if "total_hours" in data :
-                        data['total_UNO_students'] = int(data['total_UNO_students']) + int(project.total_uno_students)
-                        data['total_hours'] = int(data['total_hours']) + int(project.total_uno_hours)
-                        data['economic_impact'] = Decimal(data['economic_impact']) + Decimal(project.total_economic_impact)
-                    else:
-                        data['total_UNO_students'] = project.total_uno_students
-                        data['total_hours'] = project.total_uno_hours
-                        data['economic_impact'] = Decimal(project.total_economic_impact)
-                    count +=1
-
+                project = Project.objects.get(id=cproject.id)
+                if "total_hours" in data:
+                    data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
+                    data['total_hours'] = data['total_hours'] + project.total_uno_hours
+                    data['economic_impact'] = data['economic_impact'] + project.total_economic_impact
+                else:
+                    data['total_UNO_students'] = project.total_uno_students
+                    data['total_hours'] = project.total_uno_hours
+                    data['economic_impact'] = project.total_economic_impact
+                count +=1
             for mission in projectMissions:
                 if mission in missions.qs and count == 0:
                     count +=1
         data['communityProjects'] = count
         communityData.append(data)
-
 
     return render(request, 'reports/community_private_view.html',
                    {'communityPartners': communityPartners, "projects": projects, 

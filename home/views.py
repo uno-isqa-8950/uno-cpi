@@ -36,6 +36,11 @@ def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
+def MapHome(request):
+    return render(request, 'home/Map_Home.html',
+                  {'MapHome': MapHome})
+
+
 #def Contactus(request):
 #    return render(request, 'home/ContactUs.html',
 #                  {'Contactus': Contactus})

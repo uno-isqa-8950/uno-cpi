@@ -13,7 +13,7 @@ var count = 0;
 communityData.features.forEach(function(feature) {
     feature.properties["id"] = count;
     count++;
-})
+});
 //*********************************** Load the map *****************************************************
 
 var map = new mapboxgl.Map({

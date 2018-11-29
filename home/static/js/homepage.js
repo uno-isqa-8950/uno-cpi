@@ -6,7 +6,7 @@ var Missionarea = JSON.parse(document.getElementById('missionlist').textContent)
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent);
-
+console.log(CampusPartnerlist)
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var count = 0;
@@ -59,7 +59,7 @@ $('#selectCommtype').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var select3 = '';
-select3 += '<option val=' + "allcampus" + '>' + 'All Campus Partners' + '</option>';
+select3 += '<option val=' + 0 + '>' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
     select3 += '<option val=' + CampusPartnerlist[i] + '>' + CampusPartnerlist[i] + '</option>';
 }
@@ -93,14 +93,7 @@ function parseDescription(message) {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "State") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "Website") {
-            var website = message[i];
-            var base = "http://";
-            if (!website.includes("http")) {
-                website = base.concat(website);
-            }
-            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
-        } else if (i == "STATE") {
+        }  else if (i == "STATE") {
             string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "NAME") {
             string += '<span style="font-weight:bold">' + 'County' + '</span>' + ": " + message[i] + "<br>";
@@ -121,15 +114,28 @@ function parseDescription(message) {
                 string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>"
             }
         } else if (i == "CommunityType") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + "Community Type" + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Campus Partner") {
             if (message[i]) {
                 string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
             }
+        } else if (i == "Number of projects") {
+                string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Academic Year") {
+                string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Website") {
+            var website = message[i];
+            var base = "http://";
+            if (!website.includes("http")) {
+                website = base.concat(website);
+            }
+            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
         }
     }
     return string;
 };
+
+
 //*********************************** Load the map *****************************************************
 
 map.on("load", function() {
@@ -170,7 +176,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -181,7 +187,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -192,7 +198,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -203,7 +209,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -214,7 +220,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -225,7 +231,7 @@ map.on("load", function() {
         var coordinates = e.features[0].geometry.coordinates.slice();
         var description = e.features[0].properties;
         description = parseDescription(description);
-
+        map.flyTo({center: e.features[0].geometry.coordinates});
         popup.setLngLat(coordinates)
             .setHTML(description)
             .addTo(map);
@@ -243,6 +249,10 @@ map.on("load", function() {
             map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]])
             map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
             map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
+            //get the number of markers and show it on the HTML
+            var totalnumber = '';
+            totalnumber += communityData.features.length;
+            $('#totalnumber').html(totalnumber);
         } else {
             for (var i = 0; i <= CommunityType.length; i++) {
                 if (value == CommunityType[i]) {
@@ -264,16 +274,30 @@ map.on("load", function() {
                     map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
                         ["==", "CommunityType", CommunityType[i]]
                     ])
+                    // get the number of markers that fit the requirement and show on the HTML
+                    var totalnumber = '';
+                    var number = 0;
+                    communityData.features.forEach(function(e){
+                        if(e.properties['CommunityType'] == CommunityType[i]){
+                            number += 1;
+                        }
+                    })
+                    totalnumber += number;
+                    $('#totalnumber').html(totalnumber);
+
                 }
             }
         }
     })
 
+//*********************************** Campus Partner filter *****************************************************
 
     var selectCampus = document.getElementById('selectCampus');
     selectCampus.addEventListener("change", function(e) {
         var value = e.target.value.trim();
+        //
         if (!CampusPartnerlist.includes(value)) {
+            console.log("there")
             map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]])
             map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]])
             map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]])
@@ -281,28 +305,18 @@ map.on("load", function() {
             map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
             map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
         } else {
-            for (var i = 0; i < CampusPartnerlist.length; i++) {
-                if (value == CampusPartnerlist[i]) {
-                    map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                }
-            }
+            // for (var i = 0; i < CampusPartnerlist.length; i++) {
+                // if (value == i) {
+            console.log("here")
+                map.setFilter("show1", ['match', ['get', 'Campus Partner'[0]], value, true, false]);
+                map.setFilter("show2", ['match', ['get', 'Campus Partner'], value, true, false]);
+                map.setFilter("show3", ['match', ['get', 'Campus Partner'], value, true, false]);
+                map.setFilter("show4", ['match', ['get', 'Campus Partner'], value, true, false]);
+                map.setFilter("show5", ['match', ['get', 'Campus Partner'], value, true, false]);
+                map.setFilter("show6", ['match', ['get', 'Campus Partner'], value, true, false]);
+
+                // }
+            // }
         }
     })
 
@@ -313,12 +327,17 @@ map.on("load", function() {
         var value = e.target.value.trim().toLowerCase();
         value = parseInt(value)
         if (isNaN(value)) {
-            map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]])
-            map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]])
-            map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]])
-            map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]])
-            map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
-            map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
+            map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]]);
+            map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]]);
+            map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]]);
+            map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]]);
+            map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]]);
+            map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]]);
+            // get the number of markers that fit the requirement and show on the HTML
+            var totalnumber = '';
+            totalnumber = totalnumber + communityData.features.length;
+            $('#totalnumber').html(totalnumber);
+
         } else {
             map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
                 ["==", "Legislative District Number", value]
@@ -338,6 +357,17 @@ map.on("load", function() {
             map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
                 ["==", "Legislative District Number", value]
             ])
+            // get the number of markers that fit the requirement and show on the HTML
+            var totalnumber = '';
+            var number = 0;
+            communityData.features.forEach(function(e){
+                if(e.properties['Legislative District Number'] == value){
+                    number += 1;
+                }
+            })
+            totalnumber += number;
+            $('#totalnumber').html(totalnumber);
+
         }
 
     })
@@ -555,7 +585,10 @@ edu.addEventListener("click", function(e) {
     comlist.forEach(function(com) {
         map.setLayoutProperty(com, 'visibility', 'visible');
     })
+    var totalnumber = ''
 
+    totalnumber += communityData.features.length;
+    $('#totalnumber').html(totalnumber);
 })
 
 var edu = document.getElementById("Economic Sufficiency");
@@ -567,6 +600,15 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "Economic Sufficiency"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 
 })
 
@@ -579,7 +621,15 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
-
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "Educational Support"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 })
 
 var edu = document.getElementById("Environmental Stewardship");
@@ -591,7 +641,15 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
-
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "Environmental Stewardship"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 })
 
 var edu = document.getElementById("Health and Wellness");
@@ -603,7 +661,15 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
-
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "Health and Wellness"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 })
 var edu = document.getElementById("International Service");
 edu.addEventListener("click", function(e) {
@@ -614,7 +680,15 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
-
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "International Service"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 })
 var edu = document.getElementById("Social Justice");
 edu.addEventListener("click", function(e) {
@@ -625,26 +699,24 @@ edu.addEventListener("click", function(e) {
             map.setLayoutProperty(com, 'visibility', 'none');
         }
     })
-
+    var totalnumber = ''
+    var number = 0
+    communityData.features.forEach(function(e){
+        if(e.properties['Mission Area'] == "Social Justice"){
+            number += 1
+        }
+    })
+    totalnumber += number
+    $('#totalnumber').html(totalnumber);
 })
 
-// var edu = document.getElementById("selectCommtype");
-// edu.addEventListener("change", function(e) {
-//     var value = e.target.value.trim();
-//         if (!CommunityType.includes(value)) {
-//             map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]])
-//             map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]])
-//             map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]])
-//             map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]])
-//             map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
-//             map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
-//         } else {
-//             var ind = Missionarea.indexOf(value)
-//             if (com == comlist[ind]) {
-//                 map.setLayoutProperty(com, 'visibility', 'visible');
-//             } else {
-//                 map.setLayoutProperty(com, 'visibility', 'none');
-//             }
-//         }
+
+// function calculation(){
+//     var features1 = map.queryRenderedFeatures({layers:['show1', 'show2', 'show3', 'show4', 'show5', 'show6']});
 //
-// })
+//     return features1.length
+// }
+//
+// function filtermap(value){
+//     $('#totalnumber').html(value);
+// }

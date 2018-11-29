@@ -10,13 +10,13 @@ from home.models import *
 from home.filters import *
 from partners.models import *
 from university.models import Course
-from .forms import ProjectCommunityPartnerForm, ProjectSearchForm, ProjectCampusPartnerForm, CourseForm, ProjectFormAdd
+from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
 from .forms import ProjectForm, ProjectMissionForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import ProjectMissionFormset,ProjectCommunityPartnerForm2, ProjectCampusPartnerForm,ProjectForm2
+from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2
 from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
 import googlemaps
@@ -222,24 +222,26 @@ def proj_view_user(request):
 @login_required()
 @campuspartner_required()
 def project_total_Add(request):
+    campus_user = request.user.id
     mission_details = modelformset_factory(ProjectMission, extra =1 , form = ProjectMissionFormset)
-    #proj_comm_part= modelformset_factory(ProjectCommunityPartner, extra=1 , form =ProjectCommunityPartnerForm2)
-    proj_campus_part=modelformset_factory(ProjectCampusPartner, extra=1, form=ProjectCampusPartnerForm)
+    proj_comm_part= modelformset_factory(ProjectCommunityPartner, extra=1 , form =AddProjectCommunityPartnerForm)
+    proj_campus_part=modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
 
     if request.method == 'POST':
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None)
-        #formset2 = proj_comm_part(request.POST or None)
+        formset2 = proj_comm_part(request.POST or None)
         formset3 = proj_campus_part(request.POST or None)
+        print("hi")
 
-
-        if project.is_valid() and formset.is_valid() and course.is_valid() :
-            #and formset2.is_valid()
+        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             proj= project.save()
-            ##Project name append
+            #user to project
 
+            ##Project name append
+            print("hello")
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
             print(proj.project_name)
             if (proj.engagement_type == "Service Learning"):
@@ -262,7 +264,7 @@ def project_total_Add(request):
                     # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
                     print('hello')
-                return render(request, 'projects/projectadd.html',
+                    return render(request, 'projects/projectadd.html',
                               {'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
 
 
@@ -287,15 +289,15 @@ def project_total_Add(request):
 
 
             mission_form = formset.save(commit = False)
-            #proj_comm_form = formset2.save(commit= False)
+            proj_comm_form = formset2.save(commit= False)
             proj_campus_form = formset3.save(commit=False)
 
 
-            #for k in proj_comm_form:
-             #   k.project_name = proj
-             #   # print("in add comm")
-             #   print(k.project_name)
-             #   k.save()
+            for k in proj_comm_form:
+               k.project_name = proj
+               # print("in add comm")
+               print(k.project_name)
+               k.save()
             for form in mission_form:
                 form.project_name = proj
                 # print("in add mission")
@@ -312,7 +314,7 @@ def project_total_Add(request):
 
             for x in project:
                 projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                #cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                 camp_part = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
 
                 data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
@@ -333,18 +335,18 @@ def project_total_Add(request):
         project = ProjectFormAdd()
         course =CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none())
-        #formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
+        formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
         print('hello')
-    return render(request,'projects/projectadd.html',{'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
+    return render(request,'projects/projectadd.html',{'project': project, 'formset': formset, 'formset3': formset3, 'course': course, 'formset2' : formset2})
 
 @login_required()
 @campuspartner_required()
 def project_edit_new(request,pk):
     # a = get_object_or_404(Project, id=pk)
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
-    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=ProjectCommunityPartnerForm2)
-    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=ProjectCampusPartnerForm)
+    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=AddProjectCommunityPartnerForm)
+    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=AddProjectCampusPartnerForm)
     #print('print input to edit')
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)

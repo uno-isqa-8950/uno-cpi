@@ -26,6 +26,7 @@ class missionform(forms.ModelForm):
 
 
 class ProjectCommunityPartnerForm(forms.ModelForm):
+
     class Meta:
         model = ProjectCommunityPartner
         fields = ('project_name','total_hours','total_people','wages')
@@ -71,7 +72,7 @@ class ProjectForm2(ModelForm):
             'total_other_community_members':  'Total Other Participants',
             'academic_year': 'Academic Year'
         }
-    
+
     def clean_facilitator(self):
         facilitator = self.cleaned_data['facilitator']
 
@@ -93,7 +94,7 @@ class ProjectForm2(ModelForm):
 
     def clean_total_uno_students(self):
         total_uno_students = self.cleaned_data['total_uno_students']
-    
+
         if type(total_uno_students) != int:
             raise forms.ValidationError("Students cannot have Decimals")
         return total_uno_students
@@ -106,7 +107,7 @@ class ProjectForm2(ModelForm):
 
     def clean_total_k12_students(self):
         total_k12_students = self.cleaned_data['total_k12_students']
-        
+
         if type(total_k12_students) != int:
             raise forms.ValidationError("K12 Students cannot have Decimals")
         return total_k12_students
@@ -124,17 +125,17 @@ class ProjectForm2(ModelForm):
         if type(total_uno_faculty) != int:
             raise forms.ValidationError("Faculty cannot have Decimals")
         return total_uno_faculty
-    
+
     def clean_total_other_community_members(self):
         total_other_community_members = self.cleaned_data['total_other_community_members']
-        
+
         if type(total_other_community_members) != int:
             raise forms.ValidationError("Participants cannot have Decimals")
         return total_other_community_members
 
     def clean_country(self):
         country = self.cleaned_data['country']
-        
+
         if any(char.isdigit() for char in country):
             raise forms.ValidationError("Invalid Country Name")
         return country
@@ -166,7 +167,6 @@ class ProjectFormAdd(ModelForm):
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
@@ -215,50 +215,50 @@ class ProjectFormAdd(ModelForm):
     #     if len(int(sem[1])) == 4:
     #         raise forms.ValidationError("Year should contain 4 digits")
 
-    def clean_total_uno_students(self):
-        total_uno_students = self.cleaned_data['total_uno_students']
-    
-        if type(total_uno_students) != int :
-            raise forms.ValidationError("Students cannot have Decimals")
-        return total_uno_students
-
-    def clean_total_uno_hours(self):
-        total_uno_hours = self.cleaned_data['total_uno_hours']
-
-        if type(total_uno_hours) not in [int, float]:
-            raise forms.ValidationError("Hours cannot have characters")
-
-    def clean_total_k12_students(self):
-        total_k12_students = self.cleaned_data['total_k12_students']
-        
-        if type(total_k12_students) != int:
-            raise forms.ValidationError("K12 Students cannot have Decimals")
-        return total_k12_students
-
-    def clean_total_k12_hours(self):
-        total_k12_hours = self.cleaned_data['total_k12_hours']
-
-        if type(total_k12_hours) not in [int, float]:
-            raise forms.ValidationError("K12 Hours cannot have characters")
-        return total_k12_hours
-
-    def clean_total_uno_faculty(self):
-        total_uno_faculty = self.cleaned_data['total_uno_faculty']
-
-        if type(total_uno_faculty) != int:
-            raise forms.ValidationError("Faculty cannot have Decimals")
-        return total_uno_faculty
-    
-    def clean_total_other_community_members(self):
-        total_other_community_members = self.cleaned_data['total_other_community_members']
-        
-        if type(total_other_community_members) != int:
-            raise forms.ValidationError("Participants cannot have Decimals")
-        return total_other_community_members
+    # def clean_total_uno_students(self):
+    #     total_uno_students = self.cleaned_data['total_uno_students']
+    #
+    #     if type(total_uno_students) != int :
+    #         raise forms.ValidationError("Students cannot have Decimals")
+    #     return total_uno_students
+    #
+    # def clean_total_uno_hours(self):
+    #     total_uno_hours = self.cleaned_data['total_uno_hours']
+    #
+    #     if type(total_uno_hours) not in [int, float]:
+    #         raise forms.ValidationError("Hours cannot have characters")
+    #
+    # def clean_total_k12_students(self):
+    #     total_k12_students = self.cleaned_data['total_k12_students']
+    #
+    #     if type(total_k12_students) != int:
+    #         raise forms.ValidationError("K12 Students cannot have Decimals")
+    #     return total_k12_students
+    #
+    # def clean_total_k12_hours(self):
+    #     total_k12_hours = self.cleaned_data['total_k12_hours']
+    #
+    #     if type(total_k12_hours) not in [int, float]:
+    #         raise forms.ValidationError("K12 Hours cannot have characters")
+    #     return total_k12_hours
+    #
+    # def clean_total_uno_faculty(self):
+    #     total_uno_faculty = self.cleaned_data['total_uno_faculty']
+    #
+    #     if type(total_uno_faculty) != int:
+    #         raise forms.ValidationError("Faculty cannot have Decimals")
+    #     return total_uno_faculty
+    #
+    # def clean_total_other_community_members(self):
+    #     total_other_community_members = self.cleaned_data['total_other_community_members']
+    #
+    #     if type(total_other_community_members) != int:
+    #         raise forms.ValidationError("Participants cannot have Decimals")
+    #     return total_other_community_members
 
     def clean_country(self):
         country = self.cleaned_data['country']
-        
+
         if any(char.isdigit() for char in country):
             raise forms.ValidationError("Invalid Country Name")
         return country
@@ -295,7 +295,7 @@ class ProjectMissionForm(ModelForm):
         }
 
 
-class ProjectCommunityPartnerForm2(ModelForm):
+class AddProjectCommunityPartnerForm(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
         fields = ('community_partner','total_hours','total_people',)
@@ -306,7 +306,7 @@ class ProjectCommunityPartnerForm2(ModelForm):
         }
 
 
-class ProjectCampusPartnerForm(ModelForm):
+class AddProjectCampusPartnerForm(ModelForm):
     class Meta:
         model = ProjectCampusPartner
         fields = ('campus_partner','total_hours','total_people',)
@@ -318,6 +318,7 @@ class ProjectCampusPartnerForm(ModelForm):
 
 
 class StatusForm(ModelForm):
+
     class Meta:
         model= Status
         fields = ('name','description',)
@@ -335,6 +336,7 @@ class ActivityTypeForm(ModelForm):
         fields =('name','description',)
 
 class ProjectMissionFormset(forms.ModelForm):
+
     class Meta:
         model = ProjectMission
         fields = ('mission_type', 'mission',)
@@ -344,6 +346,7 @@ class ProjectMissionFormset(forms.ModelForm):
                     }
 
 class ProjectSearchForm(forms.ModelForm):
+
     class Meta:
         model = Project
         fields = ('project_name',)

@@ -96,7 +96,16 @@ DATABASES = {
         'PORT': 5432,
     }
 }
-
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.postgresql_psycopg2",
+#         "NAME": "sprint6_9",
+#         "USER": "postgres",
+#         "PASSWORD": "Lovemylife?",
+#         "HOST": "localhost",
+#         "PORT": 5433,
+#     }
+# }
 
 
 

@@ -633,8 +633,9 @@ def projectsPrivateReport(request):
                     data['campusPartner'] = ""
                 projectsData.append(data)
 
-        return render(request, 'reports/projects_private_view.html',
+    return render(request, 'reports/projects_private_view.html',
                           {'filter': projects, 'projectsData': projectsData, "missions": missions})
+
 
 @login_required()
 def communityPrivateReport(request):

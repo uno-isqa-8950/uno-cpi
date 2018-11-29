@@ -475,13 +475,13 @@ def missionchart(request):
     mission_area1 = list()
     project_count_data = list()
     partner_count_data = list()
-    max_series_data = list()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
 
     for m in missions:
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in project_filter.qs]
+
         mission_area1.append(m.mission_name)
         year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
         proj_year_ids = [p.id for p in year_filter.qs]
@@ -492,7 +492,7 @@ def missionchart(request):
             filter(community_partner_id__in=community_list).count()
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
-
+        print(project_count)
     Max_count = max(list(set(partner_count_data) | set(project_count_data)),default=1)
     # max_series_data.append(Max_count)
 
@@ -504,7 +504,8 @@ def missionchart(request):
             'name': 'Community Partner Count',
             'data': partner_count_data,
             'color': 'teal'}
-
+    print(partner_count_series)
+    print(project_count_series)
     chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},

@@ -112,7 +112,30 @@
                         {{weitz_cec_part}}
                     {% endfor %}
                 </select>
-
+            </div>
+            <div class="col-lg-3 col-md-5 form-group">
+                <label for="id_community_type"> Community Type : </label>
+                <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    {% for community_type in communityPartners.form.community_type %}
+                        {{community_type}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-5 form-group">
+                <label for="id_legislative_district"> Legislative District : </label>
+                <select class="form-control" id="id_legislative_district" name="legislative_district" onchange="this.form.submit()">
+                    {% for legislative_district in projects.form.legislative_district %}
+                        {{legislative_district}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-3 col-md-5 form-group">
+                <label for="id_median_household_income"> Household Income : </label>
+                <select class="form-control" id="id_median_household_income" name="median_household_income" onchange="this.form.submit()">
+                    {% for median_household_income in projects.form.median_household_income %}
+                        {{median_household_income}}
+                    {% endfor %}
+                </select>
             </div>
         </form>
         </div>
@@ -134,7 +157,7 @@
             <tbody>
             {% for community in communityData %}
             <tr>
-                <td>{{community.communityPartnerName}}</td>
+                <td>{{community.name}}</td>
                 <td>{{community.website}}</td>
                 <td>{{community.email}}</td>
                 <td>{{community.communityProjects}}</td>
@@ -176,6 +199,21 @@ $(document).ready(function(){
   $('#id_mission').select2(
       {
               placeholder: 'All Mission Areas',
+      }
+  );
+  $('#id_community_type').select2(
+      {
+              placeholder: 'All Community Types',
+      }
+  );
+  $('#id_legislative_district').select2(
+      {
+              placeholder: 'All Legislative Districts',
+      }
+  );
+  $('#id_median_household_income').select2(
+      {
+              placeholder: 'Household Income',
       }
   );
 });

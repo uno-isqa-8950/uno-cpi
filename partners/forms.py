@@ -125,6 +125,12 @@ class CommunityPartnerForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid City Name")
             return name
 
+    def clean_zip(self):
+        zip = self.cleaned_data['zip']
+        if type(zip) != int:
+            raise forms.ValidationError("Invalid ZIP Code")
+        return zip
+
 
 class CommunityContactForm(forms.ModelForm):
     class Meta:

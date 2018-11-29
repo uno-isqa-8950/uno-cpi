@@ -222,7 +222,7 @@ class UploadProjectForm(forms.ModelForm):
         fields = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
                   'academic_year', 'total_uno_students', 'total_uno_hours', 'total_k12_students', 'total_k12_hours',
                   'total_uno_faculty', 'total_other_community_members', 'other_details', 'outcomes',
-                  'total_economic_impact', 'status','address_line1', 'city', 'state' , 'zip','legislative_district', 'latitude','longitude')
+                  'total_economic_impact', 'status', 'longitude', 'latitude', 'address_line1', 'city', 'state',)
 
 
 class UploadProjectCampusForm(forms.ModelForm):

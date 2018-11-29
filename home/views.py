@@ -36,6 +36,11 @@ def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
+def MapHome(request):
+    return render(request, 'home/Map_Home.html',
+                  {'MapHome': MapHome})
+
+
 #def Contactus(request):
 #    return render(request, 'home/ContactUs.html',
 #                  {'Contactus': Contactus})
@@ -209,14 +214,12 @@ def upload_project(request):
                 data_dict['latitude'] = round(geocode_result[0]['geometry']['location']['lat'], 7)
                 data_dict['longitude'] = round(geocode_result[0]['geometry']['location']['lng'], 7)
             coord = Point([data_dict['longitude'], data_dict['latitude']])
-            # this is to prepare a variable to check which district a partner belongs to
-            # coord = Point(commPartner.longitude, commPartner.latitude)
             data_dict['legislative_district'] = 0  # a placeholder value
             for i in range(len(district)):  # iterate through a list of district polygons
                 property = district[i]
                 polygon = shape(property['geometry'])  # get the polygons
                 if polygon.contains(coord):  # check if a partner is in a polygon
-                    data_dict['legislative_district'] = property["id"]  # assign the district number to a partner
+                    data_dict['legislative_district'] = property["properties"]["id"]  # assign the district number to a partner
 
             data_dict['median_household_income'] = 0  # placeholder value of the income
             # get the county name and household income
@@ -226,7 +229,6 @@ def upload_project(request):
                 if polygon.contains(coord):  # check if the partner in question belongs to a polygon
                     data_dict['county'] = properties2['properties']['NAME']
                     data_dict['median_household_income'] = properties2['properties']['Income']
-
             project_count = Project.objects.filter(project_name=data_dict['project_name']).count()
             if project_count == 1:
                 form_campus = UploadProjectCampusForm(data_dict)
@@ -245,7 +247,7 @@ def upload_project(request):
                     form_campus = UploadProjectCampusForm(data_dict)
                     form_community = UploadProjectCommunityForm(data_dict)
                     form_mission = UploadProjectMissionForm(data_dict)
-                    if form_campus.is_valid and form_community.is_valid() and form_mission.is_valid():
+                    if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
                         form_campus.save()
                         form_community.save()
                         form_mission.save()
@@ -317,9 +319,7 @@ def upload_campus(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
-            print("data_dict", data_dict)
             college_count = College.objects.filter(college_name=data_dict['college_name']).count()
-            print("college_count", college_count)
             if not college_count:
                 form_college = UploadCollege(data_dict)
                 if form_college.is_valid():
@@ -330,7 +330,6 @@ def upload_campus(request):
                         form.save()
             else:
                 form = UploadCampusForm(data_dict)
-                print ("form", form)
                 if form.is_valid():
                     form.save()
     return render(request, 'import/uploadCampusDone.html')
@@ -476,13 +475,13 @@ def missionchart(request):
     mission_area1 = list()
     project_count_data = list()
     partner_count_data = list()
-    max_series_data = list()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
 
     for m in missions:
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in project_filter.qs]
+
         mission_area1.append(m.mission_name)
         year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
         proj_year_ids = [p.id for p in year_filter.qs]
@@ -493,7 +492,7 @@ def missionchart(request):
             filter(community_partner_id__in=community_list).count()
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
-
+        print(project_count)
     Max_count = max(list(set(partner_count_data) | set(project_count_data)),default=1)
     # max_series_data.append(Max_count)
 
@@ -505,7 +504,8 @@ def missionchart(request):
             'name': 'Community Partner Count',
             'data': partner_count_data,
             'color': 'teal'}
-
+    print(partner_count_series)
+    print(project_count_series)
     chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
@@ -626,9 +626,10 @@ def GEOJSON():
     for commPartner in commPartners: #iterate through all community partners
         #prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
-                                                     'Website': '', 'Legislative District Number': '',
+                                                      'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'CommunityType': '', 'Campus Partner':''},
+                                                     'CommunityType': '', 'Campus Partner':'',
+                                                     'Website': '',},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (commPartner.address_line1 != "N/A"): #check if a community partner's address is there
             fulladdress = commPartner.address_line1 + ' ' + commPartner.city + ' ' + commPartner.state
@@ -692,7 +693,7 @@ def GEOJSON():
 ######## export data to Javascript for Household map ################################
 def countyData(request):
     Campuspartner = GEOJSON()[3]
-    print(Campuspartner)
+    data = GEOJSON()[0]
     # Campuspartner = set(Campuspartner[0])
     # Campuspartner = list(Campuspartner)
     json_data = open('home/static/GEOJSON/USCounties_final.geojson')
@@ -702,36 +703,37 @@ def countyData(request):
                   {'countyData': county, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner)
+                   'Campuspartner': sorted(Campuspartner),
+                   'number': len(data['features'])
                    }
                   )
 
 def partnerdata(request):
     Campuspartner = GEOJSON()[3]
-    print(Campuspartner)
+    data = GEOJSON()[0]
 
     return render(request, 'home/homepage.html',
-                  {'collection': GEOJSON()[0],
+                  {'collection': data,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner)
+                   'Campuspartner': sorted(Campuspartner),
+                   'number': len(data['features'])
                    }
                   )
 
 def districtdata(request):
     Campuspartner = GEOJSON()[3]
-    print(Campuspartner)
+    data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/Districtmap.html',
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner)
+                   'Campuspartner': sorted(Campuspartner),
+                   'number': len(data['features'])
                    }
                   )
-
-##Geojson for projects
 
 def GEOJSON2():
 
@@ -776,8 +778,6 @@ def GEOJSON2():
                 feature['properties']['Mission Area'] = str(project_mission[0])
                 if (str(project_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     Missionlist.append(str(project_mission[0]))   #add
-                print('hello i am in loop')
-                print(Engagementlist)
 
             except:
                 print("No mission")
@@ -785,19 +785,16 @@ def GEOJSON2():
     #jsonstring = pd.io.json.dumps(collection)
     return (collection, Missionlist, Engagementlist)
 
-
  ###Project map export to javascript
 
 def projectdata(request):
 
    json_data = open('home/static/GEOJSON/USCounties_final.geojson')
    county = json.load(json_data)
-
+   data = GEOJSON2()[0]
    return render(request, 'home/projectmap.html',
                       {'countyData': county, 'collection': GEOJSON2()[0],
-                       'Missionlist': sorted(GEOJSON2()[1])
+                       'Missionlist': sorted(GEOJSON2()[1]),
+                       'number': len(data["features"])
                        }
                       )
-
-
-

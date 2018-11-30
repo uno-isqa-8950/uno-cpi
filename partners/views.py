@@ -206,11 +206,11 @@ def userProfileUpdate(request):
 @login_required
 def orgProfile(request):
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
+        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
         community_partner.type = str(community_partner.community_type)
-        contacts = Contact.objects.values().filter(community_partner= community_partner.id)
-        missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
+        contacts = Contact.objects.values().filter(community_partner=community_partner.id)
+        missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
 
         for mission in missions:
             mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
@@ -221,7 +221,7 @@ def orgProfile(request):
 
     elif request.user.is_campuspartner:
         campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
+        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
         contacts = Contact.objects.filter(campus_partner= campus_partner.id)
 
         return render(request, 'partners/campus_partner_org_profile.html', {"contacts":contacts,
@@ -235,11 +235,11 @@ def orgProfile(request):
 def orgProfileUpdate(request):
 
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, pk= community_user.id)
+        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
         org_type = str(community_partner.community_type)
-        contacts = Contact.objects.filter(community_partner= community_partner.id).first()
-        missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
+        contacts = Contact.objects.filter(community_partner=community_partner.id).first()
+        missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
 
         if request.method == 'POST':
             if "k12_level" not in request.POST:
@@ -274,7 +274,7 @@ def orgProfileUpdate(request):
 
     elif request.user.is_campuspartner:
         campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
+        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
         contacts = Contact.objects.filter(campus_partner=campus_partner.id).first()
 
         if request.method == 'POST':

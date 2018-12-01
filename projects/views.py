@@ -435,7 +435,7 @@ def SearchForProjectAdd(request,pk):
     names = []
     for project in Project.objects.all():
         names.append(project.project_name)
-
+    print(request.user.id)
     campusUserProjectsNames = []
     campusPartnerProjects = ProjectCampusPartner.objects.all()
     for project in ProjectCampusPartner.objects.all():
@@ -445,7 +445,9 @@ def SearchForProjectAdd(request,pk):
         if project.pk == int(pk):
             foundProject = project
 
-    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
+    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)
+    print("HERE ")
+    print(cp)
     object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
     object.save()
     return redirect("proj_view_user")
@@ -469,23 +471,30 @@ def projectsPublicReport(request):
                 data['engagementType'] = project.engagement_type
 
                 try:
-                    projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
-                    for projectCommunityPartner in projectCommunityPartners:
-                        if projectCommunityPartner.community_partner in communityPartners.qs:
-                            if "communityPartner" in data:
-                                data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
-                            else:
-                                data['communityPartner'] = projectCommunityPartner.community_partner
-                except ProjectCommunityPartner.DoesNotExist:
-                    data['communityPartner'] = ""
+                    projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
+                    for projectCampusPartner in projectCampusPartners:
+                        if "campusPartner" in data:
+                            data['campusPartner'] = data['campusPartner'] + ", " + str(projectCampusPartner.campus_partner)
+                        else:
+                            data['campusPartner'] = projectCampusPartner.campus_partner
+                except ProjectCampusPartner.DoesNotExist:
+                    data['campusPartner'] = None
+
+                if data['campusPartner']:
+                    try:
+                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                        for projectCommunityPartner in projectCommunityPartners:
+                            if projectCommunityPartner.community_partner in communityPartners.qs:
+                                if "communityPartner" in data:
+                                    data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
+                                else:
+                                    data['communityPartner'] = projectCommunityPartner.community_partner
+                    except ProjectCommunityPartner.DoesNotExist:
+                        data['communityPartner'] = ""
                 break
 
-        try:
-            projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
-            data['campusPartner'] = projectCampus.campus_partner
-        except ProjectCampusPartner.DoesNotExist:
-            data['campusPartner'] = ""
-        projectsData.append(data)
+        if data:
+            projectsData.append(data)
 
     return render(request, 'reports/projects_public_view.html', {'projects': projects,
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
@@ -540,24 +549,32 @@ def projectsPrivateReport(request):
                 data['total_UNO_students'] = project.total_uno_students
                 data['total_hours'] = project.total_uno_hours
                 data['economic_impact'] = project.total_economic_impact
+
                 try:
-                    projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
-                    for projectCommunityPartner in projectCommunityPartners:
-                        if projectCommunityPartner.community_partner in communityPartners.qs:
-                            if "communityPartner" in data:
-                                data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
-                            else:
-                                data['communityPartner'] = projectCommunityPartner.community_partner
-                except ProjectCommunityPartner.DoesNotExist:
-                    data['communityPartner'] = ""
+                    projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
+                    for projectCampusPartner in projectCampusPartners:
+                        if "campusPartner" in data:
+                            data['campusPartner'] = data['campusPartner'] + ", " + str(projectCampusPartner.campus_partner)
+                        else:
+                            data['campusPartner'] = projectCampusPartner.campus_partner
+                except ProjectCampusPartner.DoesNotExist:
+                    data['campusPartner'] = None
+
+                if data['campusPartner']:
+                    try:
+                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                        for projectCommunityPartner in projectCommunityPartners:
+                            if projectCommunityPartner.community_partner in communityPartners.qs:
+                                if "communityPartner" in data:
+                                    data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
+                                else:
+                                    data['communityPartner'] = projectCommunityPartner.community_partner
+                    except ProjectCommunityPartner.DoesNotExist:
+                        data['communityPartner'] = ""
                 break
 
-        try:
-            projectCampus = ProjectCampusPartner.objects.get(project_name=project.id)
-            data['campusPartner'] = projectCampus.campus_partner
-        except ProjectCampusPartner.DoesNotExist:
-            data['campusPartner'] = ""
-        projectsData.append(data)
+        if data:
+            projectsData.append(data)
 
 
     return render(request, 'reports/projects_private_view.html', {'projects': projects,

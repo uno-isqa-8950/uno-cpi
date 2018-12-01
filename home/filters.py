@@ -8,7 +8,7 @@ class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['academic_year', 'engagement_type', ]
+        fields = ['engagement_type','academic_year' ]
 
 
 class ProjectMissionFilter(django_filters.FilterSet):

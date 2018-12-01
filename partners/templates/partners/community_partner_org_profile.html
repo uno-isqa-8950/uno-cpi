@@ -98,19 +98,18 @@ font-variant: normal;
 {% endif %}
 
 <div class = "container">
-  <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
-      <div class="panel-body">
-        <!-- <div class="col-12">
-          <br>
-          <img src="{{ user.avatar.url }}" class="center" width="100">
-        </div> -->
-        <div class="col-md-6">
-          <h4>Organization Details</h4>
+  <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+                <div class="panel-body">
+                  <div class="col-md-6">
+                      <h4>Organization Details</h4>
+
         </div>
         <div class="row">
-          <div class="col-md-5 text-right">
-            <label>Organization Name : </label>
+                      <div class="col-md-5 text-right">
+                          <label>Organization Name : </label>
           </div>
           <div class="col-md-7">
             <label> {{community_partner.name}} </label>
@@ -172,7 +171,7 @@ font-variant: normal;
             <label> {{community_partner.country}} </label>
           </div>
           <div class="col-md-5 text-right">
-            <label> zip : </label>
+            <label> Zip : </label>
           </div>
           <div class="col-md-7">
             <label> {{community_partner.zip}} </label>

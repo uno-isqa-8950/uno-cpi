@@ -204,16 +204,8 @@ class ProjectFormAdd(ModelForm):
 
         return facilitator
 
-    def clean_semester(self):
-        semester = self.cleaned_data['semester']
-        sem = semester.split('-')
 
-        if len(sem) < 0:
-            raise forms.ValidationError("Semester should contain -")
-        if sem[0] not in ['Fall', 'Spring', 'Summer']:
-            raise forms.ValidationError("Please enter Summer, Spring or Fall")
-        if len(int(sem[1])) != 4:
-            raise forms.ValidationError("Year should contain 4 digits")
+
 
     def clean_total_uno_students(self):
         total_uno_students = self.cleaned_data['total_uno_students']

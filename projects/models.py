@@ -31,8 +31,8 @@ class Project (models.Model):
     county = models.CharField(max_length=100, blank=True, null=True)
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
 

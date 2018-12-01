@@ -46,17 +46,14 @@ class CampususerForm(forms.ModelForm):
 
     password = forms.CharField(label='Password', widget=forms.PasswordInput,help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
 
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email' )
-        labels = {
 
-            'first_name': ('First Name'),
-            'last_name': ('Last Name'),
-            'email': ('Email')
-        }
     def clean_first_name(self):
         firstname = self.cleaned_data['first_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
@@ -105,9 +102,9 @@ class CommunityuserForm(forms.ModelForm):
                                help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput,
                                 help_text='Atleast 8 characters having 1 digit and 1 special character')
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.EmailField(label='Email')
+    first_name = forms.CharField(label='First Name', required=True)
+    last_name = forms.CharField(label='Last Name', required=True)
+    email = forms.EmailField(label='Email', required=True)
 
     class Meta:
         model = User
@@ -225,7 +222,7 @@ class UploadProjectForm(forms.ModelForm):
         fields = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
                   'academic_year', 'total_uno_students', 'total_uno_hours', 'total_k12_students', 'total_k12_hours',
                   'total_uno_faculty', 'total_other_community_members', 'other_details', 'outcomes',
-                  'total_economic_impact', 'status', 'longitude', 'latitude', 'address_line1', 'city', 'state',)
+                  'total_economic_impact', 'status')
 
 
 class UploadProjectCampusForm(forms.ModelForm):

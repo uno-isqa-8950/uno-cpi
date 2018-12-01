@@ -36,11 +36,6 @@ def home(request):
     return render(request, 'home/homepage.html',
                   {'home': home})
 
-def MapHome(request):
-    return render(request, 'home/Map_Home.html',
-                  {'MapHome': MapHome})
-
-
 #def Contactus(request):
 #    return render(request, 'home/ContactUs.html',
 #                  {'Contactus': Contactus})
@@ -135,8 +130,7 @@ def signupuser(request):
 
 
 def registerCampusPartnerUser(request):
-    campus_partner_user_form = CampusPartnerUserForm()
-    user_form = CampususerForm()
+
     data = []
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
@@ -154,6 +148,10 @@ def registerCampusPartnerUser(request):
             campuspartneruser.save()
 
             return render(request, 'home/register_done.html', )
+    else:
+        user_form = CampususerForm(request.POST)
+        campus_partner_user_form = CampusPartnerUserForm(request.POST)
+
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data':data})
@@ -203,29 +201,6 @@ def upload_project(request):
         reader = csv.DictReader(decoded)
         for row in reader:
             data_dict = dict(OrderedDict(row))
-            county_data = countyGEO()
-            district = districtGEO()
-            if data_dict['address_line1'] != '':
-                full_address = data_dict['address_line1'] + ' ' + data_dict['city'] + ' ' + data_dict['state']
-                geocode_result = gmaps.geocode(full_address)
-                data_dict['latitude'] = round(geocode_result[0]['geometry']['location']['lat'], 7)
-                data_dict['longitude'] = round(geocode_result[0]['geometry']['location']['lng'], 7)
-            coord = Point([data_dict['longitude'], data_dict['latitude']])
-            data_dict['legislative_district'] = 0  # a placeholder value
-            for i in range(len(district)):  # iterate through a list of district polygons
-                property = district[i]
-                polygon = shape(property['geometry'])  # get the polygons
-                if polygon.contains(coord):  # check if a partner is in a polygon
-                    data_dict['legislative_district'] = property["properties"]["id"]  # assign the district number to a partner
-
-            data_dict['median_household_income'] = 0  # placeholder value of the income
-            # get the county name and household income
-            for m in range(len(county_data)):  # iterate through the County Geojson
-                properties2 = county_data[m]
-                polygon = shape(properties2['geometry'])  # get the polygon
-                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                    data_dict['county'] = properties2['properties']['NAME']
-                    data_dict['median_household_income'] = properties2['properties']['Income']
             project_count = Project.objects.filter(project_name=data_dict['project_name']).count()
             if project_count == 1:
                 form_campus = UploadProjectCampusForm(data_dict)
@@ -472,13 +447,13 @@ def missionchart(request):
     mission_area1 = list()
     project_count_data = list()
     partner_count_data = list()
+    max_series_data = list()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
 
     for m in missions:
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in project_filter.qs]
-
         mission_area1.append(m.mission_name)
         year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
         proj_year_ids = [p.id for p in year_filter.qs]
@@ -489,7 +464,7 @@ def missionchart(request):
             filter(community_partner_id__in=community_list).count()
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
-        print(project_count)
+
     Max_count = max(list(set(partner_count_data) | set(project_count_data)),default=1)
     # max_series_data.append(Max_count)
 
@@ -501,8 +476,7 @@ def missionchart(request):
             'name': 'Community Partner Count',
             'data': partner_count_data,
             'color': 'teal'}
-    print(partner_count_series)
-    print(project_count_series)
+
     chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
@@ -623,16 +597,17 @@ def GEOJSON():
     for commPartner in commPartners: #iterate through all community partners
         #prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
-                                                      'Legislative District Number': '',
+                                                     'Website': '', 'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'CommunityType': '', 'Campus Partner':'',
-                                                     'Website': '',},
+                                                     'CommunityType': '', 'Campus Partner':''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (commPartner.address_line1 != "N/A"): #check if a community partner's address is there
             fulladdress = commPartner.address_line1 + ' ' + commPartner.city + ' ' + commPartner.state
-            geocode_result = gmaps.geocode(fulladdress) #get the coordinates
-            commPartner.latitude = geocode_result[0]['geometry']['location']['lat']
-            commPartner.longitude = geocode_result[0]['geometry']['location']['lng']
+            # geocode_result = gmaps.geocode(fulladdress) #get the coordinates
+            # commPartner.latitude = geocode_result[0]['geometry']['location']['lat']
+            # commPartner.longitude = geocode_result[0]['geometry']['location']['lng']
+            print(commPartner.latitude)
+            print(commPartner.longitude)
             coord = Point([commPartner.longitude, commPartner.latitude])
 
              #this is to prepare a variable to check which district a partner belongs to
@@ -690,7 +665,7 @@ def GEOJSON():
 ######## export data to Javascript for Household map ################################
 def countyData(request):
     Campuspartner = GEOJSON()[3]
-    data = GEOJSON()[0]
+    print(Campuspartner)
     # Campuspartner = set(Campuspartner[0])
     # Campuspartner = list(Campuspartner)
     json_data = open('home/static/GEOJSON/USCounties_final.geojson')
@@ -700,98 +675,31 @@ def countyData(request):
                   {'countyData': county, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
-                   'number': len(data['features'])
+                   'Campuspartner': sorted(Campuspartner)
                    }
                   )
 
 def partnerdata(request):
     Campuspartner = GEOJSON()[3]
-    data = GEOJSON()[0]
+    # print(Campuspartner)
 
     return render(request, 'home/homepage.html',
-                  {'collection': data,
+                  {'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
-                   'number': len(data['features'])
+                   'Campuspartner': sorted(Campuspartner)
                    }
                   )
 
 def districtdata(request):
     Campuspartner = GEOJSON()[3]
-    data = GEOJSON()[0]
+    print(Campuspartner)
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/Districtmap.html',
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
-                   'number': len(data['features'])
+                   'Campuspartner': sorted(Campuspartner)
                    }
                   )
-
-def GEOJSON2():
-
-    projects = Project.objects.filter() #get all the projects
-
-    collection = {'type': 'FeatureCollection', 'features': []} #create the shell of GEOJSON
-    Missionlist = [] ## a placeholder array of unique mission areas
-    Engagementlist = []
-    Academicyearlist = []
-    for project in projects: #iterate through all projects
-        #prepare the shell of the features key inside the GEOJSON
-        feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '','Engagement Type': '',
-                                                      'Legislative District Number': '',
-                                                     'Income': '', 'County': '', 'Mission Area': '',
-                                                     },
-                   'geometry': {'type': 'Point', 'coordinates': []}}
-        if (project.address_line1 != "N/A"): #check if a project address is there
-
-            fulladdress = project.address_line1 + ' ' + project.city + ' ' + project.state
-            ### set the value for the feature variable  ######
-            feature['geometry']['coordinates'] = [project.longitude, project.latitude]
-            feature['properties']['Project Name'] = project.project_name
-            feature['properties']['Address'] = fulladdress
-            feature['properties']['Activity Type'] = str(project.activity_type)
-            feature['properties']['Academic year'] = str(project.academic_year)
-            feature['properties']['Legislative District Number'] = project.legislative_district
-            feature['properties']['Income'] = project.median_household_income
-            feature['properties']['County'] = project.county
-            ### get the mission area######
-            project_qs = ProjectMission.objects.filter(project_name__id=project.id)
-            project_mission = [p.mission for p in project_qs]
-
-            try:
-                feature['properties']['Engagement Type'] = str(project.engagement_type)
-                if (str(project.engagement_type) not in Engagementlist):
-                    Engagementlist.append(str(project.engagement_type))
-
-                feature['properties']['Academic year'] = str(project.academic_year)
-                if (str(project.academic_year) not in Academicyearlist):
-                    Academicyearlist.append(str(project.academic_year))
-
-                feature['properties']['Mission Area'] = str(project_mission[0])
-                if (str(project_mission[0]) not in Missionlist):  #check if the mission area is already recorded
-                    Missionlist.append(str(project_mission[0]))   #add
-
-            except:
-                print("No mission")
-            collection['features'].append(feature)  #create the geojson
-    #jsonstring = pd.io.json.dumps(collection)
-    return (collection, Missionlist, Engagementlist)
-
- ###Project map export to javascript
-
-def projectdata(request):
-
-   json_data = open('home/static/GEOJSON/USCounties_final.geojson')
-   county = json.load(json_data)
-   data = GEOJSON2()[0]
-   return render(request, 'home/projectmap.html',
-                      {'countyData': county, 'collection': GEOJSON2()[0],
-                       'Missionlist': sorted(GEOJSON2()[1]),
-                       'number': len(data["features"])
-                       }
-                      )

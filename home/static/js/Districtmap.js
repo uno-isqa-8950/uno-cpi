@@ -3,26 +3,23 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
 var colorcode = ['#17f3d1', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00']
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
-console.log(Missionarea);
-var showlist = [] //the array of layerIDs, used to categorize layers
-var base = "show"
-for (var i = 0; i < Missionarea.length; i++) { //populate showlist array
-    var text = base + i
-    showlist.push(text)
-}
-console.log(showlist);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
+console.log(Missionarea);
+console.log(CommunityType);
+console.log(CampusPartnerlist);
+console.log(communityData);
+
 var count = 0;
 communityData.features.forEach(function(feature) {
-        feature.properties["id"] = count;
-        count++;
-    })
-    //*********************************** Load the map *****************************************************
+    feature.properties["id"] = count;
+    count++;
+})
+//*********************************** Load the map *****************************************************
 
 var map = new mapboxgl.Map({
     container: 'map',
@@ -66,10 +63,23 @@ for (i = 0; i < CommunityType.length; i++) {
 $('#selectCommtype').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
+//reorganize CampusPartnerlist，void showing the same CampusPartner
+var campus=[];
+
+for(i=0;i<CampusPartnerlist.length;i++){
+    for(var j=0;j<CampusPartnerlist[i].length;j++){
+        if(!campus.includes(CampusPartnerlist[i][j])){
+            campus.push(CampusPartnerlist[i][j]);
+        }
+    }
+}
+console.log(campus);
+
 var select3 = '';
 select3 += '<option val=' + "allcampus" + '>' + 'All Campus Partners' + '</option>';
-for (i = 0; i < CampusPartnerlist.length; i++) {
-    select3 += '<option val=' + CampusPartnerlist[i] + '>' + CampusPartnerlist[i] + '</option>';
+for (i = 0; i < campus.length; i++) {
+    select3 += '<option val="' + campus[i] + '">' + campus[i] + '</option>';
+
 }
 $('#selectCampus').html(select3);
 //*********************************** Load the county data here. Should be down here. Otherwise it won't load *****************************************************
@@ -152,7 +162,7 @@ map.on("load", function() {
         type: 'geojson',
         data: districtData,
     });
-    //*********************************** Load the county in different household income levels *****************************************************
+//*********************************** Load the county in different household income levels *****************************************************
 
     map.addLayer({
         "id": "district",
@@ -161,23 +171,24 @@ map.on("load", function() {
         'layout': {},
         'paint': {
             "fill-color": "#888",
-            "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
                 1,
                 0.15
             ],
-            "fill-outline-color": '#3c341f'
+            "fill-outline-color": "#0000AA"
         }
     });
 
-    //*********************************** Load partners *****************************************************
+//*********************************** Load partners *****************************************************
 
     communityData.features.forEach(function(feature) {
         var primary = feature.properties["Mission Area"];
         var commType = feature.properties["CommunityType"]
-            // var base = "show"
+        var base = "show"
         for (var i = 0; i < Missionarea.length; i++) {
             if (primary == Missionarea[i]) {
-                layerID = showlist[i];
+                layerID = base + (i + 1);
                 if (!map.getLayer(layerID)) {
                     map.addLayer({
                         "id": layerID,
@@ -194,131 +205,213 @@ map.on("load", function() {
             }
         }
     });
-    //*********************************** function to show pop-up when clicking on the partner *****************************************************
+//*********************************** function to show pop-up when clicking on the partner *****************************************************
 
-    for (var i = 0; i < showlist.length; i++) {
-        map.on("click", showlist[i], function(e) { //go through every layer. Refer to showlist
-            map.getCanvas().style.cursor = 'pointer';
-            var coordinates = e.features[0].geometry.coordinates.slice();
-            var description = e.features[0].properties;
-            description = parseDescription(description);
-            map.flyTo({
-                center: e.features[0].geometry.coordinates
-            });
-            popup.setLngLat(coordinates)
-                .setHTML(description)
-                .addTo(map);
-            close();
-        });
-    }
-    //*********************************** Community Type filter *****************************************************
+    map.on("click", "show1", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
 
-    var selectCommtype = document.getElementById('selectCommtype');
-    selectCommtype.addEventListener("change", function(e) {
-            var value = e.target.value.trim();
-            if (!CommunityType.includes(value)) {
-                for (var i = 0; i < showlist.length; i++) {
-                    map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show2", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show3", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show4", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show5", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+    map.on("click", "show6", function(e) {
+        map.getCanvas().style.cursor = 'pointer';
+        var coordinates = e.features[0].geometry.coordinates.slice();
+        var description = e.features[0].properties;
+        description = parseDescription(description);
+
+        popup.setLngLat(coordinates)
+            .setHTML(description)
+            .addTo(map);
+        close();
+    });
+
+
+    var comlist = ["show1", "show2", "show3", "show4", "show5", "show6"];
+//*********************************** Community Type filter *****************************************************
+
+    $("#selectCommtype").change(function (e) {
+        var value = e.target.value.trim();
+
+        console.log(CommunityType.includes(value));
+        if (!CommunityType.includes(value)) {
+            for(var j=0;j<Missionarea.length;j++){
+                map.setFilter(comlist[j], ["all", ["==", "Mission Area", Missionarea[j]]]);
+            }
+        } else {
+            for(var j=0;j<Missionarea.length;j++){
+                console.log(j);
+                map.setFilter(comlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+                    ["==", "CommunityType", value]
+                ])
+            }
+
+        }
+    });
+
+
+    //*********************************** Campus Type filter *****************************************************
+    var comlist = ["show1", "show2", "show3", "show4", "show5", "show6"];
+
+
+     $("#selectCampus").on("select2:close",function (e) {
+
+        for(var j=0;j<Missionarea.length;j++){
+            map.setFilter(comlist[j], ["==", "Mission Area", Missionarea[j]]);
+        }
+    });
+
+
+
+   $("#selectCampus").on("select2:select",function (e){
+
+        var value = e.target.value.trim();
+        setTimeout(function () {//set 50ms delay to void filtering before the initiation completed
+            var cmValue=[];
+            for(var j=0;j<Missionarea.length;j++){
+                cmValue[j]=map.queryRenderedFeatures({
+                    layers: [comlist[j]]
+                });
+            }
+
+            //filter all fit partner
+            var filtered=[];
+            for(var j=0;j<Missionarea.length;j++){
+                filtered[j]=cmValue[j].filter(function(feature) {
+                    var name = feature.properties["Campus Partner"].trim();
+                    return name.includes(value);
+                });
+            }
+
+            //filter on the map
+            if (!campus.includes(value)) {
+                for(var j=0;j<Missionarea.length;j++){
+                    map.setFilter(comlist[j], ["all", ["==", "Mission Area", Missionarea[j]]]);
                 }
-                //get the number of markers and show it on the HTML
-                var totalnumber = '';
-                totalnumber += communityData.features.length;
-                $('#totalnumber').html(totalnumber);
             } else {
-                for (var i = 0; i <= CommunityType.length; i++) {
-                    if (value == CommunityType[i]) {
-                        for (var j = 0; j < showlist.length; j++) {
-                            map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
-                                ["==", "CommunityType", CommunityType[i]]
-                            ])
-                        }
-                        // get the number of markers that fit the requirement and show on the HTML
-                        var totalnumber = '';
-                        var number = 0;
-                        communityData.features.forEach(function(e) {
-                            if (e.properties['CommunityType'] == CommunityType[i]) {
-                                number += 1;
-                            }
-                        })
-                        totalnumber += number;
-                        $('#totalnumber').html(totalnumber);
-
+                for(var j=0;j<Missionarea.length;j++){
+                    if (filtered[j].length > 0) {
+                        map.setFilter(comlist[j], ['match', ['get', 'id'], filtered[j].map(function(feature) {
+                            console.log(feature.properties.id);
+                            return feature.properties.id;
+                        }), true, false]);
+                    } else {
+                        map.setFilter(comlist[j], ['match', ['get', 'id'], -1, true, false]);
                     }
                 }
             }
-        })
-        //*********************************** Campus partner filter *****************************************************
+        },50);
+    });
 
-    var selectCampus = document.getElementById('selectCampus');
-    selectCampus.addEventListener("change", function(e) {
-        var value = e.target.value.trim();
-        if (!CampusPartnerlist.includes(value)) {
-            for (var i = 0; i < showlist.length; i++) {
-                map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
-            }
-        } else {
-            for (var i = 0; i < CampusPartnerlist.length; i++) {
-                if (value == CampusPartnerlist[i]) {
-                    map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                }
-            }
-        }
-    })
 
-    //*********************************** District filter *****************************************************
+    // var selectCampus = document.getElementById('selectCampus');
+    // selectCampus.addEventListener("change", function(e) {
+    //     var value = e.target.value.trim();
+    //     if (!CampusPartnerlist.includes(value)) {
+    //         map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]])
+    //         map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]])
+    //         map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]])
+    //         map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]])
+    //         map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
+    //         map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
+    //     } else {
+    //         for (var i = 0; i < CampusPartnerlist.length; i++) {
+    //             if (value == CampusPartnerlist[i]) {
+    //                 map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //                 map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //                 map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //                 map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //                 map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //                 map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
+    //                     ["in", "Campus Partner", CampusPartnerlist[i]]
+    //                 ])
+    //             }
+    //         }
+    //     }
+    // })
 
-    var selectDistrict = document.getElementById('selectDistrict');
-    selectDistrict.addEventListener("change", function(e) {
+//*********************************** District filter *****************************************************
+    $("#selectDistrict").change(function (e) {
         var value = e.target.value.trim().toLowerCase();
-        value = parseInt(value)
+        value = parseInt(value);
+
         if (isNaN(value)) {
-            for (var i = 0; i < showlist.length; i++) {
-                map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
+            for(var j=0;j<Missionarea.length;j++){
+                map.setFilter(comlist[j], ["all", ["==", "Mission Area", Missionarea[j]]]);
             }
-            // get the number of markers that fit the requirement and show on the HTML
-            var totalnumber = '';
-            totalnumber = totalnumber + communityData.features.length;
-            $('#totalnumber').html(totalnumber);
 
         } else {
-            for (var j = 0; j < showlist.length; j++) {
-                map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+            for(var j=0;j<Missionarea.length;j++){
+                map.setFilter(comlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
                     ["==", "Legislative District Number", value]
-                ])
+                ]);
             }
-            // get the number of markers that fit the requirement and show on the HTML
-            var totalnumber = '';
-            var number = 0;
-            communityData.features.forEach(function(e) {
-                if (e.properties['Legislative District Number'] == value) {
-                    number += 1;
-                }
-            })
-            totalnumber += number;
-            $('#totalnumber').html(totalnumber);
-
         }
 
-    })
+    });
 
-    //*********************************** Search function *****************************************************
+
+
+
+//*********************************** Search function *****************************************************
 
     var valueFilter = document.getElementById("valueFilter");
 
@@ -522,40 +615,212 @@ function renderListings(features) {
 }
 
 //***********************************clickable legends*****************************************************
+var comlist = ["show1", "show2", "show3", "show4", "show5", "show6"];
 
-var edu = document.getElementById("all"); //get the total number of dots
+var edu = document.getElementById("all");
 edu.addEventListener("click", function(e) {
-    showlist.forEach(function(com) {
-        map.setLayoutProperty(com, 'visibility', 'visible');
-    })
-    var totalnumber = ''
-
-    totalnumber += communityData.features.length;
-    $('#totalnumber').html(totalnumber);
-})
-
-$('#legend a').click(function(e) { //filter dots by mission areas and show the number
-    var clickedValue = $(e.target).text(); //get the value from the choice
-    console.log(clickedValue)
-    var i = Missionarea.indexOf(clickedValue);
-    if (i > -1) {
-        var show = showlist[i];
-        showlist.forEach(function(com) {
-            if (com == show) {
-                map.setLayoutProperty(com, 'visibility', 'visible');
-            } else {
-                map.setLayoutProperty(com, 'visibility', 'none');
-            }
-        })
-        var totalnumber = ''
-        var number = 0
-        communityData.features.forEach(function(e) {
-            console.log(Missionarea[i])
-            if (e.properties['Mission Area'] == clickedValue) {
-                number += 1
-            }
-        })
-        totalnumber += number
-        $('#totalnumber').html(totalnumber);
+    for(var i=0;i<Missionarea.length;i++){
+        map.setLayoutProperty(comlist[i], 'visibility', 'visible');
     }
+    // comlist.forEach(function(com) {
+    //     map.setLayoutProperty(com, 'visibility', 'visible');
+    // })
+
 });
+
+
+
+var edu = document.getElementById("Economic Sufficiency");
+if(edu){
+    edu.addEventListener("click", function(e) {
+        var index=Missionarea.indexOf("Economic Sufficiency")
+        for(var i=0;i<Missionarea.length;i++) {
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    })
+}
+
+
+var edu = document.getElementById("Educational Support");
+if(edu){
+    edu.addEventListener("click", function(e) {
+        var index=Missionarea.indexOf("Educational Support")
+        for(var i=0;i<Missionarea.length;i++){
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    })
+}
+
+
+var edu = document.getElementById("Environmental Stewardship");
+if(edu){
+    edu.addEventListener("click", function(e) {
+        var index=Missionarea.indexOf("Environmental Stewardship");
+        for(var i=0;i<Missionarea.length;i++){
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    })
+}
+
+
+var edu = document.getElementById("Health and Wellness");
+if(edu){
+    edu.addEventListener("click", function(e) {
+        var index=Missionarea.indexOf("Health and Wellness");
+        for(var i=0;i<Missionarea.length;i++){
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    });
+}
+
+
+var edu = document.getElementById("International Service");
+if(edu){
+    edu.addEventListener("click", function(e) {
+        var index=Missionarea.indexOf("International Service")
+        for(var i=0;i<Missionarea.length;i++){
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    })
+}
+
+var edu = document.getElementById("Social Justice");
+if(edu){
+   edu.addEventListener("click", function(e) {
+       var index=Missionarea.indexOf("Social Justice")
+        for(var i=0;i<Missionarea.length;i++) {
+            if (i==index) {
+                map.setLayoutProperty(comlist[i], 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(comlist[i], 'visibility', 'none');
+            }
+        }
+
+    })
+}
+
+// var comlist = ["show1", "show2", "show3", "show4", "show5", "show6"];
+//
+// var edu = document.getElementById("all");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         map.setLayoutProperty(com, 'visibility', 'visible');
+//     })
+//
+// })
+//
+// var edu = document.getElementById("Economic Sufficiency");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show1") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+//
+// var edu = document.getElementById("Educational Support");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show2") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+//
+// var edu = document.getElementById("Environmental Stewardship");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show3") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+//
+// var edu = document.getElementById("Health and Wellness");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show4") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+// var edu = document.getElementById("International Service");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show5") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+// var edu = document.getElementById("Social Justice");
+// edu.addEventListener("click", function(e) {
+//     comlist.forEach(function(com) {
+//         if (com == "show6") {
+//             map.setLayoutProperty(com, 'visibility', 'visible');
+//         } else {
+//             map.setLayoutProperty(com, 'visibility', 'none');
+//         }
+//     })
+//
+// })
+
+// var edu = document.getElementById("selectCommtype");
+// edu.addEventListener("change", function(e) {
+//     var value = e.target.value.trim();
+//         if (!CommunityType.includes(value)) {
+//             map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]])
+//             map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]])
+//             map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]])
+//             map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]])
+//             map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]])
+//             map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]])
+//         } else {
+//             var ind = Missionarea.indexOf(value)
+//             if (com == comlist[ind]) {
+//                 map.setLayoutProperty(com, 'visibility', 'visible');
+//             } else {
+//                 map.setLayoutProperty(com, 'visibility', 'none');
+//             }
+//         }
+//
+// })

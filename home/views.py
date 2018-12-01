@@ -358,10 +358,11 @@ def project_partner_info(request):
     mission_dict = {}
     mission_list = []
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    import pdb; pdb.set_trace()
+    # import pdb; pdb.set_trace()
     # legislative_district = [project.legislative_district for project in project_filter.qs]
     # print ('legislative_district', legislative_district)
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 
     for m in missions:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
@@ -373,8 +374,12 @@ def project_partner_info(request):
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
         p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
         community_list = [c.community_partner_id for c in p_community]
+        community_list_new = []
+        for i in communityPartners.qs:
+            if i.id in community_list:
+                community_list_new.append(i.id)
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
-            filter(community_partner_id__in=community_list).count()
+            filter(community_partner_id__in=community_list_new).count()
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
         total_uno_students = 0
@@ -389,8 +394,8 @@ def project_partner_info(request):
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
     # print(mission_list)
-    return render(request, 'reports/14ProjectPartnerInfo.html',
-                  {'project_filter': project_filter, 'mission_list': mission_list, 'campus_filter': campus_filter})
+    return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
+                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

@@ -7,8 +7,8 @@ class SearchProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['project_name', 'academic_year']
+        fields = ['project_name', 'academic_year', "legislative_district", "median_household_income"]
         labels = {
             'project_name': ('Project Name'),
-            'academic_year': ('Academic Year')
+            'academic_year': ('Academic Year'),
            }

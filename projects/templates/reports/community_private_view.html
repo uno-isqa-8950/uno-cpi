@@ -87,15 +87,15 @@
     <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
         <form class="form-inline" id="filters-form" method="get">
-        <div class="col-lg-3 col-md-5 form-group">
-            <label for="id_semester"> Academic Year  : </label>
-                <select class="form-control" id="id_semester" name="semester" onchange="this.form.submit()">
+            <div class="col-lg-3 col-md-5 form-group">
+                <label for="academic_year"> Academic Year: </label>
+                <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
                     {% for sem in projects.form.academic_year %}
                         {{sem}}
                     {% endfor %}
                 </select>
-            </div>
+            </div>&emsp;
             <div class="col-md-5 form-group">
                 <label for="id_mission"> Mission Area : </label>
                 <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
@@ -121,7 +121,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group">
+            <!-- <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_legislative_district"> Legislative District : </label>
                 <select class="form-control" id="id_legislative_district" name="legislative_district" onchange="this.form.submit()">
                     {% for legislative_district in projects.form.legislative_district %}
@@ -135,7 +135,7 @@
                     {% for median_household_income in projects.form.median_household_income %}
                         {{median_household_income}}
                     {% endfor %}
-                </select>
+                </select> -->
             </div>
         </form>
         </div>
@@ -186,36 +186,20 @@ $(document).ready(function(){
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  $('#id_semester').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
-  $('#id_weitz_cec_part').select2(
-      {
-              placeholder: 'Select if CEC Partner',
-      }
-  );
-  $('#id_mission').select2(
-      {
-              placeholder: 'All Mission Areas',
-      }
-  );
-  $('#id_community_type').select2(
-      {
-              placeholder: 'All Community Types',
-      }
-  );
-  $('#id_legislative_district').select2(
-      {
-              placeholder: 'All Legislative Districts',
-      }
-  );
-  $('#id_median_household_income').select2(
-      {
-              placeholder: 'Household Income',
-      }
-  );
+  $('#id_academic_year').select2({placeholder: 'All Academic Years',});
+  $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Partner',});
+  $('#id_mission').select2({placeholder: 'All Mission Areas',});
+  $('#id_community_type').select2({placeholder: 'All Community Types',});
+//   $('#id_legislative_district').select2(
+//       {
+//               placeholder: 'All Legislative Districts',
+//       }
+//   );
+//   $('#id_median_household_income').select2(
+//       {
+//               placeholder: 'Household Income',
+//       }
+//   );
 });
 
 

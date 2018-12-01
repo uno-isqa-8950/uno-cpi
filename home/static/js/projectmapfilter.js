@@ -1,8 +1,14 @@
 //*********************************** Get mapbox API and get data from HTML *****************************************************
 
 mapboxgl.accessToken = 'pk.eyJ1IjoibWluaGR1b25nMjQzIiwiYSI6ImNqbHNvM3l0cTAxaXMzcHBiYnpvNjBsaXAifQ.NO598_UKYbyOIok45baiWA';
-var colorcode = ['#17f3d1','#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00'];
+var colorcode = ['#17f3d1', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00'];
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
+var showlist = [] //the array of layerIDs, used to categorize layers
+var base = "show"
+for (var i = 0; i < Missionarea.length; i++) { //populate showlist array
+    var text = base + i
+    showlist.push(text)
+}
 var projectData = JSON.parse(document.getElementById('project-data').textContent); //load the variable from views.py. See the line from html first
 
 //*********************************** Add id variable to Project Data GEOJSON for search function later *****************************************************
@@ -11,8 +17,6 @@ projectData.features.forEach(function(feature) {
     feature.properties["id"] = count;
     count++;
 });
-
-
 //*********************************** Load the map *****************************************************
 
 var map = new mapboxgl.Map({
@@ -54,12 +58,10 @@ var countyData = JSON.parse(document.getElementById('county-data').textContent);
 
 
 var formatter = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD',
-  minimumFractionDigits: 2,
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2,
 });
-
-
 
 function parseDescription(message) {
     var string = "";
@@ -79,9 +81,9 @@ function parseDescription(message) {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "Legislative District Number") {
             string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>";
-        } else if (i=="Income"){
+        } else if (i == "Income") {
             string += '<span style="font-weight:bold">' + "Household Income" + '</span>' + ": " + formatter.format(message[i]) + "<br>"
-        } else if (i=="County"){
+        } else if (i == "County") {
             string += '<span style="font-weight:bold">' + "County" + '</span>' + ": " + message[i] + "<br>"
         }
     }
@@ -100,13 +102,13 @@ map.on("load", function() {
     //     data: countyData,
     // });
 
-//*********************************** Load project data *****************************************************
-    projectData.features.forEach(function (feature) {
+    //*********************************** Load project data *****************************************************
+    projectData.features.forEach(function(feature) {
         var primary = feature.properties["Mission Area"];
         var base = "show";
         for (var i = 0; i < Missionarea.length; i++) {
             if (primary == Missionarea[i]) {
-                layerID = base + (i + 1);
+                layerID = showlist[i];
                 if (!map.getLayer(layerID)) {
                     map.addLayer({
                         "id": layerID,
@@ -127,131 +129,65 @@ map.on("load", function() {
 
     //*********************************** function to show pop-up when clicking on the partner *****************************************************
 
-    map.on("click", "show1", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-    map.on("click", "show2", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-    map.on("click", "show3", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-    map.on("click", "show4", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-    map.on("click", "show5", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-    map.on("click", "show6", function (e) {
-        map.getCanvas().style.cursor = 'pointer';
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        var description = e.features[0].properties;
-        description = parseDescription(description);
-
-        popup.setLngLat(coordinates)
-            .setHTML(description)
-            .addTo(map);
-        close();
-    });
-});
-
-//*********************************** District filter *****************************************************
+    for (var i = 0; i < showlist.length; i++) {
+        map.on("click", showlist[i], function(e) { //go through every layer. Refer to showlist
+            map.getCanvas().style.cursor = 'pointer';
+            var coordinates = e.features[0].geometry.coordinates.slice();
+            var description = e.features[0].properties;
+            description = parseDescription(description);
+            map.flyTo({
+                center: e.features[0].geometry.coordinates
+            });
+            popup.setLngLat(coordinates)
+                .setHTML(description)
+                .addTo(map);
+            close();
+        });
+    }
+    //*********************************** District filter *****************************************************
 
     var selectDistrict = document.getElementById('selectDistrict');
     selectDistrict.addEventListener("change", function(e) {
         var value = e.target.value.trim().toLowerCase();
-        value = parseInt(value);
+        value = parseInt(value)
         if (isNaN(value)) {
-            map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]]]);
-            map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]]]);
-            map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]]]);
-            map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]]]);
-            map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]]]);
-            map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]]]);
+            for (var i = 0; i < showlist.length; i++) {
+                map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
+            }
             // get the number of markers that fit the requirement and show on the HTML
             var totalnumber = '';
             totalnumber = totalnumber + projectData.features.length;
             $('#totalnumber').html(totalnumber);
+
         } else {
-            map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-                ["==", "Legislative District Number", value]
-            ]);
-            map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-                ["==", "Legislative District Number", value]
-            ]);
-            map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-                ["==", "Legislative District Number", value]
-            ]);
-            map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-                ["==", "Legislative District Number", value]
-            ]);
-            map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-                ["==", "Legislative District Number", value]
-            ]);
-            map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-                ["==", "Legislative District Number", value]
-            ])
+            for (var j = 0; j < showlist.length; j++) {
+                map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+                    ["==", "Legislative District Number", value]
+                ])
+            }
             // get the number of markers that fit the requirement and show on the HTML
             var totalnumber = '';
             var number = 0;
-            projectData.features.forEach(function(e){
-                if(e.properties['Legislative District Number'] == value){
+            projectData.features.forEach(function(e) {
+                if (e.properties['Legislative District Number'] == value) {
                     number += 1;
                 }
             })
             totalnumber += number;
             $('#totalnumber').html(totalnumber);
+
         }
 
-    });
+    })
+});
+
+
 
 //***********************************clickable legends*****************************************************
 
-var comlist = ["show1", "show2", "show3", "show4", "show5", "show6"];
-
-var edu = document.getElementById("all");
+var edu = document.getElementById("all"); //get the total number of dots
 edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
+    showlist.forEach(function(com) {
         map.setLayoutProperty(com, 'visibility', 'visible');
     })
     var totalnumber = ''
@@ -260,124 +196,31 @@ edu.addEventListener("click", function(e) {
     $('#totalnumber').html(totalnumber);
 })
 
-var edu = document.getElementById("Economic Sufficiency");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show1") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "Economic Sufficiency"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-
-})
-
-var edu = document.getElementById("Educational Support");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show2") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "Educational Support"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-})
-
-var edu = document.getElementById("Environmental Stewardship");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show3") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "Environmental Stewardship"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-})
-
-var edu = document.getElementById("Health and Wellness");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show4") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "Health and Wellness"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-})
-var edu = document.getElementById("International Service");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show5") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "International Service"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-})
-var edu = document.getElementById("Social Justice");
-edu.addEventListener("click", function(e) {
-    comlist.forEach(function(com) {
-        if (com == "show6") {
-            map.setLayoutProperty(com, 'visibility', 'visible');
-        } else {
-            map.setLayoutProperty(com, 'visibility', 'none');
-        }
-    })
-    var totalnumber = ''
-    var number = 0
-    projectData.features.forEach(function(e){
-        if(e.properties['Mission Area'] == "Social Justice"){
-            number += 1
-        }
-    })
-    totalnumber += number
-    $('#totalnumber').html(totalnumber);
-})
+$('#legend a').click(function(e) { //filter dots by mission areas and show the number
+    var clickedValue = $(e.target).text(); //get the value from the choice
+    console.log(clickedValue)
+    var i = Missionarea.indexOf(clickedValue);
+    if (i > -1) {
+        var show = showlist[i];
+        showlist.forEach(function(com) {
+            if (com == show) {
+                map.setLayoutProperty(com, 'visibility', 'visible');
+            } else {
+                map.setLayoutProperty(com, 'visibility', 'none');
+            }
+        })
+        var totalnumber = ''
+        var number = 0
+        projectData.features.forEach(function(e) {
+            console.log(Missionarea[i])
+            if (e.properties['Mission Area'] == clickedValue) {
+                number += 1
+            }
+        })
+        totalnumber += number
+        $('#totalnumber').html(totalnumber);
+    }
+});
 
 
 // mapboxgl.accessToken = 'pk.eyJ1IjoibWluaGR1b25nMjQzIiwiYSI6ImNqbHNvM3l0cTAxaXMzcHBiYnpvNjBsaXAifQ.NO598_UKYbyOIok45baiWA'

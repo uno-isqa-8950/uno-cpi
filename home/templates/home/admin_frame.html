@@ -3,7 +3,18 @@
 {% block title %}Uno CPI Admin  {% endblock %}
 {% block content %}
 <div class="embed-responsive embed-responsive-16by9" >
-    <iframe class="embed-responsive-item" src="/admin" allowfullscreen></iframe>
+    <iframe class="embed-responsive-item" id="django-admin" src="/admin" allowfullscreen></iframe>
 </div>
 
+    <script>
+    $("iframe").on("load", function() {
+        // Hiding Change Password and Logout from user menu
+        var iFrame = document.getElementById("django-admin");
+        var innerDoc = iFrame.contentDocument || iFrame.contentWindow.document;
+        var userTools = innerDoc.getElementById("user-tools");
+        if (userTools) {
+            userTools.style.display = "none";
+        }
+    });
+    </script>
 {% endblock %}

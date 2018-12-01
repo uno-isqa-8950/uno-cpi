@@ -80,7 +80,6 @@
                 <th>Academic Year</th>
                 <th>Status</th>
                 <th>Semester</th>
-                <th>Academic Year</th>
                 <th>Start Date </th>
                 <th>End Date </th>
                 <th> UNO Students</th>
@@ -106,10 +105,9 @@
                             <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
                             <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                             <td>{{ project.engagementType }}</td>
-                            <td>{{ project.semester }}</td>
+                            <td>{{ project.academic_year }}</td>
                             <td>{{ project.status}}</td>
                             <td>{{ project.semester }}</td>
-                           <td>{{ project.academic_year }}</td>
                             <td>{{ project.startDate }}</td>
                             <td>{{ project.endDate }}</td>
                             <td>{{project.total_uno_students}}</td>

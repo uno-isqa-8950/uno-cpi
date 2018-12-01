@@ -6,10 +6,20 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('projects', '0003_auto_20181127_0436'),
+        ('projects', '0001_initial'),
     ]
 
     operations = [
+        migrations.AlterField(
+            model_name='project',
+            name='latitude',
+            field=models.DecimalField(blank=True, decimal_places=7, max_digits=10, null=True),
+        ),
+        migrations.AlterField(
+            model_name='project',
+            name='longitude',
+            field=models.DecimalField(blank=True, decimal_places=7, max_digits=10, null=True),
+        ),
         migrations.AlterField(
             model_name='project',
             name='total_k12_hours',

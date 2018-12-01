@@ -36,7 +36,7 @@ class communityPartnerFilter(django_filters.FilterSet):
 
     class Meta:
         model = CommunityPartner
-        fields = ["weitz_cec_part"]
+        fields = ["weitz_cec_part", "community_type"]
 
 
 class CommunityMissionFilter(django_filters.FilterSet):

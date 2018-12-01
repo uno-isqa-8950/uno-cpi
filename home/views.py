@@ -214,7 +214,7 @@ def upload_project(request):
                 property = district[i]
                 polygon = shape(property['geometry'])  # get the polygons
                 if polygon.contains(coord):  # check if a partner is in a polygon
-                    data_dict['legislative_district'] = property["properties"]["id"]  # assign the district number to a partner
+                    data_dict['legislative_district'] = property["id"]  # assign the district number to a partner
 
             data_dict['median_household_income'] = 0  # placeholder value of the income
             # get the county name and household income

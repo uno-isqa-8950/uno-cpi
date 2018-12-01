@@ -88,15 +88,16 @@ margin-left:22px
 {#                    <label>Campus Information</label>#}
 {#                    <br>#}
 {#                </div>#}
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                 <div class="input-group">
-                    {{ form3|bootstrap }}
+                    {{ form3.as_p }}
+                </div>
                     <div class="input-group-append" >
-                        <button class="btn btn-secondary btn-sm add-form3-row">Add Campus Partner</button>
+                        <button class="btn btn-secondary btn-sm add-form3-row">Add More</button>
                     </div>
                 </div>
                 </div>
-         </div>
+         <!--</div>-->
          {% endfor %}
                                 {{ project.facilitator|bootstrap }}
                                  {{ project.status|bootstrap}}

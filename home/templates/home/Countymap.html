@@ -10,10 +10,10 @@
     .btn-custom1
         {
         position:absolute;
-        top:130px;
+        top:5px;
         left:40px;
-        border-color: #282828;
-        background-color: #e22626;
+        border-color: #484848;
+        background-color: #FF3333;
         color:White;
         z-index:999;
         }
@@ -22,7 +22,7 @@
     .active .btn-custom1
         {
         left:40px;
-        background-color: #282828;
+        background-color: #484848;
         }
 
 
@@ -52,7 +52,7 @@
     .mapboxgl-map:-webkit-full-screen
     {
           width: 100%;
-          height: calc(100vh -200px);
+          height: calc(100vh -150px);
           margin: 0px 0 0 0;
 
     }
@@ -61,7 +61,7 @@
     .map {
           position: relative;
           width: 100%;
-          height: calc(100vh - 200px);
+          height: calc(100vh - 150px);
           margin: 0px 0 0 0;
         }
 
@@ -293,18 +293,30 @@
         {
 
         }
+
+        .container-fluid
+        {
+        padding-left:0px;
+        padding-right:0px;
+        }
+
+        .card
+        {
+        border-radius:0px;
+        }
+
 </style>
 
 <div class="wrapper">
     <nav id="sidebar">
 
         <div id='state-legend' class='legend'>
-            <h3>Filters</h3>
+            <h3 style="border-bottom: 1px solid grey; padding-bottom:5px;">Filters</h3>
             <h4>Mission Areas</h4>
-            <div id='legend'>
+            <div id='legend' style="padding-bottom:5px;border-bottom: 1px solid grey;">
             </div>
 
-            <select id="selectDistrict" class="selectDistrict">
+            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
                 </select>
             <!--div id="sidebar"-->
             <div>
@@ -312,7 +324,7 @@
             </div>
             <select id="selectCommtype" class="selectCommtype"></select>
             <select id="selectCampus" class="selectCampus"></select>
-            <div id='incomelegend'>
+            <div id='incomelegend' style="padding-top:10px;padding-bottom:10px;border-top: 1px solid grey;border-bottom: 1px solid grey;">
                 <div>
                     <a href='#' id="allincome"><span style='background-color: black'></span><b>All income levels</b></a><br>
                     <a href='#' id="income1"><span style='background-color: #B8B8B8'></span><b>$25,000 or less</b></a><br>
@@ -331,28 +343,31 @@
                 <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div>
-                                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
-                                    <span></span>
-                                </button>
-                            </div>
-                            <div class="card" style="padding: 10px;margin-top:20px;background-color:#636568;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+
+                            <div class="card" style="padding: 5px;background-color:#636568;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                                 <div class="row">
-                                    <div class="col-lg-3" style="border-right: 1px solid grey;">
+                                    <div class="col-lg-1 col-md-1" style="border-right: 1px solid grey;">
+                                        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                                            <span></span>
+                                        </button>
+
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#434548;">
-                                            <label>Maps: Household Income</label>
+                                            <label><b>Maps: Household Income</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-9">
+                                    <div class="col-lg-7 col-md-6">
                                         <div style="box-sizing: border-box; padding:5px;">
-                                            <label>Unique Community Partners: <b id = "totalnumber">{{ number }}</b></label>
+                                            <label><b>Unique Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 		                <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div class="card" style="margin-top:5px;box-shadow: 2px 8px 8px 2px grey;">
+                            <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
                                 <div id='map' class='map'>
                                     {{ countyData | json_script:"county-data"}}
                                         <!--h3 id="overlay-header">Maps: Household Income</h3>

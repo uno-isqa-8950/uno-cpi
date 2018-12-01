@@ -111,7 +111,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group">
+                <!-- <div class="col-lg-3 col-md-5 form-group">
                     <label for="id_legislative_district"> Legislative District : </label>
                     <select class="form-control" id="id_legislative_district" name="legislative_district" onchange="this.form.submit()">
                         {% for legislative_district in projects.form.legislative_district %}
@@ -126,7 +126,7 @@
                             {{median_household_income}}
                         {% endfor %}
                     </select>
-                </div>
+                </div> -->
             </form>
 </div>
 </div>
@@ -197,8 +197,8 @@ $(document).ready(function(){
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Partner',});
     $('#id_mission').select2({placeholder: 'All Mission Areas',});
     $('#id_community_type').select2({placeholder: 'All Community Types',});
-    $('#id_legislative_district').select2({placeholder: 'All Legislative Districts',});
-    $('#id_median_household_income').select2({placeholder: 'Household Income',});
+    // $('#id_legislative_district').select2({placeholder: 'All Legislative Districts',});
+    // $('#id_median_household_income').select2({placeholder: 'Household Income',});
 });
 </script>
 {% endblock %}

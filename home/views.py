@@ -358,6 +358,9 @@ def project_partner_info(request):
     mission_dict = {}
     mission_list = []
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    import pdb; pdb.set_trace()
+    # legislative_district = [project.legislative_district for project in project_filter.qs]
+    # print ('legislative_district', legislative_district)
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
 
     for m in missions:
@@ -366,16 +369,12 @@ def project_partner_info(request):
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_filtered_ids = [project.id for project in project_filter.qs]
         project_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-        print(project_ids)
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
         p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
-        print(p_community)
         community_list = [c.community_partner_id for c in p_community]
-        print(community_list)
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
             filter(community_partner_id__in=community_list).count()
-        print(community_count)
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
         total_uno_students = 0

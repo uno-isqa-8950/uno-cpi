@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% block content %}
+{% load debug_tags %}
 
 <style>
 
@@ -79,8 +80,9 @@
                             <div class="col-lg-3 col-md-5 form-group">
                                 <label for="id_engagement_type"> Engagement Type: </label>
                                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                                                                                                  <option> All </option>
+                                        <option> All </option>
                                         {% for engagement in project_filter.form.engagement_type %}
+                                            {% debug %}
                                             {{engagement}}
                                         {% endfor %}
                                     </select>
@@ -90,7 +92,8 @@
                         <div class="col-lg-3 col-md-5 form-group">
                             <label for="academic_year"> Academic Year: </label>
                                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
-                                                                                               <option> All </option>
+                                        <option> All </option>
+                                        {% set_trace %}
                                         {% for sem in project_filter.form.academic_year %}
                                             {{sem}}
                                         {% endfor %}
@@ -99,15 +102,37 @@
                         </div>&emsp;
 
                         <div class="col-lg-3 col-md-5 form-group">
-                            <label for="campus_partner"> Campus Partner: </label>
-
-                                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                            <label for="legislative_district"> Legislative District: </label>
+                                    <select id="id_legislative_district" name="legislative_district" onchange="this.form.submit()">
                                         <option> All </option>
-                                        {% for campus in campus_filter.form.campus_partner %}
-                                            {{campus}}
+                                        {% for key, value in project_filter.form.fields.items %}
+                                            {% if key == "legislative_district" %}
+                                                {% for i in value %}
+                                                    {{i}}
+                                                {% endfor %}
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
+                        </div>&emsp;
 
+                        <div class="col-lg-3 col-md-5 form-group">
+                            <label for="median_household_income"> Household Income: </label>
+                                <select id="id_median_household_income" name="median_household_income" onchange="this.form.submit()">
+                                    <option> All </option>
+                                    {% for value in project_filter.form.median_household_income %}
+                                        {{value}}
+                                    {% endfor %}
+                                </select>
+                        </div>&emsp;
+
+                        <div class="col-lg-3 col-md-5 form-group">
+                            <label for="campus_partner"> Campus Partner: </label>
+                                <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                                    <option> All </option>
+                                    {% for campus in campus_filter.form.campus_partner %}
+                                        {{campus}}
+                                    {% endfor %}
+                                </select>
                         </div>
 
                     </form>
@@ -161,21 +186,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  $('#id_engagement_type').select2(
-      {
-              placeholder: 'All Engagement Types',
-      }
-  );
-  $('#id_campus_partner').select2(
-      {
-              placeholder: 'All Campus Partners',
-      }
-  );
-  $('#id_academic_year').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',});
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',});
+    // $('#id_legislative_district').select2({placeholder: 'All Legislative District',});
+    // $('#id_median_household_income').select2({placeholder: 'Household Income',});
 });
 </script>
 {% endblock %}

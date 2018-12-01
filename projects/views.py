@@ -238,12 +238,13 @@ def project_total_Add(request):
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             proj= project.save()
-            #user to project
-
-            ##Project name append
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
-            print(proj.project_name)
-            if (proj.engagement_type == "Service Learning"):
+            eng = proj.engagement_type
+            print(eng)
+
+
+            if eng == "Service Learning":
+                print("heoooooooooooooooooo")
                 course = course.save(commit=False)
                 course.project_name = proj
                 course.save()
@@ -300,12 +301,9 @@ def project_total_Add(request):
             for form in mission_form:
                 form.project_name = proj
                 # print("in add mission")
-                print(form.project_name)
                 form.save()
             for c in proj_campus_form:
                 c.project_name = proj
-                # print("in add campus")
-                print(c.project_name)
                 c.save()
 
                 project = Project.objects.filter(created_date__lte=timezone.now())
@@ -484,20 +482,6 @@ def SearchForProject(request):
          #@login_required()
         project_ids = [p.id for p in searched_project.qs]
         project_details = Project.objects.filter(id__in=project_ids)
-        NameOfProject= [p.project_name for p in searched_project.qs]
-        camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-        # camp_partner = camp_part_user[0].campus_partner
-         #
-        search_project_filtered = SearchProjectFilter(request.GET)
-        #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
-        #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
-        #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
-        #print(project_details)
-        # print(form.errors)
-        # if form.is_valid():
-        #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
-        #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
-        #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
         return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
 
 

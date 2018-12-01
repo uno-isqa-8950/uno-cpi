@@ -59,17 +59,17 @@ class ProjectForm2(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            'total_uno_students': 'Total Number of UNO Students',
-            'total_uno_hours': 'Total Number of UNO Students Hours',
-            'total_k12_students': 'Total Number of K-12 Students',
-            'total_k12_hours': 'Total Number of K-12 Hours',
-            'total_uno_faculty': 'Total Number of UNO Faculty/Staff',
+            'total_uno_students': 'Number of UNO Students',
+            'total_uno_hours': 'Number of UNO Students Hours',
+            'total_k12_students': 'Number of K-12 Students',
+            'total_k12_hours': 'Number of K-12 Hours',
+            'total_uno_faculty': 'Number of UNO Faculty/Staff',
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
             'address_line1': 'Address Line',
-            'total_other_community_members':  'Total Other Participants',
+            'total_other_community_members':  'Number of Other Participants',
             'academic_year': 'Academic Year'
         }
 

@@ -9,11 +9,11 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
 class CampusPartnerForm(forms.ModelForm):
-    department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
+    # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
         model = CampusPartner
-        fields = ('name', 'college_name', 'department',)
-        exclude = ('education_system','university',)
+        fields = ('name', 'college_name',)
+        exclude = ('education_system','university', 'department',)
 
         labels= {
             'name': ('Campus Partner Name'),
@@ -125,11 +125,11 @@ class CommunityPartnerForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid City Name")
             return name
 
-    def clean_zip(self):
-        zip = self.cleaned_data['zip']
-        if type(zip) != int:
-            raise forms.ValidationError("Invalid ZIP Code")
-        return zip
+    # def clean_zip(self):
+    #     zip = self.cleaned_data['zip']
+    #     if type(zip) != int:
+    #         raise forms.ValidationError("Invalid ZIP Code")
+    #     return zip
 
 
 class CommunityContactForm(forms.ModelForm):

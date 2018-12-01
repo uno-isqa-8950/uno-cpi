@@ -470,29 +470,27 @@ def unique_count(request):
 # Chart for projects with mission areas
 
 def missionchart(request):
-
     missions = MissionArea.objects.all()
     mission_area1 = list()
     project_count_data = list()
     partner_count_data = list()
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
-
+    # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    # print('pf',project_filter)
+    Year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     for m in missions:
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in project_filter.qs]
-
         mission_area1.append(m.mission_name)
-        year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
-        proj_year_ids = [p.id for p in year_filter.qs]
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).count()
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).filter(project_name_id__in=proj_year_ids).distinct()
+        year_filter = AcademicYearFilter(request.GET, queryset=Project.objects.all())
+        year_ids = [year.id for year in year_filter.qs]
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj_ids).filter(project_name_id__in=year_ids).count()
+        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct()
         community_list = [c.community_partner_id for c in p_community]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id). \
             filter(community_partner_id__in=community_list).count()
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
-        print(project_count)
+        print("heooo", project_count)
     Max_count = max(list(set(partner_count_data) | set(project_count_data)),default=1)
     # max_series_data.append(Max_count)
 
@@ -526,7 +524,7 @@ def missionchart(request):
         }
 
     dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter , 'year_filter' :year_filter})
+    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,'year_filter' :year_filter })
 
 
 def EngagementType_Chart(request):

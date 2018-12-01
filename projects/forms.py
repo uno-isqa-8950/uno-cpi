@@ -49,7 +49,7 @@ class ProjectForm2(ModelForm):
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
-                    'longitude',)
+                    'longitude','academic_year')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),

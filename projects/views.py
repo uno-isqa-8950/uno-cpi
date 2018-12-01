@@ -507,7 +507,7 @@ def SearchForProjectAdd(request,pk):
     names = []
     for project in Project.objects.all():
         names.append(project.project_name)
-
+    print(request.user.id)
     campusUserProjectsNames = []
     campusPartnerProjects = ProjectCampusPartner.objects.all()
     for project in ProjectCampusPartner.objects.all():
@@ -517,7 +517,9 @@ def SearchForProjectAdd(request,pk):
         if project.pk == int(pk):
             foundProject = project
 
-    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
+    cp = CampusPartnerUser.objects.filter(user_id=request.user.id)
+    print("HERE ")
+    print(cp)
     object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
     object.save()
     return redirect("proj_view_user")

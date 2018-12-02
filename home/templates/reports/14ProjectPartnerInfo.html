@@ -111,6 +111,7 @@
                         <div class="col-md-3 form-group">
                             <label for="id_weitz_cec_part"> CEC Partner : </label>
                             <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                                <option> All </option>
                                 {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                                     {{weitz_cec_part}}
                                 {% endfor %}

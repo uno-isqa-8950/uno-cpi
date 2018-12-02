@@ -287,7 +287,7 @@ def orgProfileUpdate(request):
                 community_org_form.save()
                 contacts_form.save()
                 missions_form.save()
-                messages.success(request, 'Organisation profile was successfully updated!')
+                messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
@@ -315,7 +315,7 @@ def orgProfileUpdate(request):
 
             if contacts_form.is_valid():
                 contacts_form.save()
-                messages.success(request, 'Organisation profile was successfully updated!')
+                messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')

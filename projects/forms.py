@@ -49,7 +49,7 @@ class ProjectForm2(ModelForm):
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
-                    'longitude',)
+                    'longitude','academic_year')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
@@ -282,6 +282,84 @@ class ProjectFormAdd(ModelForm):
     #     if type(zip) != int:
     #         raise forms.ValidationError("Invalid ZIP Code")
     #     return zip
+    def clean_facilitator(self):
+        facilitator = self.cleaned_data['facilitator']
+
+        if any(char.isdigit() for char in facilitator):
+            raise forms.ValidationError("Facilitator cannot have numbers")
+
+        return facilitator
+
+
+
+
+    def clean_total_uno_students(self):
+        total_uno_students = self.cleaned_data['total_uno_students']
+
+        if type(total_uno_students) != int:
+            raise forms.ValidationError("Students cannot have Decimals")
+        return total_uno_students
+
+    def clean_total_uno_hours(self):
+        total_uno_hours = self.cleaned_data['total_uno_hours']
+
+        if type(total_uno_hours) not in [int, float]:
+            raise forms.ValidationError("Hours cannot have characters")
+
+    def clean_total_k12_students(self):
+        total_k12_students = self.cleaned_data['total_k12_students']
+
+        if type(total_k12_students) != int:
+            raise forms.ValidationError("K12 Students cannot have Decimals")
+        return total_k12_students
+
+    def clean_total_k12_hours(self):
+        total_k12_hours = self.cleaned_data['total_k12_hours']
+
+        if type(total_k12_hours) not in [int, float]:
+            raise forms.ValidationError("K12 Hours cannot have characters")
+        return total_k12_hours
+
+    def clean_total_uno_faculty(self):
+        total_uno_faculty = self.cleaned_data['total_uno_faculty']
+
+        if type(total_uno_faculty) != int:
+            raise forms.ValidationError("Faculty cannot have Decimals")
+        return total_uno_faculty
+
+    def clean_total_other_community_members(self):
+        total_other_community_members = self.cleaned_data['total_other_community_members']
+
+        if type(total_other_community_members) != int:
+            raise forms.ValidationError("Participants cannot have Decimals")
+        return total_other_community_members
+
+    def clean_country(self):
+        country = self.cleaned_data['country']
+
+        if any(char.isdigit() for char in country):
+            raise forms.ValidationError("Invalid Country Name")
+        return country
+
+    def clean_state(self):
+        state = self.cleaned_data['state']
+
+        if any(char.isdigit() for char in state):
+            raise forms.ValidationError("Invalid State Name")
+        return state
+
+    def clean_city(self):
+        city = self.cleaned_data['city']
+
+        if any(char.isdigit() for char in city):
+            raise forms.ValidationError("Invalid City Name")
+        return city
+
+    def clean_zip(self):
+        zip = self.cleaned_data['zip']
+        if type(zip) != int:
+            raise forms.ValidationError("Invalid ZIP Code")
+        return zip
 
 
 class ProjectMissionForm(ModelForm):

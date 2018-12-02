@@ -127,7 +127,7 @@ class CommunityPartnerForm(forms.ModelForm):
 
     def clean_zip(self):
         zip = self.cleaned_data['zip']
-        if type(zip) != int:
+        if any(char.isalpha() for char in zip):
             raise forms.ValidationError("Invalid ZIP Code")
         return zip
 

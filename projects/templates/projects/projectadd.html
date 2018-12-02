@@ -82,6 +82,23 @@ margin-left:22px
                                 {{project.activity_type|bootstrap}}
                             <!--/div>
                             <div class="col-lg-5 col-md-6"-->
+                                         {% for form3 in formset3 %}
+         <div class="form3-row" id="contact1">
+{#                <div class="col-lg-12">#}
+{#                    <label>Campus Information</label>#}
+{#                    <br>#}
+{#                </div>#}
+                <div class="col-lg-12">
+                <div class="input-group">
+                    {{ form3.as_p }}
+                </div>
+                    <div class="input-group-append" >
+                        <button class="btn btn-secondary btn-sm add-form3-row">Add More</button>
+                    </div>
+                </div>
+                </div>
+         <!--</div>-->
+         {% endfor %}
                                 {{ project.facilitator|bootstrap }}
                                  {{ project.status|bootstrap}}
                             <!--/div>
@@ -111,18 +128,19 @@ margin-left:22px
 
                   {% for form in formset %}
          <div class="form-row" id="contact1">
-                <div class="col-lg-12">
-                    <label>Mission Information</label>
-                    <br>
-                </div>
+                <!--<div class="col-lg-12">-->
+                    <!--<label>Mission Information</label>-->
+                    <!--<br>-->
+                <!--</div>-->
                 <div class="col-lg-12">
                 <div class="input-group">
                     {{ form.as_p }}
+                    </div>
                     <div class="input-group-append" >
-                              <button class="btn btn-secondary add-form-row">Add mission</button>
+                              <button class="btn btn-secondary btn-sm add-form-row">Add More</button>
 
                     </div>
-                </div>
+
                 </div>
          </div>
          {% endfor %}
@@ -133,12 +151,12 @@ margin-left:22px
 {#                    <label>Community Partner Information</label>#}
 {#                    <br>#}
 {#                </div>#}
-                <div class="col-lg-6">
+                <div class="col-lg-12">
                 <div class="input-group">
-                    {{form2|bootstrap}}
+                    {{form2.as_p}}
                 </div>
                     <div class="input-group-append" >
-                             <button class="btn btn-secondary add-form2-row">Add more CommunityPartners</button>
+                             <button class="btn btn-secondary btn-sm add-form2-row">Add More</button>
 
                     </div>
 
@@ -146,22 +164,22 @@ margin-left:22px
           </div>
          {%endfor%}
 
-         {% for form3 in formset3 %}
-         <div class="form3-row" id="contact1">
-{#                <div class="col-lg-12">#}
-{#                    <label>Campus Information</label>#}
-{#                    <br>#}
-{#                </div>#}
-                <div class="col-lg-6">
-                <div class="input-group">
-                    {{ form3|bootstrap }}
-                    <div class="input-group-append" >
-                        <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
-                    </div>
-                </div>
-                </div>
-         </div>
-         {% endfor %}
+         <!--{% for form3 in formset3 %}-->
+         <!--<div class="form3-row" id="contact1">-->
+<!--{#                <div class="col-lg-12">#}-->
+<!--{#                    <label>Campus Information</label>#}-->
+<!--{#                    <br>#}-->
+<!--{#                </div>#}-->
+                <!--<div class="col-lg-6">-->
+                <!--<div class="input-group">-->
+                    <!--{{ form3|bootstrap }}-->
+                    <!--<div class="input-group-append" >-->
+                        <!--<button class="btn btn-secondary add-form3-row">Add Campus Partner</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+         <!--</div>-->
+         <!--{% endfor %}-->
 
         <button type="submit" class="save btn btn-custom">Submit</button>
 

@@ -80,17 +80,23 @@ margin-left:22px
 
 </style>
 
- <div class = "container">
-        <div class="row justify-content-md-center">
-		    <div class="col-lg-10 col-md-10">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4 class="searchName"><b>Search for Existing Projects</b></h4></div>
-			            <div class="panel-body">
 
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+           <div class="card" style="padding: 5px;margin-top:50px;background-color:#B3B3B3;">
+               <label style="text-align:justify;"><b style="font-size:17px;text-align:center;"><h4 style="line-height:.8em;padding-top:10px;">Search Existing Projects</h4></b></label>
+           </div>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
 
-                         </div>
-        <!--<div class="ui-widget">-->
-        <!--</div>-->
+    <form action="." method="GET">
+        {{ filter.form}}
+        {% csrf_token %}
+        <input type="submit" class="save btn btn-default" value="Search">
+    </form>
 
                         <div class="container">
                             <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
@@ -153,10 +159,7 @@ margin-left:22px
             </tbody>
         </table></div>
                 </div>
-                </div>
-            </div>
-        </div>
- </div>
+
 
  {% endblock %}
 

@@ -370,7 +370,13 @@ def project_partner_info(request):
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_filtered_ids = [project.id for project in project_filter.qs]
-        project_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+        ###Arti Code
+        legislative_filter = legislativeFilter(request.GET, queryset=Project.objects.all())
+        print(legislative_filter)
+        legislative_Filter_ids = [project.id for project in legislative_filter.qs]
+        # print(legislative_Filter_ids)
+        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+        project_ids = list(set(proj1_ids).intersection(legislative_Filter_ids))
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
         p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
@@ -396,7 +402,7 @@ def project_partner_info(request):
         mission_list.append(mission_dict.copy())
     # print(mission_list)
     return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
-                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
+                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter,'legislative_filter': legislative_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
@@ -476,7 +482,6 @@ def missionchart(request):
     partner_count_data = list()
     # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     # print('pf',project_filter)
-    Year_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     for m in missions:
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         proj_ids = [p.id for p in project_filter.qs]

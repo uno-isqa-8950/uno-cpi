@@ -154,17 +154,16 @@ def project_total_Add(request):
         formset = mission_details(request.POST or None)
         formset2 = proj_comm_part(request.POST or None)
         formset3 = proj_campus_part(request.POST or None)
-        print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
+        # print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             proj= project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
-            eng = proj.engagement_type
+            eng = str(proj.engagement_type)
             print(eng)
 
-
-            if eng == "Service Learning":
-                print("heoooooooooooooooooo")
+        ##If project engagement type is "Service learning" then only save the course
+            if eng == 'Service Learning':
                 course = course.save(commit=False)
                 course.project_name = proj
                 course.save()
@@ -268,8 +267,8 @@ def project_edit_new(request,pk):
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
+            course = CourseForm(request.POST or None, instance=x)
 
-        course = CourseForm(request.POST or None, instance= x)
         formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
@@ -357,7 +356,7 @@ def project_edit_new(request,pk):
                 project = ProjectForm2(request.POST or None, instance=x)
 
 
-            coursedetail = Course.objects.filter(project_name_id=pk)
+            # coursedetail = Course.objects.filter(project_name_id=pk)
             course = CourseForm(instance = x)
             # print(course)
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)

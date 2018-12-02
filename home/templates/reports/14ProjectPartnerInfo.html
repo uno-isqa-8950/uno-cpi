@@ -125,6 +125,20 @@
                                 {% endfor %}
                             </select>
                         </div>
+
+                     <div class="col-lg-3 col-md-5 form-group">
+                                <label for="id_legislative_district"> legislatve : </label>
+                                        <select id="id_legislative_district" name="legislative" onchange="this.form.submit()">
+                                            <option> All </option>
+                                            {% for district in legislative_filter.form.legislative_district %}
+                                               {{ district}}
+{#                                                {% for k,v in district.legislative_district %}#}
+{#                                                   {{ v }}#}
+{#                                                    {% endfor %}#}
+                                            {% endfor %}
+                                        </select>
+
+                            </div>&emsp;
                     </form>
             </div>
         <!--/div-->
@@ -181,6 +195,8 @@ $(document).ready(function(){
     $('#id_academic_year').select2({placeholder: 'All Academic Years',});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Partner',});
     $('#id_community_type').select2({placeholder: 'All Community Types',});
+    $('#id_legislative_district').select2({placeholder: 'All',});
+
     // $('#id_legislative_district').select2({placeholder: 'All Legislative District',});
     // $('#id_median_household_income').select2({placeholder: 'Household Income',});
 });

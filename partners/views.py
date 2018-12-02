@@ -89,6 +89,8 @@ def registerCommunityPartner(request):
                     mission.community_partner = community_partner
                     # missionarea = mission.cleaned_data
                     mission.save()
+                    missionarea = mission.mission_area
+                    print(missionarea)
                     print(mission.mission_area)
 ######## Minh's code to add coordinates, household income and district ######################
                     address = community_partner.address_line1
@@ -125,15 +127,15 @@ def registerCommunityPartner(request):
                     feature["properties"]["Address"] = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
                     feature["properties"]["Legislative District Number"] = community_partner.legislative_district
                     feature["properties"]["Income"] = community_partner.median_household_income
-                    feature["properties"]["County"] = community_partner.median_household_income
-                    feature["properties"]["Mission Area"] = community_partner.median_household_income
-                    feature["properties"]["Income"] = community_partner.median_household_income
+                    feature["properties"]["County"] = community_partner.county
+                    feature["properties"]["Mission Area"] = missionarea.mission_name
+                    feature["properties"]["Website"] = community_partner.website_url
                     project_ids = ProjectCommunityPartner.objects.filter(community_partner_id=community_partner.id)
                     project_id_list = [p.project_name_id for p in project_ids]
                     campus_ids = ProjectCampusPartner.objects.filter(project_name_id__in=project_id_list)
                     campus_id_list = [str(c.campus_partner) for c in campus_ids]
                     feature["properties"]["Campus Partner"] = campus_id_list
-                    feature["properties"]["CommunityType"] = community_partner.community_type
+                    feature["properties"]["CommunityType"] = community_partner.community_type.community_type
                     if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
                         with open('home/static/GEOJSON/Partner.geojson') as f:
                             geojson1 = json.load(f)  # get the GEOJSON

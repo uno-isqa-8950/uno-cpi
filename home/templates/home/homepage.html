@@ -134,6 +134,21 @@
         width: 210px;
         margin-bottom: 15px;
         }
+
+    select[id=selectYear]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin-top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
 	.h2 {
 			display: block;
 			font-size: 1.7em;
@@ -329,11 +344,12 @@
             <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
                 </select>
             <!--div id="sidebar"-->
+            <select id="selectCommtype" class="selectCommtype"></select>
+            <select id="selectCampus" class="selectCampus"></select>
+            <select id="selectYear" class="selectYear"></select>
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
             </div>
-            <select id="selectCommtype" class="selectCommtype"></select>
-            <select id="selectCampus" class="selectCampus"></select>
         </div>
 
     </nav>
@@ -377,6 +393,7 @@
                                     {{ Missionlist | json_script:"missionlist"}}
                                     {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
+                                    {{ year | json_script:"year-list" }}
                                 </div>
                             </div>
                         </div>

@@ -8,11 +8,20 @@ class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['academic_year', 'engagement_type', ]
+        fields = ['engagement_type','academic_year' ]
+
+
+class legislativeFilter(django_filters.FilterSet):
+
+   legislative_district = django_filters.filters.ModelChoiceFilter(queryset=Project.objects.order_by().values_list("legislative_district").distinct())
+
+   class Meta:
+        model = Project
+        fields = ['legislative_district']
+
 
 
 class ProjectMissionFilter(django_filters.FilterSet):
-
     class Meta:
         model = ProjectMission
         fields = ['mission', ]

@@ -35,7 +35,9 @@ class CommunityPartnerUserForm(forms.ModelForm):
     class Meta:
         model = CommunityPartnerUser
         fields = ('community_partner',)
-
+        labels = {
+            'community_partner': ('Community Partner')
+        }
         community_partner = forms.ModelChoiceField(
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
@@ -72,7 +74,11 @@ class userForm(forms.ModelForm):
             raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
-
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "edu" != email.split("@")[1].split('.')[1]:
+            raise forms.ValidationError("Please use .edu email ")
+        return email
 
     def clean_password2(self):
         pas = self.cleaned_data['password']

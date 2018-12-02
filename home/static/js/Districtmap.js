@@ -3,23 +3,25 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
 var colorcode = ['#17f3d1', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00']
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
-console.log(Missionarea);
 var showlist = [] //the array of layerIDs, used to categorize layers
 var base = "show"
 for (var i = 0; i < Missionarea.length; i++) { //populate showlist array
     var text = base + i
     showlist.push(text)
 }
-console.log(showlist);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
+var yearlist = JSON.parse(document.getElementById('year-list').textContent);
+var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts
 
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var count = 0;
 communityData.features.forEach(function(feature) {
         feature.properties["id"] = count;
+        feature.properties["campustest"] = 0 //this variable will be used to filter by campus partners
+        feature.properties["yeartest"] = 0 //this variable will be used to filter by academic years
         count++;
     })
     //*********************************** Load the map *****************************************************
@@ -72,6 +74,15 @@ for (i = 0; i < CampusPartnerlist.length; i++) {
     select3 += '<option val=' + CampusPartnerlist[i] + '>' + CampusPartnerlist[i] + '</option>';
 }
 $('#selectCampus').html(select3);
+
+//*********************************** Add year filter *****************************************************
+
+var select4 = '';
+select4 += '<option val=' + 0 + '>' + 'All Academic Years' + '</option>';
+for (i = 0; i < yearlist.length; i++) {
+    select4 += '<option val=' + i + '>' + yearlist[i] + '</option>';
+}
+$('#selectYear').html(select4);
 //*********************************** Load the county data here. Should be down here. Otherwise it won't load *****************************************************
 
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
@@ -89,7 +100,6 @@ function parseDescription(message) {
 
     for (var i in message) {
 
-
         if (i == "CommunityPartner") {
             string += '<span style="font-weight:bold">' + 'Community Partner' + '</span>' + ": " + message[i] + "<br>";
         }
@@ -103,13 +113,6 @@ function parseDescription(message) {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "  ";
         } else if (i == "State") {
             string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
-        } else if (i == "Website") {
-            var website = message[i];
-            var base = "http://";
-            if (!website.includes("http")) {
-                website = base.concat(website);
-            }
-            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
         } else if (i == "STATE") {
             string += '<span style="font-weight:bold">' + 'State' + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "NAME") {
@@ -131,11 +134,22 @@ function parseDescription(message) {
                 string += '<span style="font-weight:bold">' + "Legislative District Number" + '</span>' + ": " + message[i] + "<br>"
             }
         } else if (i == "CommunityType") {
-            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+            string += '<span style="font-weight:bold">' + "Community Type" + '</span>' + ": " + message[i] + "<br>";
         } else if (i == "Campus Partner") {
             if (message[i]) {
                 string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
             }
+        } else if (i == "Number of projects") {
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Academic Year") {
+            string += '<span style="font-weight:bold">' + i + '</span>' + ": " + message[i] + "<br>";
+        } else if (i == "Website") {
+            var website = message[i];
+            var base = "http://";
+            if (!website.includes("http")) {
+                website = base.concat(website);
+            }
+            string += `<a target="_blank" href="${website}" class="popup" style="color:darkblue">View ${i}</a><br>`;
         }
     }
     return string;
@@ -168,8 +182,31 @@ map.on("load", function() {
             "fill-outline-color": '#3c341f'
         }
     });
+    districtData.features.forEach(function(feature) {
+            var symbol = feature.properties['id'];
+            var layerID = 'poi-' + symbol;
 
-    //*********************************** Load partners *****************************************************
+            if (!map.getLayer(layerID)) {
+                map.addLayer({
+                    "id": layerID,
+                    "type": "fill",
+                    "source": "districtData",
+                    'layout': {},
+                    'paint': {
+                        "fill-color": "#888",
+                        "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
+                            1,
+                            0.5
+                        ],
+                        "fill-outline-color": "#3c341f"
+                    },
+                    "filter": ["==", "id", symbol]
+                });
+
+                layerIDs.push(layerID);
+            }
+        })
+        //*********************************** Load partners *****************************************************
 
     communityData.features.forEach(function(feature) {
         var primary = feature.properties["Mission Area"];
@@ -247,37 +284,50 @@ map.on("load", function() {
                 }
             }
         })
-        //*********************************** Campus partner filter *****************************************************
+        //*********************************** Campus Partner filter *****************************************************
 
-    var selectCampus = document.getElementById('selectCampus');
+    var selectCampus = document.getElementById('selectCampus'); //get the element on HTML
     selectCampus.addEventListener("change", function(e) {
-        var value = e.target.value.trim();
-        if (!CampusPartnerlist.includes(value)) {
-            for (var i = 0; i < showlist.length; i++) {
+        var value = e.target.value.trim(); //get the value of the drop-down. In this case, the text on the drop-down
+        if (!CampusPartnerlist.includes(value)) { // in the case of all Campus partners
+            for (var i = 0; i < showlist.length; i++) { //return all
                 map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
             }
-        } else {
-            for (var i = 0; i < CampusPartnerlist.length; i++) {
-                if (value == CampusPartnerlist[i]) {
-                    map.setFilter("show1", ["all", ["==", "Mission Area", Missionarea[0]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show2", ["all", ["==", "Mission Area", Missionarea[1]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show3", ["all", ["==", "Mission Area", Missionarea[2]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show4", ["all", ["==", "Mission Area", Missionarea[3]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show5", ["all", ["==", "Mission Area", Missionarea[4]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
-                    map.setFilter("show6", ["all", ["==", "Mission Area", Missionarea[5]],
-                        ["in", "Campus Partner", CampusPartnerlist[i]]
-                    ])
+        } else { //in case a campus partner is chosen
+            communityData.features.forEach(function(feature) { //iterate through the dataset
+                var campuspartner = feature.properties["Campus Partner"] //get the campus partner
+                if (campuspartner.includes(value)) { // if the partner has that campus partner
+                    feature.properties["campustest"] = 1 // assign this value 1
+                } else {
+                    feature.properties["campustest"] = 0 //if not, assign this value 0
                 }
+            })
+            map.getSource('communityData').setData(communityData) // update the dataset
+            communityData.features.forEach(function(feature) { //iterate through the dataset and draw the layers again
+                var primary = feature.properties["Mission Area"];
+                for (var i = 0; i < Missionarea.length; i++) {
+                    if (primary == Missionarea[i]) {
+                        layerID = showlist[i];
+                        if (!map.getLayer(layerID)) {
+                            map.addLayer({
+                                "id": layerID,
+                                "type": "circle",
+                                "source": "communityData",
+                                "paint": {
+                                    "circle-radius": 8,
+                                    "circle-opacity": 1,
+                                    "circle-color": colorcode[i],
+                                },
+                                "filter": ["all", ["==", "Mission Area", primary]]
+                            })
+                        }
+                    }
+                }
+            })
+            for (var j = 0; j < showlist.length; j++) { // filter the map with campustest being 1
+                map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+                    ["==", "campustest", 1]
+                ])
             }
         }
     })
@@ -286,55 +336,106 @@ map.on("load", function() {
 
     var selectDistrict = document.getElementById('selectDistrict');
     selectDistrict.addEventListener("change", function(e) {
-        var value = e.target.value.trim().toLowerCase();
-        value = parseInt(value)
-        if (isNaN(value)) {
+            var value = e.target.value.trim().toLowerCase();
+            value = parseInt(value)
+            if (isNaN(value)) {
+                for (var i = 0; i < showlist.length; i++) {
+                    map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
+                }
+                // get the number of markers that fit the requirement and show on the HTML
+                var totalnumber = '';
+                totalnumber = totalnumber + communityData.features.length;
+                $('#totalnumber').html(totalnumber);
+
+            } else {
+                for (var j = 0; j < showlist.length; j++) {
+                    map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+                        ["==", "Legislative District Number", value]
+                    ])
+                }
+                map.setFilter('district', 'id', value)
+                    // get the number of markers that fit the requirement and show on the HTML
+                var totalnumber = '';
+                var number = 0;
+                communityData.features.forEach(function(e) {
+                    if (e.properties['Legislative District Number'] == value) {
+                        number += 1;
+                    }
+                })
+                totalnumber += number;
+                $('#totalnumber').html(totalnumber);
+
+            }
+            var value = e.target.value.trim().toLowerCase();
+            layerIDs.forEach(function(layerID) {
+                console.log("dis:" + layerID.length);
+
+                map.setLayoutProperty(layerID, 'visibility',
+                    (layerID.indexOf(value) == 4) && (layerID.length == (value.length + 4)) ? 'visible' : 'none');
+            })
+        })
+        //*********************************** Academic Year filter *****************************************************
+
+    var selectYear = document.getElementById('selectYear'); //same concept as campus partner. Just for years
+    selectYear.addEventListener("change", function(e) {
+        var value = e.target.value.trim();
+        if (!yearlist.includes(value)) {
             for (var i = 0; i < showlist.length; i++) {
                 map.setFilter(showlist[i], ["all", ["==", "Mission Area", Missionarea[i]]])
             }
-            // get the number of markers that fit the requirement and show on the HTML
-            var totalnumber = '';
-            totalnumber = totalnumber + communityData.features.length;
-            $('#totalnumber').html(totalnumber);
-
         } else {
-            for (var j = 0; j < showlist.length; j++) {
-                map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
-                    ["==", "Legislative District Number", value]
-                ])
-            }
-            // get the number of markers that fit the requirement and show on the HTML
-            var totalnumber = '';
-            var number = 0;
-            communityData.features.forEach(function(e) {
-                if (e.properties['Legislative District Number'] == value) {
-                    number += 1;
+            communityData.features.forEach(function(feature) {
+                var year = feature.properties["Academic Year"]
+                if (year.includes(value)) {
+                    feature.properties["yeartest"] = 1
+                } else {
+                    feature.properties["yeartest"] = 0
                 }
             })
-            totalnumber += number;
-            $('#totalnumber').html(totalnumber);
-
+            map.getSource('communityData').setData(communityData)
+            communityData.features.forEach(function(feature) {
+                var primary = feature.properties["Mission Area"];
+                for (var i = 0; i < Missionarea.length; i++) {
+                    if (primary == Missionarea[i]) {
+                        layerID = showlist[i];
+                        if (!map.getLayer(layerID)) {
+                            map.addLayer({
+                                "id": layerID,
+                                "type": "circle",
+                                "source": "communityData",
+                                "paint": {
+                                    "circle-radius": 8,
+                                    "circle-opacity": 1,
+                                    "circle-color": colorcode[i],
+                                },
+                                "filter": ["all", ["==", "Mission Area", primary]]
+                            })
+                        }
+                    }
+                }
+            })
+            for (var j = 0; j < showlist.length; j++) {
+                map.setFilter(showlist[j], ["all", ["==", "Mission Area", Missionarea[j]],
+                    ["==", "yeartest", 1]
+                ])
+            }
         }
-
     })
 
     //*********************************** Search function *****************************************************
-
     var valueFilter = document.getElementById("valueFilter");
 
     //Press the listening button
     valueFilter.addEventListener("keydown", function(e) {
         if (e.keyCode == 8) {
-            map.setFilter("show1", ["==", "Mission Area", Missionarea[0]]);
-            map.setFilter("show2", ["==", "Mission Area", Missionarea[1]]);
-            map.setFilter("show3", ["==", "Mission Area", Missionarea[2]]);
-            map.setFilter("show4", ["==", "Mission Area", Missionarea[3]]);
-            map.setFilter("show5", ["==", "Mission Area", Missionarea[4]]);
-            map.setFilter("show6", ["==", "Mission Area", Missionarea[5]]);
+            for (var j = 0; j < Missionarea.length; j++) {
+                map.setFilter(showlist[j], ["==", "Mission Area", Missionarea[j]]);
+            }
         }
     });
 
     // the listening button off
+
     valueFilter.addEventListener("keyup", function(e) {
         //get the input value
         var value = e.target.value.trim().toLowerCase();
@@ -343,106 +444,37 @@ map.on("load", function() {
             renderListings([]);
         } else {
             //get geojosn data from the map
-            var cmValues1 = map.queryRenderedFeatures({
-                layers: ['show1']
-            });
-            var cmValues2 = map.queryRenderedFeatures({
-                layers: ['show2']
-            });
-            var cmValues3 = map.queryRenderedFeatures({
-                layers: ['show3']
-            });
-            var cmValues4 = map.queryRenderedFeatures({
-                layers: ['show4']
-            });
-            var cmValues5 = map.queryRenderedFeatures({
-                layers: ['show5']
-            });
-            var cmValues6 = map.queryRenderedFeatures({
-                layers: ['show6']
-            });
-            //filter the name(s) that include the input value
-            var filtered1 = cmValues1.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            var filtered2 = cmValues2.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            var filtered3 = cmValues3.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            var filtered4 = cmValues4.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            var filtered5 = cmValues5.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            var filtered6 = cmValues6.filter(function(feature) {
-                var name = normalize(feature.properties.CommunityPartner);
-                return name.indexOf(value) == 0;
-            });
-            filtereds = filtered1.concat(filtered2, filtered3, filtered4, filtered5, filtered6);
+            var cmValue = [];
+            for (var j = 0; j < Missionarea.length; j++) {
+                cmValue[j] = map.queryRenderedFeatures({
+                    layers: [showlist[j]]
+                });
+            }
+            var filtered = [];
+            var filtereds = [];
+            for (var j = 0; j < Missionarea.length; j++) {
+                filtered[j] = cmValue[j].filter(function(feature) {
+                    var name = normalize(feature.properties.CommunityPartner);
+                    return name.indexOf(value) == 0;
+                });
+                filtereds = filtereds.concat(filtered[j]);
+            }
 
+            console.log(filtereds);
             renderListings(filtereds);
 
-
-            if (filtered1.length > 0) {
-                map.setFilter("show1", ['match', ['get', 'id'], filtered1.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show1", ['match', ['get', 'id'], -1, true, false]);
-            }
-            if (filtered2.length > 0) {
-                map.setFilter("show2", ['match', ['get', 'id'], filtered2.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show2", ['match', ['get', 'id'], -1, true, false]);
+            for (var j = 0; j < Missionarea.length; j++) {
+                if (filtered[j].length > 0) {
+                    map.setFilter(showlist[j], ['match', ['get', 'id'], filtered[j].map(function(feature) {
+                        console.log(feature.properties.id);
+                        return feature.properties.id;
+                    }), true, false]);
+                } else {
+                    console.log("111111111111");
+                    map.setFilter(showlist[j], ['match', ['get', 'id'], -1, true, false]);
+                }
             }
 
-            if (filtered3.length > 0) {
-                map.setFilter("show3", ['match', ['get', 'id'], filtered3.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show3", ['match', ['get', 'id'], -1, true, false]);
-            }
-
-            if (filtered4.length > 0) {
-                map.setFilter("show4", ['match', ['get', 'id'], filtered4.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show4", ['match', ['get', 'id'], -1, true, false]);
-            }
-
-            if (filtered5.length > 0) {
-                map.setFilter("show5", ['match', ['get', 'id'], filtered5.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show5", ['match', ['get', 'id'], -1, true, false]);
-            }
-
-            if (filtered6.length > 0) {
-                map.setFilter("show6", ['match', ['get', 'id'], filtered6.map(function(feature) {
-
-                    return feature.properties.id;
-                }), true, false]);
-            } else {
-                map.setFilter("show6", ['match', ['get', 'id'], -1, true, false]);
-            }
         }
     });
 

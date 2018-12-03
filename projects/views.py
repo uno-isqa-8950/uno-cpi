@@ -40,6 +40,7 @@ def communitypartnerhome(request):
 @communitypartner_required()
 def communitypartnerproject(request):
     print(request.user.id)
+    p = 0
     projects_list=[]
     comm_part_names=[]
     camp_part_names=[]

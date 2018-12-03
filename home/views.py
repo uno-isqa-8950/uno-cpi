@@ -449,7 +449,7 @@ def project_partner_info(request):
     mission_dict = {}
     mission_list = []
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    # import pdb; pdb.set_trace()
+    # legislative_filter = legislativeFilter(request.GET, queryset=Project.objects.all())
     # legislative_district = [project.legislative_district for project in project_filter.qs]
     # print ('legislative_district', legislative_district)
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
@@ -461,12 +461,13 @@ def project_partner_info(request):
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_filtered_ids = [project.id for project in project_filter.qs]
         ###Arti Code
-        legislative_filter = legislativeFilter(request.GET, queryset=Project.objects.all())
-        print(legislative_filter)
-        legislative_Filter_ids = [project.id for project in legislative_filter.qs]
-        # print(legislative_Filter_ids)
-        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-        project_ids = list(set(proj1_ids).intersection(legislative_Filter_ids))
+        # legislative_filter = legislativeFilter(request.GET, queryset=Project.objects.all())
+        # # print("district value",legislative_filter.qs)
+        # legislative_Filter_ids = [project.id for project in legislative_filter.qs]
+        project_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+        # project_ids = list(set(proj1_ids).intersection(legislative_Filter_ids))
+        print(project_ids)
+
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
         p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
@@ -492,7 +493,7 @@ def project_partner_info(request):
         mission_list.append(mission_dict.copy())
     # print(mission_list)
     return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
-                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter,'legislative_filter': legislative_filter})
+                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

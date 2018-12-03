@@ -97,7 +97,17 @@
                                         {% endfor %}
                                     </select>
 
-                        </div>&emsp;
+                        </div>
+                        <div class="col-lg-3 col-md-5 form-group">
+                            <label for="district"> Legislative: </label>
+                                    <select id="id_district" name="district" onchange="this.form.submit()">
+                                        <option> All </option>
+                                        {% for district in project_filter.form.legislative_district %}
+                                            {{district}}
+                                        {% endfor %}
+                                    </select>
+
+                        </div>
 
                         <div class="col-lg-3 col-md-5 form-group">
                             <label for="campus_partner"> Campus Partner: </label>
@@ -126,19 +136,19 @@
                             </select>
                         </div>
 
-                     <div class="col-lg-3 col-md-5 form-group">
-                                <label for="id_legislative_district"> legislatve : </label>
-                                        <select id="id_legislative_district" name="legislative" onchange="this.form.submit()">
-                                            <option> All </option>
-                                            {% for district in legislative_filter.form.legislative_district %}
-                                               {{ district}}
+{#                     <div class="col-lg-3 col-md-5 form-group">#}
+{#                                <label for="id_legislative_district"> legislatve : </label>#}
+{#                                        <select id="id_legislative_district" name="legislative" onchange="this.form.submit()">#}
+{#                                            <option> All </option>#}
+{#                                            {% for district in legislative_filter.form.legislative_district %}#}
+{#                                               {{ district}}#}
 {#                                                {% for k,v in district.legislative_district %}#}
 {#                                                   {{ v }}#}
 {#                                                    {% endfor %}#}
-                                            {% endfor %}
-                                        </select>
-
-                            </div>&emsp;
+{#                                            {% endfor %}#}
+{#                                        </select>#}
+{##}
+{#                            </div>&emsp;#}
                     </form>
             </div>
         <!--/div-->

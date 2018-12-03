@@ -683,7 +683,7 @@ var edu = document.getElementById("all"); //get the total number of dots
 edu.addEventListener("click", function(e) {
 
     filterlist[0] = "all"
-    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5])
 })
 
 $('#legend a').click(function(e) { //filter dots by mission areas and show the number
@@ -691,7 +691,7 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     var i = Missionarea.indexOf(clickedValue);
     if (i > -1) {
         filterlist[0] = clickedValue;
-        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5]);
     }
 });
 

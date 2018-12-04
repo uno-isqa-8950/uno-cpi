@@ -202,11 +202,12 @@ return true;
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  {#$('#id_engagement_type').select2(#}
-  {#    {#}
-  {#            placeholder: 'Select an Engagement Type',#}
-  {#    }#}
-  {#);#}
+
+    $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
   $('#id_activity_type').select2(
       {
               placeholder: 'Select an Activity Type',

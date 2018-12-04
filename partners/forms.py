@@ -8,6 +8,7 @@ from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
+
 class CampusPartnerForm(forms.ModelForm):
     # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:

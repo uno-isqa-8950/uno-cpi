@@ -43,7 +43,7 @@ class CommunityPartnerUserForm(forms.ModelForm):
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
 
-class userForm(forms.ModelForm):
+class CampususerForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput,
                                help_text='Atleast 8 characters having 1 digit and 1 special character')
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput,
@@ -102,6 +102,57 @@ class userForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)
     password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+class CommunityuserForm(forms.ModelForm):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput,
+                               help_text='Atleast 8 characters having 1 digit and 1 special character')
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput,
+                                help_text='Atleast 8 characters having 1 digit and 1 special character')
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
+
+
+    def clean_password2(self):
+        pas = self.cleaned_data['password']
+        cd = self.cleaned_data['password2']
+        MIN_LENGTH = 8
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if pas and cd:
+            if pas != cd:
+                raise forms.ValidationError('Passwords don\'t match.')
+            else:
+                if len(pas) < MIN_LENGTH:
+                    raise forms.ValidationError("Password should have atleast %d characters" % MIN_LENGTH)
+                if pas.isdigit():
+                    raise forms.ValidationError("Password should not be all numeric")
+                if pas.isalpha():
+                    raise forms.ValidationError("Password should have atleast one digit")
+                if not any(char in special_characters for char in pas):
+                    raise forms.ValidationError("Password should have atleast one Special Character")
 
 
 class userUpdateForm(forms.ModelForm):

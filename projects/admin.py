@@ -5,7 +5,7 @@ from .models import Project, ProjectMission, ProjectCommunityPartner, ProjectCam
 
 class ProjectList(admin.ModelAdmin):
 
-    list_display = ('project_name', 'engagement_type', 'activity_type', 'facilitator', 'description', 'semester',
+    list_display = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
                     'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
                     'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',

@@ -159,7 +159,7 @@ def registerCampusPartnerUser(request):
     for object in CampusPartner.objects.order_by('name'):
         data.append(object.name)
     if request.method == 'POST':
-        user_form = userForm(request.POST)
+        user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
 
         if user_form.is_valid() and campus_partner_user_form.is_valid():
@@ -173,7 +173,7 @@ def registerCampusPartnerUser(request):
 
             return render(request, 'home/register_done.html', )
     else:
-        user_form = userForm()
+        user_form = CampususerForm()
         campus_partner_user_form = CampusPartnerUserForm()
 
     return render(request,
@@ -184,13 +184,13 @@ def registerCampusPartnerUser(request):
 @login_required()
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
-    user_form = userForm()
+    user_form = CommunityuserForm()
     commPartner = []
     for object in CommunityPartner.objects.order_by('name'):
         commPartner.append(object.name)
 
     if request.method == 'POST':
-        user_form = userForm(request.POST)
+        user_form = CommunityuserForm(request.POST)
         community_partner_user_form = CommunityPartnerUserForm(request.POST)
         if user_form.is_valid() and community_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
@@ -490,7 +490,7 @@ def project_partner_info(request):
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
     return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
-                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter,'legislative_filter': legislative_filter})
+                  'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

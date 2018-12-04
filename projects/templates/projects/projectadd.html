@@ -7,7 +7,6 @@
     margin-left: 25px;
     font-weight: bold;
     }
-
     h4
     {
     line-height: 2.7;
@@ -17,25 +16,21 @@
   {
       margin-top: 20px;
   }
-
     .btn-custom
     {
         margin-top:20px;
         margin-left:300px;
         width:130px;
     }
-
     input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status]
     {
     width:95%;
     }
-
 .select2-container--default .select2-selection--single
 {
 margin-left:22px;
 width:100%
 }
-
 .select2-container--open .select2-dropdown--below
 {
 margin-left:22px
@@ -45,15 +40,12 @@ margin-left:22px
                <a href="{% url 'SearchForProject' %}" class="row"><span
                          class="btn btn-custom">Search Project</span></a>
 </div-->
-
     <div class = "container">
         <div class="row justify-content-md-center">
-		    <div class="col-lg-10 col-md-10">
+            <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4><b>Add Project</b></h4></div>
-			            <div class="panel-body">
-
-
+                        <div class="panel-body">
                         <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
                         {{formset.management_form}}
                         {{formset2.management_form}}
@@ -65,13 +57,11 @@ margin-left:22px
                         </div>
                         <div class ="row">
                             <div class="col-lg-6 col-md-6"-->
-
                             <!--/div>
                             <div class="col-lg-5 col-md-6"-->
                                 {{project.engagement_type|bootstrap}}
                                 <div class = "row">
                         <div class="col-lg-12 col-md-12 col-sm-12">
-
                             <!--/div>
                         </div>
                         <div class ="row"-->
@@ -82,22 +72,38 @@ margin-left:22px
                                 {{project.activity_type|bootstrap}}
                             <!--/div>
                             <div class="col-lg-5 col-md-6"-->
-                                         {% for form3 in formset3 %}
+                                         <!--{% for form3 in formset3 %}-->
+         <!--<div class="form3-row" id="contact1">-->
+<!--{#                <div class="col-lg-12">#}-->
+<!--{#                    <label>Campus Information</label>#}-->
+<!--{#                    <br>#}-->
+<!--{#                </div>#}-->
+                <!--<div class="col-lg-12">-->
+                <!--<div class="input-group">-->
+                    <!--{{ form3.as_p }}-->
+                <!--</div>-->
+                    <!--<div class="input-group-append" >-->
+                        <!--<button class="btn btn-secondary btn-sm add-form3-row">Add More</button>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--</div>-->
+         <!--&lt;!&ndash;</div>&ndash;&gt;-->
+         <!--{% endfor %}-->
+         {% for form3 in formset3 %}
          <div class="form3-row" id="contact1">
-{#                <div class="col-lg-12">#}
-{#                    <label>Campus Information</label>#}
-{#                    <br>#}
-{#                </div>#}
-                <div class="col-lg-12">
+              <div class="col-lg-12">
+                    <label>Campus Information</label>
+                    <br>
+               </div>
+                <div class="col-lg-6">
                 <div class="input-group">
-                    {{ form3.as_p }}
-                </div>
+                    {{ form3|bootstrap }}
                     <div class="input-group-append" >
-                        <button class="btn btn-secondary btn-sm add-form3-row">Add More</button>
+                        <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
                     </div>
                 </div>
                 </div>
-         <!--</div>-->
+         </div>
          {% endfor %}
                                 {{ project.facilitator|bootstrap }}
                                  {{ project.status|bootstrap}}
@@ -106,7 +112,6 @@ margin-left:22px
          {{ project.description|bootstrap }}
          {{ project.semester|bootstrap }}
          {{ project.academic_year|bootstrap }}
-
          {{ project.total_uno_students|bootstrap }}
          {{ project.total_uno_hours|bootstrap }}
          {{ project.total_k12_students|bootstrap }}
@@ -124,8 +129,6 @@ margin-left:22px
          {{ project.zip|bootstrap }}
         </div>
         </div>
-
-
                   {% for form in formset %}
          <div class="form-row" id="contact1">
                 <!--<div class="col-lg-12">-->
@@ -138,13 +141,10 @@ margin-left:22px
                     </div>
                     <div class="input-group-append" >
                               <button class="btn btn-secondary btn-sm add-form-row">Add More</button>
-
                     </div>
-
                 </div>
          </div>
          {% endfor %}
-
          {% for form2 in formset2 %}
           <div class="form2-row" id="contact2">
 {#                <div class="col-lg-12">#}
@@ -157,39 +157,14 @@ margin-left:22px
                 </div>
                     <div class="input-group-append" >
                              <button class="btn btn-secondary btn-sm add-form2-row">Add More</button>
-
                     </div>
-
                 </div>
           </div>
          {%endfor%}
-
-         <!--{% for form3 in formset3 %}-->
-         <!--<div class="form3-row" id="contact1">-->
-<!--{#                <div class="col-lg-12">#}-->
-<!--{#                    <label>Campus Information</label>#}-->
-<!--{#                    <br>#}-->
-<!--{#                </div>#}-->
-                <!--<div class="col-lg-6">-->
-                <!--<div class="input-group">-->
-                    <!--{{ form3|bootstrap }}-->
-                    <!--<div class="input-group-append" >-->
-                        <!--<button class="btn btn-secondary add-form3-row">Add Campus Partner</button>-->
-                    <!--</div>-->
-                <!--</div>-->
-                <!--</div>-->
-         <!--</div>-->
-         <!--{% endfor %}-->
-
         <button type="submit" class="save btn btn-custom">Submit</button>
-
     </form><br><br>
                         </div> </div></div></div></div><br><br><br>
-
 {% endblock %}
-
-
-
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -211,29 +186,24 @@ function cloneMore(selector, prefix) {
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
     });
-
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
     $(selector).after(newElement);
-
     var conditionRow = $('.form-row:not(:last)');
     conditionRow.find('.btn.add-form-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form-row').addClass('remove-form-row')
     .html('-');
-
     var condition2Row = $('.form2-row:not(:last)');
     condition2Row.find('.btn2.add-form2-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form2-row').addClass('remove-form-row')
     .html('-');
-
     var condition3Row = $('.form3-row:not(:last)');
     condition3Row.find('.btn.add-form3-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-form3-row').addClass('remove-form3-row')
     .html('-');
-
     return false;
 }
 function deleteForm(prefix, btn2) {
@@ -255,67 +225,74 @@ $(document).on('click', '.add-form-row', function(e){
     cloneMore('.form-row:last', 'form');
     return false;
 });
-
 $(document).on('click', '.add-form2-row', function(e){
     e.preventDefault();
     cloneMore('.form2-row:last', 'form2');
     return false;
 });
-
 $(document).on('click', '.add-form3-row', function(e){
     e.preventDefault();
     cloneMore('.form3-row:last', 'form3');
     return false;
 });
-
 $(document).on('click', '.remove-form-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));
     return false;
 });
-
 $(document).on('click', '.remove-form2-row', function(e){
     e.preventDefault();
     deleteForm('form2', $(this));
     return false;
 });
-
 $(document).on('click', '.remove-form3-row', function(e){
     e.preventDefault();
     deleteForm('form', $(this));
     return false;
 });
-
 </script>
+{#   Js to show the course form if some error happens after the form #}
 <script>
-    $(function(){
-        function hideInputs() {
-            $("label.control-label[for=id_name], input#id_name").hide();
-            $("#id_id_name").hide();
-            $("label.control-label[for=id_prefix], input#id_prefix").hide();
-            $("#id_prefix").hide();
-            $("label.control-label[for=id_number], input#id_number").hide();
-            $("#id_number").hide();
-
-            console.log('label.control-label[for=id_name], input#id_name');
-            }
-        $("#id_engagement_type").on('change', function(){
-            var val = $("#id_engagement_type").val();
-            if (val === '3') {
+window.onload = function () {
+  var val = $("#id_engagement_type").val();
+           if (val === '3') {
+              $("#id_name").show();
+              $("label.control-label[for=id_name], input#id_name").show();
+              $("label.control-label[for=id_prefix], input#id_prefix").show();
+           $("#id_prefix").show();
+           $("label.control-label[for=id_number], input#id_number").show();
+           $("#id_number").show();
+           }
+}
+</script>
+{#  JS to Hide the#}
+<script>
+   $(function() {
+       function hideInputs() {
+           $("label.control-label[for=id_name], input#id_name").hide();
+           $("#id_id_name").hide();
+           $("label.control-label[for=id_prefix], input#id_prefix").hide();
+           $("#id_prefix").hide();
+           $("label.control-label[for=id_number], input#id_number").hide();
+           $("#id_number").hide();
+           console.log('label.control-label[for=id_name], input#id_name');
+       }
+       $("#id_engagement_type").on('change', function () {
+           var val = $("#id_engagement_type").val();
+           if (val === '3') {
                $("#id_name").show();
                $("label.control-label[for=id_name], input#id_name").show();
                $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-        hideInputs();
-    });
+               $("#id_prefix").show();
+               $("label.control-label[for=id_number], input#id_number").show();
+               $("#id_number").show();
+           }
+           else {
+               hideInputs();
+           }
+       });
+       hideInputs();
+   });
 </script>
 {% endblock %}
 {% block selectizeForm %}
@@ -345,12 +322,8 @@ $(document).ready(function(){
   );
 });
 </script>
-
-
 <script>
-
 function validateFormsets(){
-
      var id =event.target.id;
      var name = event.target.name;
      console.log(id);
@@ -362,7 +335,6 @@ function validateFormsets(){
             if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
                 $('#'+id+'-error').remove();
                 $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-
                 document.getElementById(id).style.borderColor = "red";
                 return false;
             }
@@ -371,41 +343,31 @@ function validateFormsets(){
                 $('#'+id+'-error').remove();
                 return true;
             }
-
-
         }
-
         if(id.includes("country")||id.includes("city")|| id.includes("state")){
             if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
                 $('#'+id+'-error').remove();
                 $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
                 document.getElementById(id).style.borderColor = "red";
                 return false;
-
             }
             else {
                 document.getElementById(id).style.borderColor = "gray";
                 $('#'+id+'-error').remove();
                 return true;
             }
-
         }
         if(id.includes("total_economic_impact")){
-
             if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
             {
                 $('#'+id+'-error').remove();
                 $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
                 document.getElementById(id).style.borderColor = "red";
                 return false;
-
-
             }
         }
     }
 return true;
-
 }
-
 </script>
 {% endblock %}

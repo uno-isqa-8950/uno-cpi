@@ -5,19 +5,23 @@ from partners.models import CommunityPartner, CommunityPartnerMission
 from home.models import MissionArea
 
 class ProjectFilter(django_filters.FilterSet):
-
+    legislative_district = django_filters.ModelChoiceFilter(
+        queryset=Project.objects.values_list('legislative_district', flat=True).distinct())
+    print(legislative_district)
     class Meta:
         model = Project
-        fields = ['engagement_type','academic_year' ]
+        fields = ['engagement_type','academic_year','legislative_district', ]
 
 
 class legislativeFilter(django_filters.FilterSet):
 
-   legislative_district = django_filters.filters.ModelChoiceFilter(queryset=Project.objects.order_by().values_list("legislative_district").distinct())
+   legislative_district = django_filters.ModelChoiceFilter(queryset=Project.objects.values_list('legislative_district', flat=True).distinct())
+
+   # legislative_district =   django_filters.NumberFilter('legislative_district')
 
    class Meta:
         model = Project
-        fields = ['legislative_district']
+        fields = ['legislative_district',]
 
 
 

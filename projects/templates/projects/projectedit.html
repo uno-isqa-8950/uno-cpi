@@ -34,7 +34,7 @@ margin-left:22px
 
 
 
-<div class="container">
+<div class="container" id="main12">
 
 <div class = "container">
     <div class = "panel panel-default">
@@ -83,7 +83,58 @@ margin-left:22px
 
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script type="text/javascript">
+<script>
+window.onload = function () {
+
+   var val = $("#id_engagement_type").val();
+            if (val === '3') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+
+}
+</script>
+
+<script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_name], input#id_name").hide();
+            $("#id_id_name").hide();
+            $("label.control-label[for=id_prefix], input#id_prefix").hide();
+            $("#id_prefix").hide();
+            $("label.control-label[for=id_number], input#id_number").hide();
+            $("#id_number").hide();
+
+            console.log('label.control-label[for=id_name], input#id_name');
+            }
+        $("#id_engagement_type").on('change', function(){
+            var val = $("#id_engagement_type").val();
+            if (val === '3') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+            $("#id_prefix").show();
+            $("label.control-label[for=id_number], input#id_number").show();
+            $("#id_number").show();
+
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
+
+
+    <script type="text/javascript">
+
+
 function validateFormsets(){
 
      var id =event.target.id;
@@ -144,39 +195,6 @@ return true;
 
 </script>
 
-{#<script>#}
-{#    $(function(){#}
-{#        function hideInputs() {#}
-{#            $("label.control-label[for=id_name], input#id_name").hide();#}
-{#            $("#id_id_name").hide();#}
-{#            $("label.control-label[for=id_prefix], input#id_prefix").hide();#}
-{#            $("#id_prefix").hide();#}
-{#            $("label.control-label[for=id_number], input#id_number").hide();#}
-{#            $("#id_number").hide();#}
-{##}
-{#            console.log('label.control-label[for=id_name], input#id_name');#}
-{#            }#}
-{#        $("#id_engagement_type").on('change', function(){#}
-{#            var val = $("#id_engagement_type").val();#}
-{#            if (val === '3') {#}
-{#               $("#id_name").show();#}
-{#               $("label.control-label[for=id_name], input#id_name").show();#}
-{#               $("label.control-label[for=id_prefix], input#id_prefix").show();#}
-{#            $("#id_prefix").show();#}
-{#            $("label.control-label[for=id_number], input#id_number").show();#}
-{#            $("#id_number").show();#}
-{##}
-{#            }#}
-{#            else {#}
-{#                hideInputs();#}
-{#            }#}
-{#        });#}
-{#        hideInputs();#}
-{#    });#}
-{#</script>#}
-
-
-
 
 {% endblock %}
 {% block selectizeForm %}
@@ -227,3 +245,4 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
+

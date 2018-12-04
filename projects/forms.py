@@ -394,6 +394,12 @@ class AddProjectCampusPartnerForm(ModelForm):
             'total_people': ('Volunteers'),
         }
 
+    # def clean_campus_partner(self):
+    #     campus_partner = self.cleaned_data['campus_partner']
+    #
+    #     if campus_partner == campus_partner.empty:
+    #         raise forms.ValidationError("Campus partner ")
+    #     return campus_partner
 
 class StatusForm(ModelForm):
 

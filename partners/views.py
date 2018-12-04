@@ -17,7 +17,7 @@ from shapely.geometry import shape, Point
 import pandas as pd
 import json
 gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
-import os
+
 def countyGEO():
     with open('home/static/GEOJSON/NEcounties2.geojson') as f:
         geojson1 = json.load(f)
@@ -40,9 +40,9 @@ def registerCampusPartner(request):
     colleges = []
     for object in College.objects.order_by('college_name'):
         colleges.append(object.college_name)
-    #departmnts = []
-    #for object in Department.objects.order_by('department_name'):
-    #    departmnts.append(object.department_name)
+    departmnts = []
+    for object in Department.objects.order_by('department_name'):
+        departmnts.append(object.department_name)
 
     if request.method == 'POST':
         campus_partner_form = CampusPartnerForm(request.POST)
@@ -61,7 +61,7 @@ def registerCampusPartner(request):
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
     return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form,
-                                                                       'formset': formset,'colleges':colleges})
+                                                                       'formset': formset,'colleges':colleges,'departments':departmnts})
 
 
 def registerCommunityPartner(request):
@@ -78,6 +78,31 @@ def registerCommunityPartner(request):
 
         if community_partner_form.is_valid() and formset.is_valid():
             community_partner = community_partner_form.save()
+######## Minh's code to add coordinates, household income and district ######################
+            address = community_partner.address_line1
+            if (address != "N/A"):  # check if a community partner's address is there
+
+                fulladdress = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
+                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
+                community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
+            community_partner.save()
+            coord = Point([community_partner.longitude, community_partner.latitude])
+            for i in range(len(district)):          #iterate through a list of district polygons
+                property = district[i]
+                polygon = shape(property['geometry'])  #get the polygons
+                if polygon.contains(coord):         #check if a partner is in a polygon
+                    community_partner.legislative_district = property["id"] #assign the district number to a partner
+            community_partner.save()
+            for m in range(len(countyData)): #iterate through the County Geojson
+                properties2 = countyData[m]
+                polygon = shape(properties2['geometry']) #get the polygon
+                if polygon.contains(coord):             #check if the partner in question belongs to a polygon
+                    community_partner.county = properties2['properties']['NAME']
+                    community_partner.median_household_income = properties2['properties']['Income']
+            community_partner.save()
+######## Minh's code ends here ######################
+
             contacts = formset.save(commit=False)
             missions = formset_mission.save(commit=False)
 
@@ -87,68 +112,9 @@ def registerCommunityPartner(request):
             if formset_mission.is_valid():
                 for mission in missions:
                     mission.community_partner = community_partner
-                    # missionarea = mission.cleaned_data
                     mission.save()
-                    missionarea = mission.mission_area
-                    print(missionarea)
-                    print(mission.mission_area)
-######## Minh's code to add coordinates, household income and district ######################
-                    address = community_partner.address_line1
-                    if (address != "N/A"):  # check if a community partner's address is there
 
-                        fulladdress = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
-                        geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                        community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
-                        community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
-                    community_partner.save()
-                    coord = Point([community_partner.longitude, community_partner.latitude])
-                    for i in range(len(district)):          #iterate through a list of district polygons
-                        property = district[i]
-                        polygon = shape(property['geometry'])  #get the polygons
-                        if polygon.contains(coord):         #check if a partner is in a polygon
-                            community_partner.legislative_district = property["id"] #assign the district number to a partner
-                    community_partner.save()
-                    for m in range(len(countyData)): #iterate through the County Geojson
-                        properties2 = countyData[m]
-                        polygon = shape(properties2['geometry']) #get the polygon
-                        if polygon.contains(coord):             #check if the partner in question belongs to a polygon
-                            community_partner.county = properties2['properties']['NAME']
-                            community_partner.median_household_income = properties2['properties']['Income']
-                    community_partner.save()
-                    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
-                                                                 'Legislative District Number': '',
-                                                                 'Number of projects': '',
-                                                                 'Income': '', 'County': '', 'Mission Area': '',
-                                                                 'CommunityType': '', 'Campus Partner': '',
-                                                                 'Website': '', },
-                               'geometry': {'type': 'Point', 'coordinates': []}}
-                    feature["properties"]["CommunityPartner"] = community_partner.name
-                    feature['geometry']['coordinates'] = [community_partner.longitude, community_partner.latitude]
-                    feature["properties"]["Address"] = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
-                    feature["properties"]["Legislative District Number"] = community_partner.legislative_district
-                    feature["properties"]["Income"] = community_partner.median_household_income
-                    feature["properties"]["County"] = community_partner.county
-                    feature["properties"]["Mission Area"] = missionarea.mission_name
-                    feature["properties"]["Website"] = community_partner.website_url
-                    project_ids = ProjectCommunityPartner.objects.filter(community_partner_id=community_partner.id)
-                    project_id_list = [p.project_name_id for p in project_ids]
-                    campus_ids = ProjectCampusPartner.objects.filter(project_name_id__in=project_id_list)
-                    campus_id_list = [str(c.campus_partner) for c in campus_ids]
-                    feature["properties"]["Campus Partner"] = campus_id_list
-                    feature["properties"]["CommunityType"] = community_partner.community_type.community_type
-                    if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
-                        with open('home/static/GEOJSON/Partner.geojson') as f:
-                            geojson1 = json.load(f)  # get the GEOJSON
-                        geojson1["features"].append(feature)
-
-                        jsonstring = pd.io.json.dumps(geojson1)
-
-                        output_filename = 'home/static/GEOJSON/Partner.geojson'  # The name and location have to match with the one on line 625 in this current function
-                        with open(output_filename, 'w') as output_file:
-                            output_file.write(format(jsonstring))  # write the file to the location
-                    ######## Minh's code ends here ######################
                     return render(request, 'registration/community_partner_register_done.html', )
-
     else:
         community_partner_form = CommunityPartnerForm()
         formset = ContactFormsetCommunity(queryset=Contact.objects.none())
@@ -240,11 +206,11 @@ def userProfileUpdate(request):
 @login_required
 def orgProfile(request):
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
+        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, id= community_user.id)
         community_partner.type = str(community_partner.community_type)
-        contacts = Contact.objects.values().filter(community_partner=community_partner.id)
-        missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
+        contacts = Contact.objects.values().filter(community_partner= community_partner.id)
+        missions = CommunityPartnerMission.objects.values().filter(community_partner= community_partner.id)
 
         for mission in missions:
             mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
@@ -255,7 +221,7 @@ def orgProfile(request):
 
     elif request.user.is_campuspartner:
         campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
+        campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
         contacts = Contact.objects.filter(campus_partner= campus_partner.id)
 
         return render(request, 'partners/campus_partner_org_profile.html', {"contacts":contacts,
@@ -269,11 +235,11 @@ def orgProfile(request):
 def orgProfileUpdate(request):
 
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
+        community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+        community_partner = get_object_or_404(CommunityPartner, pk= community_user.id)
         org_type = str(community_partner.community_type)
-        contacts = Contact.objects.filter(community_partner=community_partner.id).first()
-        missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
+        contacts = Contact.objects.filter(community_partner= community_partner.id).first()
+        missions = CommunityPartnerMission.objects.filter(community_partner= community_partner.id).first()
 
         if request.method == 'POST':
             if "k12_level" not in request.POST:
@@ -289,7 +255,7 @@ def orgProfileUpdate(request):
                 community_org_form.save()
                 contacts_form.save()
                 missions_form.save()
-                messages.success(request, 'Organization profile was successfully updated!')
+                messages.success(request, 'Organisation profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
@@ -308,7 +274,7 @@ def orgProfileUpdate(request):
 
     elif request.user.is_campuspartner:
         campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
+        campus_partner = get_object_or_404(CampusPartner, pk=campus_user.id)
         contacts = Contact.objects.filter(campus_partner=campus_partner.id).first()
 
         if request.method == 'POST':
@@ -317,7 +283,7 @@ def orgProfileUpdate(request):
 
             if contacts_form.is_valid():
                 contacts_form.save()
-                messages.success(request, 'Organization profile was successfully updated!')
+                messages.success(request, 'Organisation profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
                 messages.error(request, 'Please correct the error below.')

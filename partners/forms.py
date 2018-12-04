@@ -9,11 +9,11 @@ from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
 class CampusPartnerForm(forms.ModelForm):
-    # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
+    department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
         model = CampusPartner
-        fields = ('name', 'college_name',)
-        exclude = ('education_system','university', 'department',)
+        fields = ('name', 'college_name', 'department',)
+        exclude = ('education_system','university',)
 
         labels= {
             'name': ('Campus Partner Name'),
@@ -80,7 +80,7 @@ class CampusPartnerContactForm(forms.ModelForm):
 
 
 class CommunityPartnerForm(forms.ModelForm):
-    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Type',empty_label='Select Community Type')
+    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country','county',
@@ -124,13 +124,6 @@ class CommunityPartnerForm(forms.ModelForm):
             if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid City Name")
             return name
-
-
-    def clean_zip(self):
-        zip = self.cleaned_data['zip']
-        if any(char.isalpha() for char in zip):
-            raise forms.ValidationError("Invalid ZIP Code")
-        return zip
 
 
 class CommunityContactForm(forms.ModelForm):
@@ -199,7 +192,7 @@ class CommunityMissionForm(ModelForm):
         ('Other', 'Other'),
     )
 
-    mission_area = forms.ModelChoiceField(queryset=MissionArea.objects, label='Mission Area', empty_label='Select Mission Area')
+    mission_area = forms.ModelChoiceField(queryset=MissionArea.objects, empty_label='Select Mission Area')
     class Meta:
         model = CommunityPartnerMission
         fields = ('mission_type' , 'mission_area')

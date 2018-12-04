@@ -54,9 +54,10 @@ p {
 #sidebar {
     width: 250px;
     position: absolute;
-    top: 78px;
+    top: 98px;
     left: -250px;
-    height: calc(100vh - 88px);
+    height: calc(100vh - 120px);
+    border-radius:4px;
     z-index: 999;
     background: #636568;
     color: White;
@@ -67,7 +68,6 @@ p {
 
 #sidebar.active {
     left: 0px;
-    right:10px;
         }
 
 #sidebar .sidebar-header {
@@ -164,7 +164,6 @@ a.article, a.article:hover {
 #content.active
     {
     width: calc(100% - 250px);
-    padding-left:5px;
     }
 
 

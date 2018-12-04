@@ -10,5 +10,5 @@ class SearchProjectFilter(django_filters.FilterSet):
         fields = ['project_name', 'academic_year']
         labels = {
             'project_name': ('Project Name'),
-            'academic_year': ('Academic Year'),
+            'academic_year': ('Academic Year')
            }

@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-select[id=id_engagement_type],select[id=id_academicyear]
+select[id=id_engagement_type],select[id=id_semester]
 {
 
     width:200px;
@@ -29,51 +29,6 @@ width:100%
 margin-left:22px
 }
  </style>
-
-
-    <div class="container">
-        <div class="col-md-12 panel panel-primary"><br>
-            <div class="col-md-12 text-center">
-                <h3>Chart : Mission Area</h3>
-            </div><br>
-            <!--<form id="filters-form" method="get">-->
-            <form class="form-inline" id="filters-form" method="get">
-                <div class="col-md-6 form-group">
-                    <label for="id_engagement_type"> Engagement Type : </label>
- &emsp;                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                            <option> All </option>
-                                {% for engagement in project_filter.form.engagement_type %}
-                                    {{engagement}}
-                                {% endfor %}
-                        </select>&emsp;
-                </div>
-
-
-<div class="col-md-6 form-group">
-            <label for="id_academicyear"> Academic Year : </label>
-            <select id="id_academicyear" name="academic_year" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for sem in year_filter.form.academic_year %}
-                        {{sem}}
-                    {% endfor %}
-                </select>
-
-        </div>
-
-
-            <!--<input type="submit" value="Search" />-->
-            </form>
-            <br><br>
-
-        <div id="container"></div>
-            <script src="https://code.highcharts.com/highcharts.src.js"></script>
-            <script>
-                Highcharts.chart('container',{{ chart|safe }});
-            </script>
-         </div>
-    </div><br><br><br><br>
-{% endblock %}
-
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
@@ -84,7 +39,7 @@ $(document).ready(function(){
               placeholder: 'All Engagement Types',
       }
   );
-  $('#id_academicyear').select2(
+  $('#id_semester').select2(
       {
               placeholder: 'All Academic Years',
       }
@@ -92,13 +47,58 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
-<!--{#<script type="text/javascript">#}-->
-<!--{#$(document).ready(function(){#}-->
-<!--{#    $('[data-toggle="tooltip"]').tooltip({#}-->
-<!--{#        placement : 'top'#}-->
-<!--{#    });#}-->
 
-<!--{#</script>#}-->
+    <div class="container">
+        <div class="col-md-12 panel panel-primary">
+    <br>
+     <div class="col-md-12 text-center">
+    <h3>Chart : Mission Area</h3>
+     </div>
+        <br>
+    <!--<form id="filters-form" method="get">-->
+    <form class="form-inline" id="filters-form" method="get">
+     <div class="col-md-6 form-group">
+         <label for="id_engagement_type"> Engagement Type : </label>
 
-<!--{#{% endblock %}#}-->
+          &emsp;
+            <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                                                                 <option> All </option>
+                {% for engagement in project_filter.form.engagement_type %}
+                    {{engagement}}
+                {% endfor %}
+            </select>
+         &emsp;</div>
+        <div class="col-md-6 form-group">
+            <label for="id_semester"> Academic Year : </label>
+            <select id="id_semester" name="Academic year" onchange="this.form.submit()">
+                                                 <option> All </option>
+                           {% for sem in year_filter.form.academic_year%}
+                    {{sem}}
+                {% endfor %}
+
+            </select>
+        </div>
+        <!--<input type="submit" value="Search" />-->
+    </form>
+<br> <br>
+
+
+  <div id="container"></div>
+  <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+<script>
+     Highcharts.chart('container',{{ chart|safe }});
+</script>
+         </div>
+    </div><br><br><br><br>
+{% endblock %}
+{#<script type="text/javascript">#}
+{#$(document).ready(function(){#}
+{#    $('[data-toggle="tooltip"]').tooltip({#}
+{#        placement : 'top'#}
+{#    });#}
+
+{#</script>#}
+
+{#{% endblock %}#}
 

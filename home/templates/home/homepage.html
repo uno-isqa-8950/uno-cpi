@@ -10,10 +10,10 @@
     .btn-custom1
         {
         position:absolute;
-        top:5px;
+        top:130px;
         left:40px;
-        border-color: #484848;
-        background-color: #FF3333;
+        border-color: #282828;
+        background-color: #e22626;
         color:White;
         z-index:999;
         }
@@ -22,22 +22,9 @@
     .active .btn-custom1
         {
         left:40px;
-        background-color: #484848;
+        background-color: #282828;
         }
 
-    @media(max-width:810px)
-    {
-        .btn-custom1
-            {
-                left:15px;
-            }
-        .active .btn-custom1
-            {
-            left:15px;
-
-            }
-
-    }
 
     .btn-custom1:hover
         {
@@ -65,7 +52,7 @@
     .mapboxgl-map:-webkit-full-screen
     {
           width: 100%;
-          height: calc(100vh - 150px);
+          height: calc(100vh -200px);
           margin: 0px 0 0 0;
 
     }
@@ -74,7 +61,7 @@
     .map {
           position: relative;
           width: 100%;
-          height: calc(100vh - 150px);
+          height: calc(100vh - 200px);
           margin: 0px 0 0 0;
         }
 
@@ -134,21 +121,6 @@
         width: 210px;
         margin-bottom: 15px;
         }
-
-    select[id=selectYear]
-        {
-        width:85%;
-        border:2px solid #aaa;
-        border-radius:4px;
-        outline:none;
-        padding:4px;
-        box-sizing:border-box;
-        transition:.3s;
-        margin-left: 0px;
-        margin-top: 5px;
-        width: 210px;
-        margin-bottom: 15px;
-        }
 	.h2 {
 			display: block;
 			font-size: 1.7em;
@@ -191,7 +163,7 @@
 
 	.legend h4 {
 			margin: 0 0 5px;
-            color: white;
+            color: orange;
             font-size: 14px;
 		}
 
@@ -319,73 +291,57 @@
         {
 
         }
-
-        .container-fluid
-        {
-        padding-left:0px;
-        padding-right:0px;
-        }
-
-        .card
-        {
-        border-radius:0px;
-        }
 </style>
 
 <div class="wrapper">
     <nav id="sidebar">
 
         <div id='state-legend' class='legend'>
-            <h3 style="border-bottom: 1px solid grey; padding-bottom:5px;">Filters</h3>
+            <h3>Filters</h3>
             <h4>Mission Areas</h4>
-            <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
+            <div id='legend'>
             </div>
 
-            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
+            <select id="selectDistrict" class="selectDistrict">
                 </select>
             <!--div id="sidebar"-->
-            <select id="selectCommtype" class="selectCommtype"></select>
-            <select id="selectCampus" class="selectCampus"></select>
-            <select id="selectYear" class="selectYear"></select>
-            <div>
+            <div id="filerCommunity">
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
             </div>
+            <select id="selectCommtype" class="selectCommtype"></select>
+            <select id="selectCampus" class="selectCampus"></select>
         </div>
 
     </nav>
 
     <div id="content">
 
-                <div class = "container-fluid" style="margin-top:78px;">
+                <div class = "container" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div class="card" style="padding: 5px;background-color:#636568;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                            <div>
+                                <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                                    <span></span>
+                                </button>
+                            </div>
+                            <div class="card" style="padding: 10px;margin-top:20px;background-color:#636568;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                                 <div class="row">
-                                    <div class="col-lg-1 col-md-1" style="border-right: 1px solid grey;">
-                                        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
-                                            <span></span>
-                                        </button>
-
-                                    </div>
-
-                                    <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
+                                    <div class="col-lg-3 col-md-5" style="border-right: 1px solid grey;">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
-                                            <label><b>Maps: Community Partner</b></label>
+                                            <label>Maps: Community Partner</label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 col-md-6">
-                                        <div style="box-sizing: border-box; padding:3px;">
-                                            <label><b>Unique Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
+                                    <div class="col-lg-9 col-md-7">
+                                        <div style="box-sizing: border-box; padding:5px;">
+                                            <label>Unique Community Partners: <b>256</b></label>
                                         </div>
-                                        <!--<label style="box-sizing: border-box;">Unique Community Partners:</label>-->
-                                        <!--<div id = "totalnumber">{{ number }}</div>-->
                                     </div>
                                 </div>
                             </div>
                         </div>
 
 		                <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
+                            <div class="card" style="margin-top:8px;box-shadow: 2px 8px 8px 2px grey;">
                                 <div id='map' class='map'>
                                     {{ collection | json_script:"commPartner-data"}}
                                     <!--h3 id="overlay-header">Maps: Household Income</h3>
@@ -393,7 +349,6 @@
                                     {{ Missionlist | json_script:"missionlist"}}
                                     {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
-                                    {{ year | json_script:"year-list" }}
                                 </div>
                             </div>
                         </div>
@@ -441,6 +396,29 @@ political affiliation in its programs, activities, or employment.
         var countyData = "{{countymap}}";
     </script>-->
 
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#selectCommtype').select2(
+      {
+              placeholder: 'Select an Community type'}
+  );
+  $('#selectDistrict').select2(
+      {
+              placeholder: 'Select a District Type'}
+  );
+  $('#selectCampus').select2(
+      {
+              placeholder: 'Select a Campus Partner'}
+  );
+});
+
+</script>
+{% endblock %}
 <script type="text/javascript" src='{% static "js/homepage.js" %}'></script>
 
 <!-- jQuery CDN - Slim version (=without AJAX) -->

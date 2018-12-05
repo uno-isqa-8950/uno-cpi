@@ -172,7 +172,7 @@ class ProjectFormAdd(ModelForm):
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-
+    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Fall-year'}))
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
@@ -219,56 +219,56 @@ class ProjectFormAdd(ModelForm):
 
         return facilitator
 
-    # def clean_semester(self):
-    #     semester = self.cleaned_data['semester']
-    #     sem = semester.split('-')
-    #
-    #     if len(sem) < 0:
-    #         raise forms.ValidationError("Semester should contain -")
-    #     if sem[0] not in ['Fall', 'Spring', 'Summer']:
-    #         raise forms.ValidationError("Please enter Summer, Spring or Fall")
-    #     if len(int(sem[1])) != 4:
-    #         raise forms.ValidationError("Year should contain 4 digits")
+    def clean_semester(self):
+        semester = self.cleaned_data['semester']
+        sem = semester.split('-')
+
+        if len(sem) < 0:
+            raise forms.ValidationError("Semester should contain -")
+        if sem[0] not in ['Fall', 'Spring', 'Summer']:
+            raise forms.ValidationError("Please enter Summer, Spring or Fall")
+
+        return semester
 
     def clean_total_uno_students(self):
         total_uno_students = self.cleaned_data['total_uno_students']
 
         if type(total_uno_students) != int :
-            raise forms.ValidationError("Number of Student cannot be blank.If not sure at this time please put count as 0 ")
+            raise forms.ValidationError("Number of Student cannot be blank.If not sure at this time please insert 0 ")
         return total_uno_students
 
     def clean_total_uno_hours(self):
         total_uno_hours = self.cleaned_data['total_uno_hours']
 
         if type(total_uno_hours)  != int :
-            raise forms.ValidationError("Hours cannot be blank.If not sure at this time please put  as 0 ")
+            raise forms.ValidationError("Hours cannot be blank.If not sure at this time please insert 0 ")
 
     def clean_total_k12_students(self):
         total_k12_students = self.cleaned_data['total_k12_students']
 
         if type(total_k12_students) != int:
-            raise forms.ValidationError("Number of K12 Students cannot be blank.If not sure at this time please put  as 0")
+            raise forms.ValidationError("Number of K12 Students cannot be blank.If not sure at this time please insert 0")
         return total_k12_students
 
     def clean_total_k12_hours(self):
         total_k12_hours = self.cleaned_data['total_k12_hours']
 
         if type(total_k12_hours) not in [int, float]:
-            raise forms.ValidationError("Number of K12 Hours cannot be blank.If not sure at this time please put  as 0")
+            raise forms.ValidationError("Number of K12 Hours cannot be blank.If not sure at this time please insert 0")
         return total_k12_hours
 
     def clean_total_uno_faculty(self):
         total_uno_faculty = self.cleaned_data['total_uno_faculty']
 
         if type(total_uno_faculty) != int:
-            raise forms.ValidationError("Faculty cannot be blank.If not sure at this time please put  as 0.")
+            raise forms.ValidationError("Faculty cannot be blank.If not sure at this time please insert 0.")
         return total_uno_faculty
 
     def clean_total_other_community_members(self):
         total_other_community_members = self.cleaned_data['total_other_community_members']
 
         if type(total_other_community_members) != int:
-            raise forms.ValidationError("Participantscannot be blank.If not sure at this time please put  as 0")
+            raise forms.ValidationError("Participantscannot be blank.If not sure at this time please insert 0")
         return total_other_community_members
 
     def clean_country(self):
@@ -322,6 +322,7 @@ class AddProjectCommunityPartnerForm(ModelForm):
 
 
 class AddProjectCampusPartnerForm(ModelForm):
+
     class Meta:
         model = ProjectCampusPartner
         fields = ('campus_partner','total_hours','total_people',)
@@ -345,12 +346,7 @@ class AddProjectCampusPartnerForm(ModelForm):
             raise forms.ValidationError("Enter a positive number")
         return total_people
 
-    # def clean_campus_partner(self):
-    #     campus_partner = self.cleaned_data['campus_partner']
-    #
-    #     if campus_partner == campus_partner.empty:
-    #         raise forms.ValidationError("Campus partner ")
-    #     return campus_partner
+
 
 class StatusForm(ModelForm):
 
@@ -366,6 +362,7 @@ class EngagementTypeForm(ModelForm):
 
 
 class ActivityTypeForm(ModelForm):
+
     class Meta:
         model = ActivityType
         fields =('name','description',)

@@ -8,7 +8,7 @@ class Project (models.Model):
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
-    semester = models.CharField(max_length=20, blank=False, default= 'Fall-2015')
+    semester = models.CharField(max_length=20, blank=False)
     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False )
     total_uno_students = models.PositiveIntegerField(null=True, blank=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, blank=True,default= 0)

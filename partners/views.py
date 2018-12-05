@@ -16,11 +16,8 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import json
-import os
-
 gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
-
-
+import os
 def countyGEO():
     with open('home/static/GEOJSON/NEcounties2.geojson') as f:
         geojson1 = json.load(f)
@@ -188,12 +185,7 @@ def userProfileUpdate(request):
         user = get_object_or_404(User, id=request.user.id)
 
         if request.method == 'POST':
-            request.POST._mutable = True
-            request.POST['first_name'] = request.POST["First Name"]
-            request.POST['last_name'] = request.POST["Last Name"]
-            request.POST['email'] = request.POST["Email ID"]
-            request.POST._mutable = False
-            user_form = userUpdateForm(request.POST, instance=user)
+            user_form = userUpdateForm(data=request.POST, instance=user)
             avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
             if user_form.is_valid() and avatar_form.is_valid():
@@ -203,7 +195,7 @@ def userProfileUpdate(request):
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
+                return redirect('partners:orgprofile')
 
         else:
             user_form = userUpdateForm(instance=user)
@@ -223,14 +215,14 @@ def userProfileUpdate(request):
             user_form = userUpdateForm(data=request.POST, instance=user)
             avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
-            if user_form.is_valid() and avatar_form.is_valid():
+            if user_form.is_valid()and avatar_form.is_valid():
                 user_form.save()
                 avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
+                return redirect('partners:orgprofile')
 
         else:
             user_form = userUpdateForm(instance=user)
@@ -290,14 +282,12 @@ def orgProfileUpdate(request):
                 request.POST._mutable = False
 
             community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
-            contacts_form = CampusPartnerContactForm(data=request.POST, instance=contacts)
+            contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
             missions_form = CommunityMissionForm(data=request.POST, instance=missions)
 
             if community_org_form.is_valid() and contacts_form.is_valid() and missions_form.is_valid():
                 community_org_form.save()
-                contact = contacts_form.save(commit=False)
-                contact.community_partner = community_partner
-                contact.save()
+                contacts_form.save()
                 missions_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
@@ -307,7 +297,7 @@ def orgProfileUpdate(request):
 
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
-            contacts_form = CampusPartnerContactForm(instance=contacts)
+            contacts_form = CommunityContactForm(instance=contacts)
             missions_form = CommunityMissionForm(instance=missions)
 
         return render(request,
@@ -326,9 +316,7 @@ def orgProfileUpdate(request):
             contacts_form = CampusPartnerContactForm(data=request.POST, instance=contacts)
 
             if contacts_form.is_valid():
-                contact = contacts_form.save(commit=False)
-                contact.campus_partner = campus_partner
-                contact.save()
+                contacts_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:

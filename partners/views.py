@@ -162,7 +162,6 @@ def registerCommunityPartner(request):
 
 
 #Campus and Community Partner user Profile
-
 @login_required
 def userProfile(request):
 

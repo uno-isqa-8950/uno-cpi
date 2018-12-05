@@ -102,7 +102,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True, default= 'Training/Workshop/presentation')
+    name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

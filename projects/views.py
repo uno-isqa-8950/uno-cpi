@@ -392,24 +392,24 @@ def project_edit_new(request,pk):
                                                    'formset_camp_details':formset_camp_details})
 
 @login_required()
+@login_required()
 def SearchForProject(request):
     names=[]
+    projects_list=[]
     for project in Project.objects.all():
         names.append(project.project_name)
-    #print(names)
-
     camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
     for c in camp_part_user:
         p = c.campus_partner_id
         # print(c)
     # get all the project names base on the campus partner id
     proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-    #print(proj_camp)
     allProjects = SearchProjectFilter(request.GET, queryset=Project.objects.all())
     yesNolist = []
     pnames = []
     cpnames = []
-
+    projects_list = []
+    camp_part_names = []
     for project in Project.objects.all():
         pnames.append(project.project_name)
         for checkProject in proj_camp:
@@ -421,26 +421,50 @@ def SearchForProject(request):
         else:
             yesNolist.append(True)
 
-
     if request.method == "GET":
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
-         #@login_required()
         project_ids = [p.id for p in searched_project.qs]
-        project_details = Project.objects.filter(id__in=project_ids)
-        NameOfProject= [p.project_name for p in searched_project.qs]
-        camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-        # camp_partner = camp_part_user[0].campus_partner
-         #
-        search_project_filtered = SearchProjectFilter(request.GET)
-        return render(request, 'projects/SearchProject.html',
-                  {'filter': searched_project, 'projectNames': names, 'searchedProject': project_details,
-                   'theList': yesNolist})
+        k = list(Project.objects.all())
+        print("here I am",k[1:25])
+
+        for x in k:
+            projmisn =list(ProjectMission.objects.filter(project_name_id=x.id))
+            print(projmisn)
+            cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+            proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+            for proj_camp_par in proj_camp_par:
+                camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+                camp_part_names.append(camp_part)
+            list_camp_part_names = camp_part_names
+            print("I am the project mission",projmisn)
+            print("I am the camp partn",list_camp_part_names)
+            print("I am the community part,",cp)
+            print("I am the proj camp partner",proj_camp_par)
+
+            camp_part_names = []
+            data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
+                    'activityType': x.activity_type,
+                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                    'description': x.description,
+                    'startDate': x.start_date,
+                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                    'total_uno_hours': x.total_uno_hours,
+                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                    'total_uno_faculty': x.total_uno_faculty,
+                    'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                    'camp_part': list_camp_part_names
+                    }
+            projects_list.append(data)
+
+    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist})
 
 
 @login_required()
 def SearchForProjectAdd(request,pk):
     foundProject = None
     names = []
+
     for project in Project.objects.all():
         names.append(project.project_name)
 

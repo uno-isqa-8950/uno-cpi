@@ -429,19 +429,12 @@ def SearchForProject(request):
         project_details = Project.objects.filter(id__in=project_ids)
         NameOfProject= [p.project_name for p in searched_project.qs]
         camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-        camp_partner = camp_part_user[0].campus_partner
+        # camp_partner = camp_part_user[0].campus_partner
          #
         search_project_filtered = SearchProjectFilter(request.GET)
-        #SearchedProjectSave= ProjectCampusPartner( project_name=search_project_filtered.cleaned_data['project_name',campus_partner='camp_partner',
-        #total_hours='tot_hrs',total_people= 'tot_peop' ,wages = 'wage_peop'])
-        #NameOfCampusPartner = CampusPartnerUser.objects.all().filter()
-        #print(project_details)
-        # print(form.errors)
-        # if form.is_valid():
-        #     if(Project.objects.all().filter(project_name=form.cleaned_data['project_name']).exists()):
-        #         theProject= Project.objects.all().filter(project_name=form.cleaned_data['project_name'])
-        #         return render(request,'projects/SearchProject.html', {'form':ProjectSearchForm(),'searchedProject':theProject})
-        return render(request,'projects/SearchProject.html',{'filter': searched_project,'projectNames':names,'searchedProject':project_details, 'theList':yesNolist})
+        return render(request, 'projects/SearchProject.html',
+                  {'filter': searched_project, 'projectNames': names, 'searchedProject': project_details,
+                   'theList': yesNolist})
 
 
 @login_required()

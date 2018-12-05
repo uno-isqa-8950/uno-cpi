@@ -243,28 +243,22 @@ def upload_project(request):
                 if polygon.contains(coord):  # check if the partner in question belongs to a polygon
                     data_dict['county'] = properties2['properties']['NAME']
                     data_dict['median_household_income'] = properties2['properties']['Income']
-            project_count = Project.objects.filter(project_name=data_dict['project_name']).count()
-            if project_count == 1:
+            form = UploadProjectForm(data_dict)
+            # print(form)
+            campus = CampusPartner.objects.filter(name=data_dict['campus_partner'])
+            community = CommunityPartner.objects.filter(name=data_dict['community_partner'])
+            if campus and community and form.is_valid():
+                form.save()
                 form_campus = UploadProjectCampusForm(data_dict)
                 form_community = UploadProjectCommunityForm(data_dict)
                 form_mission = UploadProjectMissionForm(data_dict)
-                print(form_mission)
+                # print(form_campus)
+                # print(form_community)
+                # print(form_mission)
                 if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
                     form_campus.save()
                     form_community.save()
                     form_mission.save()
-            elif project_count == 0:
-                form = UploadProjectForm(data_dict)
-                print(form)
-                if form.is_valid():
-                    form.save()
-                    form_campus = UploadProjectCampusForm(data_dict)
-                    form_community = UploadProjectCommunityForm(data_dict)
-                    form_mission = UploadProjectMissionForm(data_dict)
-                    if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
-                        form_campus.save()
-                        form_community.save()
-                        form_mission.save()
     countyData = countyGEO()
     district = districtGEO()
     commPartners = CommunityPartner.objects.all()  # get all the community partners

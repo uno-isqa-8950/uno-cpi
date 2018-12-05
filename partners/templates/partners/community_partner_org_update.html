@@ -123,7 +123,7 @@ font-weight: bold;
                       <label for="{{field.label}}">Address Line 1</label>
                     </div>
                     <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
                     </div>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ font-weight: bold;
                       <label for="{{field.label}}">Address Line 2</label>
                     </div>
                     <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
                     </div>
                   </div>
                 </div>
@@ -183,36 +183,36 @@ font-weight: bold;
             {% endfor %}
             
             <div class="col-md-12">
-              <h4><b>Contacts Information</b></h4>
+              <h3>Contacts Information</h3>
             </div>
             {% for field in contacts_form %}
-            {% if field.label == "Contact Type" %}
-              <div class="form-group">
-                <div class="row">
-                  <div class="control-label col-md-4">
-                    <label for="{{field.label}}">Contact Type</label>
-                  </div>
-                  <div class = "col-md-8">
-                    <select class="form-control" id="{{field.id}}" name="{{field.name}}">
-                      {% for x,y in field.field.choices  %}
-                        <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                </div>
-              </div>
-            {% else %}
-              <div class="form-group">
-                <div class="row">
-                  <div class="control-label col-md-4">
-                    <label for="{{field.label}}">{{field.label}}</label>
-                  </div>
-                  <div class = "col-md-8">
-                    <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+              {% if field.label == "Contact type" %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">Contact Type</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}">
+                        {% for x,y in field.field.choices  %}
+                          <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
                   </div>
                 </div>
-              </div>
-            {% endif %}
+              {% else %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">{{field.label}}</label>
+                    </div>
+                    <div class = "col-md-8">
+                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
             {% endfor %}
 
             <div class="col-md-12">

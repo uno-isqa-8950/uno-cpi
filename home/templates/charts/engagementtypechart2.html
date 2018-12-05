@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-select[id=id_mission],select[id=id_semester]
+select[id=id_mission],select[id=id_semester],select[id=id_campus_partner]
 {
     width:200px;
 }
@@ -50,6 +50,11 @@ $(document).ready(function(){
               placeholder: 'All Academic Years',
       }
   );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
 });
 </script>
 {% endblock %}
@@ -83,12 +88,16 @@ $(document).ready(function(){
                 {% endfor %}
             </select>
             </div>
-
-        <!--<input type="submit" value="Search" />-->
+        <div class="col-md-6 form-group">
+            <label for="campus_partner"> Campus Partner: </label>
+            <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <option> All </option>
+                    {% for campus in campus_filter.form.campus_partner %}
+                        {{campus}}
+                    {% endfor %}
+                </select>
+        </div>
     </form>
-    <!--{% for obj in filter.qs %}-->
-        <!--{{ obj.project_name }} - ${{ obj.semester }}<br />-->
-    <!--{% endfor %}-->
    <br> <br>
 
   <div id="container"></div>

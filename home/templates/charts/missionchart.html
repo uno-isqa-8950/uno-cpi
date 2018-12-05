@@ -2,7 +2,7 @@
 {% block content %}
 
 <style>
-select[id=id_engagement_type],select[id=id_academicyear]
+select[id=id_engagement_type],select[id=id_academicyear],select[id=id_campus_partner]
 {
 
     width:200px;
@@ -57,11 +57,16 @@ margin-left:22px
                         {{sem}}
                     {% endfor %}
                 </select>
-
         </div>
-
-
-            <!--<input type="submit" value="Search" />-->
+        <div class="col-md-6 form-group">
+            <label for="campus_partner"> Campus Partner: </label>
+            <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <option> All </option>
+                    {% for campus in campus_filter.form.campus_partner %}
+                        {{campus}}
+                    {% endfor %}
+                </select>
+        </div>
             </form>
             <br><br>
 
@@ -89,16 +94,12 @@ $(document).ready(function(){
               placeholder: 'All Academic Years',
       }
   );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
 });
 </script>
 {% endblock %}
-<!--{#<script type="text/javascript">#}-->
-<!--{#$(document).ready(function(){#}-->
-<!--{#    $('[data-toggle="tooltip"]').tooltip({#}-->
-<!--{#        placement : 'top'#}-->
-<!--{#    });#}-->
-
-<!--{#</script>#}-->
-
-<!--{#{% endblock %}#}-->
 

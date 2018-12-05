@@ -8,7 +8,8 @@ class Project (models.Model):
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
-    semester = models.CharField(max_length=20, blank=False, default= 'Fall-2015')
+    semester = models.CharField(max_length=20, blank=False)
+    end_semester = models.CharField(max_length=20, blank=False, default='fall')
     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False )
     total_uno_students = models.PositiveIntegerField(null=True, blank=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, blank=True,default= 0)
@@ -18,7 +19,7 @@ class Project (models.Model):
     total_other_community_members = models.PositiveIntegerField(null=True, blank=True, default= 0)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
-    other_details = models.CharField(max_length=100, null=True, blank=True)
+    other_details = models.CharField(max_length=1000, null=True, blank=True)
     outcomes = models.CharField(max_length=100, null=True, blank=True)
     status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True)
     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True, default=0)
@@ -102,7 +103,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True, default= 'Training/Workshop/presentation')
+    name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
 
     def __str__(self):

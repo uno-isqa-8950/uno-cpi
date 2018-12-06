@@ -630,7 +630,7 @@ def communityPrivateReport(request):
         if contact:
             data['email'] = contact.email_id
         else:
-            data['email'] = ""
+            data['email'] = "Email Not Provided"
 
         communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
         count = 0

@@ -381,7 +381,7 @@ def upload_community(request):
         # community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
         # if community_count == 0:
         form = UploadCommunityForm(data_dict)
-        print(form)
+
         if form.is_valid():
             form.save()
             form_mission = UploadCommunityMissionForm(data_dict)

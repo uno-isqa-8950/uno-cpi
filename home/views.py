@@ -378,15 +378,15 @@ def upload_community(request):
         #     if polygon.contains(coord):  # check if the partner in question belongs to a polygon
         #         data_dict['county'] = properties2['properties']['NAME']
         #         data_dict['median_household_income'] = properties2['properties']['Income']
-        community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
-        if community_count == 0:
-            form = UploadCommunityForm(data_dict)
-            print(form)
-            if form.is_valid():
-                form.save()
-                form_mission = UploadCommunityMissionForm(data_dict)
-                if form_mission.is_valid():
-                    form_mission.save()
+        # community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
+        # if community_count == 0:
+        form = UploadCommunityForm(data_dict)
+        print(form)
+        if form.is_valid():
+            form.save()
+            form_mission = UploadCommunityMissionForm(data_dict)
+            if form_mission.is_valid():
+                form_mission.save()
     return render(request, 'import/uploadCommunityDone.html')
 
 # uploading the campus data via csv file

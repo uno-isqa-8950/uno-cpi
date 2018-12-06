@@ -47,7 +47,7 @@ $('#legend').html(select);
 //*********************************** Add the districts *****************************************************
 
 var select1 = '';
-select1 += '<option val=' + "all" + '>' + "All District" + '</option>';
+select1 += '<option val=' + "all" + ' selected="selected">' + "All District" + ' </option>';
 for (i = 1; i <= 49; i++) {
     select1 += '<option val=' + i + '>' + i + '</option>';
 }
@@ -56,7 +56,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option val=' + "alltypes" + '>' + 'All Community Types' + '</option>';
+select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option val=' + CommunityType[i] + '>' + CommunityType[i] + '</option>';
 }
@@ -64,7 +64,7 @@ $('#selectCommtype').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var select3 = '';
-select3 += '<option val=' + "allcampus" + '>' + 'All Campus Partners' + '</option>';
+select3 += '<option val=' + "allcampus" + ' selected="selected">' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
     select3 += '<option val=' + CampusPartnerlist[i] + '>' + CampusPartnerlist[i] + '</option>';
 }
@@ -73,7 +73,7 @@ $('#selectCampus').html(select3);
 //*********************************** Add year filter *****************************************************
 
 var select4 = '';
-select4 += '<option val=' + 0 + '>' + 'All Academic Years' + '</option>';
+select4 += '<option val=' + 0 + ' >' + 'All Academic Years' + '</option>';
 for (i = 0; i < yearlist.length; i++) {
     select4 += '<option val=' + i + '>' + yearlist[i] + '</option>';
 }
@@ -271,8 +271,15 @@ map.on("load", function() {
         } else {
             communityData.features.forEach(function(feature) {
                 var year = feature.properties["Academic Year"]
-                if (year.includes(value)) {
-                    feature.properties["yeartest"] = 1
+                console.log(year)
+                if (year) {
+                    for (var j = 0; j < year.length; j++){
+                        if (year[j] == value){
+                            feature.properties["yeartest"] = 1
+                        } else {
+                            feature.properties["yeartest"] = 0
+                        }
+                    }
                 } else {
                     feature.properties["yeartest"] = 0
                 }
@@ -470,6 +477,26 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     }
 });
 
+$("#reset").click(function() {
+    filterlist[0] = "all"
+    filterlist[1] = "all"
+    filterlist[2] = "all"
+    filterlist[3] = "all"
+    filterlist[4] = "all"
+    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+    $('#selectCommtype option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+    $('#selectDistrict option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+    $('#selectCampus option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+    $('#selectYear option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+});
 
 function calculation(a, b, c, d, e) {
     var totalnumber = ''

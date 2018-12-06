@@ -188,17 +188,17 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            'total_uno_students': 'Total Number Of UNO Students',
-            'total_uno_hours': 'Total Number Of UNO Students Hours',
-            'total_k12_students': 'Total Number Of K-12 Students',
-            'total_k12_hours': 'Total Number Of K-12 Hours',
-            'total_uno_faculty': 'Total Number Of UNO Faculty/Staff',
+            'total_uno_students': 'Number Of UNO Students',
+            'total_uno_hours': 'Number Of UNO Students Hours',
+            'total_k12_students': 'Number Of K-12 Students',
+            'total_k12_hours': 'Number Of K-12 Hours',
+            'total_uno_faculty': 'Number Of UNO Faculty/Staff',
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
             'address_line1': 'Address Line',
-            'total_other_community_members':  'Total Other Participants',
+            'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
         }
 
@@ -313,11 +313,10 @@ class ProjectMissionForm(ModelForm):
 class AddProjectCommunityPartnerForm(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('community_partner','total_hours','total_people',)
+        fields = ('community_partner',)
         labels = {
             'community_partner': ('Community Partner'),
-            'total_hours': ('Hours'),
-            'total_people': ('Volunteers'),
+
         }
 
 

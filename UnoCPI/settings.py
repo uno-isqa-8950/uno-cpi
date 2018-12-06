@@ -97,17 +97,7 @@ DATABASES = {
     }
 }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'UIfix1',
-#         'USER': 'postgres',
-#         'PASSWORD': 'jan@2018',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#
-# }
-# }
+
 
 
 ##Extending the user model to home

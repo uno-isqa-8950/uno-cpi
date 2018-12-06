@@ -156,7 +156,8 @@
                 <th>Economic Impact</th>
                 
             </tr>
-
+            </thead>
+            <tbody>
             {% for project in projectsData %}
             <tr>
                 <td>{{project.projectName}}</td>
@@ -167,6 +168,7 @@
                 <td>{{project.economic_impact}}</td>
             </tr>
             {% endfor %}
+            </tbody>
         </table>
          </div></div><br><br><br>
 

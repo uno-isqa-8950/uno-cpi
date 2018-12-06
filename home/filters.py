@@ -7,7 +7,6 @@ from home.models import MissionArea
 class ProjectFilter(django_filters.FilterSet):
     legislative_district = django_filters.ModelChoiceFilter(
         queryset=Project.objects.values_list('legislative_district', flat=True).distinct())
-    print(legislative_district)
     class Meta:
         model = Project
         fields = ['engagement_type','academic_year','legislative_district', ]

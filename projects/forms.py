@@ -313,11 +313,10 @@ class ProjectMissionForm(ModelForm):
 class AddProjectCommunityPartnerForm(ModelForm):
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('community_partner','total_hours','total_people',)
+        fields = ('community_partner',)
         labels = {
             'community_partner': ('Community Partner'),
-            'total_hours': ('Hours'),
-            'total_people': ('Volunteers'),
+
         }
 
 

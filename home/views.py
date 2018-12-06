@@ -349,7 +349,7 @@ def upload_community(request):
         return render(request, 'import/uploadCommunity.html',
                       {'download_community_url': download_community_url})
     csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('ISO 8859-1').splitlines()
+    decoded = csv_file.read().decode('ISO 8859-1' ).splitlines()
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))

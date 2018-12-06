@@ -39,7 +39,7 @@ margin-left:22px
             <!--<form id="filters-form" method="get">-->
             <form class="form-inline" id="filters-form" method="get">
                 <div class="col-md-6 form-group">
-                    <label for="id_engagement_type"> Engagement Type : </label>
+                    <label for="id_engagement_type"> Engagement Type:</label>
  &emsp;                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                             <option> All </option>
                                 {% for engagement in project_filter.form.engagement_type %}
@@ -58,6 +58,7 @@ margin-left:22px
                     {% endfor %}
                 </select>
         </div>
+            <br><br>
         <div class="col-md-6 form-group">
             <label for="campus_partner"> Campus Partner: </label>
             <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">

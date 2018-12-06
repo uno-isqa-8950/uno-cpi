@@ -35,29 +35,6 @@ width:100%
 margin-left:22px
 }
 </style>
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-  $('#id_mission').select2(
-      {
-              placeholder: 'All Mission Areas',
-      }
-  );
-  $('#id_semester').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
-  $('#id_campus_partner').select2(
-      {
-              placeholder: 'All Campus Partners',
-      }
-  );
-});
-</script>
-{% endblock %}
 
 
    <div class="container" >
@@ -88,6 +65,7 @@ $(document).ready(function(){
                 {% endfor %}
             </select>
             </div>
+        <br><br>
         <div class="col-md-6 form-group">
             <label for="campus_partner"> Campus Partner: </label>
             <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
@@ -108,4 +86,29 @@ $(document).ready(function(){
 </script>
         </div>
     </div><br><br><br><br>
+{% endblock %}
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_mission').select2(
+      {
+              placeholder: 'All Mission Areas',
+      }
+  );
+  $('#id_semester').select2(
+      {
+              placeholder: 'All Academic Years',
+      }
+  );
+  $('#id_campus_partner').select2(
+      {
+              placeholder: 'All Campus Partners',
+      }
+  );
+});
+</script>
+
 {% endblock %}

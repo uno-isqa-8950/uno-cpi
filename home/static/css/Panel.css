@@ -2,9 +2,15 @@
 
 #align
 {
-margin-left:18px;
-margin-top:12px;
+    margin-left:18px;
+    margin-top:12px;
 }
+
+
+
+
+
+/* Register forms highlight box */
 
 #contact1
 {
@@ -38,6 +44,27 @@ margin-top:12px;
 
 }
 
+/* End Design */
+
+
+
+
+
+
+
+/* Text boxes design */
+
+
+
+select[id=id_college_name]
+
+{
+    width:93%;
+}
+
+
+
+
 
 input[type=text],[type=password],[type=email]
 {
@@ -53,7 +80,15 @@ input[type=text],[type=password],[type=email]
 
 }
 
-input[id=id_start_date],input[id=id_end_date],select[id=id_academic_year],select[id=id_campus_partner],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+
+input[id=id_start_date],input[id=id_end_date],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
 {
     width:85%;
     border:2px solid #aaa;
@@ -68,13 +103,6 @@ input[id=id_start_date],input[id=id_end_date],select[id=id_academic_year],select
 
 
 
-
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
-}
-
 input[id=id_start_date]:focus,input[id=id_end_date]:focus,select[id=id_engagement_type]:focus,select[id=id_activity_type]:focus,textarea[id=id_description]:focus,textarea[id=id_total_uno_hours]:focus,select[id=id_semester]:focus, select[id=id_status]:focus
 {
   border-color:grey;
@@ -82,13 +110,24 @@ input[id=id_start_date]:focus,input[id=id_end_date]:focus,select[id=id_engagemen
 }
 
 
+/* Text box layout ends */
+
+
+
+
+
+
+
+
+/* Panel Layout */
+
 .panel
 {
-width: relative;
-box-shadow: 5px 10px 10px 5px grey;
-height:relative;
-margin-top: 100px;
-font-family:Helvetica;
+    width: relative;
+    box-shadow: 5px 10px 10px 5px grey;
+    height:relative;
+    margin-top: 100px;
+    font-family:Helvetica;
 }
 
 
@@ -96,7 +135,7 @@ font-family:Helvetica;
 
 .panel-default > .panel-heading
 {
-background-color: #b8b8b8;
+    background-color: #b8b8b8;
 }
 
 
@@ -124,6 +163,13 @@ background-color: #b8b8b8;
 {
 	border-radius: 5px;
 }
+
+
+/* Panel Layout ends */
+
+
+
+
 
 h4
 {
@@ -164,3 +210,5 @@ h4
     }
 
 }
+
+/* end */

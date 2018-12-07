@@ -394,6 +394,7 @@ def project_edit_new(request,pk):
 @login_required()
 @login_required()
 def SearchForProject(request):
+    p = 0
     names=[]
     projects_list=[]
     for project in Project.objects.all():

@@ -37,7 +37,7 @@ var popup = new mapboxgl.Popup({
 
 
 var select = '';
-select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: black"></span><b>All Mission Areas</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: transparent; border: 1px solid black"></span><b>All Mission Areas</b></a>' + "<br>";
 for (var i = 0; i < Missionarea.length; i++) {
     var color = colorcode[i]
     var mission = Missionarea[i]

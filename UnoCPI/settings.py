@@ -99,6 +99,8 @@ DATABASES = {
 
 
 
+
+
 ##Extending the user model to home
 
 AUTH_USER_MODEL = 'home.User'

@@ -113,6 +113,7 @@
                 <div class="col-lg-3 col-md-5 form-group">
                     <label for="id_weitz_cec_part"> CEC Partner: </label>
                         <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                            <option> All </option>
                             {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                                 {{weitz_cec_part}}
                             {% endfor %}
@@ -122,6 +123,7 @@
                 <div class="col-lg-3 col-md-5 form-group">
                     <label for="id_community_type"> Community Type: </label>
                         <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                            <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
                             {% endfor %}

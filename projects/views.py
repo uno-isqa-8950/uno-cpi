@@ -486,7 +486,6 @@ def SearchForProjectAdd(request,pk):
 
 # List Projects for Public View
 
-
 def projectsPublicReport(request):
     
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -639,7 +638,7 @@ def communityPrivateReport(request):
             project = cproject.project_name
             projectMissions = ProjectMission.objects.filter(project_name=project)
             if project in projects.qs:
-                project = Project.objects.   get(id=cproject.id)
+                project = Project.objects.get(id=cproject.id)
                 if "total_hours" in data:
                     data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
                     data['total_hours'] = data['total_hours'] + project.total_uno_hours

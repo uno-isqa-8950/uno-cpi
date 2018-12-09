@@ -184,6 +184,12 @@ def userProfileUpdate(request):
         user = get_object_or_404(User, id=request.user.id)
 
         if request.method == 'POST':
+            request.POST._mutable = True
+            request.POST['first_name'] = request.POST['First Name']
+            request.POST['last_name'] = request.POST['Last Name']
+            request.POST['email'] = request.POST['Email ID']
+            request.POST._mutable = False
+
             user_form = userUpdateForm(data=request.POST, instance=user)
             avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
@@ -194,7 +200,7 @@ def userProfileUpdate(request):
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofile')
+                return redirect('partners:userprofileupdate')
 
         else:
             user_form = userUpdateForm(instance=user)
@@ -221,7 +227,7 @@ def userProfileUpdate(request):
                 return redirect('partners:userprofile')
             else:
                 messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofile')
+                return redirect('partners:userprofileupdate')
 
         else:
             user_form = userUpdateForm(instance=user)

@@ -135,7 +135,8 @@ input[id=id_start_date]:focus,input[id=id_end_date]:focus,select[id=id_engagemen
 
 .panel-default > .panel-heading
 {
-    background-color: #b8b8b8;
+    background-color: #636568;
+    color:White;
 }
 
 

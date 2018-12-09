@@ -7,10 +7,15 @@
 
 .btn-secondary
 {
-margin-left:40px;
-margin-top:10px;
-margin-bottom:10px;
-background-color:grey;
+    margin-left:40px;
+    margin-top:10px;
+    margin-bottom:10px;
+    background-color:grey;
+}
+
+.btn-secondary:hover
+{
+	background-color:#9C9C9C;
 }
 
 
@@ -86,19 +91,19 @@ section h3.section-subheading {
 
 .btn-custom
 {
-	background-color: #C0C0C0;
+	background-color: #636568;
 	position: relative;
-    left:100px;
-	width:110px;
+	color:White;
 	top:15px;
 	height:relative;
     font-family: Helvetica;
+    border-radius:5px;
 }
 
 
 .btn-custom:hover
 {
-	background-color:#D3D3D3;
+	background-color:#9C9C9C;
 }
 
 

@@ -175,7 +175,7 @@
 
 
 	.legend {
-		    margin-top:10px;
+
 			background-color: #636568;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -183,7 +183,7 @@
 			position:relative;
 			left:10px;
 			right: 10px;
-			padding: 0px;
+			padding: 10px;
             color: white;
             width:230px;
 
@@ -361,19 +361,19 @@
 
 <div class="wrapper">
     <nav id="sidebar">
+        <div class="row" style="border-bottom: 1px solid grey; height:60px;">
+            <div class="col-lg-6 col-md-6">
+                <h3 style="padding:15px;text-align:left; font-size:25px;">Filters</h3>
+            </div>
+            <div class="col-lg-6 col-md-6" style="padding:15px;">
+                <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
+                    Reset
+                </button>
+            </div>
+        </div>
+
 
         <div id='state-legend' class='legend'>
-            <div class="row" style="border-bottom: 1px solid grey; height:50px;">
-                <div class="col-lg-6 col-md-6">
-                    <h3 style="text-align:left; font-size:25px;">Filters</h3>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                        <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
-                            Reset
-                        </button>
-                </div>
-            </div>
-
             <h4>Mission Areas</h4>
             <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>

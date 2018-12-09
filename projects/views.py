@@ -161,8 +161,8 @@ def project_total_Add(request):
             project.total_uno_hours = a
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
-            eng = proj.engagement_type
-            print(eng)
+            eng = str(proj.engagement_type)
+
             if eng == "Service Learning":
                 print("heoooooooooooooooooo")
                 course = course.save(commit=False)
@@ -296,11 +296,12 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
                 #print(" validating the forms here")
                 instances = project.save()
-
-                if  course.is_valid():
-                    course.project_name = instances
+                eng = str(project.engagement_type)
+                if eng == "Service Learning":
+                    print("heoooooooooooooooooo")
+                    course = course.save(commit=False)
+                    course.project_name = project
                     course.save()
-                print(course)
                 pm = formset_missiondetails.save(commit=False)
                 compar= formset_comm_details.save(commit=False)
                 campar= formset_camp_details.save(commit=False)

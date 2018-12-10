@@ -21,7 +21,7 @@ from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
 import googlemaps
 from shapely.geometry import shape, Point
-# import pandas as pd
+import pandas as pd
 import json
 gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
 
@@ -296,12 +296,13 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
                 #print(" validating the forms here")
                 instances = project.save()
-                eng = str(project.engagement_type)
-                if eng == "Service Learning":
-                    print("heoooooooooooooooooo")
-                    course = course.save(commit=False)
-                    course.project_name = project
-                    course.save()
+                # print(instances.engagement_type)
+                # eng = str(project.engagement_type)
+                # if project.engagement_type == "Service Learning":
+                #     print("heoooooooooooooooooo")
+                #     course = course.save(commit=False)
+                #     course.project_name = project
+                #     course.save()
                 pm = formset_missiondetails.save(commit=False)
                 compar= formset_comm_details.save(commit=False)
                 campar= formset_camp_details.save(commit=False)

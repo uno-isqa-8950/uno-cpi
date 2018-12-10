@@ -41,6 +41,10 @@
     {
         margin-left:22px
     }
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
     </style>
 
 
@@ -67,14 +71,22 @@
                                                     <h6>Campus Partner Information</h6><br>
                                                 </div>
 
-                                                <div class="col-lg-6">
+
                                                     <div class="input-group">
-                                                        {{ form3|bootstrap }}
+                                                        <div class="col-lg-6">
+                                                        {{ form3.campus_partner|bootstrap }}
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        {{ form3.total_hours|bootstrap }}
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        {{ form3.total_people|bootstrap }}
+                                                        </div>
+
                                                     </div>
                                                     <div class="input-group-append" >
                                                         <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
                                                     </div>
-                                                </div>
                                             </div>
                                         {% endfor %}
 
@@ -106,14 +118,19 @@
                                         <div class="col-lg-12">
                                             <h6>Mission Information</h6><br>
                                         </div>
-                                        <div class="col-lg-12">
+
                                             <div class="input-group">
-                                                {{ form|bootstrap }}
+                                                <div class="col-lg-6">
+                                                    {{ form.mission_type|bootstrap }}
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {{ form.mission|bootstrap }}
+                                                </div>
                                             </div>
                                             <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-form-row">Add More</button>
+                                                <button class="btn btn-secondary add-form-row">Add Mission</button>
                                             </div>
-                                        </div>
+
                                     </div>
                                 {% endfor %}
 
@@ -122,14 +139,15 @@
                                         <div class="col-lg-12">
                                             <h6>Community Partner Information</h6><br>
                                         </div>
-                                        <div class="col-lg-6">
-                                            <div class="input-group">
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
                                                 {{form2|bootstrap}}
                                             </div>
-                                            <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-form2-row">Add More</button>
-                                            </div>
                                         </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-form2-row">Add Community Partner</button>
+                                            </div>
+
                                     </div>
                                 {%endfor%}
 

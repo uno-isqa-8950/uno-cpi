@@ -1,3 +1,5 @@
+import pandas as pd
+
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
@@ -140,6 +142,7 @@ def registerCommunityPartner(request):
                         with open('home/static/GEOJSON/Partner.geojson') as f:
                             geojson1 = json.load(f)  # get the GEOJSON
                         geojson1["features"].append(feature)
+
 
                         jsonstring = pd.io.json.dumps(geojson1)
 

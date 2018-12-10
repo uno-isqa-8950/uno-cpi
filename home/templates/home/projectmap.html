@@ -1,5 +1,4 @@
-{% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %}
-{% block content %}
+{% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %} {% block content %}
 
 <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>
 <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -39,6 +38,19 @@
         background-color: #484848;
         }
 
+    @media(max-width:810px)
+    {
+        .btn-custom1
+            {
+                left:15px;
+            }
+        .active .btn-custom1
+            {
+            left:15px;
+
+            }
+
+    }
 
     .btn-custom1:hover
         {
@@ -122,6 +134,21 @@
         margin-bottom: 15px;
         }
     select[id=selectCampus]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin-top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
+
+    select[id=selectYear]
         {
         width:85%;
         border:2px solid #aaa;
@@ -305,6 +332,7 @@
         {
 
         }
+
         .container-fluid
         {
         padding-left:0px;
@@ -315,7 +343,6 @@
         {
         border-radius:0px;
         }
-
 </style>
 
 <div class="wrapper">
@@ -326,23 +353,20 @@
                 <div class="col-lg-6 col-md-6">
                     <h3 style="border-right: 1px solid grey; padding-bottom:5px; text-align:left;font-size:25px;">Filters</h3>
                 </div>
-                <div class="col-lg-6 col-md-6">
-                        <button type="button" class="btn btn-primary">
-                            Reset
-                        </button>
-                </div>
             </div>
 
-            <h4>Mission Areas</h4>
-            <div id='legend'>
-            </div>
+            <h4>Number of Projects per District</h4>
+			<div><span style='background-color: #ffffe5'></span>No project Yet</div>
+			<div><span style='background-color: #fff7bc'></span>From 1 to 5 projects</div>
+			<div><span style='background-color: #fee391'></span>From 5 to 10 projects</div>
+			<div><span style='background-color: #fec44f'></span>From 10 to 20 projects</div>
+			<div><span style='background-color: #fe9929'></span>From 20 to 30 projects</div>
+			<div><span style='background-color: #ec7014'></span>From 30 to 50 projects</div>
+			<div><span style='background-color: #cc4c02'></span>From 50 to 100 projects</div>
+			<div><span style='background-color: #8c2d04'></span>More than 100 projects</div>
 
-            <select id="selectDistrict" class="selectDistrict">
+            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
                 </select>
-            <!--div id="sidebar"-->
-            <div>
-                <input id='valueFilter' type='text' placeholder='Search Projects' />
-            </div>
         </div>
 
     </nav>
@@ -358,16 +382,17 @@
                                         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                             <span></span>
                                         </button>
+
                                     </div>
 
                                     <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
-                                            <label><b>Maps: Projects</b></label>
+                                            <label><b>Maps: Community Projects</b></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-md-6">
-                                        <div style="box-sizing: border-box; padding:5px;">
-                                            <label><b>Unique Projects: </b><b id = "totalnumber">{{ number }}</b></label>
+                                        <div style="box-sizing: border-box; padding:3px;">
+                                            <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b></label>
                                         </div>
                                         <!--<label style="box-sizing: border-box;">Unique Community Partners:</label>-->
                                         <!--<div id = "totalnumber">{{ number }}</div>-->
@@ -379,11 +404,10 @@
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
                                 <div id='map' class='map'>
-                                    {{ countyData | json_script:"county-data"}}
-                                    <!--<h3 id="overlay-header">Maps: Projects</h3>-->
-                                    <!--<p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p>-->
                                     {{ collection | json_script:"project-data"}}
-                                    {{ Missionlist | json_script:"missionlist"}}
+                                    <!--h3 id="overlay-header">Maps: Household Income</h3>
+                                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
+                                    {{ districtData | json_script:"district"}}
                                 </div>
                             </div>
                         </div>

@@ -2,151 +2,170 @@
 {% load bootstrap %}
 {% block content %}
   <style>
-    label
-    {
-    margin-left: 25px;
-    font-weight: bold;
-    }
-    h4
-    {
-    line-height: 2.7;
-    font-size: 1.3em;
-    }
-  .panel-default
-  {
-      margin-top: 20px;
-  }
-    .btn-custom
-    {
-        margin-top:20px;
-        margin-left:300px;
-        width:130px;
-    }
-    input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status]
-    {
-    width:95%;
-    }
+
 .select2-container--default .select2-selection--single
 {
-margin-left:22px;
-width:100%
+    border: 2px solid #aaa;
+    height:35px;
 }
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+
+    label:after
+    {
+        content:"*" ;
+        color:red
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+
+    input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status],select[id=id_academic_year]
+    {
+        width:95%;
+    }
+
+    .select2-container--default .select2-selection--single
+    {
+        margin-left:22px;
+        width:100%
+    }
+
+    .select2-container--open .select2-dropdown--below
+    {
+        margin-left:22px
+    }
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
     </style>
-<!--<div class="container">
-               <a href="{% url 'SearchForProject' %}" class="row"><span
-                         class="btn btn-custom">Search Project</span></a>
-</div-->
+
+
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4><b>Add Project</b></h4></div>
-                        <div class="panel-body">
-                        <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
-                        {{formset.management_form}}
-                        {{formset2.management_form}}
-                        {{formset3.management_form}}
-                        <!--div class="row">
-                            <div class="col-md-12 col-lg-12"-->
+                    <div class="panel-heading text-center"><h4>Add Project</h4></div>
+                        <div class="panel-body">&emsp;
+                            <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
+                                {{formset.management_form}}
+                                {{formset2.management_form}}
+                                {{formset3.management_form}}
                                 {{project.project_name|bootstrap}}
-                            <!--/div>
-                        </div>
-                        <div class ="row">
-                            <div class="col-lg-6 col-md-6"-->
-                            <!--/div>
-                            <div class="col-lg-5 col-md-6"-->
                                 {{project.engagement_type|bootstrap}}
                                 <div class = "row">
-                        <div class="col-lg-12 col-md-12 col-sm-12">
-                            <!--/div>
-                        </div>
-                        <div class ="row"-->
-                            {{ course|bootstrap }}
-                        <!--/div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6"-->
-                                {{project.activity_type|bootstrap}}
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        {{ course|bootstrap }}
+                                        {{project.activity_type|bootstrap}}
 
-         {% for form3 in formset3 %}
-         <div class="form3-row" id="contact1">
-              <div class="col-lg-12">
-                    <label>Campus Information</label>
-                    <br>
-               </div>
-                <div class="col-lg-6">
-                <div class="input-group">
-                    {{ form3|bootstrap }}
-                    <div class="input-group-append" >
-                        <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
-                    </div>
-                </div>
-                </div>
-         </div>
-         {% endfor %}
-                                {{ project.facilitator|bootstrap }}
-                                 {{ project.status|bootstrap}}
-                            <!--/div>
-                        </div-->
-         {{ project.description|bootstrap }}
-         {{ project.semester|bootstrap }}
-         {{ project.academic_year|bootstrap }}
-         {{ project.total_uno_students|bootstrap }}
-         {{ project.total_uno_hours|bootstrap }}
-         {{ project.total_k12_students|bootstrap }}
-         {{ project.total_k12_hours|bootstrap }}
-         {{ project.total_uno_faculty|bootstrap }}
-         {{ project.total_other_community_members|bootstrap }}
-         {{ project.start_date|bootstrap }}
-         {{ project.end_date|bootstrap }}
-         {{ project.other_details|bootstrap }}
-         {{ project.outcomes|bootstrap }}
-         {{ project.address_line1|bootstrap }}
-         {{ project.city|bootstrap }}
-         {{ project.state|bootstrap }}
-         {{ project.country|bootstrap }}
-         {{ project.zip|bootstrap }}
-        </div>
-        </div>
-        {% for form in formset %}
-                 <div class="form-row" id="contact1">
-                        <div class="col-lg-12">
-                            <label>Mission Information</label>
-                           <br>
+                                        {% for form3 in formset3 %}
+                                            <div class="form3-row" id="contact1" style="margin-top:20px;">
+                                                <div class="col-lg-12">
+                                                    <h6>Campus Partner Information</h6><br>
+                                                </div>
+
+
+                                                    <div class="input-group">
+                                                        <div class="col-lg-6">
+                                                        {{ form3.campus_partner|bootstrap }}
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        {{ form3.total_hours|bootstrap }}
+                                                        </div>
+                                                        <div class="col-lg-6">
+                                                        {{ form3.total_people|bootstrap }}
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="input-group-append" >
+                                                        <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
+                                                    </div>
+                                            </div>
+                                        {% endfor %}
+
+                                        {{ project.facilitator|bootstrap }}
+                                        {{ project.status|bootstrap}}
+                                        {{ project.description|bootstrap }}
+                                        {{ project.semester|bootstrap }}
+                                        {{ project.academic_year|bootstrap }}
+                                        {{ project.total_uno_students|bootstrap }}
+                                        {{ project.total_uno_hours|bootstrap }}
+                                        {{ project.total_k12_students|bootstrap }}
+                                        {{ project.total_k12_hours|bootstrap }}
+                                        {{ project.total_uno_faculty|bootstrap }}
+                                        {{ project.total_other_community_members|bootstrap }}
+                                        {{ project.start_date|bootstrap }}
+                                        {{ project.end_date|bootstrap }}
+                                        {{ project.other_details|bootstrap }}
+                                        {{ project.outcomes|bootstrap }}
+                                        {{ project.address_line1|bootstrap }}
+                                        {{ project.city|bootstrap }}
+                                        {{ project.state|bootstrap }}
+                                        {{ project.country|bootstrap }}
+                                        {{ project.zip|bootstrap }}
+                                    </div>
+                                </div>
+
+                                {% for form in formset %}
+                                    <div class="form-row" id="contact1">
+                                        <div class="col-lg-12">
+                                            <h6>Mission Information</h6><br>
+                                        </div>
+
+                                            <div class="input-group">
+                                                <div class="col-lg-6">
+                                                    {{ form.mission_type|bootstrap }}
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    {{ form.mission|bootstrap }}
+                                                </div>
+                                            </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-form-row">Add Mission</button>
+                                            </div>
+
+                                    </div>
+                                {% endfor %}
+
+                                {% for form2 in formset2 %}
+                                    <div class="form2-row" id="contact1">
+                                        <div class="col-lg-12">
+                                            <h6>Community Partner Information</h6><br>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{form2|bootstrap}}
+                                            </div>
+                                        </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-form2-row">Add Community Partner</button>
+                                            </div>
+
+                                    </div>
+                                {%endfor%}
+
+                                <div class="row justify-content-md-center" style="margin-top:30px;">
+                                    <div class="col-lg-2 col-md-5">
+                                        <button type="submit" class="save btn btn-custom">Submit</button>
+                                    </div>
+                                </div>
+                            </form><br><br>
                         </div>
-                        <div class="col-lg-12">
-                        <div class="input-group">
-                            {{ form|bootstrap }}
-                            </div>
-                            <div class="input-group-append" >
-                                      <button class="btn btn-secondary btn-sm add-form-row">Add More</button>
-                            </div>
-                        </div>
-                 </div>
-         {% endfor %}
-         {% for form2 in formset2 %}
-          <div class="form2-row" id="contact2">
-                <div class="col-lg-12">
-                    <label>Community Partner Information</label>
-                    <br>
                 </div>
-                <div class="col-lg-6">
-                <div class="input-group">
-                    {{form2|bootstrap}}
-                </div>
-                    <div class="input-group-append" >
-                             <button class="btn btn-secondary btn-sm add-form2-row">Add More</button>
-                    </div>
-                </div>
-          </div>
-         {%endfor%}
-        <button type="submit" class="save btn btn-custom">Submit</button>
-    </form><br><br>
-                        </div> </div></div></div></div><br><br><br>
+            </div>
+        </div>
+    </div>
+<br><br><br>
 {% endblock %}
+
+
 {% block custom_js %}
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script type="text/javascript">
@@ -277,31 +296,18 @@ window.onload = function () {
    });
 </script>
 {% endblock %}
+
+
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  $('#id_engagement_type').select2(
-      {
-              placeholder: 'Select Engagement Type',
-      }
-  );
-  $('#id_activity_type').select2(
-      {
-              placeholder: 'Select Activity Type',
-      }
-  );
-  $('#id_status').select2(
-      {
-              placeholder: 'Select Status',
-      }
-  );
-  $('#id_academic_year').select2(
-      {
-              placeholder: 'Select Academic Year',
-      }
-  );
+
+    $('#id_engagement_type').select2({placeholder: 'Select Engagement Types',border:'2px solid #aaa'});
+    $('#id_activity_type').select2({placeholder: 'Select Activity Typess',});
+    $('#id_academic_year').select2({placeholder: 'Select Academic Years',});
+    $('#id_status').select2({placeholder: 'Select Status',});
 });
 </script>
 <script>

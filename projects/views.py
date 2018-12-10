@@ -161,8 +161,8 @@ def project_total_Add(request):
             project.total_uno_hours = a
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
-            eng = proj.engagement_type
-            print(eng)
+            eng = str(proj.engagement_type)
+
             if eng == "Service Learning":
                 print("heoooooooooooooooooo")
                 course = course.save(commit=False)
@@ -296,11 +296,13 @@ def project_edit_new(request,pk):
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
                 #print(" validating the forms here")
                 instances = project.save()
-
-                if  course.is_valid():
-                    course.project_name = instances
-                    course.save()
-                print(course)
+                # print(instances.engagement_type)
+                # eng = str(project.engagement_type)
+                # if project.engagement_type == "Service Learning":
+                #     print("heoooooooooooooooooo")
+                #     course = course.save(commit=False)
+                #     course.project_name = project
+                #     course.save()
                 pm = formset_missiondetails.save(commit=False)
                 compar= formset_comm_details.save(commit=False)
                 campar= formset_camp_details.save(commit=False)
@@ -394,6 +396,7 @@ def project_edit_new(request,pk):
 @login_required()
 @login_required()
 def SearchForProject(request):
+    p = 0
     names=[]
     projects_list=[]
     for project in Project.objects.all():
@@ -630,7 +633,7 @@ def communityPrivateReport(request):
         if contact:
             data['email'] = contact.email_id
         else:
-            data['email'] = ""
+            data['email'] = "Email Not Provided"
 
         communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
         count = 0
@@ -638,7 +641,7 @@ def communityPrivateReport(request):
             project = cproject.project_name
             projectMissions = ProjectMission.objects.filter(project_name=project)
             if project in projects.qs:
-                project = Project.objects.get(id=cproject.id)
+                project = Project.objects.   get(id=cproject.id)
                 if "total_hours" in data:
                     data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
                     data['total_hours'] = data['total_hours'] + project.total_uno_hours

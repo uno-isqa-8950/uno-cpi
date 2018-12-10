@@ -188,8 +188,7 @@
 
 
 	.legend {
-		    margin-top:20px;
-			background-color: #636568;
+		    background-color: #636568;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -347,19 +346,19 @@
 
 <div class="wrapper">
     <nav id="sidebar">
+        <div class="row" style="border-bottom: 1px solid grey; height:60px;">
+            <div class="col-lg-6 col-md-6">
+                <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
+            </div>
+            <div class="col-lg-6 col-md-6" style="padding:15px;">
+                <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
+                    Reset
+                </button>
+            </div>
+        </div>
+
 
         <div id='state-legend' class='legend'>
-            <div class="row" style="border-bottom: 1px solid grey;">
-                <div class="col-lg-6 col-md-6">
-                    <h3 style="border-right: 1px solid grey; padding-bottom:5px; text-align:left;font-size:25px;">Filters</h3>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                        <button type="button" class="btn btn-primary" id="reset">
-                            Reset
-                        </button>
-                </div>
-            </div>
-
             <h4>Mission Areas</h4>
             <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
@@ -384,14 +383,14 @@
                         <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="padding: 5px;background-color:#636568;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                                 <div class="row">
-                                    <div class="col-lg-1 col-md-1" style="border-right: 1px solid grey;">
+                                    <div class="col-lg-1 col-md-1">
                                         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                             <span></span>
                                         </button>
 
                                     </div>
 
-                                    <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
+                                    <div class="col-lg-4 col-md-5">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
                                             <label><b>Maps: Community Partner</b></label>
                                         </div>

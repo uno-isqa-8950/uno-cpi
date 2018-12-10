@@ -1,161 +1,138 @@
 {% extends 'home/Campus_Home.html' %}
 {% load staticfiles %}
-{% block searchjs %}
-<script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
-  <script>
-    $( function() {
-      var availableTags = {{ projectNames|safe }} ;
-      $( "#id_project_name" ).autocomplete({
-        source: availableTags
-      });
-    } );
-  </script>
-<script>
-function myFunction1() {
-    document.getElementById("id_project_name").label = "newLabel";
-}
-</script>
-{% endblock %}
-{% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-  $('#id_academic_year').select2(
-      {
-              placeholder: 'All Academic Years',
-      }
-  );
-});
-</script>
-{% endblock %}
+
 {% block content %}
 <style>
-#id_project_name{
-width: 200px;
-}
-#id_academic_year{
-width: 200px;
-}
-.btn-default
-{
-position: relative;
-}
+
 label, .btn-default
 {
-margin-left:100px;
+    margin-left:100px;
 }
-.searchName{
-    text-align: center;
-}
-  .btn-custom
+
+
+
+/* Datatable Css */
+
+    .btn-group{float:left;, labels:"Export"}
+    #example_length{float:left; margin:0 0 0 0px;}
+    #example_length select{width:50%;}
+
+
+    div.dataTables_wrapper div.dataTables_length label
     {
-        position: relative;
-        width: 100px;
-        top: 5px;
-        left: 3px;
-        color: #666666;
+        margin-left:0px;
     }
-.select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+
+
+    div.dataTables_wrapper div.dataTables_filter label
+    {
+        float:right;
+    }
+
+
+    @media (max-width: 900px)
+    {
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            float:left;
+            margin-left:50px;
+        }
+        #example_length select{width:35%;}
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+
+
+
 </style>
 
- <div class = "container">
+ <div class = "container-fluid">
         <div class="row justify-content-md-center">
-		    <div class="col-lg-10 col-md-10">
+		    <div class="col-lg-12 col-md-12">
                 <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4 class="searchName"><b>Search for Existing Projects</b></h4></div>
+                    <div class="panel-heading text-center"><h4>Search for Existing Projects</h4></div>&emsp;
 			            <div class="panel-body">
 
-                         </div>
+                         <!--/div>
         <!--<div class="ui-widget">-->
         <!--</div>-->
 
                         <div class="container">
                             <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
-                          <thead>
-                          <tr>
-                <th>Project Name</th>
-                <th>Mission Areas</th>
-                <th>Community Partners</th>
-                <th>Campus Partners</th>
-                <th>Engagement Type</th>
-                <th>Academic Year</th>
-                <th>Status</th>
-                <th>Semester</th>
-                <th>Start Date </th>
-                <th>End Date </th>
-                <th> UNO Students</th>
-                <th> UNO Student Hours</th>
-                <th> UNO Faculty</th>
-                <th> K12 Students</th>
-                <th> K12 Student Hours </th>
-                <th>Community Members</th>
-                <th>Activity Type</th>
-                <th>Facilitator</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Mission Areas</th>
+                                    <th>Community Partners</th>
+                                    <th>Campus Partners</th>
+                                    <th>Engagement Type</th>
+                                    <th>Academic Year</th>
+                                    <th>Status</th>
+                                    <th>Semester</th>
+                                    <th>Start Date </th>
+                                    <th>End Date </th>
+                                    <th> UNO Students</th>
+                                    <th> UNO Student Hours</th>
+                                    <th> UNO Faculty</th>
+                                    <th> K12 Students</th>
+                                    <th> K12 Student Hours </th>
+                                    <th>Community Members</th>
+                                    <th>Activity Type</th>
+                                    <th>Facilitator</th>
+                                    <th>Description</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                {% for project in project %}
-                           <tr>
+                                {% for project in project %}
+                                <tr>
+                                    <td>{{ project.name }}</td>
+                                    <td>{% for projmisn in project.projmisn %}
+                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
+                                    <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
+                                    <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
+                                    <td>{{ project.engagementType }}</td>
+                                    <td>{{ project.academic_year }}</td>
+                                    <td>{{ project.status}}</td>
+                                    <td>{{ project.semester }}</td>
+                                    <td>{{ project.startDate }}</td>
+                                    <td>{{ project.endDate }}</td>
+                                    <td>{{project.total_uno_students}}</td>
+                                    <td>{{project.total_uno_hours}}</td>
+                                    <td>{{project.total_uno_faculty}}</td>
+                                    <td>{{project.total_k12_students}}</td>
+                                    <td>{{project.total_k12_hours}}</td>
+                                    <td>{{project.total_other_community_members}}</td>
+                                    <td>{{ project.activityType }}</td>
+                                    <td>{{ project.facilitator }}</td>
+                                    <td>{{ project.description }}</td>
 
-                            <td>{{ project.name }}</td>
-                            <td>{% for projmisn in project.projmisn %}
-                                   <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
-                            <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
-                            <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
-                            <td>{{ project.engagementType }}</td>
-                            <td>{{ project.academic_year }}</td>
-                            <td>{{ project.status}}</td>
-                            <td>{{ project.semester }}</td>
-                            <td>{{ project.startDate }}</td>
-                            <td>{{ project.endDate }}</td>
-                            <td>{{project.total_uno_students}}</td>
-                            <td>{{project.total_uno_hours}}</td>
-                            <td>{{project.total_uno_faculty}}</td>
-                            <td>{{project.total_k12_students}}</td>
-                            <td>{{project.total_k12_hours}}</td>
-                            <td>{{project.total_other_community_members}}</td>
-                            <td>{{ project.activityType }}</td>
-                            <td>{{ project.facilitator }}</td>
-                            <td>{{ project.description }}</td>
+                                    <form action="." method="POST">
+                                        {% for current in theList %}
+                                            {% if forloop.parentloop.counter0 == forloop.counter0 %}
+                                                {% if current %}
+                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Add</a> </td>
+                                                {% else %}
+                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-secondary disabled" style="margin-top:10px;">Add</a> </td>
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </form>
 
-                            <form action="." method="POST">
-                            {% for current in theList %}
-                                {% if forloop.parentloop.counter0 == forloop.counter0 %}
-                                    {% if current %}
-                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning">Add</a> </td>
-                                    {% else %}
-                                        <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-warning disabled">Add</a> </td>
-                                     {% endif %}
-                                {% endif %}
-                             {% endfor %}
-                            </form>
-
-
-                           </tr>
-
-                {% endfor %}
-            </tbody>
-        </table></div>
-                </div>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>&emsp;
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
- </div>
+ </div>&emsp;
 
  {% endblock %}
 
@@ -163,16 +140,19 @@ margin-left:22px
 
 <!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>-->
 <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src='{% static "js/pdfmake.min.js" %}'></script>
+<script type="text/javascript" src='{% static "js/datatables.min.js" %}'></script>
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+<!--script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script-->
 
 
 <script type="text/javascript">
     $(document).ready(function() {
     $('#example').DataTable();
+
     } );
- </script>
+</script>
 
 
 {% endblock %}

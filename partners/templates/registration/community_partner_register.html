@@ -4,17 +4,6 @@
 
 <style>
 
-.btn-outline-info
-{
-    margin-left:20px;
-}
-
-.btn-custom
-{
-margin-top:15px;
-margin-left: 70px;
-}
-
  label:after
     {
     content:"*" ;
@@ -22,15 +11,17 @@ margin-left: 70px;
     }
 
 
+label
+{
+    margin-left: 25px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+
 input[type=email],input[type=text],select[id=id_community_type]
     {
         width:93%;
-    }
-
-input[id=id_county],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
-input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
-    {
-    width:85%;
     }
 
 .form-control
@@ -38,25 +29,15 @@ input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0
     width: relative;
     }
 
-.btn-custom
+input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
+input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
+    {
+    width:85%;
+    }
+
+input[id=id_city]
 {
-	position: relative;
-	left:240px;
-	width:120px;
-}
-
-.panel-default
-  {
-      margin-top: 20px;
-  }
-
-
-
-label
-{
-margin-left: 25px;
-margin-top: 5px;
-font-weight: bold;
+    width:93%;
 }
 
 .select2-container--default .select2-selection--single
@@ -68,7 +49,7 @@ width:100%
 
 .select2-container--open .select2-dropdown--below
 {
-margin-left:22px
+    margin-left:22px
 }
 
 
@@ -125,7 +106,7 @@ margin-left:22px
                         {% for form in formset %}
                         <div class="row form-row" id="contact1">
                             <div class="col-md-12">
-                                <label>Point of Contact Information</label>
+                                <h6 style="margin-top:10px;">Point of Contact Information</h6>
                                 <br>
                             </div>
                         <div class="input-group">
@@ -165,7 +146,7 @@ margin-left:22px
 
                         {{ formset_mission.management_form }}
                         {% for form in formset_mission %}
-                            <div id="contact2" class="form1-row">
+                            <div id="contact1" class="form1-row">
                                 <!--<div class="col-md-12">-->
                                     <!--<label>Mission Areas</label>-->
                                     <!--<br>-->
@@ -187,7 +168,11 @@ margin-left:22px
 
                         {% endfor %}
 
-<p><button type="submit" class="btn btn-custom">Submit</button></p><br><br>
+                            <div class = "row justify-content-md-center">
+                                <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <button type="submit" class="btn btn-custom" style="margin-bottom:20px;">Submit</button>
+                                </div>
+                            </div><br>
 
 </form>
                               </div>
@@ -196,7 +181,7 @@ margin-left:22px
                 </div>
             </div>
 
-<br>
+<br><br>
 {% block selectizeForm %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
@@ -222,61 +207,83 @@ $(document).ready(function(){
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script type="text/javascript" id="contact-form">
 function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
+  // This function updates the index of the form being deleted
+  var id_regex = new RegExp('(' + prefix + '-\\d+)');
+  var replacement = prefix + '-' + ndx;
+  if ($(el).attr('for'))
+    $(el).attr(
+      'for',
+      $(el)
+        .attr('for')
+        .replace(id_regex, replacement)
+    );
+  if (el.id) el.id = el.id.replace(id_regex, replacement);
+  if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
+// This function clones new form based on the user action (based on the prefix)
 function cloneMore(selector, prefix) {
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name')
-        if(name) {
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-            var id = 'id_' + name;
-            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-        }
-    });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.form-row:not(:last)');
-    conditionRow.find('.btn.add-form-row')
-    .removeClass('btn-success').addClass('btn-secondary')
-    .removeClass('add-form-row').addClass('remove-form-row')
+  var newElement = $(selector).clone(true);
+  var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+  newElement.find(':input').each(function() {
+    var name = $(this).attr('name');
+    if (name) {
+      name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
+      var id = 'id_' + name;
+      $(this)
+        .attr({ name: name, id: id })
+        .val('')
+        .removeAttr('checked');
+    }
+  });
+  total++;
+  $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+  $(selector).after(newElement);
+  var conditionRow = $('.' + prefix + '-form-row:not(:last)');
+  conditionRow
+    .find('.btn.add-' + prefix + '-form-row')
+    .removeClass('btn-success')
+    .addClass('btn-secondary')
+    .removeClass('add-' + prefix + '-form-row')
+    .addClass('remove-' + prefix + '-form-row')
     .html('Remove');
-    return false;
+  return false;
 }
 function deleteForm(prefix, btn) {
-    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-    if (total > 1){
-        btn.closest('.form-row').remove();
-        var forms = $('.form-row');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-            $(forms.get(i)).find(':input').each(function() {
-                updateElementIndex(this, prefix, i);
-            });
-        }
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  console.log('In deleteForm - total', total);
+  if (total > 1) {
+    btn.closest('.' + prefix + '-form-row').remove();
+    var forms = $('.' + prefix + '-form-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
     }
-    return false;
+  }
+  return false;
 }
-$(document).on('click', '.add-form-row', function(e){
-    e.preventDefault();
-    cloneMore('.form-row:last', 'form');
-    return false;
+$(document).on('click', '.add-contact-form-row', function(e) {
+  e.preventDefault();
+  cloneMore('.contact-form-row:last', 'contact');
+  return false;
 });
-$(document).on('click', '.add-form1-row', function(e){
-    e.preventDefault();
-    cloneMore('.form1-row:last', 'form1');
-    return false;
+$(document).on('click', '.add-mission-form-row', function(e) {
+  e.preventDefault();
+  cloneMore('.mission-form-row:last', 'mission');
+  return false;
 });
-$(document).on('click', '.remove-form-row', function(e){
-    e.preventDefault();
-    deleteForm('form', $(this));
-    return false;
+$(document).on('click', '.remove-contact-form-row', function(e) {
+  e.preventDefault();
+  deleteForm('contact', $(this));
+  return false;
+});
+$(document).on('click', '.remove-mission-form-row', function(e) {
+  e.preventDefault();
+  deleteForm('mission', $(this));
+  return false;
 });
 </script>
 <script>

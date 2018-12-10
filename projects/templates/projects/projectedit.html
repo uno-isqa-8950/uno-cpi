@@ -1,80 +1,88 @@
 {% extends 'home/Campus_Home.html' %}
 {% load bootstrap %}
 {% block content %}
-      <style>
-    label
+
+<style>
+
+label
     {
-    margin-left: 10px;
+    margin-left: 22px;
     font-weight: bold;
     }
- input[type=number],textarea[name=project_name],.form-control
+
+
+input[type=number],textarea[name=project_name],.form-control,input[type=text],select[id=id_status],textarea[id=id_description],textarea[id=id_total_uno_hours],
+input[id=id_start_date],input[id=id_end_date]
     {
-        width: 90%;
+        width: 95%;
         height: 10%;
+
     }
- @media (min-width: 700px) {
-     .btn-custom {
-         margin-top: 20px;
-         margin-left: 350px;
-     }
- }
 
- .select2-container--default .select2-selection--single
+
+.select2-container--default .select2-selection--single
 {
-margin-left:22px;
-width:100%
-
+   margin-left:22px;
+   width:100%
 }
+
+
 .select2-container--open .select2-dropdown--below
 {
-margin-left:22px
+   margin-left:22px
 }
 
-    </style>
+</style>
 
 
 
-<div class="container" id="main12">
-
-<div class = "container">
-    <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Edit Project</h4></div>
-			<div class="panel-body">
-
-       <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
-        {{project.project_name|bootstrap}}
-         {{ project.status|bootstrap}}
-         {{project.engagement_type|bootstrap}}
-         {{ course.name|bootstrap }}
-         {{ course.prefix|bootstrap }}
-         {{ course.number|bootstrap }}
-
-         {{project.activity_type|bootstrap}}
-         {{ project.facilitator|bootstrap }}
-         {{ project.description|bootstrap }}
-         {{ project.semester|bootstrap }}
-          {{ project.academic_year|bootstrap }}
-         {{ project.total_uno_students|bootstrap }}
-         {{ project.total_uno_hours|bootstrap }}
-         {{ project.total_k12_students|bootstrap }}
-         {{ project.total_k12_hours|bootstrap }}
-         {{ project.total_uno_faculty|bootstrap }}
-         {{ project.total_other_community_members|bootstrap }}
-         {{ project.start_date|bootstrap }}
-         {{ project.end_date|bootstrap }}
-         {{ project.other_details|bootstrap }}
-         {{ project.outcomes|bootstrap }}
-         {{ project.address_line1|bootstrap }}
-         {{ project.city|bootstrap }}
-         {{ project.state|bootstrap }}
-         {{ project.country|bootstrap }}
-         {{ project.zip|bootstrap }}
-        {{ formset_missiondetails|bootstrap }}
-        {{ formset_comm_details|bootstrap }}
-        {{ formset_camp_details|bootstrap }}
-        <button type="submit" class="save btn btn-custom">Update</button>
-    </form><br><br>
-            </div></div></div></div><br><br>
+<div class = "container" id="main12">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-10 col-md-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4>Edit Project</h4></div>
+                    <div class="panel-body" style="margin-top:10px;">
+                        <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
+                            {{project.project_name|bootstrap}}
+                            {{ project.status|bootstrap}}
+                            {{project.engagement_type|bootstrap}}
+                            {{ course.name|bootstrap }}
+                            {{ course.prefix|bootstrap }}
+                            {{ course.number|bootstrap }}
+                            {{project.activity_type|bootstrap}}
+                            {{ project.facilitator|bootstrap }}
+                            {{ project.description|bootstrap }}
+                            {{ project.semester|bootstrap }}
+                            {{ project.academic_year|bootstrap }}
+                            {{ project.total_uno_students|bootstrap }}
+                            {{ project.total_uno_hours|bootstrap }}
+                            {{ project.total_k12_students|bootstrap }}
+                            {{ project.total_k12_hours|bootstrap }}
+                            {{ project.total_uno_faculty|bootstrap }}
+                            {{ project.total_other_community_members|bootstrap }}
+                            {{ project.start_date|bootstrap }}
+                            {{ project.end_date|bootstrap }}
+                            {{ project.other_details|bootstrap }}
+                            {{ project.outcomes|bootstrap }}
+                            {{ project.address_line1|bootstrap }}
+                            {{ project.city|bootstrap }}
+                            {{ project.state|bootstrap }}
+                            {{ project.country|bootstrap }}
+                            {{ project.zip|bootstrap }}
+                            {{ formset_missiondetails|bootstrap }}
+                            {{ formset_comm_details|bootstrap }}
+                            {{ formset_camp_details|bootstrap }}
+                            <div class="row justify-content-md-center" style="margin-top:30px;">
+                                <div class="col-lg-2 col-md-5">
+                                    <button type="submit" class="save btn btn-custom">Update</button>
+                                </div>
+                            </div>
+                        </form><br><br>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div> <br><br>
 
 
 {% endblock %}
@@ -202,11 +210,11 @@ return true;
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-  {#$('#id_engagement_type').select2(#}
-  {#    {#}
-  {#            placeholder: 'Select an Engagement Type',#}
-  {#    }#}
-  {#);#}
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
   $('#id_activity_type').select2(
       {
               placeholder: 'Select an Activity Type',
@@ -234,15 +242,39 @@ $(document).ready(function(){
   );
    $('#id_projectcampuspartner_set-0-campus_partner').select2(
       {
-              placeholder: 'Select an Campus Partner',
+              placeholder: 'Select a Campus Partner',
       }
   );
    $('#id_projectcampuspartner_set-1-campus_partner').select2(
       {
-              placeholder: 'Select an Campus Partner',
+              placeholder: 'Select a Campus Partner',
       }
   );
 });
 </script>
+<style>
+.select2-container .select2-selection--single
+{
+   height:35px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+</style>
+
 {% endblock %}
 

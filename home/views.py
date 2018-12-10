@@ -27,7 +27,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMessage
 import googlemaps
 from shapely.geometry import shape, Point
-import pandas as pd
+# import pandas as pd
 import os
 
 # Google Maps API Key

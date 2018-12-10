@@ -14,7 +14,7 @@ from home.forms import userUpdateForm
 from django.template.loader import render_to_string
 import googlemaps
 from shapely.geometry import shape, Point
-import pandas as pd
+# import pandas as pd
 import json
 gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
 import os

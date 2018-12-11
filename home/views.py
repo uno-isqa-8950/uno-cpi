@@ -466,14 +466,15 @@ def project_partner_info(request):
         project_ids = list(set(proj1_ids).intersection(legislative_Filter_ids))
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
-        community_list = [c.community_partner_id for c in p_community]
-        community_list_new = []
-        for i in communityPartners.qs:
-            if i.id in community_list:
-                community_list_new.append(i.id)
-        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).\
-            filter(community_partner_id__in=community_list_new).count()
+        # p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
+        # community_list = [c.community_partner_id for c in p_community]
+        # community_list_new = []
+        # for i in communityPartners.qs:
+        #     if i.id in community_list:
+        #         community_list_new.append(i.id)
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_filtered_ids = [community.id for community in communityPartners.qs]
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=community_filtered_ids).count()
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
         total_uno_students = 0

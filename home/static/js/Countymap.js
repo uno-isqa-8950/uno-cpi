@@ -93,7 +93,7 @@ function parseDescription(message) {
     var string = "";
 
     for (var i in message) {
-        if (message[i] != null && message[i] != 0 && message[i] != "" && message[i] != []){
+        if (message[i] != null && message[i] != 0 && message[i] != "" && message[i] != [] && message[i] != "[]"){
             if (i == "CommunityPartner") {
                 string += '<span style="font-weight:bold">' + 'Community Partner' + '</span>' + ": " + message[i] + "<br>";
             }

@@ -14,7 +14,10 @@
         font-weight: bold;
     }
 
-    label:after
+    label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
+        label[for=id_facilitator]:after,label[for=id_description]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,
+        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after
     {
         content:"*" ;
         color:red
@@ -303,9 +306,9 @@ window.onload = function () {
 <script>
 $(document).ready(function(){
 
-    $('#id_engagement_type').select2({placeholder: 'Select Engagement Types',border:'2px solid #aaa'});
-    $('#id_activity_type').select2({placeholder: 'Select Activity Typess',});
-    $('#id_academic_year').select2({placeholder: 'Select Academic Years',});
+    $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
+    $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
 });
 </script>

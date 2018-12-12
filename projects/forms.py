@@ -172,7 +172,7 @@ class ProjectFormAdd(ModelForm):
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Fall'}))
+    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Spring or Summer or Fall'}))
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_k12_students','total_k12_hours',

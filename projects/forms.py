@@ -172,10 +172,10 @@ class ProjectFormAdd(ModelForm):
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Fall-year'}))
+    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Fall'}))
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1'  ,'country' ,'city', 'state','zip','latitude',
                     'longitude','academic_year')
@@ -188,8 +188,8 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            'total_uno_students': 'Number Of UNO Students',
-            'total_uno_hours': 'Number Of UNO Students Hours',
+            # 'total_uno_students': 'Number Of UNO Students',
+            # 'total_uno_hours': 'Number Of UNO Students Hours',
             'total_k12_students': 'Number Of K-12 Students',
             'total_k12_hours': 'Number Of K-12 Hours',
             'total_uno_faculty': 'Number Of UNO Faculty/Staff',
@@ -202,14 +202,14 @@ class ProjectFormAdd(ModelForm):
             'academic_year': 'Academic Year',
         }
 
-    def clean_engagement_type(self):
-        engagement_type = self.cleaned_data['engagement_type']
-
-        if engagement_type == "":
-            raise  forms.ValidationError("Please select an Engagement Type")
-
-        else:
-            return engagement_type
+    # def clean_engagement_type(self):
+    #     engagement_type = self.cleaned_data['engagement_type']
+    #
+    #     if engagement_type == "":
+    #         raise  forms.ValidationError("Please select an Engagement Type")
+    #
+    #     else:
+    #         return engagement_type
 
     def clean_facilitator(self):
         facilitator = self.cleaned_data['facilitator']
@@ -230,18 +230,18 @@ class ProjectFormAdd(ModelForm):
 
         return semester
 
-    def clean_total_uno_students(self):
-        total_uno_students = self.cleaned_data['total_uno_students']
-
-        if type(total_uno_students) != int :
-            raise forms.ValidationError("Number of Student cannot be blank.If not sure at this time please insert 0 ")
-        return total_uno_students
-
-    def clean_total_uno_hours(self):
-        total_uno_hours = self.cleaned_data['total_uno_hours']
-
-        if type(total_uno_hours)  != int :
-            raise forms.ValidationError("Hours cannot be blank.If not sure at this time please insert 0 ")
+    # def clean_total_uno_students(self):
+    #     total_uno_students = self.cleaned_data['total_uno_students']
+    #
+    #     if type(total_uno_students) != int :
+    #         raise forms.ValidationError("Number of Student cannot be blank.If not sure at this time please insert 0 ")
+    #     return total_uno_students
+    #
+    # def clean_total_uno_hours(self):
+    #     total_uno_hours = self.cleaned_data['total_uno_hours']
+    #
+    #     if type(total_uno_hours)  != int :
+    #         raise forms.ValidationError("Hours cannot be blank.If not sure at this time please insert 0 ")
 
     def clean_total_k12_students(self):
         total_k12_students = self.cleaned_data['total_k12_students']

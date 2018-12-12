@@ -76,8 +76,8 @@ class ProjectCommunityPartner (models.Model):
 class ProjectCampusPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
-    total_hours = models.IntegerField(blank=True, null=True)
-    total_people = models.IntegerField(blank=True, null=True)
+    total_hours = models.IntegerField(blank=True, null=True, default=0)
+    total_people = models.IntegerField(blank=True, null=True, default=0)
     wages = models.IntegerField(blank=True, null=True)
 
     def __str__(self):

@@ -224,6 +224,7 @@ def project_total_Add(request):
                 t += c.total_hours * c.total_people
                 print(t)
                 proj.total_uno_hours = t
+
                 proj.save()
                 print(c.total_hours)
             projects_list = []

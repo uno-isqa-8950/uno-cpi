@@ -27,7 +27,7 @@ from django.template.loader import get_template
 from django.core.mail import EmailMessage
 import googlemaps
 from shapely.geometry import shape, Point
-# import pandas as pd
+import pandas as pd
 import os
 
 # Google Maps API Key
@@ -527,7 +527,7 @@ def engagement_info(request):
         eDict['total_uno_hours'] = total_uno_hours
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
-    return render(request, 'reports/15EngagementTypeReport.html',
+        return render(request, 'reports/15EngagementTypeReport.html',
                   {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
 
@@ -601,15 +601,15 @@ def missionchart(request):
     chart = {
             'chart': {'type': 'bar'},
             'title': {'text': '   '},
-            'xAxis': {'title': {'text': 'Mission Areas'}, 'categories': mission_area1},
-            'yAxis': {'title': {'text': 'Projects/Community Partners '}, 'min': 0, 'max': Max_count+5},
+            'xAxis': {'title': {'text': 'Mission Areas','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'}}, 'categories': mission_area1,'labels': {'style':{'color': 'black','fontSize': '13px'} }},
+            'yAxis': {'allowDecimals': False,'title': {'text': 'Projects/Community Partners ','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'}}, 'min': 0, 'max': Max_count+5},
             'legend': {
                 'layout': 'vertical',
                 'align': 'right',
                 'verticalAlign': 'top',
-                'x': -40,
-                'y': -5,
-                'floating': 'true',
+                'x': -10,
+                'y': 50,
+                'floating': True,
                 'borderWidth': 1,
                 'backgroundColor': '#FFFFFF',
                 'shadow': 'true'
@@ -619,7 +619,7 @@ def missionchart(request):
 
     dump = json.dumps(chart)
     return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,
-    'year_filter' :year_filter, 'campus_filter':campus_filter })
+                    'year_filter' :year_filter, 'campus_filter':campus_filter })
 
 
 def EngagementType_Chart(request):
@@ -671,8 +671,8 @@ def EngagementType_Chart(request):
     chart = {
         'chart': {'type': 'bar'},
         'title': {'text': '   '},
-        'xAxis': {'title': {'text': 'Engagement Types'},'categories': engagament_names},
-        'yAxis': {'title': {'text': 'Projects/Partners'}, 'min': 0, 'max': Max_count+7},
+        'xAxis': {'title': {'text': 'Engagement Types','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'}},'categories': engagament_names,'labels': {'style':{'color': 'black','fontSize': '13px'} }},
+        'yAxis': {'allowDecimals': False,'title': {'text': 'Projects/Partners','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'} }, 'min': 0, 'max': Max_count+15},
         'legend': {
             'layout': 'vertical',
             'align': 'right',

@@ -223,6 +223,7 @@ def project_total_Add(request):
                 # init = proj.total_uno_hours
                 t += c.total_hours * c.total_people
                 print(t)
+
                 proj.total_uno_hours = t
 
                 proj.save()

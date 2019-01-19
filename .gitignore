@@ -106,4 +106,4 @@ venv.bak/
 .idea/*
 
 *.sqlite3
-.gitignore
+gitignore

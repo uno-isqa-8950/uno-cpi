@@ -68,12 +68,12 @@ class CampusPartner(models.Model):
 
 class CampusPartnerUser(models.Model):
     campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE, null=False,unique=False)
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
 
 class CommunityPartnerUser(models.Model):
      community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE,
                                            related_name='communitypartner', null=True)
-     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
 
 

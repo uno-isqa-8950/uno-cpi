@@ -15,7 +15,7 @@
     }
 
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
-        label[for=id_facilitator]:after,label[for=id_description]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
         label[for=id_form-0-mission]:after,label[for=id_zip]:after
     {
@@ -79,13 +79,6 @@
                                                         <div class="col-lg-6">
                                                         {{ form3.campus_partner|bootstrap }}
                                                         </div>
-                                                        <div class="col-lg-6">
-                                                        {{ form3.total_hours|bootstrap }}
-                                                        </div>
-                                                        <div class="col-lg-6">
-                                                        {{ form3.total_people|bootstrap }}
-                                                        </div>
-
                                                     </div>
                                                     <div class="input-group-append" >
                                                         <button class="btn btn-secondary add-form3-row">Add Campus Partner</button>
@@ -93,7 +86,7 @@
                                             </div>
                                         {% endfor %}
 
-                                        {{ project.facilitator|bootstrap }}
+{#                                       {{ project.facilitator|bootstrap }}#}
                                         {{ project.status|bootstrap}}
                                         {{ project.description|bootstrap }}
                                         {{ project.semester|bootstrap }}

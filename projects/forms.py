@@ -324,26 +324,24 @@ class AddProjectCampusPartnerForm(ModelForm):
 
     class Meta:
         model = ProjectCampusPartner
-        fields = ('campus_partner','total_hours','total_people',)
+        fields = ('campus_partner',)
         labels = {
             'campus_partner':('Campus Partner'),
-            'total_hours': ('Hours'),
-            'total_people': ('Volunteers'),
         }
 
-    def clean_total_hours(self):
-        total_hours = self.cleaned_data['total_hours']
-        val = int(total_hours)
-        if val < 0:
-            raise forms.ValidationError("Hours cannot be negative")
-        return total_hours
+#    def clean_total_hours(self):
+#        total_hours = self.cleaned_data['total_hours']
+#        val = int(total_hours)
+#        if val < 0:
+#            raise forms.ValidationError("Hours cannot be negative")
+#        return total_hours
 
-    def clean_total_people(self):
-        total_people = self.cleaned_data['total_people']
-        val = int(total_people)
-        if val < 0:
-            raise forms.ValidationError("Enter a positive number")
-        return total_people
+#    def clean_total_people(self):
+#        total_people = self.cleaned_data['total_people']
+#        val = int(total_people)
+#        if val < 0:
+#            raise forms.ValidationError("Enter a positive number")
+#        return total_people
 
 
 

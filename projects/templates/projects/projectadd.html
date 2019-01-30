@@ -185,36 +185,23 @@ function cloneMore(selector, prefix) {
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
     $(selector).after(newElement);
-    var conditionRow = $('.form-row:not(:last)');
-    conditionRow.find('.btn.add-form-row')
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
     .removeClass('btn-success').addClass('btn-danger')
-    .removeClass('add-form-row').addClass('remove-form-row')
-    .html('-');
-    var condition2Row = $('.form2-row:not(:last)');
-    condition2Row.find('.btn2.add-form2-row')
-    .removeClass('btn-success').addClass('btn-danger')
-    .removeClass('add-form2-row').addClass('remove-form-row')
-    .html('-');
-    var condition3Row = $('.form3-row:not(:last)');
-    condition3Row.find('.btn.add-form3-row')
-    .removeClass('btn-success').addClass('btn-danger')
-    .removeClass('add-form3-row').addClass('remove-form3-row')
+    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
     .html('-');
     return false;
 }
 function deleteForm(prefix, btn2) {
-    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-    if (total > 1){
-        btn2.closest('.form-row').remove();
-        var forms = $('.form-row');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-            $(forms.get(i)).find(':input').each(function() {
-                updateElementIndex(this, prefix, i);
-            });
-        }
-    }
-    return false;
+   btn2.closest('.'+prefix+'-row').remove();
+   var forms = $('.'+prefix+'-row');
+   $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+   for (var i=0, formCount=forms.length; i<formCount; i++) {
+       $(forms.get(i)).find(':input').each(function() {
+           updateElementIndex(this, prefix, i);
+       });
+   }
+   return false;
 }
 $(document).on('click', '.add-form-row', function(e){
     e.preventDefault();
@@ -243,7 +230,7 @@ $(document).on('click', '.remove-form2-row', function(e){
 });
 $(document).on('click', '.remove-form3-row', function(e){
     e.preventDefault();
-    deleteForm('form', $(this));
+    deleteForm('form3', $(this));
     return false;
 });
 </script>

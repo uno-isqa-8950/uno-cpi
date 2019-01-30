@@ -29,7 +29,7 @@ input[type=email],input[type=text],select[id=id_community_type]
     width: relative;
     }
 
-input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
+input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
 input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
     {
     width:85%;
@@ -86,10 +86,10 @@ width:100%
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            {{ community_partner_form.country |bootstrap }}
+                            {{ community_partner_form.zip |bootstrap }}
                         </div>
                         <div class="col-md-6">
-                            {{ community_partner_form.zip |bootstrap }}
+                            {{ community_partner_form.country |bootstrap }}
                         </div>
                     </div>
                   </div>

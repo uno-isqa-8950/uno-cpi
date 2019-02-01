@@ -63,10 +63,10 @@
                                 {{formset3.management_form}}
                                 {{project.project_name|bootstrap}}
                                 {{project.engagement_type|bootstrap}}
+                                {{project.activity_type|bootstrap}}
                                 <div class = "row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
                                         {{ course|bootstrap }}
-                                        {{project.activity_type|bootstrap}}
 
                                         {% for form3 in formset3 %}
                                             <div class="form3-row" id="contact1" style="margin-top:20px;">
@@ -237,11 +237,12 @@ $(document).on('click', '.remove-form3-row', function(e){
 {#   Js to show the course form if some error happens after the form #}
 <script>
 window.onload = function () {
-  var val = $("#id_engagement_type").val();
-           if (val === '3') {
+  var val = $("#id_activity_type").val();
+           if (val === '4') {
               $("#id_name").show();
               $("label.control-label[for=id_name], input#id_name").show();
               $("label.control-label[for=id_prefix], input#id_prefix").show();
+              $("label.control-label[for=id_section], input#id_section").show();
            $("#id_prefix").show();
            $("label.control-label[for=id_number], input#id_number").show();
            $("#id_number").show();
@@ -258,17 +259,22 @@ window.onload = function () {
            $("#id_prefix").hide();
            $("label.control-label[for=id_number], input#id_number").hide();
            $("#id_number").hide();
+           $("label.control-label[for=id_section], input#id_section").hide();
+           $("#id_section").hide();
            console.log('label.control-label[for=id_name], input#id_name');
        }
-       $("#id_engagement_type").on('change', function () {
-           var val = $("#id_engagement_type").val();
-           if (val === '3') {
+       $("#id_activity_type").on('change', function () {
+           var val = $("#id_activity_type").val();
+           console.log(val)
+           if (val === '4') {
                $("#id_name").show();
                $("label.control-label[for=id_name], input#id_name").show();
                $("label.control-label[for=id_prefix], input#id_prefix").show();
                $("#id_prefix").show();
                $("label.control-label[for=id_number], input#id_number").show();
                $("#id_number").show();
+               $("label.control-label[for=id_section], input#id_section").show();
+               $("#id_section").show();
            }
            else {
                hideInputs();

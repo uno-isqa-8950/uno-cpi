@@ -393,14 +393,16 @@ class CourseForm(forms.ModelForm):
     name = forms.CharField(required=False, label= 'Course Name')
     prefix = forms.CharField(required=False, label= 'Course Prefix')
     number = forms.CharField(required=False, label='Course Number' )
+    section = forms.CharField(required=False, label='Course Section')
 
     class Meta:
         model = Course
-        fields = ('name','prefix', 'number',)
+        fields = ('name','prefix', 'number','section')
         labels = {
             'name': ('Course Name'),
             'prefix': ('Prefix'),
             'number': ('Course Number'),
+            'section': ('Course Section')
         }
 
 

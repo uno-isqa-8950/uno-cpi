@@ -16,7 +16,7 @@ district = geojson["features"]
 project = pd.read_csv('static/Excel/CleanedProject.csv')
 df = pd.read_csv('static/Excel/Community Partners.csv') #Get the Excel file from static/Excel
 
-gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
+gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 collection = {'type': 'FeatureCollection', 'features': []}
 
 df['fulladdress'] = df[['address_line1', 'city', 'state']].apply(lambda x: ' '.join(x.astype(str)), axis=1)

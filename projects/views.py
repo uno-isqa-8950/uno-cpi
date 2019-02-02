@@ -23,7 +23,7 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import json
-gmaps = googlemaps.Client(key='AIzaSyBoBkkxBnB7x_GKESVPDLguK0VxSTSxHiI')
+gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 
 
 @login_required()

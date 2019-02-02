@@ -66,11 +66,11 @@ class CampusPartnerContactForm(forms.ModelForm):
             raise forms.ValidationError("Work Phone cannot have alphabets")
         return workphone
 
-    def clean_cell_phone(self):
-        cellphone = self.cleaned_data['cell_phone']
-        if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have alphabets")
-        return cellphone
+  #  def clean_cell_phone(self):
+   #     cellphone = self.cleaned_data['cell_phone']
+    #    if any(char.isalpha() for char in cellphone):
+     #       raise forms.ValidationError("Cell Phone cannot have alphabets")
+      #  return cellphone
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
@@ -185,11 +185,11 @@ class CommunityContactForm(forms.ModelForm):
             raise forms.ValidationError("Work Phone cannot have alphabets")
         return workphone
 
-    def clean_cell_phone(self):
-        cellphone = self.cleaned_data['cell_phone']
-        if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have alphabets")
-        return cellphone
+    #def clean_cell_phone(self):
+     #   cellphone = self.cleaned_data['cell_phone']
+     #   if any(char.isalpha() for char in cellphone):
+     #       raise forms.ValidationError("Cell Phone cannot have alphabets")
+     #   return cellphone
 
 
 class CommunityMissionForm(ModelForm):

@@ -104,6 +104,6 @@ venv.bak/
 .mypy_cache/
 
 .idea/*
-
+.tests_scripts/Sprint 0/chromedriver.exe
 *.sqlite3
 gitignore

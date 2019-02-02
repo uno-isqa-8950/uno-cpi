@@ -49,6 +49,11 @@ INSTALLED_APPS = [
     'django_filters',
     ]
 
+MIDDLEWARE_CLASSES = (
+    # Force user to https on Heroku; must be first in list of classes
+    'sslify.middleware.SSLifyMiddleware',
+)
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -60,10 +65,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-MIDDLEWARE_CLASSES = (
-    # Force user to https on Heroku; must be first in list of classes
-    'sslify.middleware.SSLifyMiddleware',
-)
 
 ROOT_URLCONF = 'UnoCPI.urls'
 

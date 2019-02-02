@@ -100,11 +100,20 @@
                                         {{ project.end_date|bootstrap }}
                                         {{ project.other_details|bootstrap }}
                                         {{ project.outcomes|bootstrap }}
-                                        {{ project.address_line1|bootstrap }}
-                                        {{ project.city|bootstrap }}
-                                        {{ project.state|bootstrap }}
-                                        {{ project.zip|bootstrap }}
-                                        {{ project.country|bootstrap }}
+
+                                        <div class="col-lg-12">
+                                            <h6>Primary Location of the Project</h6><br>
+                                        </div>
+
+                                        <div class="input-group">
+                                                    <div class="col-lg-10">
+                                                        {{ project.address_line1|bootstrap }}
+                                                        {{ project.city|bootstrap }}
+                                                        {{ project.state|bootstrap }}
+                                                        {{ project.zip|bootstrap }}
+                                                        {{ project.country|bootstrap }}
+                                                    </div>
+                                        </div>
                                     </div>
                                 </div>
 

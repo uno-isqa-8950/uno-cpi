@@ -60,6 +60,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+MIDDLEWARE_CLASSES = (
+    # Force user to https on Heroku; must be first in list of classes
+    'sslify.middleware.SSLifyMiddleware',
+)
+
 ROOT_URLCONF = 'UnoCPI.urls'
 
 TEMPLATES = [

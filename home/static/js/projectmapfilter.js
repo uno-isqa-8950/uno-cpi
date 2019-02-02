@@ -1,5 +1,5 @@
 
-mapboxgl.accessToken = 'pk.eyJ1IjoibG9va3VwbWFuIiwiYSI6ImNqbW41cmExODBxaTEzeHF0MjhoZGg1MnoifQ.LGL5d5zGa1z6ms-IVyn7sw';
+mapboxgl.accessToken = 'pk.eyJ1IjoidW5vY3BpZGV2dGVhbSIsImEiOiJjanJiZTk2cjkwNjZ5M3l0OGNlNWZqYm91In0.vPmkC3MFDrTlBk-ntUFruA';
 var projectData = JSON.parse(document.getElementById('project-data').textContent); //load the variable from views.py. See the line from html first
 var districtData = JSON.parse(document.getElementById('district').textContent); //load the variable from views.py. See the line from html first
 var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts

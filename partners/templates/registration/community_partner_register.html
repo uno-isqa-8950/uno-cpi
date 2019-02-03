@@ -103,7 +103,7 @@ width:100%
 
                     {{ formset.management_form }}
                         {% for form in formset %}
-                        <div class="form-row" id="contact1">
+                        <div class="contact-row" id="contact1">
                             <div class="col-md-12">
                                 <h6 style="margin-top:10px;">Point of Contact Information</h6>
                                 <br>
@@ -136,7 +136,7 @@ width:100%
                         </div>
 
                         <div class="input-group-append" >
-                            <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                            <button class="btn btn-secondary add-contact-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
                         </div>
                         </div>
 
@@ -145,7 +145,7 @@ width:100%
 
                         {{ formset_mission.management_form }}
                         {% for form in formset_mission %}
-                            <div id="contact1" class="form1-row">
+                            <div id="contact1" class="mission-row">
                                 <!--<div class="col-md-12">-->
                                     <!--<label>Mission Areas</label>-->
                                     <!--<br>-->
@@ -161,7 +161,7 @@ width:100%
                             </div>
                             <!--/div-->
                             <div class="input-group-append">
-                                <button class="btn btn-secondary add-form1-row"><i class="fa fa-plus-square"></i> Add more Mission Areas </button>
+                                <button class="btn btn-secondary add-mission-row"><i class="fa fa-plus-square"></i> Add more Mission Areas </button>
                             </div>
                             </div>
 
@@ -243,34 +243,39 @@ function cloneMore(selector, prefix) {
 }
 
 function deleteForm(prefix, btn) {
-   btn.closest('.'+prefix+'-row').remove();
-   var forms = $('.'+prefix+'-row');
-   $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-   for (var i=0, formCount=forms.length; i<formCount; i++) {
-       $(forms.get(i)).find(':input').each(function() {
-           updateElementIndex(this, prefix, i);
-       });
-   }
-   return false;
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  if (total > 1) {
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
 }
-$(document).on('click', '.add-form-row', function(e){
+$(document).on('click', '.add-contact-row', function(e){
     e.preventDefault();
-    cloneMore('.form-row:last', 'form');
+    cloneMore('.contact-row:last', 'contact');
     return false;
 });
-$(document).on('click', '.add-form1-row', function(e){
+$(document).on('click', '.add-mission-row', function(e){
     e.preventDefault();
-    cloneMore('.form1-row:last', 'form1');
+    cloneMore('.mission-row:last', 'mission');
     return false;
 });
-$(document).on('click', '.remove-form-row', function(e){
+$(document).on('click', '.remove-contact-row', function(e){
     e.preventDefault();
-    deleteForm('form', $(this));
+    deleteForm('contact', $(this));
     return false;
 });
-$(document).on('click', '.remove-form1-row', function(e){
+$(document).on('click', '.remove-mission-row', function(e){
     e.preventDefault();
-    deleteForm('form1', $(this));
+    deleteForm('mission', $(this));
     return false;
 });
 </script>

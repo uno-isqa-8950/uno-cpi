@@ -252,8 +252,8 @@ $(document).on('click', '.remove-campus-row', function(e){
 {#   Js to show the course form if some error happens after the form #}
 <script>
 window.onload = function () {
-  var val = $("#id_activity_type").val();
-           if (val === '4') {
+  var val = $$("#id_activity_type").find("option:selected").text();
+           if (val === 'Course') {
               $("#id_name").show();
               $("label.control-label[for=id_name], input#id_name").show();
               $("label.control-label[for=id_prefix], input#id_prefix").show();
@@ -279,9 +279,9 @@ window.onload = function () {
            console.log('label.control-label[for=id_name], input#id_name');
        }
        $("#id_activity_type").on('change', function () {
-           var val = $("#id_activity_type").val();
+           var val = $("#id_activity_type").find("option:selected").text();
            console.log(val)
-           if (val === '4') {
+           if (val === 'Course') {
                $("#id_name").show();
                $("label.control-label[for=id_name], input#id_name").show();
                $("label.control-label[for=id_prefix], input#id_prefix").show();

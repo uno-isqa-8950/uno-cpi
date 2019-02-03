@@ -151,9 +151,9 @@ def project_total_Add(request):
     if request.method == 'POST':
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
-        formset = mission_details(request.POST or None)
-        formset2 = proj_comm_part(request.POST or None)
-        formset3 = proj_campus_part(request.POST or None)
+        formset = mission_details(request.POST or None, prefix='mission')
+        formset2 = proj_comm_part(request.POST or None, prefix='community')
+        formset3 = proj_campus_part(request.POST or None, prefix='campus')
         # print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
@@ -162,7 +162,6 @@ def project_total_Add(request):
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
-
             if eng == "Service Learning":
                 print("heoooooooooooooooooo")
                 course = course.save(commit=False)
@@ -223,9 +222,7 @@ def project_total_Add(request):
                 # init = proj.total_uno_hours
                 t += c.total_hours * c.total_people
                 print(t)
-
                 proj.total_uno_hours = t
-
                 proj.save()
                 print(c.total_hours)
             projects_list = []
@@ -235,7 +232,6 @@ def project_total_Add(request):
             camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
             for c in camp_part_user:
                 p = c.campus_partner_id
-
             # get all the project names base on the campus partner id
             proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
             for f in proj_camp:
@@ -263,19 +259,17 @@ def project_total_Add(request):
                             'camp_part': list_camp_part_names
                             }
                     projects_list.append(data)
-
             return render(request, 'projects/Projectlist.html', {'project': projects_list})
     else:
         project = ProjectFormAdd()
         course = CourseForm()
-        formset = mission_details(queryset=ProjectMission.objects.none())
-        formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
-        formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
+        formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
+        formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
+        formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
         print('hello')
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,
                    'formset2': formset2})
-
 
 @login_required()
 @campuspartner_required()

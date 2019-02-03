@@ -36,6 +36,6 @@ class Course(models.Model):
     prefix = models.CharField(max_length=80)
     number = models.CharField(max_length=50)
     name = models.CharField(max_length=100)
-    section = models.PositiveIntegerField(max_length=100, default=0)
+    section = models.PositiveIntegerField(default=0)
     project_name = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
     university = models.ForeignKey('university', on_delete=models.CASCADE, null=True)

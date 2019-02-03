@@ -83,8 +83,8 @@ class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Type',empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
-        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country','county',
-                  'city', 'state', 'zip')
+        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
+                   'zip','county','country')
         labels = {
 
             'website_url': ('Website'),

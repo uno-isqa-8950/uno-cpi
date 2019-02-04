@@ -4,7 +4,8 @@
 
 <style>
 
- label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_zip]:after,label[for=id_country]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_form-0-mission_area]:after
+ label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
+ label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_mission-0-mission_area]:after
     {
     content:"*" ;
     color:red
@@ -238,7 +239,7 @@ function cloneMore(selector, prefix) {
     conditionRow.find('.btn.add-' + prefix +'-row')
     .removeClass('btn-success').addClass('btn-danger')
     .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
-    .html('-');
+    .html('Remove');
     return false;
 }
 

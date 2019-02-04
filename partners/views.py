@@ -262,13 +262,19 @@ def orgProfile(request):
                            })
 
     elif request.user.is_campuspartner:
-        campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
-        contacts = Contact.objects.filter(campus_partner= campus_partner.id)
+        campus_user = CampusPartnerUser.objects.filter(user=request.user.id)
+        campus_partner=[]
+        contacts=[]
+        for user in campus_user:
+            campus_partner1 = CampusPartner.objects.filter(name= user.campus_partner)
+            for partner in campus_partner1:
+                contacts1 = Contact.objects.filter(campus_partner=partner)
 
-        return render(request, 'partners/campus_partner_org_profile.html', {"contacts":contacts,
-                               "campus_partner": campus_partner
-                           })
+            campus_partner.extend(campus_partner1)
+            contacts.extend(contacts1)
+            #to combine the two list into a single list
+            final = zip(campus_partner,contacts)
+        return render(request, 'partners/campus_partner_org_profile.html', {"final":final})
 
 
 # Campus and Community Partner org Update Profile

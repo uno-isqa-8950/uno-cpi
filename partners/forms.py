@@ -80,7 +80,7 @@ class CampusPartnerContactForm(forms.ModelForm):
 
 
 class CommunityPartnerForm(forms.ModelForm):
-    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Type',empty_label='Select Community Type')
+    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Partner Type',empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',

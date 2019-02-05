@@ -1,7 +1,5 @@
 import unittest
-import time
 from selenium import webdriver
-from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 import os
 from tests_scripts import *
@@ -11,7 +9,6 @@ class ProjectFormRenamed(unittest.TestCase):
     pathname = os.path.join(os.getcwd(), "chromedriver")
     driver = webdriver.Chrome(pathname)
 
-    webdriver.support.ui
     def setUp(self):
 
         self.driver = webdriver.Chrome()
@@ -35,6 +32,7 @@ class ProjectFormRenamed(unittest.TestCase):
         driver.find_element_by_name("password").send_keys(self.password)
         driver.find_element_by_name("password").send_keys(Keys.ENTER)
         driver.find_element_by_xpath("(//a[contains(@href, '#')])[5]").click()
+
         """
         Asserting DropDown Tab is named Projects
         """

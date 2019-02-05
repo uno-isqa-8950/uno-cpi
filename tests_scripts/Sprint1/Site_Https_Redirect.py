@@ -8,7 +8,6 @@ class UrlRedirect(unittest.TestCase):
     pathname = os.path.join(os.getcwd(), "chromedriver")
     driver = webdriver.Chrome(pathname)
 
-
     def setUp(self):
 
         self.driver = webdriver.Chrome()

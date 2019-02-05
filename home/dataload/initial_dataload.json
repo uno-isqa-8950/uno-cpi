@@ -170,6 +170,14 @@
             "description": null
         }
     },
+  {
+        "model": "projects.status",
+        "pk": 3,
+        "fields": {
+            "name": "Discontinued",
+            "description": null
+        }
+    },
     {
         "model": "projects.engagementtype",
         "pk": 1,

@@ -166,14 +166,15 @@ class ProjectForm2(ModelForm):
 
 
 class ProjectFormAdd(ModelForm):
-    SEMESTER = [
-    ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
+
+    SEMESTER =[
+    ("", "------------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     address_line1= forms.CharField(required=True)
     country = forms.CharField(required=True)
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-    semester = forms.ChoiceField(required=True, choices=SEMESTER)
+    semester = forms.ChoiceField(required=True,choices=SEMESTER)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_k12_students','total_k12_hours',

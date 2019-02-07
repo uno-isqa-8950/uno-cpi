@@ -9,4 +9,5 @@ urlpatterns = [
      path('profile/userprofileupdate/', views.userProfileUpdate,name='userprofileupdate'),
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
      path('profile/orgprofileupdate/', views.orgProfileUpdate, name='orgprofileupdate'),
+	 path('SuggestCommunity/', views.ajax_load_project, name='ajax_load_project'),
 ]

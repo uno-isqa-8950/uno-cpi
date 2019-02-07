@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-
+from django.http import HttpResponse
 from home.decorators import campuspartner_required
 from home.forms import UserForm, CampusPartnerAvatar
 from .forms import *
@@ -162,6 +162,27 @@ def registerCommunityPartner(request):
                    'formset': formset,
                    'formset_mission' : formset_mission, 'commType':commType}, )
 
+#auto complete for community name in register community partner form				   
+def ajax_load_project(request):
+    print (request.is_ajax())
+    if request.is_ajax():
+        q = request.GET.get('term', '')
+        print(q)
+        projects = CommunityPartner.objects.filter(name__istartswith=q)[:5]
+        results = []
+        for project in projects:
+            project_json = {}
+            project_json['id'] = project.id
+            project_json['value'] = project.name
+            project_json['label'] = project.name
+            results.append(project_json)
+        data = json.dumps(results)
+    else:
+        data = 'fail'
+    mimetype = 'application/json'
+    return HttpResponse(data, mimetype)
+
+	
 #Campus and Community Partner user Profile
 @login_required
 def userProfile(request):

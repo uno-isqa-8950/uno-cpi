@@ -164,7 +164,6 @@ def registerCommunityPartner(request):
 
 #auto complete for community name in register community partner form				   
 def ajax_load_project(request):
-    print (request.is_ajax())
     if request.is_ajax():
         q = request.GET.get('term', '')
         print(q)

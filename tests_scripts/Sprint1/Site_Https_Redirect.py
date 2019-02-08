@@ -2,6 +2,7 @@ import unittest
 import time
 from selenium import webdriver
 import os
+from tests_scripts import *
 
 
 class UrlRedirect(unittest.TestCase):
@@ -11,7 +12,7 @@ class UrlRedirect(unittest.TestCase):
     def setUp(self):
 
         self.driver = webdriver.Chrome()
-        self.base_url = "http://uno-cpi-cat.herokuapp.com"
+        self.base_url = base_url
 
     def test_Url_Redirect(self):
         driver = self.driver

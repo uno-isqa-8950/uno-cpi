@@ -167,8 +167,8 @@ def registerCommunityPartner(request):
 def userProfile(request):
 
   if request.user.is_campuspartner:
-    campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
-    return render(request, 'partners/campus_partner_user_profile.html', {"campus_partner_name": str(campus_user.campus_partner)})
+    #campus_user = get_object_or_404(CampusPartnerUser, user= request.user.id)
+    return render(request, 'partners/campus_partner_user_profile.html',) # {"campus_partner_name": str(campus_user.campus_partner)})
 
   elif request.user.is_communitypartner:
     community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
@@ -181,7 +181,7 @@ def userProfile(request):
 def userProfileUpdate(request):
     if request.user.is_campuspartner:
 
-        campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
+        #campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
         user = get_object_or_404(User, id=request.user.id)
 
         if request.method == 'POST':
@@ -209,8 +209,8 @@ def userProfileUpdate(request):
 
         return render(request,
                           'partners/campus_partner_user_update.html', {'user_form': user_form,
-                          "campus_partner_name": str(campus_user.campus_partner), 'avatar_form': avatar_form
-                          })
+                        'avatar_form': avatar_form
+                          }) #"campus_partner_name": str(campus_user.campus_partner),
 
     elif request.user.is_communitypartner:
 
@@ -344,3 +344,17 @@ def orgProfileUpdate(request):
                           'contacts_form': contacts_form
                           })
 
+# adds a new organisation for the logged user (only for campus partner user)
+def CommunityPartnerAdd(request):
+    if request.method == "POST":
+        form = CampusPartnerAddForm(request.POST)
+        if form.is_valid():
+            form.user = request.user
+            print (form.user)
+            CampusPartnerAdd = form.save(commit=False)
+            CampusPartnerAdd.user = request.user
+            CampusPartnerAdd.save()
+            return redirect('partners:orgprofile')
+    else:
+        form = CampusPartnerAddForm()
+    return render(request, 'partners/campus_partner_org_add.html', {'form': form})

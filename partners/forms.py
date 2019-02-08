@@ -8,6 +8,7 @@ from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
+
 class CampusPartnerForm(forms.ModelForm):
     # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
@@ -191,7 +192,6 @@ class CommunityContactForm(forms.ModelForm):
      #       raise forms.ValidationError("Cell Phone cannot have alphabets")
      #   return cellphone
 
-
 class CommunityMissionForm(ModelForm):
 
     mission_choices = (
@@ -207,6 +207,16 @@ class CommunityMissionForm(ModelForm):
             'mission_type': ('Mission Type'),
             'mission_area': ('Mission Area'),
         }
+
+class CampusPartnerAddForm(forms.ModelForm):
+
+    class Meta:
+        model = CampusPartnerUser
+        fields = ('campus_partner',)
+        labels = {'campus_partner': ('Existing Campus Partners')}
+
+    def __init__(self, *args, **kwargs):
+        super(CampusPartnerAddForm, self).__init__(*args, **kwargs)
 
 
 

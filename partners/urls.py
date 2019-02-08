@@ -9,4 +9,5 @@ urlpatterns = [
      path('profile/userprofileupdate/', views.userProfileUpdate,name='userprofileupdate'),
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
      path('profile/orgprofileupdate/', views.orgProfileUpdate, name='orgprofileupdate'),
+     path('orgprofile/campus_partner_add/', views.CommunityPartnerAdd, name='campuspartneradd'),
 ]

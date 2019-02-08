@@ -10,4 +10,6 @@ urlpatterns = [
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
      path('profile/orgprofileupdate/', views.orgProfileUpdate, name='orgprofileupdate'),
      path('orgprofile/campus_partner_add/', views.CommunityPartnerAdd, name='campuspartneradd'),
+	 path('SuggestCommunity/', views.ajax_load_project, name='ajax_load_project'),
+
 ]

@@ -1,0 +1,75 @@
+{% extends 'home/Campus_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+input[id=id_campus_partner]
+{
+    width:95%;
+}
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+.container
+{
+    width:70%;
+}
+.form-horizontal
+{
+width:100%;
+}
+
+.body
+{
+    align-content: center;
+}
+
+.btn-custom
+{
+margin-left:200px;
+}
+.btn-custom
+{
+    alignment: center;
+}
+</style>
+
+<div class = "container">
+      <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4><b>Add Organization to your Profile</b></h4></div>
+      <div class="panel-body">
+        <div class="body">
+          <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="form-group">
+                  <div class="row">
+                      {{ form.campus_partner | bootstrap }}
+                  </div>
+              </div>
+            <p>
+              <button type="submit" class="btn btn-custom">Add</button>
+            </p>
+            <br><br>
+          </form>
+        </div>
+      </div>
+    </div>
+        </div></div></div>
+  <br><br><br>
+
+{% endblock %}
+
+

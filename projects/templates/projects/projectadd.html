@@ -64,42 +64,8 @@
                                 {{project.project_name|bootstrap}}
                                 {{project.engagement_type|bootstrap}}
                                 {{project.activity_type|bootstrap}}
-                                <div class = "row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-                                        {{ course|bootstrap }}
-
-
-{#                                       {{ project.facilitator|bootstrap }}#}
-                                        {{ project.status|bootstrap}}
-                                        {{ project.description|bootstrap }}
-                                        {{ project.semester|bootstrap }}
-                                        {{ project.academic_year|bootstrap }}
-{#                                        {{ project.total_uno_students|bootstrap }}#}
-                                        {{ project.total_k12_students|bootstrap }}
-                                        {{ project.total_k12_hours|bootstrap }}
-                                        {{ project.total_uno_faculty|bootstrap }}
-                                        {{ project.total_other_community_members|bootstrap }}
-                                        {{ project.start_date|bootstrap }}
-                                        {{ project.end_date|bootstrap }}
-                                        {{ project.other_details|bootstrap }}
-                                        {{ project.outcomes|bootstrap }}
-
-                                        <div class="col-lg-12">
-                                            <br><h6>Primary Location of the Project</h6><br>
-                                        </div>
-
-                                        <div class="input-group">
-                                                    <div class="col-lg-10">
-                                                        {{ project.address_line1|bootstrap }}
-                                                        {{ project.city|bootstrap }}
-                                                        {{ project.state|bootstrap }}
-                                                        {{ project.zip|bootstrap }}
-                                                        {{ project.country|bootstrap }}
-                                                    </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                {{ course|bootstrap }}
+                            
                                 {% for form in formset %}
                                     <div class="mission-row" id="contact1">
                                         <div class="col-lg-12">
@@ -153,6 +119,43 @@
 
                                     </div>
                                 {%endfor%}
+
+                                <div class = "row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+
+
+{#                                       {{ project.facilitator|bootstrap }}#}
+                                        {{ project.status|bootstrap}}
+                                        {{ project.description|bootstrap }}
+                                        {{ project.semester|bootstrap }}
+                                        {{ project.academic_year|bootstrap }}
+{#                                        {{ project.total_uno_students|bootstrap }}#}
+                                        {{ project.total_k12_students|bootstrap }}
+                                        {{ project.total_k12_hours|bootstrap }}
+                                        {{ project.total_uno_faculty|bootstrap }}
+                                        {{ project.total_other_community_members|bootstrap }}
+                                        {{ project.start_date|bootstrap }}
+                                        {{ project.end_date|bootstrap }}
+                                        {{ project.other_details|bootstrap }}
+                                        {{ project.outcomes|bootstrap }}
+
+                                        <div class="col-lg-12">
+                                            <br><h6>Primary Location of the Project</h6><br>
+                                        </div>
+
+                                        <div class="input-group">
+                                                    <div class="col-lg-10">
+                                                        {{ project.address_line1|bootstrap }}
+                                                        {{ project.city|bootstrap }}
+                                                        {{ project.state|bootstrap }}
+                                                        {{ project.zip|bootstrap }}
+                                                        {{ project.country|bootstrap }}
+                                                    </div>
+                                        </div>
+                                    </div>
+                                </div>
+
 
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">

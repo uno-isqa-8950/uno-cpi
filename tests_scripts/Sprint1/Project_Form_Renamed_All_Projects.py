@@ -1,5 +1,6 @@
 import unittest
 from selenium import webdriver
+from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
 import os
 from tests_scripts import *
@@ -36,14 +37,14 @@ class ProjectFormRenamed(unittest.TestCase):
         """
         Asserting DropDown Tab is named Projects
         """
-        dropdown_text = driver.find_element_by_xpath("(//a[contains(@href, '#')])[5]").text
-        self.assertEqual("Project", dropdown_text )
+        projects_dropdown_text = driver.find_element_by_xpath("(//a[contains(@href, '#')])[5]").text
+        self.assertEqual("Projects", projects_dropdown_text )
 
         """
         Select "All Projects" in DropDown Tab is named Projects and asserting the text is "All Projects"
         """
-        dropdown_list = driver.find_element_by_xpath("//div[@id='target']/ul/li[3]/div/a").text
-        self.assertEqual("All Projects", dropdown_list)
+        projects_dropdown_list = driver.find_element_by_xpath("//div[@id='target']/ul/li[3]/div/a").text
+        self.assertEqual("All Projects", projects_dropdown_list)
         driver.find_element_by_xpath("//div[@id='target']/ul/li[3]/div/a").send_keys(Keys.ENTER)
         assert test_url + "projectSearch/" in driver.current_url
         """
@@ -51,6 +52,19 @@ class ProjectFormRenamed(unittest.TestCase):
         """
         self.assertEqual("All Projects",driver.find_element_by_xpath("/html/body/div/div/div/div/div/div[1]/h4").text)
 
+        """
+        Asserting DropDown Tab is named Maps
+        """
+        maps_dropdown_text = driver.find_element_by_link_text("Maps").text
+        self.assertEqual("Maps", maps_dropdown_text)
+
+
+        # Click on Community Partners under Maps
+        driver.find_element_by_link_text("Maps").click()
+        driver.find_element_by_xpath("/html/body/nav/div/ul/li[1]/div/a[1]").click()
+
+        elem = driver.find_element_by_xpath("/html/body/div/div/div/div/div[1]/div/div/div[2]/div/label/b").text
+        self.assertEqual("Maps: Community Partners",elem)
 
 
     def tearDown(self):

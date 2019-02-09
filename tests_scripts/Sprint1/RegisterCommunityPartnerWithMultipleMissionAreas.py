@@ -3,7 +3,6 @@ import time
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import NoSuchElementException
 import os
 from tests_scripts import *
 
@@ -34,7 +33,6 @@ class RegisterCommunityPartnerWithMultipleMissionAreas(unittest.TestCase):
 
 
         driver.find_element_by_xpath("//select[@name='community_type']/option[text()='Nonprofit']").click()
-
         # driver.find_element_by_xpath("//*[@id = 'select2-id_community_type-container' and @title = 'Government Agency']").click()
 
         driver.find_element_by_id("id_address_line1").click()

@@ -99,14 +99,14 @@ class CommunityPartnerForm(forms.ModelForm):
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
 
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        try:
-            CommunityPartner.objects.filter(name__icontains=name)
+    # def clean_name(self):
+    #     name = self.cleaned_data['name']
+    #     try:
+    #         CommunityPartner.objects.filter(name__icontains=name)
 
-        except ObjectDoesNotExist:
-            return name
-        raise forms.ValidationError('Community partner with this Name already exists.')
+        # except ObjectDoesNotExist:
+        #     return name
+        # raise forms.ValidationError('Community partner with this Name already exists.')
 
     def clean_country(self):
             name = self.cleaned_data['country']

@@ -163,7 +163,6 @@ def project_total_Add(request):
             proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
             if eng == "Service Learning":
-                print("heoooooooooooooooooo")
                 course = course.save(commit=False)
                 course.project_name = proj
                 course.save()
@@ -180,7 +179,6 @@ def project_total_Add(request):
                     formset = mission_details(queryset=ProjectMission.objects.none())
                     # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
-                    print('hello')
                     return render(request, 'projects/projectadd.html',
                                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
             proj.save()

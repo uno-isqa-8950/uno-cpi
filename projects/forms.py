@@ -198,7 +198,7 @@ class ProjectFormAdd(ModelForm):
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            'address_line1': 'Address Line',
+            'address_line1': 'Address Line 1',
             'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
         }

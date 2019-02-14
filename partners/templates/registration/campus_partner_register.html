@@ -5,6 +5,12 @@
 
 <style>
 
+label[for=id_name]:after,label[for=id_college_name]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after
+{
+    content:"*" ;
+    color:red
+}
+
 @media (min-width: 700px)
 {
 
@@ -22,11 +28,6 @@ label
     font-weight: bold;
 }
 
-label:after
-{
-    content:"*" ;
-    color:red
-}
 
 .select2-container--default .select2-selection--single
 {

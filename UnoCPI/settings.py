@@ -24,6 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 DEBUG = True
 
@@ -49,6 +50,7 @@ INSTALLED_APPS = [
     'django_filters',
     ]
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
 
 ROOT_URLCONF = 'UnoCPI.urls'
 
@@ -89,15 +92,13 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd19g3rhgb1f6sq',
-        'USER': 'mmyjopixtfpnsl',
-        'PASSWORD': 'd054871110c3b9186d80452bc2afb7acdd86abffc0a0df43aadcaf21939766c5',
-        'HOST': 'ec2-54-83-27-165.compute-1.amazonaws.com',
-        'PORT': 5432,
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD':os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
-
-
 
 
 

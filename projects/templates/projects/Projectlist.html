@@ -48,7 +48,7 @@
  <div class = "container-fluid">
         <div class="row justify-content-md-center">
 		    <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default">
+                <div class = "panel panel-default" style="width:90%">
                     <div class="panel-heading text-center"><h4>My Projects</h4></div>&emsp;
 			            <div class="panel-body">
                             <div class="container-fluid">
@@ -56,25 +56,25 @@
                                         <thead>
                                             <tr>
                                                 <th>Project Name</th>
-                                                <th>Mission Areas</th>
-                                                <th>Community Partners</th>
-                                                <th>Campus Partners</th>
+                                                <th>Mission Area</th>
+                                                <th>Community Partner</th>
+                                                <th>Campus Partner</th>
                                                 <th>Engagement Type</th>
                                                 <th>Academic Year</th>
-                                                <th>Status</th>
                                                 <th>Semester</th>
+                                                <th>Status</th>
                                                 <th>Start Date </th>
                                                 <th>End Date </th>
-                                                <th> UNO Students</th>
-                                                <th> UNO Student Hours</th>
-                                                <th> UNO Faculty</th>
-                                                <th> K12 Students</th>
-                                                <th> K12 Student Hours </th>
-                                                <th>Community Members</th>
+                                                <th> Number of UNO Students</th>
+                                                <th> Number of UNO Students Hours</th>
+                                                <th> Number of UNO Faculty/Staff</th>
+                                                <th> Number of K12 Students</th>
+                                                <th> Number of K12 Students Hours </th>
+                                                <th> Number of Other Partcipants</th>
                                                 <th>Activity Type</th>
-                                                <th>Facilitator</th>
+                                                <th>Campus Facilitator</th>
                                                 <th>Description</th>
-                                                <th>Actions</th>
+                                                <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -87,8 +87,8 @@
                                                 <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                                                 <td>{{ project.engagementType }}</td>
                                                 <td>{{ project.academic_year }}</td>
-                                                <td>{{ project.status}}</td>
-                                                <td>{{ project.semester }}</td>
+                                                <td>{{ project.semester}}</td>
+                                                <td>{{ project.status }}</td>
                                                 <td>{{ project.startDate }}</td>
                                                 <td>{{ project.endDate }}</td>
                                                 <td>{{project.total_uno_students}}</td>

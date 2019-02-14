@@ -8,6 +8,7 @@ from django.forms import modelformset_factory
 from django.core.exceptions import NON_FIELD_ERRORS
 from django.forms import inlineformset_factory
 
+
 class CampusPartnerForm(forms.ModelForm):
     # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
@@ -66,11 +67,11 @@ class CampusPartnerContactForm(forms.ModelForm):
             raise forms.ValidationError("Work Phone cannot have alphabets")
         return workphone
 
-    def clean_cell_phone(self):
-        cellphone = self.cleaned_data['cell_phone']
-        if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have alphabets")
-        return cellphone
+  #  def clean_cell_phone(self):
+   #     cellphone = self.cleaned_data['cell_phone']
+    #    if any(char.isalpha() for char in cellphone):
+     #       raise forms.ValidationError("Cell Phone cannot have alphabets")
+      #  return cellphone
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
@@ -80,11 +81,11 @@ class CampusPartnerContactForm(forms.ModelForm):
 
 
 class CommunityPartnerForm(forms.ModelForm):
-    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Type',empty_label='Select Community Type')
+    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Partner Type',empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
-        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'address_line2', 'country','county',
-                  'city', 'state', 'zip')
+        fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
+                   'zip','county','country')
         labels = {
 
             'website_url': ('Website'),
@@ -97,6 +98,15 @@ class CommunityPartnerForm(forms.ModelForm):
                    'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
                    'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
                    }
+
+    # def clean_name(self):
+    #     name = self.cleaned_data['name']
+    #     try:
+    #         CommunityPartner.objects.filter(name__icontains=name)
+
+        # except ObjectDoesNotExist:
+        #     return name
+        # raise forms.ValidationError('Community partner with this Name already exists.')
 
     def clean_country(self):
             name = self.cleaned_data['country']
@@ -185,12 +195,11 @@ class CommunityContactForm(forms.ModelForm):
             raise forms.ValidationError("Work Phone cannot have alphabets")
         return workphone
 
-    def clean_cell_phone(self):
-        cellphone = self.cleaned_data['cell_phone']
-        if any(char.isalpha() for char in cellphone):
-            raise forms.ValidationError("Cell Phone cannot have alphabets")
-        return cellphone
-
+    #def clean_cell_phone(self):
+     #   cellphone = self.cleaned_data['cell_phone']
+     #   if any(char.isalpha() for char in cellphone):
+     #       raise forms.ValidationError("Cell Phone cannot have alphabets")
+     #   return cellphone
 
 class CommunityMissionForm(ModelForm):
 
@@ -207,6 +216,16 @@ class CommunityMissionForm(ModelForm):
             'mission_type': ('Mission Type'),
             'mission_area': ('Mission Area'),
         }
+
+class CampusPartnerAddForm(forms.ModelForm):
+
+    class Meta:
+        model = CampusPartnerUser
+        fields = ('campus_partner',)
+        labels = {'campus_partner': ('Existing Campus Partners')}
+
+    def __init__(self, *args, **kwargs):
+        super(CampusPartnerAddForm, self).__init__(*args, **kwargs)
 
 
 

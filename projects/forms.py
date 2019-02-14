@@ -165,14 +165,15 @@ class ProjectForm2(ModelForm):
 
 
 
-
 class ProjectFormAdd(ModelForm):
+    SEMESTER = [
+    ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     address_line1= forms.CharField(required=True)
     country = forms.CharField(required=True)
     city = forms.CharField(required=True)
     state = forms.CharField(required=True)
     zip = forms.IntegerField(required=True)
-    semester = forms.CharField(required=True, widget=forms.TextInput(attrs={'placeholder': 'Spring or Summer or Fall'}))
+    semester = forms.ChoiceField(required=True, choices=SEMESTER)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_k12_students','total_k12_hours',
@@ -197,7 +198,7 @@ class ProjectFormAdd(ModelForm):
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            'address_line1': 'Address Line',
+            'address_line1': 'Address Line 1',
             'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
         }
@@ -324,26 +325,24 @@ class AddProjectCampusPartnerForm(ModelForm):
 
     class Meta:
         model = ProjectCampusPartner
-        fields = ('campus_partner','total_hours','total_people',)
+        fields = ('campus_partner',)
         labels = {
             'campus_partner':('Campus Partner'),
-            'total_hours': ('Hours'),
-            'total_people': ('Volunteers'),
         }
 
-    def clean_total_hours(self):
-        total_hours = self.cleaned_data['total_hours']
-        val = int(total_hours)
-        if val < 0:
-            raise forms.ValidationError("Hours cannot be negative")
-        return total_hours
+#    def clean_total_hours(self):
+#        total_hours = self.cleaned_data['total_hours']
+#        val = int(total_hours)
+#        if val < 0:
+#            raise forms.ValidationError("Hours cannot be negative")
+#        return total_hours
 
-    def clean_total_people(self):
-        total_people = self.cleaned_data['total_people']
-        val = int(total_people)
-        if val < 0:
-            raise forms.ValidationError("Enter a positive number")
-        return total_people
+#    def clean_total_people(self):
+#        total_people = self.cleaned_data['total_people']
+#        val = int(total_people)
+#        if val < 0:
+#            raise forms.ValidationError("Enter a positive number")
+#        return total_people
 
 
 
@@ -395,14 +394,16 @@ class CourseForm(forms.ModelForm):
     name = forms.CharField(required=False, label= 'Course Name')
     prefix = forms.CharField(required=False, label= 'Course Prefix')
     number = forms.CharField(required=False, label='Course Number' )
+    section = forms.CharField(required=False, label='Course Section')
 
     class Meta:
         model = Course
-        fields = ('name','prefix', 'number',)
+        fields = ('name','prefix', 'number','section')
         labels = {
             'name': ('Course Name'),
             'prefix': ('Prefix'),
             'number': ('Course Number'),
+            'section': ('Course Section')
         }
 
 

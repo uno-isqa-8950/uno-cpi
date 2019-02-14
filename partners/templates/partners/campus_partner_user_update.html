@@ -63,10 +63,7 @@ left:280px;
                                     <input type="text" class="form-control" name="{{field.label}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
                             </div>
                         {% endfor %}
-                        <div class="form-group">
-                            <label for="campuspartnername">Campus Partner Name</label>
-                            <input type="text" class="form-control" id="campuspartnername" value="{{campus_partner_name}}" disabled>
-                        </div>
+
                         <p>
                         <button type="submit" class="btn btn-custom">Update</button>
                         </p>

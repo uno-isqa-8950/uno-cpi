@@ -130,11 +130,16 @@ margin-left:22px
 		        <div class="panel-heading text-center"><h4>Register: Campus Partner User</h4></div>
 			        <div class="panel-body">
                 <form action="." onfocusout="return validateForm()" name="myForm" method="post">{% csrf_token %}
-
                   <div class = "row">
                     <div class="col-lg-12 col-md-12 col-sm-12">
                       {{ campus_partner_user_form|bootstrap }}
-                      {{ user_form|bootstrap }}
+                      {{ user_form.first_name|bootstrap }}
+                      {{ user_form.last_name|bootstrap }}
+                      {{ user_form.email|bootstrap }}
+                      {{ user_form.password|bootstrap }}
+                        <i><small style="color: grey;" class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
+                     {{ user_form.password2|bootstrap }}
+                        <i><small style="color: grey; " class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
                     </div>
                   </div>
                   <br>

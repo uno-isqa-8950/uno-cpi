@@ -4,7 +4,8 @@
 
 <style>
 
- label:after
+ label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
+ label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_mission-0-mission_area]:after
     {
     content:"*" ;
     color:red
@@ -29,7 +30,7 @@ input[type=email],input[type=text],select[id=id_community_type]
     width: relative;
     }
 
-input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
+input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
 input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
     {
     width:85%;
@@ -60,7 +61,7 @@ width:100%
     <div class = "row justify-content-md-center">
         <div class="col-lg-9 col-md-12">
             <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Register: Community Partner </h4></div>
+		        <div class="panel-heading text-center"><h4>Register: A New Community Partner </h4></div>
 			    <div class="panel-body">
                     <form action="." onfocusout="return validateForm()"  method="post">
                     <div class="row">
@@ -86,10 +87,10 @@ width:100%
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            {{ community_partner_form.country |bootstrap }}
+                            {{ community_partner_form.zip |bootstrap }}
                         </div>
                         <div class="col-md-6">
-                            {{ community_partner_form.zip |bootstrap }}
+                            {{ community_partner_form.country |bootstrap }}
                         </div>
                     </div>
                   </div>
@@ -103,7 +104,7 @@ width:100%
 
                     {{ formset.management_form }}
                         {% for form in formset %}
-                        <div class="row form-row" id="contact1">
+                        <div class="contact-row" id="contact1">
                             <div class="col-md-12">
                                 <h6 style="margin-top:10px;">Point of Contact Information</h6>
                                 <br>
@@ -136,7 +137,7 @@ width:100%
                         </div>
 
                         <div class="input-group-append" >
-                            <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                            <button class="btn btn-secondary add-contact-row"><i class="fa fa-plus-square"></i> Add an Additional Contact </button>
                         </div>
                         </div>
 
@@ -145,7 +146,7 @@ width:100%
 
                         {{ formset_mission.management_form }}
                         {% for form in formset_mission %}
-                            <div id="contact1" class="form1-row">
+                            <div id="contact1" class="mission-row">
                                 <!--<div class="col-md-12">-->
                                     <!--<label>Mission Areas</label>-->
                                     <!--<br>-->
@@ -161,7 +162,7 @@ width:100%
                             </div>
                             <!--/div-->
                             <div class="input-group-append">
-                                <button class="btn btn-secondary add-form1-row"><i class="fa fa-plus-square"></i> Add more Mission Areas </button>
+                                <button class="btn btn-secondary add-mission-row"><i class="fa fa-plus-square"></i> Add an Additional Mission Area </button>
                             </div>
                             </div>
 
@@ -183,10 +184,20 @@ width:100%
 <br><br>
 {% block selectizeForm %}
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <script>
+$(function() {
+  $("#id_name").autocomplete({
+    source: "{% url 'partners:ajax_load_project' %}",
+    minLength: 2,
+  });
+});
+
 $(document).ready(function(){
   $('#id_community_type').select2(
       {
@@ -221,38 +232,32 @@ function updateElementIndex(el, prefix, ndx) {
 }
 // This function clones new form based on the user action (based on the prefix)
 function cloneMore(selector, prefix) {
-  var newElement = $(selector).clone(true);
-  var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-  newElement.find(':input').each(function() {
-    var name = $(this).attr('name');
-    if (name) {
-      name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
-      var id = 'id_' + name;
-      $(this)
-        .attr({ name: name, id: id })
-        .val('')
-        .removeAttr('checked');
-    }
-  });
-  total++;
-  $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-  $(selector).after(newElement);
-  var conditionRow = $('.' + prefix + '-form-row:not(:last)');
-  conditionRow
-    .find('.btn.add-' + prefix + '-form-row')
-    .removeClass('btn-success')
-    .addClass('btn-secondary')
-    .removeClass('add-' + prefix + '-form-row')
-    .addClass('remove-' + prefix + '-form-row')
-    .html('Remove');
-  return false;
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+    .html('Remove This Entry');
+    return false;
 }
+
 function deleteForm(prefix, btn) {
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-  console.log('In deleteForm - total', total);
   if (total > 1) {
-    btn.closest('.' + prefix + '-form-row').remove();
-    var forms = $('.' + prefix + '-form-row');
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
     $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
     for (var i = 0, formCount = forms.length; i < formCount; i++) {
       $(forms.get(i))
@@ -264,25 +269,25 @@ function deleteForm(prefix, btn) {
   }
   return false;
 }
-$(document).on('click', '.add-contact-form-row', function(e) {
-  e.preventDefault();
-  cloneMore('.contact-form-row:last', 'contact');
-  return false;
+$(document).on('click', '.add-contact-row', function(e){
+    e.preventDefault();
+    cloneMore('.contact-row:last', 'contact');
+    return false;
 });
-$(document).on('click', '.add-mission-form-row', function(e) {
-  e.preventDefault();
-  cloneMore('.mission-form-row:last', 'mission');
-  return false;
+$(document).on('click', '.add-mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission-row:last', 'mission');
+    return false;
 });
-$(document).on('click', '.remove-contact-form-row', function(e) {
-  e.preventDefault();
-  deleteForm('contact', $(this));
-  return false;
+$(document).on('click', '.remove-contact-row', function(e){
+    e.preventDefault();
+    deleteForm('contact', $(this));
+    return false;
 });
-$(document).on('click', '.remove-mission-form-row', function(e) {
-  e.preventDefault();
-  deleteForm('mission', $(this));
-  return false;
+$(document).on('click', '.remove-mission-row', function(e){
+    e.preventDefault();
+    deleteForm('mission', $(this));
+    return false;
 });
 </script>
 <script>

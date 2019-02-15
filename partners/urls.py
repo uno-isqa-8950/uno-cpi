@@ -1,4 +1,5 @@
 from django.urls import path
+from django.conf.urls import url
 from . import views
 app_name = 'partners'
 
@@ -9,7 +10,9 @@ urlpatterns = [
      path('profile/userprofileupdate/', views.userProfileUpdate,name='userprofileupdate'),
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
      path('profile/orgprofileupdate/', views.orgProfileUpdate, name='orgprofileupdate'),
-     path('orgprofile/campus_partner_add/', views.CommunityPartnerAdd, name='campuspartneradd'),
+     path('orgprofile/campus_partner_add/', views.CampusPartnerAdd, name='campuspartneradd'),
 	 path('SuggestCommunity/', views.ajax_load_project, name='ajax_load_project'),
+     path('registerCampusPartnerForProject/', views.registerCampusPartner_forprojects, name='registerCampusPartnerforprojects'),
+     path('registerCommunityPartnerForProject/', views.registerCommunityPartner_forprojects, name='registerCampusPartnerforprojects'),
 
 ]

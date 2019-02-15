@@ -216,7 +216,7 @@ def upload_project(request):
                       {'download_projects_url': download_projects_url})
     if request.method == 'POST':
         csv_file = request.FILES["csv_file"]
-        decoded = csv_file.read().decode('utf-8').splitlines()
+        decoded = csv_file.read().decode('ISO 8859-1').splitlines()
         reader = csv.DictReader(decoded)
         campus_query = CampusPartner.objects.all()
         campus_names = [campus.name for campus in campus_query]
@@ -353,7 +353,7 @@ def upload_community(request):
         return render(request, 'import/uploadCommunity.html',
                       {'download_community_url': download_community_url})
     csv_file = request.FILES["csv_file"]
-    decoded = csv_file.read().decode('ISO 8859-1' ).splitlines()
+    decoded = csv_file.read().decode('ISO 8859-1').splitlines()
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
@@ -384,6 +384,7 @@ def upload_community(request):
         #         data_dict['median_household_income'] = properties2['properties']['Income']
         # community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
         # if community_count == 0:
+        # print(data_dict)
         form = UploadCommunityForm(data_dict)
 
         if form.is_valid():

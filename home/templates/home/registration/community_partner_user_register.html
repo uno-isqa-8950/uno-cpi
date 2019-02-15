@@ -72,7 +72,13 @@ label
                         <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
                         {% csrf_token %}
                         {{ community_partner_user_form|bootstrap}}
-                        {{ user_form|bootstrap }}
+                        {{ user_form.first_name|bootstrap }}
+                        {{ user_form.last_name|bootstrap }}
+                        {{ user_form.email|bootstrap }}
+                        {{ user_form.password|bootstrap }}
+                        <i><small style="color: grey;"class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
+                        {{ user_form.password2|bootstrap }}
+                        <i><small style="color: grey; " class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
                             <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
                                     <button type="submit" class="btn btn-custom">Submit</button>

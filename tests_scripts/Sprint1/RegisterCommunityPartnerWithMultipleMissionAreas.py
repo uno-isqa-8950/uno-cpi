@@ -26,15 +26,25 @@ class RegisterCommunityPartnerWithMultipleMissionAreas(unittest.TestCase):
             "(.//*[normalize-space(text()) and normalize-space(.)='Campus Partner'])[1]/following::a[1]").click()
         # /html/body/nav/div/ul/li[3]/div/a[1]
         driver.find_element_by_id("id_name").clear()
-        driver.find_element_by_id("id_name").send_keys("Jerrod Foundation 8")
+
+        # Validation autocomplete functionality
+        driver.find_element_by_id("id_name").send_keys("Jer")
+        time.sleep(5)
+        driver.find_element_by_id("id_name").clear()
+
+        driver.find_element_by_id("id_name").send_keys("TD")
+        time.sleep(5)
+        driver.find_element_by_id("id_name").clear()
+
+        driver.find_element_by_id("id_name").send_keys("Van")
+        time.sleep(5)
+        driver.find_element_by_id("id_name").clear()
+
+        driver.find_element_by_id("id_name").send_keys("VanguardsFunds1")
         driver.find_element_by_id("id_website_url").clear()
         driver.find_element_by_id("id_website_url").send_keys("https://www.jeandeanfoundation.com")
-        #elem = driver.find_element_by_xpath("(.//*[normalize-space(text()) and normalize-space(.)='Select a Community Type'])[1]/following::b[1]").click()
-
 
         driver.find_element_by_xpath("//select[@name='community_type']/option[text()='Nonprofit']").click()
-        # driver.find_element_by_xpath("//*[@id = 'select2-id_community_type-container' and @title = 'Government Agency']").click()
-
         driver.find_element_by_id("id_address_line1").click()
         driver.find_element_by_id("id_address_line1").clear()
         driver.find_element_by_id("id_address_line1").send_keys("8509 Maple Ct")

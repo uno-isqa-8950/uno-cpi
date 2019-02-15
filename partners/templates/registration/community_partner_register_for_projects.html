@@ -1,0 +1,413 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+ label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
+ label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_mission-0-mission_area]:after
+    {
+    content:"*" ;
+    color:red
+    }
+
+
+label
+{
+    margin-left: 25px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+
+input[type=email],input[type=text],select[id=id_community_type]
+    {
+        width:93%;
+    }
+
+.form-control
+    {
+    width: relative;
+    }
+
+input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
+input[id=id_form-0-work_phone],input[id=id_form-0-cell_phone],input[id=id_form-0-email_id]
+    {
+    width:85%;
+    }
+
+input[id=id_city]
+{
+    width:93%;
+}
+
+.select2-container--default .select2-selection--single
+{
+margin-left:22px;
+width:100%
+
+}
+
+.select2-container--open .select2-dropdown--below
+{
+    margin-left:22px
+}
+
+
+</style>
+
+
+<div class = "container">
+    <div class = "row justify-content-md-center">
+        <div class="col-lg-9 col-md-12">
+            <div class = "panel panel-default">
+		        <div class="panel-heading text-center"><h4>Register: A New Community Partner </h4></div>
+			    <div class="panel-body">
+                    <form action="." onfocusout="return validateForm()"  method="post">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12">
+                            {% csrf_token %}
+                            {{ community_partner_form.name |bootstrap }}
+                            <div class = "row">
+                       <div class="col-lg-12 col-md-12 col-sm-12">
+
+                            {{ community_partner_form.website_url |bootstrap }}
+                            {{ community_partner_form.community_type |bootstrap }}
+                            {{ community_partner_form.k12_level |bootstrap }}
+                            {{ community_partner_form.address_line1 |bootstrap }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ community_partner_form.city |bootstrap }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ community_partner_form.state |bootstrap }}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ community_partner_form.zip |bootstrap }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ community_partner_form.country |bootstrap }}
+                        </div>
+                    </div>
+                  </div>
+              </div>
+                    <!--<div class="row">-->
+                        <!--<div class="col-md-6">-->
+                            <!--{{ community_partner_form.zip |bootstrap }}-->
+                        <!--</div>-->
+                    <!--</div>-->
+
+
+                    {{ formset.management_form }}
+                        {% for form in formset %}
+                        <div class="contact-row" id="contact1">
+                            <div class="col-md-12">
+                                <h6 style="margin-top:10px;">Point of Contact Information</h6>
+                                <br>
+                            </div>
+                        <div class="input-group">
+                            <div class="col-md-6">
+                                {{ form.contact_type|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.email_id|bootstrap }}
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <!--div class="row"-->
+                            <div class="col-md-6">
+                                {{ form.first_name|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.last_name|bootstrap }}
+                            </div>
+                            <!--/div-->
+                            <!--div class="row"-->
+                            <div class="col-md-6">
+                                {{ form.work_phone|bootstrap }}
+                            </div>
+                            <div class="col-md-6">
+                                {{ form.cell_phone|bootstrap }}
+                            </div>
+                            <!--/div-->
+                        </div>
+
+                        <div class="input-group-append" >
+                            <button class="btn btn-secondary add-contact-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                        </div>
+                        </div>
+
+                        {% endfor %}
+
+
+                        {{ formset_mission.management_form }}
+                        {% for form in formset_mission %}
+                            <div id="contact1" class="mission-row">
+                                <!--<div class="col-md-12">-->
+                                    <!--<label>Mission Areas</label>-->
+                                    <!--<br>-->
+                                <!--</div>-->
+                            <div class="input-group">
+                            <!--div class="row"-->
+                                <div class="col-md-6">
+                                    {{ form.mission_type|bootstrap }}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.mission_area|bootstrap }}
+                                </div>
+                            </div>
+                            <!--/div-->
+                            <div class="input-group-append">
+                                <button class="btn btn-secondary add-mission-row"><i class="fa fa-plus-square"></i> Add more Mission Areas </button>
+                            </div>
+                            </div>
+
+                        {% endfor %}
+
+                            <div class = "row justify-content-md-center">
+                                <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <button type="submit" class="btn btn-custom" style="margin-bottom:20px;">Submit</button>
+                                </div>
+                            </div><br>
+
+</form>
+                              </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+<br><br>
+{% block selectizeForm %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(function() {
+  $("#id_name").autocomplete({
+    source: "{% url 'partners:ajax_load_project' %}",
+    minLength: 2,
+  });
+});
+
+$(document).ready(function(){
+  $('#id_community_type').select2(
+      {
+
+              placeholder: 'Select a Community Type',
+              height:'155'
+      }
+  );
+});
+</script>
+{% endblock %}
+
+
+{% endblock %}
+
+{% block custom_js %}
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script type="text/javascript" id="contact-form">
+function updateElementIndex(el, prefix, ndx) {
+  // This function updates the index of the form being deleted
+  var id_regex = new RegExp('(' + prefix + '-\\d+)');
+  var replacement = prefix + '-' + ndx;
+  if ($(el).attr('for'))
+    $(el).attr(
+      'for',
+      $(el)
+        .attr('for')
+        .replace(id_regex, replacement)
+    );
+  if (el.id) el.id = el.id.replace(id_regex, replacement);
+  if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+// This function clones new form based on the user action (based on the prefix)
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+    .html('Remove');
+    return false;
+}
+
+function deleteForm(prefix, btn) {
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  if (total > 1) {
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
+}
+$(document).on('click', '.add-contact-row', function(e){
+    e.preventDefault();
+    cloneMore('.contact-row:last', 'contact');
+    return false;
+});
+$(document).on('click', '.add-mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission-row:last', 'mission');
+    return false;
+});
+$(document).on('click', '.remove-contact-row', function(e){
+    e.preventDefault();
+    deleteForm('contact', $(this));
+    return false;
+});
+$(document).on('click', '.remove-mission-row', function(e){
+    e.preventDefault();
+    deleteForm('mission', $(this));
+    return false;
+});
+</script>
+<script>
+    $(function(){
+        function hideInputs() {
+            $("label.control-label[for=id_k12_level], input#id_k12_level").hide();
+            $("#id_k12_level").hide();
+            console.log('label.control-label[for=id_k12_level], input#id_k12_level');
+            }
+        $("#id_community_type").on('change', function(){
+            var val = $("#id_community_type").val();
+            if (val === '2') {
+               $("#id_k12_level").show();
+               $("label.control-label[for=id_k12_level], input#id_k12_level").show();
+            }
+            else {
+                hideInputs();
+            }
+        });
+        hideInputs();
+    });
+</script>
+
+
+<script>
+    function validateForm() {
+        var id = event.target.id;
+        var name = event.target.name;
+        if (id.includes("work_phone")|| id.includes("cell_phone")){
+        phoneMask(event)
+        }
+    function phoneMask(event) {
+    const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
+    const isPhoneFormatted = validPhoneFormat.test(event.target.value);
+
+    if(!isPhoneFormatted) {
+        const phoneInput = event.target.value.replace(/\D/g, "");
+        const thirdPhoneDigit = 3;
+        const sixthPhoneDigit = 6;
+        const tenthPhoneDigit = 10;
+        const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
+        const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
+        const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
+        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+    }
+}
+        console.log(id);
+        console.log(name);
+        console.log(document.getElementById(id).value);
+        {
+            console.log("helloooo");
+            if(id.includes("country")||id.includes("city")|| id.includes("state") || id.includes("county")
+            || id.includes("first_name") || id.includes("last_name")){
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+            }
+              var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+    if (id.includes("work_phone") || id.includes("cell_phone")) {
+    if (!(document.getElementById(id).value).match(numbers)) {
+        console.log("good test")
+        $('#'+id+'-error').remove();
+        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+        document.getElementById(id).style.borderColor = "red";
+        return false;
+    }
+    else {
+        document.getElementById(id).style.borderColor = "gray";
+        $('#'+id+'-error').remove();
+        return true;
+         }
+    }
+            if (id.includes("zip")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+            }
+
+            if(id.includes("email_id")){
+                if (! /\S+@\S+/.test(document.getElementById(id).value)){
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+
+                }
+                 else {
+                 document.getElementById(id).style.borderColor = "gray";
+                  $('#'+id+'-error').remove();
+                  return true;
+            }
+
+            }
+
+
+        }
+    }
+
+
+</script>
+
+
+
+{% endblock %}

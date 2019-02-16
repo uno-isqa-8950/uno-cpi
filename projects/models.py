@@ -93,6 +93,10 @@ class Status(models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        verbose_name = "Status"
+        verbose_name_plural = "Statuses"
+
 
 class EngagementType(models.Model):
     name = models.CharField(max_length=100, unique=True)

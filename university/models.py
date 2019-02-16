@@ -15,6 +15,10 @@ class University (models.Model):
     def __str__(self):
         return str(self.name)
 
+    class Meta:
+        verbose_name = "University"
+        verbose_name_plural = "Universities"
+
 
 class College (models.Model):
     college_name = models.CharField(max_length=255, unique=True)

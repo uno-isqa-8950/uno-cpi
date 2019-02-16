@@ -283,22 +283,16 @@ def orgProfile(request):
     elif request.user.is_campuspartner:
         campus_user = CampusPartnerUser.objects.filter(user=request.user.id)
         campus_partner=[]
-        contacts=[]
         for user in campus_user:
             campus_partner1 = CampusPartner.objects.filter(name= user.campus_partner)
-            for partner in campus_partner1:
-                contacts1 = Contact.objects.filter(campus_partner=partner)
-
             campus_partner.extend(campus_partner1)
-            contacts.extend(contacts1)
-            #to combine the two list into a single list
-            final = zip(campus_partner,contacts)
+            final = campus_partner
         return render(request, 'partners/campus_partner_org_profile.html', {"final":final})
 
 
 # Campus and Community Partner org Update Profile
 @login_required
-def orgProfileUpdate(request):
+def orgProfileUpdate(request, pk):
 
     if request.user.is_communitypartner:
         community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
@@ -339,16 +333,13 @@ def orgProfileUpdate(request):
                           })
 
     elif request.user.is_campuspartner:
-        campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        campus_partner = get_object_or_404(CampusPartner, name=campus_user.campus_partner)
-        contacts = Contact.objects.filter(campus_partner=campus_partner.id).first()
+        campus_partner = get_object_or_404(CampusPartner, pk= pk)
 
         if request.method == 'POST':
             campus_org_form = CampusPartnerForm(data=request.POST, instance=campus_partner)
-            contacts_form = CampusPartnerContactForm(data=request.POST, instance=contacts)
 
-            if contacts_form.is_valid():
-                contacts_form.save()
+            if campus_org_form.is_valid():
+                campus_org_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
@@ -357,11 +348,10 @@ def orgProfileUpdate(request):
 
         else:
             campus_org_form = CampusPartnerForm(instance=campus_partner)
-            contacts_form = CampusPartnerContactForm(instance=contacts)
+            #contacts_form = CampusPartnerContactForm(instance=contacts)
 
         return render(request,
-                          'partners/campus_partner_org_update.html', {'campus_org_form': campus_org_form,
-                          'contacts_form': contacts_form
+                          'partners/campus_partner_org_update.html', {'campus_org_form': campus_org_form
                           })
 
 # adds a new organisation for the logged user (only for campus partner user)
@@ -378,6 +368,13 @@ def CampusPartnerAdd(request):
     else:
         form = CampusPartnerAddForm()
     return render(request, 'partners/campus_partner_org_add.html', {'form': form})
+
+# Shows contacts of a particular Campus Partner in the Organizations tab of Campus Partner User
+def orgProfileContacts(request, pk):
+    if request.user.is_campuspartner:
+        campus_partner = get_object_or_404(CampusPartner, pk=pk)
+        contacts1 = Contact.objects.filter(campus_partner=campus_partner)
+        return render(request, 'partners/campus_partner_org_contact.html', {"contacts": contacts1})
 
 #register function for a user to register a new campus partner during filling the project create form
 def registerCampusPartner_forprojects(request):

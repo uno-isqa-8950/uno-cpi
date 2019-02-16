@@ -97,43 +97,41 @@ def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
     camp_part_names=[]
-    p=0
-    # Get the campus partner id related to the user
+    # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     for c in camp_part_user:
-        p =c.campus_partner_id
-        #print(c)
-    # get all the project names base on the campus partner id
-    proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
+        p = c.campus_partner_id
+        # get all the project names base on the campus partner id
+        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
 
-    for f in proj_camp:
+        for f in proj_camp:
 
-        k=list(Project.objects.filter(id = f.project_name_id))
+            k=list(Project.objects.filter(id = f.project_name_id))
 
-        for x in k:
-         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-         proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-         for proj_camp_par in proj_camp_par:
-            camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+            for x in k:
+             projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+             cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+             proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+             for proj_camp_par in proj_camp_par:
+                camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
 
-            camp_part_names.append(camp_part)
-         list_camp_part_names = camp_part_names
-         camp_part_names = []
+                camp_part_names.append(camp_part)
+             list_camp_part_names = camp_part_names
+             camp_part_names = []
 
-         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-            'activityType': x.activity_type, 'academic_year': x.academic_year,
-            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
-            'startDate': x.start_date,
-            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-            'total_uno_hours': x.total_uno_hours,
-            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-            'total_uno_faculty': x.total_uno_faculty,
-            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-            'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
-             }
+             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                'activityType': x.activity_type, 'academic_year': x.academic_year,
+                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
+                'startDate': x.start_date,
+                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                'total_uno_hours': x.total_uno_hours,
+                'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                'total_uno_faculty': x.total_uno_faculty,
+                'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
+                 }
 
-         projects_list.append(data)
+             projects_list.append(data)
 
 
 

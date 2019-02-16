@@ -83,7 +83,7 @@ label, .btn-default
                                     <th>Activity Type</th>
                                     <th>Campus Facilitator</th>
                                     <th>Description</th>
-                                    <th>Action</th>
+{#                                    <th>Action</th>#}
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,17 +111,17 @@ label, .btn-default
                                     <td>{{ project.facilitator }}</td>
                                     <td>{{ project.description }}</td>
 
-                                    <form action="." method="POST">
-                                        {% for current in theList %}
-                                            {% if forloop.parentloop.counter0 == forloop.counter0 %}
-                                                {% if current %}
-                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Add</a> </td>
-                                                {% else %}
-                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-secondary disabled" style="margin-top:10px;">Add</a> </td>
-                                                {% endif %}
-                                            {% endif %}
-                                        {% endfor %}
-                                    </form>
+{#                                    <form action="." method="POST">#}
+{#                                        {% for current in theList %}#}
+{#                                            {% if forloop.parentloop.counter0 == forloop.counter0 %}#}
+{#                                                {% if current %}#}
+{#                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-primary disabled" style="margin-top:10px;">Add</a> </td>#}
+{#                                                {% else %}#}
+{#                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-secondary disabled" style="margin-top:10px;">Add</a> </td>#}
+{#                                                {% endif %}#}
+{#                                            {% endif %}#}
+{#                                        {% endfor %}#}
+{#                                    </form>#}
 
                                 </tr>
                                 {% endfor %}

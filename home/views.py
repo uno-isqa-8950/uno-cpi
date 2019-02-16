@@ -910,7 +910,7 @@ def GEOJSON2():
     return (collection)
 
  ###Project map export to javascript
-
+@login_required()
 def projectdata(request):
 
    json_data = open('home/static/GEOJSON/ID2.geojson')

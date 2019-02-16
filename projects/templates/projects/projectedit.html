@@ -50,7 +50,7 @@ input[id=id_start_date],input[id=id_end_date]
                             {{ course.prefix|bootstrap }}
                             {{ course.number|bootstrap }}
                             {{project.activity_type|bootstrap}}
-                            {{ project.facilitator|bootstrap }}
+{#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
                             {{ project.semester|bootstrap }}
                             {{ project.academic_year|bootstrap }}
@@ -151,7 +151,7 @@ function validateFormsets(){
      console.log(name);
      console.log(document.getElementById(id).value);
     { console.log("helloooo");
-        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members") || id.includes("zip")
+        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
         || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
             if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
                 $('#'+id+'-error').remove();
@@ -169,7 +169,7 @@ function validateFormsets(){
 
         }
 
-        if(id.includes("country")||id.includes("city")|| id.includes("state")){
+        if(id.includes("country")||id.includes("city")){
             if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
                 $('#'+id+'-error').remove();
                 $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');

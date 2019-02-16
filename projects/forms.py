@@ -50,7 +50,7 @@ class ProjectForm2(ModelForm):
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
-                    'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city', 'state','zip','latitude',
+                    'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city','zip', 'state','latitude',
                     'longitude','academic_year')
         widgets = {
             'start_date': DateInput(),
@@ -72,7 +72,9 @@ class ProjectForm2(ModelForm):
             'outcomes': 'Outcomes',
             'address_line1': 'Address Line',
             'total_other_community_members':  'Number of Other Participants',
-            'academic_year': 'Academic Year'
+            'academic_year': 'Academic Year',
+            'zip': 'Zip or postal code',
+            'state': 'State or Province'
         }
 
     # def clean_facilitator(self):
@@ -171,8 +173,8 @@ class ProjectFormAdd(ModelForm):
     address_line1= forms.CharField(required=True)
     country = forms.CharField(required=True)
     city = forms.CharField(required=True)
-    state = forms.CharField(required=True)
-    zip = forms.IntegerField(required=True)
+    #state = forms.CharField(required=True)
+    #zip = forms.CharField(required=True)
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     class Meta:
         model = Project
@@ -201,6 +203,8 @@ class ProjectFormAdd(ModelForm):
             'address_line1': 'Address Line 1',
             'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
+            'zip': 'Zip or postal code',
+            'state': 'State or Province'
         }
 
     # def clean_engagement_type(self):
@@ -279,12 +283,12 @@ class ProjectFormAdd(ModelForm):
             raise forms.ValidationError("Country name contain numbers")
         return country
 
-    def clean_state(self):
-        state = self.cleaned_data['state']
-
-        if any(char.isdigit() for char in state):
-            raise forms.ValidationError("Invalid State Name")
-        return state
+    # def clean_state(self):
+    #     state = self.cleaned_data['state']
+    #
+    #     if any(char.isdigit() for char in state):
+    #         raise forms.ValidationError("Invalid State Name")
+    #     return state
 
     def clean_city(self):
         city = self.cleaned_data['city']
@@ -293,11 +297,11 @@ class ProjectFormAdd(ModelForm):
             raise forms.ValidationError("Invalid City Name")
         return city
 
-    def clean_zip(self):
-        zip = self.cleaned_data['zip']
-        if type(zip) != int:
-            raise forms.ValidationError("Invalid ZIP Code")
-        return zip
+    # def clean_zip(self):
+    #     zip = self.cleaned_data['zip']
+    #     if type(zip) != int:
+    #         raise forms.ValidationError("Invalid ZIP Code")
+    #     return zip
 
 
 class ProjectMissionForm(ModelForm):

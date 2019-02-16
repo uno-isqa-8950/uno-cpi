@@ -72,7 +72,7 @@
                                                 <th> Number of K12 Students Hours </th>
                                                 <th> Number of Other Partcipants</th>
                                                 <th>Activity Type</th>
-                                                <th>Campus Facilitator</th>
+{#                                                <th>Campus Facilitator</th>#}
                                                 <th>Description</th>
                                                 <th>Action</th>
                                             </tr>
@@ -98,7 +98,7 @@
                                                 <td>{{project.total_k12_hours}}</td>
                                                 <td>{{project.total_other_community_members}}</td>
                                                 <td>{{ project.activityType }}</td>
-                                                <td>{{ project.facilitator }}</td>
+{#                                                <td>{{ project.facilitator }}</td>#}
                                                 <td>{{ project.description }}</td>
                                                 <td><a href="{% url 'project_edit_new' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Edit</a> </td>
                                            </tr>

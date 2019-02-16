@@ -529,9 +529,8 @@ def engagement_info(request):
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
     return render(request, 'reports/15EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'campus_filter': campus_filter,
-                   'year_filter': year_filter, 'eList': eList,
-                   })
+                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
+                   'campus_filter': campus_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

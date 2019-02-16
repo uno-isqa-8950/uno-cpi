@@ -84,9 +84,10 @@ margin-top:15px;
                     <a class="dropdown-item" href="/home">Community Partners</a>
                     <a class="dropdown-item" href="/districtmap">Legislative District</a>
                     <a class="dropdown-item" href="/map">Household Income</a>
-                 {% if  user.is_superuser or user.is_campuspartner  %}
                     <a class="dropdown-item" href="/projectmap">Projects</a>
-                  {% endif %}
+{#                 {% if  user.is_superuser or user.is_campuspartner  %}#}
+{#                    <a class="dropdown-item" href="/projectmap">Projects</a>#}
+{#                  {% endif %}#}
                 </div>
                 </li>
                 <li class="nav-item dropdown">

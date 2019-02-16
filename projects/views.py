@@ -499,7 +499,7 @@ def projectsPublicReport(request):
                     projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
                     for projectCampusPartner in projectCampusPartners:
                         if "campusPartner" in data:
-                            data['campusPartner'] = data['campusPartner'] + ", " + str(projectCampusPartner.campus_partner)
+                            data['campusPartner'] = data['campusPartner'] #+ ", " + str(projectCampusPartner.campus_partner)
                         else:
                             data['campusPartner'] = projectCampusPartner.campus_partner
                 except ProjectCampusPartner.DoesNotExist:
@@ -511,7 +511,7 @@ def projectsPublicReport(request):
                         for projectCommunityPartner in projectCommunityPartners:
                             if projectCommunityPartner.community_partner in communityPartners.qs:
                                 if "communityPartner" in data:
-                                    data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
+                                    data['communityPartner'] = data['communityPartner'] #+ ", " + str(projectCommunityPartner.community_partner)
                                 else:
                                     data['communityPartner'] = projectCommunityPartner.community_partner
                     except ProjectCommunityPartner.DoesNotExist:
@@ -579,7 +579,7 @@ def projectsPrivateReport(request):
                     projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
                     for projectCampusPartner in projectCampusPartners:
                         if "campusPartner" in data:
-                            data['campusPartner'] = data['campusPartner'] + ", " + str(projectCampusPartner.campus_partner)
+                            data['campusPartner'] = data['campusPartner'] #+ ", " + str(projectCampusPartner.campus_partner)
                         else:
                             data['campusPartner'] = projectCampusPartner.campus_partner
                 except ProjectCampusPartner.DoesNotExist:
@@ -591,7 +591,7 @@ def projectsPrivateReport(request):
                         for projectCommunityPartner in projectCommunityPartners:
                             if projectCommunityPartner.community_partner in communityPartners.qs:
                                 if "communityPartner" in data:
-                                    data['communityPartner'] = data['communityPartner'] + ", " + str(projectCommunityPartner.community_partner)
+                                    data['communityPartner'] = data['communityPartner'] #+ ", " + str(projectCommunityPartner.community_partner)
                                 else:
                                     data['communityPartner'] = projectCommunityPartner.community_partner
                     except ProjectCommunityPartner.DoesNotExist:
@@ -633,7 +633,7 @@ def communityPrivateReport(request):
             project = cproject.project_name
             projectMissions = ProjectMission.objects.filter(project_name=project)
             if project in projects.qs:
-                project = Project.objects.   get(id=cproject.id)
+                count += 1 #project = Project.objects.  get(id=cproject.id)
                 if "total_hours" in data:
                     data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
                     data['total_hours'] = data['total_hours'] + project.total_uno_hours

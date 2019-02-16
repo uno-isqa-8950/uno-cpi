@@ -58,7 +58,7 @@ def registerCampusPartner(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return render(request, 'registration/community_partner_register_done.html')
+                return render(request, 'registration/campus_partner_register_done.html')
 
     else:
         campus_partner_form = CampusPartnerForm()

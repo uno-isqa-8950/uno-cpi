@@ -8,7 +8,7 @@ urlpatterns = [
 
    #path('', views.partnerdata, name='home'),
    path('home',views.partnerdata, name='home'),
-   path('', views.MapHome, name='MapHome'),
+   #path('', views.MapHome, name='MapHome'),
    path('campusHome',views.campusHome, name='campusHome'),
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
    path('map', views.countyData, name='map'),

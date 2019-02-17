@@ -73,7 +73,7 @@ class ProjectForm2(ModelForm):
             'address_line1': 'Address Line',
             'total_other_community_members':  'Number of Other Participants',
             'academic_year': 'Academic Year',
-            'zip': 'Zip or postal code',
+            'zip': 'Zip or Postal Code',
             'state': 'State or Province'
         }
 
@@ -203,7 +203,7 @@ class ProjectFormAdd(ModelForm):
             'address_line1': 'Address Line 1',
             'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
-            'zip': 'Zip or postal code',
+            'zip': 'Zip or Postal Code',
             'state': 'State or Province'
         }
 

@@ -160,7 +160,7 @@ def project_total_Add(request):
             a = 0
             project.total_uno_hours = a
             proj = project.save()
-            proj.project_name = proj.project_name + " :" + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            proj.project_name = proj.project_name + " :" + str(proj.academic_year)
             eng = str(proj.engagement_type)
             if eng == "Service Learning":
                 course = course.save(commit=False)

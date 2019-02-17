@@ -527,33 +527,59 @@ def projectsPublicReport(request):
 
 # List of community Partners Public View 
 
+# def communityPublicReport(request):
+#
+#     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+#     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+#     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+#     communityData = []
+#
+#     for partner in communityPartners.qs:
+#         data={}
+#         data["name"] = partner.name
+#         communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
+#         count = 0
+#         for cproject in communityProjects:
+#             project = cproject.project_name
+#             projectMissions = ProjectMission.objects.filter(project_name=project)
+#             if project in projects.qs:
+#                 count +=1
+#             for mission in projectMissions:
+#                 if mission in missions.qs and count == 0:
+#                     count +=1
+#         data['communityProjects'] = count
+#         communityData.append(data)
+#
+#
+#     return render(request, 'reports/community_public_view.html',
+#                    {'communityPartners': communityPartners, "projects": projects,
+#                     'communityData': communityData, 'missions': missions})
+##########################################################################################################################
+
+# List of community Partners Public View (Vineeth version)
+
 def communityPublicReport(request):
-    
+    community_dict = {}
+    community_list = []
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    communityData = []
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
+    for m in communityPartners.qs:
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_filtered_ids = [project.id for project in project_filter.qs]
+        project_ids = list(set(mission_filtered_ids).intersection(project_filtered_ids))
+        community_dict['community_name'] = m.name
+        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        community_dict['project_count'] = project_count
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_list.append(community_dict.copy())
 
-    for partner in communityPartners.qs:
-        data={}
-        data["name"] = partner.name
-        communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
-        count = 0
-        for cproject in communityProjects:
-            project = cproject.project_name
-            projectMissions = ProjectMission.objects.filter(project_name=project)
-            if project in projects.qs:
-                count +=1
-            for mission in projectMissions:
-                if mission in missions.qs and count == 0:
-                    count +=1
-        data['communityProjects'] = count
-        communityData.append(data)
-
-
-    return render(request, 'reports/community_public_view.html',
-                   {'communityPartners': communityPartners, "projects": projects, 
-                    'communityData': communityData, 'missions': missions})
+    return render(request, 'reports/community_public_view.html', {'project_filter': project_filter,
+                                                                 'communityPartners': communityPartners,
+                                                                 'community_list': community_list,
+                                                                 'missions': missions})
 
 
 # List Projects for Private View 

@@ -94,7 +94,7 @@
                      <label for="academic_year"> Academic Year: </label>
                         <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                             <option> All </option>
-                                {% for sem in projects.form.academic_year %}
+                                {% for sem in project_filter.form.academic_year %}
                                     {{sem}}
                                 {% endfor %}
                         </select>
@@ -153,23 +153,23 @@
             <tr>
                 <th>Community Partners</th>
                 <th>Website</th>
-                <th>Email</th>
+                <th>Contact Email</th>
                 <th>Projects</th>
                 <th>UNO Students</th>
-                <th>Hours</th>
+                <th>UNO Hours</th>
                 <th>Economic Impact</th>
             </tr>
         </thead>
             <tbody>
-            {% for community in communityData %}
+            {% for community in community_list %}
             <tr>
-                <td>{{community.name}}</td>
+                <td>{{community.community_name}}</td>
                 <td>{{community.website}}</td>
-                <td>{{community.email}}</td>
-                <td>{{community.communityProjects}}</td>
-                <td>{{community.total_UNO_students}}</td>
-                <td>{{community.total_hours}}</td>
-                <td>{{community.economic_impact}}</td>
+                <td> {% for email in community.email %} {{email}} <br><br> {% endfor %} </td>
+                <td>{{community.project_count}}</td>
+                <td>{{community.total_uno_students}}</td>
+                <td>{{community.total_uno_hours}}</td>
+                <td>{{community.total_economic_impact}}</td>
             </tr>
             {% endfor %}
             </tbody>

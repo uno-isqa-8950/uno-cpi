@@ -151,3 +151,39 @@ class QuickTest(unittest.TestCase):
         #Submit button
         driver.find_element_by_xpath('/html/body/div/div/div/div/div/div[2]/form/div/div/div[5]/div/button').click()
         time.sleep(90)
+
+    def test_Quick_Campus_Partner_User_Sign_Up(self,campuspartneruser,campuspartnerpwd):
+        pathname = os.path.join(os.getcwd(), "chromedriver")
+        driver = webdriver.Chrome(pathname)
+
+        driver.get(test_url)
+        time.sleep(1)
+        # Select Login button
+        driver.find_element_by_link_text("Login").click()
+        # Click on Campus Partner User Sign Up
+        driver.find_element_by_xpath("//A[@href='/password_reset/'][text()='Forgot Password?']/.."
+                                     "//A[@href='/registerCampusPartnerUser/']"
+                                     "[text()='Campus Partner User Signup']").click()
+
+        # Select Campus Partner
+
+        driver.find_element_by_xpath('//*[@id="id_campus_partner"]/option[2]').click()
+
+        driver.find_element_by_id("id_first_name").click()
+        driver.find_element_by_id("id_first_name").clear()
+        driver.find_element_by_id("id_first_name").send_keys("Jerrod")
+        driver.find_element_by_id("id_last_name").clear()
+        driver.find_element_by_id("id_last_name").send_keys("Anzalone")
+        driver.find_element_by_id("id_email").clear()
+        driver.find_element_by_id("id_email").send_keys(campuspartneruser)
+        driver.find_element_by_id("id_password").click()
+        driver.find_element_by_id("id_password").clear()
+        driver.find_element_by_id("id_password").send_keys(campuspartnerpwd)
+        driver.find_element_by_id("id_password2").click()
+        driver.find_element_by_id("id_password2").clear()
+        driver.find_element_by_id("id_password2").send_keys(campuspartnerpwd)
+
+        # Submit button
+        driver.find_element_by_xpath("//INPUT[@id='id_password2']/../../.."
+                                     "/../..//BUTTON[@type='submit'][text()='Submit']").click()
+

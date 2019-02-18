@@ -2,7 +2,7 @@ from decimal import *
 from django.db import connection
 from django.http import HttpResponse
 from numpy import shape
-from home.decorators import communitypartner_required, campuspartner_required
+from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
 from partners.views import district, countyData
 from projects.models import *
@@ -23,6 +23,7 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import json
+from django.db.models import Sum
 gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 
 
@@ -631,51 +632,102 @@ def projectsPrivateReport(request):
     return render(request, 'reports/projects_private_view.html', {'projects': projects,
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
 
-@login_required()
+# @login_required()
+# def communityPrivateReport(request):
+#
+#     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+#     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+#     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+#     communityData = []
+#
+#     for partner in communityPartners.qs:
+#         data={}
+#         data["name"] = partner.name
+#         data['website'] = partner.website_url
+#         try:
+#             contact = Contact.objects.get(community_partner=partner, contact_type='Primary')
+#         except Contact.DoesNotExist:
+#             contact = None
+#
+#         if contact:
+#             data['email'] = contact.email_id
+#         else:
+#             data['email'] = "Email Not Provided"
+#
+#         communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
+#         count = 0
+#         for cproject in communityProjects:
+#             project = cproject.project_name
+#             projectMissions = ProjectMission.objects.filter(project_name=project)
+#             if project in projects.qs:
+#                 count += 1 #project = Project.objects.  get(id=cproject.id)
+#                 if "total_hours" in data:
+#                     data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
+#                     data['total_hours'] = data['total_hours'] + project.total_uno_hours
+#                     data['economic_impact'] = data['economic_impact'] + project.total_economic_impact
+#                 else:
+#                     data['total_UNO_students'] = project.total_uno_students
+#                     data['total_hours'] = project.total_uno_hours
+#                     data['economic_impact'] = project.total_economic_impact
+#                 count +=1
+#             for mission in projectMissions:
+#                 if mission in missions.qs and count == 0:
+#                     count +=1
+#         data['communityProjects'] = count
+#         communityData.append(data)
+#
+#     return render(request, 'reports/community_private_view.html',
+#                    {'communityPartners': communityPartners, "projects": projects,
+#                     'communityData': communityData, 'missions': missions})
+
+
+
+@admin_required()
 def communityPrivateReport(request):
-
+    community_dict = {}
+    community_list = []
+    comp_part_contact = []
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    communityData = []
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
+    for m in communityPartners.qs:
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_filtered_ids = [project.id for project in project_filter.qs]
+        project_ids = list(set(mission_filtered_ids).intersection(project_filtered_ids))
+        community_dict['community_name'] = m.name
+        community_dict['website'] = m.website_url
+        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        community_dict['project_count'] = project_count
 
-    for partner in communityPartners.qs:
-        data={}
-        data["name"] = partner.name
-        data['website'] = partner.website_url
-        try:
-            contact = Contact.objects.get(community_partner=partner, contact_type='Primary')
-        except Contact.DoesNotExist:
-            contact = None
-        
-        if contact:
-            data['email'] = contact.email_id
-        else:
-            data['email'] = "Email Not Provided"
+        # Code to get the contact email id of community partners from Contacts Model
+        contact = list(Contact.objects.filter(community_partner=m, contact_type='Primary'))
+        for contact in contact:
+            comp_part_contact.append(contact.email_id)
+        list_contacts = comp_part_contact
+        comp_part_contact = []
+        community_dict['email'] = list_contacts
 
-        communityProjects = ProjectCommunityPartner.objects.filter(community_partner=partner.id)
-        count = 0
-        for cproject in communityProjects:
-            project = cproject.project_name
-            projectMissions = ProjectMission.objects.filter(project_name=project)
-            if project in projects.qs:
-                count += 1 #project = Project.objects.  get(id=cproject.id)
-                if "total_hours" in data:
-                    data['total_UNO_students'] = data['total_UNO_students'] + project.total_uno_students
-                    data['total_hours'] = data['total_hours'] + project.total_uno_hours
-                    data['economic_impact'] = data['economic_impact'] + project.total_economic_impact
-                else:
-                    data['total_UNO_students'] = project.total_uno_students
-                    data['total_hours'] = project.total_uno_hours
-                    data['economic_impact'] = project.total_economic_impact
-                count +=1
-            for mission in projectMissions:
-                if mission in missions.qs and count == 0:
-                    count +=1
-        data['communityProjects'] = count
-        communityData.append(data)
+        # Code to get the uno hours, students, economic impact form Project Table
+        total_uno_students = 0
+        total_uno_hours = 0
+        total_economic_impact= 0
+        p_community = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids)
+        for pm in p_community:
+            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            economic_impact = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_economic_impact'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+            total_economic_impact += economic_impact['total_economic_impact__sum']
+        community_dict['total_uno_hours'] = total_uno_hours
+        community_dict['total_uno_students'] = total_uno_students
+        community_dict['total_economic_impact'] = total_economic_impact
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_list.append(community_dict.copy())
 
-    return render(request, 'reports/community_private_view.html',
-                   {'communityPartners': communityPartners, "projects": projects, 
-                    'communityData': communityData, 'missions': missions})
-
+    return render(request, 'reports/community_private_view.html', {'project_filter': project_filter,
+                                                                 'communityPartners': communityPartners,
+                                                                 'community_list': community_list,
+                                                                 'missions': missions})

@@ -13,7 +13,7 @@ from university.models import Course
 from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
-from .forms import ProjectForm, ProjectMissionForm
+from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2
@@ -142,19 +142,19 @@ def proj_view_user(request):
 @login_required()
 @campuspartner_required()
 def project_total_Add(request):
-    #
-    print('add')
-    mission_details = modelformset_factory(ProjectMission, extra=1, form=ProjectMissionFormset)
+    mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
+    secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     if request.method == 'POST':
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None, prefix='mission')
+        formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         # print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
-        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid():
+        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and formset4.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             a = 0
             project.total_uno_hours = a
@@ -176,10 +176,11 @@ def project_total_Add(request):
                     project = ProjectFormAdd()
                     course = CourseForm()
                     formset = mission_details(queryset=ProjectMission.objects.none())
+                    formset4 = secondary_mission_details(queryset=ProjectMission.objects.none())
                     # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
                     return render(request, 'projects/projectadd.html',
-                                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course})
+                                  {'project': project, 'formset': formset, 'formset4': formset4,'formset3': formset3, 'course': course})
             proj.save()
             coord = Point([proj.longitude, proj.latitude])
             for i in range(len(district)):  # iterate through a list of district polygons
@@ -196,6 +197,7 @@ def project_total_Add(request):
                     proj.median_household_income = properties2['properties']['Income']
                     proj.save()
             mission_form = formset.save(commit=False)
+            secondary_mission_form = formset4.save(commit=False)
             proj_comm_form = formset2.save(commit=False)
             proj_campus_form = formset3.save(commit=False)
             for k in proj_comm_form:
@@ -204,10 +206,20 @@ def project_total_Add(request):
                 print(k.project_name)
                 print(k.total_hours, k.total_people)
                 k.save()
+
             for form in mission_form:
                 form.project_name = proj
-                print("in add mission")
+                #print("in add mission")
+                form.mission_type = 'Primary'
                 form.save()
+
+
+            for form4 in secondary_mission_form:
+                form4.project_name = proj
+                #print("in add secondary mission")
+                form4.mission_type = 'Other'
+                form4.save()
+
             # projh = Project.objects.get(pk=project_name_id.pk)
             init = 0
             t = 0
@@ -261,12 +273,13 @@ def project_total_Add(request):
         project = ProjectFormAdd()
         course = CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
+        formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
-        print('hello')
+        #print('hello')
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,
-                   'formset2': formset2})
+                   'formset2': formset2, 'formset4': formset4})
 
 @login_required()
 @campuspartner_required()

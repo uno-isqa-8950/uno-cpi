@@ -268,7 +268,7 @@ def project_total_Add(request):
                             'camp_part': list_camp_part_names
                             }
                     projects_list.append(data)
-            return render(request, 'projects/Projectlist.html', {'project': projects_list})
+            return render(request, 'projects/projectadd_done.html', {'project': projects_list})
     else:
         project = ProjectFormAdd()
         course = CourseForm()

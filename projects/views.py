@@ -120,7 +120,7 @@ def proj_view_user(request):
              list_camp_part_names = camp_part_names
              camp_part_names = []
 
-             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
                 'activityType': x.activity_type, 'academic_year': x.academic_year,
                 'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
                 'startDate': x.start_date,
@@ -354,7 +354,7 @@ def project_edit_new(request,pk):
                         list_camp_part_names = camp_part_names
                         camp_part_names = []
 
-                        data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                        data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
                                 'activityType': x.activity_type, 'academic_year': x.academic_year,
                                 'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
                                 'startDate': x.start_date,
@@ -451,7 +451,7 @@ def SearchForProject(request):
             print("I am the proj camp partner",proj_camp_par)
 
             camp_part_names = []
-            data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
+            data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
                     'activityType': x.activity_type,
                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                     'description': x.description,

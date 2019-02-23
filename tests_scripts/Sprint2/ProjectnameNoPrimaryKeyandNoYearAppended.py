@@ -12,11 +12,11 @@ class admin_login(unittest.TestCase):
         self.driver = webdriver.Chrome(executable_path='C:\Webdrivers/chromedriver.exe')
 
     def test_blog(self):
-        user = "drljha@gmail.edu"
+        user = "kv@gmail.edu"
         pwd = "LakshyaKaavya1*"
         driver = self.driver
         driver.maximize_window()
-        driver.get("http://127.0.0.1:8000/")
+        driver.get("http://127.0.0.1:8000/login/")
 
         driver.find_element_by_xpath("//*[@id='target']/ul/li[4]/a").click()
         elem = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div[2]/div/form/input[2]")
@@ -30,13 +30,13 @@ class admin_login(unittest.TestCase):
         # clicks on create project button
         driver.find_element_by_xpath("//*[@id='target']/ul/li[3]/div/a[3]").click()
         elem = driver.find_element_by_id("id_project_name")
-        elem.send_keys("Human Rights Test Project 3")
+        elem.send_keys("TestAppend1")
         # for Engagement type
         driver.find_element_by_xpath('//*[@id="id_engagement_type"]/option[2]').click()
         # for Activity Type
         driver.find_element_by_xpath('//*[@id="id_activity_type"]/option[2]').click()
         # for Status
-        driver.find_element_by_xpath('//*[@id="id_status"]/option[4]').click()
+        driver.find_element_by_xpath('//*[@id="id_status"]/option[2]').click()
         # For semester
         elem = driver.find_element_by_id("id_semester")
         elem.send_keys("Spring")
@@ -56,7 +56,13 @@ class admin_login(unittest.TestCase):
 
 
         #clicks on submit form button
-        elem = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div[2]/form/div[8]/div/button").click()
+        elem = driver.find_element_by_xpath("/html/body/div/div/div/div/div/div[2]/form/div[14]/div/button").click()
+        time.sleep(2)
+        elem = driver.find_element_by_xpath("//*[@id='target']/ul/li[3]/a").click()
+        time.sleep(2)
+        elem = driver.find_element_by_xpath("//*[@id='target']/ul/li[3]/div/a[1]").click()
+        time.sleep(2)
+
 
 
 

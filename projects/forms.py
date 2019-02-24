@@ -178,7 +178,7 @@ class ProjectFormAdd(ModelForm):
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1'  ,'country' ,'city', 'state','zip','latitude',
                     'longitude','academic_year')
@@ -191,8 +191,10 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            # 'total_uno_students': 'Number Of UNO Students',
-            # 'total_uno_hours': 'Number Of UNO Students Hours',
+            # 'uno_students': 'UNO Students',
+            # 'uno_student_service_hours': 'UNO Student Service Hours',
+            'total_uno_students': 'UNO Students',
+            'total_uno_hours': 'UNO Student Service Hours',
             'total_k12_students': 'Number Of K-12 Students',
             'total_k12_hours': 'Number Of K-12 Hours',
             'total_uno_faculty': 'Number Of UNO Faculty/Staff',

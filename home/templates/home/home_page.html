@@ -135,6 +135,7 @@ cite {
   padding: 60px;
   margin: 0 auto;
   float: none;
+  text-align: center;
 }
 .homepage .streamfield-column h1,
 .homepage .streamfield-column h2,
@@ -313,6 +314,13 @@ cite {
 
 /* From Wagtail core */
 /* Responsive image/video classes */
+
+.center {
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
 .rich-text img {
     max-width: 100%;
     height: auto;
@@ -338,15 +346,16 @@ cite {
 
 </style>
 
-{% image page.image fill-1920x600 as image %}
+{#    {% image page.image fill-1920x600 as image %}#}
+{% image page.image original as image %}
 <div class="container-fluid hero" style="background-image:url('{{ image.url }}')">
     <div class="hero-gradient-mask"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2 home-hero">
-                <h1>{{ page.title }}</h1>
-                <p class="lead">{{ page.hero_text }}</p>
-            </div>
+{#            <div class="col-md-8 col-md-offset-2 home-hero">#}
+{#                <h1>{{ page.title }}</h1>#}
+{#                <p class="lead">{{ page.hero_text }}</p>#}
+{#            </div>#}
         </div>
     </div>
 </div>
@@ -357,8 +366,8 @@ cite {
             {% if page.promo_image or page.promo_title or page.promo_text %}
                 <figure>{% image page.promo_image fill-200x200-c100 %}</figure>
                 <div class="promo-text">
-                    <h3>{{ page.promo_title }}</h3>
-                    {{ page.promo_text|safe }}
+{#                    <h3>{{ page.promo_title }}</h3>#}
+{#                    {{ page.promo_text|safe }}#}
                 </div>
             {% endif %}
         </div>
@@ -393,7 +402,10 @@ cite {
 <div class="container-fluid streamfield">
     <div class="container">
         <div class="row">
-            <div class="col-md-7 streamfield-column">
+            <div class="center">
+{#            <div class="col-md-7 streamfield-column">#}
+{#                {{ page.body }}#}
+{#            </div>#}
                 {{ page.body }}
             </div>
         </div>

@@ -1,0 +1,80 @@
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+
+
+    <style>
+        @media (min-width: 700px)
+        {
+            .panel
+            {
+                width: 400px;
+                margin-left: auto;
+                margin-right:auto;
+                margin-top:150px;
+                height: relative;;
+            }
+        }
+
+        @media (max-width: 700px)
+        {
+            h4
+            {
+                font-size:1.3em
+            }
+        }
+
+        p
+        {
+            margin-left: 25px;
+            margin-top: 15px;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+        }
+
+    </style>
+    <div class="container">
+        <div class="row">
+            <div class="col-6 col-md">
+                <div class = "panel-default">
+                    <div class = "panel-heading  text-center">
+                        <h4>Campus Partners</h4>
+                    </div>
+                    <div>
+                        <img src="{% static "img/Campus Partner.jpg" %}" alt="My Campus Partner" width="540" height="300"/>
+                        <p> Definition of Campus Partner goes here</p>
+                    </div>
+                    <div style="text-align: center;">
+                        <a type="button" class="btn btn-secondary center" href="{% url 'partners:registerCampusPartner' %}">
+                            <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>
+                    </div>
+                    <div style="text-align: center;">
+                             <a style="color:blue;"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'> Campus Partner User Signup </a>
+                    </div>
+                    <div>
+                        <br><br>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-md">
+                <div class = "panel-default">
+                    <div class = "panel-heading  text-center">
+                        <h4>Community Partners</h4>
+                    </div>
+                    <div>
+                        <div>
+                            <img src="{% static "img/Community Partners.jpg" %}" alt="My Community Partner" width="540" height="300"/>
+                            <p> Definition of Community Partner goes here</p>
+                            <div style="text-align: center;">
+                                <a type="button"  class="btn btn-secondary center" href="{% url 'partners:registerCommunityPartner' %}">
+                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Community Partner</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div  class="col-12 col-lg">
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

@@ -21,6 +21,7 @@
     <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
 <style>
@@ -145,14 +146,7 @@ margin-top:15px;
 
                  {% if not user.is_authenticated %}
                     <li class=" nav-item dropdown">
-                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                            <i class="fa fa-hand-o-right"></i>Register
-                            <span class="caret"></span>
-                        </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>
-                        <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>
-                    </div>
+                         <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
                     </li>
                 {% endif %}
                 {% if user.is_authenticated and user.is_superuser  %}

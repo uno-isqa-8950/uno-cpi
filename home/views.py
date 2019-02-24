@@ -109,6 +109,10 @@ def thanks(request):
     return render(request, 'home/thanks.html',
                   {'thank': thanks})
 
+def partners(request):
+    return render(request,'home/partners.html',
+                  {'partners': partners})
+
 
 def map(request):
     return render(request, 'home/Countymap.html',

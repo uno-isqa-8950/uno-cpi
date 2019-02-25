@@ -33,8 +33,10 @@ urlpatterns = [
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
    path('Contactus',views.Contactus,name='Contactus'),
-   path('thanks/', views.thanks, name='thanks')
-
+   path('thanks/', views.thanks, name='thanks'),
+   path('googleprojectmap',views.googleprojectdata, name='googleprojectmap'),
+   path('googleDistrictmap',views.googleDistrictdata, name='googleDistrictmap'),
+   path('googlehomepage',views.googlepartnerdata, name='googlehomepage')
 
 
 ]

@@ -506,7 +506,7 @@ def projectsPublicReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
-                data['projectName'] = project.project_name
+                data['projectName'] = project.project_name.split(":")[0]
                 data['engagementType'] = project.engagement_type
 
                 try:
@@ -609,7 +609,7 @@ def projectsPrivateReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
-                data['projectName'] = project.project_name
+                data['projectName'] = project.project_name.split(":")[0]
                 data['engagementType'] = project.engagement_type
                 data['total_UNO_students'] = project.total_uno_students
                 data['total_hours'] = project.total_uno_hours

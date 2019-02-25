@@ -33,9 +33,11 @@ class CommunityPartnerUserList(admin.ModelAdmin):
 
 
 class CommunityPartnerMissionList(admin.ModelAdmin):
-    list_display = ('mission_area','community_partner','mission_type')
+    list_display = ('community_partner','mission_area','mission_type')
 
-    search_fields = ('mission_area','community_partner','mission_type')
+    search_fields = ('community_partner','mission_area','mission_type')
+
+
 
 
 

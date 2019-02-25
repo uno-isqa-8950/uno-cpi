@@ -154,24 +154,24 @@
             <thead>
             <tr>
                 <th>Community Partners</th>
-                <th>Website</th>
                 <th>Contact Email</th>
                 <th>Projects</th>
                 <th>UNO Students</th>
                 <th>UNO Hours</th>
                 <th>Economic Impact</th>
+                <th>Website</th>
             </tr>
         </thead>
             <tbody>
             {% for community in community_list %}
             <tr>
                 <td>{{community.community_name}}</td>
-                <td>{{community.website}}</td>
                 <td> {% for email in community.email %} {{email}} <br><br> {% endfor %} </td>
                 <td>{{community.project_count}}</td>
                 <td>{{community.total_uno_students}}</td>
                 <td>{{community.total_uno_hours}}</td>
                 <td>{{community.total_economic_impact}}</td>
+                <td>{{community.website}}</td>
             </tr>
             {% endfor %}
             </tbody>

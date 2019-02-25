@@ -15,7 +15,7 @@
     }
 
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
-        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_students]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
         label[for=id_form-0-mission]:after,label[for=id_zip]:after
     {
@@ -164,7 +164,8 @@
                                         {{ project.description|bootstrap }}
                                         {{ project.semester|bootstrap }}
                                         {{ project.academic_year|bootstrap }}
-{#                                        {{ project.total_uno_students|bootstrap }}#}
+                                        {{ project.total_uno_students|bootstrap }}
+                                        {{ project.total_uno_hours|bootstrap }}
                                         {{ project.total_k12_students|bootstrap }}
                                         {{ project.total_k12_hours|bootstrap }}
                                         {{ project.total_uno_faculty|bootstrap }}

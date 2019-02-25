@@ -509,7 +509,7 @@ def projectsPublicReport(request):
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:
-                        data['projectName'] = project.project_name
+                        data['projectName'] = project.project_name.split(":")[0]
                         data['engagementType'] = project.engagement_type
 
                         projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
@@ -575,7 +575,7 @@ def projectsPrivateReport(request):
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:
-                        data['projectName'] = project.project_name
+                        data['projectName'] = project.project_name.split(":")[0]
                         data['engagementType'] = project.engagement_type
                         data['total_UNO_students'] = project.total_uno_students
                         data['total_hours'] = project.total_uno_hours

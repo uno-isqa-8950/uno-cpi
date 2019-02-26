@@ -39,7 +39,8 @@ class UpdatedProjectFormValidation(unittest.TestCase):
         self.assertEqual("http://127.0.0.1:8000/partners/registerCampusPartnerForProject/", driver.current_url)
 
         elem = driver.find_element_by_xpath("//*[@id='id_name']")
-        elem.send_keys("XYZ Corp 3")  # After every test, put a different name here
+        # After every test, put a different name here
+        elem.send_keys("XYZ Corp 5")
         time.sleep(1)
         select = Select(driver.find_element_by_id('id_college_name'))
         select.select_by_index(1)
@@ -67,8 +68,8 @@ class UpdatedProjectFormValidation(unittest.TestCase):
         self.assertEqual("http://127.0.0.1:8000/partners/registerCommunityPartnerForProject/", driver.current_url)
 
         driver.find_element_by_id("id_name").clear()
-
-        driver.find_element_by_id("id_name").send_keys("XYZ Corp 3")
+        # After every test, put a different name here
+        driver.find_element_by_id("id_name").send_keys("XYZ Corp 5")
         driver.find_element_by_id("id_website_url").clear()
         driver.find_element_by_id("id_website_url").send_keys("https://www.xyzcorpcanada.com")
 
@@ -113,7 +114,8 @@ class UpdatedProjectFormValidation(unittest.TestCase):
 
         # Fill project form  with new campus and community partners information and international address
         elem = driver.find_element_by_id("id_project_name")
-        elem.send_keys("Canada Project 3")
+        # After every test, put a different name here
+        elem.send_keys("Canada Project 4")
         # for Engagement type
         driver.find_element_by_xpath('//*[@id="id_engagement_type"]/option[2]').click()
         # for Activity Type
@@ -124,20 +126,20 @@ class UpdatedProjectFormValidation(unittest.TestCase):
             "//BUTTON[@class='btn btn-secondary add-campus-row'][text()='Add an Additional Campus Partner']"
             "/../..//SELECT[@id='id_campus-0-campus_partner']")
         elem.click()
-        Select(elem).select_by_visible_text("XYZ Corp 3")
+        Select(elem).select_by_visible_text("XYZ Corp 5")
 
         # for Campus Partner Information
         elem = driver.find_element_by_xpath(
             "//BUTTON[@class='btn btn-secondary add-community-row'][text()='Add an Additional Community Partner']"
             "/../..//SELECT[@id='id_community-0-community_partner']")
         elem.click()
-        Select(elem).select_by_visible_text("XYZ Corp 3")
+        Select(elem).select_by_visible_text("XYZ Corp 5")
 
         # for Project Mission Area
         # Mission Type
-        elem = driver.find_element_by_name("mission-0-mission_type")
-        elem.click()
-        Select(elem).select_by_visible_text("Primary")
+        # elem = driver.find_element_by_name("mission-0-mission_type")
+        # elem.click()
+        # Select(elem).select_by_visible_text("Primary")
         # Mission Area
         elem = driver.find_element_by_name("mission-0-mission")
         elem.click()
@@ -166,6 +168,8 @@ class UpdatedProjectFormValidation(unittest.TestCase):
         driver.find_element_by_xpath("//INPUT[@id='id_country']/../../../../../../..//"
                                      "BUTTON[@type='submit'][text()='Submit']").click()
         time.sleep(30)
+        # self.assertEqual(driver.find_element_by_xpath("/html/body/div/div/div/div[2]/p").text,"Your organization is successfully registered as a UNO community partner")
+
 
 
 if __name__ == "__main__":

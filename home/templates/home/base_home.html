@@ -123,7 +123,7 @@ margin-top:15px;
                 {% if user.is_authenticated and user.is_campuspartner %}
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-handshake-o"></i>
+                        <i class="fa fa-tasks fa-x"></i>
                            Projects
                         <span class="caret"></span>
                     </a>
@@ -140,7 +140,7 @@ margin-top:15px;
 
                 {% if user.is_communitypartner %}
                 <li class="nav-item">
-                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-product-hunt"></i>Project</a>
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
                  {% endif %}
 

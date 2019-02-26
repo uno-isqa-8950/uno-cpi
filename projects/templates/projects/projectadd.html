@@ -360,6 +360,9 @@ $(document).ready(function(){
     $('#id_status').select2({placeholder: 'Select Status',});
 });
 </script>
+<!--    Commenting out script per ticket #551
+        Removing HTML validations as Validation Messages are coded in forms.py file
+        -Joseph Nabity
 <script>
 function validateFormsets(){
      var id =event.target.id;
@@ -408,4 +411,5 @@ function validateFormsets(){
 return true;
 }
 </script>
+-->
 {% endblock %}

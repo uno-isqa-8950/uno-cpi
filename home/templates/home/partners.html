@@ -1,6 +1,9 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">#}
     <style>
         @media (min-width: 768px)
         {
@@ -24,6 +27,15 @@
 
                 margin-right: auto;
 
+            }
+            .fa-question-circle:hover {
+           color: red;
+           horiz-align: right;
+            }
+
+            p{
+                text-align: justify;
+                margin-right: 3%;
             }
 
         }
@@ -58,7 +70,16 @@
             }
 
         }
+        .my-text{
 
+            font-size: x-large;
+            text-align: center;
+            margin-top: 15px;
+            font-family: "Times New Roman"
+        }
+        .float{
+            float:revert;
+        }
         p
         {
             margin-left: 25px;
@@ -74,16 +95,18 @@
             <div id="ab1" class="col-xs-6 col-md-4">
                 <div class = "panel-default">
                     <div class = "panel-heading  text-center">
-                        <h4>Campus Partners</h4>
+                        <span class='my-text'><b> Campus Partners</b></span> {#<span onclick=="document.getElementById('demo').innerHTML = 'These are the steps to get your PIN number: Bla bla bla'">#}
+                        <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="A Campus Partner is an organization or a department in University of Nebraska Omaha" class="float"><i class="fa fa-question-circle fa-align-right" aria-hidden="true"></i></span>{# </span> #}
                     </div>
                     <div>
                         <img src="{% static "img/Campus Partner.jpg" %}" alt="My Campus Partner" width=100% height=80%/>
-                        <p> Definition of Campus Partner goes here</p>
+                        <p> A Campus Partner is an organization or a department in University of Nebraska Omaha</p>
                     </div>
                     <div class="button" style="text-align: center;">
                         <a type="button" class="btn btn-secondary center" href="{% url 'partners:registerCampusPartner' %}">
                             <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>
                         <br>  &nbsp; &nbsp; &nbsp;
+                        <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>
                         <a style="color:blue;"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
                     </div>
                     <div>
@@ -94,14 +117,17 @@
             <div id="ab2" class="col-xs-6 col-md-4">
                 <div class = "panel-default">
                     <div class = "panel-heading  text-center">
-                        <h4>Community Partners</h4>
+                        <span class='my-text'><b> Community Partners</b> </span>
+                        <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="A Community Partner is a an organization involved in carrying out projects pertaining to varied mission areas." class="float"> <i class="fa fa-question-circle fa-align-right" aria-hidden="true"></i></span>
                     </div>
                     <div>
                         <img src="{% static "img/Community Partners.jpg" %}" alt="My Community Partner" width=100% height=100%/>
-                        <p> Definition of Community Partner goes here</p>
+                        <p> A Community Partner is a an organization involved in carrying out projects pertaining to varied mission areas.</p>
                         <div class="button" style="text-align: center;">
                             <a type="button"  class="btn btn-secondary center" href="{% url 'partners:registerCommunityPartner' %}">
                                 <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Community Partner</a>
+                            <br>
+                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>
                         </div>
                     </div>
                 </div>
@@ -112,5 +138,12 @@
         {#            </div>#}
     </div>
     </div>
+
+    <script>
+    $("#partner_help").popover()
+
+    $("#helptext").popover()
+
+    </script>
 {% endblock %}
 

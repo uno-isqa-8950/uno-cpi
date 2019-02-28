@@ -21,48 +21,47 @@ margin-top: 5px;
 font-weight: bold;
 }
 
-.container
-{
-    width:70%;
-}
 .form-horizontal
 {
 width:100%;
 }
 
-.body
+.form-horizontal1
 {
     align-content: center;
 }
 
-.btn-custom
-{
-margin-left:200px;
-}
-.btn-custom
+.btn-add
 {
     alignment: center;
+    background-color: #636568;
+    color: white;
+}
+
+.btn-add:hover{
+    background-color: #bbbbbb;
+    color: white;
 }
 </style>
 
 <div class = "container">
       <div class ="row justify-content-md-center">
-        <div class="col-xl-8 col-md-10 col-sm-10">
+        <div class="col-xl-6 col-md-8">
   <div class = "panel panel-default">
     <div class="panel-heading text-center"><h4><b>Add Organization to your Profile</b></h4></div>
-      <div class="panel-body">
+      <div class="panel-body"><br><br>
         <div class="body">
-          <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
+          <form action="." method="post" class="form-horizontal1" enctype="multipart/form-data">
             {% csrf_token %}
               <div class="form-group">
                   <div class="row">
                       {{ form.campus_partner | bootstrap }}
                   </div>
               </div>
-            <p>
-              <button type="submit" class="btn btn-custom">Add</button>
+            <p style="text-align:center">
+              <button type="submit" class="btn btn-add">Add</button>
             </p>
-            <br><br>
+            <br>
           </form>
         </div>
       </div>

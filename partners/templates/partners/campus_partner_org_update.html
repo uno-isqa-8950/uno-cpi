@@ -23,11 +23,16 @@ width:85%;
 }
 
 
-.btn-custom
+.btn-update
 {
-margin-left:200px;
+background-color: #636568;
+color: white;
 }
 
+.btn-update:hover{
+    background-color: #bbbbbb;
+    color: white;
+}
 </style>
 
 <div class = "container">
@@ -47,7 +52,7 @@ margin-left:200px;
             </ul>
             {% endif %}
             <div class="col-md-12">
-                <h4><b>Organization Information</b></h4>
+                <h4><b>Organization Details</b></h4>
             </div>
             {% for field in campus_org_form %}
                 <div class="form-group">
@@ -59,7 +64,7 @@ margin-left:200px;
                     {% if field.label == "Campus Partner Name" %}
                       <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" readonly>
                     {% else %}
-                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" disabled>
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" >
                         {% for x,y in field.field.choices  %}
                             <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
                         {% endfor %}
@@ -69,42 +74,9 @@ margin-left:200px;
                   </div>
                 </div>
             {% endfor %}
-            
-            <div class="col-md-12">
-                <h4><b>Contacts Information</b></h4>
-            </div>
-            {% for field in contacts_form %}
-              {% if field.label == "Contact Type" %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Contact Type</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <select class="form-control" id="{{field.id}}" name="{{field.name}}">
-                        {% for x,y in field.field.choices  %}
-                          <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              {% else %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">{{field.label}}</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                    </div>
-                  </div>
-                </div>
-              {% endif %}
-            {% endfor %}
 
-            <p>
-              <button type="submit" class="btn btn-custom">Update</button>
+            <p style="text-align:center">
+              <button type="submit" class="btn btn-update">Update</button>
             </p>
             <br><br>
           </form>

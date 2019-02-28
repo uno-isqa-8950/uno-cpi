@@ -1,0 +1,481 @@
+{% extends 'home/Dashboard_Extension.html' %}
+
+{% load wagtailcore_tags wagtailimages_tags %}
+
+{% load staticfiles %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+
+    <link href="{% static 'css/HalfSlider.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+<style>
+/* Hero image area */
+.hero {
+  background-size: cover;
+  background-position: center;
+  padding: 200px 0 30px 0;
+  position: relative;
+  margin: 0 0 30px;
+}
+@media screen and (min-width: 768px) {
+  .hero {
+    padding: 400px 0 60px 0;
+    margin: 0 0 40px;
+  }
+}
+.hero-gradient-mask {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: 0;
+  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,1) 100%);
+}
+blockquote {
+  border-left: 5px solid #d4566b;
+  margin: 0 0 50px;
+}
+blockquote p {
+  font-size: 30px;
+  margin: 0 0 10px;
+}
+blockquote footer::before {
+  display: none;
+}
+blockquote footer p {
+  font-size: 1.8em;
+  font-style: italic;
+}
+cite {
+  font-family: 'Lato', sans-serif;
+  text-transform: uppercase;
+  color: #888;
+  font-size: 12px;
+  font-style: normal;
+  letter-spacing: 0.15em;
+}
+
+@media screen and (min-width: 768px) {
+  .header,
+  .footer {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.homepage .hero {
+  margin: 0;
+  padding: 200px 0 30px 0;
+}
+
+.homepage .hero h1 {
+  font-size: 2.2em;
+  text-transform: uppercase;
+}
+
+.homepage .hero h1:after {
+  background-color: rgba(255,255,255, 0.7);
+  content: "";
+  display: block;
+  height: 5px;
+  margin: 20px auto;
+  width: 250px;
+}
+
+.homepage .home-hero {
+  margin-bottom: 0;
+  padding-bottom: 60px;
+  text-align: center;
+}
+.homepage .home-hero .lead {
+  color: #ddd;
+  font-size: 1.6em;
+  margin: 40px auto;
+}
+
+.homepage .home-hero .hero-cta-link {
+  color: #fff;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 10px 34px 10px 10px;
+  display: inline-block;
+  vertical-align: middle;
+  transform: perspective(1px) translateZ(0);
+  box-shadow: 0 0 1px transparent;
+  position: relative;
+  transition-duration: 0.1s;
+}
+.homepage .home-hero .hero-cta-link:before {
+  content: "\f18e";
+  font-family: FontAwesome;
+  font-size: 1.2em;
+  font-weight: 200;
+  opacity: 0.8;
+  padding: 0 1px;
+  position: absolute;
+  right: 0.2em;
+  top: 0.2em;
+  transform: translateZ(0);
+  transition-duration: 0.1s;
+  transition-property: transform;
+  transition-timing-function: ease-out;
+}
+.homepage .home-hero .hero-cta-link:hover:before,
+.homepage .home-hero .hero-cta-link:focus:before,
+.homepage .home-hero .hero-cta-link:active:before {
+  transform: translateX(4px);
+}
+.homepage .streamfield {
+  background: linear-gradient(45deg, rgba(170,170,170,1) 0%,rgba(238,238,238,1) 44%);
+}
+.homepage .streamfield-column {
+  padding: 60px;
+  margin: 0 auto;
+  float: none;
+  text-align: center;
+}
+.homepage .streamfield-column h1,
+.homepage .streamfield-column h2,
+.homepage .streamfield-column h3,
+.homepage .streamfield-column h4,
+.homepage .streamfield-column h5 {
+  text-align: center;
+}
+.homepage .promo-row {
+  padding: 40px 0 40px 0;
+}
+.homepage .promo {
+  background: linear-gradient(190deg, rgba(0,4,8,1) 0%,rgba(55,28,25,1) 100%);
+  border-radius: 0px 0px 10px 10px;
+  color: #fff;
+  height: 100%;
+  margin-bottom: 20px;
+  margin-top: -40px;
+  padding: 40px 60px;
+  text-align: center;
+}
+.homepage .promo h1,
+.homepage .promo h2,
+.homepage .promo h3,
+.homepage .promo h4 {
+  color: #eb7400;
+  font-weight: 200;
+}
+.homepage .promo p,
+.homepage .promo li {
+  color: #ccc;
+  line-height: 1.6em;
+}
+.homepage .promo a {
+  color: #fff;
+}
+@media (max-width: 970px) {
+  .homepage .promo {
+    padding: 30px 40px;
+  }
+  .homepage .promo figure img {
+    max-width: 120px;
+    height: auto;
+  }
+  .homepage .promo p {
+    color: #fff;
+    font-size: 1em;
+  }
+}
+@media (max-width: 766px) {
+  .homepage .promo {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+}
+.homepage .promo figure img {
+  border-radius: 100%;
+  margin: auto;
+  width: auto;
+}
+.homepage .feature-1 h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+.homepage .feature-1 .featured-children li {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  list-style: none;
+  margin-bottom: 10px;
+}
+.homepage .feature-1 .featured-children li figure {
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+}
+.homepage .feature-1 .featured-children li img {
+  width: auto;
+}
+.homepage .feature-1 .featured-children li h3 {
+  margin-top: 40px;
+  font-weight: 300;
+  font-size: 1.4em;
+}
+.homepage .feature-2 {
+  padding: 40px 0 20px;
+}
+.homepage .feature-2 .feature-2-row {
+  display: flex;
+  flex-wrap: wrap;
+}
+.homepage .feature-2 h2,
+.homepage .feature-3 h2 {
+  text-align: center;
+  margin: 20px;
+}
+.homepage .feature-2 .feature-2-item {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto 20px;
+}
+.homepage .feature-2 .featured-children li {
+  list-style: none;
+}
+.homepage .feature-2 .feature-2-item figure {
+  margin-bottom: 0;
+}
+.homepage .feature-2 .feature-2-item img {
+  min-height: 210px;
+}
+.homepage .feature-2 .feature-2-item .feature-2-text {
+  background-color: #dfdfdf;
+  border-radius: 0 0 10px 10px;
+  padding: 0 20px;
+  flex: 1;
+}
+.homepage .feature-2 figure,
+.homepage .feature-3 figure {
+  background-color: #eb7400;
+  margin: 0;
+}
+@media (max-width: 766px) {
+  .homepage .feature-2 .feature-2-row {
+    display: inline-block;
+  }
+}
+.homepage .feature-3 .featured-children li {
+  list-style: none;
+}
+.homepage .feature-3 h3 {
+  color: #fff;
+  font-weight: 300;
+  font-size: 1.8em;
+  margin-bottom: 135px;
+  margin-top: -145px;
+  position: relative;
+  text-align: center;
+  text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);
+  z-index: 1;
+}
+.homepage .feature-2 li:hover img,
+.homepage .feature-3 li:hover img {
+  opacity: 0.3;
+}
+
+/* Miscellaneous helper styles */
+/* No gutters */
+.row.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+}
+.row.no-gutters > [class^="col-"],
+.row.no-gutters > [class*=" col-"] {
+  padding-right: 0;
+  padding-left: 0;
+}
+
+/* Bootstrap Equal height rows */
+.row-eq-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display:         flex;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 970px) {
+  .hidden-md-up {
+    display: none;
+  }
+}
+@media (max-width: 970px) {
+  .hidden-md-down {
+    display: none;
+  }
+}
+
+/* From Wagtail core */
+/* Responsive image/video classes */
+
+.center {
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+}
+
+.rich-text img {
+    max-width: 100%;
+    height: auto;
+}
+.richtext-image.left{
+    float:left;
+}
+.richtext-image.right{
+    float:right;
+}
+.responsive-object {
+    position: relative;
+}
+.responsive-object iframe,
+.responsive-object object,
+.responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+
+{#    {% image page.image fill-1920x600 as image %}#}
+{% image page.image original as image %}
+<div class="container-fluid hero" style="background-image:url('{{ image.url }}')">
+    <div class="hero-gradient-mask"></div>
+    <div class="container">
+        <div class="row">
+{#            <div class="col-md-8 col-md-offset-2 home-hero">#}
+{#                <h1>{{ page.title }}</h1>#}
+{#                <p class="lead">{{ page.hero_text }}</p>#}
+{#            </div>#}
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row promo-row">
+        <div class="col-sm-5 promo">
+            {% if page.promo_image or page.promo_title or page.promo_text %}
+                <figure>{% image page.promo_image fill-200x200-c100 %}</figure>
+                <div class="promo-text">
+{#                    <h3>{{ page.promo_title }}</h3>#}
+{#                    {{ page.promo_text|safe }}#}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-sm-6 col-sm-offset-1 feature-1">
+            {% if page.featured_section_1 %}
+            <h2>{{ page.featured_section_1_title }}</h2>
+                <div class="featured-children">
+                    {% for childpage in page.featured_section_1.specific.children|slice:"4" %}
+                        <li>
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <a href="{{childpage.url}}">
+                                        <figure>
+                                            {% image childpage.image fill-180x140-c100 %}
+                                        </figure>
+                                    </a>
+                                </div>
+                                <div class="col-xs-8">
+                                    <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if page.body %}
+<div class="container-fluid streamfield">
+    <div class="container">
+        <div class="row">
+            <div class="center">
+{#            <div class="col-md-7 streamfield-column">#}
+{#                {{ page.body }}#}
+{#            </div>#}
+                {{ page.body }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12 feature-2">
+            {% if page.featured_section_2 %}
+            <h2>{{ page.featured_section_2_title }}</h2>
+                <div class="featured-children row feature-2-row">
+                    {% for childpage in page.featured_section_2.specific.children|slice:"3" %}
+                        <li class="col-sm-4 feature-2-item">
+                            <a href="{{childpage.url}}">
+                                <figure>
+                                    {% image childpage.image fill-430x210-c100 %}
+                                </figure>
+                            </a>
+                            <div class="feature-2-text">
+                                <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>
+                                <p>{{ childpage.introduction|truncatewords:15 }}</p>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<footer>
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-md-3" style="margin-top:8px;">
+            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
+               <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
+          </div>
+          <div class="col-md-6">
+            <ul class="footertext">
+                UNO is an AA/EEO /ADA institution. For questions, accommodations or assistance
+please call/contact ADA/504 coordinator (phone: 402.554.3490 or TTY
+402.554.2978) or the director of Accessibility Services Center (phone:
+402.554.2872). The University of Nebraska does not discriminate based on race,
+color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity,
+religion, disability, age, genetic information, veteran status, marital status, and/or
+political affiliation in its programs, activities, or employment.
+            </ul>
+          </div>
+          <div class="col-md-3">
+              <ul class="imgadjust">
+                <img src="{% static 'img/UNOFooter1.png' %}">
+              </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
+
+    <!-- Script to Activate the Carousel -->
+    <script>
+    $('.carousel').carousel({
+        interval: 5000 //changes the speed
+    })
+    </script>
+
+
+
+{% endblock %}

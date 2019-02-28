@@ -28,7 +28,7 @@ class Project (models.Model):
     country = models.CharField(max_length=100, blank=True, null=True)
     city = models.CharField(max_length=25, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
-    zip = models.PositiveIntegerField(null=True, blank=True)
+    zip = models.CharField(max_length=10, null=True, blank=True)
     county = models.CharField(max_length=100, blank=True, null=True)
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
@@ -92,6 +92,10 @@ class Status(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+    class Meta:
+        verbose_name = "Status"
+        verbose_name_plural = "Statuses"
 
 
 class EngagementType(models.Model):

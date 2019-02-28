@@ -40,6 +40,7 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
+            <div class = "panel panel-default" style="width:100%">
            <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
                <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Community Partners</h4></b></label>
            </div>
@@ -79,7 +80,7 @@
                 <label for="academic_year"> Academic Year: </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
-                    {% for sem in projects.form.academic_year %}
+                    {% for sem in project_filter.form.academic_year %}
                         {{sem}}
                     {% endfor %}
                 </select>
@@ -98,6 +99,7 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_weitz_cec_part"> CEC Partner: </label>
                 <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                         {{weitz_cec_part}}
                     {% endfor %}
@@ -107,6 +109,7 @@
             <div class="col-lg-3 col-md-5 form-group">
                 <label for="id_community_type"> Community Partner Type: </label>
                 <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <option> All </option>
                     {% for community_type in communityPartners.form.community_type %}
                         {{community_type}}
                     {% endfor %}
@@ -132,10 +135,10 @@
             </tr>
         </thead>
             <tbody>
-            {% for community in communityData %}
+            {% for community in community_list %}
             <tr>
-                <td>{{community.name}}</td>
-                <td>{{community.communityProjects}}</td>
+                <td>{{community.community_name}}</td>
+                <td>{{community.project_count}}</td>
             </tr>
             {% endfor %}
             </tbody>

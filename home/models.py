@@ -4,7 +4,138 @@ from django.core.validators import MinLengthValidator
 from django.core.validators import MaxLengthValidator
 from django.core.validators import RegexValidator
 from django.contrib.auth.models import AbstractUser
+from wagtail.core.models import Page
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel, PageChooserPanel
+from wagtail.images.edit_handlers import ImageChooserPanel
+from .blocks import BaseStreamBlock
 
+class StandardPage(Page):
+
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
+    )
+
+    body = StreamField(
+        BaseStreamBlock(), verbose_name="Page body", blank=True
+    )
+    content_panels = Page.content_panels + [
+        FieldPanel('introduction', classname="full"),
+        StreamFieldPanel('body'),
+        ImageChooserPanel('image'),
+    ]
+
+
+class HomePage(Page):
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Homepage Hero Image'
+    )
+
+    hero_text = models.CharField(
+        max_length=255,
+        help_text='Write Hero Text Here',
+        default='default'
+        )
+
+    body = StreamField(
+        BaseStreamBlock(), verbose_name="Home content block", blank=True
+    )
+
+    promo_image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Promo image'
+    )
+    promo_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        help_text='Title to display above the promo copy'
+    )
+    promo_text = RichTextField(
+        null=True,
+        blank=True,
+        help_text='Write some promotional copy'
+    )
+
+    featured_section_1_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        help_text='Title to display above the promo copy'
+    )
+    featured_section_1 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='First featured section for the homepage. Will display up to '
+        'three child items.',
+        verbose_name='Featured section 1'
+    )
+
+    featured_section_2_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        help_text='Title to display above the promo copy'
+    )
+    featured_section_2 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Second featured section for the homepage. Will display up to '
+        'three child items.',
+        verbose_name='Featured section 2'
+    )
+    content_panels = Page.content_panels + [
+        MultiFieldPanel([
+            ImageChooserPanel('image'),
+            FieldPanel('hero_text', classname="full")],
+            heading="Hero section"),
+        MultiFieldPanel([
+            ImageChooserPanel('promo_image'),
+            FieldPanel('promo_title'),
+            FieldPanel('promo_text'),
+        ], heading="Promo section"),
+        StreamFieldPanel('body'),
+        MultiFieldPanel([
+            MultiFieldPanel([
+                FieldPanel('featured_section_1_title'),
+                PageChooserPanel('featured_section_1'),
+                ]),
+            MultiFieldPanel([
+                FieldPanel('featured_section_2_title'),
+                PageChooserPanel('featured_section_2'),
+                ])
+        ], heading="Featured homepage sections", classname="collapsible")
+    ]
+
+    def __str__(self):
+        return self.title
+
+
+    class Meta:
+        verbose_name = "homepage"
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""

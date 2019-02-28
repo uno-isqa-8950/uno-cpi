@@ -15,7 +15,14 @@
         .btn-group{float:left;, labels:"Export"}
         #example_length{float:left; margin:0 0 0 0px;}
         #example_length select{width:50%;}
-
+        .btn-actions{
+            background-color: #636568;
+            color:white;
+        }
+        .btn-actions:hover{
+            background-color: #bbbbbb;
+            color:white;
+        }
 
         div.dataTables_wrapper div.dataTables_length label
         {
@@ -43,9 +50,9 @@
         {
             float:right;
         }
-    th{
-        text-align: center;
-    }
+        th{
+            text-align: center;
+        }
 
 
 
@@ -73,30 +80,24 @@
                                     <th>Organization Name</th>
                                     <th>College Name</th>
                                     <th>Department</th>
-                                    <th>Contact Name</th>
-                                    <th>Work Phone</th>
-                                    <th>Cell Phone</th>
-                                    <th>Email</th>
+                                    <th>Contact Information</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
-                                {% for campus_partner,contacts in final%}
+                                {% for campus_partner in final%}
                                     <tr>
                                         <td>{{campus_partner.name}}</td>
                                         <td>{{campus_partner.college_name}}</td>
                                         <td>{{campus_partner.department}}</td>
-                                        <td>{{contacts.first_name}}&nbsp;&nbsp;{{contacts.last_name}}</td>
-                                        <td>{{contacts.work_phone}}</td>
-                                        <td>{{contacts.cell_phone}}</td>
-                                        <td>{{contacts.email_id}} </td>
+                                        <td align="center"><a href="{% url 'partners:orgprofilecontact' pk=campus_partner.pk %}" class="btn btn-actions" role="button"> Contacts </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofileupdate' pk=campus_partner.pk %}" class="btn btn-actions" role="button"> Edit </a></td>
                                     </tr>
                                 {% endfor %}
                             </table>
                         </div>
                     </div>
-                    <div style="margin-left: 400px; padding: 50px">
-                        <a href="{% url 'partners:campuspartneradd' %}" class="btn btn-custom" role="button" style = "background-color: #b8b8b8"> Join a Existing Campus Partner Organization </a>
-{#                        <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-custom" role="button" style = "background-color: #b8b8b8"> Edit </a>#}
-{#                        <a href="#" class="btn btn-custom" role="button" style = "background-color: #b8b8b8"> Delete </a>#}
+                    <div style=" padding: 50px; text-align:center">
+                        <a href="{% url 'partners:campuspartneradd' %}" class="btn btn-actions" role="button"> Join a Existing Campus Partner Organization </a>
                     </div>
                     <br><br>
                 </div>

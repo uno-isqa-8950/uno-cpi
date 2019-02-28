@@ -40,7 +40,7 @@ class RegisterCommunityPartnerWithMultipleMissionAreas(unittest.TestCase):
         time.sleep(5)
         driver.find_element_by_id("id_name").clear()
 
-        driver.find_element_by_id("id_name").send_keys("VanguardsFunds1")
+        driver.find_element_by_id("id_name").send_keys("VanguardFund100")
         driver.find_element_by_id("id_website_url").clear()
         driver.find_element_by_id("id_website_url").send_keys("https://www.jeandeanfoundation.com")
 
@@ -77,16 +77,11 @@ class RegisterCommunityPartnerWithMultipleMissionAreas(unittest.TestCase):
             "(.//*[normalize-space(text()) and normalize-space(.)='Mission Type'])[2]/following::option[2]").click()
         driver.find_element_by_id("id_mission-1-mission_area").click()
         Select(driver.find_element_by_id("id_mission-1-mission_area")).select_by_visible_text("Health and Wellness")
-        driver.find_element_by_xpath(
-            "(.//*[normalize-space(text()) and normalize-space(.)='Mission Area'])[4]/following::option[3]").click()
-        driver.find_element_by_xpath(
-            "(.//*[normalize-space(text()) and normalize-space(.)='Add more Mission Areas'])[1]/following::button[1]").click()
 
         # Submit button
-        # driver.find_element_by_xpath("//button[@type = 'submit' and @class = 'btn btn-custom' and (text() = 'Submit')]").click()
-        #driver.find_element_by_xpath("//div//div//button[@type = 'submit' and @class = 'btn btn-custom' and (text() = 'Submit')]").click()
+        driver.find_element_by_xpath("/html/body/div[1]/div/div/div/div/div[2]/form/div[5]/div/button").click()
 
-        time.sleep(10)
+
         # Go check admin page
         driver.get(test_url)
 

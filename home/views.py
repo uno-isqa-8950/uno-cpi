@@ -109,6 +109,10 @@ def thanks(request):
     return render(request, 'home/thanks.html',
                   {'thank': thanks})
 
+def partners(request):
+    return render(request,'home/partners.html',
+                  {'partners': partners})
+
 
 def map(request):
     return render(request, 'home/Countymap.html',
@@ -528,7 +532,7 @@ def engagement_info(request):
         eDict['total_uno_hours'] = total_uno_hours
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
-        return render(request, 'reports/15EngagementTypeReport.html',
+    return render(request, 'reports/15EngagementTypeReport.html',
                   {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
 

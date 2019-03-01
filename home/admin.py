@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User
-from .models import Contact, MissionArea, HouseholdIncome
+from .models import Contact, MissionArea, HouseholdIncome, DataDefinition
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.admin import AdminSite
 
@@ -46,11 +46,18 @@ class HouseholdIncomeList(admin.ModelAdmin):
 
     search_fields = ('county', )
 
+class DataDefinitionList(admin.ModelAdmin):
+
+    list_display = ('id', 'title', 'description')
+
+    search_fields = ('title',)
+
 
 # admin.site.register(User)
 admin.site.register(Contact, ContactList)
 admin.site.register(MissionArea, MissionAreaList)
 admin.site.register(HouseholdIncome, HouseholdIncomeList)
+admin.site.register(DataDefinition, DataDefinitionList)
 admin.site.site_header = "UNO CPI Admin"
 admin.site.site_title = "Community Partnership Initiative"
 admin.site.index_title = " "

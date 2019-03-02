@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'university',
     'bootstrapform',
     'django_filters',
+    'import_export',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',

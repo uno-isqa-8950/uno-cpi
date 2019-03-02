@@ -36,11 +36,11 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 
 var select = '';
-select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: transparent; border: 1px solid black"></span><b>All Mission Areas</b></a>' + "<br>";
-for (var i = 0; i < Missionarea.length; i++) {
+select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: transparent; border: 1px solid black"></span><b>All Community Type</b></a>' + "<br>";
+for (var i = 0; i < CommunityType.length; i++) {
     var color = colorcode[i]
-    var mission = Missionarea[i]
-    select += `<a href="#"  id="${mission.valueOf()}" value="${mission.valueOf()}"><span style="background-color: ${color}"></span><b>${mission.toString()}</b></a>` + "<br>";
+    var commType = CommunityType[i]
+    select += `<a href="#"  id="${commType.valueOf()}" value="${commType.valueOf()}"><span style="background-color: ${color}"></span><b>${commType.toString()}</b></a>` + "<br>";
 }
 $('#legend').html(select);
 //*********************************** Add the districts *****************************************************
@@ -55,11 +55,11 @@ $('#legend').html(select);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Types' + '</option>';
-for (i = 0; i < CommunityType.length; i++) {
-    select2 += '<option val=' + CommunityType[i] + '>' + CommunityType[i] + '</option>';
+select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Mission Area' + '</option>';
+for (i = 0; i < Missionarea.length; i++) {
+    select2 += '<option val=' + Missionarea[i] + '>' + Missionarea[i] + '</option>';
 }
-$('#selectCommtype').html(select2);
+$('#selectMisstype').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var select3 = '';

@@ -3,7 +3,6 @@ var projectData = JSON.parse(document.getElementById('project-data').textContent
 var districtData = JSON.parse(document.getElementById('district').textContent); //load the variable from views.py. See the line from html first
 var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts
 //*********************************** Load the map *****************************************************
-
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
@@ -37,7 +36,6 @@ $('#selectDistrict').html(select1);
 //     return string;
 // };
 //*********************************** Load the map *****************************************************
-
 districtData.features.forEach(function(feature){
     var stand = feature.properties["id"];
     var number = 0;

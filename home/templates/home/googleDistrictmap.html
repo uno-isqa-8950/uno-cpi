@@ -392,8 +392,6 @@
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
                                 <div id='map_canvas' class='map'>
                                     {{ districtData | json_script:"district-data"}}
-                                    <!--h3 id="overlay-header">Maps: Household Income</h3>
-                                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
                                     {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}

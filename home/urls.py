@@ -36,7 +36,8 @@ urlpatterns = [
    path('thanks/', views.thanks, name='thanks'),
    path('googleprojectmap',views.googleprojectdata, name='googleprojectmap'),
    path('googleDistrictmap',views.googleDistrictdata, name='googleDistrictmap'),
-   path('googlehomepage',views.googlepartnerdata, name='googlehomepage')
+   path('googlehomepage',views.googlepartnerdata, name='googlehomepage'),
+   path('googlemap',views.googlemapdata, name='googlemap')
 
 
 ]

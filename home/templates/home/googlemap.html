@@ -358,14 +358,14 @@
 
 
             <div id='state-legend' class='legend'>
-                <h4>Mission Areas</h4>
+                <h4>Community Types</h4>
                 <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
                 </div>
 
-                <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
-                </select>
+{#                <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">#}
+{#                </select>#}
                 <!--div id="sidebar"-->
-                <select id="selectCommtype" class="selectCommtype"></select>
+                <select id="selectMisstype" class="selectMisstype"></select>
                 <select id="selectCampus" class="selectCampus"></select>
                 <select id="selectYear" class="selectYear"></select>
                 <div>
@@ -398,8 +398,6 @@
                                     <div style="box-sizing: border-box; padding:3px;">
                                         <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
                                     </div>
-                                    <!--<label style="box-sizing: border-box;">Unique Community Partners:</label>-->
-                                    <!--<div id = "totalnumber">{{ number }}</div>-->
                                 </div>
                             </div>
                         </div>
@@ -455,7 +453,7 @@
 
 {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-    <script type="text/javascript" src='{% static "js/googlehomepage.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/googlemap.js" %}'></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>

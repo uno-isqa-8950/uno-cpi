@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User
-from .models import Contact, MissionArea, HouseholdIncome, DataDefinition
+from .models import Contact, MissionArea, HouseholdIncome, DataDefinition,DataDefinitionGroup
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 #from django.contrib.admin import AdminSite
 from import_export import resources
@@ -48,34 +48,32 @@ class MissionAreaList(admin.ModelAdmin):
     search_fields = ('mission_name', 'description')
 
 class HouseholdIncomeResource(resources.ModelResource):
-
     class Meta:
         model = HouseholdIncome
 
 class HouseholdIncomeAdmin(ImportExportModelAdmin):
     resource_class = HouseholdIncomeResource
-
     list_display = ('county', 'median_income')
-
     search_fields = ('county', )
 
-class DataDefinitionResource(resources.ModelResource):
+class DataDefinitionGroupResource(resources.ModelResource):
+    class Meta:
+        model = DataDefinitionGroup
 
+
+class DataDefinitionGroupList(ImportExportModelAdmin):
+    list_display = ('group',)
+    search_fields = ('group',)
+    resource_class = DataDefinitionGroupResource
+
+class DataDefinitionResource(resources.ModelResource):
     class Meta:
         model = DataDefinition
 
-class DataDefinitionAdmin(ImportExportModelAdmin):
-    resource_class = DataDefinitionResource
-
-    list_display = ('id', 'title', 'description')
-
+class DataDefinitionList(ImportExportModelAdmin):
+    list_display = ('title','description','group')
     search_fields = ('title',)
-
-# class DataDefinitionList(admin.ModelAdmin):
-#
-#     list_display = ('id', 'title', 'description')
-#
-#     search_fields = ('title',)
+    resource_class = DataDefinitionResource
 
 
 # class HouseholdIncomeList(admin.ModelAdmin):
@@ -101,7 +99,8 @@ class ContactAdmin(ImportExportModelAdmin):
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(MissionArea, MissionAreaList)
 admin.site.register(HouseholdIncome, HouseholdIncomeAdmin)
-admin.site.register(DataDefinition, DataDefinitionAdmin)
+admin.site.register(DataDefinition, DataDefinitionList)
+admin.site.register(DataDefinitionGroup, DataDefinitionGroupList)
 admin.site.site_header = "UNO CPI Admin"
 admin.site.site_title = "Community Partnership Initiative"
 admin.site.index_title = " "

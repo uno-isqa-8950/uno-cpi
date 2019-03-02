@@ -234,3 +234,12 @@ class HouseholdIncome(models.Model):
 
     def __str__(self):
         return str(self.county)
+
+class DataDefinition(models.Model):
+    id = models.IntegerField(unique=True,null=False, blank=False, primary_key=True)
+    title = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.title)

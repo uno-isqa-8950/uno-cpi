@@ -2,10 +2,18 @@ from django.contrib import admin
 from .models import User
 from .models import Contact, MissionArea, HouseholdIncome, DataDefinition
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
-from django.contrib.admin import AdminSite
+#from django.contrib.admin import AdminSite
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
+
+class UserResource(resources.ModelResource):
+
+    class Meta:
+        model = User
+
 
 @admin.register(User)
-class UserAdmin(DjangoUserAdmin):
+class UserAdmin(ImportExportModelAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (
@@ -24,13 +32,13 @@ class UserAdmin(DjangoUserAdmin):
     list_display = ('email', 'first_name', 'last_name', 'is_active',)
     search_fields = ('email', 'first_name', 'last_name')
     ordering = ('email',)
+    resource_class = UserResource
 
-
-class ContactList(admin.ModelAdmin):
-
-    list_display = ('first_name', 'last_name', 'work_phone', 'cell_phone', 'email_id', 'contact_type','community_partner', 'campus_partner')
-
-    search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner', 'campus_partner')
+# class ContactList(admin.ModelAdmin):
+#
+#     list_display = ('first_name', 'last_name', 'work_phone', 'cell_phone', 'email_id', 'contact_type','community_partner', 'campus_partner')
+#
+#     search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner', 'campus_partner')
 
 
 class MissionAreaList(admin.ModelAdmin):
@@ -39,29 +47,63 @@ class MissionAreaList(admin.ModelAdmin):
 
     search_fields = ('mission_name', 'description')
 
+class HouseholdIncomeResource(resources.ModelResource):
 
-class HouseholdIncomeList(admin.ModelAdmin):
+    class Meta:
+        model = HouseholdIncome
+
+class HouseholdIncomeAdmin(ImportExportModelAdmin):
+    resource_class = HouseholdIncomeResource
 
     list_display = ('county', 'median_income')
 
     search_fields = ('county', )
 
-class DataDefinitionList(admin.ModelAdmin):
+class DataDefinitionResource(resources.ModelResource):
+
+    class Meta:
+        model = DataDefinition
+
+class DataDefinitionAdmin(ImportExportModelAdmin):
+    resource_class = DataDefinitionResource
 
     list_display = ('id', 'title', 'description')
 
     search_fields = ('title',)
 
+# class DataDefinitionList(admin.ModelAdmin):
+#
+#     list_display = ('id', 'title', 'description')
+#
+#     search_fields = ('title',)
+
+
+# class HouseholdIncomeList(admin.ModelAdmin):
+#
+#     list_display = ('county', 'median_income')
+#
+#     search_fields = ('county', )
+
+class ContactResource(resources.ModelResource):
+
+    class Meta:
+        model = Contact
+
+class ContactAdmin(ImportExportModelAdmin):
+    resource_class = ContactResource
+    list_display = ('first_name', 'last_name', 'work_phone', 'cell_phone', 'email_id', 'contact_type','community_partner', 'campus_partner')
+
+    search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner', 'campus_partner')
+
+
 
 # admin.site.register(User)
-admin.site.register(Contact, ContactList)
+admin.site.register(Contact, ContactAdmin)
 admin.site.register(MissionArea, MissionAreaList)
-admin.site.register(HouseholdIncome, HouseholdIncomeList)
-admin.site.register(DataDefinition, DataDefinitionList)
+admin.site.register(HouseholdIncome, HouseholdIncomeAdmin)
+admin.site.register(DataDefinition, DataDefinitionAdmin)
 admin.site.site_header = "UNO CPI Admin"
 admin.site.site_title = "Community Partnership Initiative"
 admin.site.index_title = " "
 
 admin.site.site_url = False
-
-

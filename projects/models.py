@@ -21,7 +21,7 @@ class Project (models.Model):
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)
     outcomes = models.CharField(max_length=100, null=True, blank=True)
-    status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True, default="Active")
+    status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True)
     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True, default=0)
     address_line1 = models.CharField(max_length=1024, blank=True, null=True)
     address_line2 = models.CharField(max_length=1024, blank=True, null=True)

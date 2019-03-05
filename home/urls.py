@@ -13,6 +13,7 @@ urlpatterns = [
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
    path('partners/',views.partners,name='partners'),
    path('map', views.countyData, name='map'),
+   path('definitions',views.Definitions,name='Definitions'),
    path('districtmap', views.districtdata, name='districtmap'),
    path('projectmap', views.projectdata, name='projectmap'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),

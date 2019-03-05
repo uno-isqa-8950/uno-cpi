@@ -59,6 +59,15 @@ def MapHome(request):
     return render(request, 'home/Map_Home.html',
                   {'MapHome': MapHome})
 
+def Definitions(request):
+    data_definition = DataDefinition.objects.values('id','title','description','group_id')
+    for group_id in data_definition:
+        group = group_id['group_id']
+        data_definition_group = DataDefinitionGroup.objects.filter(pk=group)
+    return render(request,'home/DataDefinitions.html',
+                  {'data_definition':data_definition},
+                  {'data_definition_group':data_definition_group})
+
 
 #def Contactus(request):
 #    return render(request, 'home/ContactUs.html',
@@ -110,8 +119,11 @@ def thanks(request):
                   {'thank': thanks})
 
 def partners(request):
+    data_definition = DataDefinition.objects.all()
+    print(data_definition)
     return render(request,'home/partners.html',
-                  {'partners': partners})
+                  {'partners': partners,
+                   'data_definition':data_definition})
 
 
 def map(request):

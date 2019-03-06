@@ -206,7 +206,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        // fillColor: if miss_name[i].properties["Mission Area"]=='Educational Support'{ circle.fillColor= colorcode[0]}},
         fillOpacity: .8,
         strokeOpacity: 1,
         scale: 8,
@@ -227,6 +226,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     console.log(communityData.features.properties)
     var markers =[];
     for (i=0; i<communityData.features.length; i++) {
+        var missionArea = miss_name[i].properties["Mission Area"]
         var marker = new google.maps.Marker({
             position: {
                 lat: parseFloat(communityData.features[i].geometry.coordinates[1]),
@@ -234,80 +234,43 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             },
             map: map,
             icon: circle, // set the icon here
+            fillColor: missionColor(missionArea)
         });
-        console.log(miss_name[i].properties["Campus Partner"][0])
-        if (miss_name[i].properties["Mission Area"]==="Economic Sufficiency"){
-            circle.fillColor= colorcode[0]
+
+        function missionColor(missionArea) {
+
+            if (missionArea=="Economic Sufficiency"){
+                return circle.fillColor= colorcode[0]
+            }
+            else if (missionArea=='Educational Support'){
+                // communityData.features[i].properties["Mission Area"]
+                return circle.fillColor=colorcode[1]
+            }
+            else if (missionArea=="Environmental Stewardship"){
+                return circle.fillColor=colorcode[2]
+            }
+            else if (miss_name[i].properties["Mission Area"]=="Health and Wellness"){
+                return circle.fillColor=colorcode[3]
+            }
+            else if (missionArea=="International Service"){
+                return circle.fillColor=colorcode[4]
+            }
+            else if (missionArea=="Social Justice"){
+                return circle.fillColor=colorcode[5]
+            }
+        }
               attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
             project_number[i].properties['Number of projects'],county[i].properties['County'],
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
             academic_year[i].properties["Academic Year"],
             website[i].properties["Website"]);
-        }
-        else if (miss_name[i].properties["Mission Area"]==='Educational Support'){
-            // communityData.features[i].properties["Mission Area"]
-            circle.fillColor=colorcode[1]
-              attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
-            miss_name[i].properties['Mission Area'], comm_name[i].properties['CommunityType'],
-            campus_partner[i].properties['Campus Partner'],
-            academic_year[i].properties['Academic Year'],
-            website[i].properties['Website']);
-                     }
-        else if (communityData.features[i].properties["Mission Area"]==="Environmental Stewardship"){
-            circle.fillColor=colorcode[2]
-             attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
-            miss_name[i].properties['Mission Area'], comm_name[i].properties['CommunityType'],
-            campus_partner[i].properties['Campus Partner'],
-            academic_year[i].properties['Academic Year'],
-            website[i].properties['Website']);
-                }
-        else if (miss_name[i].properties["Mission Area"]=="Health and Wellness"){
-            circle.fillColor=colorcode[3]
-             attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
-            miss_name[i].properties['Mission Area'], comm_name[i].properties['CommunityType'],
-            campus_partner[i].properties['Campus Partner'],
-            academic_year[i].properties['Academic Year'],
-            website[i].properties['Website']);
-             }
-        else if (miss_name[i].properties["Mission Area"]==="International Service"){
-            circle.fillColor=colorcode[4]
-             attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
-            miss_name[i].properties['Mission Area'], comm_name[i].properties['CommunityType'],
-            campus_partner[i].properties['Campus Partner'],
-            academic_year[i].properties['Academic Year'],
-            website[i].properties['Website']);
-             }
-        else if (miss_name[i].properties["Mission Area"]==="Social Justice"){
-            circle.fillColor=colorcode[5]
-         attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
-            miss_name[i].properties['Mission Area'], comm_name[i].properties['CommunityType'],
-            campus_partner[i].properties['Campus Partner'],
-            academic_year[i].properties['Academic Year'],
-            website[i].properties['Website']);
-        }
-        // attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-        //     project_number[i].properties['Number of projects'],county[i].properties['County'],
-        //     miss_name[i].properties['Mission Area']), comm_name[i].properties['CommunityType'],
-        //     campus_partner[i].properties['Campus Partner'],
-        //     academic_year[i].properties['Academic Year'],
-        //     website[i].properties['Website'];
         markers.push(marker)
     }
     //adding the marker cluster functionality
     var markerCluster = new MarkerClusterer(map, markers,mcOptions);
-    //To have different colors while clustering uncomment below line
-    // {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
 })
-// google.maps.event.addListener(mc, "clusterclick", onClusterClick);
-//     function onClusterClick(cluster) {
-//         var ms = cluster.getMarkers();
-//     }
 
 var mcOptions = {
     minimumClusterSize: 5, //minimum number of points before which it should be clustered

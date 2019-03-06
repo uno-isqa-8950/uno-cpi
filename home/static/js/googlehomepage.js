@@ -202,7 +202,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
         // fillColor: changeColor,
-        fillOpacity: .8,
+        fillOpacity: 1,
         strokeOpacity: 0.9,
         scale: 8,
         strokeColor: 'white',

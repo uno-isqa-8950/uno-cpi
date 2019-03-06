@@ -516,7 +516,7 @@ def engagement_info(request):
 
     engagements = EngagementType.objects.all()
     year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-
+    data_definition = DataDefinition.objects.all()
     eDict = {}
     eList = []
 
@@ -545,7 +545,7 @@ def engagement_info(request):
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
     return render(request, 'reports/EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
+                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList, 'data_definition':data_definition,
                    'campus_filter': campus_filter})
 
 

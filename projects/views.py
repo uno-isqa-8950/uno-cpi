@@ -537,6 +537,7 @@ def projectsPublicReport(request):
 def communityPublicReport(request):
     community_dict = {}
     community_list = []
+    data_definition=DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
@@ -555,7 +556,8 @@ def communityPublicReport(request):
     return render(request, 'reports/community_public_view.html', {'project_filter': project_filter,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
-                                                                 'missions': missions})
+                                                                 'missions': missions,
+                                                                 'data_definition':data_definition})
 
 
 # List Projects for Private View 

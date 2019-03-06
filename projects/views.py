@@ -606,6 +606,7 @@ def communityPrivateReport(request):
     community_dict = {}
     community_list = []
     comp_part_contact = []
+    data_definition=DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
@@ -646,7 +647,7 @@ def communityPrivateReport(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
-    return render(request, 'reports/community_private_view.html', {'project_filter': project_filter,
+    return render(request, 'reports/community_private_view.html', {'project_filter': project_filter,'data_definition':data_definition,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'missions': missions})

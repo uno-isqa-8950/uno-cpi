@@ -498,6 +498,7 @@ def projectsPublicReport(request):
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    data_definition = DataDefinition.objects.all()
     projectsData = []
     camp_part = []
     comm_part = []
@@ -528,7 +529,7 @@ def projectsPublicReport(request):
         if data:
             projectsData.append(data)
 
-    return render(request, 'reports/projects_public_view.html', {'projects': projects,
+    return render(request, 'reports/projects_public_view.html', {'projects': projects,'data_definition':data_definition,
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
 
 

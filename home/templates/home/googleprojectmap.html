@@ -160,6 +160,34 @@
             width: 210px;
             margin-bottom: 15px;
         }
+        select[id=selectMisstype]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+        select[id=selectCommunity]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
         .h2 {
             display: block;
             font-size: 1.7em;
@@ -345,26 +373,26 @@
 
     <div class="wrapper">
         <nav id="sidebar">
-
-            <div id='state-legend' class='legend'>
-                <div class="row" style="border-bottom: 1px solid grey;">
-                    <div class="col-lg-6 col-md-6">
-                        <h3 style="border-right: 1px solid grey; padding-bottom:5px; text-align:left;font-size:25px;">Filters</h3>
-                    </div>
+            <div class="row" style="border-bottom: 1px solid grey; height:60px;">
+                <div class="col-lg-6 col-md-6">
+                    <h3 style="padding:15px;text-align:left; font-size:25px;">Filters</h3>
                 </div>
-
-                <h4>Number of Projects per District</h4>
-                <div><span style='background-color: #ffffe5'></span>No project Yet</div>
-                <div><span style='background-color: #fff7bc'></span>From 1 to 5 projects</div>
-                <div><span style='background-color: #fee391'></span>From 5 to 10 projects</div>
-                <div><span style='background-color: #fec44f'></span>From 10 to 20 projects</div>
-                <div><span style='background-color: #fe9929'></span>From 20 to 30 projects</div>
-                <div><span style='background-color: #ec7014'></span>From 30 to 50 projects</div>
-                <div><span style='background-color: #cc4c02'></span>From 50 to 100 projects</div>
-                <div><span style='background-color: #8c2d04'></span>More than 100 projects</div>
-
-                <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
-                </select>
+                <div class="col-lg-6 col-md-6" style="padding:15px;">
+                    <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
+                        Reset
+                    </button>
+                </div>
+            </div>
+            <div id='state-legend' class='legend'>
+                <h4>Engagement Type</h4>
+                <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
+                </div>
+                <select style="margin-top:10px;"  id="selectMisstype" class="selectMisstype"></select>
+                <select id="selectDistrict" class="selectDistrict"></select>
+                <select id="selectCommunity" class="selectCommunity"></select>
+                <select id="selectCampus" class="selectCampus"></select>
+                <select id="selectYear" class="selectYear"></select>
+                <select id="selectCommtype" class="selectCommtype"></select>
             </div>
 
         </nav>
@@ -421,6 +449,12 @@
                             <div id='map_canvas' class='map'>
                                 {{ collection | json_script:"project-data"}}
                                 {{ districtData | json_script:"district"}}
+                                {{ Missionlist | json_script:"missionlist"}}
+                                {{ CommTypeList | json_script:"CommTypelist"}}
+                                {{ Campuspartner | json_script:"campusPartner-list"}}
+                                {{ Communitypartner | json_script:"communitypartner-list" }}
+                                {{ EngagementType | json_script:"engagementType" }}
+                                {{ year | json_script:"year-list"}}
 
                             </div>
                         </div>
@@ -461,7 +495,7 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
-{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
+    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
     <script type="text/javascript" src='{% static "js/googleprojectmapfilter.js" %}'></script>
 

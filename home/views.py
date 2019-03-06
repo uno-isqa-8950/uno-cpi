@@ -808,7 +808,10 @@ def GEOJSON():
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
-    return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist))
+    commPartnerlist = CommunityPartner.objects.all()
+    commPartnerlist = [m.name for m in commPartnerlist]
+    # print(commPartnerlist)
+    return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist), sorted(commPartnerlist))
 
 ######## export data to Javascript for Household map ################################
 def countyData(request):
@@ -911,7 +914,7 @@ def GEOJSON2():
                 print("No mission")
             collection['features'].append(feature)  #create the geojson
     #jsonstring = pd.io.json.dumps(collection)
-    return (collection)
+    return (collection, sorted(Engagementlist))
 
  ###Project map export to javascript
 
@@ -929,22 +932,33 @@ def projectdata(request):
 
 # google maps implementaiton
 def googleprojectdata(request):
-
-   json_data = open('home/static/GEOJSON/ID2.geojson')
-   district = json.load(json_data)
-   data = GEOJSON2()
-   return render(request, 'home/googleprojectmap.html',
-                      {'districtData': district, 'collection': GEOJSON2(),
-                       'number': len(data['features'])
-                       }
-                      )
+    Campuspartner = GEOJSON()[3]
+    Communitypartner = GEOJSON()[5]
+    print(Communitypartner)
+    data1 = GEOJSON2()[1]
+    # print(data1)
+    json_data = open('home/static/GEOJSON/ID2.geojson')
+    district = json.load(json_data)
+    data = GEOJSON2()[0]
+    # print(data1)
+    return render(request, 'home/googleprojectmap.html',
+                  {'districtData': district, 'collection': GEOJSON2()[0],
+                   'number': len(data['features']),
+                   'Missionlist': sorted(GEOJSON()[1]),
+                   'CommTypeList': sorted(GEOJSON()[2]), #pass the array of unique mission areas and community types
+                   'Campuspartner': sorted(Campuspartner),
+                   'Communitypartner': sorted(Communitypartner),
+                   'EngagementType': data1,
+                   'year': GEOJSON()[4]
+                   }
+                  )
 
 def googleDistrictdata(request):
     Campuspartner = GEOJSON()[3]
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
-    print(data)
+    # print(data)
     return render(request, 'home/googleDistrictmap.html',
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),

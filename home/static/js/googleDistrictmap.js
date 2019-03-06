@@ -226,7 +226,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     console.log(communityData.features.properties)
     var markers =[];
     for (i=0; i<communityData.features.length; i++) {
-        var missionArea = miss_name[i].properties["Mission Area"]
+        var missionArea = communityData.features[i].properties["Mission Area"]
         var marker = new google.maps.Marker({
             position: {
                 lat: parseFloat(communityData.features[i].geometry.coordinates[1]),

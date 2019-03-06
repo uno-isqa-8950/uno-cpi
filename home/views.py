@@ -120,7 +120,6 @@ def thanks(request):
 
 def partners(request):
     data_definition = DataDefinition.objects.all()
-    print(data_definition)
     return render(request,'home/partners.html',
                   {'partners': partners,
                    'data_definition':data_definition})
@@ -467,6 +466,7 @@ def upload_income(request):
 
 def project_partner_info(request):
     missions = MissionArea.objects.all()
+    data_definition = DataDefinition.objects.all()
     mission_dict = {}
     mission_list = []
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -505,7 +505,7 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
-    return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
+    return render(request, 'reports/ProjectPartnerInfo.html', {'project_filter': project_filter,'data_definition':data_definition,
                   'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
@@ -544,7 +544,7 @@ def engagement_info(request):
         eDict['total_uno_hours'] = total_uno_hours
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
-    return render(request, 'reports/15EngagementTypeReport.html',
+    return render(request, 'reports/EngagementTypeReport.html',
                   {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
                    'campus_filter': campus_filter})
 

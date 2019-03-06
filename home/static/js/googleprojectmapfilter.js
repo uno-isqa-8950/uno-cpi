@@ -142,7 +142,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        // fillColor: 'blue',
+        // fillColor: markercolor(fillColor),
         fillOpacity: 1,
         strokeOpacity: 0.9,
         scale: 8,
@@ -163,60 +163,47 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     console.log(projectData.features)
     var markers =[];
     for (i=0; i<projectData.features.length; i++) {
+        var engagementType =projectData.features[i].properties["Engagement Type"]
         var marker = new google.maps.Marker({
+
             position: {
                 lat: parseFloat(projectData.features[i].geometry.coordinates[1]),
                 lng: parseFloat(projectData.features[i].geometry.coordinates[0])
             },
             map: map,
             icon: circle, // set the icon here
+            fillColor: markercolor(engagementType)
         });
 
+        function markercolor(engagementType) {
 
-        var x=projectData.features[i].properties["Engagement Type"]
-
-        if (x=="Community-Based Learning"){
+        if (engagementType=="Community-Based Learning"){
             console.log(projectData.features[i].properties["Engagement Type"])
-            circle.fillColor= colorcode[0]
-            attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
-                comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
-                campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
-                eng_type[i].properties['Engagement Type'] );
-
+            return circle.fillColor= colorcode[0]
         }
-        else if (projectData.features[i].properties["Engagement Type"]=="Knowledge/Info Sharing"){
+        else if (engagementType=="Knowledge/Info Sharing"){
             console.log(projectData.features[i].properties["Engagement Type"])
-            circle.fillColor= colorcode[1]
-            attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
-                comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
-                campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
-                eng_type[i].properties['Engagement Type'] );
+            return circle.fillColor= colorcode[1]
+        }
+        else if (engagementType=="Providing Access") {
+            console.log(projectData.features[i].properties["Engagement Type"])
+            return circle.fillColor = colorcode[2]
+        }
+        else if (engagementType=="Service Learning") {
+            console.log(projectData.features[i].properties["Engagement Type"])
+            return circle.fillColor = colorcode[3]
 
         }
-        else if (projectData.features[i].properties["Engagement Type"]=="Providing Access") {
+        else if (engagementType=="Volunteering") {
             console.log(projectData.features[i].properties["Engagement Type"])
-            circle.fillColor = colorcode[2]
-            attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
+            return circle.fillColor = colorcode[4]
+
+        }
+        }
+        attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
                 comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
                 campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
                 eng_type[i].properties['Engagement Type'] );
-        }
-        else if (projectData.features[i].properties["Engagement Type"]=="Service Learning") {
-            console.log(projectData.features[i].properties["Engagement Type"])
-            circle.fillColor = colorcode[3]
-            attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
-                comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
-                campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
-                eng_type[i].properties['Engagement Type'] );
-        }
-        else if (projectData.features[i].properties["Engagement Type"]=="Volunteering") {
-            console.log(projectData.features[i].properties["Engagement Type"])
-            circle.fillColor = colorcode[4]
-            attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
-                comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
-                campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
-                eng_type[i].properties['Engagement Type'] );
-        }
         markers.push(marker)
 
     }
@@ -321,8 +308,12 @@ selectCampus.addEventListener("change", function(e) {
                 feature.properties["campustest"] = 0 //if not, assign this value 0
             }
         })
-        map.data.add('projectData').setData(projectData); // update the dataset
-        map.removeLayer("commMap");
+        map.data.add('projectData',{
+            type: 'geojson',
+                data: projectData,
+        });
+// update the dataset
+        stMap
         map.addLayer({
             "id": "commMap",
             "type": "circle",

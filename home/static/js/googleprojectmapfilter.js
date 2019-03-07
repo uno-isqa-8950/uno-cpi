@@ -42,7 +42,7 @@ $('#selectDistrict').html(select1);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: transparent; border: 1px solid black"></span><b>All Engagement Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allengagement"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Engagement Types</b></a>' + "<br>";
 for (var i = 0; i < Engagement.length; i++) {
     var color = colorcode[i]
     var engagement = Engagement[i]
@@ -122,6 +122,7 @@ districtData.features.forEach(function(feature){
 //                                 '#ffffe5';
 // }
 
+var markers =[];
 google.maps.event.addListenerOnce(map, 'idle', function () {
     map.data.add('projectData', {
         type: 'geojson',
@@ -161,10 +162,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var eng_type = projectData.features
 
     console.log(projectData.features)
-    var markers =[];
     for (i=0; i<projectData.features.length; i++) {
-        var category=projectData.features[i].properties["Legislative District Number"]
-        var engagementType =projectData.features[i].properties["Engagement Type"]
+        var category = projectData.features[i].properties["Legislative District Number"]
+        var academic = projectData.features[i].properties["Academic year"]
+        var engagementType = projectData.features[i].properties["Engagement Type"]
+        var mission = projectData.features[i].properties["Mission Area"]
+        var commType = projectData.features[i].properties["Community Type"]
         var marker = new google.maps.Marker({
 
             position: {
@@ -174,83 +177,31 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             map: map,
             icon: circle, // set the icon here
             fillColor: markercolor(engagementType),
-            category: markerDistrict(category)
+            category: category,
+            year: academic,
+            mission: mission,
+            commType: commType
         });
 
         function markercolor(engagementType) {
 
-            if (engagementType=="Community-Based Learning"){
+            if (engagementType == "Community-Based Learning"){
                 return circle.fillColor= colorcode[0]
             }
-            else if (engagementType=="Knowledge/Info Sharing"){
+            else if (engagementType == "Knowledge/Info Sharing"){
                 return circle.fillColor= colorcode[1]
             }
-            else if (engagementType=="Providing Access") {
+            else if (engagementType == "Providing Access") {
                 return circle.fillColor = colorcode[2]
             }
-            else if (engagementType=="Service Learning") {
+            else if (engagementType == "Service Learning") {
                 return circle.fillColor = colorcode[3]
 
             }
-            else if (engagementType=="Volunteering") {
+            else if (engagementType == "Volunteering") {
                 return circle.fillColor = colorcode[4]
             }
         }
-
-        //*********************************************************************************
-
-
-        function markerDistrict(category) {
-            var selectDistrict = document.getElementById('selectDistrict');
-            selectDistrict.addEventListener("change", function(e) {
-                var value = e.target.value.trim().toLowerCase();
-                //console.log(value)
-                // console.log(category)
-
-
-                // function setMapOnAll(map) {
-                //     for (var i = 0; i < markers.length; i++) {
-                //         markers[i].setMap(map);
-                //     }
-                // }
-                //
-                //
-                // function clearMarkers() {
-                //     setMapOnAll(null);
-                // }
-
-                // Shows any markers currently in the array.
-                // function showMarkers() {
-                //     setMapOnAll(map);
-                // }
-
-                // marker.setVisible(false)
-
-                console.log(marker, category, value);
-
-                // If is same category or category not picked
-                if (category == value) {
-                  //  console.log("This is true case");
-                  //  console.log((category == value))
-                    // showMarkers()
-                   marker.setVisible(true)
-
-                    // return true;
-                } else {
-                    // clearMarkers()
-                  //  console.log("this is false case");
-                    //marker.setVisible(false);
-                    //marker.clearMarker();
-                   // marker.visible = false;
-                   // return false;
-                }
-                // }
-            })
-        }
-
-
-        //*********************************************************************************
-
 
         attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
             comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
@@ -260,14 +211,14 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
     }
     //adding the marker cluster functionality
-    var markerCluster = new MarkerClusterer(map, markers,mcOptions);
-    //To have different colors while clustering uncomment below line
-    // {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
-})
+});
+
 
 var mcOptions = {
-    minimumClusterSize: 5, //minimum number of points before which it should be clustered
+    minimumClusterSize: 20, //minimum number of points before which it should be clustered
+    ignoreHidden:true,
     styles: [{
         height: 53,
         url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
@@ -323,24 +274,79 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
 
     })
 }
+//district change in filters
+markerDistrict = function(category) {
 
-// var selectDistrict = document.getElementById('selectDistrict');
-// selectDistrict.addEventListener("change", function(e) {
-//     var value = e.target.value.trim().toLowerCase();
-//     // console.log(value)
-//     var len = districtData.features[0].geometry['coordinates'][0][100]
-//     // console.log(len)
-//     for (j = 0; j < districtData.features.length; j++)
-//         if (districtData.features[j].id == value)
-//             var x= districtData.features[j].geometry['coordinates'][0][100]
-//             map.setCenter({lat:x[1], lng:x[0]});
-//             map.setZoom(10);
-//
-// })
+    for (i=0; i < markers.length; i++) {
+        if (category == 'All Legislative Districts') {
+            markers[i].setVisible(true);
+        } else {
+            if (markers[i].category == category) {
+                markers[i].setVisible(true);
+            } else {
+                markers[i].setVisible(false);
+            }
+        }
 
+    }
+};
 //******************************************************************************************************************************
 
-//Filter experimentation
+//Filter for the academic year
+filterYear = function(year) {
+
+    for (i=0; i < markers.length; i++) {
+        if (year == 'All Academic Years') {
+            markers[i].setVisible(true);
+        } else {
+            if (markers[i].year == year) {
+                markers[i].setVisible(true);
+            } else {
+                markers[i].setVisible(false);
+            }
+        }
+    }
+    markerCluster.repaint();
+};
+
+
+//Filter for the Mission Areas
+filterMission = function(mission) {
+
+    for (i=0; i < markers.length; i++) {
+        if (mission == 'All Mission Years') {
+            markers[i].setVisible(true);
+        } else {
+            if (markers[i].mission == mission) {
+                markers[i].setVisible(true);
+            } else {
+                markers[i].setVisible(false);
+            }
+        }
+
+    }
+};
+
+
+//Filter for the Cummunity Type
+filterCommType = function(commType) {
+
+    for (i=0; i < markers.length; i++) {
+        if (commType == 'All Community Types') {
+            markers[i].setVisible(true);
+        } else {
+            if (markers[i].commType == commType) {
+                markers[i].setVisible(true);
+            } else {
+                markers[i].setVisible(false);
+            }
+        }
+
+    }
+};
+
+
+
 
 //*********************************** Campus Partner filter *****************************************************
 

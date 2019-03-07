@@ -122,9 +122,9 @@
                                 </label>
                                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                                         <option> All </option>
-                                        {% for sem in project_filter.form.academic_year %}
-                                            {{sem}}
-                                        {% endfor %}
+                                            {% for sem in project_filter.form.academic_year %}
+                                                {{sem}}
+                                            {% endfor %}
                                     </select>
 
                             </div>
@@ -140,9 +140,9 @@
                                 </label>
                                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                         <option> All </option>
-                                        {% for campus in campus_filter.form.campus_partner %}
-                                            {{campus}}
-                                        {% endfor %}
+                                            {% for campus in campus_filter.form.campus_partner %}
+                                                {{campus}}
+                                            {% endfor %}
                                     </select>
                             </div>
 
@@ -176,9 +176,10 @@
                                     {% endfor %}
                                 </label>
                                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
-                                        {% for community_type in communityPartners.form.community_type %}
-                                            {{community_type}}
-                                        {% endfor %}
+                                        <option> All </option>
+                                            {% for community_type in communityPartners.form.community_type %}
+                                                {{community_type}}
+                                            {% endfor %}
                                     </select>
                             </div>
 

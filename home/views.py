@@ -120,7 +120,6 @@ def thanks(request):
 
 def partners(request):
     data_definition = DataDefinition.objects.all()
-    print(data_definition)
     return render(request,'home/partners.html',
                   {'partners': partners,
                    'data_definition':data_definition})
@@ -467,6 +466,7 @@ def upload_income(request):
 
 def project_partner_info(request):
     missions = MissionArea.objects.all()
+    data_definition = DataDefinition.objects.all()
     mission_dict = {}
     mission_list = []
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -505,7 +505,7 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
-    return render(request, 'reports/14ProjectPartnerInfo.html', {'project_filter': project_filter,
+    return render(request, 'reports/ProjectPartnerInfo.html', {'project_filter': project_filter,'data_definition':data_definition,
                   'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 
@@ -516,7 +516,7 @@ def engagement_info(request):
 
     engagements = EngagementType.objects.all()
     year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-
+    data_definition = DataDefinition.objects.all()
     eDict = {}
     eList = []
 
@@ -544,8 +544,8 @@ def engagement_info(request):
         eDict['total_uno_hours'] = total_uno_hours
         eDict['total_uno_students'] = total_uno_students
         eList.append(eDict.copy())
-    return render(request, 'reports/15EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
+    return render(request, 'reports/EngagementTypeReport.html',
+                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList, 'data_definition':data_definition,
                    'campus_filter': campus_filter})
 
 
@@ -584,6 +584,7 @@ def unique_count(request):
 def missionchart(request):
     missions = MissionArea.objects.all()
     mission_area1 = list()
+    data_definition=DataDefinition.objects.all()
     project_count_data = list()
     partner_count_data = list()
     for m in missions:
@@ -635,7 +636,7 @@ def missionchart(request):
         }
 
     dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,
+    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,'data_definition':data_definition,
                     'year_filter' :year_filter, 'campus_filter':campus_filter })
 
 
@@ -648,6 +649,7 @@ def EngagementType_Chart(request):
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     engagement_types = EngagementType.objects.all()
+    data_definition=DataDefinition.objects.all()
     for et in engagement_types:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_project_ids = [p.id for p in campus_filter.qs]
@@ -706,7 +708,7 @@ def EngagementType_Chart(request):
 
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
-                 {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': academicyear_filter,
+                 {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': academicyear_filter,'data_definition':data_definition,
                   'campus_filter': campus_filter})
 
 

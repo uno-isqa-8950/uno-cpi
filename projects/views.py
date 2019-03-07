@@ -498,6 +498,7 @@ def projectsPublicReport(request):
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    data_definition = DataDefinition.objects.all()
     projectsData = []
     camp_part = []
     comm_part = []
@@ -528,7 +529,7 @@ def projectsPublicReport(request):
         if data:
             projectsData.append(data)
 
-    return render(request, 'reports/projects_public_view.html', {'projects': projects,
+    return render(request, 'reports/projects_public_view.html', {'projects': projects,'data_definition':data_definition,
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
 
 
@@ -537,6 +538,7 @@ def projectsPublicReport(request):
 def communityPublicReport(request):
     community_dict = {}
     community_list = []
+    data_definition=DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
@@ -555,13 +557,15 @@ def communityPublicReport(request):
     return render(request, 'reports/community_public_view.html', {'project_filter': project_filter,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
-                                                                 'missions': missions})
+                                                                 'missions': missions,
+                                                                 'data_definition':data_definition})
 
 
 # List Projects for Private View 
 @admin_required()
 def projectsPrivateReport(request):
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+    data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     projectsData = []
@@ -597,7 +601,7 @@ def projectsPrivateReport(request):
         if data:
             projectsData.append(data)
 
-    return render(request, 'reports/projects_private_view.html', {'projects': projects,
+    return render(request, 'reports/projects_private_view.html', {'projects': projects,'data_definition':data_definition,
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
 
 
@@ -606,6 +610,7 @@ def communityPrivateReport(request):
     community_dict = {}
     community_list = []
     comp_part_contact = []
+    data_definition=DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
@@ -646,7 +651,7 @@ def communityPrivateReport(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
-    return render(request, 'reports/community_private_view.html', {'project_filter': project_filter,
+    return render(request, 'reports/community_private_view.html', {'project_filter': project_filter,'data_definition':data_definition,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'missions': missions})

@@ -56,8 +56,8 @@
     "model": "home.datadefinition",
     "pk": 3,
     "fields": {
-      "title": "Economic Sufficiency",
-      "description": "Definition of Economic Sufficiency",
+      "title": "Mission Area",
+      "description": "Definition of Mission Area",
       "group": 2,
       "is_active": 1
     }
@@ -349,6 +349,36 @@
 			"fields": {
 				"title": "Campus Partner Count ",
 				"description": "Definition of Campus Partner Count ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 31,
+			"fields": {
+				"title": "Engagement Type ",
+				"description": "Definition of Engagement Type ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 32,
+			"fields": {
+				"title": "Academic Year",
+				"description": "Definition of Academic Year ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 33,
+			"fields": {
+				"title": "Community Partner Type",
+				"description": "Definition of Community Partner Type ",
 				"group": 1,
 				"is_active": 1
 			}

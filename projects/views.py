@@ -93,7 +93,7 @@ def communitypartnerproject(request):
 
 
 @login_required()
-@campuspartner_required()
+# @campuspartner_required()
 def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
@@ -140,7 +140,8 @@ def proj_view_user(request):
 
 
 @login_required()
-@campuspartner_required()
+# @campuspartner_required()
+
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)

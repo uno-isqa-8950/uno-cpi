@@ -584,6 +584,7 @@ def unique_count(request):
 def missionchart(request):
     missions = MissionArea.objects.all()
     mission_area1 = list()
+    data_definition=DataDefinition.objects.all()
     project_count_data = list()
     partner_count_data = list()
     for m in missions:
@@ -635,7 +636,7 @@ def missionchart(request):
         }
 
     dump = json.dumps(chart)
-    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,
+    return render(request, 'charts/missionchart.html',{'chart': dump , 'project_filter' : project_filter,'data_definition':data_definition,
                     'year_filter' :year_filter, 'campus_filter':campus_filter })
 
 

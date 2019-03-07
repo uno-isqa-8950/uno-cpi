@@ -69,24 +69,36 @@ def registerCampusPartner(request):
 
 def registerCommunityPartner(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
-    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
+    prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     commType = []
     for object in CommunityType.objects.order_by('community_type'):
         commType.append(object.community_type)
 
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
-        formset_mission = CommunityMissionFormset(request.POST or None, prefix='mission')
+        formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
+        formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid():
+        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
+            #print("Everything is valid")
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
+            primary_missions = formset_primary_mission.save(commit=False)
             missions = formset_mission.save(commit=False)
 
+            for primary_mission in primary_missions:
+                primary_mission.community_partner = community_partner
+                missionarea = primary_mission.mission_area
+                primary_mission.mission_type = 'Primary'
+                #print("in add primary mission")
+                primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
+                mission.mission_type = 'Other'
+                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
@@ -155,13 +167,14 @@ def registerCommunityPartner(request):
     else:
         community_partner_form = CommunityPartnerForm()
         formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
-        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_mission= comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_primary_mission= prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='primary_mission')
 
     return render(request,
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission, 'commType':commType}, )
+                   'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
 #auto complete for community name in register community partner form				   
 def ajax_load_project(request):
@@ -408,29 +421,39 @@ def registerCampusPartner_forprojects(request):
 #register function for a user to register a new community partner during filling the project create form
 def registerCommunityPartner_forprojects(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
-    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
+    prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     commType = []
     for object in CommunityType.objects.order_by('community_type'):
         commType.append(object.community_type)
 
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
-        formset_mission = CommunityMissionFormset(request.POST or None, prefix='mission')
+        formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
+        formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid():
+        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
             missions = formset_mission.save(commit=False)
-
+            primary_missions = formset_primary_mission.save(commit=False)
+            for primary_mission in primary_missions:
+                primary_mission.community_partner = community_partner
+                missionarea = primary_mission.mission_area
+                primary_mission.mission_type = 'Primary'
+                #print("in add primary mission  " + str(missionarea))
+                primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
+                mission.mission_type = 'Other'
+                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                print(contact)
-                print(contact.community_partner)
+                #print(contact)
+                #print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################
@@ -494,10 +517,11 @@ def registerCommunityPartner_forprojects(request):
     else:
         community_partner_form = CommunityPartnerForm()
         formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
-        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_mission= comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_primary_mission= prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='primary_mission')
 
     return render(request,
                   'registration/community_partner_register_for_projects.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission, 'commType':commType}, )
+                   'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission': formset_primary_mission}, )

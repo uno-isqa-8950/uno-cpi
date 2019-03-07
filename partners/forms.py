@@ -225,6 +225,23 @@ class CommunityMissionForm(ModelForm):
             'mission_area': ('Mission Area'),
         }
 
+class CommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+                    }
+
+
+class PrimaryCommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+        }
+
 class CampusPartnerAddForm(forms.ModelForm):
 
     class Meta:

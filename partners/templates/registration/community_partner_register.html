@@ -5,7 +5,7 @@
 <style>
 
  label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
- label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_mission-0-mission_area]:after
+ label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_primary_mission-0-mission_area]:after
     {
     content:"*" ;
     color:red
@@ -142,11 +142,12 @@ width:100%
                         </div>
 
                         {% endfor %}
-
-
-                        {{ formset_mission.management_form }}
-                        {% for form in formset_mission %}
-                            <div id="contact1" class="mission-row">
+                        {{ formset_primary_mission.management_form }}
+                        {% for form in formset_primary_mission %}
+                            <div id="contact1" class="primary_mission-row">
+                                <div class="col-lg-12">
+                                            <h6>Primary Mission Areas</h6><br>
+                                        </div>
                                 <!--<div class="col-md-12">-->
                                     <!--<label>Mission Areas</label>-->
                                     <!--<br>-->
@@ -154,8 +155,26 @@ width:100%
                             <div class="input-group">
                             <!--div class="row"-->
                                 <div class="col-md-6">
-                                    {{ form.mission_type|bootstrap }}
+                                    {{ form.mission_area|bootstrap }}
                                 </div>
+                            </div>
+                            <!--/div-->
+                            </div>
+
+                        {% endfor %}
+
+                        {{ formset_mission.management_form }}
+                        {% for form in formset_mission %}
+                            <div id="contact1" class="mission-row">
+                                <div class="col-lg-12">
+                                            <h6>Secondary Mission Areas</h6><br>
+                                        </div>
+                                <!--<div class="col-md-12">-->
+                                    <!--<label>Mission Areas</label>-->
+                                    <!--<br>-->
+                                <!--</div>-->
+                            <div class="input-group">
+                            <!--div class="row"-->
                                 <div class="col-md-6">
                                     {{ form.mission_area|bootstrap }}
                                 </div>
@@ -274,6 +293,11 @@ $(document).on('click', '.add-contact-row', function(e){
     cloneMore('.contact-row:last', 'contact');
     return false;
 });
+$(document).on('click', '.add-primary_mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission-row:last', 'mission');
+    return false;
+});
 $(document).on('click', '.add-mission-row', function(e){
     e.preventDefault();
     cloneMore('.mission-row:last', 'mission');
@@ -282,6 +306,11 @@ $(document).on('click', '.add-mission-row', function(e){
 $(document).on('click', '.remove-contact-row', function(e){
     e.preventDefault();
     deleteForm('contact', $(this));
+    return false;
+});
+$(document).on('click', '.remove-primary_mission-row', function(e){
+    e.preventDefault();
+    deleteForm('mission', $(this));
     return false;
 });
 $(document).on('click', '.remove-mission-row', function(e){

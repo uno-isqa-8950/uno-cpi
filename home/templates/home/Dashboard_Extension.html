@@ -163,7 +163,24 @@ margin-top:15px;
                 </li>
                {% endif %}
                 {% if user.is_authenticated and user.is_superuser  %}
-                <li class=" nav-item dropdown">
+
+                    <li class=" nav-item dropdown">
+                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                            <i class="fa fa-tasks fa-x"></i>
+                               Projects
+                            <span class="caret"></span>
+                        </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        <a class="dropdown-item" href="/projectSearch/">All Projects</a>
+                        <a class="dropdown-item" href='/campususerproject/'>My Project</a>
+                        <a class="dropdown-item" href='/project_total_Add/'>Create Project</a>
+                    </div>
+                    </li>
+                        <li class="nav-item">
+                    <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
+                    </li>
+
+                    <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-cogs"></i>
                            Administrator

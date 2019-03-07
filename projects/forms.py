@@ -178,9 +178,8 @@ class ProjectFormAdd(ModelForm):
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
-                    'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
-                    'status','total_economic_impact', 'address_line1'  ,'country' ,'city', 'state','zip','latitude',
+        fields = ('project_name','engagement_type','activity_type','semester',
+                    'status', 'address_line1','country','city', 'state','zip','latitude',
                     'longitude','academic_year')
         widgets = {
             'start_date': DateInput(),
@@ -193,17 +192,17 @@ class ProjectFormAdd(ModelForm):
             'activity_type': 'Activity Type',
             # 'uno_students': 'UNO Students',
             # 'uno_student_service_hours': 'UNO Student Service Hours',
-            'total_uno_students': 'UNO Students',
-            'total_uno_hours': 'UNO Student Service Hours',
-            'total_k12_students': 'Number Of K-12 Students',
-            'total_k12_hours': 'Number Of K-12 Hours',
-            'total_uno_faculty': 'Number Of UNO Faculty/Staff',
-            'start_date': 'Project Start Date',
-            'end_date': 'Project End Date',
-            'other_details': 'Other Important Details',
-            'outcomes': 'Outcomes',
+            # 'total_uno_students': 'UNO Students',
+            # 'total_uno_hours': 'UNO Student Service Hours',
+            # 'total_k12_students': 'Number Of K-12 Students',
+            # 'total_k12_hours': 'Number Of K-12 Hours',
+            # 'total_uno_faculty': 'Number Of UNO Faculty/Staff',
+            # 'start_date': 'Project Start Date',
+            # 'end_date': 'Project End Date',
+            # 'other_details': 'Other Important Details',
+            # 'outcomes': 'Outcomes',
             'address_line1': 'Address Line 1',
-            'total_other_community_members':  'Number Of Other Participants',
+            # 'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
             'zip': 'Zip or Postal Code',
             'state': 'State or Province'

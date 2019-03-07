@@ -287,11 +287,14 @@ markerDistrict = function(category) {
     for (i=0; i < markers.length; i++) {
         if (category == 'All Legislative Districts') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].category == category) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
 
@@ -305,15 +308,18 @@ filterYear = function(year) {
     for (i=0; i < markers.length; i++) {
         if (year == 'All Academic Years') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].year == year) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
     }
-    markerCluster.repaint();
+    markerCluster.redraw();
 };
 
 
@@ -323,15 +329,18 @@ filterMission = function(mission) {
     for (i=0; i < markers.length; i++) {
         if (mission == 'All Mission Years') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].mission == mission) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
-
     }
+    markerCluster.redraw();
 };
 
 
@@ -341,15 +350,18 @@ filterCommType = function(commType) {
     for (i=0; i < markers.length; i++) {
         if (commType == 'All Community Types') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].commType == commType) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
-
     }
+    markerCluster.redraw();
 };
 
 //Filter for the Campus Partner
@@ -358,15 +370,18 @@ filterCampusPartner = function(campusPartner) {
     for (i=0; i < markers.length; i++) {
         if (campusPartner == 'All Community Partners') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].campusPartner == campusPartner) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
-
     }
+    markerCluster.redraw();
 };
 
 

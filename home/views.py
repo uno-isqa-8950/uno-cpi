@@ -473,25 +473,37 @@ def project_partner_info(request):
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     for m in missions:
+
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         project_filtered_ids = [project.id for project in project_filter.qs]
-        legislative_filter = legislativeFilter(request.GET, queryset=Project.objects.all())
-        legislative_Filter_ids = [project.id for project in legislative_filter.qs]
-        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-        project_ids = list(set(proj1_ids).intersection(legislative_Filter_ids))
-        mission_dict['mission_name'] = m.mission_name
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
-        # p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).distinct()
-        # community_list = [c.community_partner_id for c in p_community]
-        # community_list_new = []
-        # for i in communityPartners.qs:
-        #     if i.id in community_list:
-        #         community_list_new.append(i.id)
+
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_filtered_ids = [community.id for community in communityPartners.qs]
-        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=community_filtered_ids).count()
+
+        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+        proj1_ids = list(set(campus_filtered_ids).intersection(comm_filtered_ids))
+        project_ids = list(set(proj1_ids).intersection(project_filtered_ids))
+
+        mission_dict['mission_name'] = m.mission_name
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
+
+        proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(community_partner_id__in=community_filtered_ids).distinct()
+        proj_comm_ids = [community.community_partner_id for community in proj_comm]
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=proj_comm_ids).count()
+
+        a = request.GET.get('engagement_type', None)
+        b = request.GET.get('academic_year', None)
+        c = request.GET.get('campus_partner', None)
+        if a is None or a == "All" or a == '':
+            if b is None or b == "All" or b == '':
+                if c is None or c == "All" or c == '':
+                    community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=community_filtered_ids).count()
+
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
         total_uno_students = 0
@@ -505,7 +517,7 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
-    return render(request, 'reports/ProjectPartnerInfo.html', {'project_filter': project_filter,'data_definition':data_definition,
+    return render(request, 'reports/ProjectPartnerInfo.html', {'project_filter': project_filter, 'data_definition':data_definition,
                   'communityPartners': communityPartners, 'mission_list': mission_list, 'campus_filter': campus_filter})
 
 

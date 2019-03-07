@@ -111,16 +111,6 @@ districtData.features.forEach(function(feature){
     });
     feature.properties["density"] = number
 })
-// function getColor(d) {
-//     return d > 100 ? '#8c2d04' :
-//         d > 50  ? '#cc4c02' :
-//             d > 30  ? '#ec7014' :
-//                 d > 20  ? '#fe9929' :
-//                     d > 10   ? '#fec44f' :
-//                         d > 5   ? '#fee391' :
-//                             d > 1   ? '#fff7bc' :
-//                                 '#ffffe5';
-// }
 
 var markers =[];
 google.maps.event.addListenerOnce(map, 'idle', function () {
@@ -180,7 +170,9 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             category: category,
             year: academic,
             mission: mission,
-            commType: commType
+            commType: commType,
+            engagementType:engagementType
+
         });
 
         function markercolor(engagementType) {
@@ -217,8 +209,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
 
 var mcOptions = {
-    minimumClusterSize: 20, //minimum number of points before which it should be clustered
-    ignoreHidden:true,
+    minimumClusterSize: 5, //minimum number of points before which it should be clustered
+    ignoreHiddenMarkers:true,
     styles: [{
         height: 53,
         url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
@@ -280,15 +272,17 @@ markerDistrict = function(category) {
     for (i=0; i < markers.length; i++) {
         if (category == 'All Legislative Districts') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].category == category) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
             }
         }
-
     }
+    markerCluster.redraw();
 };
 //******************************************************************************************************************************
 
@@ -298,33 +292,42 @@ filterYear = function(year) {
     for (i=0; i < markers.length; i++) {
         if (year == 'All Academic Years') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].year == year) {
                 markers[i].setVisible(true);
-            } else {
+                markerCluster.addMarker(markers[i]);
+            }
+            else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
     }
-    markerCluster.repaint();
+    markerCluster.redraw();
 };
+
 
 
 //Filter for the Mission Areas
 filterMission = function(mission) {
 
     for (i=0; i < markers.length; i++) {
-        if (mission == 'All Mission Years') {
+        if (mission == 'All Mission Areas') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].mission == mission) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
 
     }
+    markerCluster.redraw();
 };
 
 
@@ -334,17 +337,39 @@ filterCommType = function(commType) {
     for (i=0; i < markers.length; i++) {
         if (commType == 'All Community Types') {
             markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
         } else {
             if (markers[i].commType == commType) {
                 markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             } else {
                 markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
             }
         }
-
     }
+    markerCluster.redraw();
 };
 
+//On select of engagement type filter
+filterEngtype = function(engagementType) {
+
+    for (i=0; i < markers.length; i++) {
+        if (engagementType == 'All Engagement Types') {
+            markers[i].setVisible(true);
+            markerCluster.addMarker(markers[i]);
+        } else {
+            if (markers[i].engagementType == engagementType) {
+                markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
+            } else {
+                markers[i].setVisible(false);
+                markerCluster.removeMarker(markers[i]);
+            }
+        }
+    }
+    markerCluster.redraw();
+};
 
 
 

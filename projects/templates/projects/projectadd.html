@@ -126,16 +126,16 @@
                                 </div>
 
                                  {% for form in formset %}
-                                    <div class="mission-row" id="contact1">
+                                    <div class="mission-row" id="contact1" onsubmit="checking()">
                                         <div class="col-lg-12">
                                             <h6>Primary Project Mission Area</h6><br>
                                         </div>
                                             <div class="input-group">
-
                                                 <div class="col-lg-6">
                                                     {{ form.mission|bootstrap }}
                                                 </div>
                                             </div>
+                                    <p id="errorid"></p>
                                     </div>
                                 {% endfor %}
                                 {% for form4 in formset4 %}
@@ -412,4 +412,19 @@ return true;
 }
 </script>
 -->
+<!-- Adding script per ticket 723-->
+<script>
+window.onsubmit = function checking() {
+    var id_name = document.getElementById('id_mission-0-mission');
+    var val = id_name.options[id_name.selectedIndex].text;
+    var location = document.getElementById("errorid").scrollTop;
+    console.log(val)
+if (val === '---------') {
+    error = "Please select a Primary Mission Area";
+    document.getElementById("errorid").innerHTML = error;
+    document.documentElement.scrollTop = 900;
+    return false
+}
+}
+</script>
 {% endblock %}

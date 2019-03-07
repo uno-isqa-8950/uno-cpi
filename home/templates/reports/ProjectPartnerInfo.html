@@ -48,7 +48,7 @@
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Mission Area</h4></b></label>
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Mission Areas</h4></b></label>
                </div>
             </div>
         </div>
@@ -91,7 +91,7 @@
             <div class="collapse show" id="collapseExample">
                     <form class="form-inline" role="form" id="filters-form" method="get">
                             <div class="col-lg-3 col-md-5 form-group">
-                                <label for="engagement_type"> Engagement Type
+                                <label for="engagement_type"> Engagement Types
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 31%}
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -111,7 +111,7 @@
                         <!--/div-->
 
                             <div class="col-lg-3 col-md-5 form-group">
-                                <label for="academic_year"> Academic Year
+                                <label for="academic_year"> Academic Years
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 32%}
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -129,7 +129,7 @@
 
                             </div>
                             <div class="col-lg-3 col-md-5 form-group">
-                                <label for="campus_partner"> Campus Partner
+                                <label for="campus_partner"> Campus Partners
                                 {% for data_definition in data_definition %}
                                         {% if data_definition.id == 1%}
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -147,7 +147,7 @@
                             </div>
 
                             <div class="col-lg-3 col-md-5 form-group">
-                                <label for="weitz_cec_part"> CEC Partner
+                                <label for="weitz_cec_part"> CEC Building Partners
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 27%}
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -166,7 +166,7 @@
 
 
                             <div class="col-lg-3 col-md-5 form-group">
-                                <label for="community_type"> Community Partner Type
+                                <label for="community_type"> Community Partner Types
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 33%}
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -197,8 +197,8 @@
                                 <th>Mission Areas</th>
                                 <th>Community Partners</th>
                                 <th>Projects</th>
-                                <th>Total UNO Students</th>
-                                <th>Total UNO Hours</th>
+                                <th>Number of UNO Students</th>
+                                <th>Number of UNO Students Hours</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -236,11 +236,11 @@
 <script>
 $(document).ready(function(){
 
-    $('#id_engagement_type').select2({placeholder: 'All Engagement Type',width: '200px'});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partner',width: '200px'});
-    $('#id_academic_year').select2({placeholder: 'All Academic Year',width: '200px'});
-    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Partner',width: '200px'});
-    $('#id_community_type').select2({placeholder: 'All Community Type',width: '200px'});
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px'});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
+    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
+    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
 
 
 

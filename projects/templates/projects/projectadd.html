@@ -78,6 +78,22 @@
                                 {{project.activity_type|bootstrap}}
                                 {{ course|bootstrap }}
 
+                                {% for form2 in formset2 %}
+                                    <div class="community-row" id="contact1">
+                                        <div class="col-lg-12">
+                                            <h6>Community Partner Information</h6><br>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{form2|bootstrap}}
+                                            </div>
+                                        </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                            </div>
+
+                                    </div>
+                                {%endfor%}
 
                                 {% for form3 in formset3 %}
                                     <div class="campus-row" id="contact1" style="margin-top:20px;">
@@ -97,38 +113,24 @@
                                 {% endfor %}
 
 
-                                {% for form2 in formset2 %}
-                                    <div class="community-row" id="contact1">
-                                        <div class="col-lg-12">
-                                            <h6>Community Partner Information</h6><br>
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-                                                {{form2|bootstrap}}
-                                            </div>
-                                        </div>
-                                            <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
-                                            </div>
 
-                                    </div>
-                                {%endfor%}
                                 <div class="col-lg-12">
-                                    <p class = h9>Couldn't find your Campus Partner or Community Partner?, Please Register your Partner before creating a Project</p>
-                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
+                                    <p class = h9>Couldn't find your Community Partner or Campus Partner?, Please Register your Partner before creating a Project</p>
+
                                     <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
                                                                 ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>
+                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
                                 </div>
 
                                  {% for form in formset %}
                                     <div class="mission-row" id="contact1" onsubmit="checking()">
                                         <div class="col-lg-12">
-                                            <h6>Primary Project Mission Area</h6><br>
+                                            <h6>Primary Project Mission Area<span style="color:red;">*</span></h6><br>
                                         </div>
                                             <div class="input-group">
                                                 <div class="col-lg-6">

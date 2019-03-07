@@ -649,6 +649,7 @@ def EngagementType_Chart(request):
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
     engagement_types = EngagementType.objects.all()
+    data_definition=DataDefinition.objects.all()
     for et in engagement_types:
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_project_ids = [p.id for p in campus_filter.qs]
@@ -707,7 +708,7 @@ def EngagementType_Chart(request):
 
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
-                 {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': academicyear_filter,
+                 {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': academicyear_filter,'data_definition':data_definition,
                   'campus_filter': campus_filter})
 
 

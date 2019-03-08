@@ -235,5 +235,14 @@ class CampusPartnerAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CampusPartnerAddForm, self).__init__(*args, **kwargs)
 
+class CommunityPartnerAddForm(forms.ModelForm):
+
+    class Meta:
+        model = CommunityPartnerUser
+        fields = ('community_partner',)
+        labels = {'community_partner': ('Existing Community Partners')}
+
+    def __init__(self, *args, **kwargs):
+        super(CommunityPartnerAddForm, self).__init__(*args, **kwargs)
 
 

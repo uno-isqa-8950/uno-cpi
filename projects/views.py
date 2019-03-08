@@ -40,52 +40,48 @@ def communitypartnerhome(request):
 @login_required()
 @communitypartner_required()
 def communitypartnerproject(request):
-    print(request.user.id)
     p = 0
     projects_list=[]
     comm_part_names=[]
-    camp_part_names=[]
-    total_project_hours = []
     # Get the campus partner id related to the user
     comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
     for c in comm_part_user:
         p =c.community_partner_id
-        print(c.community_partner_id)
     # get all the project names base on the campus partner id
-    proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
-    for f in proj_comm:
-        print(f)
-        k=list(Project.objects.filter(id = f.project_name_id))
-        print(k)
-        for x in k:
-         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-         print(cp)
-         camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-         proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-         for proj_comm_par in proj_comm_par:
-            comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
+        proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
+        for f in proj_comm:
+            print(f)
+            k=list(Project.objects.filter(id = f.project_name_id))
+            print(k)
+            for x in k:
+             projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+             cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+             print(cp)
+             camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+             proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+             for proj_comm_par in proj_comm_par:
+                comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
 
-            comm_part_names.append(comm_part)
-         list_comm_part_names = comm_part_names
-         print(list_comm_part_names)
-         comm_part_names = []
+                comm_part_names.append(comm_part)
+             list_comm_part_names = comm_part_names
+             print(list_comm_part_names)
+             comm_part_names = []
          #total_project_hours += proj_cam_par.total_hours
          #print(total_project_hours)
-         data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-            'activityType': x.activity_type,
-            'facilitator': x.facilitator, 'semester': x.semester , 'status': x.status,
-            'startDate': x.start_date,
-            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-            'total_uno_hours': x.total_uno_hours,
-            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-            'total_uno_faculty': x.total_uno_faculty,
-            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-            'total_economic_impact': x.total_economic_impact,'description':x.description,'projmisn': projmisn, 'proj_comm': proj_comm,
-            'camp':camp, 'comm_part':list_comm_part_names
-             }
+             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                'activityType': x.activity_type,
+                'facilitator': x.facilitator, 'semester': x.semester , 'status': x.status,
+                'startDate': x.start_date,
+                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                'total_uno_hours': x.total_uno_hours,
+                'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                'total_uno_faculty': x.total_uno_faculty,
+                'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                'total_economic_impact': x.total_economic_impact,'description':x.description,'projmisn': projmisn, 'proj_comm': proj_comm,
+                'camp':camp, 'comm_part':list_comm_part_names
+                 }
 
-         projects_list.append(data)
+             projects_list.append(data)
 
 
 
@@ -508,6 +504,23 @@ def projectsPublicReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
+
+                a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
+                if project.id not in a:
+                    b = request.GET.get('community_type', None)
+                    c = request.GET.get('weitz_cec_part', None)
+                    if b is None or b == "All" or b == '':
+                        if c is None or c == "All" or c == '':
+                            data['projectName'] = project.project_name
+                            data['engagementType'] = project.engagement_type
+
+                            projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+                            for projectCampusPartner in projectCampusPartners:
+                                camp_part.append(projectCampusPartner.campus_partner)
+                            list_camp = camp_part
+                            camp_part = []
+                            data['campusPartner'] = list_camp
+
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:
@@ -577,6 +590,26 @@ def projectsPrivateReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
+
+                a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
+                if project.id not in a:
+                    b = request.GET.get('community_type', None)
+                    c = request.GET.get('weitz_cec_part', None)
+                    if b is None or b == "All" or b == '':
+                        if c is None or c == "All" or c == '':
+                            data['projectName'] = mission.project_name
+                            data['engagementType'] = project.engagement_type
+                            data['total_UNO_students'] = project.total_uno_students
+                            data['total_hours'] = project.total_uno_hours
+                            data['economic_impact'] = project.total_economic_impact
+
+                            projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+                            for projectCampusPartner in projectCampusPartners:
+                                camp_part.append(projectCampusPartner.campus_partner)
+                            list_camp = camp_part
+                            camp_part = []
+                            data['campusPartner'] = list_camp
+
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:

@@ -81,6 +81,17 @@
         <div class="collapse show" id="collapseExample">
 
             <form class="form-inline" id="filters-form" method="get">
+
+                <div class="col-lg-3 col-md-5 form-group">
+                    <label for="academic_year"> Engagement Type: </label>
+                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for engagement in projects.form.engagement_type %}
+                            {{engagement}}
+                        {% endfor %}
+                    </select>
+                </div>
+
                 <div class="col-lg-3 col-md-5 form-group">
                     <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
@@ -236,10 +247,12 @@ $(document).ready(function(){
 $(document).ready(function(){
 
 
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partners',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
+
 
 });
 </script>

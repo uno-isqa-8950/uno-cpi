@@ -100,8 +100,8 @@ margin-top:15px;
 
                   <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                     <ul class="dropdown-menu">
-                      <a class="dropdown-item" href="/projectInfo">Mission Area</a>
-                      <a class="dropdown-item" href="/engageType">Engagement Type</a>
+                      <a class="dropdown-item" href="/projectInfo">Mission Areas</a>
+                      <a class="dropdown-item" href="/engageType">Engagement Types</a>
 {#                      <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                       {% if not user.is_authenticated or user.is_communitypartner %}
                          <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
@@ -116,8 +116,8 @@ margin-top:15px;
                   </li>
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
                     <ul class="dropdown-menu">
-                      <a class="dropdown-item" href="/missionchart">Mission Area</a>
-                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Type</a>
+                      <a class="dropdown-item" href="/missionchart">Mission Areas</a>
+                      <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
 
                     </ul>
                   </li>

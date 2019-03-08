@@ -118,7 +118,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
                 "source": "districtData",
                 'layout': {},
                 'paint': {
-                    "fill-color": "#888",
+                    "fill-color": "#fee8c8",
                     "fill-opacity": ["case", ["boolean", ["feature-state", "hover"], false],
                         1,
                         0.5
@@ -134,6 +134,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
 
+    //To DO :If any district is selected highlight it
     map.data.setStyle({
         fillColor: "#fee8c8",
         fillOpacity: 0.5,
@@ -331,7 +332,7 @@ filterYear = function(year) {
 filterMission = function(mission) {
 
     for (i=0; i < markers.length; i++) {
-        if (mission == 'All Mission Years') {
+        if (mission == 'All Mission Areas') {
             markers[i].setVisible(true);
             markerCluster.addMarker(markers[i]);
         } else {
@@ -472,6 +473,7 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
                 if (year) {
                     for (var j = 0; j < year.length; j++) {
                         if (year[j] == value) {
+                            console.log("first place",year[j],value)
                             feature.properties["yeartest"] = 1
                         } else {
                             feature.properties["yeartest"] = 0
@@ -483,6 +485,7 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
             })
             for (var i = 0; i < markers.length; i++) {
                 if (value == yearlist[i]) {
+                    console.log("second place",value,yearlist[i])
                     filterlist[4] = 1
                     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
                 }
@@ -617,10 +620,15 @@ function calculation(a, b, c, d, e) {
                         })
 
                         for (var i = 0; i < markers.length; i++) {
-                            if (yearTest == 1)
+                            if (markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
                     }
@@ -632,10 +640,15 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (campusTest == 1)
+                            if (markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -650,9 +663,16 @@ function calculation(a, b, c, d, e) {
 
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].yearTest == 1 && markers[i].campusTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -669,9 +689,15 @@ function calculation(a, b, c, d, e) {
 
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].category == c)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                            markerCluster.addMarker(markers[i]);
+                        }
+                                else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                                markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -684,10 +710,15 @@ function calculation(a, b, c, d, e) {
                         })
 
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].category == c && markers[i].yearTest == 1)
+                            if (markers[i].category == c && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -700,10 +731,15 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].category== c && markers[i].campusTest == 1)
+                            if (markers[i].category== c && markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -716,9 +752,15 @@ function calculation(a, b, c, d, e) {
                         })
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -735,10 +777,15 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].commType == b)
+                            if (markers[i].commType == b) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
                     } else {
@@ -749,9 +796,16 @@ function calculation(a, b, c, d, e) {
                         })
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].commType == b && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
-                                markers[i].setVisible(false);
+                                markerCluster.addMarker(markers[i]);
+                        }
+                    else
+                            {
+                        markers[i].setVisible(false);
+                        markerCluster.removeMarker(markers[i]);
+                    }
+                    markerCluster.redraw();
                         }
                         totalnumber += number
                     }
@@ -763,10 +817,14 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].commType == b && markers[i].campusTest == 1)
+                            if (markers[i].commType == b && markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
                         }
                         totalnumber += number
 
@@ -777,10 +835,15 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            if (markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
                     }
@@ -796,9 +859,15 @@ function calculation(a, b, c, d, e) {
 
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].commType == b && markers[i].category == c)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -811,9 +880,15 @@ function calculation(a, b, c, d, e) {
                         })
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -827,10 +902,15 @@ function calculation(a, b, c, d, e) {
                             }
                         })
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1)
+                            if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -842,10 +922,15 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].commType== b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number
@@ -905,10 +990,16 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].campusTest == 1)
+                            if (markers[i].mission == a && markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
+                                markerCluster.addMarker(markers[i]);
+                            }
                             else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -919,10 +1010,15 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            if (markers[i].mission == a && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
                     }
@@ -936,10 +1032,15 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].category == c)
+                            if (markers[i].mission == a && markers[i].category == c) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -950,10 +1051,15 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].category == c && markers[i].yearTest == 1)
+                            if (markers[i].mission == a && markers[i].category == c && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            }
+                                else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                                markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -967,10 +1073,17 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
-                                markers[i].setVisible(false);
+                                markerCluster.addMarker(markers[i]);
                         }
+                            else
+                            {
+                                markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                        markerCluster.redraw();
+                    }
 
                         totalnumber += number
 
@@ -982,9 +1095,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -1002,9 +1121,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -1016,9 +1141,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number
 
@@ -1032,9 +1163,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
 
                         totalnumber += number;
@@ -1047,9 +1184,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number;
 
@@ -1065,9 +1208,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                            markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number;
 
@@ -1079,9 +1228,15 @@ function calculation(a, b, c, d, e) {
                         });
                         for (var i = 0; i < markers.length; i++) {
                             if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1)
+                            {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                        }
+                            else {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
                         }
                         totalnumber += number;
 
@@ -1094,10 +1249,15 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1)
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                        }
+                            markerCluster.redraw();
                         }
                         totalnumber += number;
 
@@ -1108,11 +1268,16 @@ function calculation(a, b, c, d, e) {
                             }
                         });
                         for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                 markers[i].setVisible(true);
-                            else
+                                markerCluster.addMarker(markers[i]);
+                            } else
+                            {
                                 markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
                         }
+                            markerCluster.redraw();
+                    }
 
                         totalnumber += number;
                     }

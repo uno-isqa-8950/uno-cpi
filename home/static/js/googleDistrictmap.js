@@ -173,6 +173,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var commType = communityData.features[i].properties["CommunityType"]
         var missionArea = communityData.features[i].properties["Mission Area"]
         var campusPartner = communityData.features[i].properties["Campus Partner"]
+        var yearTest = communityData.features[i].properties["yeartest"]
+        var campusTest = communityData.features[i].properties["campustest"]
         var marker = new google.maps.Marker({
             position: {
                 lat: parseFloat(communityData.features[i].geometry.coordinates[1]),
@@ -185,7 +187,9 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             year: academic,
             mission: missionArea,
             commType: commType,
-            campusPartner: campusPartner
+            campusPartner: campusPartner,
+            yearTest: yearTest,
+            campusTest: campusTest
         });
 
         function missionColor(missionArea) {
@@ -403,9 +407,161 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     var i = Missionarea.indexOf(clickedValue);
     if (i > -1) {
         filterlist[0] = clickedValue;
+        // console.log(filterlist[0]);
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
     }
 });
+
+
+ //*********************************** Campus Partner filter *****************************************************
+
+    var selectCampus = document.getElementById('selectCampus'); //get the element on HTML
+    selectCampus.addEventListener("change", function(e) {
+            var value = e.target.value.trim(); //get the value of the drop-down. In this case, the text on the drop-down
+            if (!CampusPartnerlist.includes(value)) { // in the case of all Campus partners
+                filterlist[3] = "all";
+                calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+            } else { //in case a campus partner is chosen
+                communityData.features.forEach(function(feature) { //iterate through the dataset
+                    var campuspartner = feature.properties["Campus Partner"] //get the campus partner
+                    if (campuspartner.includes(value)) { // if the partner has that campus partner
+                        feature.properties["campustest"] = 1 // assign this value 1
+                    } else {
+                        feature.properties["campustest"] = 0 //if not, assign this value 0
+                    }
+                })
+//                for (var i = 0; i < partners_a.length; i++)
+//                    map.data.remove(partners_a[i]);
+//
+//                partners_a = partners.addGeoJson(communityData);
+                filterlist[3] = 1;
+                calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+            }
+        })
+        //*********************************** Community Type filter *****************************************************
+
+    var selectCommtype = document.getElementById('selectCommtype');
+    selectCommtype.addEventListener("change", function(e) {
+        var value = e.target.value.trim();
+
+        if (!CommunityType.includes(value)) {
+            //get the number of markers and show it on the HTML
+            filterlist[1] = "all"
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+        } else {
+            for (var i = 0; i <= CommunityType.length; i++) {
+                if (value == CommunityType[i]) {
+                    filterlist[1] = value
+                    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+                }
+            }
+        }
+    })
+
+    //*********************************** Academic Year filter *****************************************************
+
+    var selectYear = document.getElementById('selectYear'); //same concept as campus partner. Just for years
+    selectYear.addEventListener("change", function(e) {
+        var value = e.target.value.trim();
+        if (!yearlist.includes(value)) {
+            filterlist[4] = "all"
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+        } else {
+            communityData.features.forEach(function (feature) {
+                var year = feature.properties["Academic Year"]
+                if (year) {
+                    for (var j = 0; j < year.length; j++) {
+                        if (year[j] == value) {
+                            feature.properties["yeartest"] = 1
+                        } else {
+                            feature.properties["yeartest"] = 0
+                        }
+                    }
+                } else {
+                    feature.properties["yeartest"] = 0
+                }
+            })
+            for (var i = 0; i < markers.length; i++) {
+                if (value == yearlist[i]) {
+                    filterlist[4] = 1
+                    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+                }
+            }
+        }
+    })
+
+    //*********************************** District filter *****************************************************
+
+    var selectDistrict = document.getElementById('selectDistrict');
+    selectDistrict.addEventListener("change", function(e) {
+        var value = e.target.value.trim().toLowerCase();
+        value = parseInt(value)
+        if (isNaN(value)) {
+            // get the number of markers that fit the requirement and show on the HTML
+            filterlist[2] = "all"
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+        } else {
+            filterlist[2] = value
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+        }
+    })
+
+    //*********************************** Search function *****************************************************
+    var valueFilter = document.getElementById("valueFilter");
+
+    //Press the listening button
+    valueFilter.addEventListener("keydown", function(e) {
+        if (e.keyCode == 8) {
+            for (var i = 0; i < markers.length; i++){
+              markers[i].setVisible(true);
+            }
+        }
+    });
+
+    // the listening button off
+
+    valueFilter.addEventListener("keyup", function(e) {
+        //get the input value
+        var value = e.target.value.trim().toLowerCase();
+
+        if (value == "") {
+            renderListings([]);
+        } else {
+            //get geojosn data from the map
+            var cmValue = [];
+            for (var j = 0; j < Missionarea.length; j++) {
+                cmValue[j] = map.queryRenderedFeatures({
+                    layers: ["commMap"]
+                });
+            }
+            var filtered = [];
+            var filtereds = [];
+            for (var j = 0; j < Missionarea.length; j++) {
+                filtered[j] = cmValue[j].filter(function(feature) {
+                    var name = normalize(feature.properties["CommunityPartner"]);
+                    return name.indexOf(value) == 0;
+                });
+                filtereds = filtereds.concat(filtered[j]);
+            }
+
+            console.log(filtereds);
+            renderListings(filtereds);
+
+            for (var j = 0; j < Missionarea.length; j++) {
+                if (filtered[j].length > 0) {
+                    map.setFilter("commMap", ['match', ['get', 'id'], filtered[j].map(function(feature) {
+                        console.log(feature.properties.id);
+                        return feature.properties.id;
+                    }), true, false]);
+                } else {
+                    console.log("111111111111");
+                    map.setFilter("commMap", ['match', ['get', 'id'], -1, true, false]);
+                }
+            }
+
+        }
+    });
+
 
 $("#reset").click(function() {
     filterlist[0] = "all"
@@ -413,7 +569,9 @@ $("#reset").click(function() {
     filterlist[2] = "all"
     filterlist[3] = "all"
     filterlist[4] = "all"
-    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+    filterlist[5] = "all"
+    filterlist[6] = "all"
+    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6]);
     $('#selectCommtype option').prop('selected', function() {
         return this.defaultSelected;
     });
@@ -426,11 +584,18 @@ $("#reset").click(function() {
     $('#selectYear option').prop('selected', function() {
         return this.defaultSelected;
     });
+    $('#selectMisstype option').prop('selected', function() {
+        return this.defaultSelected;
+    });
+    $('#selectDistrict option').prop('selected', function() {
+        return this.defaultSelected;
+    });
     layerIDs.forEach(function(layerID) {
-        map.setLayoutProperty(layerID, 'visibility', 'visible');
+        map.setProperty(layerID, 'visibility', 'visible');
     })
 });
 
+//To vary the total number of projects based on the filter selected
 function calculation(a, b, c, d, e) {
     var totalnumber = ''
     var number = 0
@@ -440,15 +605,23 @@ function calculation(a, b, c, d, e) {
             if (c == "all") {
                 if (d == "all") {
                     if (e == "all") {
-                        map.setFilter("commMap", null)
+                        for (var i = 0; i < markers.length; i++) {
+                            markers[i].setVisible(true);
+                        }
                         totalnumber += communityData.features.length
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["==", "yeartest", 1])
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
                     }
                 } else { //else for data[3] if
@@ -458,67 +631,96 @@ function calculation(a, b, c, d, e) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["==", "campustest", 1])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1) {
                                 if (feature.properties['yeartest'] == 1) {
                                     number += 1
                                 }
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ])
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].yearTest == 1 && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
                     }
                 }
             } else { //else for data[2] if
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["==", "Legislative District Number", c])
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].category == c)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-                            ["==", "yeartest", 1]
-                        ])
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].category == c && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
                     }
                 } else {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].category== c && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
                     }
                 }
@@ -527,97 +729,125 @@ function calculation(a, b, c, d, e) {
             if (c == "all") {
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["==", "CommunityType", b])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["==", "CommunityType", b], ["==", "yeartest", 1])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
                     }
                 } else { //else for data[3] if
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "campustest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
                     }
                 }
             } else { //else for data[2] if
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c]
-                        ])
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].category == c)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "yeartest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     }
                 } else {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         })
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].commType== b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     }
@@ -629,101 +859,133 @@ function calculation(a, b, c, d, e) {
             if (c == "all") {
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a]]);
-                        totalnumber += number
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a) {
+                                markers[i].setVisible(true);
+                                markerCluster.addMarker(markers[i]);
+                            } else {
+                                markers[i].setVisible(false);
+                                markerCluster.removeMarker(markers[i]);
+                            }
+                            markerCluster.redraw();
+                        }
+                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].yearTest == 1)
+                            {
+                                markers[i].setVisible(true);
+                                markerCluster.addMarker(markers[i]);
+                            }
+                            else {
+                                markers[i].setVisible(false);
+                                 markerCluster.removeMarker(markers[i]);
+                            }
+                             markerCluster.redraw();
+                        }
                         totalnumber += number
 
                     }
                 } else { //else for data[3] if
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "yeartest", 1],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
                     }
                 }
             } else { //else for data[2] if
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "Legislative District Number", c]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].category == c)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "Legislative District Number", c],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].category == c && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     }
                 } else {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     }
@@ -733,53 +995,62 @@ function calculation(a, b, c, d, e) {
             if (c == "all") {
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "yeartest", 1]
-                        ])
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number
 
                     }
                 } else { //else for data[3] if
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number;
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number;
 
                     }
@@ -787,57 +1058,62 @@ function calculation(a, b, c, d, e) {
             } else { //else for data[2] if
                 if (d == "all") {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number;
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number;
 
                     }
                 } else {
                     if (e == "all") {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
                         totalnumber += number;
 
                     } else {
-                        communityData.features.forEach(function(feature) {
+                        communityData.features.forEach(function (feature) {
                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
                                 number += 1
                             }
                         });
-                        map.setFilter(showlist[i], ["all", ["==", "Mission Area", a],
-                            ["==", "CommunityType", b],
-                            ["==", "Legislative District Number", c],
-                            ["==", "campustest", 1],
-                            ["==", "yeartest", 1]
-                        ]);
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1)
+                                markers[i].setVisible(true);
+                            else
+                                markers[i].setVisible(false);
+                        }
+
                         totalnumber += number;
                     }
                 }

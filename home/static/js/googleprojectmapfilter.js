@@ -522,21 +522,21 @@ filterEngtype = function(engagementType) {
 //***********************************filter by clickable legends*****************************************************
 
 
-// var edu = document.getElementById("all"); //get the total number of dots
-// edu.addEventListener("click", function(e) {
-//
-//     filterlist[0] = "all"
-//     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6])
-// })
-//
-// $('#legend a').click(function(e) { //filter dots by mission areas and show the number
-//     var clickedValue = $(e.target).text(); //get the value from the choice
-//     var i = Engagement.indexOf(clickedValue);
-//     if (i > -1) {
-//         filterlist[0] = clickedValue;
-//         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6]);
-//     }
-// });
+var edu = document.getElementById("all"); //get the total number of dots
+edu.addEventListener("click", function(e) {
+
+    filterlist[0] = "all"
+    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6])
+})
+
+$('#legend a').click(function(e) { //filter dots by mission areas and show the number
+    var clickedValue = $(e.target).text(); //get the value from the choice
+    var i = Engagement.indexOf(clickedValue);
+    if (i > -1) {
+        filterlist[0] = clickedValue;
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6]);
+    }
+});
 
 $("#reset").click(function() {
     filterlist[0] = "all"
@@ -571,418 +571,519 @@ $("#reset").click(function() {
 });
 
 //To vary the total number of projects based on the filter selected
-// function calculation(a, b, c, d, e) {
-//     var totalnumber = ''
-//     var number = 0
-//
-//     if (a == "all") {
-//         if (b == "all") {
-//             if (c == "all") {
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         map.setFilter("commMap", null)
-//                         totalnumber += projectData.features.length
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["==", "yeartest", 1])
-//                         totalnumber += number
-//                     }
-//                 } else { //else for data[3] if
-//                     if (e = "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["==", "campustest", 1])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1) {
-//                                 if (feature.properties['yeartest'] == 1) {
-//                                     number += 1
-//                                 }
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//                     }
-//                 }
-//             } else { //else for data[2] if
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["==", "Legislative District Number", c])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//                     }
-//                 } else {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1]
-//                         ])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//                     }
-//                 }
-//             }
-//         } else { //else if for data[1]
-//             if (c == "all") {
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["==", "CommunityType", b])
-//                         totalnumber += number
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["==", "CommunityType", b], ["==", "yeartest", 1])
-//                         totalnumber += number
-//                     }
-//                 } else { //else for data[3] if
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "campustest", 1]
-//                         ])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//                     }
-//                 }
-//             } else { //else for data[2] if
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c]
-//                         ])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//
-//                     }
-//                 } else {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         })
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     }
-//                 }
-//             }
-//         }
-//     } else { // else for data[0]
-//         if (b == "all") {
-//             if (c == "all") {
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a]]);
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     }
-//                 } else { //else for data[3] if
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "yeartest", 1],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number
-//                     }
-//                 }
-//             } else { //else for data[2] if
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "Legislative District Number", c]
-//                         ]);
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     }
-//                 } else {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number
-//
-//                     }
-//                 }
-//             }
-//         } else {
-//             if (c == "all") {
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b]
-//                         ])
-//                         totalnumber += number
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "yeartest", 1]
-//                         ])
-//                         totalnumber += number
-//
-//                     }
-//                 } else { //else for data[3] if
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number;
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number;
-//
-//                     }
-//                 }
-//             } else { //else for data[2] if
-//                 if (d == "all") {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c]
-//                         ]);
-//                         totalnumber += number;
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number;
-//
-//                     }
-//                 } else {
-//                     if (e == "all") {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter("commMap", ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1]
-//                         ]);
-//                         totalnumber += number;
-//
-//                     } else {
-//                         projectData.features.forEach(function(feature) {
-//                             if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-//                                 number += 1
-//                             }
-//                         });
-//                         map.setFilter(showlist[i], ["all", ["==", "Mission Area", a],
-//                             ["==", "CommunityType", b],
-//                             ["==", "Legislative District Number", c],
-//                             ["==", "campustest", 1],
-//                             ["==", "yeartest", 1]
-//                         ]);
-//                         totalnumber += number;
-//                     }
-//                 }
-//             }
-//         }
-//     }
-//     $('#totalnumber').html(totalnumber);
-// }
+function calculation(a, b, c, d, e) {
+    var totalnumber = ''
+    var number = 0
+
+    if (a == "all") {
+        if (b == "all") {
+            if (c == "all") {
+                if (d == "all") {
+                    if (e == "all") {
+                        for (var i = 0; i < markers.length; i++) {
+                            markers[i].setProperty('visible', true);
+                        }
+                        totalnumber += projectData.features.length
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1) {
+                                number += 1
+                            }
+                        })
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+                    }
+                } else { //else for data[3] if
+                    if (e = "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1) {
+                                if (feature.properties['yeartest'] == 1) {
+                                    number += 1
+                                }
+                            }
+                        })
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('yeartest') == 1 && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+                    }
+                }
+            } else { //else for data[2] if
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c) {
+                                number += 1
+                            }
+                        })
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Legislative District Number') == c)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1) {
+                                number += 1
+                            }
+                        })
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+                    }
+                } else {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+                    }
+                }
+            }
+        } else { //else if for data[1]
+            if (c == "all") {
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+                    }
+                } else { //else for data[3] if
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+                    }
+                }
+            } else { //else for data[2] if
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        });
+
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    }
+                } else {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        })
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    }
+                }
+            }
+        }
+    } else { // else for data[0]
+        if (b == "all") {
+            if (c == "all") {
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    }
+                } else { //else for data[3] if
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+                    }
+                }
+            } else { //else for data[2] if
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    }
+                } else {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    }
+                }
+            }
+        } else {
+            if (c == "all") {
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number
+
+                    }
+                } else { //else for data[3] if
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number;
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number;
+
+                    }
+                }
+            } else { //else for data[2] if
+                if (d == "all") {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number;
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number;
+
+                    }
+                } else {
+                    if (e == "all") {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+                        totalnumber += number;
+
+                    } else {
+                        projectData.features.forEach(function (feature) {
+                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                number += 1
+                            }
+                        });
+                        for (var i = 0; i < markers.length; i++) {
+                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
+                                markers[i].setProperty('visible', true);
+                            else
+                                markers[i].setProperty('visible', false);
+                        }
+
+                        totalnumber += number;
+                    }
+                }
+            }
+        }
+    }
+    $('#totalnumber').html(totalnumber);
+}

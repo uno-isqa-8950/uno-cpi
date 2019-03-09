@@ -38,7 +38,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 
 var select = '';
-select += '<a href="#" ' + 'id=' + '"all" ' + 'value=' + '"allmissions"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Mission Areas</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"allmiss" ' + 'value=' + '"allmissions"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Mission Areas</b></a>' + "<br>";
 for (var i = 0; i < Missionarea.length; i++) {
     var color = colorcode[i]
     var mission = Missionarea[i]
@@ -396,10 +396,10 @@ filterCampusPartner = function(campusPartner) {
 //***********************************filter by clickable legends*****************************************************
 
 
-var edu = document.getElementById("all"); //get the total number of dots
+var edu = document.getElementById("allmiss"); //get the total number of dots
 edu.addEventListener("click", function(e) {
-
     filterlist[0] = "all"
+    console.log(filterlist[0]);
     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
 })
 
@@ -408,7 +408,7 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     var i = Missionarea.indexOf(clickedValue);
     if (i > -1) {
         filterlist[0] = clickedValue;
-        // console.log(filterlist[0]);
+        console.log(filterlist[0]);
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
     }
 });
@@ -610,7 +610,9 @@ function calculation(a, b, c, d, e) {
                     if (e == "all") {
                         for (var i = 0; i < markers.length; i++) {
                             markers[i].setVisible(true);
+                            markerCluster.addMarker(markers[i]);
                         }
+                        markerCluster.redraw();
                         totalnumber += communityData.features.length
                     } else {
                         communityData.features.forEach(function (feature) {
@@ -633,7 +635,7 @@ function calculation(a, b, c, d, e) {
                         totalnumber += number
                     }
                 } else { //else for data[3] if
-                    if (e = "all") {
+                    if (e == "all") {
                         communityData.features.forEach(function(feature) {
                             if (feature.properties['campustest'] == 1) {
                                 number += 1
@@ -939,6 +941,7 @@ function calculation(a, b, c, d, e) {
                 }
             }
         }
+
     } else { // else for data[0]
         if (b == "all") {
             if (c == "all") {

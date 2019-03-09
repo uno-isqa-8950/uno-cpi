@@ -54,55 +54,14 @@
                                     <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Project
-                                                    {% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 36 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %} Name
-                                                </th>
-                                                <th>Mission  Area{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 3 %}
-                                                           <span id="partner_help" tabindex="0" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    </th>
-                                                <th>Community Partner{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 2 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    </th>
-                                                <th>Campus Partner{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 1 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </th>
-                                                <th>Engagement Type{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 31 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </th>
-                                                <th>Academic Year{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 32 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </th>
-                                                <th>Semester{% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 37 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </th>
-                                                <th>Status {% for data_definition in data_definition %}
-                                                        {% if data_definition.id == 38 %}
-                                                           <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-top fa-x" aria-hidden="true"></i></span>{# </span> #}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                </th>
+                                                <th>Project Name</th>
+                                                <th>Mission Area</th>
+                                                <th>Community Partner</th>
+                                                <th>Campus Partner</th>
+                                                <th>Engagement Type</th>
+                                                <th>Academic Year</th>
+                                                <th>Semester</th>
+                                                <th>Status</th>
                                                 <th>Start Date </th>
                                                 <th>End Date </th>
                                                 <th> Number of UNO Students</th>
@@ -180,9 +139,5 @@
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
-<script>
- $(function () {
-             $('[data-toggle="popover"]').popover()
-         })
-</script>
+
 {% endblock %}

@@ -1,251 +1,132 @@
 {% extends 'home/Community_Home.html' %}
 {% load bootstrap %}
 {% block content %}
- <style>
- .btn-custom
-{
-    background-color: #C0C0C0;
-    position: relative;
-    width:90px;
-    top:15px;
-    font-family: Helvetica;
-    left: 250px;
-}
- .btn-custom:hover
-{
-    background-color:#D3D3D3;
-}
- .form-control
-{
-    width:92%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:0px 0 8px 4px;
-    outline:none;
-    padding:3px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
-}
- .form-control:focus
-{
-   border-color:grey;
-   box-shadow:0 0 8px 0 grey;
-}
- body
-{
-   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-   font-size: medium;
-   position: relative;
-}
- .panel
-{
-width: 650px;
-margin-left: auto;
-margin-right:auto;
-margin-top:80px;
-height: relative;
-font-family: Helvetica;
-box-shadow: 5px 10px 20px 5px grey;
-}
- .panel-default > .panel-heading
-{
-background-color: #b8b8b8;
-}
- .panel-heading
-{
-  height:60px;
-  margin-top:5px;
-  border-radius: 5px;
-}
- .panel
-{
-  border-radius: 5px;
-}
- h4
-{
-  line-height: 2.7;
-  font-size: 1.3em;
-}
- label
-{
-margin-left: 25px;
-margin-top: 5px;
-font-weight: bold;
-}
+{% load staticfiles %}
 
-img.center {
-display: block;
-margin-left: auto;
-margin-right: auto;
-}
+    <style>
 
-address {
-font-variant-caps: small-caps;
-}
+        label, .btn-default
+        {
+            margin-left:100px;
+        }
 
-a {
-font-variant: normal;
-}
-</style>
 
- {% if messages %}
-  <ul class="messages">
-  {% for message in messages %}
-    <li class="{{ message.tags }}">{{ message }}</li>
-  {% endfor %}
-  </ul>
-{% endif %}
+        /* Datatable Css */
+        .btn-custom{float: left}
+        .btn-group{float:left;, labels:"Export"}
+        #example_length{float:left; margin:0 0 0 0px;}
+        #example_length select{width:50%;}
+        .btn-actions{
+            background-color: #636568;
+            color:white;
+        }
+        .btn-actions:hover{
+            background-color: #bbbbbb;
+            color:white;
+        }
 
-<div class = "container">
-  <div class ="row justify-content-md-center">
-        <div class="col-xl-8 col-md-10 col-sm-10">
-            <div class = "panel panel-default">
-                <div class="panel-heading text-center"><h4><b>Organization Profile</b></h4></div>
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            margin-left:0px;
+        }
+
+
+        div.dataTables_wrapper div.dataTables_filter label
+        {
+            float:right;
+        }
+
+
+        @media (max-width: 900px)
+        {
+            div.dataTables_wrapper div.dataTables_length label
+            {
+                float:left;
+                margin-left:50px;
+            }
+            #example_length select{width:35%;}
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate
+        {
+            float:right;
+        }
+        th{
+            text-align: center;
+        }
+
+        .container{
+            margin-left: 5px;
+        }
+        .container-fluid{
+            width:132%;
+        }
+
+
+
+    </style>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <div class = "container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4><b>Organization Details</b></h4></div><br>
                 <div class="panel-body">
-                  <div class="col-md-6">
-                      <h4>Organization Details</h4>
-
+                   <div class="container">
+                            <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Organization Name</th>
+                                    <th>Website URL </th>
+                                    <th>CEC Partner </th>
+                                    <th>Community Type</th>
+                                    <th>k12 Level </th>
+                                    <th>Address Line 1</th>
+                                    <th>City</th>
+                                    <th>State</th>
+                                    <th>Zip</th>
+                                    <th>Country</th>
+                                    <th>Missions</th>
+                                    <th>Contacts</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                 {% for community_partner in final%}
+                                    <tr>
+                                        <td>{{community_partner.name}}</td>
+                                        <td>{{community_partner.website_url}}</td>
+                                        <td>{{community_partner.weitz_cec_part}}</td>
+                                        <td>{{community_partner.community_type}}</td>
+                                        <td>{{community_partner.k12_level}}</td>
+                                        <td>{{community_partner.address_line1}}</td>
+                                        <td>{{community_partner.city}}</td>
+                                        <td>{{community_partner.state}}</td>
+                                        <td>{{community_partner.zip}}</td>
+                                        <td>{{community_partner.country}}</td>
+                                        <td align="center"><a href="{% url 'partners:orgprofilemission' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Missions </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofilecontact' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Contacts </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofileupdate' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Edit </a></td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                <div style=" padding: 50px; text-align:center">
+                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"> Join a Existing Community Partner Organization </a>
+                    </div>
+                <br><br>
+                </div>
+            </div>
         </div>
-        <div class="row">
-                      <div class="col-md-5 text-right">
-                          <label>Organization Name : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.name}} </label>
-          </div>
-         <div class="col-md-5 text-right">
-            <label>Website URL : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.website_url}} </label>
-          </div>
-          <div class="col-md-5 text-right">
-            <label> CEC Partner : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.weitz_cec_part}} </label>
-          </div>
-          <div class="col-md-5 text-right">
-            <label> Type : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.community_type}} </label>
-          </div>
-          {% if community_partner.type == 'K12' %}
-          <div class="col-md-5 text-right">
-            <label> k12 Level : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.k12_level}} </label>
-          </div>
-          {% endif %}
-          <div class="col-md-5 text-right">
-            <label>Address Line 1 : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.address_line1}} </label>
-          </div>
-          <div class="col-md-5 text-right">
-            <label> City : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.city}} </label>
-          </div>
-          <div class="col-md-5 text-right">
-            <label> State : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.state}} </label>
-          </div>
-         <div class="col-md-5 text-right">
-            <label> Zip : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.zip}} </label>
-          </div>
-          <div class="col-md-5 text-right">
-            <label> Country : </label>
-          </div>
-          <div class="col-md-7">
-            <label> {{community_partner.country}} </label>
-          </div>
-        </div>
-
-        <div class="col-md-6">
-          <h4>Mission Details</h4>
-        </div>
-
-        <div class="row">
-          {% for mission in missions %}
-          <div class="col-md-3 text-right">
-            <label> Mission Type : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{mission.mission_type}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Mission Area : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{mission.mission_area}} </label>
-          </div>
-          {% endfor %} 
-        </div>
-
-        <div class="col-md-6">
-          <h4>Contact Details</h4>
-        </div>
-        <div class="row">
-          {% for contact in contacts %}
-          <div class="col-md-3 text-right">
-            <label> First Name : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.first_name}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Last Name : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.last_name}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Work Phone : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.work_phone}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Cell Phone : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.cell_phone}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Email ID : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.email_id}} </label>
-          </div>
-          <div class="col-md-3 text-right">
-            <label> Contact Type : </label>
-          </div>
-          <div class="col-md-3">
-            <label> {{contact.contact_type}} </label>
-          </div>
-          {% endfor %}
-        </div>
-
-      </div>
-        <div class="text-center">
-          <a href="{% url 'partners:orgprofileupdate' %}" class="btn btn-default" role="button" style = "background-color: #b8b8b8"> Edit </a>
-        </div>
-        <br>
-
-      </div>
     </div>
-  </div>
-</div>
+
 <br><br><br>
 {% endblock %}

@@ -1,0 +1,386 @@
+[{
+  "model": "home.datadefinitiongroup",
+  "pk": 1,
+  "fields": {
+    "group": "Generic"
+  }
+},
+  {
+    "model": "home.datadefinitiongroup",
+    "pk": 2,
+    "fields": {
+      "group": "Mission Area"
+    }
+  },
+  {
+    "model": "home.datadefinitiongroup",
+    "pk": 3,
+    "fields": {
+      "group": "Community Partner Type"
+    }
+  },
+  {
+    "model": "home.datadefinitiongroup",
+    "pk": 4,
+    "fields": {
+      "group": "Engagement Type"
+    }
+  },
+  {
+    "model": "home.datadefinitiongroup",
+    "pk": 5,
+    "fields": {
+      "group": "Activity Type"
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 1,
+    "fields": {
+      "title": "Campus Partner",
+      "description": "Definition of Campus Partner",
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 2,
+    "fields": {
+      "title": "Community Partner",
+      "description": "Definition of Community Partner goes here",
+      "group": 1,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 3,
+    "fields": {
+      "title": "Mission Area",
+      "description": "Definition of Mission Area",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 4,
+    "fields": {
+      "title": "Environmental Stewardship",
+      "description": "Definition of Environmental Stewardship",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 5,
+    "fields": {
+      "title": "International Service",
+      "description": "Definition of International Service",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 6,
+    "fields": {
+      "title": "Educational Support",
+      "description": "Definition of Educational Support",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 7,
+    "fields": {
+      "title": "Health and Wellness",
+      "description": "Definition of Health and Wellness",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 8,
+    "fields": {
+      "title": "Social Justice",
+      "description": "Definition of Social Justice",
+      "group": 2,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 9,
+    "fields": {
+      "title": "Business",
+      "description": "Definition of Business",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 10,
+    "fields": {
+      "title": "Government Agency",
+      "description": "Definition of Government Agency",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 11,
+    "fields": {
+      "title": "Higher Education Institution",
+      "description": "Definition of Higher Education Institution",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 12,
+    "fields": {
+      "title": "K-12",
+      "description": "Definition of K-12",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 13,
+    "fields": {
+      "title": "Nonprofit",
+      "description": "Definition of Non-Profit",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 13,
+    "fields": {
+      "title": "Nonprofit",
+      "description": "Definition of Non-Profit",
+      "group": 3,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 14,
+    "fields": {
+      "title": "Community-based Learning",
+      "description": "Definition of Community-based Learning",
+      "group": 4,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 15,
+    "fields": {
+      "title": "Knowledge/Information Sharing",
+      "description": "Definition of Knowledge/Information Sharing – please relabel info to information",
+      "group": 4,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 16,
+    "fields": {
+      "title": "Volunteering",
+      "description": "Definition of Volunteering",
+      "group": 4,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 17,
+    "fields": {
+      "title": "Service Learning",
+      "description": "Definition of Service Learning",
+      "group": 4,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 18,
+    "fields": {
+      "title": "Providing Access",
+      "description": "Definition of Providing Access",
+      "group": 4,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 19,
+    "fields": {
+      "title": "Contract Services",
+      "description": "Definition of Contract Services",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 20,
+    "fields": {
+      "title": "Course",
+      "description": "Definition of Course",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 21,
+    "fields": {
+      "title": "Event/ Exhibit/Performance",
+      "description": "Definition of Event/ Exhibit/Performance",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 22,
+    "fields": {
+      "title": "Meeting/Gathering",
+      "description": "Definition of Meeting/Gathering",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 23,
+    "fields": {
+      "title": "Training/Workshop/Presentation",
+      "description": "Definition of Training/Workshop/Presentation",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 23,
+    "fields": {
+      "title": "Unpaid Services",
+      "description": "Definition of Unpaid Services",
+      "group": 5,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 24,
+    "fields": {
+      "title": "Status",
+      "description": "Definition of Status",
+      "group": 1,
+      "is_active": 1
+    }
+  },
+  {
+    "model": "home.datadefinition",
+    "pk": 25,
+    "fields": {
+      "title": "Start Date",
+      "description": "Definition of Start Date",
+      "group": 1,
+      "is_active": 1
+    }
+  }	,
+  {
+    "model": "home.datadefinition",
+    "pk": 26,
+    "fields": {
+      "title": "End Date",
+      "description": "Definition of End Date",
+      "group": 1,
+      "is_active": 1
+    }
+  }	,
+		{
+			"model": "home.datadefinition",
+			"pk": 27,
+			"fields": {
+				"title": "CEC Building Partner",
+				"description": "Definition of CEC Building Partner",
+				"group": 1,
+				"is_active": 1
+			}
+		}
+	,
+		{
+			"model": "home.datadefinition",
+			"pk": 28,
+			"fields": {
+				"title": "Community Partner Count",
+				"description": "Definition of Community Partner Count",
+				"group": 1,
+				"is_active": 1
+			}
+		}	,
+		{
+			"model": "home.datadefinition",
+			"pk": 29,
+			"fields": {
+				"title": "Project Count ",
+				"description": "Definition of Project Count ",
+				"group": 1,
+				"is_active": 1
+			}
+		}	,
+		{
+			"model": "home.datadefinition",
+			"pk": 30,
+			"fields": {
+				"title": "Campus Partner Count ",
+				"description": "Definition of Campus Partner Count ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 31,
+			"fields": {
+				"title": "Engagement Type ",
+				"description": "Definition of Engagement Type ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 32,
+			"fields": {
+				"title": "Academic Year",
+				"description": "Definition of Academic Year ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 33,
+			"fields": {
+				"title": "Community Partner Type",
+				"description": "Definition of Community Partner Type ",
+				"group": 1,
+				"is_active": 1
+			}
+		}
+]

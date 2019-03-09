@@ -69,24 +69,36 @@ def registerCampusPartner(request):
 
 def registerCommunityPartner(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
-    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
+    prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     commType = []
     for object in CommunityType.objects.order_by('community_type'):
         commType.append(object.community_type)
 
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
-        formset_mission = CommunityMissionFormset(request.POST or None, prefix='mission')
+        formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
+        formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid():
+        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
+            #print("Everything is valid")
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
+            primary_missions = formset_primary_mission.save(commit=False)
             missions = formset_mission.save(commit=False)
 
+            for primary_mission in primary_missions:
+                primary_mission.community_partner = community_partner
+                missionarea = primary_mission.mission_area
+                primary_mission.mission_type = 'Primary'
+                #print("in add primary mission")
+                primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
+                mission.mission_type = 'Other'
+                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
@@ -155,13 +167,14 @@ def registerCommunityPartner(request):
     else:
         community_partner_form = CommunityPartnerForm()
         formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
-        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_mission= comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_primary_mission= prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='primary_mission')
 
     return render(request,
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission, 'commType':commType}, )
+                   'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
 #auto complete for community name in register community partner form				   
 def ajax_load_project(request):
@@ -192,8 +205,8 @@ def userProfile(request):
     return render(request, 'partners/campus_partner_user_profile.html',) # {"campus_partner_name": str(campus_user.campus_partner)})
 
   elif request.user.is_communitypartner:
-    community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
-    return render(request, 'partners/community_partner_user_profile.html', {"community_partner_name": str(community_user.community_partner)})
+    #community_user = get_object_or_404(CommunityPartnerUser, user= request.user.id)
+    return render(request, 'partners/community_partner_user_profile.html') #{"community_partner_name": str(community_user.community_partner)})
 
 
 # Campus and Community Partner User Update Profile
@@ -235,7 +248,7 @@ def userProfileUpdate(request):
 
     elif request.user.is_communitypartner:
 
-        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
+        #community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
         user = get_object_or_404(User, id=request.user.id)
 
         if request.method == 'POST':
@@ -257,7 +270,7 @@ def userProfileUpdate(request):
 
         return render(request,
                       'partners/community_partner_user_update.html',
-                      {'user_form': user_form, 'community_partner_name': str(community_user.community_partner),
+                      {'user_form': user_form,
                        'avatar_form': avatar_form}
                     )
 
@@ -267,18 +280,20 @@ def userProfileUpdate(request):
 @login_required
 def orgProfile(request):
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
-        community_partner.type = str(community_partner.community_type)
-        contacts = Contact.objects.values().filter(community_partner=community_partner.id)
-        missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
+        community_user = CommunityPartnerUser.objects.filter(user=request.user.id)
+        community_partners = []
+        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
+        # community_partner.type = str(community_partner.community_type)
+        # contacts = Contact.objects.values().filter(community_partner=community_partner.id)
+        # missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
+        for user in community_user:
+            community_partner = CommunityPartner.objects.filter(name= user.community_partner)
+            community_partners.extend(community_partner)
+            final = community_partners
+        # for mission in missions:
+        #     mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
 
-        for mission in missions:
-            mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
-
-        return render(request, 'partners/community_partner_org_profile.html', {"missions":missions,
-                           "community_partner": community_partner, "contacts":contacts
-                           })
+        return render(request, 'partners/community_partner_org_profile.html', {"final":final})
 
     elif request.user.is_campuspartner:
         campus_user = CampusPartnerUser.objects.filter(user=request.user.id)
@@ -295,11 +310,12 @@ def orgProfile(request):
 def orgProfileUpdate(request, pk):
 
     if request.user.is_communitypartner:
-        community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
+        community_partner = get_object_or_404(CommunityPartner, pk=pk)
+        # community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
+        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
         org_type = str(community_partner.community_type)
-        contacts = Contact.objects.filter(community_partner=community_partner.id).first()
-        missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
+        # contacts = Contact.objects.filter(community_partner=community_partner.id).first()
+        # missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
 
         if request.method == 'POST':
             if "k12_level" not in request.POST:
@@ -308,13 +324,13 @@ def orgProfileUpdate(request, pk):
                 request.POST._mutable = False
 
             community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
-            contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
-            missions_form = CommunityMissionForm(data=request.POST, instance=missions)
+            # contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
+            # missions_form = CommunityMissionForm(data=request.POST, instance=missions)
 
-            if community_org_form.is_valid() and contacts_form.is_valid() and missions_form.is_valid():
+            if community_org_form.is_valid(): #and contacts_form.is_valid() and missions_form.is_valid():
                 community_org_form.save()
-                contacts_form.save()
-                missions_form.save()
+                # contacts_form.save()
+                # missions_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
@@ -323,12 +339,11 @@ def orgProfileUpdate(request, pk):
 
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
-            contacts_form = CommunityContactForm(instance=contacts)
-            missions_form = CommunityMissionForm(instance=missions)
+            # contacts_form = CommunityContactForm(instance=contacts)
+            # missions_form = CommunityMissionForm(instance=missions)
 
         return render(request,
-                          'partners/community_partner_org_update.html', {'missions_form': missions_form,
-                          'contacts_form': contacts_form, 'community_org_form': community_org_form,
+                          'partners/community_partner_org_update.html', {'community_org_form': community_org_form,
                           'org_type' : org_type,
                           })
 
@@ -354,27 +369,51 @@ def orgProfileUpdate(request, pk):
                           'partners/campus_partner_org_update.html', {'campus_org_form': campus_org_form
                           })
 
-# adds a new organisation for the logged user (only for campus partner user)
-def CampusPartnerAdd(request):
-    if request.method == "POST":
-        form = CampusPartnerAddForm(request.POST)
-        if form.is_valid():
-            form.user = request.user
-            print (form.user)
-            CampusPartnerAdd = form.save(commit=False)
-            CampusPartnerAdd.user = request.user
-            CampusPartnerAdd.save()
-            return redirect('partners:orgprofile')
-    else:
-        form = CampusPartnerAddForm()
-    return render(request, 'partners/campus_partner_org_add.html', {'form': form})
+# adds a new organisation for the logged user
+def PartnerAdd(request):
+    if request.user.is_campuspartner:
+        if request.method == "POST":
+            form = CampusPartnerAddForm(request.POST)
+            if form.is_valid():
+                form.user = request.user
+                CampusPartnerAdd = form.save(commit=False)
+                CampusPartnerAdd.user = request.user
+                CampusPartnerAdd.save()
+                return redirect('partners:orgprofile')
+        else:
+            form = CampusPartnerAddForm()
+        return render(request, 'partners/campus_partner_org_add.html', {'form': form})
 
-# Shows contacts of a particular Campus Partner in the Organizations tab of Campus Partner User
+    elif request.user.is_communitypartner:
+        if request.method == "POST":
+            form = CommunityPartnerAddForm(request.POST)
+            if form.is_valid():
+                form.user = request.user
+                CommunityPartnerAdd = form.save(commit=False)
+                CommunityPartnerAdd.user = request.user
+                CommunityPartnerAdd.save()
+                return redirect('partners:orgprofile')
+        else:
+            form = CommunityPartnerAddForm()
+        return render(request, 'partners/community_partner_org_add.html', {'form': form})
+
+# Shows contacts of a particular Campus Partner/Community Partner in the Organizations tab of a User
 def orgProfileContacts(request, pk):
     if request.user.is_campuspartner:
         campus_partner = get_object_or_404(CampusPartner, pk=pk)
         contacts1 = Contact.objects.filter(campus_partner=campus_partner)
         return render(request, 'partners/campus_partner_org_contact.html', {"contacts": contacts1})
+    elif request.user.is_communitypartner:
+        community_partner = get_object_or_404(CommunityPartner, pk=pk)
+        contacts = Contact.objects.filter(community_partner=community_partner)
+        return render(request, 'partners/community_partner_org_contact.html', {"contacts": contacts})
+
+# Shows Missions of a particular Campus Partner/Community Partner in the Organizations tab of a User
+def orgProfileMissions(request, pk):
+    if request.user.is_communitypartner:
+        community_partner = get_object_or_404(CommunityPartner, pk=pk)
+        missions = CommunityPartnerMission.objects.filter(community_partner=community_partner)
+        return render(request, 'partners/community_partner_org_mission.html', {"missions": missions})
 
 #register function for a user to register a new campus partner during filling the project create form
 def registerCampusPartner_forprojects(request):
@@ -408,29 +447,39 @@ def registerCampusPartner_forprojects(request):
 #register function for a user to register a new community partner during filling the project create form
 def registerCommunityPartner_forprojects(request):
     ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
-    CommunityMissionFormset = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionForm)
+    comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
+    prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     commType = []
     for object in CommunityType.objects.order_by('community_type'):
         commType.append(object.community_type)
 
     if request.method == 'POST':
         community_partner_form = CommunityPartnerForm(request.POST)
-        formset_mission = CommunityMissionFormset(request.POST or None, prefix='mission')
+        formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
+        formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid():
+        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
             missions = formset_mission.save(commit=False)
-
+            primary_missions = formset_primary_mission.save(commit=False)
+            for primary_mission in primary_missions:
+                primary_mission.community_partner = community_partner
+                missionarea = primary_mission.mission_area
+                primary_mission.mission_type = 'Primary'
+                #print("in add primary mission  " + str(missionarea))
+                primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
+                mission.mission_type = 'Other'
+                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                print(contact)
-                print(contact.community_partner)
+                #print(contact)
+                #print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################
@@ -494,10 +543,11 @@ def registerCommunityPartner_forprojects(request):
     else:
         community_partner_form = CommunityPartnerForm()
         formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
-        formset_mission= CommunityMissionFormset(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_mission= comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
+        formset_primary_mission= prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='primary_mission')
 
     return render(request,
                   'registration/community_partner_register_for_projects.html',
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
-                   'formset_mission' : formset_mission, 'commType':commType}, )
+                   'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission': formset_primary_mission}, )

@@ -168,6 +168,12 @@ padding: 0px 8px;
               </li>
               {% endif %}
 
+                {% if user.is_communitypartner %}
+                <li class="nav-item">
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
+                </li>
+                 {% endif %}
+
               {% if user.is_authenticated and user.is_superuser  %}
                 <li class=" nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">

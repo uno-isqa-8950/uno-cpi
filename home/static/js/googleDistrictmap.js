@@ -12,7 +12,7 @@ var layerIDs = []; // Will contain a list used to filter against. This is for fi
 var filterlist = ["all", "all", "all", "all", "all"] //first is for Mission Areas, second is for Community Types, 3rd for districts
 //4th for Campus Partner, 5th for Academic year
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
-
+console.log(districtData)
 var count = 0;
 communityData.features.forEach(function(feature) {
     feature.properties["id"] = count;
@@ -132,14 +132,14 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         }
     })
 
-    map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
-
-    //To DO :If any district is selected highlight it
-    map.data.setStyle({
-        fillColor: "#fee8c8",
-        fillOpacity: 0.5,
-        strokeWeight: 0.2
-    })
+    // map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+    //
+    // //To DO :If any district is selected highlight it
+    // map.data.setStyle({
+    //     fillColor: "#fee8c8",
+    //     fillOpacity: 0.5,
+    //     strokeWeight: 0.2
+    // })
 
 
 
@@ -176,6 +176,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var campusPartner = communityData.features[i].properties["Campus Partner"]
         var yearTest = communityData.features[i].properties["yeartest"]
         var campusTest = communityData.features[i].properties["campustest"]
+        var commPartnerName = communityData.features[i].properties["CommunityPartner"]
         var marker = new google.maps.Marker({
             position: {
                 lat: parseFloat(communityData.features[i].geometry.coordinates[1]),
@@ -190,7 +191,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             commType: commType,
             campusPartner: campusPartner,
             yearTest: yearTest,
-            campusTest: campusTest
+            campusTest: campusTest,
+            commPartnerName: commPartnerName
         });
 
         function missionColor(missionArea) {
@@ -229,7 +231,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 })
 
 var mcOptions = {
-    minimumClusterSize: 5, //minimum number of points before which it should be clustered
+    minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
         url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
@@ -272,39 +274,75 @@ function attachMessage(marker, partner_name,district_number,project_number,count
             '<tr><td><span style="font-weight:bold">Website: </span>&nbsp; </td><td>' +  website + '</td></tr>'
     });
     //listner to check for on click event
-    marker.addListener('click', function () {
-        infowindow.open(marker.get('map'), marker);
+    // marker.addListener('click', function () {
+    //     infowindow.open(marker.get('map'), marker);
         //time out after which the info window will close
-        setTimeout(function () {
-            infowindow.close();
-        }, 5000);
-        // infowindow.close();
-        google.maps.event.addListener(map, "click", function (event) {
-            infowindow.close();
+        // setTimeout(function () {
+        //     infowindow.close();
+        // }, 5000);
+        // // infowindow.close();
+        google.maps.event.addListener(marker, "click", function () {
+            // infowindow.close(marker.get('map'), marker);
+            // infowindow.close();
+            if(!marker.open){
+                    infowindow.open(map,marker);
+                    marker.open = true;
+                }
+                else{
+                    infowindow.close();
+                    marker.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infowindow.close();
+                    marker.open = false;
+                });
         })
-    })
 }
 
 //****************************filters from sidebar***************************************
 //district change in filters
 markerDistrict = function(category) {
 
-    for (i=0; i < markers.length; i++) {
-        if (category == 'All Legislative Districts') {
-            markers[i].setVisible(true);
-            markerCluster.addMarker(markers[i]);
-        } else {
-            if (markers[i].category == category) {
-                markers[i].setVisible(true);
-                markerCluster.addMarker(markers[i]);
-            } else {
-                markers[i].setVisible(false);
-                markerCluster.removeMarker(markers[i]);
-            }
-        }
 
+        // if (category == 'All Legislative Districts') {
+        //     markers[i].setVisible(true);
+        //     markerCluster.addMarker(markers[i]);
+        // } else {
+        var dis = document.getElementById("selectDistrict"); //get the total number of dots
+        dis.addEventListener("change", function (e) {
+            var value = e.target.value.trim().toLowerCase();
+            value = parseInt(value)
+                if (isNaN(value)) {
+                    // get the number of markers that fit the requirement and show on the HTML
+                    filterlist[2] = "all"
+                    calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+                }
+            else {
+                    var value = e.target.value.trim().toLowerCase();
+                    for (i = 0; i < districtData.features.length; i++) {
+                        if (parseInt(districtData.features[i].properties['id']) == value) {
+                            for (j=0; j<districtData.features[i].geometry['coordinates'][0].length; j++) {
+                                var polycord = [{
+                                    lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
+                                    lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
+                                }]
+                            }
+                           var districtPoly= new google.maps.Polygon({
+                                paths: polycord,
+                                strokeColor: "#4ffe83",
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: "#61adfe",
+                                fillOpacity: 0.5
+                            });
+                            districtPoly.setMap(map)
+
+                        }
+                    }
+                }
+            })
     }
-};
+
 //******************************************************************************************************************************
 
 //Filter for the academic year
@@ -430,13 +468,14 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
                     } else {
                         feature.properties["campustest"] = 0 //if not, assign this value 0
                     }
-                })
+
 //                for (var i = 0; i < partners_a.length; i++)
 //                    map.data.remove(partners_a[i]);
 //
 //                partners_a = partners.addGeoJson(communityData);
                 filterlist[3] = 1;
                 calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
+                })
             }
         })
         //*********************************** Community Type filter *****************************************************
@@ -473,7 +512,6 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
                 if (year) {
                     for (var j = 0; j < year.length; j++) {
                         if (year[j] == value) {
-                            console.log("first place",year[j],value)
                             feature.properties["yeartest"] = 1
                         } else {
                             feature.properties["yeartest"] = 0
@@ -482,14 +520,15 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
                 } else {
                     feature.properties["yeartest"] = 0
                 }
-            })
-            for (var i = 0; i < markers.length; i++) {
-                if (value == yearlist[i]) {
-                    console.log("second place",value,yearlist[i])
+
+            // for (var i = 0; i < markers.length; i++) {
+            //     if (value == yearlist[i]) {
+            //         console.log("second place",value,yearlist[i])
                     filterlist[4] = 1
                     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-                }
-            }
+                })
+            //     }
+            // }
         }
     })
 
@@ -515,55 +554,87 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     //Press the listening button
     valueFilter.addEventListener("keydown", function(e) {
         if (e.keyCode == 8) {
+            console.log(e.keyCode)
             for (var i = 0; i < markers.length; i++){
-              markers[i].setVisible(true);
+              markers[i].setVisible(false);
+              markerCluster.removeMarker(markers[i]);
             }
+        markerCluster.redraw();
         }
     });
 
     // the listening button off
-
     valueFilter.addEventListener("keyup", function(e) {
         //get the input value
         var value = e.target.value.trim().toLowerCase();
 
         if (value == "") {
-            renderListings([]);
-        } else {
-            //get geojosn data from the map
-            var cmValue = [];
-            for (var j = 0; j < Missionarea.length; j++) {
-                cmValue[j] = map.queryRenderedFeatures({
-                    layers: ["commMap"]
-                });
+            for (var i = 0; i < markers.length; i++) {
+                markers[i].setVisible(true);
+                markerCluster.addMarker(markers[i]);
             }
-            var filtered = [];
-            var filtereds = [];
-            for (var j = 0; j < Missionarea.length; j++) {
-                filtered[j] = cmValue[j].filter(function(feature) {
-                    var name = normalize(feature.properties["CommunityPartner"]);
-                    return name.indexOf(value) == 0;
-                });
-                filtereds = filtereds.concat(filtered[j]);
-            }
+            markerCluster.redraw();
+        }
+        else {
 
-            console.log(filtereds);
-            renderListings(filtereds);
+            for (var i = 0; i < markers.length; i++) {
+                // console.log(markers[i].commPartnerName.includes(value))
+                cpname = markers[i].commPartnerName.toLowerCase();
+                if (cpname.includes(value)) {
+                    // console.log(cpname, value)
+                    markers[i].setVisible(true);
+                    markerCluster.addMarker(markers[i]);
+                    // marker.setCenter(markers[i].getPosition());
+                }
 
-            for (var j = 0; j < Missionarea.length; j++) {
-                if (filtered[j].length > 0) {
-                    map.setFilter("commMap", ['match', ['get', 'id'], filtered[j].map(function(feature) {
-                        console.log(feature.properties.id);
-                        return feature.properties.id;
-                    }), true, false]);
-                } else {
-                    console.log("111111111111");
-                    map.setFilter("commMap", ['match', ['get', 'id'], -1, true, false]);
+                else {
+                    markers[i].setVisible(false);
+                    markerCluster.removeMarker(markers[i]);
+
                 }
             }
-
+            markerCluster.redraw();
         }
-    });
+    })
+            //get geojosn data from the map
+            // var cmValue = [];
+
+
+
+
+            //
+            // for (var j = 0; j < Missionarea.length; j++) {
+            //     cmValue[j] = map.queryRenderedFeatures({
+            //         layers: ["commMap"]
+            //     });
+            // }
+            // var filtered = [];
+            // var filtereds = [];
+            // for (var j = 0; j < Missionarea.length; j++) {
+            //     filtered[j] = cmValue[j].filter(function(feature) {
+            //         var name = normalize(feature.properties["CommunityPartner"]);
+            //         return name.indexOf(value) == 0;
+            //     });
+            //     filtereds = filtereds.concat(filtered[j]);
+            // }
+            //
+            // console.log(filtereds);
+            // renderListings(filtereds);
+            //
+            // for (var j = 0; j < Missionarea.length; j++) {
+            //     if (filtered[j].length > 0) {
+            //         map.setFilter("commMap", ['match', ['get', 'id'], filtered[j].map(function(feature) {
+            //             console.log(feature.properties.id);
+            //             return feature.properties.id;
+            //         }), true, false]);
+            //     } else {
+            //         console.log("111111111111");
+            //         map.setFilter("commMap", ['match', ['get', 'id'], -1, true, false]);
+            //     }
+            // }
+
+        // }
+    // });
 
 
 $("#reset").click(function() {
@@ -593,9 +664,10 @@ $("#reset").click(function() {
     $('#selectDistrict option').prop('selected', function() {
         return this.defaultSelected;
     });
-    layerIDs.forEach(function(layerID) {
-        map.setProperty(layerID, 'visibility', 'visible');
-    })
+
+    // layerIDs.forEach(function(layerID) {
+    //     map.setProperty(layerID, 'visibility', 'visible');
+    // })
 });
 
 //To vary the total number of projects based on the filter selected

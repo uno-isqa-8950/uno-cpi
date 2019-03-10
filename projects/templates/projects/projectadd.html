@@ -123,7 +123,7 @@
                                     <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</
+                                                                ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>
                                 </div>
 
                                  {% for form in formset %}
@@ -419,7 +419,6 @@ window.onsubmit = function checking() {
     var id_name = document.getElementById('id_mission-0-mission');
     var val = id_name.options[id_name.selectedIndex].text;
     var location = document.getElementById("errorid").scrollTop;
-    console.log(val)
 if (val === '---------') {
     error = "Please select a Primary Mission Area";
     document.getElementById("errorid").innerHTML = error;

@@ -382,5 +382,75 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 34,
+			"fields": {
+				"title": "Point of Contact - Campus Partner",
+				"description": "Definition of who a Point of Contact for Campus Partner is ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 35,
+			"fields": {
+				"title": "Point of Contact - Community Partner",
+				"description": "Definition of who a Point of Contact for Community Partner is ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 36,
+			"fields": {
+				"title": "Projects - Campus Partner",
+				"description": "Definition of type of Projects associated with Campus Partner ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 37,
+			"fields": {
+				"title": "Semester",
+				"description": "Spring/Fall/Summer Semester in which the Project is active ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 38,
+			"fields": {
+				"title": "Project Status",
+				"description": "Status of the Project - Active/Inactive/Discontinued",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 39,
+			"fields": {
+				"title": "Primary Mission Area",
+				"description": "Description of what Primary Mission Area refers to",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 40,
+			"fields": {
+				"title": "Secondary Mission Area",
+				"description": "Description of what Secondary Mission Area refers to",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

@@ -95,6 +95,8 @@ var formatter = new Intl.NumberFormat('en-US', { //this is to format the current
 
 //*********************************** Load the map *****************************************************
 var markers =[];
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+
 google.maps.event.addListenerOnce(map, 'idle', function () {
     // changeColor(circle);
     map.data.add('communityData', {
@@ -195,6 +197,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             commPartnerName: commPartnerName
         });
 
+        oms.addMarker(marker);
         function missionColor(missionArea) {
 
             if (missionArea=="Economic Sufficiency"){
@@ -231,6 +234,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 })
 
 var mcOptions = {
+    maxZoom: 15,
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
@@ -298,6 +302,12 @@ function attachMessage(marker, partner_name,district_number,project_number,count
         });
     })
 }
+
+
+// To prevent Info window opening on the first click on spiderfier
+oms.addListener('spiderfy', function(markers) {
+  infowindow.close();
+})
 
 //****************************filters from sidebar***************************************
 //district change in filters

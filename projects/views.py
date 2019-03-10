@@ -43,6 +43,7 @@ def communitypartnerproject(request):
     p = 0
     projects_list=[]
     comm_part_names=[]
+    data_definition=DataDefinition.objects.all()
     # Get the campus partner id related to the user
     comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
     for c in comm_part_user:
@@ -85,7 +86,7 @@ def communitypartnerproject(request):
 
 
 
-    return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
 
 
 @login_required()

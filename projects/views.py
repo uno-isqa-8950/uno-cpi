@@ -94,7 +94,6 @@ def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
     camp_part_names=[]
-    data_definition=DataDefinition.objects.all()
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     for c in camp_part_user:
@@ -133,7 +132,7 @@ def proj_view_user(request):
 
 
 
-    return render(request, 'projects/Projectlist.html', {'project': projects_list,'data_definition':data_definition})
+    return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
 
 @login_required()
@@ -401,7 +400,6 @@ def project_edit_new(request,pk):
 @login_required()
 def SearchForProject(request):
     p = 0
-    data_definition = DataDefinition.objects.all()
     names=[]
     projects_list=[]
     for project in Project.objects.all():
@@ -433,6 +431,7 @@ def SearchForProject(request):
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
         project_ids = [p.id for p in searched_project.qs]
         k = list(Project.objects.all())
+        print("here I am",k[1:25])
 
         for x in k:
             projmisn =list(ProjectMission.objects.filter(project_name_id=x.id))
@@ -443,6 +442,11 @@ def SearchForProject(request):
                 camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
                 camp_part_names.append(camp_part)
             list_camp_part_names = camp_part_names
+            print("I am the project mission",projmisn)
+            print("I am the camp partn",list_camp_part_names)
+            print("I am the community part,",cp)
+            print("I am the proj camp partner",proj_camp_par)
+
             camp_part_names = []
             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
                     'activityType': x.activity_type,
@@ -459,7 +463,7 @@ def SearchForProject(request):
                     }
             projects_list.append(data)
 
-    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist,'data_definition':data_definition})
+    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist})
 
 
 @login_required()

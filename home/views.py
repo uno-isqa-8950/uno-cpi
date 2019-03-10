@@ -796,7 +796,7 @@ def GEOJSON():
                 collection['features'].append(feature)  #create the geojson
             jsonstring = pd.io.json.dumps(collection)
 
-            output_filename = 'home/static/GEOJSON/Partner1.geojson'  #The name and location have to match with the one on line 625 in this current function
+            output_filename = 'home/static/GEOJSON/Partner.geojson'  #The name and location have to match with the one on line 625 in this current function
             with open(output_filename, 'w') as output_file:
                 output_file.write(format(jsonstring)) #write the file to the location
     mission_list = MissionArea.objects.all()

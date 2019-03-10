@@ -571,519 +571,646 @@ $("#reset").click(function() {
 });
 
 //To vary the total number of projects based on the filter selected
-function calculation(a, b, c, d, e) {
-    var totalnumber = ''
-    var number = 0
+ function calculation(a, b, c, d, e) {
+        var totalnumber = ''
+        var number = 0
 
-    if (a == "all") {
-        if (b == "all") {
-            if (c == "all") {
-                if (d == "all") {
-                    if (e == "all") {
-                        for (var i = 0; i < markers.length; i++) {
-                            markers[i].setProperty('visible', true);
-                        }
-                        totalnumber += projectData.features.length
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1) {
-                                number += 1
+        if (a == "all") {
+            if (b == "all") {
+                if (c == "all") {
+                    if (d == "all") {
+                        if (e == "all") {
+                            for (var i = 0; i < markers.length; i++) {
+                                markers[i].setVisible(true);
+                                markerCluster.addMarker(markers[i]);
                             }
-                        })
-
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-                    }
-                } else { //else for data[3] if
-                    if (e = "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1) {
-                                number += 1
-                            }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1) {
+                            markerCluster.redraw();
+                            totalnumber += communityData.features.length
+                        } else {
+                            communityData.features.forEach(function (feature) {
                                 if (feature.properties['yeartest'] == 1) {
                                     number += 1
                                 }
+                            })
+
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('yeartest') == 1 && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number
                         }
+                    } else { //else for data[3] if
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
 
-                        totalnumber += number
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1) {
+                                    if (feature.properties['yeartest'] == 1) {
+                                        number += 1
+                                    }
+                                }
+                            })
+
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].yearTest == 1 && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+                        }
+                    }
+                } else { //else for data[2] if
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c) {
+                                    number += 1
+                                }
+                            })
+
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].category == c) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1) {
+                                    number += 1
+                                }
+                            })
+
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].category == c && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+                        }
+                    } else {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].category == c && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+                        }
                     }
                 }
-            } else { //else for data[2] if
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c) {
-                                number += 1
+            } else { //else if for data[1]
+                if (c == "all") {
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Legislative District Number') == c)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1) {
-                                number += 1
+                            totalnumber += number
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number
                         }
+                    } else { //else for data[3] if
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                            }
+                            totalnumber += number
 
-                        totalnumber += number
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+                        }
                     }
-                } else {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
-                                number += 1
+                } else { //else for data[2] if
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            });
+
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].category == c) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+
                         }
-
-                        totalnumber += number
-
                     } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c) {
-                                number += 1
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            })
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
 
-                        totalnumber += number
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+
+                        }
                     }
                 }
             }
-        } else { //else if for data[1]
-            if (c == "all") {
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['CommunityType'] == b) {
-                                number += 1
-                            }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1) {
-                                number += 1
-                            }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-                    }
-                } else { //else for data[3] if
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b) {
-                                number += 1
-                            }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
 
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
-                                number += 1
+        } else { // else for data[0]
+            if (b == "all") {
+                if (c == "all") {
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+
                         }
-                        totalnumber += number
+                    } else { //else for data[3] if
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+                        }
+                    }
+                } else { //else for data[2] if
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].category == c) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].category == c && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+
+                        }
+                    } else {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number
+
+                        }
                     }
                 }
-            } else { //else for data[2] if
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-                                number += 1
+            } else {
+                if (c == "all") {
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        });
+                            totalnumber += number
 
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b) {
-                                number += 1
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number
+
                         }
+                    } else { //else for data[3] if
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
 
-                        totalnumber += number
+                            totalnumber += number;
 
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number;
+
+                        }
                     }
-                } else {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-                                number += 1
+                } else { //else for data[2] if
+                    if (d == "all") {
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        })
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number;
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+                            totalnumber += number;
+
                         }
-
-                        totalnumber += number
-
                     } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b) {
-                                number += 1
+                        if (e == "all") {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
                             }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
+                            totalnumber += number;
+
+                        } else {
+                            communityData.features.forEach(function (feature) {
+                                if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
+                                    number += 1
+                                }
+                            });
+                            for (var i = 0; i < markers.length; i++) {
+                                if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(false);
+                                    markerCluster.removeMarker(markers[i]);
+                                }
+                                markerCluster.redraw();
+                            }
+
+                            totalnumber += number;
                         }
-
-                        totalnumber += number
-
                     }
                 }
             }
         }
-    } else { // else for data[0]
-        if (b == "all") {
-            if (c == "all") {
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    }
-                } else { //else for data[3] if
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-                    }
-                }
-            } else { //else for data[2] if
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    }
-                } else {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    }
-                }
-            }
-        } else {
-            if (c == "all") {
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['CommunityType'] == b && feature.properties['yeartest'] == 1 && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number
-
-                    }
-                } else { //else for data[3] if
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-
-                        totalnumber += number;
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number;
-
-                    }
-                }
-            } else { //else for data[2] if
-                if (d == "all") {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number;
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['Legislative District Number'] == c && feature.properties['yeartest'] == 1 && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number;
-
-                    }
-                } else {
-                    if (e == "all") {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-                        totalnumber += number;
-
-                    } else {
-                        projectData.features.forEach(function (feature) {
-                            if (feature.properties['yeartest'] == 1 && feature.properties['campustest'] == 1 && feature.properties['Legislative District Number'] == c && feature.properties['CommunityType'] == b && feature.properties['Mission Area'] == a) {
-                                number += 1
-                            }
-                        });
-                        for (var i = 0; i < markers.length; i++) {
-                            if (markers[i].getProperty('Mission Area') == a && markers[i].getProperty('CommunityType') == b && markers[i].getProperty('Legislative District Number') == c && markers[i].getProperty('campustest') == 1 && markers[i].getProperty('yeartest') == 1)
-                                markers[i].setProperty('visible', true);
-                            else
-                                markers[i].setProperty('visible', false);
-                        }
-
-                        totalnumber += number;
-                    }
-                }
-            }
-        }
+        $('#totalnumber').html(totalnumber);
     }
-    $('#totalnumber').html(totalnumber);
-}

@@ -43,6 +43,7 @@ def communitypartnerproject(request):
     p = 0
     projects_list=[]
     comm_part_names=[]
+    data_definition=DataDefinition.objects.all()
     # Get the campus partner id related to the user
     comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
     for c in comm_part_user:
@@ -85,7 +86,7 @@ def communitypartnerproject(request):
 
 
 
-    return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
 
 
 @login_required()
@@ -93,6 +94,7 @@ def communitypartnerproject(request):
 def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
+    data_definition=DataDefinition.objects.all()
     camp_part_names=[]
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
@@ -132,7 +134,7 @@ def proj_view_user(request):
 
 
 
-    return render(request, 'projects/Projectlist.html', {'project': projects_list})
+    return render(request, 'projects/Projectlist.html', {'project': projects_list,'data_definition':data_definition})
 
 
 @login_required()
@@ -402,6 +404,7 @@ def SearchForProject(request):
     p = 0
     names=[]
     projects_list=[]
+    data_definition=DataDefinition.objects.all()
     for project in Project.objects.all():
         names.append(project.project_name)
     camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
@@ -463,7 +466,7 @@ def SearchForProject(request):
                     }
             projects_list.append(data)
 
-    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist})
+    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist,'data_definition':data_definition})
 
 
 @login_required()

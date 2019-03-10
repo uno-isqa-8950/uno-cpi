@@ -80,7 +80,6 @@ class CampusPartnerContactForm(forms.ModelForm):
             raise forms.ValidationError("Please use .edu email ")
         return email
 
-
 class CommunityPartnerForm(forms.ModelForm):
     community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Partner Type',empty_label='Select Community Type')
     class Meta:
@@ -116,6 +115,8 @@ class CommunityPartnerForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid Country Name")
             if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid Country Name")
+            if len(name) == 0:
+                raise forms.ValidationError("Please enter a Country Name")
             return name
 
     def clean_state(self):
@@ -125,6 +126,8 @@ class CommunityPartnerForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid State Name")
             if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid State Name")
+            if len(name) == 0:
+                raise forms.ValidationError("Please enter a State Name")
             return name
 
     def clean_city(self):
@@ -134,6 +137,8 @@ class CommunityPartnerForm(forms.ModelForm):
                 raise forms.ValidationError("Invalid City Name")
             if any(char in special_characters for char in name):
                 raise forms.ValidationError("Invalid City Name")
+            if len(name) == 0:
+                raise forms.ValidationError("Please enter a City Name")
             return name
 
 
@@ -141,6 +146,8 @@ class CommunityPartnerForm(forms.ModelForm):
         zip = self.cleaned_data['zip']
         if any(char.isalpha() for char in zip):
             raise forms.ValidationError("Invalid ZIP Code")
+        if len(zip) == 0:
+            raise forms.ValidationError("Please enter a Zip Code")
         return zip
 
 
@@ -218,6 +225,23 @@ class CommunityMissionForm(ModelForm):
             'mission_area': ('Mission Area'),
         }
 
+class CommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+                    }
+
+
+class PrimaryCommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+        }
+
 class CampusPartnerAddForm(forms.ModelForm):
 
     class Meta:
@@ -228,5 +252,14 @@ class CampusPartnerAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CampusPartnerAddForm, self).__init__(*args, **kwargs)
 
+class CommunityPartnerAddForm(forms.ModelForm):
+
+    class Meta:
+        model = CommunityPartnerUser
+        fields = ('community_partner',)
+        labels = {'community_partner': ('Existing Community Partners')}
+
+    def __init__(self, *args, **kwargs):
+        super(CommunityPartnerAddForm, self).__init__(*args, **kwargs)
 
 

@@ -234,3 +234,18 @@ class HouseholdIncome(models.Model):
 
     def __str__(self):
         return str(self.county)
+class DataDefinitionGroup (models.Model):
+    group = models.CharField(max_length=100,default="Default")
+
+    def __str__(self):
+        return str(self.group)
+
+class DataDefinition(models.Model):
+    id = models.IntegerField(unique=True,null=False, blank=False, primary_key=True)
+    title = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
+    group = models.ForeignKey('DataDefinitionGroup', on_delete=models.CASCADE,default=True)
+    is_active = models.BooleanField(default=False)
+
+    def __str__(self):
+        return str(self.title)

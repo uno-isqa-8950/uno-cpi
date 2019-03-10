@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from .models import EducationSystem, University , College, Department,Course
 
+from import_export import resources
+from import_export.admin import ImportExportModelAdmin
 
 class EducationSystemList(admin.ModelAdmin):
 
@@ -17,25 +19,46 @@ class UniversityList(admin.ModelAdmin):
     search_fields = ('name', 'education_system')
 
 
-class CollegeList(admin.ModelAdmin):
+class CollegeResource(resources.ModelResource):
+
+    class Meta:
+        model = College
+
+class CollegeList(ImportExportModelAdmin):
 
     list_display = ('college_name', 'university')
 
     search_fields = ('college_name', 'university')
 
+    resource_class = CollegeResource
 
-class DepartmentList(admin.ModelAdmin):
+
+class DepartmentResource(resources.ModelResource):
+
+    class Meta:
+        model = Department
+
+class DepartmentList(ImportExportModelAdmin):
 
     list_display = ('department_name', 'college_name')
 
     search_fields = ('department_name', 'college_name')
 
+    resource_class = DepartmentResource
 
-class CourseList(admin.ModelAdmin):
+
+class CourseResource(resources.ModelResource):
+
+    class Meta:
+        model = Course
+
+class CourseList(ImportExportModelAdmin):
 
     list_display = ('prefix', 'number', 'name','project_name', 'university')
 
     search_fields =  ('prefix', 'number', 'name','project_name', 'university')
+
+    resource_class = CourseResource
 
 
 admin.site.register(EducationSystem,EducationSystemList)

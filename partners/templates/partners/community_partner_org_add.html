@@ -1,4 +1,4 @@
-{% extends 'home/Campus_Home.html' %}
+{% extends 'home/Community_Home.html' %}
 {% load bootstrap %}
 {% block content %}
 
@@ -42,6 +42,7 @@ width:100%;
     background-color: #bbbbbb;
     color: white;
 }
+
 </style>
 
 <div class = "container">
@@ -55,7 +56,7 @@ width:100%;
             {% csrf_token %}
               <div class="form-group">
                   <div class="row">
-                      {{ form.campus_partner | bootstrap }}
+                      {{ form.community_partner | bootstrap }}
                   </div>
               </div>
             <p style="text-align:center">

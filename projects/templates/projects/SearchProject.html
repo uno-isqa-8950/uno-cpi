@@ -44,8 +44,14 @@ label, .btn-default
     {
         float:right;
     }
-
-
+.panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
 
 </style>
 
@@ -61,17 +67,43 @@ label, .btn-default
         <!--</div>-->
 
                         <div class="container">
-                            <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Projects</th>
-                                    <th>Mission Areas</th>
-                                    <th>Community Partners</th>
-                                    <th>Campus Partners</th>
-                                    <th>Engagement Types</th>
-                                    <th>Academic Years</th>
-                                    <th>Semester</th>
-                                    <th>Status</th>
+
+                                    <th>Projects
+                                        {% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Mission Areas{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Community Partners{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Campus Partners{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Engagement Types{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Academic Years{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Status{% for data_definition in data_definition %}{% if data_definition.id == 38%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
                                     <th>Start Date</th>
                                     <th>End Date</th>
                                     <th>Number of UNO Students</th>
@@ -84,6 +116,7 @@ label, .btn-default
 {#                                    <th>Campus Facilitator</th>#}
                                     <th>Description</th>
 {#                                    <th>Action</th>#}
+
                                 </tr>
                             </thead>
                             <tbody>
@@ -153,6 +186,10 @@ label, .btn-default
 
     } );
 </script>
-
+     <script>
+         $(function () {
+             $('[data-toggle="popover"]').popover()
+         })
+     </script>
 
 {% endblock %}

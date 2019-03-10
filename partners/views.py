@@ -11,7 +11,7 @@ from .forms import *
 from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
 from partners.models import *
-from home.models import Contact as ContactModel, Contact, User, MissionArea
+from home.models import *
 from home.forms import userUpdateForm
 from django.template.loader import render_to_string
 import googlemaps
@@ -41,6 +41,7 @@ district = districtGEO()
 def registerCampusPartner(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
     colleges = []
+    data_definition = DataDefinition.objects.all()
     for object in College.objects.order_by('college_name'):
         colleges.append(object.college_name)
     #departmnts = []
@@ -64,6 +65,7 @@ def registerCampusPartner(request):
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
     return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form,
+                                                                       'data_definition': data_definition,
                                                                        'formset': formset,'colleges':colleges})
 
 
@@ -72,6 +74,7 @@ def registerCommunityPartner(request):
     comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
     prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     commType = []
+    data_definition = DataDefinition.objects.all()
     for object in CommunityType.objects.order_by('community_type'):
         commType.append(object.community_type)
 
@@ -173,10 +176,10 @@ def registerCommunityPartner(request):
     return render(request,
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
-                   'formset': formset,
+                   'formset': formset, 'data_definition':data_definition,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
-#auto complete for community name in register community partner form				   
+#auto complete for community name in register community partner form
 def ajax_load_project(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
@@ -195,7 +198,7 @@ def ajax_load_project(request):
     mimetype = 'application/json'
     return HttpResponse(data, mimetype)
 
-	
+
 #Campus and Community Partner user Profile
 @login_required
 def userProfile(request):

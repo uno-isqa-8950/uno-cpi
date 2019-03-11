@@ -12,7 +12,6 @@ var layerIDs = []; // Will contain a list used to filter against. This is for fi
 var filterlist = ["all", "all", "all", "all", "all"] //first is for Mission Areas, second is for Community Types, 3rd for districts
 //4th for Campus Partner, 5th for Academic year
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
-console.log(districtData)
 var count = 0;
 communityData.features.forEach(function(feature) {
     feature.properties["id"] = count;
@@ -125,7 +124,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
                         1,
                         0.5
                     ],
-                    "fill-outline-color": "#3c341f"
+                    "fill-outline-color": "#fec05f"
                 },
                 "filter": ["==", "id", symbol]
             });
@@ -134,7 +133,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         }
     })
 
-    map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+    dist_data = map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
 
     //To DO :If any district is selected highlight it
     map.data.setStyle({
@@ -156,7 +155,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         strokeColor: 'white',
         strokeWeight: 1.5
     };
-    console.log(communityData.features)
     // contents of the infowindow
     var comm_name = communityData.features
     var miss_name = communityData.features
@@ -167,7 +165,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var academic_year = communityData.features
     var website = communityData.features
     var county = communityData.features
-    // console.log(communityData.features.properties)
     // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var category = communityData.features[i].properties["Legislative District Number"]
@@ -309,149 +306,12 @@ oms.addListener('spiderfy', function(markers) {
   infowindow.close();
 })
 
-//****************************filters from sidebar***************************************
-//district change in filters
-markerDistrict = function(category) {
-
-
-    // if (category == 'All Legislative Districts') {
-    //     markers[i].setVisible(true);
-    //     markerCluster.addMarker(markers[i]);
-    // } else {
-    var dis = document.getElementById("selectDistrict"); //get the total number of dots
-    dis.addEventListener("change", function (e) {
-        var value = e.target.value.trim().toLowerCase();
-        value = parseInt(value)
-        if (isNaN(value)) {
-            // get the number of markers that fit the requirement and show on the HTML
-            filterlist[2] = "all"
-            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-        }
-        else {
-            var value = e.target.value.trim().toLowerCase();
-            for (i = 0; i < districtData.features.length; i++) {
-                if (districtData.features[i].properties['id'] == value) {
-                    for (j=0; j<districtData.features[i].geometry['coordinates'][0].length; j++) {
-                        var polycord = [{
-                            lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
-                            lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
-                        }]
-                    }
-                    console.log("In district poly",districtPoly)
-                    var districtPoly= new google.maps.Polygon({
-                        paths: polycord,
-                        strokeColor: "#4ffe83",
-                        strokeOpacity: 0.8,
-                        strokeWeight: 2,
-                        fillColor: "#61adfe",
-                        fillOpacity: 0.5
-                    });
-                    console.log("In district poly",districtPoly)
-                    districtPoly.setMap(map)
-
-                }
-            }
-            filterlist[2] = value
-            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-        }
-    })
-}
-
-//******************************************************************************************************************************
-
-//Filter for the academic year
-filterYear = function(year) {
-
-    for (i=0; i < markers.length; i++) {
-        if (year == 'All Academic Years') {
-            markers[i].setVisible(true);
-            markerCluster.addMarker(markers[i]);
-        } else {
-            if (markers[i].year == year) {
-                markers[i].setVisible(true);
-                markerCluster.addMarker(markers[i]);
-            } else {
-                markers[i].setVisible(false);
-                markerCluster.removeMarker(markers[i]);
-            }
-        }
-    }
-    markerCluster.redraw();
-};
-
-
-//Filter for the Mission Areas
-filterMission = function(mission) {
-
-    for (i=0; i < markers.length; i++) {
-        if (mission == 'All Mission Areas') {
-            markers[i].setVisible(true);
-            markerCluster.addMarker(markers[i]);
-        } else {
-            if (markers[i].mission == mission) {
-                markers[i].setVisible(true);
-                markerCluster.addMarker(markers[i]);
-            } else {
-                markers[i].setVisible(false);
-                markerCluster.removeMarker(markers[i]);
-            }
-        }
-    }
-    markerCluster.redraw();
-};
-
-
-//Filter for the Cummunity Type
-filterCommType = function(commType) {
-
-    for (i=0; i < markers.length; i++) {
-        if (commType == 'All Community Types') {
-            markers[i].setVisible(true);
-            markerCluster.addMarker(markers[i]);
-        } else {
-            if (markers[i].commType == commType) {
-                markers[i].setVisible(true);
-                markerCluster.addMarker(markers[i]);
-            } else {
-                markers[i].setVisible(false);
-                markerCluster.removeMarker(markers[i]);
-            }
-        }
-    }
-    markerCluster.redraw();
-};
-
-//Filter for the Campus Partner
-filterCampusPartner = function(campusPartner) {
-
-    for (i=0; i < markers.length; i++) {
-        if (campusPartner == 'All Community Partners') {
-            markers[i].setVisible(true);
-            markerCluster.addMarker(markers[i]);
-        } else {
-            if (markers[i].campusPartner == campusPartner) {
-                markers[i].setVisible(true);
-                markerCluster.addMarker(markers[i]);
-            } else {
-                markers[i].setVisible(false);
-                markerCluster.removeMarker(markers[i]);
-            }
-        }
-    }
-    markerCluster.redraw();
-};
-
-
-
-
-
 //***********************************filter by clickable legends*****************************************************
 
 
 var edu = document.getElementById("allmiss"); //get the total number of dots
 edu.addEventListener("click", function(e) {
     filterlist[0] = "all"
-    console.log(filterlist[0]);
     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
 })
 
@@ -460,7 +320,6 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     var i = Missionarea.indexOf(clickedValue);
     if (i > -1) {
         filterlist[0] = clickedValue;
-        console.log(filterlist[0]);
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
     }
 });
@@ -482,14 +341,18 @@ selectCampus.addEventListener("change", function(e) {
             } else {
                 feature.properties["campustest"] = 0 //if not, assign this value 0
             }
+            })
 
-//                for (var i = 0; i < partners_a.length; i++)
-//                    map.data.remove(partners_a[i]);
-//
-//                partners_a = partners.addGeoJson(communityData);
+               for (i=0;i<markers.length; i++){
+                    if(communityData.features[i].properties['campustest']==1){
+                        markers[i].campusTest=1;
+                    }
+                    else
+                        markers[i].campusTest=0;
+                }
             filterlist[3] = 1;
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
-        })
+
     }
 })
 //*********************************** Community Type filter *****************************************************
@@ -523,37 +386,33 @@ selectYear.addEventListener("change", function(e) {
     } else {
         communityData.features.forEach(function (feature) {
             var year = feature.properties["Academic Year"]
-            if (year) {
-                for (var j = 0; j < year.length; j++) {
-                    if (year[j] == value) {
-                        feature.properties["yeartest"] = 1
-                    } else {
-                        feature.properties["yeartest"] = 0
-                    }
-                }
-            } else {
-                feature.properties["yeartest"] = 0
-            }
-            })
-            for (i=0; i<markers.length; i++) {
-                //     console.log(markers[i].yearTest==1)
-                // }
-                console.log(communityData.features[i].properties["yeartest"])
-            }
-            filterlist[4] = 1
-                calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+                if (year) {
+                    for (var j = 0; j < year.length; j++) {
+                        if (year[j] == value) {
+                            feature.properties["yeartest"] = 1;
 
-        // })
-        // for (var i = 0; i < markers.length; i++) {
-        //     // console.log(yearlist)
-        //     if (value) {
-        //         filterlist[4] = 1
-        //         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-        //         // }
-        //     }
-        // }
+                        } else {
+                            feature.properties["yeartest"] = 0;
+
+                        }
+                    }
+                } else {
+                    feature.properties["yeartest"] = 0
+                }
+                 })
+         for (i=0;i<markers.length; i++){
+                    if(communityData.features[i].properties['yeartest']==1){
+                        markers[i].yearTest=1;
+                    }
+                    else
+                        markers[i].yearTest=0;
+                }
+
+            filterlist[4] = 1
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+
+
     }
-        // }
 })
 
     //*********************************** District filter *****************************************************
@@ -567,6 +426,57 @@ selectYear.addEventListener("change", function(e) {
             filterlist[2] = "all"
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
         } else {
+            var value = e.target.value.trim().toLowerCase();
+             // districtData.features.forEach(function (feature) {
+             //    if (feature.properties['id'] == value) {
+             //        var arrlength=districtData.features[i].geometry['coordinates'][0].length;
+                    // for (j = 0; j < arrlength; j++) {
+                    //     var x = parseFloat(districtData.features[i].geometry['coordinates'][0][j][1])
+                    //     var y = parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
+                        // console.log(x, y)
+                        // var arr=[]
+                        // for (k = 0; k < arrlength.length; k++) {
+                        //     arr.push([{x, y}])
+
+
+                        // console.log(polycord)
+
+                        // console.log(arr)
+                        //     }
+                        //     for (k = 0; k < polycord.length; k++) {
+                        //         var values = polycord[k]
+                        //     }
+                        //
+                        // }
+                        //  }
+                        // console.log(polycord)
+                        //     console.log(values)
+
+
+                        // console.log("In district poly", districtPoly)
+                    //     var districtPoly = new google.maps.Polygon({
+                    //         paths: arr,
+                    //         strokeColor: "#4ffe83",
+                    //         strokeOpacity: 0.8,
+                    //         strokeWeight: 2,
+                    //         fillColor: "#61adfe",
+                    //         fillOpacity: 0.5
+                    //     });
+                    //     console.log("In district poly", districtPoly)
+                    //     // districtPoly.setMap(null);
+                    //     districtPoly.setMap(map);
+                    // }
+            //     }
+            //
+            // })
+
+            // map.data.setStyle({
+            //     fillColor: '#42e2f4',
+            //     strokeWeight:1
+            // })
+
+
+
             filterlist[2] = value
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
         }
@@ -578,7 +488,6 @@ selectYear.addEventListener("change", function(e) {
     //Press the listening button
     valueFilter.addEventListener("keydown", function (e) {
         if (e.keyCode == 8) {
-            console.log(e.keyCode)
             for (var i = 0; i < markers.length; i++) {
                 markers[i].setVisible(false);
                 markerCluster.removeMarker(markers[i]);
@@ -601,10 +510,8 @@ selectYear.addEventListener("change", function(e) {
         } else {
 
             for (var i = 0; i < markers.length; i++) {
-                // console.log(markers[i].commPartnerName.includes(value))
                 cpname = markers[i].commPartnerName.toLowerCase();
                 if (cpname.includes(value)) {
-                    // console.log(cpname, value)
                     markers[i].setVisible(true);
                     markerCluster.addMarker(markers[i]);
                     // marker.setCenter(markers[i].getPosition());
@@ -626,8 +533,7 @@ selectYear.addEventListener("change", function(e) {
         filterlist[3] = "all"
         filterlist[4] = "all"
         filterlist[5] = "all"
-        filterlist[6] = "all"
-        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5], filterlist[6]);
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5]);
         $('#selectCommtype option').prop('selected', function () {
             return this.defaultSelected;
         });
@@ -641,9 +547,6 @@ selectYear.addEventListener("change", function(e) {
             return this.defaultSelected;
         });
         $('#selectMisstype option').prop('selected', function () {
-            return this.defaultSelected;
-        });
-        $('#selectDistrict option').prop('selected', function () {
             return this.defaultSelected;
         });
 

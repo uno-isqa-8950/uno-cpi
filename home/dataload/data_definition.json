@@ -452,5 +452,25 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 41,
+			"fields": {
+				"title": "Projects - Community Partner",
+				"description": "Definition of type of Projects associated with Community Partner ",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 42,
+			"fields": {
+				"title": "Activity Type",
+				"description": "Definition of type of Activity Type ",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

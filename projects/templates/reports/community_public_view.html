@@ -77,7 +77,7 @@
         <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
         <form class="form-inline" id="filters-form" method="get">
-            <div class="col-lg-3 col-md-5 form-group">
+            <div class="col-lg-3 col-md-5 form-group embed-responsive">
                 <label for="academic_year"> Academic Years
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 32%}
@@ -132,7 +132,7 @@
             </div>
 
             <div class="col-lg-3 col-md-5 form-group">
-                <label for="community_type"> Community Partner Types
+                <label for="community_type"> Community Types
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 33%}
                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"

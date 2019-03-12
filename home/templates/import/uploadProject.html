@@ -40,7 +40,7 @@ margin-top:10px;
 <!--/div-->
 
 <!--div class="container"-->
-    <div class="card" style="margin-top:10px;padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
+    <div class="card" style="margin-top:10px;padding: 10px;">
             <form id='upload_form' action="{% url 'upload_project' %}" method="POST" enctype="multipart/form-data" class="form-horizontal">
                 {% csrf_token %}
                 <div class="row" style="margin-top:10px;">
@@ -77,7 +77,7 @@ margin-top:10px;
             <div class="col-lg-3 col-md-3 col-sm-3">
                 <form action={{ download_projects_url }}  method="GET">
                     <button class="btn btn-success"> <span class="glyphicon glyphicon-download"></span>Download Sample </button>
-                </form><br>
+                </form>
             </div>
 
     </div>

@@ -50,6 +50,14 @@
         margin-left:22px;
         width:100%
     }
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
 
     .select2-container--open .select2-dropdown--below
     {
@@ -78,11 +86,31 @@
                                 {{project.activity_type|bootstrap}}
                                 {{ course|bootstrap }}
 
+                                {% for form2 in formset2 %}
+                                    <div class="community-row" id="contact1">
+                                        <div class="col-lg-12">
+                                            <h6>Community Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{form2|bootstrap}}
+                                            </div>
+                                        </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                            </div>
+
+                                    </div>
+                                {%endfor%}
 
                                 {% for form3 in formset3 %}
                                     <div class="campus-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
-                                            <h6>Campus Partner Information</h6><br>
+                                            <h6>Campus Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
                                         </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -97,24 +125,9 @@
                                 {% endfor %}
 
 
-                                {% for form2 in formset2 %}
-                                    <div class="community-row" id="contact1">
-                                        <div class="col-lg-12">
-                                            <h6>Community Partner Information</h6><br>
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-                                                {{form2|bootstrap}}
-                                            </div>
-                                        </div>
-                                            <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
-                                            </div>
 
-                                    </div>
-                                {%endfor%}
                                 <div class="col-lg-12">
-                                    <p class = h9>Couldn't find your Campus Partner or Community Partner?, Please Register your Partner before creating a Project</p>
+                                    <p class = h9>Couldn't find your Campus Partner or Community Partner? Please Register your Partner before creating a New Project.</p>
                                     <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
@@ -128,7 +141,10 @@
                                  {% for form in formset %}
                                     <div class="mission-row" id="contact1" onsubmit="checking()">
                                         <div class="col-lg-12">
-                                            <h6>Primary Project Mission Area</h6><br>
+                                            <h6>Primary Project Mission Area <span style="color:red;">*</span>
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                               </h6><br>
                                         </div>
                                             <div class="input-group">
                                                 <div class="col-lg-6">
@@ -141,7 +157,10 @@
                                 {% for form4 in formset4 %}
                                     <div class="secondary_mission-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
-                                            <h6>Secondary Mission Areas</h6><br>
+                                            <h6>Secondary Mission Areas
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 40%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
                                         </div>
                                             <div class="input-group">
                                                 <div class="col-lg-6">
@@ -159,34 +178,34 @@
 
 
 
-{#                                       {{ project.facilitator|bootstrap }}#}
+{#                                       {{ project.facilitator|buttonootstrap }}#}
                                         {{ project.status|bootstrap}}
-                                        {{ project.description|bootstrap }}
+{#                                        {{ project.description|bootstrap }}#}
                                         {{ project.semester|bootstrap }}
                                         {{ project.academic_year|bootstrap }}
-                                        {{ project.total_uno_students|bootstrap }}
-                                        {{ project.total_uno_hours|bootstrap }}
-                                        {{ project.total_k12_students|bootstrap }}
-                                        {{ project.total_k12_hours|bootstrap }}
-                                        {{ project.total_uno_faculty|bootstrap }}
-                                        {{ project.total_other_community_members|bootstrap }}
-                                        {{ project.start_date|bootstrap }}
-                                        {{ project.end_date|bootstrap }}
-                                        {{ project.other_details|bootstrap }}
-                                        {{ project.outcomes|bootstrap }}
+{#                                        {{ project.total_uno_students|bootstrap }}#}
+{#                                        {{ project.total_uno_hours|bootstrap }}#}
+{#                                        {{ project.total_k12_students|bootstrap }}#}
+{#                                        {{ project.total_k12_hours|bootstrap }}#}
+{#                                        {{ project.total_uno_faculty|bootstrap }}#}
+{#                                        {{ project.total_other_community_members|bootstrap }}#}
+{#                                        {{ project.start_date|bootstrap }}#}
+{#                                        {{ project.end_date|bootstrap }}#}
+{#                                        {{ project.other_details|bootstrap }}#}
+{#                                        {{ project.outcomes|bootstrap }}#}
 
                                         <div class="col-lg-12">
                                             <br><h6>Primary Location of the Project</h6><br>
                                         </div>
 
                                         <div class="input-group">
-                                                    <div class="col-lg-10">
-                                                        {{ project.address_line1|bootstrap }}
-                                                        {{ project.city|bootstrap }}
-                                                        {{ project.state|bootstrap }}
-                                                        {{ project.zip|bootstrap }}
-                                                        {{ project.country|bootstrap }}
-                                                    </div>
+                                                <div class="col-lg-10">
+                                                    {{ project.address_line1|bootstrap }}
+                                                    {{ project.city|bootstrap }}
+                                                    {{ project.state|bootstrap }}
+                                                    {{ project.zip|bootstrap }}
+                                                    {{ project.country|bootstrap }}
+                                                </div>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +227,7 @@
 
 
 {% block custom_js %}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -260,11 +279,11 @@ $(document).on('click', '.add-mission-row', function(e){
     cloneMore('.mission-row:last', 'mission');
     return false;
 });
-$(document).on('click', '.add-secondary_mission-row', function(e){
-    e.preventDefault();
-    cloneMore('.secondary_mission-row:last', 'secondary_mission');
-    return false;
-});
+{#$(document).on('click', '.add-secondary_mission-row', function(e){#}
+{#    e.preventDefault();#}
+{#    cloneMore('.secondary_mission-row:last', 'secondary_mission');#}
+{#    return false;#}
+{#});#}
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
     cloneMore('.community-row:last', 'community');
@@ -280,11 +299,11 @@ $(document).on('click', '.remove-mission-row', function(e){
     deleteForm('mission', $(this));
     return false;
 });
-$(document).on('click', '.remove-secondary_mission-row', function(e){
-    e.preventDefault();
-    deleteForm('secondary_mission', $(this));
-    return false;
-});
+{#$(document).on('click', '.remove-secondary_mission-row', function(e){#}
+{#    e.preventDefault();#}
+{#    deleteForm('secondary_mission', $(this));#}
+{#    return false;#}
+{#});#}
 $(document).on('click', '.remove-community-row', function(e){
     e.preventDefault();
     deleteForm('community', $(this));
@@ -418,7 +437,6 @@ window.onsubmit = function checking() {
     var id_name = document.getElementById('id_mission-0-mission');
     var val = id_name.options[id_name.selectedIndex].text;
     var location = document.getElementById("errorid").scrollTop;
-    console.log(val)
 if (val === '---------') {
     error = "Please select a Primary Mission Area";
     document.getElementById("errorid").innerHTML = error;
@@ -426,5 +444,10 @@ if (val === '---------') {
     return false
 }
 }
+</script>
+<script>
+$(function () {
+         $('[data-toggle="popover"]').popover()
+     })
 </script>
 {% endblock %}

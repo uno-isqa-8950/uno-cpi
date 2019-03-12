@@ -42,6 +42,12 @@ class ProjectCampusFilter(django_filters.FilterSet):
         model = ProjectCampusPartner
         fields = ['campus_partner', ]
 
+class ProjectCommunityFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = ProjectCommunityPartner
+        fields = ['community_partner', ]
+
 
 class communityPartnerFilter(django_filters.FilterSet):
 

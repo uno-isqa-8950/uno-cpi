@@ -43,6 +43,7 @@ def communitypartnerproject(request):
     p = 0
     projects_list=[]
     comm_part_names=[]
+    data_definition=DataDefinition.objects.all()
     # Get the campus partner id related to the user
     comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
     for c in comm_part_user:
@@ -85,7 +86,7 @@ def communitypartnerproject(request):
 
 
 
-    return render(request, 'projects/community_partner_projects.html', {'project': projects_list})
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
 
 
 @login_required()
@@ -93,6 +94,7 @@ def communitypartnerproject(request):
 def proj_view_user(request):
     #print(request.user.id)
     projects_list=[]
+    data_definition=DataDefinition.objects.all()
     camp_part_names=[]
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
@@ -132,7 +134,7 @@ def proj_view_user(request):
 
 
 
-    return render(request, 'projects/Projectlist.html', {'project': projects_list})
+    return render(request, 'projects/Projectlist.html', {'project': projects_list,'data_definition':data_definition})
 
 
 @login_required()
@@ -143,6 +145,7 @@ def project_total_Add(request):
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
+    data_definition=DataDefinition.objects.all()
     if request.method == 'POST':
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
@@ -275,7 +278,7 @@ def project_total_Add(request):
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
         #print('hello')
     return render(request, 'projects/projectadd.html',
-                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,
+                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
 
 @login_required()
@@ -402,6 +405,7 @@ def SearchForProject(request):
     p = 0
     names=[]
     projects_list=[]
+    data_definition=DataDefinition.objects.all()
     for project in Project.objects.all():
         names.append(project.project_name)
     camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
@@ -463,7 +467,7 @@ def SearchForProject(request):
                     }
             projects_list.append(data)
 
-    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist})
+    return render(request,'projects/SearchProject.html',{'project': projects_list, 'theList':yesNolist,'data_definition':data_definition})
 
 
 @login_required()
@@ -504,6 +508,23 @@ def projectsPublicReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
+
+                a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
+                if project.id not in a:
+                    b = request.GET.get('community_type', None)
+                    c = request.GET.get('weitz_cec_part', None)
+                    if b is None or b == "All" or b == '':
+                        if c is None or c == "All" or c == '':
+                            data['projectName'] = project.project_name
+                            data['engagementType'] = project.engagement_type
+
+                            projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+                            for projectCampusPartner in projectCampusPartners:
+                                camp_part.append(projectCampusPartner.campus_partner)
+                            list_camp = camp_part
+                            camp_part = []
+                            data['campusPartner'] = list_camp
+
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:
@@ -573,6 +594,26 @@ def projectsPrivateReport(request):
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
+
+                a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
+                if project.id not in a:
+                    b = request.GET.get('community_type', None)
+                    c = request.GET.get('weitz_cec_part', None)
+                    if b is None or b == "All" or b == '':
+                        if c is None or c == "All" or c == '':
+                            data['projectName'] = mission.project_name
+                            data['engagementType'] = project.engagement_type
+                            data['total_UNO_students'] = project.total_uno_students
+                            data['total_hours'] = project.total_uno_hours
+                            data['economic_impact'] = project.total_economic_impact
+
+                            projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+                            for projectCampusPartner in projectCampusPartners:
+                                camp_part.append(projectCampusPartner.campus_partner)
+                            list_camp = camp_part
+                            camp_part = []
+                            data['campusPartner'] = list_camp
+
                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
                 for projectCommunityPartner in projectCommunityPartners:
                     if projectCommunityPartner.community_partner in communityPartners.qs:

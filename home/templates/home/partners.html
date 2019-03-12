@@ -121,8 +121,14 @@
                         <div style="text-align: center;">
                             <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>
 
-                            <a type="button" class="btn btn-custom "  style="font-size:1.1em;margin-bottom: 5% " href="{% url 'partners:registerCommunityPartner' %}">
-                                <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Community Partner</a>
+                             <div class = "row justify-content-md-center">
+                                <div class="card" style="border:none">
+                                    <form action="{% url 'partners:registerCommunityPartner' %}" >
+                                    <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
+                                      Register Community Partner</button><br><br>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                         <div class="rich-text">
                             <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>
@@ -148,8 +154,16 @@
                         </div>
                         <div style="text-align: center;">
                               <p> A Campus Partner is an organization in University of Nebraska Omaha involved in carrying out projects pertaining to varied mission areas</p>
-                                <a type="button" class="btn btn-custom "  style="font-size:1.1em; margin-bottom: 5%" href="{% url 'partners:registerCampusPartner' %}">
-                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>
+                             <div class = "row justify-content-md-center">
+                                <div class="card" style="border:none">
+                                    <form action="{% url 'partners:registerCampusPartner' %}" >
+                                    <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
+                                      Register Campus Partner</button><br><br>
+                                    </form>
+                                </div>
+                            </div>
+{#                            <a type="button" class="btn btn-custom "  style="font-size:1.1em; margin-bottom: 5%" href="{% url 'partners:registerCampusPartner' %}">#}
+{#                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>#}
                                 <div class="richtext-image" style="margin: auto">
                                     <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>
                                     <a style="color:blue; font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>

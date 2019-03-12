@@ -50,6 +50,14 @@
         margin-left:22px;
         width:100%
     }
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
 
     .select2-container--open .select2-dropdown--below
     {
@@ -81,7 +89,9 @@
                                 {% for form2 in formset2 %}
                                     <div class="community-row" id="contact1">
                                         <div class="col-lg-12">
-                                            <h6>Community Partner Information</h6><br>
+                                            <h6>Community Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
                                         </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -98,7 +108,9 @@
                                 {% for form3 in formset3 %}
                                     <div class="campus-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
-                                            <h6>Campus Partner Information</h6><br>
+                                            <h6>Campus Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
                                         </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -129,7 +141,10 @@
                                  {% for form in formset %}
                                     <div class="mission-row" id="contact1" onsubmit="checking()">
                                         <div class="col-lg-12">
-                                            <h6>Primary Project Mission Area<span style="color:red;">*</span></h6><br>
+                                            <h6>Primary Project Mission Area <span style="color:red;">*</span>
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                               </h6><br>
                                         </div>
                                             <div class="input-group">
                                                 <div class="col-lg-6">
@@ -142,7 +157,10 @@
                                 {% for form4 in formset4 %}
                                     <div class="secondary_mission-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
-                                            <h6>Secondary Mission Areas</h6><br>
+                                            <h6>Secondary Mission Areas
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 40%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
                                         </div>
                                             <div class="input-group">
                                                 <div class="col-lg-6">
@@ -209,7 +227,7 @@
 
 
 {% block custom_js %}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -426,5 +444,10 @@ if (val === '---------') {
     return false
 }
 }
+</script>
+<script>
+$(function () {
+         $('[data-toggle="popover"]').popover()
+     })
 </script>
 {% endblock %}

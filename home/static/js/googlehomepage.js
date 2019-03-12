@@ -673,7 +673,7 @@ var map; //start a map
 var partners_a;
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), { //get the base map and Omaha zoomed out
-        zoom: 6,  //zoom level
+        zoom: 7,  //zoom level
         center: {lat: 41.276479, lng: -95.957309} //Omaha coordinates
     });
 

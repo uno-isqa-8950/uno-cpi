@@ -54,12 +54,9 @@
         th{
             text-align: center;
         }
-
-        .container{
-            margin-left: 5px;
-        }
         .container-fluid{
-            width:132%;
+            margin-left: -30px;
+            width: 1200px;
         }
 
 
@@ -85,11 +82,10 @@
                                 <thead>
                                 <tr>
                                     <th>Organization Name</th>
-                                    <th>Website URL </th>
                                     <th>CEC Partner </th>
-                                    <th>Community Type</th>
-                                    <th>k12 Level </th>
-                                    <th>Address Line 1</th>
+                                    <th>Community Partner Type</th>
+                                    <th>K12 Level </th>
+                                    <th>Address</th>
                                     <th>City</th>
                                     <th>State</th>
                                     <th>Zip</th>
@@ -102,7 +98,6 @@
                                  {% for community_partner in final%}
                                     <tr>
                                         <td>{{community_partner.name}}</td>
-                                        <td>{{community_partner.website_url}}</td>
                                         <td>{{community_partner.weitz_cec_part}}</td>
                                         <td>{{community_partner.community_type}}</td>
                                         <td>{{community_partner.k12_level}}</td>
@@ -120,7 +115,7 @@
                         </div>
                     </div>
                 <div style=" padding: 50px; text-align:center">
-                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"> Join a Existing Community Partner Organization </a>
+                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"> Join Existing Community Partner Organization </a>
                     </div>
                 <br><br>
                 </div>

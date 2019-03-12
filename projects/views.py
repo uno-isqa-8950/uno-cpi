@@ -145,6 +145,7 @@ def project_total_Add(request):
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
+    data_definition=DataDefinition.objects.all()
     if request.method == 'POST':
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
@@ -277,7 +278,7 @@ def project_total_Add(request):
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
         #print('hello')
     return render(request, 'projects/projectadd.html',
-                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,
+                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
 
 @login_required()

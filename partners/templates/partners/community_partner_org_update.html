@@ -41,14 +41,18 @@ body
 }
 .panel
 {
-width: 650px;
-margin-left: auto;
-margin-right:auto;
-margin-top:80px;
-height: relative;
-font-family: Helvetica;
-box-shadow: 5px 10px 20px 5px grey;
+    width: 650px;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:80px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
+
 .panel-default > .panel-heading
 {
 background-color: #636568;
@@ -116,7 +120,7 @@ font-weight: bold;
                     </div>
                   </div>
                 </div>
-              {% elif field.label == 'Address line1' %}
+              {% elif field.label == 'Address Line 1' %}
                 <div class="form-group">
                   <div class="row">
                     <div class="control-label col-md-4">

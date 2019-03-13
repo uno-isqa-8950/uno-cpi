@@ -395,41 +395,41 @@ def upload_community(request):
     reader = csv.DictReader(decoded)
     for row in reader:
         data_dict = dict(OrderedDict(row))
-        county_data = countyGEO()
-        district = districtGEO()
-        if data_dict['address_line1'] != '':
-            full_address = data_dict['address_line1'] + ' ' + data_dict['city'] + ' ' + data_dict['state']
-            geocode_result = gmaps.geocode(full_address)
-            data_dict['latitude'] = round(geocode_result[0]['geometry']['location']['lat'], 7)
-            data_dict['longitude'] = round(geocode_result[0]['geometry']['location']['lng'], 7)
-        coord = Point([data_dict['longitude'], data_dict['latitude']])
-        # this is to prepare a variable to check which district a partner belongs to
-        # coord = Point(commPartner.longitude, commPartner.latitude)
-        data_dict['legislative_district'] = 0  # a placeholder value
-        for i in range(len(district)):  # iterate through a list of district polygons
-            property = district[i]
-            polygon = shape(property['geometry'])  # get the polygons
-            if polygon.contains(coord):  # check if a partner is in a polygon
-                data_dict['legislative_district'] = property["id"]  # assign the district number to a partner
+        # county_data = countyGEO()
+        # district = districtGEO()
+        # if data_dict['address_line1'] != '':
+        #     full_address = data_dict['address_line1'] + ' ' + data_dict['city'] + ' ' + data_dict['state']
+        #     geocode_result = gmaps.geocode(full_address)
+        #     data_dict['latitude'] = round(geocode_result[0]['geometry']['location']['lat'], 7)
+        #     data_dict['longitude'] = round(geocode_result[0]['geometry']['location']['lng'], 7)
+        # coord = Point([data_dict['longitude'], data_dict['latitude']])
+        # # this is to prepare a variable to check which district a partner belongs to
+        # # coord = Point(commPartner.longitude, commPartner.latitude)
+        # data_dict['legislative_district'] = 0  # a placeholder value
+        # for i in range(len(district)):  # iterate through a list of district polygons
+        #     property = district[i]
+        #     polygon = shape(property['geometry'])  # get the polygons
+        #     if polygon.contains(coord):  # check if a partner is in a polygon
+        #         data_dict['legislative_district'] = property["id"]  # assign the district number to a partner
+        #
+        # data_dict['median_household_income'] = 0  # placeholder value of the income
+        # # get the county name and household income
+        # for m in range(len(county_data)):  # iterate through the County Geojson
+        #     properties2 = county_data[m]
+        #     polygon = shape(properties2['geometry'])  # get the polygon
+        #     if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+        #         data_dict['county'] = properties2['properties']['NAME']
+        #         data_dict['median_household_income'] = properties2['properties']['Income']
+        # community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
+        # if community_count == 0:
 
-        data_dict['median_household_income'] = 0  # placeholder value of the income
-        # get the county name and household income
-        for m in range(len(county_data)):  # iterate through the County Geojson
-            properties2 = county_data[m]
-            polygon = shape(properties2['geometry'])  # get the polygon
-            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                data_dict['county'] = properties2['properties']['NAME']
-                data_dict['median_household_income'] = properties2['properties']['Income']
-        community_count = CommunityPartner.objects.filter(name=data_dict['name']).count()
-        if community_count == 0:
+        form = UploadCommunityForm(data_dict)
 
-            form = UploadCommunityForm(data_dict)
-
-            if form.is_valid():
-                form.save()
-                form_mission = UploadCommunityMissionForm(data_dict)
-                if form_mission.is_valid():
-                    form_mission.save()
+        if form.is_valid():
+            form.save()
+            form_mission = UploadCommunityMissionForm(data_dict)
+            if form_mission.is_valid():
+                form_mission.save()
     return render(request, 'import/uploadCommunityDone.html')
 
 

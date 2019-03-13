@@ -279,11 +279,11 @@ $(document).on('click', '.add-mission-row', function(e){
     cloneMore('.mission-row:last', 'mission');
     return false;
 });
-{#$(document).on('click', '.add-secondary_mission-row', function(e){#}
-{#    e.preventDefault();#}
-{#    cloneMore('.secondary_mission-row:last', 'secondary_mission');#}
-{#    return false;#}
-{#});#}
+$(document).on('click', '.add-secondary_mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.secondary_mission-row:last', 'secondary_mission');
+    return false;
+});
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
     cloneMore('.community-row:last', 'community');
@@ -299,11 +299,11 @@ $(document).on('click', '.remove-mission-row', function(e){
     deleteForm('mission', $(this));
     return false;
 });
-{#$(document).on('click', '.remove-secondary_mission-row', function(e){#}
-{#    e.preventDefault();#}
-{#    deleteForm('secondary_mission', $(this));#}
-{#    return false;#}
-{#});#}
+$(document).on('click', '.remove-secondary_mission-row', function(e){
+    e.preventDefault();
+    deleteForm('secondary_mission', $(this));
+    return false;
+});
 $(document).on('click', '.remove-community-row', function(e){
     e.preventDefault();
     deleteForm('community', $(this));

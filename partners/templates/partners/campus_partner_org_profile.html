@@ -54,7 +54,14 @@
             text-align: center;
         }
 
-
+        .panel {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        }
 
     </style>
 
@@ -97,7 +104,7 @@
                         </div>
                     </div>
                     <div style=" padding: 50px; text-align:center">
-                        <a href="{% url 'partners:campuspartneradd' %}" class="btn btn-actions" role="button"> Join a Existing Campus Partner Organization </a>
+                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"> Join a Existing Campus Partner Organization </a>
                     </div>
                     <br><br>
                 </div>

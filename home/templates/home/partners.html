@@ -3,7 +3,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">#}
+    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>#}
+    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+    {#    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>#}
+
+    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">#}
     <style>
         @media (min-width: 768px)
         {
@@ -21,7 +25,7 @@
                 margin-left: auto;
 
             }
-             #ab2
+            #ab2
             {
 
 
@@ -29,13 +33,14 @@
 
             }
             .fa-question-circle:hover {
-           color: red;
-           horiz-align: right;
+                color: red;
+                horiz-align: right;
             }
 
             p{
                 text-align: justify;
                 margin-right: 3%;
+                font-family: Helvetica;
             }
 
         }
@@ -65,10 +70,9 @@
                 margin: 10%;
                 padding: 1%;
                 text-align: center;
-                {#color: #333333;#}
+            {#color: #333333;#}
                 font-size: x-small;
             }
-
         }
         .my-text{
 
@@ -80,6 +84,10 @@
         .float{
             float:revert;
         }
+        .fa
+        {
+            font-size: 15px;
+        }
         p
         {
             margin-left: 25px;
@@ -87,62 +95,94 @@
             font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 
         }
+        .btn:hover {
+            color: white;
+            background: grey;
+        }
 
     </style>
     <br>
-    <div class="container-fluid">
-        <div class="row">
-            <div id="ab1" class="col-xs-6 col-md-4">
-                <div class = "panel-default">
-                    <div class = "panel-heading  text-center">
-                        <span class='my-text'><b> Campus Partners</b></span> {#<span onclick=="document.getElementById('demo').innerHTML = 'These are the steps to get your PIN number: Bla bla bla'">#}
-                        <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="A Campus Partner is an organization or a department in University of Nebraska Omaha" class="float"><i class="fa fa-question-circle fa-align-right" aria-hidden="true"></i></span>{# </span> #}
-                    </div>
-                    <div>
-                        <img src="{% static "img/Campus Partner.jpg" %}" alt="My Campus Partner" width=100% height=80%/>
-                        <p> A Campus Partner is an organization or a department in University of Nebraska Omaha</p>
-                    </div>
-                    <div class="button" style="text-align: center;">
-                        <a type="button" class="btn btn-secondary center" href="{% url 'partners:registerCampusPartner' %}">
-                            <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>
-                        <br>  &nbsp; &nbsp; &nbsp;
-                        <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>
-                        <a style="color:blue;"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
-                    </div>
-                    <div>
-                        <br><br>
-                    </div>
-                </div>
-            </div>
-            <div id="ab2" class="col-xs-6 col-md-4">
-                <div class = "panel-default">
-                    <div class = "panel-heading  text-center">
-                        <span class='my-text'><b> Community Partners</b> </span>
-                        <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="A Community Partner is a an organization involved in carrying out projects pertaining to varied mission areas." class="float"> <i class="fa fa-question-circle fa-align-right" aria-hidden="true"></i></span>
-                    </div>
-                    <div>
-                        <img src="{% static "img/Community Partners.jpg" %}" alt="My Community Partner" width=100% height=100%/>
-                        <p> A Community Partner is a an organization involved in carrying out projects pertaining to varied mission areas.</p>
-                        <div class="button" style="text-align: center;">
-                            <a type="button"  class="btn btn-secondary center" href="{% url 'partners:registerCommunityPartner' %}">
-                                <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Community Partner</a>
-                            <br>
+        <div class="container-fluid">
+            <div class="row">
+                <div id="ab1" class="col-xs-6 col-md-4">
+{#                    <div class = "panel-default panel-heading  text-center">#}
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#636568;">
+                            <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
+                                <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Community Partners
+                                    {% for data_definition in data_definition %}{% if data_definition.id == 2 %}
+                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-question-circle fa-align-right fa-2x" aria-hidden="true"></i></span>{# </span> #}
+                                        {% endif %}{% endfor %}</h4></b>
+                            </label>
+                        </div>
+
+                        <div>
+                            <img src="{% static "img/CommunityPartner.jpg" %}" class="img-fluid" alt="My Community Partner" width=100% height=100%/>
+                        </div>
+                        <div style="text-align: center;">
+                            <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>
+
+                             <div class="col text-center">
+                                <div class="card" style="border:none">
+                                    <form action="{% url 'partners:registerCommunityPartner' %}" >
+                                    <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
+                                      Register Community Partner</button><br><br>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="rich-text">
                             <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>
+                            <br>
+                            <br>
                         </div>
                     </div>
+{#                </div>#}
+                <div id="ab2" class="col-xs-6 col-md-4">
+{#                    <div class = "panel-default text-center">#}
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#636568;">
+                            <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
+                                <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
+                                    {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 1 %}
+                                            <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-question-circle fa-align-right fa-2x" aria-hidden="true"></i></span>{# </span> #}
+                                        {% endif %}{% endfor %}</h4></b>
+                            </label>
+
+                        </div>
+                        <div>
+                            <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
+                        </div>
+                        <div style="text-align: center;">
+                              <p> A Campus Partner is an organization in University of Nebraska Omaha involved in carrying out projects pertaining to varied mission areas</p>
+                             <div class="col text-center">
+                                <div class="card" style="border:none">
+                                    <form action="{% url 'partners:registerCampusPartner' %}" >
+                                    <button id="myButton1" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
+                                      Register Campus Partner</button><br><br>
+                                    </form>
+                                </div>
+                            </div>
+{#                            <a type="button" class="btn btn-custom "  style="font-size:1.1em; margin-bottom: 5%" href="{% url 'partners:registerCampusPartner' %}">#}
+{#                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>#}
+                                <div class="richtext-image" style="margin: auto">
+                                    <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>
+                                    <a style="color:blue; font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
+                                </div>
+                            </div>
+
+{#                    </div>#}
                 </div>
             </div>
         </div>
-        {#            <div  class="col-12 col-lg">#}
-        {##}
-        {#            </div>#}
-    </div>
-    </div>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <script>
-    $("#partner_help").popover()
+        $("#partner_help").popover()
 
-    $("#helptext").popover()
+        $("#helptext").popover()
 
     </script>
 {% endblock %}

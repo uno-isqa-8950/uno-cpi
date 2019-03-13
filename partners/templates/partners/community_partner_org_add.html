@@ -1,0 +1,82 @@
+{% extends 'home/Community_Home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+input[id=id_campus_partner]
+{
+    width:95%;
+}
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+.form-horizontal
+{
+width:100%;
+}
+
+.form-horizontal1
+{
+    align-content: center;
+}
+
+.btn-add
+{
+    alignment: center;
+    background-color: #636568;
+    color: white;
+}
+
+.btn-add:hover{
+    background-color: #bbbbbb;
+    color: white;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+</style>
+
+<div class = "container">
+      <div class ="row justify-content-md-center">
+        <div class="col-xl-6 col-md-8">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4><b>Add Organization to your Profile</b></h4></div>
+      <div class="panel-body"><br><br>
+        <div class="body">
+          <form action="." method="post" class="form-horizontal1" enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="form-group">
+                  <div class="row">
+                      {{ form.community_partner | bootstrap }}
+                  </div>
+              </div>
+            <p style="text-align:center">
+              <button type="submit" class="btn btn-add">Add</button>
+            </p>
+            <br>
+          </form>
+        </div>
+      </div>
+    </div>
+        </div></div></div>
+  <br><br><br>
+
+{% endblock %}
+
+

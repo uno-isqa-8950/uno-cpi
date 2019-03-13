@@ -27,6 +27,14 @@ width:92%
 left:280px;
 }
 }
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
 </style>
 
 <div class = "container">
@@ -66,10 +74,6 @@ left:280px;
             </div>
             {% endfor %}
 
-            <div class="form-group">
-              <label for="communitypartnername">Community Partner Name</label>
-              <input type="text" class="form-control" id="communitypartnername" value="{{community_partner_name}}" disabled>
-            </div>
             <p>
               <button type="submit" class="btn btn-custom">Update</button>
             </p>

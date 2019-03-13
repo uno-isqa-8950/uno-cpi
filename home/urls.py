@@ -13,6 +13,7 @@ urlpatterns = [
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
    path('partners/',views.partners,name='partners'),
    path('map', views.countyData, name='map'),
+   path('definitions',views.Definitions,name='Definitions'),
    path('districtmap', views.districtdata, name='districtmap'),
    path('projectmap', views.projectdata, name='projectmap'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
@@ -33,8 +34,11 @@ urlpatterns = [
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
    path('Contactus',views.Contactus,name='Contactus'),
-   path('thanks/', views.thanks, name='thanks')
-
+   path('thanks/', views.thanks, name='thanks'),
+   path('googleprojectmap',views.googleprojectdata, name='googleprojectmap'),
+   path('googleDistrictmap',views.googleDistrictdata, name='googleDistrictmap'),
+   path('googlehomepage',views.googlepartnerdata, name='googlehomepage'),
+   path('googlemap',views.googlemapdata, name='googlemap')
 
 
 ]

@@ -225,6 +225,23 @@ class CommunityMissionForm(ModelForm):
             'mission_area': ('Mission Area'),
         }
 
+class CommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+                    }
+
+
+class PrimaryCommunityMissionFormset(forms.ModelForm):
+    class Meta:
+        model = CommunityPartnerMission
+        fields = ( 'mission_area',)
+        labels = {
+            'mission_area': ('Mission Area'),
+        }
+
 class CampusPartnerAddForm(forms.ModelForm):
 
     class Meta:
@@ -235,5 +252,14 @@ class CampusPartnerAddForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CampusPartnerAddForm, self).__init__(*args, **kwargs)
 
+class CommunityPartnerAddForm(forms.ModelForm):
+
+    class Meta:
+        model = CommunityPartnerUser
+        fields = ('community_partner',)
+        labels = {'community_partner': ('Existing Community Partners')}
+
+    def __init__(self, *args, **kwargs):
+        super(CommunityPartnerAddForm, self).__init__(*args, **kwargs)
 
 

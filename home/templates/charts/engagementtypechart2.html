@@ -40,18 +40,18 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel panel-default" style="width:100%">
+            <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Chart: Engagement Type</h4></b></label>
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Chart: Engagement Types</h4></b></label>
                </div>
             </div>
         </div>
     </div>
-</div><br>
+</div>
 
 
 <div class="container">
-    <div class="card" style="padding: 10px; box-shadow: 5px 7px 7px 5px grey;">
+    <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -78,7 +78,15 @@
             <div class="collapse show" id="collapseExample">
                 <form class="form-inline" id="filters-form" method="get">
                     <div class="col-lg-3 col-md-5 form-group">
-                        <label for="id_mission">Mission Area: </label> &emsp;
+                        <label for="mission">Mission Areas
+                        {% for data_definition in data_definition %}
+                                {% if data_definition.id == 3%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                          data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                        </label> &emsp;
                             <select id="id_mission" name="mission" onchange="this.form.submit()">
                                 <option> All </option>
                                     {% for mission in missions_filter.form.mission %}
@@ -88,7 +96,15 @@
                     </div>
 
                     <div class="col-lg-3 col-md-5 form-group">
-                        <label for="id_academic_year">Academic Year:</label>
+                        <label for="academic_year">Academic Years
+                            {% for data_definition in data_definition %}
+                                {% if data_definition.id == 32%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                          data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                        </label>
                             <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                                 <option> All </option>
                                     {% for sem in academicyear_filter.form.academic_year %}
@@ -98,7 +114,15 @@
                     </div>
 
                     <div class="col-lg-3 col-md-5 form-group">
-                        <label for="campus_partner"> Campus Partner: </label>
+                        <label for="campus_partner"> Campus Partners
+                             {% for data_definition in data_definition %}
+                                {% if data_definition.id == 1%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                          data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                        </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                 <option> All </option>
                                     {% for campus in campus_filter.form.campus_partner %}
@@ -125,11 +149,15 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#id_mission').select2({placeholder: 'All Mission Types',width: '200px'});
+    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px'});
 
 });
 </script>
-
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 {% endblock %}

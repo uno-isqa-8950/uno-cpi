@@ -39,15 +39,23 @@ label
 {
     margin-left:22px
 }
-
+.panel{
+    box-shadow: none;
+}
+.panel-heading{
+    padding: 0px;
+    margin: 0px;
+}
 </style>
 <div class = "container">
     <div class="row justify-content-md-center">
 		<div class="col-lg-9 col-md-10">
-            <div class = "panel panel-default">
-		        <div class="panel-heading text-center">
+        <div class="container panel">
+            <div class = " panel-default card">
+		        <div class=" panel-heading text-center">
                     <h4 title="Registers Campus Partners with a Point of Contact at University of Nebraska at Omaha Campus">Register: Campus Partner</h4>
                 </div>
+
 			        <div class="panel-body">
                         <form action="." onfocusout="return validateForm()" method="post">
                             {% csrf_token %}
@@ -76,7 +84,15 @@ label
                                                 {% for form in formset %}
                                                     <div class="form-row" id="contact1">
                                                         <div class="col-md-12">
-                                                            <label>Point of Contact Information</label>
+                                                            <label>Point of Contact Information
+                                                                {% for data_definition in data_definition %}
+                                                                    {% if data_definition.id == 34%}
+                                                                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                              data-content="{{ data_definition.description }}" class="float" >
+                                                                                <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            </label>
                                                         </div>
                                                         <div class="input-group">
                                                             <div class="col-md-6 col-sm-6">
@@ -138,12 +154,13 @@ label
             </div>
         </div>
     </div>
+         </div>
 </div>  <br><br>
 
 {% endblock %}
 {% block selectizeForm %}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>#}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <script>
@@ -164,7 +181,7 @@ $(document).ready(function(){
 
 
  {% block custom_js %}
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -294,5 +311,9 @@ function validateForm() {
     }
     }
 </script>
-
+     <script>
+         $(function () {
+             $('[data-toggle="popover"]').popover()
+         })
+     </script>
 {% endblock %}

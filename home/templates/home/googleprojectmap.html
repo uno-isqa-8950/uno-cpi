@@ -387,12 +387,15 @@
                 <h4>Engagement Type</h4>
                 <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
                 </div>
-                <select style="margin-top:10px;"  id="selectMisstype" class="selectMisstype" onchange="filterMission(this.value)"></select>
-                <select id="selectDistrict" class="selectDistrict" onchange="markerDistrict(this.value)"></select>
+                <select style="margin-top:10px;"  id="selectMisstype" class="selectMisstype"></select>
+                <select id="selectDistrict" class="selectDistrict"></select>
                 <select id="selectCommunity" class="selectCommunity"></select>
                 <select id="selectCampus" class="selectCampus"></select>
-                <select id="selectYear" class="selectYear" onchange="filterYear(this.value)"></select>
-                <select id="selectCommtype" class="selectCommtype" onchange="filterCommType(this.value)"></select>
+                <select id="selectYear" class="selectYear"></select>
+                <select id="selectCommtype" class="selectCommtype"></select>
+                <div>
+                <input id='valueFilter' type='text' placeholder='Search Projects' />
+            </div>
             </div>
 
         </nav>
@@ -413,7 +416,7 @@
 
                                 <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
                                     <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
-                                        <label><b>Maps: Community Projects</b></label>
+                                        <label><b>Maps: Projects</b></label>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
@@ -450,7 +453,7 @@
                                 {{ collection | json_script:"project-data"}}
                                 {{ districtData | json_script:"district"}}
                                 {{ Missionlist | json_script:"missionlist"}}
-                                {{ CommTypeList | json_script:"CommTypelist"}}
+                                {{ CommTypelist | json_script:"CommTypelist"}}
                                 {{ Campuspartner | json_script:"campusPartner-list"}}
                                 {{ Communitypartner | json_script:"communitypartner-list" }}
                                 {{ EngagementType | json_script:"engagementType" }}

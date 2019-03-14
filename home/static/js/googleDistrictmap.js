@@ -195,25 +195,25 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         });
 
         oms.addMarker(marker);
-        function missionColor(missionArea) {
+        function missionColor(mission) {
 
-            if (missionArea=="Economic Sufficiency"){
+            if (mission=="Economic Sufficiency"){
                 return circle.fillColor= colorcode[0]
             }
-            else if (missionArea=='Educational Support'){
+            else if (mission=='Educational Support'){
                 // communityData.features[i].properties["Mission Area"]
                 return circle.fillColor=colorcode[1]
             }
-            else if (missionArea=="Environmental Stewardship"){
+            else if (mission=="Environmental Stewardship"){
                 return circle.fillColor=colorcode[2]
             }
-            else if (miss_name[i].properties["Mission Area"]=="Health and Wellness"){
+            else if (mission=="Health and Wellness"){
                 return circle.fillColor=colorcode[3]
             }
-            else if (missionArea=="International Service"){
+            else if (mission=="International Service"){
                 return circle.fillColor=colorcode[4]
             }
-            else if (missionArea=="Social Justice"){
+            else if (mission=="Social Justice"){
                 return circle.fillColor=colorcode[5]
             }
         }
@@ -349,10 +349,9 @@ selectCampus.addEventListener("change", function(e) {
                     }
                     else
                         markers[i].campusTest=0;
-                }
             filterlist[3] = 1;
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
-
+}
     }
 })
 //*********************************** Community Type filter *****************************************************
@@ -381,11 +380,11 @@ var selectYear = document.getElementById('selectYear'); //same concept as campus
 selectYear.addEventListener("change", function(e) {
     var value = e.target.value.trim();
     if (!yearlist.includes(value)) {
-        filterlist[4] = "all"
+        filterlist[4] = "all";
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
     } else {
         communityData.features.forEach(function (feature) {
-            var year = feature.properties["Academic Year"]
+            var year = feature.properties["Academic Year"];
                 if (year) {
                     for (var j = 0; j < year.length; j++) {
                         if (year[j] == value) {
@@ -397,20 +396,19 @@ selectYear.addEventListener("change", function(e) {
                         }
                     }
                 } else {
-                    feature.properties["yeartest"] = 0
+                    feature.properties["yeartest"] = 0;
                 }
-                 })
+                 });
          for (i=0;i<markers.length; i++){
                     if(communityData.features[i].properties['yeartest']==1){
                         markers[i].yearTest=1;
                     }
                     else
                         markers[i].yearTest=0;
-                }
 
-            filterlist[4] = 1
+            filterlist[4] = 1;
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-
+}
 
     }
 })
@@ -557,18 +555,19 @@ selectYear.addEventListener("change", function(e) {
 
 //To vary the total number of projects based on the filter selected
     function calculation(a, b, c, d, e) {
-        var totalnumber = ''
-        var number = 0
+        var totalnumber = '';
+        var number = 0;
 
         if (a == "all") {
             if (b == "all") {
                 if (c == "all") {
                     if (d == "all") {
                         if (e == "all") {
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 markers[i].setVisible(true);
-                                markerCluster.addMarker(markers[i]);
-                            }
+                                    markerCluster.addMarker(markers[i]);
+                                }
                             markerCluster.redraw();
                             totalnumber += communityData.features.length
                         } else {
@@ -577,14 +576,15 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
 
                             for (var i = 0; i < markers.length; i++) {
-                                if (markers[i].yearTest == 1) {
-                                    markers[i].setVisible(true);
-                                    markerCluster.addMarker(markers[i]);
-                                } else {
+                                if (markers[i].yearTest !== 1) {
                                     markers[i].setVisible(false);
                                     markerCluster.removeMarker(markers[i]);
+                                } else {
+                                    markers[i].setVisible(true);
+                                    markerCluster.addMarker(markers[i]);
                                 }
                                 markerCluster.redraw();
                             }
@@ -592,6 +592,7 @@ selectYear.addEventListener("change", function(e) {
                         }
                     } else { //else for data[3] if
                         if (e == "all") {
+                            markerCluster.clearMarkers();
                             communityData.features.forEach(function (feature) {
                                 if (feature.properties['campustest'] == 1) {
                                     number += 1
@@ -610,6 +611,7 @@ selectYear.addEventListener("change", function(e) {
                             totalnumber += number
 
                         } else {
+                            markerCluster.clearMarkers();
                             communityData.features.forEach(function (feature) {
                                 if (feature.properties['campustest'] == 1) {
                                     if (feature.properties['yeartest'] == 1) {
@@ -641,7 +643,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
-
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].category == c) {
                                     markers[i].setVisible(true);
@@ -661,6 +663,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
 
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].category == c && markers[i].yearTest == 1) {
@@ -682,6 +685,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].category == c && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -701,6 +705,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -725,6 +730,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b) {
                                     markers[i].setVisible(true);
@@ -742,6 +748,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -761,6 +768,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -778,6 +786,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -799,6 +808,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
 
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].category == c) {
@@ -819,6 +829,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -840,6 +851,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             })
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -859,6 +871,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -887,6 +900,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a) {
                                     markers[i].setVisible(true);
@@ -905,6 +919,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -925,6 +940,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -943,6 +959,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -964,6 +981,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].category == c) {
                                     markers[i].setVisible(true);
@@ -982,6 +1000,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].category == c && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -1002,6 +1021,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -1021,6 +1041,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -1045,6 +1066,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b) {
                                     markers[i].setVisible(true);
@@ -1063,6 +1085,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -1083,6 +1106,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -1102,6 +1126,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -1124,6 +1149,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c) {
                                     markers[i].setVisible(true);
@@ -1142,6 +1168,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);
@@ -1162,6 +1189,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1) {
                                     markers[i].setVisible(true);
@@ -1180,6 +1208,7 @@ selectYear.addEventListener("change", function(e) {
                                     number += 1
                                 }
                             });
+                            markerCluster.clearMarkers();
                             for (var i = 0; i < markers.length; i++) {
                                 if (markers[i].mission == a && markers[i].commType == b && markers[i].category == c && markers[i].campusTest == 1 && markers[i].yearTest == 1) {
                                     markers[i].setVisible(true);

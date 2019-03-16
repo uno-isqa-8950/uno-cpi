@@ -49,7 +49,7 @@ $('#legend').html(select);
 var select1 = '';
 select1 += '<option val=' + "all" + ' selected="selected">' + "All Legislative Districts" + '</option>';
 for (i = 1; i <= 49; i++) {
-    select1 += '<option val=' + i + '>' + i + '</option>';
+    select1 += '<option val=' + i + '>' + "Legislative District " + i + '</option>';
 }
 $('#selectDistrict').html(select1);
 

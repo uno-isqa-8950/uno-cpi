@@ -5,8 +5,11 @@
 
 .select2-container--default .select2-selection--single
 {
-    border: 2px solid #aaa;
+    {#border: 2px solid #aaa;#}
     height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
 }
     label
     {
@@ -40,19 +43,15 @@
         font-style: italic;
     }
 
-    input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status],select[id=id_academic_year],
-    input[id=id_engagement_type],input[id=id_activity_type]
+    select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country]
     {
         width:95%;
         height: 1%;
         color: black;
     }
 
-    .select2-container--default .select2-selection--single
-    {
-        margin-left:22px;
-        width:100%
-    }
+
     .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -62,10 +61,7 @@
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
-    .select2-container--open .select2-dropdown--below
-    {
-        margin-left:22px
-    }
+
   select[id=id_form-0-campus_partner]
    {
        width:93%;
@@ -89,6 +85,7 @@
                                     <label for="id_project_name">Project Name</label>
                                     {{ project.project_name }}
                                 </div>
+
                                 <div class="form-group">
                                     {{ project.engagement_type.errors }}
                                     <label for="id_engagement_type">Engagement Type</label>
@@ -97,7 +94,7 @@
                                     {{ project.engagement_type }}
                                 </div>
 
-                                <div class="form-group">
+                                <div class="col-lg-18 form-group">
                                     {{ project.engagement_type.errors }}
                                     <label for="id_activity_type">Activity Type</label>
                                     {% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -167,15 +164,16 @@
                                                </h6><br>
                                         </div>
                                             <div class="input-group">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6" id="id_mission-0-mission'">
                                                     {{ form.mission|bootstrap }}
                                                 </div>
+
                                             </div>
                                     <p id="errorid"></p>
                                     </div>
                                 {% endfor %}
                                 {% for form4 in formset4 %}
-                                    <div class="secondary_mission-row" id="contact1" style="margin-top:20px;">
+                                    <div class="mission-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
                                             <h6>Secondary Mission Areas
                                                 {% for data_definition in data_definition %}{% if data_definition.id == 40%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -183,15 +181,19 @@
                                             </h6><br>
                                         </div>
                                             <div class="input-group">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6" id="id_secondary_mission-0-mission">
                                                     {{ form4.mission|bootstrap }}
+
                                                 </div>
                                             </div>
-                                            <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-secondary_mission-row">Add Additional Mission Area</button>
-                                            </div>
+                                       {% endfor %}
+{#                                            <div class="input-group-append" >#}
+{#                                                <button class="btn btn-secondary add-secondary_mission-row">Add Additional Mission Area</button>#}
+{#                                            </div>#}
+                                      <p class = h9>If you have additional Mission Areas, you can update them while editing your Project details!</p>
+                                     <p id="errorid"></p>
                                     </div>
-                                {% endfor %}
+
 
                                 <div class = "row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -218,7 +220,7 @@
                                         </div>
 
                                         <div class="input-group">
-                                                <div class="col-lg-10">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         {{ project.address_line1.errors }}
                                                         <label for="id_academic_year">Address Line 1</label>
@@ -400,11 +402,7 @@ $(document).ready(function(){
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
-    $('#id_mission-0-mission').select2({placeholder: 'Select Primary Mission Area',});
-    $('#id_secondary_mission-0-mission').select2({placeholder: 'Select Secondary Mission Area',});
     $('#id_semester').select2({placeholder: 'Select Semester',});
-    $('#id_community-0-community_partner').select2({placeholder:'Choose your Community Partner',});
-     $('#id_campus-0-campus_partner').select2({placeholder:'Choose your Campus Partner',});
 });
 </script>
 <!--    Commenting out script per ticket #551

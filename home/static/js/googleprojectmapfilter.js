@@ -501,21 +501,27 @@ selectYear.addEventListener("change", function(e) {
 
 //*********************************** District filter *****************************************************
 
+var states = new Array();
+
 var selectDistrict = document.getElementById('selectDistrict');
 selectDistrict.addEventListener("change", function (e) {
-    removeDistrict()
     var value1 = e.target.value.trim()
     var value=value1.split("Legislative District")[1]
     value = parseInt(value)
 
-    // })
     if (isNaN(value)) {
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
         // get the number of markers that fit the requirement and show on the HTML
         filterlist[2] = "all"
-        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5], filterlist[6])
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5], filterlist[6],
+            filterlist[7])
     } else {
         var coords = []
-
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
         for (i = 0; i < districtData.features.length; i++) {
             if (value == districtData.features[i].id) {
                 for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
@@ -526,7 +532,7 @@ selectDistrict.addEventListener("change", function (e) {
                 }
             }
         }
-        var states = new google.maps.Polygon({
+        var state = new google.maps.Polygon({
             paths: coords,
             strokeColor: '#fe911d',
             strokeOpacity: 0.8,
@@ -534,16 +540,13 @@ selectDistrict.addEventListener("change", function (e) {
             fillColor: '#fe911d',
             fillOpacity: 0.25,
         });
-        showDistrict()
-        // }
-        // }
+
+        states.push(state)
+        state.setMap(map)
         filterlist[2] = value
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5],
             filterlist[6], filterlist[7]);
 
-        function showDistrict() {
-            states.setMap(map);
-        }
     }
 })
 

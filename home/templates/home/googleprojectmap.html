@@ -188,6 +188,22 @@
             width: 210px;
             margin-bottom: 15px;
         }
+
+         select[id=selectCollege]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
         .h2 {
             display: block;
             font-size: 1.7em;
@@ -214,7 +230,7 @@
 
 
         .legend {
-            margin-top:20px;
+            {#margin-top:10px;#}
             background-color: #636568;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -225,7 +241,6 @@
             padding: 10px;
             color: white;
             width:230px;
-
         }
 
         .legend h4 {
@@ -389,7 +404,8 @@
                 </div>
                 <select style="margin-top:10px;"  id="selectMisstype" class="selectMisstype"></select>
                 <select id="selectDistrict" class="selectDistrict"></select>
-                <select id="selectCommunity" class="selectCommunity"></select>
+                <select  style="" id="selectCommunity" class="selectCommunity"></select>
+                <div class="text-wrap"><select id="selectCollege" class="selectCollege"></select></div>
                 <select id="selectCampus" class="selectCampus"></select>
                 <select id="selectYear" class="selectYear"></select>
                 <select id="selectCommtype" class="selectCommtype"></select>
@@ -424,6 +440,7 @@
                                         <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b></label>
                                     </div>
                                 </div>
+{#                                <p class="font-italic text-sm-center" style="font-size: xx-small">This number does not include Projects without addresses</p>#}
                             </div>
                         </div>
                     </div>
@@ -454,6 +471,7 @@
                                 {{ districtData | json_script:"district"}}
                                 {{ Missionlist | json_script:"missionlist"}}
                                 {{ CommTypelist | json_script:"CommTypelist"}}
+                                {{ Collegename | json_script:"collegename-list"}}
                                 {{ Campuspartner | json_script:"campusPartner-list"}}
                                 {{ Communitypartner | json_script:"communitypartner-list" }}
                                 {{ EngagementType | json_script:"engagementType" }}
@@ -463,7 +481,7 @@
                         </div>
                     </div>
                 </div>
-            </div>&emsp;
+            </div>
 
             <footer>
                 <div class="container-fluid">
@@ -498,8 +516,11 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
+{#    markercluster#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+{#    spiderfy#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
+
     <script type="text/javascript" src='{% static "js/googleprojectmapfilter.js" %}'></script>
 
 

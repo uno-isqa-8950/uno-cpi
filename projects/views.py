@@ -24,6 +24,7 @@ from shapely.geometry import shape, Point
 import pandas as pd
 import json
 from django.db.models import Sum
+import datetime
 gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 
 
@@ -270,7 +271,15 @@ def project_total_Add(request):
                     projects_list.append(data)
             return render(request, 'projects/projectadd_done.html', {'project': projects_list})
     else:
-        project = ProjectFormAdd()
+        month=datetime.datetime.now() .month
+        year=datetime.datetime.now() .year
+        if month > 7:
+            a_year =str(year)+"-"+str(year+1) [-2:]
+        else:
+            a_year = str(year-1) + "-" + str(year) [-2:]
+
+        test = AcademicYear.objects.get(academic_year=a_year)
+        project =ProjectFormAdd(initial={"academic_year":test})
         course = CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
         formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')

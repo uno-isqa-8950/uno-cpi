@@ -128,6 +128,17 @@
                                     </select>
 
                             </div>
+
+                            <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                                <label for="college-name"> College Name </label>
+                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                                        <option> All </option>
+                                            {% for college in college_filter.form.college_name %}
+                                                {{college}}
+                                            {% endfor %}
+                                    </select>
+                            </div>
+
                             <div class="col-lg-3 col-md-5 form-group embed-responsive">
                                 <label for="campus_partner"> Campus Partners
                                 {% for data_definition in data_definition %}
@@ -242,6 +253,7 @@ $(document).ready(function(){
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
+    $('#id_college_name').select2({placeholder: 'All College Names',width: '200px'});
 
 
 

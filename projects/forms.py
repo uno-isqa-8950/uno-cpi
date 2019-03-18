@@ -2,9 +2,9 @@ from collections import Sized
 
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
-
+from django.db.models import Max
 from university.models import Course
-from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
+from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType,AcademicYear
 from django import forms
 from django.forms import ModelForm
 

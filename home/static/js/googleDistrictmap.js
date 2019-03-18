@@ -49,7 +49,7 @@ $('#legend').html(select);
 var select1 = '';
 select1 += '<option val=' + "all" + ' selected="selected">' + "All Legislative Districts" + '</option>';
 for (i = 1; i <= 49; i++) {
-    select1 += '<option val=' + i + '>' + "Legislative District " + i + '</option>';
+    select1 += '<option val=' + i + '>' +'Legislative District ' + i + '</option>';
 }
 $('#selectDistrict').html(select1);
 
@@ -414,66 +414,45 @@ selectYear.addEventListener("change", function(e) {
 })
 
     //*********************************** District filter *****************************************************
-
+    var states = new Array();
     var selectDistrict = document.getElementById('selectDistrict');
     selectDistrict.addEventListener("change", function (e) {
-        var value = e.target.value.trim().toLowerCase();
+        var value1 = e.target.value.trim()
+        var value=value1.split("Legislative District")[1]
         value = parseInt(value)
         if (isNaN(value)) {
+            for (var k=0; k<states.length; k++) {
+                states[k].setMap(null);
+            }
             // get the number of markers that fit the requirement and show on the HTML
             filterlist[2] = "all"
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
         } else {
-            var value = e.target.value.trim().toLowerCase();
-             // districtData.features.forEach(function (feature) {
-             //    if (feature.properties['id'] == value) {
-             //        var arrlength=districtData.features[i].geometry['coordinates'][0].length;
-                    // for (j = 0; j < arrlength; j++) {
-                    //     var x = parseFloat(districtData.features[i].geometry['coordinates'][0][j][1])
-                    //     var y = parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
-                        // console.log(x, y)
-                        // var arr=[]
-                        // for (k = 0; k < arrlength.length; k++) {
-                        //     arr.push([{x, y}])
+            var coords = []
+            for (var k=0; k<states.length; k++) {
+                states[k].setMap(null);
+            }
+            for (i = 0; i < districtData.features.length; i++) {
+                if (value == districtData.features[i].id) {
+                    for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
+                        coords.push({
+                            lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
+                            lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
+                        });
+                    }
+                }
+            }
+            var state = new google.maps.Polygon({
+                paths: coords,
+                strokeColor: '#fe911d',
+                strokeOpacity: 0.8,
+                strokeWeight: 1,
+                fillColor: '#fe911d',
+                fillOpacity: 0.25,
+            });
 
-
-                        // console.log(polycord)
-
-                        // console.log(arr)
-                        //     }
-                        //     for (k = 0; k < polycord.length; k++) {
-                        //         var values = polycord[k]
-                        //     }
-                        //
-                        // }
-                        //  }
-                        // console.log(polycord)
-                        //     console.log(values)
-
-
-                        // console.log("In district poly", districtPoly)
-                    //     var districtPoly = new google.maps.Polygon({
-                    //         paths: arr,
-                    //         strokeColor: "#4ffe83",
-                    //         strokeOpacity: 0.8,
-                    //         strokeWeight: 2,
-                    //         fillColor: "#61adfe",
-                    //         fillOpacity: 0.5
-                    //     });
-                    //     console.log("In district poly", districtPoly)
-                    //     // districtPoly.setMap(null);
-                    //     districtPoly.setMap(map);
-                    // }
-            //     }
-            //
-            // })
-
-            // map.data.setStyle({
-            //     fillColor: '#42e2f4',
-            //     strokeWeight:1
-            // })
-
-
+            states.push(state)
+            state.setMap(map)
 
             filterlist[2] = value
             calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])

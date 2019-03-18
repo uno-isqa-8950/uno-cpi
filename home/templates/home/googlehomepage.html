@@ -1,10 +1,9 @@
 {% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %} {% block content %}
 
-<!--<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>-->
-<!--<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />-->
-<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
-<link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
 <style>
 
@@ -24,7 +23,7 @@
         {
         position:absolute;
         top:5px;
-        left:40px;
+        left:45px;
         border-color: #484848;
         background-color: #FF3333;
         color:White;
@@ -38,19 +37,6 @@
         background-color: #484848;
         }
 
-    @media(max-width:810px)
-    {
-        .btn-custom1
-            {
-                left:15px;
-            }
-        .active .btn-custom1
-            {
-            left:15px;
-
-            }
-
-    }
 
     .btn-custom1:hover
         {
@@ -75,13 +61,13 @@
         color:#fff;
     }
 
-    .mapboxgl-map:-webkit-full-screen
-    {
-          width: 100%;
-          height: calc(100vh - 150px);
-          margin: 0px 0 0 0;
-
-    }
+    {#.mapboxgl-map:-webkit-full-screen#}
+    {#{#}
+    {#      width: 100%;#}
+    {#      height: calc(100vh -150px);#}
+    {#      margin: 0px 0 0 0;#}
+    {##}
+    {#}#}
 
 
     .map {
@@ -188,7 +174,8 @@
 
 
 	.legend {
-		    background-color: #636568;
+
+			background-color: #636568;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -331,7 +318,6 @@
         {
 
         }
-
         .container-fluid
         {
         padding-left:0px;
@@ -342,13 +328,14 @@
         {
         border-radius:0px;
         }
+
 </style>
 
 <div class="wrapper">
     <nav id="sidebar">
         <div class="row" style="border-bottom: 1px solid grey; height:60px;">
             <div class="col-lg-6 col-md-6">
-                <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
+                <h3 style="padding:15px;text-align:left; font-size:25px;">Filters</h3>
             </div>
             <div class="col-lg-6 col-md-6" style="padding:15px;">
                 <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
@@ -363,9 +350,7 @@
             <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
 
-            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
-                </select>
-            <!--div id="sidebar"-->
+            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict"></select>
             <select id="selectCommtype" class="selectCommtype"></select>
             <select id="selectCampus" class="selectCampus"></select>
             <select id="selectYear" class="selectYear"></select>
@@ -377,7 +362,6 @@
     </nav>
 
     <div id="content">
-
                 <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -387,20 +371,16 @@
                                         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                             <span></span>
                                         </button>
-
                                     </div>
-
                                     <div class="col-lg-4 col-md-5">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
                                             <label><b>Maps: Community Partners</b></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-md-6">
-                                        <div style="box-sizing: border-box; padding:3px;">
+                                        <div style="box-sizing: border-box; padding:5px;">
                                             <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
                                         </div>
-                                        <!--<label style="box-sizing: border-box;">Unique Community Partners:</label>-->
-                                        <!--<div id = "totalnumber">{{ number }}</div>-->
                                     </div>
                                 </div>
                             </div>
@@ -408,14 +388,12 @@
 
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
-                                <div id='map' class='map'>
-                                    {{ collection | json_script:"commPartner-data"}}
-                                    <!--h3 id="overlay-header">Maps: Household Income</h3>
-                                    <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
-                                    {{ Missionlist | json_script:"missionlist"}}
-                                    {{ CommTypeList | json_script:"CommTypelist"}}
+                                <div id='map_canvas' class='map'>
+                                    {{ districtData | json_script:"district-data"}}
+                                    {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
+
                                 </div>
                             </div>
                         </div>
@@ -449,30 +427,24 @@ political affiliation in its programs, activities, or employment.
 </footer>
 
     </div>
-
 </div>
 
-<!--<div class='filter-ctrl'>-->
-<!--<input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />-->
-<!--</div>-->
 
-<!--<div class='filter-ctrl2'>-->
-<!--<input id='filter-input2' type='text' name='filter2' placeholder='Search by Project' />-->
-<!--</div>
-		    <script type="text/javascript">
-        var countyData = "{{countymap}}";
-    </script>-->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0"></script>
-<script type="text/javascript" src='{% static "js/googlehomepage.js" %}'></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
-<!-- jQuery CDN - Slim version (=without AJAX) -->
-<!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
-<!-- Popper.JS -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-<!-- Bootstrap JS -->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
-<!-- jQuery Custom Scroller CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+{#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
+    <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
+
+    <script type="text/javascript" src='{% static "js/googlehomepage.js" %}'></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
 <script type="text/javascript">
     $(document).ready(function () {
@@ -486,7 +458,6 @@ political affiliation in its programs, activities, or employment.
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
-
 </script>
 
 {% endblock %}

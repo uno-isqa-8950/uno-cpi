@@ -49,6 +49,15 @@
         -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
         box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
     }
+
+    .hideContent {
+        overflow: hidden;
+        height: 4.5em;
+    }
+
+    .showContent {
+        height: auto;
+    }
 </style>
 
 <div class="container">
@@ -211,14 +220,23 @@
                 <th>Number of UNO Students</th>
                 <th>Number of UNO Students Hours</th>
                 <th>Economic Impact</th>
-                
+
             </tr>
             </thead>
             <tbody>
             {% for project in projectsData %}
             <tr>
                 <td>{{project.projectName}}</td>
-                <td>{% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}</td>
+                <td>
+                    <div class="content hideContent">
+                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.campusPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
                 <td>{% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %} </td>
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_UNO_students}}</td>
@@ -251,16 +269,41 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 
-  
+
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
-  
+
+});
+</script>
+
+{% endblock %}
+
+{% block custom_js %}
+
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+$(".show-more a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $this.parent().prev("div.content");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
 });
 </script>
 {% endblock %}
+
 {% block js %}
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>

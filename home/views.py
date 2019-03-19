@@ -285,7 +285,6 @@ def upload_project(request):
             #         data_dict['county'] = properties2['properties']['NAME']
             #         data_dict['median_household_income'] = properties2['properties']['Income']
             form = UploadProjectForm(data_dict)
-            # print(form)
             campus = data_dict['campus_partner'] in campus_names
             community = data_dict['community_partner'] in community_names
             if campus and community and form.is_valid():
@@ -293,9 +292,6 @@ def upload_project(request):
                 form_campus = UploadProjectCampusForm(data_dict)
                 form_community = UploadProjectCommunityForm(data_dict)
                 form_mission = UploadProjectMissionForm(data_dict)
-                # print(form_campus)
-                # print(form_community)
-                # print(form_mission)
                 if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
                     form_campus.save()
                     form_community.save()
@@ -455,7 +451,6 @@ def upload_campus(request):
                 if form_college.is_valid():
                     form_college.save()
                     form = UploadCampusForm(data_dict)
-                    # print(form)
                     if form.is_valid():
                         form.save()
             else:
@@ -654,7 +649,6 @@ def unique_count(request):
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     mission_ids = [m.mission_id for m in missions_filter.qs]
     project_missions = [p.project_name_id for p in missions_filter.qs]
-    # print(project_missions)
     unique_project_ids = list(set(campus_filtered_ids).intersection(project_year_ids))
     total_unique_project = list(set(unique_project_ids).intersection(project_missions))
     unique_project = len(total_unique_project)
@@ -662,7 +656,6 @@ def unique_count(request):
     # community partner count
     community_mission_filter = CommunityPartnerMission.objects.filter(mission_area_id__in=mission_ids)
     community_mission_ids = [c.community_partner_id for c in community_mission_filter]
-    # print(community_mission_filter)
     # unique_community_ids = ProjectCommunityPartner.objects.filter(project_name_id__in=unique_project_ids)
     # total_unique_community = list(set(community_mission_ids).intersection(unique_community_ids))
     unique_community = len(community_mission_ids)
@@ -739,7 +732,7 @@ def missionchart(request):
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
     Max_count = max(list(set(partner_count_data) | set(project_count_data)), default=1)
-    # print(Max_count)
+
 
     project_count_series = {
         'name': 'Project Count',
@@ -749,8 +742,6 @@ def missionchart(request):
         'name': 'Community Partner Count',
         'data': partner_count_data,
         'color': 'teal'}
-    # print(partner_count_series)
-    # print(project_count_series)
     chart = {
         'chart': {'type': 'bar'},
         'title': {'text': '   '},
@@ -838,7 +829,6 @@ def EngagementType_Chart(request):
         proj_comm_ids1 = proj_comm_1.count()
 
         proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        print(proj_camp)
         proj_camp_ids = proj_camp.count()
 
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
@@ -911,17 +901,14 @@ def GEOJSON():
     commPartners = CommunityPartner.objects.all()  # get all the community partners
     collection = {'type': 'FeatureCollection', 'features': []}  # create the shell of GEOJSON
     if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
-        # print("I am here")
         with open('home/static/GEOJSON/Partner.geojson') as f:
             geojson1 = json.load(f)  # get the GEOJSON
         collection = geojson1  # assign it the collection variable to avoid changing the other code
         database_comm = [c.name for c in commPartners]
         if (len(collection["features"]) > len(database_comm)):
-            # print(collection["features"])
             geo_comm = [c["properties"]["CommunityPartner"] for c in collection["features"]]
             temp3 = [x for x in geo_comm if x not in database_comm]
             index = geo_comm.index(temp3[0])
-            # print(geo_comm[index])
             collection["features"].remove(collection["features"][index])
             # collection = {'type': 'FeatureCollection', 'features': commpartner}
             jsonstring = pd.io.json.dumps(collection)
@@ -932,7 +919,7 @@ def GEOJSON():
         countyData = countyGEO()
         district = districtGEO()
         # if there is no file, meaning that this is the first initial upload. Create the GEOJSON
-        # print("I am there")
+
 
         for commPartner in commPartners:  # iterate through all community partners
             # prepare the shell of the features key inside the GEOJSON
@@ -1020,7 +1007,6 @@ def GEOJSON():
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
-    # print(commPartnerlist)
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist))
 
@@ -1177,12 +1163,9 @@ def projectdata(request):
 def googleprojectdata(request):
     Campuspartner = GEOJSON2()[4]
     Communitypartner = GEOJSON2()[3]
-    # print(Communitypartner)
-    # print(data1)
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     data = GEOJSON2()[0]
-    # print(data1)
     return render(request, 'home/googleprojectmap.html',
                   {'districtData': district, 'collection': GEOJSON2()[0],
                    'number': len(data['features']),
@@ -1201,7 +1184,6 @@ def googleDistrictdata(request):
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
-    # print(data)
     return render(request, 'home/googleDistrictmap.html',
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),

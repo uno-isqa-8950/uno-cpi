@@ -84,7 +84,6 @@ def registerCommunityPartner(request):
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
         if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
-            #print("Everything is valid")
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
             primary_missions = formset_primary_mission.save(commit=False)
@@ -94,18 +93,14 @@ def registerCommunityPartner(request):
                 primary_mission.community_partner = community_partner
                 missionarea = primary_mission.mission_area
                 primary_mission.mission_type = 'Primary'
-                #print("in add primary mission")
                 primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
-                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                print(contact)
-                print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################
@@ -182,7 +177,6 @@ def registerCommunityPartner(request):
 def ajax_load_project(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        print(q)
         projects = CommunityPartner.objects.filter(name__istartswith=q)[:5]
         results = []
         for project in projects:
@@ -470,18 +464,14 @@ def registerCommunityPartner_forprojects(request):
                 primary_mission.community_partner = community_partner
                 missionarea = primary_mission.mission_area
                 primary_mission.mission_type = 'Primary'
-                #print("in add primary mission  " + str(missionarea))
                 primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
-                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                #print(contact)
-                #print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################

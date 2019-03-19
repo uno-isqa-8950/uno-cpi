@@ -32,7 +32,7 @@ gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 @communitypartner_required()
 def communitypartnerhome(request):
     usertype = User.objects.get(is_communitypartner=True)
-#    print(usertype.is_communitypartner)
+
 #    if usertype.is_communitypartner == True:
     return render(request, 'community_partner_home.html',
                   {'communitypartnerhome': communitypartnerhome,'usertype':usertype})
@@ -52,13 +52,13 @@ def communitypartnerproject(request):
     # get all the project names base on the campus partner id
         proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
         for f in proj_comm:
-            print(f)
+
             k=list(Project.objects.filter(id = f.project_name_id))
-            print(k)
+
             for x in k:
              projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
              cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-             print(cp)
+
              camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
              proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
              for proj_comm_par in proj_comm_par:
@@ -66,10 +66,10 @@ def communitypartnerproject(request):
 
                 comm_part_names.append(comm_part)
              list_comm_part_names = comm_part_names
-             print(list_comm_part_names)
+
              comm_part_names = []
          #total_project_hours += proj_cam_par.total_hours
-         #print(total_project_hours)
+
              data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
                 'activityType': x.activity_type,
                 'facilitator': x.facilitator, 'semester': x.semester , 'status': x.status,
@@ -93,7 +93,7 @@ def communitypartnerproject(request):
 @login_required()
 # @campuspartner_required()
 def proj_view_user(request):
-    #print(request.user.id)
+
     projects_list=[]
     data_definition=DataDefinition.objects.all()
     camp_part_names=[]
@@ -154,7 +154,6 @@ def project_total_Add(request):
         formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
-        # print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and formset4.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             a = 0
@@ -203,21 +202,19 @@ def project_total_Add(request):
             proj_campus_form = formset3.save(commit=False)
             for k in proj_comm_form:
                 k.project_name = proj
-                print("in add comm")
-                print(k.project_name)
-                print(k.total_hours, k.total_people)
+
                 k.save()
 
             for form in mission_form:
                 form.project_name = proj
-                #print("in add mission")
+
                 form.mission_type = 'Primary'
                 form.save()
 
 
             for form4 in secondary_mission_form:
                 form4.project_name = proj
-                #print("in add secondary mission")
+
                 form4.mission_type = 'Other'
                 form4.save()
 
@@ -226,15 +223,13 @@ def project_total_Add(request):
             t = 0
             for c in proj_campus_form:
                 c.project_name = proj
-                print('totalhrs')
-                print(c.total_hours, c.total_people)
                 c.save()
                 # init = proj.total_uno_hours
                 t += c.total_hours * c.total_people
-                print(t)
+
                 proj.total_uno_hours = t
                 proj.save()
-                print(c.total_hours)
+
             projects_list = []
             camp_part_names = []
             p = 0
@@ -285,7 +280,7 @@ def project_total_Add(request):
         formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
-        #print('hello')
+
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
@@ -296,7 +291,7 @@ def project_edit_new(request,pk):
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=AddProjectCommunityPartnerForm)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=AddProjectCampusPartnerForm)
-    print('print input to edit')
+
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
@@ -306,18 +301,9 @@ def project_edit_new(request,pk):
         formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
-        print("before form validations", formset_camp_details.is_valid(), formset_comm_details.is_valid(),project.is_valid(), course.is_valid())
-        # print("formset_missiondetails.is_valid()8888888888", formset_missiondetails.is_valid())
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
-                #print(" validating the forms here")
+
                 instances = project.save()
-                # print(instances.engagement_type)
-                # eng = str(project.engagement_type)
-                # if project.engagement_type == "Service Learning":
-                #     print("heoooooooooooooooooo")
-                #     course = course.save(commit=False)
-                #     course.project_name = project
-                #     course.save()
                 pm = formset_missiondetails.save(commit=False)
                 compar= formset_comm_details.save(commit=False)
                 campar= formset_camp_details.save(commit=False)
@@ -338,12 +324,12 @@ def project_edit_new(request,pk):
                 camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
                 for c in camp_part_user:
                     p = c.campus_partner_id
-                    # print(c)
+
                 # get all the project names base on the campus partner id
                 proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
                 for f in proj_camp:
                     k = list(Project.objects.filter(id=f.project_name_id))
-                    # print(k)
+
                     tot_hours = 0
                     for x in k:
 
@@ -355,9 +341,7 @@ def project_edit_new(request,pk):
                             tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
                             # total_project_hours += proj_camp_par.total_hours
                             x.total_uno_hours = tot_hours
-                            print("total hours", tot_hours)
                             x.total_uno_students += proj_camp_par.total_people
-                            print("total students", x.total_uno_students)
                             x.save()
                             camp_part_names.append(camp_part)
                         list_camp_part_names = camp_part_names
@@ -385,16 +369,13 @@ def project_edit_new(request,pk):
                 return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
     else:
-            #print(" Project_edit_new else")
+
             proj_edit = Project.objects.filter(id=pk)
 
             for x in proj_edit:
                 project = ProjectForm2(request.POST or None, instance=x)
-
-
-            # coursedetail = Course.objects.filter(project_name_id=pk)
             course = CourseForm(instance = x)
-            # print(course)
+
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
@@ -402,7 +383,6 @@ def project_edit_new(request,pk):
             formset_missiondetails = mission_edit_details(instance=x)
             formset_comm_details = proj_comm_part_edit(instance=x)
             formset_camp_details = proj_campus_part_edit(instance=x)
-            print("formset_camp_details",formset_camp_details)
             return render(request,'projects/projectedit.html',{'project': project,'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
@@ -415,12 +395,11 @@ def SearchForProject(request):
     names=[]
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-    for project in Project.objects.all():
+    for project in Project.objects.all().iterator():
         names.append(project.project_name)
     camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
     for c in camp_part_user:
         p = c.campus_partner_id
-        # print(c)
     # get all the project names base on the campus partner id
     proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
     allProjects = SearchProjectFilter(request.GET, queryset=Project.objects.all())
@@ -444,22 +423,15 @@ def SearchForProject(request):
         searched_project = SearchProjectFilter(request.GET, queryset=Project.objects.all())
         project_ids = [p.id for p in searched_project.qs]
         k = list(Project.objects.all())
-        print("here I am",k[1:25])
 
         for x in k:
             projmisn =list(ProjectMission.objects.filter(project_name_id=x.id))
-            print(projmisn)
             cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
             proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
             for proj_camp_par in proj_camp_par:
                 camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
                 camp_part_names.append(camp_part)
             list_camp_part_names = camp_part_names
-            print("I am the project mission",projmisn)
-            print("I am the camp partn",list_camp_part_names)
-            print("I am the community part,",cp)
-            print("I am the proj camp partner",proj_camp_par)
-
             camp_part_names = []
             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
                     'activityType': x.activity_type,

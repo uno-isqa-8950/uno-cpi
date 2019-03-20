@@ -151,7 +151,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     //To DO :If any district is selected highlight it
     map.data.setStyle({
         fillColor: "#fee8c8",
-        fillOpacity: 0.5,
+        fillOpacity: 0.4,
         strokeWeight: 0.2
     })
 
@@ -162,7 +162,7 @@ console.log(communityData)
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 0.6,
+        fillOpacity: 0.5,
         strokeOpacity: 0.9,
         scale: 8,
         strokeColor: 'white',
@@ -275,10 +275,12 @@ var mcOptions = {
         }]
 };
 
+var infowindow;
+
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website) {
-    var infowindow = new google.maps.InfoWindow({
+     infowindow = new google.maps.InfoWindow({
         content: '<tr><td><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
@@ -287,22 +289,41 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp; </td><td><a href="'+ website + '">' + website + '</a></td></tr>'
+            '<tr><td>&nbsp;</td><td><a id="website" href="'+ website + '">' + website + '</a></td></tr>'
     });
-    // listner to check for on click event
-    marker.addListener('click', function () {
-        infowindow.open(marker.get('map'), marker);
-    // time out after which the info window will close
-    setTimeout(function () {
-        infowindow.close();
-    }, 3000);
-    })
+
+
+    google.maps.event.addListener(marker, 'click', function() {
+                if(!marker.open){
+                    infowindow.open(map,marker);
+                    marker.open = true;
+                }
+                else{
+                    infowindow.close();
+                    marker.open = false;
+                }
+                google.maps.event.addListener(map, 'click', function() {
+                    infowindow.close();
+                    marker.open = false;
+                });
+            });
+
+    // // listner to check for on click event
+    // marker.addListener('click', function () {
+    //     infowindow.open(marker.get('map'), marker);
+    // // time out after which the info window will close
+    // // marker.addEventListener('click',function (e) {
+    // //     e.infowindow.close(marker.get('map'), marker);
+    // //     // }, 3000);
+    // // });
+    // })
+
 }
 
 
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
-  // infowindow.close();
+  infowindow.close();
 })
 
 //***********************************filter by clickable legends*****************************************************

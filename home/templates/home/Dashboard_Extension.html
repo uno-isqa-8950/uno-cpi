@@ -105,7 +105,7 @@ margin-top:15px;
 {#                      <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                       {% if user.is_authenticated and user.is_superuser %}
                          <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                         <a class="dropdown-item" href="{% url 'projectsprivate' %}">Projects</a>
+                         <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a>
                       {% else %}
                          <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                          <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>

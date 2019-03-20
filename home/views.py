@@ -1002,13 +1002,15 @@ def GEOJSON():
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartnerlist = CampusPartner.objects.all()
     CampusPartnerlist = [m.name for m in CampusPartnerlist]
+    college_qs = CampusPartner.objects.filter(id__exact=CampusPartnerlist[0])
+    college_name = [p.college_name for p in college_qs]
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist))
+            sorted(commPartnerlist), sorted(college_name))
 
 
 ######## export data to Javascript for Household map ################################
@@ -1057,7 +1059,8 @@ def districtdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': GEOJSON()[4],
+                   'Collegename': GEOJSON()[6]
                    }
                   )
 

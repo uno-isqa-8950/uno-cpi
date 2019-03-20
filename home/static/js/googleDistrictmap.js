@@ -1,10 +1,11 @@
 //*********************************** Get mapbox API and get data from HTML *****************************************************
 
 // mapboxgl.accessToken = 'pk.eyJ1IjoidW5vY3BpZGV2dGVhbSIsImEiOiJjanJiZTk2cjkwNjZ5M3l0OGNlNWZqYm91In0.vPmkC3MFDrTlBk-ntUFruA';
-var colorcode = ['#17f3d1', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00']
+var colorcode = ['#27ffcb', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#29234b']
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
+var CollegeName = JSON.parse(document.getElementById('college-list').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
@@ -20,7 +21,7 @@ communityData.features.forEach(function(feature) {
     count++;
 })
 //*********************************** Load the map *****************************************************
-
+console.log(CollegeName)
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
@@ -78,6 +79,18 @@ for (i = 0; i < yearlist.length; i++) {
     select4 += '<option val=' + i + '>' + yearlist[i] + '</option>';
 }
 $('#selectYear').html(select4);
+
+//*********************************** Add id variable to College Data GEOJSON for search function later *****************************************************
+
+var select5 = '';
+select5 += '<option val=' + "allcollege" + ' selected="selected">' + 'All Colleges' + '</option>';
+for (i = 0; i < CollegeName.length; i++) {
+    select5 += '<option val=' + CollegeName[i] + '>' + CollegeName[i] + '</option>';
+}
+$('#selectCollege').html(select5);
+
+
+
 //*********************************** Load the county data here. Should be down here. Otherwise it won't load *****************************************************
 
 // var districtData = JSON.parse(document.getElementById('district-data').textContent);
@@ -143,13 +156,13 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     })
 
 
-
+console.log(communityData)
 
 
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 1,
+        fillOpacity: 0.6,
         strokeOpacity: 0.9,
         scale: 8,
         strokeColor: 'white',
@@ -164,7 +177,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var campus_partner = communityData.features
     var academic_year = communityData.features
     var website = communityData.features
-    var county = communityData.features
+    var city = communityData.features
     // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var category = communityData.features[i].properties["Legislative District Number"]
@@ -176,6 +189,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var yearTest = communityData.features[i].properties["yeartest"]
         var campusTest = communityData.features[i].properties["campustest"]
         var commPartnerName = communityData.features[i].properties["CommunityPartner"]
+        var collegename = communityData.features[i].properties["College Name"]
         var marker = new google.maps.Marker({
             position: {
                 lat: parseFloat(communityData.features[i].geometry.coordinates[1]),
@@ -191,7 +205,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             campusPartner: campusPartner,
             yearTest: yearTest,
             campusTest: campusTest,
-            commPartnerName: commPartnerName
+            commPartnerName: commPartnerName,
+            collegename: collegename
         });
 
         oms.addMarker(marker);
@@ -217,8 +232,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
                 return circle.fillColor=colorcode[5]
             }
         }
-        attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
+        attachMessage(marker, partner_name[i].properties['CommunityPartner'],
+            project_number[i].properties['Number of projects'],city[i].properties['City'],
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
             academic_year[i].properties["Academic Year"],
@@ -262,48 +277,32 @@ var mcOptions = {
 
 
 // function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,district_number,project_number,county,miss_name, comm_name, campus_partner,academic_year,website) {
+function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website) {
     var infowindow = new google.maps.InfoWindow({
         content: '<tr><td><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
+            // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">County: </span>&nbsp; </td><td>' + county + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp; </td><td>' +  website + '</td></tr>'
+            '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp; </td><td><a href="'+ website + '">' + website + '</a></td></tr>'
     });
-    //listner to check for on click event
-    // marker.addListener('click', function () {
-    //     infowindow.open(marker.get('map'), marker);
-    //time out after which the info window will close
-    // setTimeout(function () {
-    //     infowindow.close();
-    // }, 5000);
-    // // infowindow.close();
-    google.maps.event.addListener(marker, "click", function () {
-        // infowindow.close(marker.get('map'), marker);
-        // infowindow.close();
-        if(!marker.open){
-            infowindow.open(map,marker);
-            marker.open = true;
-        }
-        else{
-            infowindow.close();
-            marker.open = false;
-        }
-        google.maps.event.addListener(map, 'click', function() {
-            infowindow.close();
-            marker.open = false;
-        });
+    // listner to check for on click event
+    marker.addListener('click', function () {
+        infowindow.open(marker.get('map'), marker);
+    // time out after which the info window will close
+    setTimeout(function () {
+        infowindow.close();
+    }, 3000);
     })
 }
 
 
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
-  infowindow.close();
+  // infowindow.close();
 })
 
 //***********************************filter by clickable legends*****************************************************
@@ -323,6 +322,29 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
     }
 });
+
+//*********************************** College Name filter *****************************************************
+
+var selectCollege = document.getElementById('selectCollege');
+selectCollege.addEventListener("change", function(e) {
+    var value = e.target.value.trim();
+
+    if (!CollegeName.includes(value)) {
+        //get the number of markers and show it on the HTML
+        filterlist[6] = "all"
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5],
+            filterlist[6]);
+    } else {
+        for (var i = 0; i < CollegeName.length; i++) {
+            if (value == CollegeName[i]) {
+                filterlist[6] = value
+                calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5],
+                    filterlist[6]);
+            }
+        }
+    }
+})
+
 
 
 //*********************************** Campus Partner filter *****************************************************
@@ -516,6 +538,9 @@ selectYear.addEventListener("change", function(e) {
         });
         $('#selectDistrict option').prop('selected', function () {
             return this.defaultSelected;
+            for (var k=0; k<states.length; k++) {
+                states[k].setMap(null);
+            }
         });
         $('#selectCampus option').prop('selected', function () {
             return this.defaultSelected;
@@ -524,6 +549,10 @@ selectYear.addEventListener("change", function(e) {
             return this.defaultSelected;
         });
         $('#selectMisstype option').prop('selected', function () {
+            return this.defaultSelected;
+        });
+
+        $('#selectCollege option').prop('selected', function () {
             return this.defaultSelected;
         });
 

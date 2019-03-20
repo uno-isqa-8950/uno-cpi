@@ -1076,12 +1076,13 @@ def GEOJSON2():
     CommunityPartnerlist = []
     CampusPartnerlist = []
     CommunityPartnerTypelist = []
+    CollegeNamelist = []
     for project in projects:  # iterate through all projects
         # prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '', 'Engagement Type': '',
                                                      'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'Community Partner': '', 'Campus Partner': '',
+                                                     'Community Partner': '', 'College Name':'', 'Campus Partner': '',
                                                      'Community Partner Type': ''
                                                      },
                    'geometry': {'type': 'Point', 'coordinates': []}}
@@ -1113,7 +1114,15 @@ def GEOJSON2():
             communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
             community_type = [p.community_type for p in communityType_qs]
 
+            # get the college name
+            college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+            college_name = [p.college_name for p in college_qs]
+
             try:
+                feature['properties']['College Name'] = str(college_name[0])
+                if (str(college_name[0]) not in CollegeNamelist):
+                    CollegeNamelist.append(str(college_name[0]))
+
                 feature['properties']['Community Partner'] = str(communitypartner[0])
                 if (str(communitypartner[0]) not in CommunityPartnerlist):
                     CommunityPartnerlist.append(str(communitypartner[0]))
@@ -1143,7 +1152,7 @@ def GEOJSON2():
             collection['features'].append(feature)  # create the geojson
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
-            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist))
+            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))
 
 
 ###Project map export to javascript
@@ -1174,7 +1183,8 @@ def googleprojectdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6])
+                   'year': sorted(GEOJSON2()[6]),
+                   'Collegename': sorted(GEOJSON2()[7])
                    }
                   )
 

@@ -21,13 +21,13 @@ communityData.features.forEach(function(feature) {
     count++;
 })
 //*********************************** Load the map *****************************************************
-console.log(CollegeName)
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
     zoom: 7,
-    // maxZoom: 12,
+    minZoom: 3,
+    // maxZoom: 13,
     fullscreenControl: false,
     mapTypeControl: false
 });
@@ -323,7 +323,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
 
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
-  infowindow.close();
+  infowindow.close(map);
 })
 
 //***********************************filter by clickable legends*****************************************************

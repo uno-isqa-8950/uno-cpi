@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link rel="shortcut icon" type="image/png" href="/home/static/img/icon.jpg"/>
+  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -124,8 +124,14 @@ color:black;
                                     <a class="dropdown-item" href="/projectInfo">Mission Areas</a>
                                     <a class="dropdown-item" href="/engageType">Engagement Types</a>
 {#                                    <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
+                                    {% if  user.is_authenticated and user.is_superuser %}
+                                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
+                                    <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a>
+
+                                    {% else %}
                                     <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                                     <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>

@@ -289,7 +289,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td>&nbsp;</td><td><a id="website" href="'+ website + '">' + website + '</a></td></tr>'
+            '<tr><td>&nbsp;</td><td><a id="websitelink" href="'+ website + '">'+ website  +'</a></td></tr>'
     });
 
 
@@ -553,15 +553,15 @@ selectYear.addEventListener("change", function(e) {
         filterlist[3] = "all"
         filterlist[4] = "all"
         filterlist[5] = "all"
+        for (var k=0; k<states.length; k++) {
+                states[k].setMap(null);
+            }
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5]);
         $('#selectCommtype option').prop('selected', function () {
             return this.defaultSelected;
         });
         $('#selectDistrict option').prop('selected', function () {
             return this.defaultSelected;
-            for (var k=0; k<states.length; k++) {
-                states[k].setMap(null);
-            }
         });
         $('#selectCampus option').prop('selected', function () {
             return this.defaultSelected;

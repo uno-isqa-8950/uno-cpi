@@ -33,6 +33,25 @@ class StandardPage(Page):
         ImageChooserPanel('image'),
     ]
 
+class Partners(Page):
+    comm_partner = StreamField(
+        BaseStreamBlock(), verbose_name="Community Partner Description", blank=True
+    )
+    comm_partner_user = StreamField(
+        BaseStreamBlock(), verbose_name="Community Partner User Description", blank=True
+    )
+    cam_partner = StreamField(
+        BaseStreamBlock(), verbose_name="Campus Partner Description", blank=True
+    )
+    cam_partner_user = StreamField(
+        BaseStreamBlock(), verbose_name="Campus Partner User Description", blank=True
+    )
+    content_panels = Page.content_panels + [
+        StreamFieldPanel('comm_partner'),
+        StreamFieldPanel('comm_partner_user'),
+        StreamFieldPanel('cam_partner'),
+        StreamFieldPanel('cam_partner_user'),
+    ]
 
 class HomePage(Page):
     image = models.ForeignKey(

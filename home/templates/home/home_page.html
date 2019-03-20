@@ -7,12 +7,72 @@
 {% block body_class %}template-homepage{% endblock %}
 
 {% block content %}
-
     <link href="{% static 'css/HalfSlider.css' %}" rel="stylesheet" type="text/css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 
 <style>
+
+/* queries for type */
+@media (min-width: 768px) {
+  h1 {
+    font-size: 60px;
+  }
+
+  .stand-first {
+    font-size: 26px;
+  }
+
+  .intro {
+    font-size: 30px;
+    margin: 0 0 60px;
+  }
+
+  p {
+    margin: 0 0 30px;
+  }
+}
+
+.figure {
+  margin: 0 0 30px;
+  position: relative;
+}
+.figure img{
+  {#object-fit: cover;#}
+  display: block;
+  width: 100%;
+  height: auto;
+}
+@media (min-width: 768px) {
+  figure {
+    margin: 0 0 50px;
+  }
+}
+figcaption {
+  background-color: rgba(99,33,13,0.8);
+  bottom: 0;
+  color: white;
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  left: 0;
+  padding: 10px;
+  position: absolute;
+  width: 75%;
+}
+
+/* Generic detail page styles */
+.intro {
+  font-family: 'Lato', sans-serif;
+  font-weight: 300;
+  margin: 0 0 40px;
+  font-size: 22px;
+}
+.stand-first {
+  color: rgba(255,255,255,0.8);
+  margin: 0;
+}
+
 /* Hero image area */
 .hero {
   background-size: cover;
@@ -27,13 +87,23 @@
     margin: 0 0 40px;
   }
 }
-.hero-gradient-mask {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  bottom: 0;
-  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,1) 100%);
+hr.new1 {
+  border-top: 4.5px dotted darkgray;
+  width: 60%;
 }
+
+hr.new2 {
+  border-top: 5.5px dotted darkgray;
+  width: 60%;
+}
+
+{#.hero-gradient-mask {#}
+{#  position: absolute;#}
+{#  width: 100%;#}
+{#  height: 100%;#}
+{#  bottom: 0;#}
+{#  background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.01) 1%,rgba(0,0,0,1) 100%);#}
+{#}#}
 blockquote {
   border-left: 5px solid #d4566b;
   margin: 0 0 50px;
@@ -42,13 +112,7 @@ blockquote p {
   font-size: 30px;
   margin: 0 0 10px;
 }
-blockquote footer::before {
-  display: none;
-}
-blockquote footer p {
-  font-size: 1.8em;
-  font-style: italic;
-}
+
 cite {
   font-family: 'Lato', sans-serif;
   text-transform: uppercase;
@@ -58,14 +122,122 @@ cite {
   letter-spacing: 0.15em;
 }
 
-@media screen and (min-width: 768px) {
-  .header,
-  .footer {
-    padding-right: 0;
-    padding-left: 0;
+.centered {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+
+/* Blog list view */
+.blog-tags>li {
+  border-right: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.9em;
+  margin-left: -6px;
+  padding: 4px 18px;
+  text-transform: uppercase;
+}
+.blog-tags>li:first-child {
+  margin-left: 0;
+  border-left: 1px solid rgba(0,0,0,0.1);
+}
+.blog-tags>li:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.blog-list li {
+  list-style: none;
+}
+
+@media (min-width: 1025px) {
+.blog-list li:first-of-type, .blogpage-listing li:first-of-type,
+.blog-list li:nth-child(6), .blogpage-listing li:nth-child(6),
+.blog-list li:nth-child(7), .blogpage-listing li:nth-child(7),
+.blog-list li:nth-child(12), .blogpage-listing li:nth-child(12) {
+      width: 50%;
+    }
+}
+
+.blog-list-item {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.blog-list-item a {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+
+.blog-list-item:hover img {
+    opacity: 0.3;
+}
+
+.blog-list-item .image {
+  overflow: hidden;
+  background-color: #eb7400;
+  flex: 1 0 auto;
+}
+
+.blog-list-item .image img {
+  min-height: 510px;
+  width: auto;
+  min-width: 100%;
+}
+
+.blog-list-item .text {
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.6) 23%,rgba(0,0,0,1) 50%);
+  margin-top: -150px;
+  padding: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.blog-list-item .text h2 {
+  color: #fff;
+  font-weight: 200;
+  margin-top: 0;
+}
+
+.blog-list-item .text p {
+  color: #e3e3e3;
+  font-size: 0.8em;
+  margin-bottom: 0;
+}
+
+
+/* used to style tags on blog */
+span.outline {
+  border-radius: 3px;
+  border: 1px solid rgba(0,0,0,0.1);
+  font-size: 0.8em;
+  padding: 3px 6px;
+  text-transform: uppercase;
+}
+
+
+/* Generic title image header include */
+.base-header img {
+  height: auto;
+  margin-top: 20px;
+  max-width: 100%;
+  width: auto;
+  position: center;
+}
+
+@media (max-width: 970px) {
+  .base-header img {
+    width: 100%;
   }
 }
 
+/* Homepage */
+
+.homepage img {
+  display: block;
+  width: 100%;
+}
 .homepage .hero {
   margin: 0;
   padding: 200px 0 30px 0;
@@ -74,10 +246,11 @@ cite {
 .homepage .hero h1 {
   font-size: 2.2em;
   text-transform: uppercase;
+  text-align: center;
 }
 
 .homepage .hero h1:after {
-  background-color: rgba(255,255,255, 0.7);
+  background-color: transparent;
   content: "";
   display: block;
   height: 5px;
@@ -89,9 +262,10 @@ cite {
   margin-bottom: 0;
   padding-bottom: 60px;
   text-align: center;
+  color: transparent;
 }
 .homepage .home-hero .lead {
-  color: #ddd;
+  color: transparent;
   font-size: 1.6em;
   margin: 40px auto;
 }
@@ -135,7 +309,6 @@ cite {
   padding: 60px;
   margin: 0 auto;
   float: none;
-  text-align: center;
 }
 .homepage .streamfield-column h1,
 .homepage .streamfield-column h2,
@@ -199,6 +372,7 @@ cite {
 .homepage .feature-1 h2 {
   margin-top: 0;
   margin-bottom: 20px;
+  color: transparent;
 }
 .homepage .feature-1 .featured-children li {
   border: 1px solid #ccc;
@@ -230,6 +404,7 @@ cite {
 .homepage .feature-3 h2 {
   text-align: center;
   margin: 20px;
+  color: transparent;
 }
 .homepage .feature-2 .feature-2-item {
   display: flex;
@@ -244,6 +419,7 @@ cite {
 }
 .homepage .feature-2 .feature-2-item img {
   min-height: 210px;
+  object-fit: cover;
 }
 .homepage .feature-2 .feature-2-item .feature-2-text {
   background-color: #dfdfdf;
@@ -278,6 +454,20 @@ cite {
 .homepage .feature-2 li:hover img,
 .homepage .feature-3 li:hover img {
   opacity: 0.3;
+}
+.homepage .feature-3 img{
+    display: block;
+    width: 100%;
+    background-color: black;
+    opacity: .7;
+    object-fit: cover;
+
+}
+
+.blog img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
 }
 
 /* Miscellaneous helper styles */
@@ -314,13 +504,6 @@ cite {
 
 /* From Wagtail core */
 /* Responsive image/video classes */
-
-.center {
-    margin: 0 auto;
-    width: 80%;
-    text-align: center;
-}
-
 .rich-text img {
     max-width: 100%;
     height: auto;
@@ -341,95 +524,127 @@ cite {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-}
+    height: 100%;}
 
 </style>
 
-{#    {% image page.image fill-1920x600 as image %}#}
-{% image page.image original as image %}
+<div class="homepage">
+
+{% image page.image fill-1920x600 as image %}
 <div class="container-fluid hero" style="background-image:url('{{ image.url }}')">
     <div class="hero-gradient-mask"></div>
     <div class="container">
         <div class="row">
-{#            <div class="col-md-8 col-md-offset-2 home-hero">#}
-{#                <h1>{{ page.title }}</h1>#}
-{#                <p class="lead">{{ page.hero_text }}</p>#}
-{#            </div>#}
+            <div class="col-md-8 col-md-offset-2 home-hero">
+                <h1>{{ page.title }}</h1>
+                <p class="lead">{{ page.hero_text }}</p>
+                {% if page.hero_cta_link %}
+                    <a href="{% pageurl page.hero_cta_link %}" class="hero-cta-link hvr-icon-forward">
+                        {{ page.hero_cta }}
+                    </a>
+                {% else %}
+                    {{ page.hero_cta }}
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
-
-<div class="container">
-    <div class="row promo-row">
-        <div class="col-sm-5 promo">
-            {% if page.promo_image or page.promo_title or page.promo_text %}
-                <figure>{% image page.promo_image fill-200x200-c100 %}</figure>
-                <div class="promo-text">
+{##}
+{#<div class="container">#}
+{#    <div class="row promo-row">#}
+{#        <div class="col-sm-5 promo">#}
+{#            {% if page.promo_image or page.promo_title or page.promo_text %}#}
+{#                <figure>{% image page.promo_image fill-200x200-c100 %}</figure>#}
+{#                <div class="promo-text">#}
 {#                    <h3>{{ page.promo_title }}</h3>#}
 {#                    {{ page.promo_text|safe }}#}
-                </div>
-            {% endif %}
-        </div>
+{#                </div>#}
+{#            {% endif %}#}
+{#        </div>#}
+{##}
+{#        <div class="col-sm-6 col-sm-offset-1 feature-1">#}
+{#            {% if page.featured_section_1 %}#}
+{#            <h2>{{ page.featured_section_1_title }}</h2>#}
+{#                <div class="featured-children">#}
+{#                    {% for childpage in page.featured_section_1.specific.children|slice:"4" %}#}
+{#                        <li>#}
+{#                            <div class="row">#}
+{#                                <div class="col-xs-4">#}
+{#                                    <a href="{{childpage.external_link}}">#}
+{#                                        <figure>#}
+{#                                            {% image childpage.image fill-180x140-c100 %}#}
+{#                                        </figure>#}
+{#                                    </a>#}
+{#                                </div>#}
+{#                                <div class="col-xs-8">#}
+{#                                    <h3><a href="{{childpage.external_link}}">{{childpage.title}}</a></h3>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 
-        <div class="col-sm-6 col-sm-offset-1 feature-1">
-            {% if page.featured_section_1 %}
-            <h2>{{ page.featured_section_1_title }}</h2>
-                <div class="featured-children">
-                    {% for childpage in page.featured_section_1.specific.children|slice:"4" %}
-                        <li>
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <a href="{{childpage.url}}">
-                                        <figure>
-                                            {% image childpage.image fill-180x140-c100 %}
-                                        </figure>
-                                    </a>
-                                </div>
-                                <div class="col-xs-8">
-                                    <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>
-                                </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
+<HR class="new1">
+
 
 {% if page.body %}
 <div class="container-fluid streamfield">
     <div class="container">
         <div class="row">
-            <div class="center">
-{#            <div class="col-md-7 streamfield-column">#}
-{#                {{ page.body }}#}
-{#            </div>#}
-                {{ page.body }}
+            <div class="col streamfield-column">
+                    {{ page.body }}
             </div>
         </div>
     </div>
 </div>
 {% endif %}
 
+<HR class="new2">
+
+
+{#<div class="container">#}
+{#    <div class="row">#}
+{#        <div class="col-md-12 feature-2">#}
+{#            {% if page.featured_section_2 %}#}
+{#            <h2>{{ page.featured_section_2_title }}</h2>#}
+{#                <div class="featured-children row feature-2-row">#}
+{#                    {% for childpage in page.featured_section_2.specific.children|slice:"3" %}#}
+{#                        <li class="col-sm-4 feature-2-item">#}
+{#                            <a href="{{childpage.url}}">#}
+{#                                <figure>#}
+{#                                    {% image childpage.image fill-430x210-c100 %}#}
+{#                                </figure>#}
+{#                            </a>#}
+{#                            <div class="feature-2-text">#}
+{#                                <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>#}
+{#                                <p>{{ childpage.introduction|truncatewords:15 }}</p>#}
+{#                            </div>#}
+{#                        </li>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            {% endif %}#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
+
 <div class="container">
     <div class="row">
-        <div class="col-md-12 feature-2">
-            {% if page.featured_section_2 %}
-            <h2>{{ page.featured_section_2_title }}</h2>
-                <div class="featured-children row feature-2-row">
-                    {% for childpage in page.featured_section_2.specific.children|slice:"3" %}
-                        <li class="col-sm-4 feature-2-item">
+        <div class="col-md-12 feature-3">
+            {% if page.featured_section_3 %}
+{#            <h2>{{ page.featured_section_3_title }}</h2>#}
+                <div class="featured-children row">
+                    {% for childpage in page.featured_section_3.specific.children|slice:"6" %}
+                        <li class="col-md-4">
                             <a href="{{childpage.url}}">
-                                <figure>
-                                    {% image childpage.image fill-430x210-c100 %}
-                                </figure>
+                                <blog.img>
+                                    {% image childpage.image fill-430x254-c100 %}
+                                </blog.img>
+                                <h3>{{childpage.title}}</h3>
                             </a>
-                            <div class="feature-2-text">
-                                <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>
-                                <p>{{ childpage.introduction|truncatewords:15 }}</p>
-                            </div>
                         </li>
                     {% endfor %}
                 </div>
@@ -437,6 +652,23 @@ cite {
         </div>
     </div>
 </div>
+</div>
+
+<HR class="new1">
+
+{% if page.bottom %}
+<div class="container-fluid streamfield">
+    <div class="container">
+        <div class="row">
+            <div class="col streamfield-column h5">
+                <div class="centered">
+                    {{ page.bottom }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <footer>
       <div class="container-fluid">
@@ -463,18 +695,18 @@ political affiliation in its programs, activities, or employment.
           </div>
         </div>
       </div>
-    </footer>
+</footer>
 
     <!-- JavaScript -->
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
 
-    <!-- Script to Activate the Carousel -->
-    <script>
-    $('.carousel').carousel({
-        interval: 5000 //changes the speed
-    })
-    </script>
+{#    <!-- Script to Activate the Carousel -->#}
+{#    <script>#}
+{#    $('.carousel').carousel({#}
+{#        interval: 5000 //changes the speed#}
+{#    })#}
+{#    </script>#}
 
 
 

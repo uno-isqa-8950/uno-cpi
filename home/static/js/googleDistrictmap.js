@@ -272,11 +272,11 @@ var mcOptions = {
         }]
 };
 
-var infowindow
+var openedInfoWindow = null;
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website) {
-        infowindow = new google.maps.InfoWindow({
+       var infowindow = new google.maps.InfoWindow({
         content: '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
@@ -286,22 +286,35 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr>'
-    })
+    });
 
-            google.maps.event.addListener(marker, 'click', function() {
-                if(!marker.open){
-                    infowindow.open(map,marker);
-                    marker.open = true;
-                }
-                else{
-                    infowindow.close();
-                    marker.open = false;
-                }
-                google.maps.event.addListener(map, 'click', function() {
-                    infowindow.close();
-                    marker.open = false;
-                });
-            });
+
+       google.maps.event.addListener(marker, 'click', function() {
+      if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+      infowindow.open(map, marker);
+      // added next 4 lines
+      openedInfoWindow = infowindow;
+      google.maps.event.addListener(infowindow, 'closeclick', function() {
+          openedInfoWindow = null;
+      });
+    });
+
+
+    // google.maps.event.addListener(marker,'click', function() {
+    //     console.log(!marker.open,infowindow)
+    //     if(!marker.open){
+    //         infowindow.open(map,marker);
+    //         marker.open = true;
+    //     }
+    //     else{
+    //         infowindow.close();
+    //         marker.open = false;
+    //     }
+    //     google.maps.event.addListener(map, 'click', function() {
+    //         infowindow.close();
+    //         marker.open = false;
+    //     });
+    // });
 
     // // listner to check for on click event
     // marker.addListener('click', function () {

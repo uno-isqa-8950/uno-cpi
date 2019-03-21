@@ -979,13 +979,8 @@ def GEOJSON():
                 campus_id_list = [str(c.campus_partner) for c in campus_ids]
                 projectlist = Project.objects.filter(id__in=project_id_list)
                 year_list = [str(c.academic_year) for c in projectlist]
-                college_qs = CampusPartner.objects.filter(id__in=campus_id_list)
-                college_name = [p.college_name for p in college_qs]
-                try:
-                    feature['properties']['College Name'] = str(college_name[0])
-                    if (str(college_name[0]) not in CollegeNamelist):
-                        CollegeNamelist.append(str(college_name[0]))
 
+                try:
                     feature['properties']['Mission Area'] = str(community_mission[0])
                     # if (str(community_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     #     Missionlist.append(str(community_mission[0]))   #add
@@ -1012,12 +1007,15 @@ def GEOJSON():
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
     CampusPartnerlist = [m.name for m in CampusPartner_qs]
+    college_qs = CampusPartner.objects.all()
+    collegeName = [m.college_name for m in college_qs]
+    if (str(collegeName[0]) not in CollegeNamelist):
+        CollegeNamelist.append(str(collegeName[0]))
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
-    print(CollegeNamelist)
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist), sorted(CollegeNamelist))
 
@@ -1202,7 +1200,6 @@ def googleprojectdata(request):
 
 def googleDistrictdata(request):
     Campuspartner = GEOJSON()[3]
-    print(GEOJSON()[6])
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
@@ -1213,7 +1210,7 @@ def googleDistrictdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
                    'year': sorted(GEOJSON()[4]),
-                   # 'Collegename': GEOJSON2()[7]
+                   'Collegename': GEOJSON()[6]
                    }
                   )
 

@@ -148,6 +148,20 @@
         width: 210px;
         margin-bottom: 15px;
         }
+     select[id=selectCollege]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin-top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
 	.h2 {
 			display: block;
 			font-size: 1.7em;
@@ -328,6 +342,11 @@
         {
         border-radius:0px;
         }
+a#websitelink:link {
+  color: #d71920;
+  background-color: transparent;
+  text-decoration: underline ;
+}
 
 </style>
 
@@ -349,15 +368,10 @@
             <h4>Mission Areas</h4>
             <div id='legend' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
-
-{#            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict" onchange="markerDistrict(this.value)"></select>#}
             <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict"></select>
-            <!--div id="sidebar"-->
-{#            <select id="selectCommtype" class="selectCommtype" onchange="filterCommType(this.value)"></select>#}
             <select id="selectCommtype" class="selectCommtype"></select>
-{#            <select id="selectCampus" class="selectCampus" onchange="filterCampusPartner(this.value)"></select>#}
+            <select id="selectCollege" class="selectCollege"></select>
             <select id="selectCampus" class="selectCampus"></select>
-{#            <select id="selectYear" class="selectYear" onchange="filterYear(this.value)"></select>#}
             <select id="selectYear" class="selectYear"></select>
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
@@ -398,6 +412,7 @@
                                     {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
+                                    {{ Collegename | json_script:"college-list" }}
 
                                 </div>
                             </div>

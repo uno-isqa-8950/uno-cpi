@@ -898,6 +898,7 @@ def EngagementType_Chart(request):
 
 
 def GEOJSON():
+    CollegeNamelist = []
     commPartners = CommunityPartner.objects.all()  # get all the community partners
     collection = {'type': 'FeatureCollection', 'features': []}  # create the shell of GEOJSON
     if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
@@ -905,16 +906,16 @@ def GEOJSON():
             geojson1 = json.load(f)  # get the GEOJSON
         collection = geojson1  # assign it the collection variable to avoid changing the other code
         database_comm = [c.name for c in commPartners]
-        if (len(collection["features"]) > len(database_comm)):
-            geo_comm = [c["properties"]["CommunityPartner"] for c in collection["features"]]
-            temp3 = [x for x in geo_comm if x not in database_comm]
-            index = geo_comm.index(temp3[0])
-            collection["features"].remove(collection["features"][index])
-            # collection = {'type': 'FeatureCollection', 'features': commpartner}
-            jsonstring = pd.io.json.dumps(collection)
-            output_filename = 'home/static/GEOJSON/Partner.geojson'  # The file will be saved under static/GEOJSON
-            with open(output_filename, 'w') as output_file:
-                output_file.write(format(jsonstring))
+        # if (len(collection["features"]) > len(database_comm)):
+        #     geo_comm = [c["properties"]["CommunityPartner"] for c in collection["features"]]
+        #     temp3 = [x for x in geo_comm if x not in database_comm]
+        #     index = geo_comm.index(temp3[0])
+        #     collection["features"].remove(collection["features"][index])
+        #     # collection = {'type': 'FeatureCollection', 'features': commpartner}
+        #     jsonstring = pd.io.json.dumps(collection)
+        #     output_filename = 'home/static/GEOJSON/Partner.geojson'  # The file will be saved under static/GEOJSON
+        #     with open(output_filename, 'w') as output_file:
+        #         output_file.write(format(jsonstring))
     else:
         countyData = countyGEO()
         district = districtGEO()
@@ -925,9 +926,10 @@ def GEOJSON():
             # prepare the shell of the features key inside the GEOJSON
             feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
                                                          'Legislative District Number': '', 'Number of projects': '',
-                                                         'Income': '', 'County': '', 'Mission Area': '',
-                                                         'CommunityType': '', 'Campus Partner': '',
-                                                         'Academic Year': '', 'Website': ''},
+                                                         'Income': '', 'City': '', 'County': '','Mission Type': '',
+                                                         'Mission Area': '',
+                                                         'CommunityType': '','College Name': '', 'Campus Partner': '',
+                                                         'Academic Year': '', 'Website': '', 'Projects': ''},
                        'geometry': {'type': 'Point', 'coordinates': []}
                        }
             if (commPartner.address_line1 != "N/A"):  # check if a community partner's address is there
@@ -964,8 +966,10 @@ def GEOJSON():
                 feature['properties']['Legislative District Number'] = commPartner.legislative_district
                 feature['properties']['Income'] = commPartner.median_household_income
                 feature['properties']['County'] = commPartner.county
+                feature['properties']['City'] = commPartner.city
                 feature['properties']['Number of projects'] = ProjectCommunityPartner.objects.filter(
                     community_partner_id=commPartner.id).count()
+                feature['properties']['Projects'] = ProjectCommunityPartner.objects.filter(community_partner_id=commPartner.id)
                 ### get the mission area######
                 community_qs = CommunityPartnerMission.objects.filter(community_partner__id=commPartner.id)
                 community_mission = [c.mission_area for c in community_qs]
@@ -975,7 +979,13 @@ def GEOJSON():
                 campus_id_list = [str(c.campus_partner) for c in campus_ids]
                 projectlist = Project.objects.filter(id__in=project_id_list)
                 year_list = [str(c.academic_year) for c in projectlist]
+                college_qs = CampusPartner.objects.filter(id__in=campus_id_list)
+                college_name = [p.college_name for p in college_qs]
                 try:
+                    feature['properties']['College Name'] = str(college_name[0])
+                    if (str(college_name[0]) not in CollegeNamelist):
+                        CollegeNamelist.append(str(college_name[0]))
+
                     feature['properties']['Mission Area'] = str(community_mission[0])
                     # if (str(community_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     #     Missionlist.append(str(community_mission[0]))   #add
@@ -1000,15 +1010,16 @@ def GEOJSON():
     mission_list = [m.mission_name for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
-    CampusPartnerlist = CampusPartner.objects.all()
-    CampusPartnerlist = [m.name for m in CampusPartnerlist]
+    CampusPartner_qs = CampusPartner.objects.all()
+    CampusPartnerlist = [m.name for m in CampusPartner_qs]
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
+    print(CollegeNamelist)
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist))
+            sorted(commPartnerlist), sorted(CollegeNamelist))
 
 
 ######## export data to Javascript for Household map ################################
@@ -1057,7 +1068,7 @@ def districtdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': GEOJSON()[4],
                    }
                   )
 
@@ -1076,12 +1087,13 @@ def GEOJSON2():
     CommunityPartnerlist = []
     CampusPartnerlist = []
     CommunityPartnerTypelist = []
+    CollegeNamelist = []
     for project in projects:  # iterate through all projects
         # prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '', 'Engagement Type': '',
                                                      'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'Community Partner': '', 'Campus Partner': '',
+                                                     'Community Partner': '', 'College Name':'', 'Campus Partner': '',
                                                      'Community Partner Type': ''
                                                      },
                    'geometry': {'type': 'Point', 'coordinates': []}}
@@ -1113,7 +1125,15 @@ def GEOJSON2():
             communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
             community_type = [p.community_type for p in communityType_qs]
 
+            # get the college name
+            college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+            college_name = [p.college_name for p in college_qs]
+
             try:
+                feature['properties']['College Name'] = str(college_name[0])
+                if (str(college_name[0]) not in CollegeNamelist):
+                    CollegeNamelist.append(str(college_name[0]))
+
                 feature['properties']['Community Partner'] = str(communitypartner[0])
                 if (str(communitypartner[0]) not in CommunityPartnerlist):
                     CommunityPartnerlist.append(str(communitypartner[0]))
@@ -1143,7 +1163,7 @@ def GEOJSON2():
             collection['features'].append(feature)  # create the geojson
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
-            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist))
+            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))
 
 
 ###Project map export to javascript
@@ -1174,13 +1194,15 @@ def googleprojectdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6])
+                   'year': sorted(GEOJSON2()[6]),
+                   'Collegename': sorted(GEOJSON2()[7])
                    }
                   )
 
 
 def googleDistrictdata(request):
     Campuspartner = GEOJSON()[3]
+    print(GEOJSON()[6])
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
@@ -1190,7 +1212,8 @@ def googleDistrictdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': sorted(GEOJSON()[4]),
+                   # 'Collegename': GEOJSON2()[7]
                    }
                   )
 

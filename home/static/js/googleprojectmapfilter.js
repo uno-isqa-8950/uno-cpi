@@ -267,12 +267,12 @@ oms.addListener('spiderfy', function(markers) {
 function attachMessage(marker, projectName, missionArea,comm_partner, comm_partner_type, campus_partner,academic_year, eng_type) {
     var infowindow = new google.maps.InfoWindow({
         content: '<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp </td><td>' + missionArea + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp </td><td>' + comm_partner + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp </td><td>' + comm_partner_type + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp </td><td>' + campus_partner + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp </td><td>' + academic_year + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp </td><td>' + eng_type + '</td></tr>'
+            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>'
     });
     //listner to check for on click event
     marker.addListener('click', function() {

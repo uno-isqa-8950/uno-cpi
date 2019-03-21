@@ -373,8 +373,9 @@ class ActivityTypeForm(ModelForm):
 class ProjectMissionFormset(forms.ModelForm):
     class Meta:
         model = ProjectMission
-        fields = ( 'mission',)
+        fields = ( 'mission_type', 'mission',)
         labels = {
+            'mission_type': ('Mission Type'),
             'mission': ('Mission Area'),
                     }
 

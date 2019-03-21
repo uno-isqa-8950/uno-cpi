@@ -52,7 +52,6 @@ start_and_end_dates_temp_table_sql = """CREATE TEMP TABLE all_projects_start_and
 					)p1
 				)p2
 			)p3
-	--where p3.start_date is not null and p3.end_date is not null
 );"""
 
 
@@ -75,11 +74,8 @@ from
 			,p4.proj_status
 		from all_projects_start_and_end_dates p4
 			INNER JOIN public.projects_project p on p.id = p4.id
-			--inner join projects_academicyear ay on p.academic_year_id = ay.id --remove later
 			INNER JOIN public.projects_projectcommunitypartner cp on p4.id = cp.project_name_id
 			INNER JOIN public.partners_communitypartner cp1 on cp1.id = cp.community_partner_id
-			--left join public.projects_engagementtype eg on eg.id = p.engagement_type_id  --remove later
-			--left join public.partners_communitytype ct on ct.id = cp.community_partner_id  --remove later
 		)p
 	group by p.community_partner_id
 )p
@@ -104,11 +100,8 @@ from
 			,p4.proj_status
 		from all_projects_start_and_end_dates p4
 			INNER JOIN public.projects_project p on p.id = p4.id
-			--inner join projects_academicyear ay on p.academic_year_id = ay.id --remove later
 			INNER JOIN public.projects_projectcommunitypartner cp on p4.id = cp.project_name_id
 			INNER JOIN public.partners_communitypartner cp1 on cp1.id = cp.community_partner_id
-			--left join public.projects_engagementtype eg on eg.id = p.engagement_type_id  --remove later
-			--left join public.partners_communitytype ct on ct.id = cp.community_partner_id  --remove later
 		)p
 	group by p.community_partner_id
 )p
@@ -136,11 +129,8 @@ from
 			,p4.proj_status
 		from all_projects_start_and_end_dates p4
 			INNER JOIN public.projects_project p on p.id = p4.id
-			--inner join projects_academicyear ay on p.academic_year_id = ay.id --remove later
 			INNER JOIN public.projects_projectcommunitypartner cp on p4.id = cp.project_name_id
 			INNER JOIN public.partners_communitypartner cp1 on cp1.id = cp.community_partner_id
-			--left join public.projects_engagementtype eg on eg.id = p.engagement_type_id  --remove later
-			--left join public.partners_communitytype ct on ct.id = cp.community_partner_id  --remove later
 		)p
 	group by p.community_partner_id
 )p
@@ -170,14 +160,29 @@ from
 			,p4.proj_status
 		from all_projects_start_and_end_dates p4
 			INNER JOIN public.projects_project p on p.id = p4.id
-			--inner join projects_academicyear ay on p.academic_year_id = ay.id --remove later
 			INNER JOIN public.projects_projectcommunitypartner cp on p4.id = cp.project_name_id
 			INNER JOIN public.partners_communitypartner cp1 on cp1.id = cp.community_partner_id
-			--left join public.projects_engagementtype eg on eg.id = p.engagement_type_id  --remove later
-			--left join public.partners_communitytype ct on ct.id = cp.community_partner_id  --remove later
 		)p
 	group by p.community_partner_id
 )p
 where coalesce(active_prj,'') = 'Active'
 order by p.community_partner_id)
 ;"""
+
+update_project_to_inactive_sql = """
+--UPDATE PROJECT STATUS TO COMPLETED
+UPDATE public.public.projects_project SET status_id = 2 WHERE id in
+(select p.id 
+from all_projects_start_and_end_dates p
+where proj_status = 'Inactive'
+)
+; """
+
+update_project_to_active_sql = """
+--UPDATE PROJECT STATUS TO ACTIVE
+UPDATE public.public.projects_project SET status_id = 1 WHERE id in
+(select p.id 
+from all_projects_start_and_end_dates p
+where proj_status = 'Active'
+)
+; """

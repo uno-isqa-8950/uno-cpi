@@ -67,6 +67,12 @@ def scheduled_job():
         for i in inactive_comm_partners:
             print(i)
 
+        # UPDATE PROJECT STATUS TO ACTIVE
+        # cursor.execute(sql.update_project_to_active_sql)
+
+        # UPDATE PROJECT STATUS TO COMPLETED
+        # cursor.execute(sql.update_project_to_inactive_sql)
+
         # UPDATE COMMUNITY PARTNER WHEN TIED TO A INACTIVE PROJECTS ONLY TO FALSE(INACTIVE)
         # cursor.execute(sql.update_comm_partner_to_inactive_sql)
 

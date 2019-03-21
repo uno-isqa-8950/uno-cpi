@@ -181,6 +181,22 @@ label, .btn-default
 
 
 <script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       <!--To remove search function from mission area report-->
+       searching:false,
+       buttons: {
+       name: 'primary',
+       buttons: ['csv', 'excel' ]
+       }
+   });
+
+   } );
+</script>
+
+
+<script type="text/javascript">
     $(document).ready(function() {
     $('#example').DataTable();
 

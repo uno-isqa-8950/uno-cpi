@@ -56,6 +56,8 @@
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'EngagementType_Chart' %}' " value="Reset Filters" >
+
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -113,6 +115,16 @@
                             </select>
                     </div>
 
+                    <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                    <label for="college-name"> College Name</label>
+                        <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                            <option> All </option>
+                                {% for college in college_filter.form.college_name %}
+                                    {{college}}
+                                {% endfor %}
+                        </select>
+                    </div>
+
                     <div class="col-lg-3 col-md-5 form-group">
                         <label for="campus_partner"> Campus Partners
                              {% for data_definition in data_definition %}
@@ -130,11 +142,45 @@
                                     {% endfor %}
                             </select>
                     </div>
+                     <div class="col-lg-3 col-md-5 form-group">
+                    <label for="weitz_cec_part"> CEC Building Partners
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 27%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
+                            {{weitz_cec_part}}
+                        {% endfor %}
+                    </select>
+                    </div>
+                    <div class="col-lg-3 col-md-5 form-group">
+                        <label for="community_type"> Community Types
+                            {% for data_definition in data_definition %}
+                                {% if data_definition.id == 33%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                          data-content="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                        </label>
+                        <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for community_type in communityPartners.form.community_type %}
+                                {{community_type}}
+                            {% endfor %}
+                        </select>
+                    </div>
                 </form>
             </div>
         </div>
 
-        <div id="container"></div>
+        <div id="container" style= "max-width: 1000px; height: 450px"></div>
             <script src="https://code.highcharts.com/highcharts.src.js"></script>
             <script>
                 Highcharts.chart('container',{{ chart|safe }});
@@ -152,6 +198,9 @@ $(document).ready(function(){
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px'});
+    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
+    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
+    $('#id_college_name').select2({placeholder: 'All College Names',width: '200px'});
 
 });
 </script>

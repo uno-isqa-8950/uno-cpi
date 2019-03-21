@@ -285,7 +285,6 @@ def upload_project(request):
             #         data_dict['county'] = properties2['properties']['NAME']
             #         data_dict['median_household_income'] = properties2['properties']['Income']
             form = UploadProjectForm(data_dict)
-            # print(form)
             campus = data_dict['campus_partner'] in campus_names
             community = data_dict['community_partner'] in community_names
             if campus and community and form.is_valid():
@@ -293,9 +292,6 @@ def upload_project(request):
                 form_campus = UploadProjectCampusForm(data_dict)
                 form_community = UploadProjectCommunityForm(data_dict)
                 form_mission = UploadProjectMissionForm(data_dict)
-                # print(form_campus)
-                # print(form_community)
-                # print(form_mission)
                 if form_campus.is_valid() and form_community.is_valid() and form_mission.is_valid():
                     form_campus.save()
                     form_community.save()
@@ -455,7 +451,6 @@ def upload_campus(request):
                 if form_college.is_valid():
                     form_college.save()
                     form = UploadCampusForm(data_dict)
-                    # print(form)
                     if form.is_valid():
                         form.save()
             else:
@@ -569,40 +564,78 @@ def project_partner_info(request):
 
 
 def engagement_info(request):
+
     engagements = EngagementType.objects.all()
     year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     data_definition = DataDefinition.objects.all()
-    eDict = {}
-    eList = []
+    engagement_Dict = {}
+    engagement_List = []
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     for e in engagements:
+
+        campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+        campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+        campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
         project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+
         year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        project_year_ids = [p.id for p in year_filter.qs]
-        # print(project_year_ids)
+        project_year_ids = [project.id for project in year_filter.qs]
+
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_filtered_ids = [community.id for community in communityPartners.qs]
+        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+
         filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
-        filtered_project_list = list(set(campus_filtered_ids).intersection(filtered_project_ids))
-        eDict['engagement_name'] = e.name
+        filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
+        filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
+        filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+
+        proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+        proj_comm_ids1 = proj_comm_1.count()
+
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+        proj_camp_ids = proj_camp.count()
+
+        engagement_Dict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
-        eDict['project_count'] = project_count
+
+        a = request.GET.get('weitz_cec_part', None)
+        b = request.GET.get('community_type', None)
+        if a is None or b == "All" or a == '':
+            if b is None or b == "All" or b == '':
+                project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
+
+        engagement_Dict['project_count'] = project_count
+        engagement_Dict['community_count'] = proj_comm_ids1
+        engagement_Dict['campus_count'] = proj_camp_ids
         total_uno_students = 0
         total_uno_hours = 0
+
         projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
         for p in projects:
             uno_students = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
-        eDict['total_uno_hours'] = total_uno_hours
-        eDict['total_uno_students'] = total_uno_students
-        eList.append(eDict.copy())
+        engagement_Dict['total_uno_hours'] = total_uno_hours
+        engagement_Dict['total_uno_students'] = total_uno_students
+        engagement_List.append(engagement_Dict.copy())
     return render(request, 'reports/EngagementTypeReport.html',
-                  {'missions_filter': missions_filter, 'year_filter': year_filter, 'eList': eList,
-                   'data_definition': data_definition,
-                   'campus_filter': campus_filter})
+                  {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
+                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
@@ -616,7 +649,6 @@ def unique_count(request):
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     mission_ids = [m.mission_id for m in missions_filter.qs]
     project_missions = [p.project_name_id for p in missions_filter.qs]
-    # print(project_missions)
     unique_project_ids = list(set(campus_filtered_ids).intersection(project_year_ids))
     total_unique_project = list(set(unique_project_ids).intersection(project_missions))
     unique_project = len(total_unique_project)
@@ -624,7 +656,6 @@ def unique_count(request):
     # community partner count
     community_mission_filter = CommunityPartnerMission.objects.filter(mission_area_id__in=mission_ids)
     community_mission_ids = [c.community_partner_id for c in community_mission_filter]
-    # print(community_mission_filter)
     # unique_community_ids = ProjectCommunityPartner.objects.filter(project_name_id__in=unique_project_ids)
     # total_unique_community = list(set(community_mission_ids).intersection(unique_community_ids))
     unique_community = len(community_mission_ids)
@@ -701,7 +732,7 @@ def missionchart(request):
         project_count_data.append(project_count)
         partner_count_data.append(community_count)
     Max_count = max(list(set(partner_count_data) | set(project_count_data)), default=1)
-    # print(Max_count)
+
 
     project_count_series = {
         'name': 'Project Count',
@@ -711,8 +742,6 @@ def missionchart(request):
         'name': 'Community Partner Count',
         'data': partner_count_data,
         'color': 'teal'}
-    # print(partner_count_series)
-    # print(project_count_series)
     chart = {
         'chart': {'type': 'bar'},
         'title': {'text': '   '},
@@ -752,35 +781,69 @@ def missionchart(request):
 
 
 def EngagementType_Chart(request):
+    engagements = EngagementType.objects.all()
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    data_definition = DataDefinition.objects.all()
+    engagement_Dict = {}
+    engagement_List = []
     project_engagement_count = []
     engagment_community_counts = []
     engagment_campus_counts = []
     project_engagement_series = []
     engagament_names = []
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
-    engagement_types = EngagementType.objects.all()
-    data_definition = DataDefinition.objects.all()
-    for et in engagement_types:
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    for e in engagements:
+
+        campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+        campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+            campus_partner_id__in=campus_partner_filtered_ids))
+        campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_project_ids = [p.id for p in campus_filter.qs]
-        engagament_names.append(et.name)
+        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
         missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
         project_mission_ids = [p.project_name_id for p in missions_filter.qs]
-        academicyear_filter = AcademicYearFilter(request.GET, queryset=AcademicYear.objects.all())
-        project_academicyear_ids = [p.id for p in academicyear_filter.qs]
-        proj_id_sem = Project.objects.filter(academic_year_id__in=project_academicyear_ids). \
-            filter(id__in=project_mission_ids)
-        filtered_project_list = [p.id for p in proj_id_sem]
-        project_count = Project.objects.filter(engagement_type_id=et.id).filter(id__in=filtered_project_list). \
-            filter(id__in=campus_project_ids).count()
+
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_year_ids = [project.id for project in year_filter.qs]
+
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_filtered_ids = [community.id for community in communityPartners.qs]
+        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+            community_partner_id__in=community_filtered_ids))
+        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+        filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
+        filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
+        filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
+        filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+
+        proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+        proj_comm_ids1 = proj_comm_1.count()
+
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+        proj_camp_ids = proj_camp.count()
+
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+
+        a = request.GET.get('weitz_cec_part', None)
+        b = request.GET.get('community_type', None)
+        if a is None or b == "All" or a == '':
+            if b is None or b == "All" or b == '':
+                project_count = Project.objects.filter(engagement_type_id=e.id).filter(
+                    id__in=filtered_project_ids1).count()
+
         project_engagement_count.append(project_count)
-        projects = Project.objects.filter(engagement_type_id=et.id).filter(id__in=filtered_project_list)
-        proj_ids = [p.id for p in projects]
-        p_community = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
-        engagment_community_counts.append(p_community)
-        p_campus = ProjectCampusPartner.objects.filter(project_name_id__in=proj_ids).distinct().count()
-        engagment_campus_counts.append(p_campus)
+        engagment_community_counts.append(proj_comm_ids1)
+        engagment_campus_counts.append(proj_camp_ids)
+        engagament_names.append(e.name)
 
     Max_count = max(list(set(project_engagement_count) | set(engagment_community_counts) | set(engagment_campus_counts))
                     , default=1)
@@ -792,7 +855,7 @@ def EngagementType_Chart(request):
     engagment_community_series = {
         'name': 'Community Partner Count',
         'data': engagment_community_counts,
-        'color': 'turquoise'}
+        'color': 'turquoise' }
     engagment_campus_series = {
         'name': 'Campus Partner Count',
         'data': engagment_campus_counts,
@@ -801,21 +864,28 @@ def EngagementType_Chart(request):
     chart = {
         'chart': {'type': 'bar'},
         'title': {'text': '   '},
-        'xAxis': {'title': {'text': 'Engagement Types',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-                  'categories': engagament_names, 'labels': {'style': {'color': 'black', 'fontSize': '13px'}}},
-        'yAxis': {'allowDecimals': False, 'title': {'text': 'Projects/Partners',
-                                                    'style': {'fontWeight': 'bold', 'color': 'black',
-                                                              'fontSize': '15px'}}, 'min': 0, 'max': Max_count + 15},
+        'xAxis': {'title': {'text': 'Engagement Types','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'}},'categories': engagament_names,'labels': {'style':{'color': 'black','fontSize': '13px'} }},
+        'yAxis': {'allowDecimals': False,'title': {'text': 'Projects/Partners','style':{'fontWeight': 'bold','color': 'black','fontSize': '15px'} }, 'min': 0, 'max': Max_count+15},
+
+        'plotOptions': {
+            'bar': {
+                'dataLabels': {
+                    'enabled': 'true',
+                    'style': {
+                        'fontSize': '8px'
+                    }
+                }
+            }
+        },
+
         'legend': {
-            'layout': 'vertical',
+            'layout': 'horizontal',
             'align': 'right',
             'verticalAlign': 'top',
             'x': -40,
             'y': -5,
-            'floating': True,
             'borderWidth': 1,
-            'backgroundColor': '#FFFFFF',
+            'backgroundColor':  '#FFFFFF',
             'shadow': 'true'
         },
         'series': [project_engagement_series, engagment_community_series, engagment_campus_series]
@@ -823,45 +893,43 @@ def EngagementType_Chart(request):
 
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
-                  {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': academicyear_filter,
-                   'data_definition': data_definition,
-                   'campus_filter': campus_filter})
+                 {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': year_filter,'data_definition':data_definition,
+                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': campus_partner_filter})
 
 
 def GEOJSON():
+    CollegeNamelist = []
     commPartners = CommunityPartner.objects.all()  # get all the community partners
     collection = {'type': 'FeatureCollection', 'features': []}  # create the shell of GEOJSON
     if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
-        # print("I am here")
         with open('home/static/GEOJSON/Partner.geojson') as f:
             geojson1 = json.load(f)  # get the GEOJSON
         collection = geojson1  # assign it the collection variable to avoid changing the other code
         database_comm = [c.name for c in commPartners]
-        if (len(collection["features"]) > len(database_comm)):
-            # print(collection["features"])
-            geo_comm = [c["properties"]["CommunityPartner"] for c in collection["features"]]
-            temp3 = [x for x in geo_comm if x not in database_comm]
-            index = geo_comm.index(temp3[0])
-            # print(geo_comm[index])
-            collection["features"].remove(collection["features"][index])
-            # collection = {'type': 'FeatureCollection', 'features': commpartner}
-            jsonstring = pd.io.json.dumps(collection)
-            output_filename = 'home/static/GEOJSON/Partner.geojson'  # The file will be saved under static/GEOJSON
-            with open(output_filename, 'w') as output_file:
-                output_file.write(format(jsonstring))
+        # if (len(collection["features"]) > len(database_comm)):
+        #     geo_comm = [c["properties"]["CommunityPartner"] for c in collection["features"]]
+        #     temp3 = [x for x in geo_comm if x not in database_comm]
+        #     index = geo_comm.index(temp3[0])
+        #     collection["features"].remove(collection["features"][index])
+        #     # collection = {'type': 'FeatureCollection', 'features': commpartner}
+        #     jsonstring = pd.io.json.dumps(collection)
+        #     output_filename = 'home/static/GEOJSON/Partner.geojson'  # The file will be saved under static/GEOJSON
+        #     with open(output_filename, 'w') as output_file:
+        #         output_file.write(format(jsonstring))
     else:
         countyData = countyGEO()
         district = districtGEO()
         # if there is no file, meaning that this is the first initial upload. Create the GEOJSON
-        # print("I am there")
+
 
         for commPartner in commPartners:  # iterate through all community partners
             # prepare the shell of the features key inside the GEOJSON
             feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '',
                                                          'Legislative District Number': '', 'Number of projects': '',
-                                                         'Income': '', 'County': '', 'Mission Area': '',
-                                                         'CommunityType': '', 'Campus Partner': '',
-                                                         'Academic Year': '', 'Website': ''},
+                                                         'Income': '', 'City': '', 'County': '','Mission Type': '',
+                                                         'Mission Area': '',
+                                                         'CommunityType': '','College Name': '', 'Campus Partner': '',
+                                                         'Academic Year': '', 'Website': '', 'Projects': ''},
                        'geometry': {'type': 'Point', 'coordinates': []}
                        }
             if (commPartner.address_line1 != "N/A"):  # check if a community partner's address is there
@@ -898,8 +966,10 @@ def GEOJSON():
                 feature['properties']['Legislative District Number'] = commPartner.legislative_district
                 feature['properties']['Income'] = commPartner.median_household_income
                 feature['properties']['County'] = commPartner.county
+                feature['properties']['City'] = commPartner.city
                 feature['properties']['Number of projects'] = ProjectCommunityPartner.objects.filter(
                     community_partner_id=commPartner.id).count()
+                feature['properties']['Projects'] = ProjectCommunityPartner.objects.filter(community_partner_id=commPartner.id)
                 ### get the mission area######
                 community_qs = CommunityPartnerMission.objects.filter(community_partner__id=commPartner.id)
                 community_mission = [c.mission_area for c in community_qs]
@@ -909,7 +979,13 @@ def GEOJSON():
                 campus_id_list = [str(c.campus_partner) for c in campus_ids]
                 projectlist = Project.objects.filter(id__in=project_id_list)
                 year_list = [str(c.academic_year) for c in projectlist]
+                college_qs = CampusPartner.objects.filter(id__in=campus_id_list)
+                college_name = [p.college_name for p in college_qs]
                 try:
+                    feature['properties']['College Name'] = str(college_name[0])
+                    if (str(college_name[0]) not in CollegeNamelist):
+                        CollegeNamelist.append(str(college_name[0]))
+
                     feature['properties']['Mission Area'] = str(community_mission[0])
                     # if (str(community_mission[0]) not in Missionlist):  #check if the mission area is already recorded
                     #     Missionlist.append(str(community_mission[0]))   #add
@@ -934,16 +1010,16 @@ def GEOJSON():
     mission_list = [m.mission_name for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
-    CampusPartnerlist = CampusPartner.objects.all()
-    CampusPartnerlist = [m.name for m in CampusPartnerlist]
+    CampusPartner_qs = CampusPartner.objects.all()
+    CampusPartnerlist = [m.name for m in CampusPartner_qs]
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
-    # print(commPartnerlist)
+    print(CollegeNamelist)
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist))
+            sorted(commPartnerlist), sorted(CollegeNamelist))
 
 
 ######## export data to Javascript for Household map ################################
@@ -992,7 +1068,7 @@ def districtdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': GEOJSON()[4],
                    }
                   )
 
@@ -1011,12 +1087,13 @@ def GEOJSON2():
     CommunityPartnerlist = []
     CampusPartnerlist = []
     CommunityPartnerTypelist = []
+    CollegeNamelist = []
     for project in projects:  # iterate through all projects
         # prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '', 'Engagement Type': '',
                                                      'Legislative District Number': '',
                                                      'Income': '', 'County': '', 'Mission Area': '',
-                                                     'Community Partner': '', 'Campus Partner': '',
+                                                     'Community Partner': '', 'College Name':'', 'Campus Partner': '',
                                                      'Community Partner Type': ''
                                                      },
                    'geometry': {'type': 'Point', 'coordinates': []}}
@@ -1048,7 +1125,15 @@ def GEOJSON2():
             communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
             community_type = [p.community_type for p in communityType_qs]
 
+            # get the college name
+            college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+            college_name = [p.college_name for p in college_qs]
+
             try:
+                feature['properties']['College Name'] = str(college_name[0])
+                if (str(college_name[0]) not in CollegeNamelist):
+                    CollegeNamelist.append(str(college_name[0]))
+
                 feature['properties']['Community Partner'] = str(communitypartner[0])
                 if (str(communitypartner[0]) not in CommunityPartnerlist):
                     CommunityPartnerlist.append(str(communitypartner[0]))
@@ -1078,7 +1163,7 @@ def GEOJSON2():
             collection['features'].append(feature)  # create the geojson
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
-            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist))
+            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))
 
 
 ###Project map export to javascript
@@ -1098,12 +1183,9 @@ def projectdata(request):
 def googleprojectdata(request):
     Campuspartner = GEOJSON2()[4]
     Communitypartner = GEOJSON2()[3]
-    # print(Communitypartner)
-    # print(data1)
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     data = GEOJSON2()[0]
-    # print(data1)
     return render(request, 'home/googleprojectmap.html',
                   {'districtData': district, 'collection': GEOJSON2()[0],
                    'number': len(data['features']),
@@ -1112,24 +1194,26 @@ def googleprojectdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6])
+                   'year': sorted(GEOJSON2()[6]),
+                   'Collegename': sorted(GEOJSON2()[7])
                    }
                   )
 
 
 def googleDistrictdata(request):
     Campuspartner = GEOJSON()[3]
+    print(GEOJSON()[6])
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
-    # print(data)
     return render(request, 'home/googleDistrictmap.html',
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': sorted(GEOJSON()[4]),
+                   # 'Collegename': GEOJSON2()[7]
                    }
                   )
 

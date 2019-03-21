@@ -13,13 +13,12 @@ class CampusPartnerForm(forms.ModelForm):
     # department = forms.ModelChoiceField(queryset=Department.objects, empty_label='Select Department')
     class Meta:
         model = CampusPartner
-        fields = ('name', 'college_name', 'department',)
-        exclude = ('education_system','university',)
+        fields = ('name', 'college_name',)
+        exclude = ('department', 'education_system','university',)
 
         labels= {
             'name': ('Campus Partner Name'),
-            'college_name': ('College Name'),
-            'department': ('Department Name')
+            'college_name': ('College Name')
              }
 
     def __init__(self, *args, **kwargs):

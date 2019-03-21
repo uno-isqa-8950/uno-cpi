@@ -4,6 +4,38 @@ from wagtail.core.blocks import (
     CharBlock, ChoiceBlock, RichTextBlock, StreamBlock, StructBlock, TextBlock,
 )
 
+class ColumnBlock(StreamBlock):
+    heading = CharBlock(classname="full title")
+    paragraph = RichTextBlock(
+        icon="fa-paragraph",
+        template="blocks/paragraph_block.html"
+    )
+    image = ImageChooserBlock()
+
+    class Meta:
+        template = "blocks/column.html"
+
+
+class TwoColumnBlock(StructBlock):
+
+    left_column = RichTextBlock(icon='arrow-right', label='Left column content')
+    right_column = RichTextBlock(icon='arrow-right', label='Right column content')
+
+    class Meta:
+        icon = 'placeholder'
+        label = 'Two Columns'
+        template = "blocks/two_column_block.html"
+
+class ThreeColumnBlock(StructBlock):
+
+    left_column = RichTextBlock(icon='arrow-right', label='Left column content')
+    middle_column = RichTextBlock(icon='arrow-up', label='Middle column content')
+    right_column = RichTextBlock(icon='arrow-right', label='Right column content')
+
+    class Meta:
+        icon = 'placeholder'
+        label = 'Three Columns'
+        template = "blocks/three_column_block.html"
 
 class ImageBlock(StructBlock):
     """
@@ -55,6 +87,8 @@ class BaseStreamBlock(StreamBlock):
     Define the custom blocks that `StreamField` will utilize
     """
     heading_block = HeadingBlock()
+    two_column_block = TwoColumnBlock()
+    three_column_block = ThreeColumnBlock()
     paragraph_block = RichTextBlock(
         icon="fa-paragraph",
         template="blocks/paragraph_block.html"

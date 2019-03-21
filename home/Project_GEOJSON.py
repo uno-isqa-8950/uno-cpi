@@ -8,17 +8,23 @@ from shapely.geometry import shape, Point
 
 #setup connection to database
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
+#setup connection to database --LOCAL
 conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
+#setup connection to database --SERVER
+conn = psycopg2.connect(user= "nbzsljiyoqyakc",
+                        password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
+                        host="ec2-54-227-241-179.compute-1.amazonaws.com",
+                        port="5432",
+                        database="d46q2igt2d4vbg",
+                        sslmode="require")
 try:
     connection = psycopg2.connect(user="postgres",
                                   password="admin",
-                                  # host="ec2-54-83-203-198.compute-1.amazonaws.com",
                                   port="5432",
                                   database="postgres")
     cursor = connection.cursor()
 
-     # loop to print all the data
+    # WAY 1 - Query the Database
     cursor.execute("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, "
                    "pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, "
                    "total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type,"
@@ -46,14 +52,14 @@ finally:
         cursor.close()
         connection.close()
 
-
+#Another way of querying the database
 df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id", con=conn)
 
 conn.close()
 
 gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
 collection = {'type': 'FeatureCollection', 'features': []}
-# df['fulladdress'] = df[["address_Llne1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
+# df['fulladdress'] = df[["address_line1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
 with open('static/GEOJSON/ID2.geojson') as f:
     geojson = json.load(f)
@@ -99,12 +105,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             return feature
 
 
-geojson_series = df.apply(
-    lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],
-                               x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],
-                               x['mission'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])),
-    axis=1)
-#
+geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 output_filename = 'static/GEOJSON/Project.geojson' #The file will be saved under static/GEOJSON

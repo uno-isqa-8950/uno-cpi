@@ -11,12 +11,12 @@ from shapely.geometry import shape, Point
 #setup connection to database --LOCAL
 conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
 #setup connection to database --SERVER
-conn = psycopg2.connect(user= "nbzsljiyoqyakc",
-                        password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
-                        host="ec2-54-227-241-179.compute-1.amazonaws.com",
-                        port="5432",
-                        database="d46q2igt2d4vbg",
-                        sslmode="require")
+# conn = psycopg2.connect(user= "nbzsljiyoqyakc",
+#                         password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
+#                         host="ec2-54-227-241-179.compute-1.amazonaws.com",
+#                         port="5432",
+#                         database="d46q2igt2d4vbg",
+#                         sslmode="require")
 try:
     connection = psycopg2.connect(user="postgres",
                                   password="admin",

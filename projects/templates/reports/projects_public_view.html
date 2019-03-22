@@ -139,7 +139,15 @@
                 </div>
 
                 <div class="col-lg-3 col-md-5 form-group">
-                    <label for="college_name"> College Name : </label>
+                    <label for="college_name"> College Names
+                         {% for data_definition in data_definition %}
+                            {% if data_definition.id == 43%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
                     <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
                         <option> All </option>
                         {% for college in campusPartners.form.college_name %}
@@ -166,8 +174,8 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group">
-                    <label for="community_type"> Community Partners
+                <div class="col-lg-5 col-md-7 form-group">
+                    <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"

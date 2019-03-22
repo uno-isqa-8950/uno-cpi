@@ -304,7 +304,8 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
      google.maps.event.addListener(marker, 'rightclick', function() {
     infowindow.setContent(
         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/ *\\([^)]*\\) */g," ")+ '</td></tr><br />')
+        // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/ *\\([^)]*\\) */g," ")+ '</td></tr><br />')
+         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
     // infowindow.open(map,marker);
 
     // google.maps.event.addListener(marker, 'rightclick', function() {

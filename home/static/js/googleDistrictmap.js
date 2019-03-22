@@ -75,6 +75,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
         },
         {
             "featureType": "road.highway",
+            "elementType": "geometry.stroke",
             "stylers": [
                 {
                     "visibility": "off"
@@ -355,23 +356,23 @@ var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects) {
-       var infowindow = new google.maps.InfoWindow();
-        // content: '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-        //     // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ")+ '&nbsp;&nbsp;</td></tr><br />' +
-        //     '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-        //     '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br />' +
-        //     '<tr><td></td><span style="font-weight:lighter; margin-top: 5% ">Right-click on the marker to see the list of projects</span></td></tr>'
+    var infowindow = new google.maps.InfoWindow();
+    // content: '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+    //     // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ")+ '&nbsp;&nbsp;</td></tr><br />' +
+    //     '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
+    //     '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br />' +
+    //     '<tr><td></td><span style="font-weight:lighter; margin-top: 5% ">Right-click on the marker to see the list of projects</span></td></tr>'
     // });
 
 
-       google.maps.event.addListener(marker, 'click', function() {
-      if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-      infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+    google.maps.event.addListener(marker, 'click', function() {
+        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
@@ -381,32 +382,32 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
             '<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')
-      infowindow.open(map, marker);
-      // added next 4 lines
-      openedInfoWindow = infowindow;
-      google.maps.event.addListener(infowindow, 'closeclick', function() {
-          openedInfoWindow = null;
-      });
+        infowindow.open(map, marker);
+        // added next 4 lines
+        openedInfoWindow = infowindow;
+        google.maps.event.addListener(infowindow, 'closeclick', function() {
+            openedInfoWindow = null;
+        });
     });
-     google.maps.event.addListener(marker, 'rightclick', function() {
-    infowindow.setContent(
-        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-        // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/ *\\([^)]*\\) */g," ")+ '</td></tr><br />')
-         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
-    // infowindow.open(map,marker);
+    google.maps.event.addListener(marker, 'rightclick', function() {
+        infowindow.setContent(
+            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)\s*/g,"<br> ")+ '</td></tr><br />')
+        //  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
+        // infowindow.open(map,marker);
 
-    // google.maps.event.addListener(marker, 'rightclick', function() {
-      if (rightclickwindow != null) rightclickwindow.close();  // <-- changed this
-      infowindow.open(map, marker);
-      rightclickwindow = infowindow;
-      google.maps.event.addListener(infowindow, 'closeclick', function() {
-          rightclickwindow = null;
-      });
+        // google.maps.event.addListener(marker, 'rightclick', function() {
+        if (rightclickwindow != null) rightclickwindow.close();  // <-- changed this
+        infowindow.open(map, marker);
+        rightclickwindow = infowindow;
+        google.maps.event.addListener(infowindow, 'closeclick', function() {
+            rightclickwindow = null;
+        });
     });
 
 
 
-  // });
+    // });
 
 
     // google.maps.event.addListener(marker,'click', function() {

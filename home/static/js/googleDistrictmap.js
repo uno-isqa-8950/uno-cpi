@@ -159,8 +159,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 0.5,
-        strokeOpacity: 0.9,
+        fillOpacity: 0.6,
+        strokeOpacity: 1,
         scale: 8,
         strokeColor: 'white',
         strokeWeight: 1.5

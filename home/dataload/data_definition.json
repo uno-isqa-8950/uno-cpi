@@ -478,7 +478,7 @@
 			"pk": 43,
 			"fields": {
 				"title": "College Name",
-				"description": "Colleges associated to the Community Partners within UNO",
+				"description": "Colleges associated to the Campus Partners within UNO",
 				"group": 1,
 				"is_active": 1
 			}

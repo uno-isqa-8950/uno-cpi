@@ -10,6 +10,63 @@ from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
 from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.snippets.models import register_snippet
+
+@register_snippet
+class Campus_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner Snippet"
+
+@register_snippet
+class Campus_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner User Snippet"
+
+@register_snippet
+class Community_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner Snippet"
+
+@register_snippet
+class Community_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner User Snippet"
 
 class HomePage(Page):
 

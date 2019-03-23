@@ -486,11 +486,11 @@ def projectsPublicReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name=project)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project)
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
-                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
+                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
                 for projectCampusPartner in projectCampusPartners:
                     if projectCampusPartner.campus_partner in campusPartners.qs:
 
@@ -510,7 +510,7 @@ def projectsPublicReport(request):
                                     camp_part = []
                                     data['campusPartner'] = list_camp
 
-                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
                         for projectCommunityPartner in projectCommunityPartners:
                             if projectCommunityPartner.community_partner in communityPartners.qs:
                                 data['projectName'] = project.project_name.split(":")[0]
@@ -523,7 +523,7 @@ def projectsPublicReport(request):
                                 camp_part = []
                                 data['campusPartner'] = list_camp
 
-                                projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                                projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
                                 for projectCommunityPartner in projectCommunityPartners:
                                     comm_part.append(projectCommunityPartner.community_partner)
                                 list_comm = comm_part
@@ -542,8 +542,11 @@ def communityPublicReport(request):
     community_dict = {}
     community_list = []
     data_definition=DataDefinition.objects.all()
+    proj_comm = ProjectCommunityFilter(request.GET,queryset=ProjectCommunityPartner.objects.all())
+    proj_comm_ids = [comm.community_partner_id for comm in proj_comm.qs]
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(id__in=proj_comm_ids)) #To get community partners that have atleast one project
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
@@ -582,7 +585,7 @@ def communityPublicReport(request):
                                                                  'data_definition':data_definition})
 
 
-# List Projects for Private View 
+# List Projects for Private View
 @admin_required()
 def projectsPrivateReport(request):
     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -594,11 +597,11 @@ def projectsPrivateReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name=project)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project.id)
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
-                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name=project.id)
+                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
                 for projectCampusPartner in projectCampusPartners:
                     if projectCampusPartner.campus_partner in campusPartners.qs:
 
@@ -621,7 +624,7 @@ def projectsPrivateReport(request):
                                     camp_part = []
                                     data['campusPartner'] = list_camp
 
-                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
                         for projectCommunityPartner in projectCommunityPartners:
                             if projectCommunityPartner.community_partner in communityPartners.qs:
                                 data['projectName'] = project.project_name.split(":")[0]
@@ -637,7 +640,7 @@ def projectsPrivateReport(request):
                                 camp_part = []
                                 data['campusPartner'] = list_camp
 
-                                projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name=project.id)
+                                projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
                                 for projectCommunityPartner in projectCommunityPartners:
                                     comm_part.append(projectCommunityPartner.community_partner)
                                 list_comm = comm_part
@@ -656,8 +659,10 @@ def communityPrivateReport(request):
     community_list = []
     comp_part_contact = []
     data_definition=DataDefinition.objects.all()
+    proj_comm = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
+    proj_comm_ids = [comm.community_partner_id for comm in proj_comm.qs]
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(id__in=proj_comm_ids))
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())

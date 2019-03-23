@@ -92,6 +92,7 @@ def scheduled_job():
         # drop all_projects_start_and_end_date temp table
         cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
 
+        connection.commit()
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to Postgres SQL", error)
     finally:

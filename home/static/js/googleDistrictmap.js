@@ -383,6 +383,8 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
             '<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')
         infowindow.open(map, marker);
+        map.setZoom(7);
+        map.panTo(this.getPosition());
         // added next 4 lines
         openedInfoWindow = infowindow;
         google.maps.event.addListener(infowindow, 'closeclick', function() {
@@ -395,6 +397,8 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)\s*/g,"<br> ")+ '</td></tr><br />')
         //  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         // infowindow.open(map,marker);
+        map.setZoom(7);
+        map.panTo(this.getPosition());
 
         // google.maps.event.addListener(marker, 'rightclick', function() {
         if (rightclickwindow != null) rightclickwindow.close();  // <-- changed this

@@ -7,6 +7,7 @@ sched = BlockingScheduler()
 # Initiating the sql files
 sql = sqlfiles
 
+
 # Schedules job_function to be run on the third Friday
 # of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
 # sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
@@ -16,9 +17,9 @@ sql = sqlfiles
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 @sched.scheduled_job('interval', minutes=5)
 def scheduled_job():
-    # print('This job is ran every weekday at 5pm.')
+    print('This job is ran every weekday at 11pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')
-    print('This job is ran every minute.')
+    # print('This job is ran every minute.')
 
     global connection
     global cursor
@@ -69,24 +70,24 @@ def scheduled_job():
         # fetch all community partners to be set to active
         cursor.execute(sql.comm_partners_to_be_set_to_active)
 
-        inactive_comm_partners = cursor.fetchall()
+        active_comm_partners = cursor.fetchall()
         print("Here is the list of all projects to be set to active", "\n")
         # loop to print all the data
-        for i in inactive_comm_partners:
+        for i in active_comm_partners:
             print(i)
 
         # UPDATE PROJECT STATUS TO ACTIVE
-        # cursor.execute(sql.update_project_to_active_sql)
+        cursor.execute(sql.update_project_to_active_sql)
 
         # UPDATE PROJECT STATUS TO COMPLETED
-        # cursor.execute(sql.update_project_to_inactive_sql)
+        cursor.execute(sql.update_project_to_inactive_sql)
 
         # UPDATE COMMUNITY PARTNER WHEN TIED TO A INACTIVE PROJECTS ONLY TO FALSE(INACTIVE)
-        # cursor.execute(sql.update_comm_partner_to_inactive_sql)
+        cursor.execute(sql.update_comm_partner_to_inactive_sql)
 
         # UPDATE  COMMUNITY PARTNER WHEN TIED TO A BOTH ACTIVE
         # and / or INACTIVE or JUST ACTIVE PROJECTS ONLY TO TRUE(ACTIVE)
-        # cursor.execute(sql.update_comm_partner_to_active_sql)
+        cursor.execute(sql.update_comm_partner_to_active_sql)
 
         # drop all_projects_start_and_end_date temp table
         cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)

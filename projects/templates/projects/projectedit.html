@@ -50,9 +50,9 @@ input[id=id_start_date],input[id=id_end_date]
                             {{project.project_name|bootstrap}}
                             {{ project.status|bootstrap}}
                             {{project.engagement_type|bootstrap}}
-                            {{ course.name|bootstrap }}
-                            {{ course.prefix|bootstrap }}
-                            {{ course.number|bootstrap }}
+{#                            {{ course.name|bootstrap }}#}
+{#                            {{ course.prefix|bootstrap }}#}
+{#                            {{ course.number|bootstrap }}#}
                             {{project.activity_type|bootstrap}}
 {#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
@@ -73,12 +73,14 @@ input[id=id_start_date],input[id=id_end_date]
                             {{ project.state|bootstrap }}
                             {{ project.zip|bootstrap }}
                             {{ project.country|bootstrap }}
-
+                            <div class="mission" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Mission Areas
+                                        </h6>
+                                    </div>
                             {% for missform in formset_missiondetails %}
                                 <div class="mission_edit-row" id="contact1" style="margin-top:20px;">
                                     <div class="col-lg-12">
-                                        <h6>Mission Areas
-                                        </h6><br>
                                     </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -91,12 +93,16 @@ input[id=id_start_date],input[id=id_end_date]
                                     </div>
                                 </div>
                             {% endfor %}
+                            </div>
 
+                            <div class="community" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Community Partners
+                                        </h6>
+                                    </div>
                             {% for commform in formset_comm_details %}
                                 <div class="community_edit-row" id="contact1" style="margin-top:20px;">
                                     <div class="col-lg-12">
-                                        <h6>Community Partners
-                                        </h6><br>
                                     </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -108,12 +114,16 @@ input[id=id_start_date],input[id=id_end_date]
                                     </div>
                                 </div>
                             {% endfor %}
+                            </div>
 
+                            <div class="campus" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Campus Partners
+                                        </h6>
+                                    </div>
                             {% for campform in formset_camp_details %}
                                 <div class="campus_edit-row" id="contact1" style="margin-top:20px;">
                                     <div class="col-lg-12">
-                                        <h6>Campus Partners
-                                        </h6><br>
                                     </div>
                                         <div class="input-group">
                                             <div class="col-lg-6">
@@ -126,6 +136,7 @@ input[id=id_start_date],input[id=id_end_date]
 
                                 </div>
                             {% endfor %}
+                            </div>
 
                         <div class="row justify-content-md-center" style="margin-top:30px;">
                             <div class="col-lg-2 col-md-5">
@@ -234,51 +245,9 @@ $(document).on('click', '.remove-campus_edit-row', function(e){
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
-window.onload = function () {
-
-   var val = $("#id_engagement_type").val();
-            if (val === '3') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-
-}
-</script>
-
-<script>
-    $(function(){
-        function hideInputs() {
-            $("label.control-label[for=id_name], input#id_name").hide();
-            $("#id_id_name").hide();
-            $("label.control-label[for=id_prefix], input#id_prefix").hide();
-            $("#id_prefix").hide();
-            $("label.control-label[for=id_number], input#id_number").hide();
-            $("#id_number").hide();
-
-            console.log('label.control-label[for=id_name], input#id_name');
-            }
-        $("#id_engagement_type").on('change', function(){
-            var val = $("#id_engagement_type").val();
-            if (val === '3') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-        hideInputs();
-    });
+$(".add-mission_edit-row").slice(0, -1).hide();
+$(".add-community_edit-row").slice(0, -1).hide();
+$(".add-campus_edit-row").slice(0, -1).hide();
 </script>
 
 <!--    Commenting out script per ticket #551

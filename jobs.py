@@ -59,22 +59,22 @@ def scheduled_job():
         cursor.execute(sql.start_and_end_dates_temp_table_sql)
 
         # fetch all community partners to be set to inactive
-        # cursor.execute(sql.comm_partners_to_be_set_to_inactive)
+        cursor.execute(sql.comm_partners_to_be_set_to_inactive)
 
-        # inactive_comm_partners = cursor.fetchall()
-        # print("Here is the list of all projects to be set to inactive", "\n")
-        # # loop to print all the data
-        # for i in inactive_comm_partners:
-        #     print(i)
+        inactive_comm_partners = cursor.fetchall()
+        print("Here is the list of all projects to be set to inactive", "\n")
+        # loop to print all the data
+        for i in inactive_comm_partners:
+            print(i)
 
         # fetch all community partners to be set to active
-        # cursor.execute(sql.comm_partners_to_be_set_to_active)
+        cursor.execute(sql.comm_partners_to_be_set_to_active)
 
-        # inactive_comm_partners = cursor.fetchall()
-        # print("Here is the list of all projects to be set to active", "\n")
-        # # loop to print all the data
-        # for i in inactive_comm_partners:
-        #     print(i)
+        active_comm_partners = cursor.fetchall()
+        print("Here is the list of all projects to be set to active", "\n")
+        # loop to print all the data
+        for i in active_comm_partners:
+            print(i)
 
         # UPDATE PROJECT STATUS TO ACTIVE
         cursor.execute(sql.update_project_to_active_sql)

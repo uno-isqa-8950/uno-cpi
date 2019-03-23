@@ -23,7 +23,7 @@ class CampusPartnerForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(CampusPartnerForm, self).__init__(*args, **kwargs)
-        self.fields['college_name'].empty_label = " Select College"
+        self.fields['college_name'].empty_label = "Select College"
 
 
 class CampusPartnerContactForm(forms.ModelForm):
@@ -80,23 +80,24 @@ class CampusPartnerContactForm(forms.ModelForm):
         return email
 
 class CommunityPartnerForm(forms.ModelForm):
-    community_type = forms.ModelChoiceField(queryset=CommunityType.objects, label='Community Partner Type',empty_label='Select Community Type')
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
                    'zip','county','country')
         labels = {
-
+            'name': ('Community Partner Organization'),
             'website_url': ('Website'),
             'community_type': ('Community Type'),
+            'k12_level':('K12 Level'),
             'address_line1': ('Address Line 1'),
-            'address_line2': ('Address Line 2'),
+            'city': ('City'),
+            'state': ('State'),
+            'zip':('Zip Code'),
+            'county':('County'),
+            'country':('Country'),
 
         }
-        widgets = {'name': forms.TextInput({'placeholder': 'Community Partner Name'}),
-                   'website_url': forms.TextInput({'placeholder': 'https://www.unomaha.edu'}),
-                   'k12_level' :forms.TextInput({'placeholder': 'If your community type is K12, Please provide the k12-level'}),
-                   }
+
 
     # def clean_name(self):
     #     name = self.cleaned_data['name']
@@ -107,47 +108,47 @@ class CommunityPartnerForm(forms.ModelForm):
         #     return name
         # raise forms.ValidationError('Community partner with this Name already exists.')
 
-    def clean_country(self):
-            name = self.cleaned_data['country']
-            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-            if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid Country Name")
-            if any(char in special_characters for char in name):
-                raise forms.ValidationError("Invalid Country Name")
-            if len(name) == 0:
-                raise forms.ValidationError("Please enter a Country Name")
-            return name
-
-    def clean_state(self):
-            name = self.cleaned_data['state']
-            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-            if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid State Name")
-            if any(char in special_characters for char in name):
-                raise forms.ValidationError("Invalid State Name")
-            if len(name) == 0:
-                raise forms.ValidationError("Please enter a State Name")
-            return name
-
-    def clean_city(self):
-            name = self.cleaned_data['city']
-            special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-            if any(char.isdigit() for char in name):
-                raise forms.ValidationError("Invalid City Name")
-            if any(char in special_characters for char in name):
-                raise forms.ValidationError("Invalid City Name")
-            if len(name) == 0:
-                raise forms.ValidationError("Please enter a City Name")
-            return name
-
-
-    def clean_zip(self):
-        zip = self.cleaned_data['zip']
-        if any(char.isalpha() for char in zip):
-            raise forms.ValidationError("Invalid ZIP Code")
-        if len(zip) == 0:
-            raise forms.ValidationError("Please enter a Zip Code")
-        return zip
+    # def clean_country(self):
+    #         name = self.cleaned_data['country']
+    #         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+    #         if any(char.isdigit() for char in name):
+    #             raise forms.ValidationError("Invalid Country Name")
+    #         if any(char in special_characters for char in name):
+    #             raise forms.ValidationError("Invalid Country Name")
+    #         if len(name) == 0:
+    #             raise forms.ValidationError("Please enter a Country Name")
+    #         return name
+    #
+    # def clean_state(self):
+    #         name = self.cleaned_data['state']
+    #         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+    #         if any(char.isdigit() for char in name):
+    #             raise forms.ValidationError("Invalid State Name")
+    #         if any(char in special_characters for char in name):
+    #             raise forms.ValidationError("Invalid State Name")
+    #         if len(name) == 0:
+    #             raise forms.ValidationError("Please enter a State Name")
+    #         return name
+    #
+    # def clean_city(self):
+    #         name = self.cleaned_data['city']
+    #         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+    #         if any(char.isdigit() for char in name):
+    #             raise forms.ValidationError("Invalid City Name")
+    #         if any(char in special_characters for char in name):
+    #             raise forms.ValidationError("Invalid City Name")
+    #         if len(name) == 0:
+    #             raise forms.ValidationError("Please enter a City Name")
+    #         return name
+    #
+    #
+    # def clean_zip(self):
+    #     zip = self.cleaned_data['zip']
+    #     if any(char.isalpha() for char in zip):
+    #         raise forms.ValidationError("Invalid ZIP Code")
+    #     if len(zip) == 0:
+    #         raise forms.ValidationError("Please enter a Zip Code")
+    #     return zip
 
 
 class CommunityContactForm(forms.ModelForm):

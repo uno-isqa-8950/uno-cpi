@@ -9,6 +9,8 @@ from home.decorators import campuspartner_required, admin_required
 from django.contrib.auth import authenticate, login, logout
 import csv
 from collections import OrderedDict
+import sys
+sys.setrecursionlimit(1500)
 # importing models in home views.py
 from .models import *
 from university.models import *

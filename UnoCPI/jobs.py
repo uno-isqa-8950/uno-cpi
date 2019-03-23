@@ -14,7 +14,7 @@ sql = sqlfiles
 
 # @sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
-@sched.scheduled_job('interval', minutes=1)
+@sched.scheduled_job('interval', minutes=5)
 def scheduled_job():
     # print('This job is ran every weekday at 5pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')

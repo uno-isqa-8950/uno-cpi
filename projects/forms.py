@@ -55,7 +55,6 @@ class ProjectForm2(ModelForm):
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
-            'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
         }
         labels = {
             'project_name': 'Project Name',

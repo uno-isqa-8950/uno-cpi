@@ -300,9 +300,9 @@ def project_edit_new(request,pk):
             project = ProjectForm2(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
 
-        formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
-        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
-        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
+        formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
+        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
+        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
 
                 instances = project.save()
@@ -382,9 +382,9 @@ def project_edit_new(request,pk):
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
             # course_details = course(instance= x)
-            formset_missiondetails = mission_edit_details(instance=x)
-            formset_comm_details = proj_comm_part_edit(instance=x)
-            formset_camp_details = proj_campus_part_edit(instance=x)
+            formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
+            formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
+            formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
             return render(request,'projects/projectedit.html',{'project': project,'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,

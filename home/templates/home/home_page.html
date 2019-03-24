@@ -4110,10 +4110,14 @@ cite {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
+  color: #d71920;
+  {#background-color: transparent;#}
+  text-decoration: underline ;
+}
 }
 
 .blog-list-item:hover img {
-    opacity: 0.3;
+    opacity: 0.5;
 }
 
 .blog-list-item .image {
@@ -4385,23 +4389,28 @@ span.outline {
 .homepage .feature-3 h3 {
   color: #fff;
   font-weight: 300;
-  font-size: 1.8em;
+  font-size: 2.8em;
   margin-bottom: 135px;
   margin-top: -145px;
   position: relative;
   text-align: center;
-  text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);
+    {#text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);#}
   z-index: 1;
+}
+.homepage .feature-3 a:hover {
+  color: #d71920;
+  background-color: transparent;
+  text-decoration: underline ;
 }
 .homepage .feature-2 li:hover img,
 .homepage .feature-3 li:hover img {
-  opacity: 0.3;
+  opacity: 0.7;
 }
 .homepage .feature-3 img{
     display: block;
     width: 100%;
     background-color: black;
-    opacity: .7;
+    opacity: .9;
     object-fit: cover;
 
 }
@@ -4410,6 +4419,11 @@ span.outline {
     width: 100%;
     height: auto;
     object-fit: cover;
+}
+.blog img a:hover {
+  color: #d71920;
+  background-color: transparent;
+  text-decoration: underline ;
 }
 
 /* Miscellaneous helper styles */

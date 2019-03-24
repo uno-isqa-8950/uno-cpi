@@ -1090,12 +1090,11 @@ def GEOJSON2():
     CollegeNamelist = []
     for project in projects:  # iterate through all projects
         # prepare the shell of the features key inside the GEOJSON
-        feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Address': '', 'Engagement Type': '',
-                                                     'Legislative District Number': '',
-                                                     'Income': '', 'County': '', 'Mission Area': '',
-                                                     'Community Partner': '', 'College Name':'', 'Campus Partner': '',
-                                                     'Community Partner Type': ''
-                                                     },
+        feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
+                                                 'Description': '', 'Academic Year': '',
+                                                 'Legislative District Number':'','College Name': '',
+                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'',
+                                                 'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (project.address_line1 != "N/A"):  # check if a project address is there
 
@@ -1105,7 +1104,7 @@ def GEOJSON2():
             feature['properties']['Project Name'] = project.project_name
             feature['properties']['Address'] = fulladdress
             feature['properties']['Activity Type'] = str(project.activity_type)
-            feature['properties']['Academic year'] = str(project.academic_year)
+            feature['properties']['Academic Year'] = str(project.academic_year)
             feature['properties']['Legislative District Number'] = project.legislative_district
             feature['properties']['Income'] = project.median_household_income
             feature['properties']['County'] = project.county
@@ -1150,7 +1149,7 @@ def GEOJSON2():
                 if (str(project.engagement_type) not in Engagementlist):
                     Engagementlist.append(str(project.engagement_type))
 
-                feature['properties']['Academic year'] = str(project.academic_year)
+                feature['properties']['Academic Year'] = str(project.academic_year)
                 if (str(project.academic_year) not in Academicyearlist):
                     Academicyearlist.append(str(project.academic_year))
 
@@ -1220,14 +1219,16 @@ def googleDistrictdata(request):
 def googlepartnerdata(request):
     Campuspartner = GEOJSON()[3]
     data = GEOJSON()[0]
-
+    json_data = open('home/static/GEOJSON/ID2.geojson')
+    district = json.load(json_data)
     return render(request, 'home/googlehomepage.html',
-                  {'collection': data,
+                  {'collection': data, 'districtData':district,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': GEOJSON()[4],
+                   'College': sorted(GEOJSON()[6])
                    }
                   )
 

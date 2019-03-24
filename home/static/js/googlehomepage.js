@@ -1,14 +1,15 @@
 //*********************************** Get data from HTML *****************************************************
 
-var colorcode = ['#17f3d1', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#FFFF00']
+var colorcode = ['#27ffcb', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#29234b']
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
+var CollegeNamelist = JSON.parse(document.getElementById('collegename-list').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 var layerIDs = []; // Will contain a list used to filter against. This is for filtering Legislative Districts
-var filterlist = ["all", "all", "all", "all", "all"] //first is for Mission Areas, second is for Community Types, 3rd for districts
+var filterlist = ["all", "all", "all", "all", "all","all"] //first is for Mission Areas, second is for Community Types, 3rd for districts
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
 communityData.features.forEach(function(feature) {
@@ -20,12 +21,92 @@ communityData.features.forEach(function(feature) {
 //*********************************** Load the map *****************************************************
 
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
+    // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
     zoom: 7,
-    maxZoom: 12,
+    minZoom: 3,
+    // maxZoom: 13,
     fullscreenControl: false,
-    mapTypeControl: false
+    mapTypeControl: false,
+    styles: [
+        {
+            "featureType": "landscape",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "labels.text",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi.business",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        }
+    ]
 });
 
 
@@ -77,6 +158,16 @@ for (i = 0; i < yearlist.length; i++) {
 $('#selectYear').html(select4);
 //*********************************** Load the county data here. Should be down here. Otherwise it won't load *****************************************************
 
+//*********************************** Add the community type drop-down *****************************************************
+
+var select5 = '';
+select5 += '<option val=' + "allcollege" + ' selected="selected">' + 'All Colleges' + '</option>';
+for (i = 0; i < CollegeNamelist.length; i++) {
+    select5 += '<option val=' + CollegeNamelist[i] + '>' + CollegeNamelist[i] + '</option>';
+}
+$('#selectCollege').html(select5);
+
+
 // var districtData = JSON.parse(document.getElementById('district-data').textContent);
 
 
@@ -87,6 +178,18 @@ var formatter = new Intl.NumberFormat('en-US', { //this is to format the current
     currency: 'USD',
     minimumFractionDigits: 2,
 });
+
+//*****************************************District layer*************************************************
+
+dist_data = map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+
+    //Overlay for districts in Nebraska
+    map.data.setStyle({
+        fillColor: "#fee8c8",
+        fillOpacity: 0.4,
+        strokeWeight: 0.2
+    })
+
 
 
 //*********************************** Load the map *****************************************************
@@ -110,8 +213,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 1,
-        strokeOpacity: 0.9,
+        fillOpacity: 0.6,
+        strokeOpacity: 1,
         scale: 8,
         strokeColor: 'white',
         strokeWeight: 1.5
@@ -125,7 +228,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var campus_partner = communityData.features
     var academic_year = communityData.features
     var website = communityData.features
-    var county = communityData.features
+    var city = communityData.features
     // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var category = communityData.features[i].properties["Legislative District Number"]
@@ -179,7 +282,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             }
         }
         attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
-            project_number[i].properties['Number of projects'],county[i].properties['County'],
+            project_number[i].properties['Number of projects'],city[i].properties['City'],
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
             academic_year[i].properties["Academic Year"],
@@ -222,52 +325,39 @@ var mcOptions = {
 };
 
 
-// function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,district_number,project_number,county,miss_name, comm_name, campus_partner,academic_year,website) {
-    var infowindow = new google.maps.InfoWindow({
-        content: '<tr><td><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">County: </span>&nbsp; </td><td>' + county + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp; </td><td>' +  website + '</td></tr>'
-    });
-    //listner to check for on click event
-    // marker.addListener('click', function () {
-    //     infowindow.open(marker.get('map'), marker);
-    //time out after which the info window will close
-    // setTimeout(function () {
-    //     infowindow.close();
-    // }, 5000);
-    // // infowindow.close();
-    google.maps.event.addListener(marker, "click", function () {
-        // infowindow.close(marker.get('map'), marker);
-        // infowindow.close();
-        if(!marker.open){
-            infowindow.open(map,marker);
-            marker.open = true;
-        }
-        else{
-            infowindow.close();
-            marker.open = false;
-        }
-        google.maps.event.addListener(map, 'click', function() {
-            infowindow.close();
-            marker.open = false;
-        });
-    })
-}
+var openedInfoWindow = null;
 
+// function to call the infowindow on clicking markers
+function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website) {
+    var infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker, 'click', function () {
+        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+            // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ") + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>')
+        infowindow.open(map, marker);
+        // map.setZoom(16);
+        map.panTo(this.getPosition());
+        // added next 4 lines
+        openedInfoWindow = infowindow;
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+            openedInfoWindow = null;
+        });
+    });
+}
 
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
   infowindow.close();
 })
 
-//***********************************filter by clickable legends*****************************************************
+// *******************************filter by clickable legends*****************************************************
 
 
 var edu = document.getElementById("allmiss"); //get the total number of dots
@@ -373,23 +463,52 @@ selectYear.addEventListener("change", function(e) {
 
     }
 })
-
-    //*********************************** District filter *****************************************************
-
-    var selectDistrict = document.getElementById('selectDistrict');
-    selectDistrict.addEventListener("change", function (e) {
-        var value = e.target.value.trim().toLowerCase();
-        value = parseInt(value)
-        if (isNaN(value)) {
-            // get the number of markers that fit the requirement and show on the HTML
-            filterlist[2] = "all"
-            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
-        } else {
-            var value = e.target.value.trim().toLowerCase();
-            filterlist[2] = value
-            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+   //*********************************** District filter *****************************************************
+var states = new Array();
+var selectDistrict = document.getElementById('selectDistrict');
+selectDistrict.addEventListener("change", function (e) {
+    var value1 = e.target.value.trim()
+    var value=value1.split("Legislative District")[1]
+    value = parseInt(value)
+    if (isNaN(value)) {
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
         }
-    })
+        // get the number of markers that fit the requirement and show on the HTML
+        filterlist[2] = "all"
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+    } else {
+        var coords = []
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
+        for (i = 0; i < districtData.features.length; i++) {
+            if (value == districtData.features[i].id) {
+                for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
+                    coords.push({
+                        lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
+                        lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
+                    });
+                }
+            }
+        }
+        var state = new google.maps.Polygon({
+            paths: coords,
+            strokeColor: '#fe911d',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: '#fe911d',
+            fillOpacity: 0.25,
+        });
+
+        states.push(state)
+        state.setMap(map)
+
+        filterlist[2] = value
+        calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
+    }
+})
+
 
     //*********************************** Search function *****************************************************
     var valueFilter = document.getElementById("valueFilter");
@@ -436,12 +555,15 @@ selectYear.addEventListener("change", function(e) {
 
 
     $("#reset").click(function () {
-        filterlist[0] = "all"
-        filterlist[1] = "all"
-        filterlist[2] = "all"
-        filterlist[3] = "all"
-        filterlist[4] = "all"
-        filterlist[5] = "all"
+        filterlist[0] = "all";
+        filterlist[1] = "all";
+        filterlist[2] = "all";
+        filterlist[3] = "all";
+        filterlist[4] = "all";
+        filterlist[5] = "all";
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5]);
         $('#selectCommtype option').prop('selected', function () {
             return this.defaultSelected;

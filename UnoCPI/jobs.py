@@ -4,7 +4,7 @@ from UnoCPI import sqlfiles
 
 sched = BlockingScheduler()
 
-# Initiating the sql files
+# Initializing the sql files
 sql = sqlfiles
 
 
@@ -13,11 +13,11 @@ sql = sqlfiles
 # sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
 
 
-# @sched.scheduled_job('cron', day_of_week='mon-fri', hour=17)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
-@sched.scheduled_job('interval', minutes=5)
+# @sched.scheduled_job('interval', minutes=5)
 def scheduled_job():
-    print('This job is ran every weekday at 11pm.')
+    print('This job is ran every day at 11pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')
     # print('This job is ran every minute.')
 
@@ -82,7 +82,6 @@ def scheduled_job():
         # UPDATE PROJECT STATUS TO COMPLETED
         cursor.execute(sql.update_project_to_inactive_sql)
 
-
         # UPDATE COMMUNITY PARTNER WHEN TIED TO A INACTIVE PROJECTS ONLY TO FALSE(INACTIVE)
         cursor.execute(sql.update_comm_partner_to_inactive_sql)
 
@@ -93,12 +92,12 @@ def scheduled_job():
         # drop all_projects_start_and_end_date temp table
         cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
 
-        connection.commit()
     except (Exception, psycopg2.Error) as error:
         print("Error while connecting to Postgres SQL", error)
     finally:
         # closing database connection.
         if connection:
+            connection.commit()
             cursor.close()
             connection.close()
             print("Postgres SQL connection is closed")

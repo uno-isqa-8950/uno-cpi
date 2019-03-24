@@ -1125,7 +1125,6 @@ def GEOJSON2():
             ### get the community partner type######
             communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
             community_type = [p.community_type for p in communityType_qs]
-
             # get the college name
             college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
             college_name = [p.college_name for p in college_qs]
@@ -1162,7 +1161,6 @@ def GEOJSON2():
             except:
                 print("No mission")
             collection['features'].append(feature)  # create the geojson
-            # print(collection)
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
             sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))

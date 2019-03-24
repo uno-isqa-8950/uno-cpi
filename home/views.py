@@ -1093,12 +1093,15 @@ def GEOJSON2():
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
-                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'',
+                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'','Community Partner Type':'',
                                                  'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
         if (project.address_line1 != "N/A"):  # check if a project address is there
-
             fulladdress = project.address_line1 + ' ' + project.city + ' ' + project.state
+            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+            project.latitude = geocode_result[0]['geometry']['location']['lat']
+            project.longitude = geocode_result[0]['geometry']['location']['lng']
+            coord = Point([project.longitude, project.latitude])
             ### set the value for the feature variable  ######
             feature['geometry']['coordinates'] = [project.longitude, project.latitude]
             feature['properties']['Project Name'] = project.project_name
@@ -1106,8 +1109,7 @@ def GEOJSON2():
             feature['properties']['Activity Type'] = str(project.activity_type)
             feature['properties']['Academic Year'] = str(project.academic_year)
             feature['properties']['Legislative District Number'] = project.legislative_district
-            feature['properties']['Income'] = project.median_household_income
-            feature['properties']['County'] = project.county
+            feature['properties']['City'] = project.city
             ### get the mission area######
             project_qs = ProjectMission.objects.filter(project_name__id=project.id)
             project_mission = [p.mission for p in project_qs]
@@ -1160,6 +1162,7 @@ def GEOJSON2():
             except:
                 print("No mission")
             collection['features'].append(feature)  # create the geojson
+            # print(collection)
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
             sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))

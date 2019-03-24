@@ -20,7 +20,7 @@
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
         label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_students]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
-        label[for=id_form-0-mission]:after,label[for=id_zip]:after
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
     {
         content:"*" ;
         color:red
@@ -134,9 +134,11 @@
                                             {{ form3.campus_partner|bootstrap }}
                                             </div>
                                         </div>
-                                        <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>
-                                        </div>
+{#                                        <div class="input-group-append" >#}
+{#                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>#}
+{#                                        </div>#}
+                                        <p class = h9>If you have additional Campus Partners, you can update them while editing your Project details!</p>
+                                    <p id="errorid1"></p>
                                     </div>
 
                                 {% endfor %}
@@ -461,7 +463,9 @@ return true;
 <script>
 window.onsubmit = function checking() {
     var id_name = document.getElementById('id_mission-0-mission');
+    var id_campus = document.getElementById('id_campus-0-campus_partner');
     var val = id_name.options[id_name.selectedIndex].text;
+    var val1 = id_campus.options[id_campus.selectedIndex].text;
     var location = document.getElementById("errorid").scrollTop;
 if (val === '---------') {
     error = "Please select a Primary Mission Area";
@@ -469,6 +473,12 @@ if (val === '---------') {
     document.documentElement.scrollTop = 900;
     return false
 }
+else if (val1 === '---------'){
+    error = "Please select atleast one Campus Partner";
+    document.getElementById("errorid1").innerHTML = error;
+    document.getElementById('id_community-0-community_partner').scrollIntoView();
+    return false
+    }
 }
 </script>
 <script>

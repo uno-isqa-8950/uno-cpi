@@ -16,7 +16,7 @@ from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCamp
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2
+from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
 from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
 import googlemaps
@@ -288,9 +288,11 @@ def project_total_Add(request):
 @login_required()
 @campuspartner_required()
 def project_edit_new(request,pk):
-    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
-    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=AddProjectCommunityPartnerForm)
-    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=AddProjectCampusPartnerForm)
+
+    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
+    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
+    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0,min_num=1, can_delete=True,  form=AddProjectCampusPartnerForm)
+    #print('print input to edit')
 
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
@@ -298,15 +300,15 @@ def project_edit_new(request,pk):
             project = ProjectForm2(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
 
-        formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
-        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
-        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
-        if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
+        formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
+        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
+        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
+        if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
 
                 instances = project.save()
-                pm = formset_missiondetails.save(commit=False)
-                compar= formset_comm_details.save(commit=False)
-                campar= formset_camp_details.save(commit=False)
+                pm = formset_missiondetails.save()
+                compar= formset_comm_details.save()
+                campar= formset_camp_details.save()
 
                 for k in pm:
                     k.project_name = instances
@@ -380,9 +382,9 @@ def project_edit_new(request,pk):
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
             # course_details = course(instance= x)
-            formset_missiondetails = mission_edit_details(instance=x)
-            formset_comm_details = proj_comm_part_edit(instance=x)
-            formset_camp_details = proj_campus_part_edit(instance=x)
+            formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
+            formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
+            formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
             return render(request,'projects/projectedit.html',{'project': project,'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,

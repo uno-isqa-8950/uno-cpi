@@ -183,7 +183,7 @@ $('#selectCommunity').html(select3);
 //*********************************** Add Community Partner *****************************************************
 
 var select7 = '';
-select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All College Names' + '</option>';
+select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All College' + '</option>';
 for (i = 0; i < CollegeNamelist.length; i++) {
     select7 += '<option val=' + i + '>' + CollegeNamelist[i] + '</option>';
 }
@@ -334,41 +334,36 @@ var mcOptions = {
         }]
 };
 
-// To prevent Info window opening on the first click on spiderfier
-oms.addListener('spiderfy', function(markers) {
-     // markers.setIcon(#007200);
-    infowindow.close();
-
-    // markers.setIcon("https://googlemaps.github.io/js-marker-clusterer/images/m2.png");
-})
-
+var openedInfoWindow=null;
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, projectName, missionArea,comm_partner, comm_partner_type, campus_partner,academic_year, eng_type) {
-    var infowindow = new google.maps.InfoWindow({
-        content: '<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName + '</td></tr><br />' +
+    var infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker, 'click', function () {
+        if (openedInfoWindow != null) openedInfoWindow.close();
+        infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>'
-    });
-    //listner to check for on click event
-    marker.addListener('click', function() {
-        // infowindow.open(marker.get('map'), marker);
-        setTimeout(function () {
-            infowindow.close();
-        }, 5000);
-
+            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
         infowindow.open(map, marker);
-
-        google.maps.event.addListener(map, "click", function (event) {
-            infowindow.close();
-        })
-
-    })
+        // map.setZoom(16);
+        map.panTo(this.getPosition());
+        openedInfoWindow = infowindow;
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+            openedInfoWindow = null;
+        });
+    });
 }
+
+// To prevent Info window opening on the first click on spiderfier
+oms.addListener('spiderfy', function(markers) {
+    infowindow.close();
+})
+
+
 ///***********************************filter by clickable legends*****************************************************
 
 

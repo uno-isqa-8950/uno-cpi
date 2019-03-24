@@ -1236,13 +1236,15 @@ def googlepartnerdata(request):
 def googlemapdata(request):
     Campuspartner = GEOJSON()[3]
     data = GEOJSON()[0]
-
+    json_data = open('home/static/GEOJSON/ID2.geojson')
+    district = json.load(json_data)
     return render(request, 'home/googlemap.html',
-                  {'collection': data,
+                  {'collection': data, 'districtData': district,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4]
+                   'year': GEOJSON()[4],
+                   'College': sorted(GEOJSON()[6])
                    }
                   )

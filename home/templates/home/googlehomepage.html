@@ -419,7 +419,9 @@ color: #d71920;
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
                                 <div id='map_canvas' class='map'>
                                     {{ districtData | json_script:"district-data"}}
-                                    {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}}
+                                    {{ collection | json_script:"commPartner-data"}}
+                                    {{ Missionlist | json_script:"missionlist"}}
+                                    {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
                                     {{ College | json_script:"collegename-list"}}

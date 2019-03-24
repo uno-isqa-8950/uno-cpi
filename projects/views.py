@@ -1,6 +1,6 @@
 from decimal import *
 from django.db import connection
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from numpy import shape
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
@@ -367,8 +367,8 @@ def project_edit_new(request,pk):
 
                         projects_list.append(data)
 
-
-                return render(request, 'projects/Projectlist.html', {'project': projects_list})
+                return HttpResponseRedirect("/campususerproject")
+                #return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
     else:
 

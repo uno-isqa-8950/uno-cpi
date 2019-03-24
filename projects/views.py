@@ -17,7 +17,7 @@ from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCamp
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2
+from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
 from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
 import googlemaps
@@ -290,7 +290,7 @@ def project_total_Add(request):
 @campuspartner_required()
 def project_edit_new(request,pk):
 
-    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionFormset)
+    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0,min_num=1, can_delete=True,  form=AddProjectCampusPartnerForm)
     #print('print input to edit')

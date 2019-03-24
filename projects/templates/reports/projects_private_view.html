@@ -254,7 +254,16 @@
                         {% endif %}
                     </div>
                 </td>
-                <td>{% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %} </td>
+                <td>
+                    <div class="content hideContent">
+                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.campusPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_UNO_students}}</td>
                 <td>{{project.total_hours}}</td>

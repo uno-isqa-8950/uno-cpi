@@ -34,6 +34,14 @@
         margin-top:10px;
     }
 
+    .hideContent {
+        overflow: hidden;
+        height: 4.5em;
+    }
+
+    .showContent {
+        height: auto;
+    }
 
 </style>
 
@@ -209,8 +217,26 @@
             {% for project in projectsData %}
             <tr>
                 <td>{{project.projectName}}</td>
-                <td>{% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %} </td>
-                <td>{% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %} </td>
+                <td>
+                    <div class="content hideContent">
+                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.campusPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="content hideContent">
+                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.campusPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
                 <td>{{project.engagementType}}</td>
             </tr>
             {% endfor %}
@@ -222,6 +248,28 @@
 </div>
 {% endblock %}
 
+{% block custom_js %}
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+$(".show-more a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $this.parent().prev("div.content");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+</script>
+{% endblock %}
 
 {% block js %}
 

@@ -506,7 +506,7 @@ def projectsPublicReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name_id=project)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project, mission_type='Primary')
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
@@ -617,7 +617,7 @@ def projectsPrivateReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name_id=project.id)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project.id, mission_type='Primary')
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:

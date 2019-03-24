@@ -518,13 +518,13 @@ def project_partner_info(request):
         project_ids = list(set(proj2_ids).intersection(comm_filtered_ids))
 
         mission_dict['mission_name'] = m.mission_name
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
 
         proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(community_partner_id__in=community_filtered_ids).distinct()
         proj_comm_ids = [community.community_partner_id for community in proj_comm]
-        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=proj_comm_ids).count()
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
 
-        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids)
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
         b = request.GET.get('academic_year', None)
@@ -534,14 +534,14 @@ def project_partner_info(request):
             if b is None or b == "All" or b == '':
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
-                        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(community_partner_id__in=community_filtered_ids).count()
+                        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids).count()
 
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
-                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids)
-                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).count()
+                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary')
+                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary').count()
 
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
@@ -705,12 +705,12 @@ def missionchart(request):
         project_ids = list(set(proj2_ids).intersection(comm_filtered_ids))
 
         mission_area1.append(m.mission_name)
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).count()
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=project_ids).count()
 
         proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(
             community_partner_id__in=community_filtered_ids).distinct()
         proj_comm_ids = [community.community_partner_id for community in proj_comm]
-        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(
             community_partner_id__in=proj_comm_ids).count()
 
         a = request.GET.get('engagement_type', None)
@@ -721,14 +721,14 @@ def missionchart(request):
             if b is None or b == "All" or b == '':
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
-                        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+                        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(
                             community_partner_id__in=community_filtered_ids).count()
 
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
-                project_count = ProjectMission.objects.filter(mission=m.id).filter(
+                project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(
                     project_name_id__in=proj2_ids).count()
 
         project_count_data.append(project_count)

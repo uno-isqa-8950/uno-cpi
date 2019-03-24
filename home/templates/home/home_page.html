@@ -4600,7 +4600,21 @@ span.outline {
     </div>
 </div>
 </div>
+<HR class="new1">
 
+{% if page.bottom %}
+<div class="container-fluid streamfield">
+    <div class="container">
+        <div class="row">
+            <div class="col streamfield-column h5">
+                <div class="centered">
+                    {{ page.bottom }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
 
 <footer>
 <div class="container-fluid">

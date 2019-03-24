@@ -1009,17 +1009,16 @@ def GEOJSON():
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
     CampusPartnerlist = [m.name for m in CampusPartner_qs]
-    college_qs = CampusPartner.objects.all()
-    collegeName = [m.college_name for m in college_qs]
-    if (str(collegeName[0]) not in CollegeNamelist):
-        CollegeNamelist.append(str(collegeName[0]))
+    collegeName_list = College.objects.all()
+    collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
+    collegeNamelist = [m.college_name for m in collegeName_list]
     projectlist = Project.objects.all()
     yearlist = [str(c.academic_year) for c in projectlist]
     yearlist = list(set(yearlist))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
     return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist), sorted(CollegeNamelist))
+            sorted(commPartnerlist), sorted(collegeNamelist))
 
 
 ######## export data to Javascript for Household map ################################
@@ -1219,6 +1218,7 @@ def googleDistrictdata(request):
 
 def googlepartnerdata(request):
     Campuspartner = GEOJSON()[3]
+    College = GEOJSON()[6]
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
@@ -1229,13 +1229,14 @@ def googlepartnerdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
                    'year': GEOJSON()[4],
-                   'College': sorted(GEOJSON()[6])
+                   'College': sorted(College)
                    }
                   )
 
 
 def googlemapdata(request):
     Campuspartner = GEOJSON()[3]
+    College = GEOJSON()[6]
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
@@ -1246,6 +1247,6 @@ def googlemapdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
                    'year': GEOJSON()[4],
-                   'College': sorted(GEOJSON()[6])
+                   'College': sorted(College)
                    }
                   )

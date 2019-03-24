@@ -60,15 +60,6 @@
         color:#fff;
     }
 
-    .mapboxgl-map:-webkit-full-screen
-    {
-          width: 100%;
-          height: calc(100vh -150px);
-          margin: 0px 0 0 0;
-
-    }
-
-
     .map {
           position: relative;
           width: 100%;
@@ -104,7 +95,7 @@
         border-color:grey;
         box-shadow:0 0 8px 0 grey;
         }
-    select[id=selectMissionarea]
+    select[id=selectMisstype]
         {
         width:85%;
         border:2px solid #aaa;
@@ -119,6 +110,20 @@
         margin-bottom: 15px;
         }
     select[id=selectCampus]
+        {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        outline:none;
+        padding:4px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 0px;
+        margin-top: 5px;
+        width: 210px;
+        margin-bottom: 15px;
+        }
+     select[id=selectCollege]
         {
         width:85%;
         border:2px solid #aaa;
@@ -347,30 +352,22 @@
             </div>
 
         <div id='state-legend' class='legend'>
-            <h4>Community Types</h4>
+            <h4>Community Partner Types</h4>
             <div id='legend' style="padding-bottom:5px;border-bottom: 1px solid grey;">
             </div>
 
-            <!--<select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">-->
+
                 <!--</select>-->
             <!--div id="sidebar"-->
-            <select id="selectMissionarea" class="selectMissionarea"></select>
+            <select  style="margin-top:10px;" id="selectMisstype" class="selectMisstype"></select>
+            <select id="selectCollege" class="selectCollege"></select>
             <select id="selectCampus" class="selectCampus"></select>
             <select id="selectYear" class="selectYear"></select>
+            <select id="selectDistrict" class="selectDistrict"></select>
             <div>
                 <input id='valueFilter' type='text' placeholder='Search Community Partner' />
             </div>
-            <!--<div id='incomelegend' style="padding-top:10px;padding-bottom:10px;border-top: 1px solid grey;border-bottom: 1px solid grey;">-->
-                <!--<div>-->
-                    <!--<a href='#' id="allincome"><span style='background-color: transparent; border: 2px solid black'></span><b>All income levels</b></a><br>-->
-                    <!--<a href='#' id="income1"><span style='background-color: #B8B8B8; border: 1px solid black'></span><b>$25,000 or less</b></a><br>-->
-                    <!--<a href='#' id="income2"><span style='background-color: #989898; border: 1px solid black'></span><b>$25,000 to $40,000</b></a><br>-->
-                    <!--<a href='#' id="income3"><span style='background-color: #808080; border: 1px solid black'></span><b>$40,000 to $60,000</b></a><br>-->
-                    <!--<a href='#' id="income4"><span style='background-color: #686868; border: 1px solid black'></span><b>$60,000 to $80,000</b></a><br>-->
-                    <!--<a href='#' id="income5"><span style='background-color: #505050; border: 1px solid black'></span><b>$80,000 to $100,000</b></a><br>-->
-                    <!--<a href='#' id="income6"><span style='background-color: #303030; border: 1px solid black'></span><b>$100,000 or more</b></a><br>-->
-                <!--</div>-->
-            <!--</div>-->
+
         </div>
 
     </nav>
@@ -404,15 +401,14 @@
                         </div>
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
-                                <div id='map' class='map'>
-                                    {{ countyData | json_script:"county-data"}}
-                                        <!--h3 id="overlay-header">Maps: Household Income</h3>
-                                        <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
+                                <div id='map_canvas' class='map'>
+                                    {{ districtData | json_script:"district-data"}}
                                     {{ collection | json_script:"commPartner-data"}}
                                     {{ Missionlist | json_script:"missionlist"}}
                                     {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
+                                    {{ College | json_script:"college-list"}}
 
                                 </div>
                             </div>
@@ -449,22 +445,15 @@ political affiliation in its programs, activities, or employment.
     </div>
 </div>
 
-<!--<div class='filter-ctrl'>-->
-<!--<input id='filter-input' type='text' name='filter' placeholder='Filter districts by a number' />-->
-<!--</div>-->
-
-<!--<div class='filter-ctrl2'>-->
-<!--<input id='filter-input2' type='text' name='filter2' placeholder='Search by Project' />-->
-<!--</div>
-		    <script type="text/javascript">
-        var countyData = "{{countymap}}";
-    </script>-->
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0"></script>
-<script type="text/javascript" src='{% static "js/googlemap.js" %}'></script>
 
-<!-- jQuery CDN - Slim version (=without AJAX) -->
-<!--script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script-->
+ <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
+
+<script type="text/javascript" src='{% static "js/googlemap.js" %}'></script>
 <!-- Popper.JS -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
 <!-- Bootstrap JS -->

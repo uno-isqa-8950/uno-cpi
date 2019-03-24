@@ -24,7 +24,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
-    zoom: 7,
+    zoom: 4,
     minZoom: 3,
     // maxZoom: 13,
     fullscreenControl: false,
@@ -181,14 +181,14 @@ var formatter = new Intl.NumberFormat('en-US', { //this is to format the current
 
 //*****************************************District layer*************************************************
 
-dist_data = map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
-
-    //Overlay for districts in Nebraska
-    map.data.setStyle({
-        fillColor: "#fee8c8",
-        fillOpacity: 0.4,
-        strokeWeight: 0.2
-    })
+// dist_data = map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+//
+//     //Overlay for districts in Nebraska
+//     map.data.setStyle({
+//         fillColor: "#fee8c8",
+//         fillOpacity: 0.4,
+//         strokeWeight: 0.2
+//     })
 
 
 

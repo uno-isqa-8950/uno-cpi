@@ -587,7 +587,7 @@ def engagement_info(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         project_mission_ids = [p.project_name_id for p in missions_filter.qs]
 
         year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -809,7 +809,7 @@ def EngagementType_Chart(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         project_mission_ids = [p.project_name_id for p in missions_filter.qs]
 
         year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())

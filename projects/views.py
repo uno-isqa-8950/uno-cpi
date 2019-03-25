@@ -563,7 +563,7 @@ def communityPublicReport(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
 
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -678,7 +678,7 @@ def communityPrivateReport(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
 
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())

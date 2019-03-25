@@ -56,6 +56,8 @@
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'EngagementType_Chart' %}' " value="Reset Filters" >
+
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -114,8 +116,16 @@
                     </div>
 
                     <div class="col-lg-3 col-md-5 form-group embed-responsive">
-                    <label for="college-name"> College Name</label>
-                        <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <label for="college-name"> College Names
+                              {% for data_definition in data_definition %}
+                                {% if data_definition.id == 43%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                          data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                    </label>
+                        <select  style="width: 3%" id="id_college_name" name="college_name" onchange="this.form.submit()">
                             <option> All </option>
                                 {% for college in college_filter.form.college_name %}
                                     {{college}}
@@ -157,8 +167,8 @@
                         {% endfor %}
                     </select>
                     </div>
-                    <div class="col-lg-3 col-md-5 form-group">
-                        <label for="community_type"> Community Types
+                    <div class="col-lg-5 col-md-7 form-group">
+                        <label for="community_type"> Community Partner Types
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 33%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"

@@ -232,7 +232,7 @@
                         {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
                     </div>
                     <div class="show-more">
-                        {% if project.communityPartner|length > 1 %}
+                        {% if project.campusPartner|length > 1 %}
                         <a href="#" style="color:#d71920">Show more</a>
                         {% endif %}
                     </div>

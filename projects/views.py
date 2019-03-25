@@ -655,7 +655,7 @@ def projectsPrivateReport(request):
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 
-@admin_required()
+@login_required()
 def communityPrivateReport(request):
     community_dict = {}
     community_list = []

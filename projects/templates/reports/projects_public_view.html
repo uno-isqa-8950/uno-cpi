@@ -208,8 +208,8 @@
 
             <tr>
                 <th>Projects</th>
-                <th>Campus Partners</th>
                 <th>Community Partners</th>
+                <th>Campus Partners</th>
                 <th>Engagement Types</th>
             </tr>
             </thead>
@@ -219,17 +219,17 @@
                 <td>{{project.projectName}}</td>
                 <td>
                     <div class="content hideContent">
-                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
+                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
                     </div>
                     <div class="show-more">
-                        {% if project.campusPartner|length > 1 %}
+                        {% if project.communityPartner|length > 1 %}
                         <a href="#" style="color:#d71920">Show more</a>
                         {% endif %}
                     </div>
                 </td>
                 <td>
                     <div class="content hideContent">
-                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
                     </div>
                     <div class="show-more">
                         {% if project.campusPartner|length > 1 %}

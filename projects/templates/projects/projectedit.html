@@ -162,8 +162,28 @@ input[id=id_start_date],input[id=id_end_date]
 {% endblock %}
 
 
-
 {% block custom_js %}
+    <script type="text/javascript">
+    window.onsubmit = function formset_delete() {
+        var id_comm = document.getElementById('id_community_edit-0-community_partner');
+        var val_comm = id_comm.options[id_comm.selectedIndex].text;
+        if (val_comm === '---------') {
+            document.getElementById('id_community_edit-0-DELETE').click()
+        }
+        var id_camp = document.getElementById('id_campus_edit-0-campus_partner');
+        var val_camp = id_camp.options[id_camp.selectedIndex].text;
+        if (val_camp === '---------') {
+            document.getElementById('id_campus_edit-0-DELETE').click()
+        }
+        var id_miss = document.getElementById('id_mission_edit-0-mission');
+        var val_miss = id_miss.options[id_miss.selectedIndex].text;
+        var id_misstype = document.getElementById('id_mission_edit-0-mission_type');
+        var val_misstype = id_misstype.options[id_misstype.selectedIndex].text;
+        if (val_miss === '---------' || val_misstype === '---------') {
+            document.getElementById('id_mission_edit-0-DELETE').click()
+        }
+    }
+    </script>
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -175,7 +195,6 @@ function updateElementIndex(el, prefix, ndx) {
 function cloneMore(selector, prefix) {
     var newElement = $(selector).clone(true);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    console.log(total)
     newElement.find(':input').each(function() {
         var name = $(this).attr('name')
         if(name) {
@@ -195,7 +214,6 @@ function cloneMore(selector, prefix) {
 }
 function deleteForm(prefix, btn) {
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-  console.log('In deleteForm - total', total);
   if (total > 1) {
     btn.closest('.' + prefix + '-row').remove();
     var forms = $('.' + prefix + '-row');
@@ -225,7 +243,7 @@ $(document).on('click', '.add-campus_edit-row', function(e){
     cloneMore('.campus_edit-row:last', 'campus_edit');
     return false;
 });
-$(document).on('click', '.remove_edit-mission-row', function(e){
+$(document).on('click', '.remove-mission_edit-row', function(e){
     e.preventDefault();
     deleteForm('mission_edit', $(this));
     return false;
@@ -247,6 +265,8 @@ $(document).on('click', '.remove-campus_edit-row', function(e){
 $(".add-mission_edit-row").slice(0, -1).hide();
 $(".add-community_edit-row").slice(0, -1).hide();
 $(".add-campus_edit-row").slice(0, -1).hide();
+
+
 </script>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file

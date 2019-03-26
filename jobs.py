@@ -20,9 +20,10 @@ sql = sqlfiles
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 # @sched.scheduled_job('interval', minutes=5)
-@sched1.generateGEOJSON('cron', day_of_week='mon-sun', hour=20)
+
 
 def generateGEOJSON():
+    @sched1.scheduled_job('cron', day_of_week='mon-sun', hour=20)
     os.system(Partner_GEOJSON)
     os.system(Project_GEOJSON)
 

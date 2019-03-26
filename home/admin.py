@@ -72,7 +72,7 @@ class DataDefinitionResource(resources.ModelResource):
 
 class DataDefinitionList(ImportExportModelAdmin):
     list_display = ('title','description','group')
-    search_fields = ('title',)
+    search_fields = ('title','group__group')
     resource_class = DataDefinitionResource
 
 
@@ -91,7 +91,7 @@ class ContactAdmin(ImportExportModelAdmin):
     resource_class = ContactResource
     list_display = ('first_name', 'last_name', 'work_phone', 'cell_phone', 'email_id', 'contact_type','community_partner', 'campus_partner')
 
-    search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner', 'campus_partner')
+    search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner__name', 'campus_partner__name')
 
 
 

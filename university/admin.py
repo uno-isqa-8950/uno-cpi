@@ -16,7 +16,7 @@ class UniversityList(admin.ModelAdmin):
 
     list_display = ('name', 'education_system')
 
-    search_fields = ('name', 'education_system')
+    search_fields = ('name', 'education_system__name')
 
 
 class CollegeResource(resources.ModelResource):
@@ -28,7 +28,7 @@ class CollegeList(ImportExportModelAdmin):
 
     list_display = ('college_name', 'university')
 
-    search_fields = ('college_name', 'university')
+    search_fields = ('college_name', 'university__name')
 
     resource_class = CollegeResource
 
@@ -42,7 +42,7 @@ class DepartmentList(ImportExportModelAdmin):
 
     list_display = ('department_name', 'college_name')
 
-    search_fields = ('department_name', 'college_name')
+    search_fields = ('department_name', 'college_name__college_name')
 
     resource_class = DepartmentResource
 
@@ -56,7 +56,7 @@ class CourseList(ImportExportModelAdmin):
 
     list_display = ('prefix', 'number', 'name','project_name', 'university')
 
-    search_fields =  ('prefix', 'number', 'name','project_name', 'university')
+    search_fields =  ('prefix', 'number', 'name','project_name__project_name', 'university__name')
 
     resource_class = CourseResource
 

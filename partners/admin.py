@@ -28,7 +28,7 @@ class CampusPartnerList(ImportExportModelAdmin):
 
     list_display = ('name', 'college_name','department','weitz_cec_part','active')
 
-    search_fields = ('name', 'college_name','department','weitz_cec_part','active')
+    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active')
 
     resource_class = CampusPartnerResource
 
@@ -41,7 +41,7 @@ class CampusPartnerUserList(ImportExportModelAdmin):
 
     list_display = ('campus_partner', 'user')
 
-    search_fields = ('campus_partner', 'user')
+    search_fields = ('campus_partner__name', 'user__email')
 
     resource_class = CampusPartnerUserResource
 
@@ -54,7 +54,7 @@ class CommunityPartnerUserResource(resources.ModelResource):
 class CommunityPartnerUserList(ImportExportModelAdmin):
     list_display = ('community_partner', 'user')
 
-    search_fields = ('community_partner', 'user')
+    search_fields = ('community_partner__name', 'user__email')
 
     resource_class = CommunityPartnerUserResource
 
@@ -67,7 +67,7 @@ class CommunityPartnerMissionResource(resources.ModelResource):
 class CommunityPartnerMissionList(ImportExportModelAdmin):
     list_display = ('community_partner','mission_area','mission_type')
 
-    search_fields = ('community_partner','mission_area','mission_type')
+    search_fields = ('community_partner__name','mission_area__mission_name','mission_type')
 
     resource_class = CommunityPartnerMissionResource
 

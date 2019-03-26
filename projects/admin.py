@@ -17,7 +17,7 @@ class ProjectList(ImportExportModelAdmin):
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')
 
-    search_fields = ('name', 'engagement_type', 'status', 'activity_type', 'facilitator', 'semester', 'city',
+    search_fields = ('project_name', 'engagement_type__name', 'status__name', 'activity_type__name', 'facilitator', 'semester', 'city',
                      'start_date', 'end_date', 'country')
 
     resource_class = ProjectResource
@@ -33,7 +33,7 @@ class ProjectMissionList(ImportExportModelAdmin):
 
     list_display = ('project_name', 'mission_type', 'mission')
 
-    search_fields = ('project_name', 'mission_type', 'mission')
+    search_fields = ('project_name__project_name', 'mission_type', 'mission__mission_name')
 
     resource_class = ProjectMissionResource
 
@@ -47,7 +47,7 @@ class ProjectCommunityPartnerList(ImportExportModelAdmin):
 
     list_display = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
 
-    search_fields = ('project_name', 'community_partner', 'no_people')
+    search_fields = ('project_name__project_name', 'community_partner__name')
 
     resource_class = ProjectCommunityPartnerResource
 
@@ -61,7 +61,7 @@ class ProjectCampusPartnerList(ImportExportModelAdmin):
 
     list_display = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
 
-    search_fields = ('project_name', 'campus_partner', 'no_people')
+    search_fields = ('project_name__project_name', 'campus_partner__name')
 
     resource_class = ProjectCampusPartnerResource
 

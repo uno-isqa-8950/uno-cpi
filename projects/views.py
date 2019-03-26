@@ -161,10 +161,7 @@ def project_total_Add(request):
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year)
             eng = str(proj.engagement_type)
-            if eng == "Service Learning":
-                course = course.save(commit=False)
-                course.project_name = proj
-                course.save()
+
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
                 fulladdress = proj.address_line1 + ' ' + proj.city

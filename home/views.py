@@ -289,7 +289,8 @@ def upload_project(request):
             form = UploadProjectForm(data_dict)
             campus = data_dict['campus_partner'] in campus_names
             community = data_dict['community_partner'] in community_names
-            if campus and community and form.is_valid():
+            if campus and form.is_valid():
+            # if campus and community and form.is_valid(): ##Replacing this with above so it only requires a campus partner to upload projects
                 form.save()
                 form_campus = UploadProjectCampusForm(data_dict)
                 form_community = UploadProjectCommunityForm(data_dict)

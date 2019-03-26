@@ -705,7 +705,7 @@ $("#reset").click(function () {
 });
 
 //To vary the total number of projects based on the filter selected
-function calculation(a, b, c, d, e) {
+function calculation(a, b, c, d, e,f) {
     var totalnumber = '';
     var number = 0;
 

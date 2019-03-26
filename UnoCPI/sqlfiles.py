@@ -171,7 +171,7 @@ order by p.community_partner_id)
 
 update_project_to_inactive_sql = """
 --UPDATE PROJECT STATUS TO COMPLETED
-UPDATE public.public.projects_project SET status_id = 2 WHERE id in
+UPDATE public.projects_project SET status_id = 2 WHERE id in
 (select p.id 
 from all_projects_start_and_end_dates p
 where proj_status = 'Inactive'
@@ -180,7 +180,7 @@ where proj_status = 'Inactive'
 
 update_project_to_active_sql = """
 --UPDATE PROJECT STATUS TO ACTIVE
-UPDATE public.public.projects_project SET status_id = 1 WHERE id in
+UPDATE public.projects_project SET status_id = 1 WHERE id in
 (select p.id 
 from all_projects_start_and_end_dates p
 where proj_status = 'Active'

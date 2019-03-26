@@ -1,6 +1,6 @@
 from decimal import *
 from django.db import connection
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from numpy import shape
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
@@ -16,7 +16,7 @@ from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCamp
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
-from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2
+from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
 from django.forms import inlineformset_factory, modelformset_factory
 from .filters import SearchProjectFilter
 import googlemaps
@@ -161,10 +161,7 @@ def project_total_Add(request):
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year)
             eng = str(proj.engagement_type)
-            if eng == "Service Learning":
-                course = course.save(commit=False)
-                course.project_name = proj
-                course.save()
+
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
                 fulladdress = proj.address_line1 + ' ' + proj.city
@@ -288,9 +285,11 @@ def project_total_Add(request):
 @login_required()
 @campuspartner_required()
 def project_edit_new(request,pk):
-    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,can_delete=False, form=ProjectMissionFormset)
-    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0, can_delete=False, form=AddProjectCommunityPartnerForm)
-    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0, can_delete=False,  form=AddProjectCampusPartnerForm)
+
+    mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
+    proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
+    proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0,min_num=1, can_delete=True,  form=AddProjectCampusPartnerForm)
+    #print('print input to edit')
 
     if request.method == 'POST':
         proj_edit = Project.objects.filter(id=pk)
@@ -298,15 +297,15 @@ def project_edit_new(request,pk):
             project = ProjectForm2(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
 
-        formset_missiondetails = mission_edit_details(request.POST ,request.FILES, instance =x)
-        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x)
-        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x)
-        if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid():
+        formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
+        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
+        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
+        if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
 
                 instances = project.save()
-                pm = formset_missiondetails.save(commit=False)
-                compar= formset_comm_details.save(commit=False)
-                campar= formset_camp_details.save(commit=False)
+                pm = formset_missiondetails.save()
+                compar= formset_comm_details.save()
+                campar= formset_camp_details.save()
 
                 for k in pm:
                     k.project_name = instances
@@ -365,8 +364,8 @@ def project_edit_new(request,pk):
 
                         projects_list.append(data)
 
-
-                return render(request, 'projects/Projectlist.html', {'project': projects_list})
+                return HttpResponseRedirect("/campususerproject")
+                #return render(request, 'projects/Projectlist.html', {'project': projects_list})
 
     else:
 
@@ -380,9 +379,9 @@ def project_edit_new(request,pk):
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
             # course_details = course(instance= x)
-            formset_missiondetails = mission_edit_details(instance=x)
-            formset_comm_details = proj_comm_part_edit(instance=x)
-            formset_camp_details = proj_campus_part_edit(instance=x)
+            formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
+            formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
+            formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
             return render(request,'projects/projectedit.html',{'project': project,'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
@@ -486,7 +485,7 @@ def projectsPublicReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name_id=project)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project, mission_type='Primary')
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
@@ -561,7 +560,7 @@ def communityPublicReport(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
 
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -597,7 +596,7 @@ def projectsPrivateReport(request):
     camp_part = []
     comm_part = []
     for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name_id=project.id)
+        projectMissions = ProjectMission.objects.filter(project_name_id=project.id, mission_type='Primary')
         data = {}
         for mission in projectMissions:
             if mission in missions.qs:
@@ -653,7 +652,7 @@ def projectsPrivateReport(request):
                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 
-@admin_required()
+@login_required()
 def communityPrivateReport(request):
     community_dict = {}
     community_list = []
@@ -676,7 +675,7 @@ def communityPrivateReport(request):
         campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
         campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
         mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
 
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())

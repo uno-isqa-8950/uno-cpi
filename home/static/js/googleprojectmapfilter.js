@@ -28,10 +28,91 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
-    zoom: 7,
+    zoom: 5,
+    minZoom: 3,
+    // maxZoom: 13,
     fullscreenControl: false,
-    mapTypeControl: false
+    mapTypeControl: false,
+    styles: [
+        {
+            "featureType": "landscape",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi",
+            "elementType": "labels.text",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "poi.business",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road",
+            "elementType": "labels.icon",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.arterial",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "geometry.stroke",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.highway",
+            "elementType": "labels",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "road.local",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        },
+        {
+            "featureType": "transit",
+            "stylers": [
+                {
+                    "visibility": "off"
+                }
+            ]
+        }
+    ]
 });
+
 
 //*********************************** Add the districts *****************************************************
 
@@ -56,7 +137,7 @@ $('#legend').html(select);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select1 = '';
-select1 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Mission Areas' + '</option>';
+select1 += '<option val=' + "allmiss" + ' selected="selected">' + 'All Mission Areas' + '</option>';
 for (i = 0; i < Missionarea.length; i++) {
     select1 += '<option val=' + Missionarea[i] + '>' + Missionarea[i] + '</option>';
 }
@@ -102,7 +183,7 @@ $('#selectCommunity').html(select3);
 //*********************************** Add Community Partner *****************************************************
 
 var select7 = '';
-select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All College Names' + '</option>';
+select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All College' + '</option>';
 for (i = 0; i < CollegeNamelist.length; i++) {
     select7 += '<option val=' + i + '>' + CollegeNamelist[i] + '</option>';
 }
@@ -127,7 +208,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         data: districtData,
     });
     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
-    console.log(districtData)
+    // console.log(districtData)
 
     map.data.setStyle({
         fillColor: "#fee8c8",
@@ -137,12 +218,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
 // circle added to the map
     var circle = {
-        path: google.maps.SymbolPath.CIRCLE,
-        fillOpacity: 0.75,
-        strokeOpacity: 0.9,
+       path: google.maps.SymbolPath.CIRCLE,
+        fillOpacity: 0.6,
+        strokeOpacity: 1,
         scale: 8,
         strokeColor: 'white',
-        strokeWeight: 1.5,
+        strokeWeight: 1.5
     };
 
     // contents of the infowindow
@@ -158,7 +239,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     console.log(projectData.features)
     for (i=0; i<projectData.features.length; i++) {
         var category = projectData.features[i].properties["Legislative District Number"]
-        var academic = projectData.features[i].properties["Academic year"]
+        var academic = projectData.features[i].properties["Academic Year"]
         var engagementType = projectData.features[i].properties["Engagement Type"]
         var mission = projectData.features[i].properties["Mission Area"]
         var commType = projectData.features[i].properties["Community Partner Type"]
@@ -192,7 +273,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         oms.addMarker(marker);
 
         function markercolor(engagementType) {
-
             if (engagementType == "Community-Based Learning"){
                 return circle.fillColor= colorcode[0]
             }
@@ -213,7 +293,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
         attachMessage(marker, proj_name[i].properties['Project Name'],miss_name[i].properties['Mission Area'],
             comm_partner[i].properties['Community Partner'], comm_partner_type[i].properties['Community Partner Type'],
-            campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic year'],
+            campus_partner[i].properties['Campus Partner'], academic_year[i].properties['Academic Year'],
             eng_type[i].properties['Engagement Type'] );
         markers.push(marker)
 
@@ -225,7 +305,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
 
 var mcOptions = {
-    minimumClusterSize: 5, //minimum number of points before which it should be clustered
+    minimumClusterSize: 10, //minimum number of points before which it should be clustered
     maxZoom: 15,
     styles: [{
         height: 53,
@@ -254,41 +334,36 @@ var mcOptions = {
         }]
 };
 
-// To prevent Info window opening on the first click on spiderfier
-oms.addListener('spiderfy', function(markers) {
-     // markers.setIcon(#007200);
-    infowindow.close();
-
-    // markers.setIcon("https://googlemaps.github.io/js-marker-clusterer/images/m2.png");
-})
-
+var openedInfoWindow=null;
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, projectName, missionArea,comm_partner, comm_partner_type, campus_partner,academic_year, eng_type) {
-    var infowindow = new google.maps.InfoWindow({
-        content: '<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName + '</td></tr><br />' +
+    var infowindow = new google.maps.InfoWindow();
+    google.maps.event.addListener(marker, 'click', function () {
+        if (openedInfoWindow != null) openedInfoWindow.close();
+        infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>'
-    });
-    //listner to check for on click event
-    marker.addListener('click', function() {
-        // infowindow.open(marker.get('map'), marker);
-        setTimeout(function () {
-            infowindow.close();
-        }, 5000);
-
+            '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
         infowindow.open(map, marker);
-
-        google.maps.event.addListener(map, "click", function (event) {
-            infowindow.close();
-        })
-
-    })
+        // map.setZoom(16);
+        map.panTo(this.getPosition());
+        openedInfoWindow = infowindow;
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
+            openedInfoWindow = null;
+        });
+    });
 }
+
+// To prevent Info window opening on the first click on spiderfier
+oms.addListener('spiderfy', function(markers) {
+    infowindow.close();
+})
+
+
 ///***********************************filter by clickable legends*****************************************************
 
 
@@ -604,6 +679,9 @@ $("#reset").click(function() {
     filterlist[5] = "all";
     filterlist[6] = "all";
     filterlist[7] = "all";
+    for (var k=0; k<states.length; k++) {
+        states[k].setMap(null);
+    }
     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4],filterlist[5],filterlist[6],
         filterlist[7]);
     $('#selectCommtype option').prop('selected', function() {

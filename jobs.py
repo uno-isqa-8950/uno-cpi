@@ -24,11 +24,8 @@ sql = sqlfiles
 
 def generateGEOJSON():
     @sched1.scheduled_job('cron', day_of_week='mon-sun', hour=20)
-    print('Start executing the files')
     Partner_GEOJSON
-    print('Executed Partner geojson file')
     Project_GEOJSON
-    print('Executed Partner geojson file')
     
 def scheduled_job():
     print('This job is ran every day at 11pm.')

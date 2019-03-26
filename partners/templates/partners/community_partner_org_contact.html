@@ -43,7 +43,7 @@
         {
             float:right;
         }
-    th{
+    th,td{
         text-align: center;
     }
         .panel {
@@ -54,7 +54,9 @@
             -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
         }
-
+    .container{
+            max-width: 1000px;
+        }
 
     </style>
 
@@ -101,4 +103,27 @@
     </div>
 
     <br><br><br>
+{% endblock %}
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       <!--To remove search function from mission area report-->
+       searching: false,
+       buttons: {
+       name: 'primary',
+       buttons: [ 'excel', 'pdf']
+       },
+       paging: false,
+       info: false,
+   });
+
+   } );
+</script>
 {% endblock %}

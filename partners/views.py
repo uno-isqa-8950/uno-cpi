@@ -278,10 +278,6 @@ def orgProfile(request):
     if request.user.is_communitypartner:
         community_user = CommunityPartnerUser.objects.filter(user=request.user.id)
         community_partners = []
-        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
-        # community_partner.type = str(community_partner.community_type)
-        # contacts = Contact.objects.values().filter(community_partner=community_partner.id)
-        # missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
         for user in community_user:
             community_partner = CommunityPartner.objects.filter(name= user.community_partner)
             community_partners.extend(community_partner)
@@ -307,26 +303,12 @@ def orgProfileUpdate(request, pk):
 
     if request.user.is_communitypartner:
         community_partner = get_object_or_404(CommunityPartner, pk=pk)
-        # community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
-        org_type = str(community_partner.community_type)
-        # contacts = Contact.objects.filter(community_partner=community_partner.id).first()
-        # missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
 
         if request.method == 'POST':
-            if "k12_level" not in request.POST:
-                request.POST._mutable = True
-                request.POST['k12_level'] = community_partner.k12_level
-                request.POST._mutable = False
-
             community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
-            # contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
-            # missions_form = CommunityMissionForm(data=request.POST, instance=missions)
 
-            if community_org_form.is_valid(): #and contacts_form.is_valid() and missions_form.is_valid():
+            if community_org_form.is_valid():
                 community_org_form.save()
-                # contacts_form.save()
-                # missions_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
@@ -335,12 +317,9 @@ def orgProfileUpdate(request, pk):
 
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
-            # contacts_form = CommunityContactForm(instance=contacts)
-            # missions_form = CommunityMissionForm(instance=missions)
 
         return render(request,
-                          'partners/community_partner_org_update.html', {'community_org_form': community_org_form,
-                          'org_type' : org_type,
+                          'partners/community_partner_org_update.html', {'community_org_form': community_org_form
                           })
 
     elif request.user.is_campuspartner:

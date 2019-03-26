@@ -58,6 +58,22 @@
     .showContent {
         height: auto;
     }
+
+    .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
 </style>
 
 <div class="container">
@@ -121,7 +137,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-3 col-md-5 form-group">
                     <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
@@ -156,6 +172,23 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-5 form-group">
+                    <label for="college_name"> College Names
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 43%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for college in campusPartners.form.college_name %}
+                            {{college}}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-5 form-group">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -172,8 +205,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group">
-                    <label for="community_type"> Community Types
+                <div class="col-lg-5 col-md-7 form-group">
+                    <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -214,8 +247,8 @@
             <thead>
             <tr>
                 <th>Projects</th>
-                <th>Campus Partners</th>
                 <th>Community Partners</th>
+                <th>Campus Partners</th>
                 <th>Engagement Types</th>
                 <th>Number of UNO Students</th>
                 <th>Number of UNO Students Hours</th>
@@ -229,6 +262,16 @@
                 <td>{{project.projectName}}</td>
                 <td>
                     <div class="content hideContent">
+                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.communityPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="content hideContent">
                         {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
                     </div>
                     <div class="show-more">
@@ -237,7 +280,6 @@
                         {% endif %}
                     </div>
                 </td>
-                <td>{% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %} </td>
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_UNO_students}}</td>
                 <td>{{project.total_hours}}</td>
@@ -275,6 +317,7 @@ $(document).ready(function(){
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
+    $('#id_college_name').select2({placeholder: 'All Colleges',width: '200px'});
 
 });
 </script>
@@ -283,7 +326,7 @@ $(document).ready(function(){
 
 {% block custom_js %}
 
-<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(".show-more a").on("click", function(e) {
   e.preventDefault();

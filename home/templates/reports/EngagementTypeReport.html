@@ -108,7 +108,7 @@
             </div>
             <div class="col-lg-3 col-md-5 form-group">
             <label for="academic_year"> Academic Years
-                     {% for data_definition in data_definition %}
+                {% for data_definition in data_definition %}
                     {% if data_definition.id == 32%}
                         <span tabindex="-1" data-toggle="popover" data-trigger="focus"
                               data-content="{{ data_definition.description }}" class="float" >
@@ -124,7 +124,14 @@
                 </select>
             </div>
             <div class="col-lg-3 col-md-5 form-group">
-            <label for="college_name"> College Name
+            <label for="college_name"> College Names
+                {% for data_definition in data_definition %}
+                    {% if data_definition.id == 43%}
+                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                              data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    {% endif %}
+                {% endfor %}
             </label>
                 <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                     <option> All </option>
@@ -169,7 +176,7 @@
                             {% endfor %}
                     </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group">
+            <div class="col-lg-5 col-md-7 form-group">
                 <label for="community_type"> Community Partner Types
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 33%}
@@ -291,6 +298,22 @@ $(document).ready(function(){
     div.dataTables_wrapper div.dataTables_paginate
     {
         float:right;
+    }
+
+     .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
     }
 
 </style>

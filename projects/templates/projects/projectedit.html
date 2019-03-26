@@ -31,6 +31,31 @@ input[id=id_start_date],input[id=id_end_date]
 {
    margin-left:22px
 }
+.panel {
+  margin-bottom: 1%;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+ .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
 
 </style>
 
@@ -43,12 +68,17 @@ input[id=id_start_date],input[id=id_end_date]
                 <div class="panel-heading text-center"><h4>Edit Project</h4></div>
                     <div class="panel-body" style="margin-top:10px;">
                         <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
+                            {{formset_missiondetails.management_form}}
+                            {{formset_comm_details.management_form}}
+                            {{formset_camp_details.management_form}}
+
+
                             {{project.project_name|bootstrap}}
                             {{ project.status|bootstrap}}
                             {{project.engagement_type|bootstrap}}
-                            {{ course.name|bootstrap }}
-                            {{ course.prefix|bootstrap }}
-                            {{ course.number|bootstrap }}
+{#                            {{ course.name|bootstrap }}#}
+{#                            {{ course.prefix|bootstrap }}#}
+{#                            {{ course.number|bootstrap }}#}
                             {{project.activity_type|bootstrap}}
 {#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
@@ -69,14 +99,76 @@ input[id=id_start_date],input[id=id_end_date]
                             {{ project.state|bootstrap }}
                             {{ project.zip|bootstrap }}
                             {{ project.country|bootstrap }}
-                            {{ formset_missiondetails|bootstrap }}
-                            {{ formset_comm_details|bootstrap }}
-                            {{ formset_camp_details|bootstrap }}
-                            <div class="row justify-content-md-center" style="margin-top:30px;">
-                                <div class="col-lg-2 col-md-5">
-                                    <button type="submit" class="save btn btn-custom">Update</button>
+                             <div class="mission" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Mission Areas
+                                        </h6>
+                                    </div>
+                            {% for missform in formset_missiondetails %}
+                                <div class="mission_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+
+                                                {{ missform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-mission_edit-row">Add an Additional Mission Areas</button><span></span>
+                                    </div>
                                 </div>
+                            {% endfor %}
                             </div>
+
+                            <div class="community" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Community Partners
+                                        </h6>
+                                    </div>
+                            {% for commform in formset_comm_details %}
+                                <div class="community_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{ commform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-community_edit-row">Add an Additional Community Partner</button><span></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                            <div class="campus" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Campus Partners
+                                        </h6>
+                                    </div>
+                            {% for campform in formset_camp_details %}
+                                <div class="campus_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{ campform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-campus_edit-row">Add an Additional Campus Partner</button><span></span>
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                        <div class="row justify-content-md-center" style="margin-top:30px;">
+                            <div class="col-lg-2 col-md-5">
+                                <button type="submit" class="save btn btn-custom">Update</button>
+                            </div>
+                        </div>
                         </form><br><br>
                     </div>
                 </div>
@@ -88,57 +180,112 @@ input[id=id_start_date],input[id=id_end_date]
 {% endblock %}
 
 
-
 {% block custom_js %}
+    <script type="text/javascript">
+    window.onsubmit = function formset_delete() {
+        var id_comm = document.getElementById('id_community_edit-0-community_partner');
+        var val_comm = id_comm.options[id_comm.selectedIndex].text;
+        if (val_comm === '---------') {
+            document.getElementById('id_community_edit-0-DELETE').click()
+        }
+        var id_camp = document.getElementById('id_campus_edit-0-campus_partner');
+        var val_camp = id_camp.options[id_camp.selectedIndex].text;
+        if (val_camp === '---------') {
+            document.getElementById('id_campus_edit-0-DELETE').click()
+        }
+        var id_miss = document.getElementById('id_mission_edit-0-mission');
+        var val_miss = id_miss.options[id_miss.selectedIndex].text;
+        var id_misstype = document.getElementById('id_mission_edit-0-mission_type');
+        var val_misstype = id_misstype.options[id_misstype.selectedIndex].text;
+        if (val_miss === '---------' || val_misstype === '---------') {
+            document.getElementById('id_mission_edit-0-DELETE').click()
+        }
+    }
+    </script>
+<script type="text/javascript">
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
+    .removeClass('btn-success')
+    .removeClass('add-' + prefix + '-row')
+    return false;
+}
+function deleteForm(prefix, btn) {
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  if (total > 1) {
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
+}
+$(document).on('click', '.add-mission_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission_edit-row:last', 'mission_edit');
+    return false;
+});
+$(document).on('click', '.add-community_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.community_edit-row:last', 'community_edit');
+    return false;
+});
+$(document).on('click', '.add-campus_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.campus_edit-row:last', 'campus_edit');
+    return false;
+});
+$(document).on('click', '.remove-mission_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('mission_edit', $(this));
+    return false;
+});
+
+$(document).on('click', '.remove-community_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('community_edit', $(this));
+    return false;
+});
+$(document).on('click', '.remove-campus_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('campus_edit', $(this));
+    return false;
+});
+</script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
-window.onload = function () {
+$(".add-mission_edit-row").slice(0, -1).hide();
+$(".add-community_edit-row").slice(0, -1).hide();
+$(".add-campus_edit-row").slice(0, -1).hide();
 
-   var val = $("#id_engagement_type").val();
-            if (val === '3') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
 
-            }
-
-}
 </script>
-
-<script>
-    $(function(){
-        function hideInputs() {
-            $("label.control-label[for=id_name], input#id_name").hide();
-            $("#id_id_name").hide();
-            $("label.control-label[for=id_prefix], input#id_prefix").hide();
-            $("#id_prefix").hide();
-            $("label.control-label[for=id_number], input#id_number").hide();
-            $("#id_number").hide();
-
-            console.log('label.control-label[for=id_name], input#id_name');
-            }
-        $("#id_engagement_type").on('change', function(){
-            var val = $("#id_engagement_type").val();
-            if (val === '3') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-            $("#id_prefix").show();
-            $("label.control-label[for=id_number], input#id_number").show();
-            $("#id_number").show();
-
-            }
-            else {
-                hideInputs();
-            }
-        });
-        hideInputs();
-    });
-</script>
-
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
         -Joseph Nabity
@@ -227,31 +374,31 @@ $(document).ready(function(){
               placeholder: 'Select a Status',
       }
   );
-  $('#id_projectmission_set-0-mission_type').select2(
-      {
-              placeholder: 'Select a Mission Type',
-      }
-  );
-  $('#id_projectmission_set-0-mission').select2(
-      {
-              placeholder: 'Select a Mission',
-      }
-  );
-  $('#id_projectcommunitypartner_set-0-community_partner').select2(
-      {
-              placeholder: 'Select a Community Partner',
-      }
-  );
-   $('#id_projectcampuspartner_set-0-campus_partner').select2(
-      {
-              placeholder: 'Select a Campus Partner',
-      }
-  );
-   $('#id_projectcampuspartner_set-1-campus_partner').select2(
-      {
-              placeholder: 'Select a Campus Partner',
-      }
-  );
+  {#$('#id_projectmission_set-0-mission_type').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Mission Type',#}
+  {#    }#}
+  {#);#}
+  {#$('#id_projectmission_set-0-mission').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Mission',#}
+  {#    }#}
+  {#);#}
+  {#$('#id_projectcommunitypartner_set-0-community_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Community Partner',#}
+  {#    }#}
+  {#);#}
+  {# $('#id_projectcampuspartner_set-0-campus_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Campus Partner',#}
+  {#    }#}
+  {#);#}
+  {# $('#id_projectcampuspartner_set-1-campus_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Campus Partner',#}
+  {#    }#}
+  {#);#}
 });
 </script>
 <style>

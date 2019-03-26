@@ -53,6 +53,24 @@ label, .btn-default
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
 
+
+ .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
+
+
 </style>
 
  <div class = "container-fluid">
@@ -178,6 +196,22 @@ label, .btn-default
 <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <!--script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script-->
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       <!--To remove search function from mission area report-->
+       searching:false,
+       buttons: {
+       name: 'primary',
+       buttons: ['csv', 'excel' ]
+       }
+   });
+
+   } );
+</script>
 
 
 <script type="text/javascript">

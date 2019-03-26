@@ -9,51 +9,91 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, MultiFieldPanel, StreamFieldPanel, PageChooserPanel
 from wagtail.images.edit_handlers import ImageChooserPanel
 from .blocks import BaseStreamBlock
+from wagtail.contrib.routable_page.models import RoutablePageMixin, route
+from wagtail.snippets.models import register_snippet
 
-class StandardPage(Page):
+@register_snippet
+class Campus_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
 
-    introduction = models.TextField(
-        help_text='Text to describe the page',
-        blank=True)
-    image = models.ForeignKey(
-        'wagtailimages.Image',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        related_name='+',
-        help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
-    )
-
-    body = StreamField(
-        BaseStreamBlock(), verbose_name="Page body", blank=True
-    )
-    content_panels = Page.content_panels + [
-        FieldPanel('introduction', classname="full"),
-        StreamFieldPanel('body'),
-        ImageChooserPanel('image'),
+    panels = [
+        FieldPanel('text'),
     ]
 
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner Snippet"
+
+@register_snippet
+class Campus_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner User Snippet"
+
+@register_snippet
+class Community_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner Snippet"
+
+@register_snippet
+class Community_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner User Snippet"
 
 class HomePage(Page):
+
+    # Hero section of HomePage
     image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='+',
-        help_text='Homepage Hero Image'
+        help_text='Homepage image'
     )
-
     hero_text = models.CharField(
         max_length=255,
-        help_text='Write Hero Text Here',
-        default='default'
+        help_text='Write an introduction for the bakery'
         )
 
+    # Body section of the HomePage
     body = StreamField(
         BaseStreamBlock(), verbose_name="Home content block", blank=True
     )
 
+    bottom = StreamField(
+        BaseStreamBlock(), verbose_name="Home content block", blank=True
+    )
+
+    # Promo section of the HomePage
     promo_image = models.ForeignKey(
         'wagtailimages.Image',
         null=True,
@@ -107,11 +147,29 @@ class HomePage(Page):
         'three child items.',
         verbose_name='Featured section 2'
     )
+
+    featured_section_3_title = models.CharField(
+        null=True,
+        blank=True,
+        max_length=255,
+        help_text='Title to display above the promo copy'
+    )
+    featured_section_3 = models.ForeignKey(
+        'wagtailcore.Page',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Third featured section for the homepage. Will display up to '
+        'six child items.',
+        verbose_name='Featured section 3'
+    )
+
     content_panels = Page.content_panels + [
         MultiFieldPanel([
             ImageChooserPanel('image'),
-            FieldPanel('hero_text', classname="full")],
-            heading="Hero section"),
+            FieldPanel('hero_text', classname="full"),
+        ], heading="Hero section"),
         MultiFieldPanel([
             ImageChooserPanel('promo_image'),
             FieldPanel('promo_title'),
@@ -126,8 +184,13 @@ class HomePage(Page):
             MultiFieldPanel([
                 FieldPanel('featured_section_2_title'),
                 PageChooserPanel('featured_section_2'),
+                ]),
+            MultiFieldPanel([
+                FieldPanel('featured_section_3_title'),
+                PageChooserPanel('featured_section_3'),
                 ])
-        ], heading="Featured homepage sections", classname="collapsible")
+        ], heading="Featured homepage sections", classname="collapsible"),
+        StreamFieldPanel('bottom')
     ]
 
     def __str__(self):
@@ -136,6 +199,122 @@ class HomePage(Page):
 
     class Meta:
         verbose_name = "homepage"
+
+class BlogPage(Page):
+
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
+    )
+    body = StreamField(
+        BaseStreamBlock(), verbose_name="Page body", blank=True
+    )
+    subtitle = models.CharField(blank=True, max_length=255)
+    external_link = models.CharField(blank=True, max_length=255)
+
+
+    content_panels = Page.content_panels + [
+        FieldPanel('subtitle', classname="full"),
+        FieldPanel('introduction', classname="full"),
+        ImageChooserPanel('image'),
+        StreamFieldPanel('body'),
+        FieldPanel('external_link', classname="full"),
+    ]
+
+    parent_page_types = ['BlogIndexPage']
+
+    # Specifies what content types can exist as children of BlogPage.
+    # Empty list means that no child content types are allowed.
+    subpage_types = []
+
+
+class BlogIndexPage(RoutablePageMixin, Page):
+
+    introduction = models.TextField(
+        help_text='Text to describe the page',
+        blank=True)
+    image = models.ForeignKey(
+        'wagtailimages.Image',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text='Landscape mode only; horizontal width between 1000px and 3000px.'
+    )
+
+    content_panels = Page.content_panels + [
+        FieldPanel('introduction', classname="full"),
+        ImageChooserPanel('image'),
+    ]
+
+    # Speficies that only BlogPage objects can live under this index page
+    subpage_types = ['BlogPage']
+
+    # Defines a method to access the children of the page (e.g. BlogPage
+    # objects). On the demo site we use this on the HomePage
+    def children(self):
+        return self.get_children().specific().live()
+
+    # Overrides the context to list all child items, that are live, by the
+    # date that they were published
+    # http://docs.wagtail.io/en/latest/getting_started/tutorial.html#overriding-context
+    def get_context(self, request):
+        context = super(BlogIndexPage, self).get_context(request)
+        context['posts'] = BlogPage.objects.descendant_of(
+            self).live().order_by(
+            '-date_published')
+        return context
+
+    # This defines a Custom view that utilizes Tags. This view will return all
+    # related BlogPages for a given Tag or redirect back to the BlogIndexPage.
+    # More information on RoutablePages is at
+    # http://docs.wagtail.io/en/latest/reference/contrib/routablepage.html
+    # @route('^tags/$', name='tag_archive')
+    # @route('^tags/([\w-]+)/$', name='tag_archive')
+    # def tag_archive(self, request, tag=None):
+    #
+    #     try:
+    #         tag = Tag.objects.get(slug=tag)
+    #     except Tag.DoesNotExist:
+    #         if tag:
+    #             msg = 'There are no blog posts tagged with "{}"'.format(tag)
+    #             messages.add_message(request, messages.INFO, msg)
+    #         return redirect(self.url)
+    #
+    #     posts = self.get_posts(tag=tag)
+    #     context = {
+    #         'tag': tag,
+    #         'posts': posts
+    #     }
+    #     return render(request, 'blog/blog_index_page.html', context)
+
+    def serve_preview(self, request, mode_name):
+        # Needed for previews to work
+        return self.serve(request)
+
+    # Returns the child BlogPage objects for this BlogPageIndex.
+    # If a tag is used then it will filter the posts by tag.
+    def get_posts(self, tag=None):
+        posts = BlogPage.objects.live().descendant_of(self)
+        if tag:
+            posts = posts.filter(tags=tag)
+        return posts
+
+    # # Returns the list of Tags for all child posts of this BlogPage.
+    # def get_child_tags(self):
+    #     tags = []
+    #     for post in self.get_posts():
+    #         # Not tags.append() because we don't want a list of lists
+    #         tags += post.get_tags
+    #     tags = sorted(set(tags))
+    #     return tags
 
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""

@@ -189,7 +189,7 @@
             margin-bottom: 15px;
         }
 
-         select[id=selectCollege]
+        select[id=selectCollege]
         {
             width:85%;
             border:2px solid #aaa;
@@ -230,7 +230,7 @@
 
 
         .legend {
-            {#margin-top:10px;#}
+        {#margin-top:10px;#}
             background-color: #636568;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -384,6 +384,10 @@
         {
             border-radius:0px;
         }
+    .fa{
+    font-size: 15px;
+
+    }
     </style>
 
     <div class="wrapper">
@@ -410,8 +414,8 @@
                 <select id="selectYear" class="selectYear"></select>
                 <select id="selectCommtype" class="selectCommtype"></select>
                 <div>
-                <input id='valueFilter' type='text' placeholder='Search Projects' />
-            </div>
+                    <input id='valueFilter' type='text' placeholder='Search Projects' />
+                </div>
             </div>
 
         </nav>
@@ -437,10 +441,10 @@
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:3px;">
-                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b></label>
+                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Projects without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
+                                            </label>
                                     </div>
                                 </div>
-{#                                <p class="font-italic text-sm-center" style="font-size: xx-small">This number does not include Projects without addresses</p>#}
                             </div>
                         </div>
                     </div>
@@ -516,9 +520,9 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
-{#    markercluster#}
+    {#    markercluster#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-{#    spiderfy#}
+    {#    spiderfy#}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
 
     <script type="text/javascript" src='{% static "js/googleprojectmapfilter.js" %}'></script>
@@ -542,6 +546,12 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
+    </script>
+
+    <script>
+
+        $("#helptext").popover()
+
     </script>
 
 {% endblock %}

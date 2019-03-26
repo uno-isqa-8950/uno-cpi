@@ -134,7 +134,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Types' + '</option>';
+select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option val=' + CommunityType[i] + '>' + CommunityType[i] + '</option>';
 }
@@ -337,10 +337,10 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>')
+            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>')
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());

@@ -346,6 +346,10 @@
             background-color: transparent;
             text-decoration: underline ;
         }
+    .fa{
+    font-size: 15px;
+
+    }
 
     </style>
 
@@ -404,7 +408,8 @@
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:5px;">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
+                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Community Partners without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
+                                            </label>
                                     </div>
                                 </div>
                             </div>
@@ -485,5 +490,9 @@
             });
         });
     </script>
+    <script>
+    $("#helptext").popover()
+    </script>
+
 
 {% endblock %}

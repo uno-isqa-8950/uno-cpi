@@ -404,28 +404,19 @@ color: #d71920;
                                     </div>
                                     <div class="col-lg-4 col-md-5">
                                         <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
-                                            <label><b>Maps: Legislative District</b></label>
+                                            <label><b>Maps: Legislative Districts</b></label>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-md-6">
                                         <div style="box-sizing: border-box; padding:5px;">
-                                            <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
+                                            <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Community Partners without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
-{#                          <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Community Partners without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>#}
-{#                                            </label>#}
-{##}
-{#                                        </div>#}
-{#                                    </div>#}
-{#                                    <div class="col-lg-2 col-md-2" style="font-size: x-small; float: left; align-content: center">#}
-{#                                       <i>This number does not include Community Partners without an address</i>#}
-{##}
-{#                                    </div>#}
 
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
@@ -503,10 +494,8 @@ political affiliation in its programs, activities, or employment.
 </script>
 
 <script>
-
-        $("#helptext").popover()
-
-    </script>
+    $("#helptext").popover()
+</script>
 
 
 {% endblock %}

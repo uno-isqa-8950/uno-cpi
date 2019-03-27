@@ -69,7 +69,7 @@ else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
+gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
 
 if(gmaps):
     logger.info("GMAPS API works!")
@@ -92,60 +92,61 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                                                  'Academic Year': '', 'Website': ''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    geocode_result = gmaps.geocode(Address)  # get the coordinates
-    if (geocode_result[0]):
-        latitude = geocode_result[0]['geometry']['location']['lat']
-        longitude = geocode_result[0]['geometry']['location']['lng']
-        feature['geometry']['coordinates'] = [longitude, latitude]
-        coord = Point([longitude, latitude])
-        for i in range(len(district)):  # iterate through a list of district polygons
-            property = district[i]
-            polygon = shape(property['geometry'])  # get the polygons
-            if polygon.contains(coord):  # check if a partner is in a polygon
-                feature['properties']['Legislative District Number'] = property["properties"][
-                    "id"]  # assign the district number to a partner
-        for m in range(len(county)):  # iterate through the County Geojson
-            properties2 = county[m]
-            polygon = shape(properties2['geometry'])  # get the polygon
-            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                feature['properties']['County'] = properties2['properties']['NAME']
-                feature['properties']['Income'] = properties2['properties']['Income']
-        projectlist = 0
-    yearlist = []
-    campuslist = []
-    projectList = []
-    collegeList = []
-    partners = dfProjects['community_partner']
-    years = dfProjects['academic_year']
-    campuses = dfProjects['campus_partner']
-    projects = dfProjects['project_name']
-    colleges = dfProjects['college_name']
-    count = 0
-    for n in range(len(partners)):
-        if (partners[n] == Community):
-            if (years[n] not in yearlist):
-                yearlist.append(years[n])
-            if (campuses[n] not in campuslist):
-                campuslist.append(campuses[n])
-            if (projects[n] not in projectList):
-                projectList.append(projects[n])
-            if (colleges[n] not in collegeList):
-                collegeList.append(colleges[n])
-            count += 1
-    feature['properties']['Number of projects'] = count
-    feature['properties']['Campus Partner'] = campuslist
-    feature['properties']['Academic Year'] = yearlist
-    feature['properties']['Projects'] = projectList
-    feature['properties']['College Name'] = collegeList
-    feature['properties']['CommunityPartner'] = Community
-    feature['properties']['CommunityType'] = CommunityType
-    feature['properties']['Website'] = Website
-    feature['properties']['Mission Area'] = Mission
-    feature['properties']['Mission Type'] = MissionType
-    feature['properties']['City'] = City
+    if (Address != "N/A"):
+        geocode_result = gmaps.geocode(Address)  # get the coordinates
+        if (geocode_result[0]):
+            latitude = geocode_result[0]['geometry']['location']['lat']
+            longitude = geocode_result[0]['geometry']['location']['lng']
+            feature['geometry']['coordinates'] = [longitude, latitude]
+            coord = Point([longitude, latitude])
+            for i in range(len(district)):  # iterate through a list of district polygons
+                property = district[i]
+                polygon = shape(property['geometry'])  # get the polygons
+                if polygon.contains(coord):  # check if a partner is in a polygon
+                    feature['properties']['Legislative District Number'] = property["properties"][
+                        "id"]  # assign the district number to a partner
+            for m in range(len(county)):  # iterate through the County Geojson
+                properties2 = county[m]
+                polygon = shape(properties2['geometry'])  # get the polygon
+                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                    feature['properties']['County'] = properties2['properties']['NAME']
+                    feature['properties']['Income'] = properties2['properties']['Income']
+            projectlist = 0
+        yearlist = []
+        campuslist = []
+        projectList = []
+        collegeList = []
+        partners = dfProjects['community_partner']
+        years = dfProjects['academic_year']
+        campuses = dfProjects['campus_partner']
+        projects = dfProjects['project_name']
+        colleges = dfProjects['college_name']
+        count = 0
+        for n in range(len(partners)):
+            if (partners[n] == Community):
+                if (years[n] not in yearlist):
+                    yearlist.append(years[n])
+                if (campuses[n] not in campuslist):
+                    campuslist.append(campuses[n])
+                if (projects[n] not in projectList):
+                    projectList.append(projects[n])
+                if (colleges[n] not in collegeList):
+                    collegeList.append(colleges[n])
+                count += 1
+        feature['properties']['Number of projects'] = count
+        feature['properties']['Campus Partner'] = campuslist
+        feature['properties']['Academic Year'] = yearlist
+        feature['properties']['Projects'] = projectList
+        feature['properties']['College Name'] = collegeList
+        feature['properties']['CommunityPartner'] = Community
+        feature['properties']['CommunityType'] = CommunityType
+        feature['properties']['Website'] = Website
+        feature['properties']['Mission Area'] = Mission
+        feature['properties']['Mission Type'] = MissionType
+        feature['properties']['City'] = City
 
-    collection['features'].append(feature)
-    return feature
+        collection['features'].append(feature)
+        return feature
 
 
 geojson_series = dfCommunity.apply(

@@ -13,7 +13,7 @@ import psycopg2
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
 district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
-output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
+output_filename = os.path.join(dirname,'home/static/GEOJSON/Project.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
@@ -35,9 +35,9 @@ df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name 
 conn.close()
 
 
-gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
+gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
 collection = {'type': 'FeatureCollection', 'features': []}
-# df['fulladdress'] = df[["address_line1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
+df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
 with open(district_file) as f:
     geojson = json.load(f)
@@ -52,10 +52,11 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
                                                  'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    if (Address != "nan"):
-        if (Address):
-            fulladdress = str(Address) + ' ' + str(City) + ' ' + str(State)
-            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+
+
+    if (Address != "N/A"):
+        geocode_result = gmaps.geocode(Address)
+        if (geocode_result[0]):
             latitude = geocode_result[0]['geometry']['location']['lat']
             longitude = geocode_result[0]['geometry']['location']['lng']
             feature['geometry']['coordinates'] = [longitude, latitude]
@@ -86,7 +87,6 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
 
 geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
-
 
 print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(currentDT))
 

@@ -1,10 +1,14 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
+
 import psycopg2
 from UnoCPI import sqlfiles
+import os
 
+import Project_GEOJSON,Partner_GEOJSON
 
 sched = BlockingScheduler()
-
+sched1 = BackgroundScheduler()
 # Initializing the sql files
 sql = sqlfiles
 
@@ -16,6 +20,13 @@ sql = sqlfiles
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 # @sched.scheduled_job('interval', minutes=5)
+@sched1.add_job(generateGEOJSON,'cron', day_of_week='mon-sun', hour=20)
+
+
+def generateGEOJSON():
+    os.system(Partner_GEOJSON)
+    os.system(Project_GEOJSON)
+    
 def scheduled_job():
     print('This job is ran every day at 11pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')
@@ -104,3 +115,4 @@ def scheduled_job():
             
 
 sched.start()
+sched1.start()

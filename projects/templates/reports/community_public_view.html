@@ -57,7 +57,7 @@
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
-           <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
+           <div class="card" style="padding: 5px;margin-top:50px;">
                <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Community Partners</h4></b></label>
            </div>
         </div>
@@ -68,7 +68,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'communitypublicreport' %}' " value="Reset Filters" >
 
@@ -91,7 +91,7 @@
 
 <!-- Collapsible element -->
         <div class="card" style="border: 2px solid #C3C3C3;">
-        <div class="collapse show" id="collapseExample">
+        <div class="collapse" id="collapseExample">
         <form class="form-inline" id="filters-form" method="get">
             <div class="col-lg-3 col-md-5 form-group embed-responsive">
                 <label for="academic_year"> Academic Years

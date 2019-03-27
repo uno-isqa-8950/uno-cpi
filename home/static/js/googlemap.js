@@ -259,21 +259,21 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         });
 
         oms.addMarker(marker);
-        function commTypeColor(communityType) {
+        function commTypeColor(commType) {
 
-            if (communityType=="Business"){
+            if (commType=="Business"){
                 return circle.fillColor= colorcode[0]
             }
-            else if (communityType=='Government Agency'){
+            else if (commType=='Government Agency'){
                 return circle.fillColor=colorcode[1]
             }
-            else if (communityType=="Higher Education Institution"){
+            else if (commType=="Higher Education Institution"){
                 return circle.fillColor=colorcode[2]
             }
-            else if (communityType=="K-12"){
+            else if (commType=="K-12"){
                 return circle.fillColor=colorcode[3]
             }
-            else if (communityType=="Nonprofit"){
+            else if (commType=="Nonprofit"){
                 return circle.fillColor=colorcode[4]
             }
         }
@@ -333,10 +333,10 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>')
+            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>')
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());
@@ -358,7 +358,7 @@ oms.addListener('spiderfy', function(markers) {
 
 var colorCategory = document.getElementById("alltypes"); //get the total number of dots
 colorCategory.addEventListener("click", function(e) {
-    filterlist[0] = "all"
+    filterlist[1] = "all"
     calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
 })
 
@@ -366,7 +366,7 @@ $('#legend a').click(function(e) { //filter dots by mission areas and show the n
     var clickedValue = $(e.target).text(); //get the value from the choice
     var i = CommunityType.indexOf(clickedValue);
     if (i > -1) {
-        filterlist[0] = clickedValue;
+        filterlist[1] = clickedValue;
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
     }
 });
@@ -409,12 +409,12 @@ selectMisstype.addEventListener("change", function(e) {
 
     if (!Missionarea.includes(value)) {
         //get the number of markers and show it on the HTML
-        filterlist[1] = "all"
+        filterlist[0] = "all"
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
     } else {
         for (var i = 0; i <= Missionarea.length; i++) {
             if (value == Missionarea[i]) {
-                filterlist[1] = value
+                filterlist[0] = value
                 calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4])
             }
         }

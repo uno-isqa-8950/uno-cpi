@@ -6,10 +6,13 @@
 
     <style>
 
-        .btn-primary
-        {
-            background-color: #484848;
-            border-color: #585858;
+        #sidebar {
+            background: #333;
+        }
+
+        .btn-primary {
+            background-color: #bbbbbb;
+            border-color: #333;
         }
 
         .btn .btn-primary:active, .btn-primary:focus, .btn-primary:hover
@@ -23,8 +26,8 @@
             position:absolute;
             top:5px;
             left:40px;
-            border-color: #484848;
-            background-color: #FF3333;
+            border-color: #333;
+            background-color: #ce2029;
             color:White;
             z-index:999;
         }
@@ -33,14 +36,14 @@
         .active .btn-custom1
         {
             left:40px;
-            background-color: #484848;
+            background-color: #ce2029;
         }
 
 
         .btn-custom1:hover
         {
-            background-color: grey;
-            border-color:grey;
+            background-color: #bbbbbb;
+            border-color: #333;
         }
 
 
@@ -179,7 +182,7 @@
 
         .legend {
 
-            background-color: #636568;
+            background-color: #bbbbbb;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
             font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -346,6 +349,10 @@
             background-color: transparent;
             text-decoration: underline ;
         }
+    .fa{
+    font-size: 15px;
+
+    }
 
     </style>
 
@@ -388,7 +395,7 @@
                 <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
 
-                        <div class="card" style="padding: 5px;background-color:#636568;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                        <div class="card" style="padding: 5px;background-color:#333;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                             <div class="row">
                                 <div class="col-lg-1 col-md-1">
                                     <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
@@ -398,13 +405,14 @@
                                 </div>
 
                                 <div class="col-lg-4 col-md-5">
-                                    <div style="box-sizing: border-box;padding:5px;background-color:#434548;">
+                                    <div style="box-sizing: border-box;padding:5px;">
                                         <label><b>Maps: Community Partner Type</b></label>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:5px;">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
+                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Community Partners without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
+                                            </label>
                                     </div>
                                 </div>
                             </div>
@@ -458,7 +466,7 @@ political affiliation in its programs, activities, or employment.
 
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
 
@@ -486,5 +494,9 @@ political affiliation in its programs, activities, or employment.
             });
         });
     </script>
+    <script>
+    $("#helptext").popover()
+    </script>
+
 
 {% endblock %}

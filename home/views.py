@@ -1127,6 +1127,16 @@ def GEOJSON2():
     CampusPartnerlist = []
     CommunityPartnerTypelist = []
     CollegeNamelist = []
+
+    for e in CommunityType.objects.all():
+        if (str(e.community_type) not in CommunityPartnerTypelist):
+            CommunityPartnerTypelist.append(str(e.community_type))
+
+    for e in College.objects.all():
+        if(str(e.college_name) not in CollegeNamelist):
+            if (str(e.college_name) != "N/A"):
+                CollegeNamelist.append(str(e.college_name))
+
     for project in projects:  # iterate through all projects
         # prepare the shell of the features key inside the GEOJSON
         feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
@@ -1135,6 +1145,17 @@ def GEOJSON2():
                                                  'Campus Partner': '', 'Community Partner':'', 'Mission Area':'','Community Partner Type':'',
                                                  'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                    'geometry': {'type': 'Point', 'coordinates': []}}
+        ### get the community partner type######
+        # communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
+        # communityType_qs = CommunityType.objects.all()
+        # community_type = [p.community_type for p in communityType_qs]
+
+
+        # get the college name
+        # college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+        college_qs = College.objects.all()
+        college_name = [p.college_name for p in college_qs]
+
         if (project.address_line1 != "N/A"):  # check if a project address is there
             fulladdress = project.address_line1 + ' ' + project.city + ' ' + project.state
             geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
@@ -1161,19 +1182,12 @@ def GEOJSON2():
             campus_qs = ProjectCampusPartner.objects.filter(project_name__id=project.id)
             campuspartner = [p.campus_partner for p in campus_qs]
 
-            ### get the community partner type######
-            # communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
-            communityType_qs = CommunityType.objects.all()
-            community_type = [p.community_type for p in communityType_qs]
-            # get the college name
-            # college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
-            college_qs = College.objects.all()
-            college_name = [p.college_name for p in college_qs]
+
 
             try:
-                feature['properties']['College Name'] = str(college_name[0])
-                if (str(college_name[0]) not in CollegeNamelist):
-                    CollegeNamelist.append(str(college_name[0]))
+                # feature['properties']['College Name'] = str(college_name[0])
+                # if (str(college_name[0]) not in CollegeNamelist):
+                #     CollegeNamelist.append(str(college_name[0]))
 
                 feature['properties']['Community Partner'] = str(communitypartner[0])
                 if (str(communitypartner[0]) not in CommunityPartnerlist):
@@ -1183,9 +1197,9 @@ def GEOJSON2():
                 if (str(campuspartner[0]) not in CampusPartnerlist):
                     CampusPartnerlist.append(str(campuspartner[0]))
 
-                feature['properties']['Community Partner Type'] = str(community_type[0])
-                if (str(community_type[0]) not in CommunityPartnerTypelist):
-                    CommunityPartnerTypelist.append(str(community_type[0]))
+                # feature['properties']['Community Partner Type'] = str(community_type[0])
+                # if (str(community_type[0]) not in CommunityPartnerTypelist):
+                #     CommunityPartnerTypelist.append(str(community_type[0]))
 
                 feature['properties']['Engagement Type'] = str(project.engagement_type)
                 if (str(project.engagement_type) not in Engagementlist):

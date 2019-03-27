@@ -1122,10 +1122,12 @@ def GEOJSON2():
             campuspartner = [p.campus_partner for p in campus_qs]
 
             ### get the community partner type######
-            communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
+            # communityType_qs = CommunityPartner.objects.filter(name__exact=communitypartner[0])
+            communityType_qs = CommunityType.objects.all()
             community_type = [p.community_type for p in communityType_qs]
             # get the college name
-            college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+            # college_qs = CampusPartner.objects.filter(name__exact=campuspartner[0])
+            college_qs = College.objects.all()
             college_name = [p.college_name for p in college_qs]
 
             try:

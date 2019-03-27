@@ -41,13 +41,30 @@
     {
         font-family:Helvetica;
     }
+
+       .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
+
 </style>
 
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
+               <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Mission Areas</h4></b></label>
                </div>
             </div>
@@ -60,7 +77,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info' %}' " value="Reset Filters" >
 
@@ -88,7 +105,7 @@
   </script>
 <!-- Collapsible element -->
         <div class="card" style="border: 2px solid #C3C3C3;">
-            <div class="collapse show" id="collapseExample">
+            <div class="collapse" id="collapseExample">
                     <form class="form-inline" role="form" id="filters-form" method="get">
                             <div class="col-lg-3 col-md-5 form-group">
                                 <label for="engagement_type"> Engagement Types
@@ -128,6 +145,25 @@
                                     </select>
 
                             </div>
+
+                            <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                                <label for="college-name"> College Names
+                                       {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 43%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </label>
+                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                                        <option> All </option>
+                                            {% for college in college_filter.form.college_name %}
+                                                {{college}}
+                                            {% endfor %}
+                                    </select>
+                            </div>
+
                             <div class="col-lg-3 col-md-5 form-group embed-responsive">
                                 <label for="campus_partner"> Campus Partners
                                 {% for data_definition in data_definition %}
@@ -165,7 +201,7 @@
                             </div>
 
 
-                            <div class="col-lg-3 col-md-5 form-group">
+                            <div class="col-lg-5 col-md-7 form-group">
                                 <label for="community_type"> Community Partner Types
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 33%}
@@ -242,6 +278,7 @@ $(document).ready(function(){
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
+    $('#id_college_name').select2({placeholder: 'All College Names',width: '200px'});
 
 
 
@@ -282,6 +319,8 @@ $(document).ready(function(){
    $(document).ready(function() {
    $('#example').DataTable({
        dom: 'B<"clear">lftpi',
+       <!--To remove search function from mission area report-->
+       searching:false,
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']

@@ -2,9 +2,9 @@ from collections import Sized
 
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
-
+from django.db.models import Max
 from university.models import Course
-from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType
+from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType,AcademicYear
 from django import forms
 from django.forms import ModelForm
 
@@ -55,7 +55,6 @@ class ProjectForm2(ModelForm):
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
-            'total_uno_hours': forms.Textarea(attrs={'readonly': True, 'rows': 1, 'cols': 8}),
         }
         labels = {
             'project_name': 'Project Name',
@@ -369,6 +368,15 @@ class ActivityTypeForm(ModelForm):
     class Meta:
         model = ActivityType
         fields =('name','description',)
+
+class ProjectMissionEditFormset(forms.ModelForm):
+    class Meta:
+        model = ProjectMission
+        fields = ( 'mission_type','mission',)
+        labels = {
+            'mission_type': ('Mission Type'),
+            'mission': ('Mission Area'),
+                    }
 
 class ProjectMissionFormset(forms.ModelForm):
     class Meta:

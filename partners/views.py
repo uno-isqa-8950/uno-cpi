@@ -84,7 +84,6 @@ def registerCommunityPartner(request):
         formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
         if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
-            #print("Everything is valid")
             community_partner = community_partner_form.save()
             contacts = formset.save(commit=False)
             primary_missions = formset_primary_mission.save(commit=False)
@@ -94,18 +93,14 @@ def registerCommunityPartner(request):
                 primary_mission.community_partner = community_partner
                 missionarea = primary_mission.mission_area
                 primary_mission.mission_type = 'Primary'
-                #print("in add primary mission")
                 primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
-                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                print(contact)
-                print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################
@@ -182,7 +177,6 @@ def registerCommunityPartner(request):
 def ajax_load_project(request):
     if request.is_ajax():
         q = request.GET.get('term', '')
-        print(q)
         projects = CommunityPartner.objects.filter(name__istartswith=q)[:5]
         results = []
         for project in projects:
@@ -284,10 +278,6 @@ def orgProfile(request):
     if request.user.is_communitypartner:
         community_user = CommunityPartnerUser.objects.filter(user=request.user.id)
         community_partners = []
-        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
-        # community_partner.type = str(community_partner.community_type)
-        # contacts = Contact.objects.values().filter(community_partner=community_partner.id)
-        # missions = CommunityPartnerMission.objects.values().filter(community_partner=community_partner.id)
         for user in community_user:
             community_partner = CommunityPartner.objects.filter(name= user.community_partner)
             community_partners.extend(community_partner)
@@ -313,26 +303,12 @@ def orgProfileUpdate(request, pk):
 
     if request.user.is_communitypartner:
         community_partner = get_object_or_404(CommunityPartner, pk=pk)
-        # community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        # community_partner = get_object_or_404(CommunityPartner, name=community_user.community_partner)
-        org_type = str(community_partner.community_type)
-        # contacts = Contact.objects.filter(community_partner=community_partner.id).first()
-        # missions = CommunityPartnerMission.objects.filter(community_partner=community_partner.id).first()
 
         if request.method == 'POST':
-            if "k12_level" not in request.POST:
-                request.POST._mutable = True
-                request.POST['k12_level'] = community_partner.k12_level
-                request.POST._mutable = False
-
             community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
-            # contacts_form = CommunityContactForm(data=request.POST, instance=contacts)
-            # missions_form = CommunityMissionForm(data=request.POST, instance=missions)
 
-            if community_org_form.is_valid(): #and contacts_form.is_valid() and missions_form.is_valid():
+            if community_org_form.is_valid():
                 community_org_form.save()
-                # contacts_form.save()
-                # missions_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
             else:
@@ -341,12 +317,9 @@ def orgProfileUpdate(request, pk):
 
         else:
             community_org_form = CommunityPartnerForm(instance=community_partner)
-            # contacts_form = CommunityContactForm(instance=contacts)
-            # missions_form = CommunityMissionForm(instance=missions)
 
         return render(request,
-                          'partners/community_partner_org_update.html', {'community_org_form': community_org_form,
-                          'org_type' : org_type,
+                          'partners/community_partner_org_update.html', {'community_org_form': community_org_form
                           })
 
     elif request.user.is_campuspartner:
@@ -470,18 +443,14 @@ def registerCommunityPartner_forprojects(request):
                 primary_mission.community_partner = community_partner
                 missionarea = primary_mission.mission_area
                 primary_mission.mission_type = 'Primary'
-                #print("in add primary mission  " + str(missionarea))
                 primary_mission.save()
             for mission in missions:
                 mission.community_partner = community_partner
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
-                #print("in add secondary mission")
                 mission.save()
             for contact in contacts:
                 contact.community_partner = community_partner
-                #print(contact)
-                #print(contact.community_partner)
                 contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################

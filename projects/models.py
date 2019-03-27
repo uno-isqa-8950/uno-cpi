@@ -10,7 +10,7 @@ class Project (models.Model):
     description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, blank=False)
     end_semester = models.CharField(max_length=20, blank=False, default='fall')
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, default= 3 )
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False )
     total_uno_students = models.PositiveIntegerField(null=True, blank=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, blank=True,default= 0)
     total_k12_students = models.PositiveIntegerField(null=True, blank=True, default= 0)

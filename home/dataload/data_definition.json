@@ -472,5 +472,15 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 43,
+			"fields": {
+				"title": "College Name",
+				"description": "Colleges associated to the Campus Partners within UNO",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

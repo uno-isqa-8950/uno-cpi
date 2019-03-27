@@ -6,10 +6,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
     <style>
 
+        #sidebar, .panel > .panel-heading, .panel-default > .card {
+            background-color: #333;
+        }
+
         .btn-primary
         {
-            background-color: #484848;
-            border-color: #585858;
+            background-color: #bbbbbb;
+            border-color: #333;
         }
 
         .btn .btn-primary:active, .btn-primary:focus, .btn-primary:hover
@@ -23,8 +27,8 @@
             position:absolute;
             top:5px;
             left:40px;
-            border-color: #484848;
-            background-color: #FF3333;
+            border-color: #333;
+            background-color: #ce2029;
             color:White;
             z-index:999;
         }
@@ -33,7 +37,7 @@
         .active .btn-custom1
         {
             left:40px;
-            background-color: #484848;
+            background-color: #ce2029;
         }
 
         @media(max-width:810px)
@@ -52,8 +56,8 @@
 
         .btn-custom1:hover
         {
-            background-color: grey;
-            border-color:grey;
+            background-color: #bbbbbb;
+            border-color: #333;
         }
 
 
@@ -188,6 +192,22 @@
             width: 210px;
             margin-bottom: 15px;
         }
+
+        select[id=selectCollege]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
         .h2 {
             display: block;
             font-size: 1.7em;
@@ -214,8 +234,8 @@
 
 
         .legend {
-            margin-top:20px;
-            background-color: #636568;
+            {#margin-top:10px;#}
+            background-color: #bbbbbb;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
             font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -225,7 +245,6 @@
             padding: 10px;
             color: white;
             width:230px;
-
         }
 
         .legend h4 {
@@ -337,7 +356,7 @@
             z-index: 999;
             width: 430px;
             position: absolute;
-            background-color: #282828;
+            background-color: #333;
             display:block;
             top:10px;
             right: 50px;
@@ -369,6 +388,10 @@
         {
             border-radius:0px;
         }
+    .fa{
+    font-size: 15px;
+
+    }
     </style>
 
     <div class="wrapper">
@@ -390,12 +413,13 @@
                 <select style="margin-top:10px;"  id="selectMisstype" class="selectMisstype"></select>
                 <select id="selectDistrict" class="selectDistrict"></select>
                 <select id="selectCommunity" class="selectCommunity"></select>
+                <select id="selectCollege" class="selectCollege"></select>
                 <select id="selectCampus" class="selectCampus"></select>
                 <select id="selectYear" class="selectYear"></select>
                 <select id="selectCommtype" class="selectCommtype"></select>
                 <div>
-                <input id='valueFilter' type='text' placeholder='Search Projects' />
-            </div>
+                    <input id='valueFilter' type='text' placeholder='Search Projects' />
+                </div>
             </div>
 
         </nav>
@@ -405,23 +429,24 @@
             <div class = "container-fluid" style="margin-top:78px;">
                 <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                        <div class="card" style="padding: 5px;background-color:#636568;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                        <div class="card" style="padding: 5px;background-color:#333;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                             <div class="row">
-                                <div class="col-lg-1 col-md-1" style="border-right: 1px solid grey;">
+                                <div class="col-lg-1 col-md-1">
                                     <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                         <span></span>
                                     </button>
 
                                 </div>
 
-                                <div class="col-lg-4 col-md-5" style="border-right: 1px solid grey;">
-                                    <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
+                                <div class="col-lg-4 col-md-5">
+                                    <div style="box-sizing: border-box;padding:5px;">
                                         <label><b>Maps: Projects</b></label>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:3px;">
-                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b></label>
+                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Projects without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
+                                            </label>
                                     </div>
                                 </div>
                             </div>
@@ -454,6 +479,7 @@
                                 {{ districtData | json_script:"district"}}
                                 {{ Missionlist | json_script:"missionlist"}}
                                 {{ CommTypelist | json_script:"CommTypelist"}}
+                                {{ Collegename | json_script:"collegename-list"}}
                                 {{ Campuspartner | json_script:"campusPartner-list"}}
                                 {{ Communitypartner | json_script:"communitypartner-list" }}
                                 {{ EngagementType | json_script:"engagementType" }}
@@ -463,7 +489,7 @@
                         </div>
                     </div>
                 </div>
-            </div>&emsp;
+            </div>
 
             <footer>
                 <div class="container-fluid">
@@ -485,7 +511,7 @@
                         </div>
                         <div class="col-md-3">
                             <ul class="imgadjust">
-                                <img src="{% static 'img/UNOFooter1.png' %}">
+                                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo">
                             </ul>
                         </div>
                     </div>
@@ -498,8 +524,11 @@
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk"></script>
 
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
+    {#    markercluster#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    {#    spiderfy#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
+
     <script type="text/javascript" src='{% static "js/googleprojectmapfilter.js" %}'></script>
 
 
@@ -521,6 +550,12 @@
                 $('a[aria-expanded=true]').attr('aria-expanded', 'false');
             });
         });
+    </script>
+
+    <script>
+
+        $("#helptext").popover()
+
     </script>
 
 {% endblock %}

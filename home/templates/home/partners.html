@@ -1,4 +1,6 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
+
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -106,11 +108,11 @@
             <div class="row">
                 <div id="ab1" class="col-xs-6 col-md-4">
 {#                    <div class = "panel-default panel-heading  text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#636568;">
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
                             <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Community Partners
                                     {% for data_definition in data_definition %}{% if data_definition.id == 2 %}
-                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-question-circle fa-align-right fa-2x" aria-hidden="true"></i></span>{# </span> #}
+                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
                                         {% endif %}{% endfor %}</h4></b>
                             </label>
                         </div>
@@ -119,7 +121,8 @@
                             <img src="{% static "img/CommunityPartner.jpg" %}" class="img-fluid" alt="My Community Partner" width=100% height=100%/>
                         </div>
                         <div style="text-align: center;">
-                            <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>
+                            {% comm_parts %}
+{#                            <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>#}
 
                              <div class="col text-center">
                                 <div class="card" style="border:none">
@@ -131,7 +134,8 @@
                             </div>
                         </div>
                         <div class="rich-text">
-                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>
+                            {% comm_part_users %}
+{#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
                             <br>
                             <br>
                         </div>
@@ -139,12 +143,12 @@
 {#                </div>#}
                 <div id="ab2" class="col-xs-6 col-md-4">
 {#                    <div class = "panel-default text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#636568;">
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
                             <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 1 %}
-                                            <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-question-circle fa-align-right fa-2x" aria-hidden="true"></i></span>{# </span> #}
+                                            <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
                                         {% endif %}{% endfor %}</h4></b>
                             </label>
 
@@ -153,7 +157,8 @@
                             <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
                         </div>
                         <div style="text-align: center;">
-                              <p> A Campus Partner is an organization in University of Nebraska Omaha involved in carrying out projects pertaining to varied mission areas</p>
+                                {% cam_parts %}
+{#                                <p> A Campus Partner is an organization in University of Nebraska Omaha involved in carrying out projects pertaining to varied mission areas</p>#}
                              <div class="col text-center">
                                 <div class="card" style="border:none">
                                     <form action="{% url 'partners:registerCampusPartner' %}" >
@@ -165,8 +170,9 @@
 {#                            <a type="button" class="btn btn-custom "  style="font-size:1.1em; margin-bottom: 5%" href="{% url 'partners:registerCampusPartner' %}">#}
 {#                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>#}
                                 <div class="richtext-image" style="margin: auto">
-                                    <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>
-                                    <a style="color:blue; font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
+                                    {% cam_part_users %}
+{#                                    <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>#}
+                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
                                 </div>
                             </div>
 

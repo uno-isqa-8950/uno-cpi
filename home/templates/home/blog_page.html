@@ -1,0 +1,29 @@
+{% extends "home/home_page.html" %}
+{% load wagtailimages_tags %}
+
+{% block content %}
+
+    <div class="container">
+    <div class="row">
+        <div class="col-md-7 base-header">
+            {% if page.image %}
+                <div class="centered">
+                    <div class="image">
+                        {% image page.image width-1000 as photo %}
+                        <img src="{{ photo.url }}" width="{{ photo.width }}" height="{{ photo.height }}" alt="{{ photo.alt }}" />
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+                <div class="centered">
+                    {{ page.body }}
+                </div>
+        </div>
+    </div>
+
+{% endblock content %}

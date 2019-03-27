@@ -8,25 +8,27 @@
 
 <style>
 
-    .btn-primary
-        {
-        background-color: #484848;
-        border-color: #585858;
-        }
+    #sidebar {
+        background-color: #333;
+    }
 
-        .btn .btn-primary:active, .btn-primary:focus, .btn-primary:hover
-        {
+    .btn-primary {
+        background-color: #bbbbbb;
+        border-color: #333;
+    }
+
+    .btn .btn-primary:active, .btn-primary:focus, .btn-primary:hover {
         border-color: #484848;
         background-color: #484848;
-        }
+    }
 
     .btn-custom1
         {
         position:absolute;
         top:5px;
         left:45px;
-        border-color: #484848;
-        background-color: #FF3333;
+        border-color: #333;
+        background-color: #ce2029;
         color:White;
         z-index:999;
         }
@@ -35,14 +37,14 @@
     .active .btn-custom1
         {
         left:40px;
-        background-color: #484848;
+        background-color: #ce2029;
         }
 
 
     .btn-custom1:hover
         {
-        background-color: grey;
-        border-color:grey;
+        background-color: #bbbbbb;
+        border-color: #333;
         }
 
 
@@ -176,7 +178,7 @@
 
 	.legend {
 
-			background-color: #636568;
+			background-color: #bbbbbb;
 			border-radius: 10px;
 			box-shadow: 0 1px 2px rgba(0,0,0,0.10);
 			font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
@@ -395,7 +397,7 @@
                 <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div class="card" style="padding: 5px;background-color:#636568;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                            <div class="card" style="padding: 5px;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1">
                                         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
@@ -403,7 +405,7 @@
                                         </button>
                                     </div>
                                     <div class="col-lg-4 col-md-5">
-                                        <div style="box-sizing: border-box;padding:5px;background-color:#535658;">
+                                        <div style="box-sizing: border-box;padding:5px;">
                                             <label><b>Maps: Legislative District</b></label>
                                         </div>
                                     </div>
@@ -451,7 +453,7 @@ political affiliation in its programs, activities, or employment.
           </div>
           <div class="col-md-3">
               <ul class="imgadjust">
-                <img src="{% static 'img/UNOFooter1.png' %}">
+                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo">
               </ul>
           </div>
         </div>

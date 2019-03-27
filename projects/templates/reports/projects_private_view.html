@@ -49,13 +49,38 @@
         -moz-box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
         box-shadow: inset -1px -1px 1px 0px rgba(0,0,0,0.25);
     }
+
+    .hideContent {
+        overflow: hidden;
+        height: 4.5em;
+    }
+
+    .showContent {
+        height: auto;
+    }
+
+    .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
 </style>
 
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;background-color:#636568;">
+               <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Projects</h4></b></label>
                        <!--div class="col-md-12 text-right">
                            <i class="fas fa-question" href="#" data-toggle="tooltip" title="The report gives the information about the project and the impact measured"></i>
@@ -70,7 +95,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
 
@@ -91,7 +116,7 @@
         </div>
 <!-- / Collapse buttons -->
     <div class="card" style="border: 2px solid #C3C3C3;">
-        <div class="collapse show" id="collapseExample">
+        <div class="collapse" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
                 <div class="col-lg-3 col-md-5 form-group">
@@ -112,7 +137,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-3 col-md-5 form-group">
                     <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
@@ -147,6 +172,23 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-5 form-group">
+                    <label for="college_name"> College Names
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 43%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for college in campusPartners.form.college_name %}
+                            {{college}}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-3 col-md-5 form-group">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -163,8 +205,8 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group">
-                    <label for="community_type"> Community Types
+                <div class="col-lg-5 col-md-7 form-group">
+                    <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -205,21 +247,39 @@
             <thead>
             <tr>
                 <th>Projects</th>
-                <th>Campus Partners</th>
                 <th>Community Partners</th>
+                <th>Campus Partners</th>
                 <th>Engagement Types</th>
                 <th>Number of UNO Students</th>
                 <th>Number of UNO Students Hours</th>
                 <th>Economic Impact</th>
-                
+
             </tr>
             </thead>
             <tbody>
             {% for project in projectsData %}
             <tr>
                 <td>{{project.projectName}}</td>
-                <td>{% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}</td>
-                <td>{% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %} </td>
+                <td>
+                    <div class="content hideContent">
+                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.communityPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="content hideContent">
+                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
+                    </div>
+                    <div class="show-more">
+                        {% if project.campusPartner|length > 1 %}
+                        <a href="#" style="color:#d71920">Show more</a>
+                        {% endif %}
+                    </div>
+                </td>
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_UNO_students}}</td>
                 <td>{{project.total_hours}}</td>
@@ -251,16 +311,42 @@ $(document).ready(function(){
 <script>
 $(document).ready(function(){
 
-  
+
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
     $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
-  
+    $('#id_college_name').select2({placeholder: 'All Colleges',width: '200px'});
+
+});
+</script>
+
+{% endblock %}
+
+{% block custom_js %}
+
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+$(".show-more a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $this.parent().prev("div.content");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
 });
 </script>
 {% endblock %}
+
 {% block js %}
 
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>

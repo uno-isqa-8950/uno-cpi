@@ -1,8 +1,33 @@
 {% extends 'home/Community_Home.html' %}
 {% load bootstrap %}
 {% block content %}
+    {% load staticfiles %}
 
-<style xmlns="http://www.w3.org/1999/html">
+<style>
+
+.select2-arrow .select2-selection--single
+{
+    left: 1000px !important;
+}
+
+.form-control{
+    width: 92% !important;
+}
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:4%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+
+.select2-container--open .select2-dropdown--below
+{
+   margin-left:24px;
+    width: 583px !important;
+}
+
 .btn-custom
 {
     background-color: #636568;
@@ -94,97 +119,17 @@ font-weight: bold;
             {% endfor %}
             </ul>
             {% endif %}
-            <!--<div class="col-md-12">-->
-              <!--<h3>OrganiZation Information</h3>-->
-            <!--</div>-->
-            {% for field in community_org_form %}
-              {% if field.label == "Name" %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Organization Name</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" readonly>
-                    </div>
-                  </div>
-                </div>
-              {% elif field.label == 'Website url' %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Website URL</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                    </div>
-                  </div>
-                </div>
-              {% elif field.label == 'Address Line 1' %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Address Line 1</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                    </div>
-                  </div>
-                </div>
-              {% elif field.label == 'Address line2' %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Address Line 2</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                    </div>
-                  </div>
-                </div>
-              {% elif field.label == 'Community type' %}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">Community Type</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" readonly>
-                        {% for x,y in field.field.choices  %}
-                          <option value="{{ x }}"{% if field.value == x %} selected {% else %} disabled {% endif %}>{{ y }} </option>
-                        {% endfor %}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              {% elif field.label == 'K12 level' and org_type == "K12"%}
-                <div class="form-group">
-                  <div class="row">
-                    <div class="control-label col-md-4">
-                      <label for="{{field.label}}">K12 Level</label>
-                    </div>
-                    <div class = "col-md-8">
-                      <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                    </div>
-                  </div>>
-                </div>
-              {% else %}
-                {% if field.label == 'K12 level' %}
-                  <div></div>
-                {% else %}
-                  <div class="form-group">
-                    <div class="row">
-                      <div class="control-label col-md-4">
-                        <label for="{{field.label}}">{{field.label}}</label>
-                      </div>
-                      <div class = "col-md-8">
-                        <input type="{{ field.field.widget.input_type }}" required class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}">
-                      </div>
-                    </div>
-                  </div>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
+
+          {{ community_org_form.name|bootstrap }}
+          {{ community_org_form.website_url|bootstrap }}
+          {{ community_org_form.community_type|bootstrap }}
+          {{ community_org_form.k12_level|bootstrap }}
+          {{ community_org_form.address_line1|bootstrap }}
+          {{ community_org_form.city|bootstrap }}
+          {{ community_org_form.county|bootstrap }}
+          {{ community_org_form.state|bootstrap }}
+           {{ community_org_form.zip|bootstrap }}
+          {{ community_org_form.country|bootstrap }}
 
 
             <p>
@@ -199,3 +144,20 @@ font-weight: bold;
   <br><br><br>
 
 {% endblock %}
+
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+    <script>
+$(document).ready(function(){
+    $('#id_community_type').select2({border:'2px solid #aaa'});
+});
+</script>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+    document.getElementById('id_name').readOnly = true;
+</script>
+{% endblock %}
+

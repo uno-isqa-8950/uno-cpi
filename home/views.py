@@ -604,12 +604,32 @@ def engagement_info(request):
         filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
         filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
 
+        # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        proj_comm_ids1 = proj_comm_1.count()
 
+        # gets the distinct ids from projectcommunity partner table for all the above projects
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+
+        # gets all the community partner ids in a array. These are not distinct
+        proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
+
+        # sets the non distinct array to a distinct set of community partner ids
+        unique_comm_ids = set(proj_comm_ids)
+
+        # counts within the set of unique community partner ids
+        unique_comm_ids_count = len(unique_comm_ids)
+
+        # gets the distinct ids from projectcommunity partner table for all the above projects
         proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        proj_camp_ids = proj_camp.count()
+
+        # gets all the campus partner ids in a array. These are not distinct
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+
+        # sets the non distinct array to a distinct set of campus partner ids
+        unique_camp_ids = set(proj_camp_ids)
+
+        # counts within the set of unique campus partner ids
+        unique_camp_ids_count = len(unique_camp_ids)
 
         engagement_Dict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
@@ -621,8 +641,8 @@ def engagement_info(request):
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
 
         engagement_Dict['project_count'] = project_count
-        engagement_Dict['community_count'] = proj_comm_ids1
-        engagement_Dict['campus_count'] = proj_camp_ids
+        engagement_Dict['community_count'] = unique_comm_ids_count
+        engagement_Dict['campus_count'] = unique_camp_ids_count
         total_uno_students = 0
         total_uno_hours = 0
 
@@ -826,12 +846,32 @@ def EngagementType_Chart(request):
         filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
         filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
 
+        # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        proj_comm_ids1 = proj_comm_1.count()
 
+        # gets the distinct ids from projectcommunity partner table for all the above projects
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
+
+        # gets all the community partner ids in a array. These are not distinct
+        proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
+
+        # sets the non distinct array to a distinct set of community partner ids
+        unique_comm_ids = set(proj_comm_ids)
+
+        # counts within the set of unique community partner ids
+        unique_comm_ids_count = len(unique_comm_ids)
+
+        # gets the distinct ids from projectcommunity partner table for all the above projects
         proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        proj_camp_ids = proj_camp.count()
+
+        # gets all the campus partner ids in a array. These are not distinct
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+
+        # sets the non distinct array to a distinct set of campus partner ids
+        unique_camp_ids = set(proj_camp_ids)
+
+        # counts within the set of unique campus partner ids
+        unique_camp_ids_count = len(unique_camp_ids)
 
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
 
@@ -843,8 +883,8 @@ def EngagementType_Chart(request):
                     id__in=filtered_project_ids1).count()
 
         project_engagement_count.append(project_count)
-        engagment_community_counts.append(proj_comm_ids1)
-        engagment_campus_counts.append(proj_camp_ids)
+        engagment_community_counts.append(unique_comm_ids_count)
+        engagment_campus_counts.append(unique_camp_ids_count)
         engagament_names.append(e.name)
 
     Max_count = max(list(set(project_engagement_count) | set(engagment_community_counts) | set(engagment_campus_counts))

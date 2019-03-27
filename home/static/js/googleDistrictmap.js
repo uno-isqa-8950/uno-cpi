@@ -135,7 +135,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Types' + '</option>';
+select2 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option val=' + CommunityType[i] + '>' + CommunityType[i] + '</option>';
 }
@@ -267,8 +267,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var collegename = communityData.features[i].properties["College Name"]
         var marker = new google.maps.Marker({
             position: {
-                lat: parseFloat(communityData.features[i].geometry.coordinates[1]),
-                lng: parseFloat(communityData.features[i].geometry.coordinates[0])
+                lat: parseFloat(communityData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 1500,
+                lng: parseFloat(communityData.features[i].geometry.coordinates[0]) + + (Math.random() -.5) / 1500
             },
             map: map,
             icon: circle, // set the icon here
@@ -377,10 +377,10 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ")+ '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
+            '<tr><td><span style="font-weight:bold">Website:</span>&nbsp;&nbsp;<td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
             '<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')
         infowindow.open(map, marker);
         // map.setZoom(16);
@@ -395,7 +395,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         infowindow.setContent(
             '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)\s*/g,"<br> ")+ '</td></tr><br />')
-        //  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
+         // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         // infowindow.open(map,marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());
@@ -477,13 +477,24 @@ selectCollege.addEventListener("change", function(e) {
         filterlist[6] = "all"
         calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5],
             filterlist[6]);
-    } else {
-        for (var i = 0; i < CollegeName.length; i++) {
-            if (value == CollegeName[i]) {
-                filterlist[6] = value
-                calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4], filterlist[5],
-                    filterlist[6]);
+    } else { //in case a campus partner is chosen
+        communityData.features.forEach(function(feature) { //iterate through the dataset
+            var collegename = feature.properties["College Name"] //get the Collge
+            if (collegename.includes(value)) { // if the partner has that college
+                feature.properties["collegename"] = 1 // assign this value 1
+            } else {
+                feature.properties["collegename"] = 0 //if not, assign this value 0
             }
+        })
+
+        for (i=0;i<markers.length; i++){
+            if(communityData.features[i].properties['collegename']==1){
+                markers[i].collegename=1;
+            }
+            else
+                markers[i].collegename=0;
+            filterlist[6] = 1;
+            calculation(filterlist[0], filterlist[1], filterlist[2], filterlist[3], filterlist[4]);
         }
     }
 })
@@ -699,9 +710,6 @@ $("#reset").click(function () {
         return this.defaultSelected;
     });
 
-    // layerIDs.forEach(function(layerID) {
-    //     map.setProperty(layerID, 'visibility', 'visible');
-    // })
 });
 
 //To vary the total number of projects based on the filter selected
@@ -992,7 +1000,7 @@ function calculation(a, b, c, d, e,f) {
                             markerCluster.redraw();
                         }
 
-                        totalnumber += number
+                            totalnumber += number
 
                     }
                 } else {
@@ -1184,7 +1192,7 @@ function calculation(a, b, c, d, e,f) {
                             markerCluster.redraw();
                         }
 
-                        totalnumber += number
+                            totalnumber += number
 
                     } else {
                         communityData.features.forEach(function (feature) {

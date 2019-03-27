@@ -146,7 +146,7 @@ $('#selectMisstype').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select6 = '';
-select6 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Types' + '</option>';
+select6 += '<option val=' + "alltypes" + ' selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select6 += '<option val=' + CommunityType[i] + '>' + CommunityType[i] + '</option>';
 }

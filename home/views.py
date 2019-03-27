@@ -1145,7 +1145,20 @@ def GEOJSON2():
 
     for year in AcademicYear.objects.all():
         Academicyearlist.append(year.academic_year)
-    for project in Project.objects.all():
+
+    for mission in MissionArea.objects.all():
+        Missionlist.append(mission.mission_name)
+
+    for engagement in EngagementType.objects.all():
+        Engagementlist.append(engagement.name)
+
+    for communitypart in CommunityPartner.objects.all():
+        CommunityPartnerlist.append(communitypart.name)
+
+    for campuspart in CampusPartner.objects.all():
+        CampusPartnerlist.append(campuspart.name)
+
+    # for project in Project.objects.all():
 
     # for project in projects:  # iterate through all projects
     #     # prepare the shell of the features key inside the GEOJSON
@@ -1181,47 +1194,51 @@ def GEOJSON2():
     #         feature['properties']['Legislative District Number'] = project.legislative_district
     #         feature['properties']['City'] = project.city
             ### get the mission area######
-            project_qs = ProjectMission.objects.filter(project_name__id=project.id)
-            project_mission = [p.mission for p in project_qs]
-
-            ### get the community partner######
-            community_qs = ProjectCommunityPartner.objects.filter(project_name__id=project.id)
-            communitypartner = [p.community_partner for p in community_qs]
-
-            ### get the campus partner######
-            campus_qs = ProjectCampusPartner.objects.filter(project_name__id=project.id)
-            campuspartner = [p.campus_partner for p in campus_qs]
+            # project_qs = ProjectMission.objects.filter(project_name__id=project.id)
+            # project_mission = [p.mission for p in project_qs]
 
 
 
-            try:
+            # ### get the community partner######
+            # community_qs = ProjectCommunityPartner.objects.filter(project_name__id=project.id)
+            # communitypartner = [p.community_partner for p in community_qs]
+            #
+            # ### get the campus partner######
+            # campus_qs = ProjectCampusPartner.objects.filter(project_name__id=project.id)
+            # campuspartner = [p.campus_partner for p in campus_qs]
+
+            # print(project_mission)
+
+
+
+            # try:
                 # feature['properties']['College Name'] = str(college_name[0])
                 # if (str(college_name[0]) not in CollegeNamelist):
                 #     CollegeNamelist.append(str(college_name[0]))
 
                 # feature['properties']['Community Partner'] = str(communitypartner[0])
-                if (str(communitypartner[0]) not in CommunityPartnerlist):
-                    CommunityPartnerlist.append(str(communitypartner[0]))
-
-                # feature['properties']['Campus Partner'] = str(campuspartner[0])
-                if (str(campuspartner[0]) not in CampusPartnerlist):
-                    CampusPartnerlist.append(str(campuspartner[0]))
+                # if (str(communitypartner[0]) not in CommunityPartnerlist):
+                #     CommunityPartnerlist.append(str(communitypartner[0]))
+                #
+                # # feature['properties']['Campus Partner'] = str(campuspartner[0])
+                # if (str(campuspartner[0]) not in CampusPartnerlist):
+                #     CampusPartnerlist.append(str(campuspartner[0]))
 
                 # feature['properties']['Community Partner Type'] = str(community_type[0])
                 # if (str(community_type[0]) not in CommunityPartnerTypelist):
                 #     CommunityPartnerTypelist.append(str(community_type[0]))
 
                 # feature['properties']['Engagement Type'] = str(project.engagement_type)
-                if (str(project.engagement_type) not in Engagementlist):
-                    Engagementlist.append(str(project.engagement_type))
+                # if (str(project.engagement_type) not in Engagementlist):
+                #     Engagementlist.append(str(project.engagement_type))
 
 
                 # feature['properties']['Mission Area'] = str(project_mission[0])
-                if (str(project_mission[0]) not in Missionlist):  # check if the mission area is already recorded
-                    Missionlist.append(str(project_mission[0]))  # add
+                # if (str(project_mission[0]) not in Missionlist):  # check if the mission area is already recorded
+                #     Missionlist.append(str(project_mission[0]))  # add
 
-            except:
-                print("No mission")
+            # except:
+            #     print("No mission")
             # collection['features'].append(feature)  # create the geojson
     # jsonstring = pd.io.json.dumps(collection)
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),

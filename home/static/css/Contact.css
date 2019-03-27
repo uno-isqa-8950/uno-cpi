@@ -9,7 +9,7 @@ font-size:19px;
 {
 z-index: 999;
 background-color: #484848;
-box-shadow: 2px 2px 2px 2px #282828;
+/*box-shadow: 2px 2px 2px 2px #282828;*/
 Opacity:.9;
 border-radius:4px;
 }
@@ -19,9 +19,9 @@ border-radius:4px;
 {
 z-index: 999;
 background-color: #585858;
-box-shadow: 5px 15px 15px 5px #282828;
+/*box-shadow: 5px 15px 15px 5px #282828;*/
 Opacity:.8;
-border-radius:4px;
+/*border-radius:4px;*/
 }
 
 

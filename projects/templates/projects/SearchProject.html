@@ -143,8 +143,8 @@ label, .btn-default
                                 <tr>
                                     <td>{{ project.name }}</td>
                                     <td>{% for projmisn in project.projmisn %}
-                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
-                                    <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
+                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission__mission_name}}<br> <br>{% endfor %} </td>
+                                    <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                                     <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                                     <td>{{ project.engagementType }}</td>
                                     <td>{{ project.academic_year }}</td>
@@ -220,6 +220,30 @@ label, .btn-default
 
     } );
 </script>
+
+<style>
+
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    margin-left:30px;
+    }
+
+
+    @media (max-width: 900px)
+    {
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        float:left;
+        margin-left:50px;
+    }
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+
+</style>
      <script>
          $(function () {
              $('[data-toggle="popover"]').popover()

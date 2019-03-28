@@ -183,7 +183,7 @@ $('#selectCommunity').html(select3);
 //*********************************** Add Community Partner *****************************************************
 
 var select7 = '';
-select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All College' + '</option>';
+select7 += '<option val=' + "allcollege" + ' selected="selected">' + 'All Colleges' + '</option>';
 for (i = 0; i < CollegeNamelist.length; i++) {
     select7 += '<option val=' + i + '>' + CollegeNamelist[i] + '</option>';
 }
@@ -251,8 +251,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var marker = new google.maps.Marker({
 
             position: {
-                lat: parseFloat(projectData.features[i].geometry.coordinates[1]),
-                lng: parseFloat(projectData.features[i].geometry.coordinates[0])
+                lat: parseFloat(projectData.features[i].geometry.coordinates[1]+ (Math.random() -.5) / 50000),
+                lng: parseFloat(projectData.features[i].geometry.coordinates[0]+ (Math.random() -.5) / 50000)
             },
             map: map,
             icon: circle, // set the icon here
@@ -342,7 +342,7 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
     google.maps.event.addListener(marker, 'click', function () {
         if (openedInfoWindow != null) openedInfoWindow.close();
         infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Area: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '</td></tr><br />' +

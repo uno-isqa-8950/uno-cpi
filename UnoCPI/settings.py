@@ -196,9 +196,9 @@ LOGIN_URL = reverse_lazy('login')
 ## MEDIA_URL = '/media/'
 
 ##
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'capstoneteam2018cpi@gmail.com'
-EMAIL_HOST_PASSWORD = 'capstone2018'
+EMAIL_HOST = 'smtp.mailgun.org'
+EMAIL_HOST_USER = 'postmaster@uno-cpi.com'
+EMAIL_HOST_PASSWORD = 'e3cd9bfaca7a187b66294745ed788798-e51d0a44-d5ebd7c2'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 

@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'django_filters',
     'import_export',
+    'logentry_admin',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',

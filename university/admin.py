@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import EducationSystem, University , College, Department,Course
 
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 
 class EducationSystemList(admin.ModelAdmin):
@@ -20,9 +20,12 @@ class UniversityList(admin.ModelAdmin):
 
 
 class CollegeResource(resources.ModelResource):
+    college_name = fields.Field(attribute='college_name', column_name="College Name")
+    university = fields.Field(attribute='university', column_name="University")
 
     class Meta:
         model = College
+        fields = ('college_name', 'university')
 
 class CollegeList(ImportExportModelAdmin):
 
@@ -48,9 +51,12 @@ class DepartmentList(ImportExportModelAdmin):
 
 
 class CourseResource(resources.ModelResource):
+    project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    university = fields.Field(attribute='university', column_name="University")
 
     class Meta:
         model = Course
+        fields = ('prefix', 'number', 'name','project_name', 'university')
 
 class CourseList(ImportExportModelAdmin):
 

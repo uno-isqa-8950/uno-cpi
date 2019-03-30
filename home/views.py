@@ -1260,6 +1260,7 @@ def projectdata(request):
 
 # google maps implementaiton
 def googleprojectdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON2()[4]
     Communitypartner = GEOJSON2()[3]
     json_data = open('home/static/GEOJSON/ID2.geojson')
@@ -1273,7 +1274,7 @@ def googleprojectdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6]),
+                   'year': sorted(GEOJSON2()[6]),'data_definition':data_definition,
                    'Collegename': sorted(GEOJSON2()[7])
                    }
                   )

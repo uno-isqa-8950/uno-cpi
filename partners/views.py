@@ -19,7 +19,7 @@ from shapely.geometry import shape, Point
 
 # import pandas as pd
 import json
-gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
+gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
 import os
 def countyGEO():
     with open('home/static/GEOJSON/NEcounties2.geojson') as f:

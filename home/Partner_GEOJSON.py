@@ -31,7 +31,7 @@ dfCommunity = pd.read_sql_query("SELECT pc.name as Community_Partner,pc.address_
 #Get all the Projects from the database and get their Campus Partners , Community Partners associated
 dfProjects = pd.read_sql_query("SELECT  project_name,academic_year , pc2.name as campus_partner ,um.college_name,ppcp.name as community_partner FROM projects_project P join projects_academicyear pa on P.academic_year_id = pa.id join projects_projectcampuspartner pc on P.id = pc.project_name_id join projects_projectcommunitypartner ppc on P.id = ppc.project_name_id join partners_communitypartner ppcp on ppc.community_partner_id = ppcp.id join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id join university_college um on um.id = pc2.college_name_id WHERE p.id IN (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 conn.close()
-gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
+gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
 collection = {'type': 'FeatureCollection', 'features': []}
 
 dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].apply(lambda x: ' '.join(x.astype(str)), axis=1)

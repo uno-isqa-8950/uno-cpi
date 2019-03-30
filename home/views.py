@@ -1260,6 +1260,7 @@ def projectdata(request):
 
 # google maps implementaiton
 def googleprojectdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON2()[4]
     Communitypartner = GEOJSON2()[3]
     json_data = open('home/static/GEOJSON/ID2.geojson')
@@ -1273,13 +1274,14 @@ def googleprojectdata(request):
                    'Campuspartner': sorted(Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6]),
+                   'year': sorted(GEOJSON2()[6]),'data_definition':data_definition,
                    'Collegename': sorted(GEOJSON2()[7])
                    }
                   )
 
 
 def googleDistrictdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON()[3]
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
@@ -1290,13 +1292,14 @@ def googleDistrictdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(GEOJSON()[4]),
+                   'year': sorted(GEOJSON()[4]),'data_definition':data_definition,
                    'Collegename': GEOJSON()[6]
                    }
                   )
 
 
 def googlepartnerdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON()[3]
     College = GEOJSON()[6]
     data = GEOJSON()[0]
@@ -1308,13 +1311,14 @@ def googlepartnerdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4],
+                   'year': GEOJSON()[4],'data_definition':data_definition,
                    'College': sorted(College)
                    }
                   )
 
 
 def googlemapdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON()[3]
     College = GEOJSON()[6]
     data = GEOJSON()[0]
@@ -1326,7 +1330,7 @@ def googlemapdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4],
+                   'year': GEOJSON()[4],'data_definition':data_definition,
                    'College': sorted(College)
                    }
                   )

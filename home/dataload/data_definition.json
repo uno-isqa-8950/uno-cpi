@@ -482,5 +482,25 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 44,
+			"fields": {
+				"title": "Google Map - Projects",
+				"description": "The Markers in the map doesn't include any Projects without address!",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 45,
+			"fields": {
+				"title": "Google Map - Community Partner",
+				"description": "The Markers in the map doesn't include any Community Partner without address!",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

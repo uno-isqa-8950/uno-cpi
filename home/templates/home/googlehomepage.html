@@ -414,8 +414,11 @@
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:5px;">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Community Partners without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>
-                                            </label>
+                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
+                                            {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                                <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                            {% endif %}{% endfor %}
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -423,7 +426,7 @@
                     </div>
 
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                        <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
+                        <div class="card">
                             <div id='map_canvas' class='map'>
                                 {{ districtData | json_script:"district-data"}}
                                 {{ collection | json_script:"commPartner-data"}}
@@ -497,8 +500,10 @@
             });
         });
     </script>
-    <script>
-    $("#helptext").popover()
+     <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
     </script>
 
 

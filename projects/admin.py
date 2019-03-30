@@ -1,13 +1,22 @@
 from django.contrib import admin
 from .models import Project, ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, EngagementType, \
     ActivityType, Status, AcademicYear
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 
 class ProjectResource(resources.ModelResource):
+    project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    engagement_type = fields.Field(attribute='engagement_type', column_name="Engagement Type")
+    activity_type = fields.Field(attribute='activity_type', column_name="Activity Type")
+    status = fields.Field(attribute='status', column_name="Status")
 
     class Meta:
         model = Project
+        fields = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
+                    'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
+                    'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
+                    'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
+                    'state', 'zip', 'latitude', 'longitude')
 
 class ProjectList(ImportExportModelAdmin):
 
@@ -24,10 +33,11 @@ class ProjectList(ImportExportModelAdmin):
 
 
 class ProjectMissionResource(resources.ModelResource):
-
+    project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    mission = fields.Field(attribute='mission', column_name="Mission Name")
     class Meta:
         model = ProjectMission
-
+        fields = ('project_name', 'mission_type', 'mission')
 
 class ProjectMissionList(ImportExportModelAdmin):
 
@@ -39,9 +49,11 @@ class ProjectMissionList(ImportExportModelAdmin):
 
 
 class ProjectCommunityPartnerResource(resources.ModelResource):
-
+    project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
     class Meta:
         model = ProjectCommunityPartner
+        fields = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
 
 class ProjectCommunityPartnerList(ImportExportModelAdmin):
 
@@ -53,9 +65,11 @@ class ProjectCommunityPartnerList(ImportExportModelAdmin):
 
 
 class ProjectCampusPartnerResource(resources.ModelResource):
-
+    project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    campus_partner = fields.Field(attribute='campus_partner', column_name="Campus Partner")
     class Meta:
         model = ProjectCampusPartner
+        fields = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
 
 class ProjectCampusPartnerList(ImportExportModelAdmin):
 

@@ -1,12 +1,14 @@
 from django.contrib import admin
 from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission
-from import_export import resources
+from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 
 class CommunityPartnerResource(resources.ModelResource):
+    community_type = fields.Field(attribute='community_type', column_name="Community Type")
 
     class Meta:
         model = CommunityPartner
+        fields = ('name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part')
 
 class CommunityPartnerList(ImportExportModelAdmin):
 
@@ -20,9 +22,14 @@ class CommunityPartnerList(ImportExportModelAdmin):
     resource_class = CommunityPartnerResource
 
 class CampusPartnerResource(resources.ModelResource):
+    education_system = fields.Field(attribute='education_system', column_name="Education System")
+    university = fields.Field(attribute='university', column_name="University")
+    college_name = fields.Field(attribute='college_name', column_name="College Name")
+
 
     class Meta:
         model = CampusPartner
+        fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system')
 
 class CampusPartnerList(ImportExportModelAdmin):
 
@@ -33,7 +40,8 @@ class CampusPartnerList(ImportExportModelAdmin):
     resource_class = CampusPartnerResource
 
 class CampusPartnerUserResource(resources.ModelResource):
-
+    campus_partner = fields.Field(attribute='campus_partner', column_name="Campus Partner")
+    user = fields.Field(attribute='user', column_name="User Name")
     class Meta:
         model = CampusPartnerUser
 
@@ -47,7 +55,8 @@ class CampusPartnerUserList(ImportExportModelAdmin):
 
 
 class CommunityPartnerUserResource(resources.ModelResource):
-
+    community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
+    user = fields.Field(attribute='user', column_name="User Name")
     class Meta:
         model = CommunityPartnerUser
 
@@ -60,6 +69,9 @@ class CommunityPartnerUserList(ImportExportModelAdmin):
 
 
 class CommunityPartnerMissionResource(resources.ModelResource):
+    community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
+    mission_area = fields.Field(attribute='mission_area', column_name="Mission Area")
+    mission_type = fields.Field(attribute='mission_type', column_name="Mission Type")
 
     class Meta:
         model = CommunityPartnerMission

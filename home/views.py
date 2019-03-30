@@ -1281,6 +1281,7 @@ def googleprojectdata(request):
 
 
 def googleDistrictdata(request):
+    data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON()[3]
     data = GEOJSON()[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
@@ -1291,7 +1292,7 @@ def googleDistrictdata(request):
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(GEOJSON()[4]),
+                   'year': sorted(GEOJSON()[4]),'data_definition':data_definition,
                    'Collegename': GEOJSON()[6]
                    }
                   )

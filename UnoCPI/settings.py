@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'bootstrapform',
     'django_filters',
     'import_export',
+    'logentry_admin',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -196,10 +197,6 @@ LOGIN_URL = reverse_lazy('login')
 ## MEDIA_URL = '/media/'
 
 ##
-# EMAIL_BACKEND = 'django_mailgun.MailgunBackend'
-# MAILGUN_ACCESS_KEY ='0171ad30b7b67a9d0490c6a707b517c6-e51d0a44-252dbbda'
-# MAILGUN_SERVER_NAME = 'smtp.mailgun.org'
-
 EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')

@@ -33,7 +33,6 @@ urlpatterns = [
    path('projectMap',views.googleprojectdata, name='googleprojectmap'),
    path('legislativeDistrict',views.googleDistrictdata, name='googleDistrictmap'),
    path('communityPartner',views.googlepartnerdata, name='googlehomepage'),
-   path('communityPartnerType',views.googlemapdata, name='googlemap')
-
-
+   path('communityPartnerType',views.googlemapdata, name='googlemap'),
+   path('activate/<str:uidb64>/<str:token>', views.activate, name='activate')
 ]

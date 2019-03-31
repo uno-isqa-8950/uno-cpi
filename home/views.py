@@ -8,6 +8,17 @@ from django.urls import reverse
 from home.decorators import campuspartner_required, admin_required
 from django.contrib.auth import authenticate, login, logout
 import csv
+from django.template.loader import render_to_string
+from django.http import HttpResponse
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
+from .tokens import account_activation_token
+from django.contrib.auth import get_user_model, login, update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import EmailMessage
 from collections import OrderedDict
 import sys
 sys.setrecursionlimit(1500)
@@ -107,10 +118,10 @@ def Contactus(request):
         content = template.render(context)
 
         email = EmailMessage(
-            "CPI Contact Form submission",
+            "CPI Contact Form submission", #Subject line of the Contact Us Page
             content,
             "Community Partnership Initiative" + '',
-            ['capstoneteam2018cpi@gmail.com'],
+            ['djantz@unomaha.edu'], #Email to whom all the queries in Contact Us Page would be redirected to
             headers={'Reply-To': contact_email}
         )
         email.send()
@@ -198,13 +209,25 @@ def registerCampusPartnerUser(request):
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
+            new_user.is_active = False
             new_user.is_campuspartner = True
             new_user.save()
 
             campuspartneruser = CampusPartnerUser(
                 campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
             campuspartneruser.save()
-
+            # Send an email to the user with the token:
+            mail_subject = 'UNO-CPI Application - Email Verification'
+            current_site = get_current_site(request)
+            message = render_to_string('account/acc_active_email.html', {
+                'user': new_user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'token': account_activation_token.make_token(new_user),
+            })
+            to_email = new_user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
             return render(request, 'home/register_done.html', )
     else:
         user_form = CampususerForm()
@@ -214,6 +237,19 @@ def registerCampusPartnerUser(request):
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data': data})
 
+def activate(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        login(request, user)
+        return redirect('login')
+    else:
+        return render(request, 'home/registration/register_fail.html')
 
 @login_required()
 def registerCommunityPartnerUser(request):

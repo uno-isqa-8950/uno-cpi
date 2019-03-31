@@ -32,6 +32,8 @@ from shapely.geometry import shape, Point
 import pandas as pd
 import os
 
+gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+
 def countyGEO():
     with open('home/static/GEOJSON/USCounties_final.geojson') as f:
         geojson1 = json.load(f)

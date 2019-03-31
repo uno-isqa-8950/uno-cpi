@@ -1,18 +1,17 @@
 {% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %} {% block content %}
-
-
+    {#<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>#}
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    {#<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />#}
     <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
-
     <style>
 
-
-        #sidebar {
+        #sidebar, .panel > .panel-heading, .panel-default > .card {
             background-color: #333;
         }
 
-        .btn-primary {
+        .btn-primary
+        {
             background-color: #bbbbbb;
             border-color: #333;
         }
@@ -27,8 +26,8 @@
         {
             position:absolute;
             top:5px;
-            left:45px;
-            border-color: #484848;
+            left:40px;
+            border-color: #333;
             background-color: #ce2029;
             color:White;
             z-index:999;
@@ -37,15 +36,28 @@
 
         .active .btn-custom1
         {
-        left:40px;
-        background-color: #ce2029;
+            left:40px;
+            background-color: #ce2029;
         }
 
+        @media(max-width:810px)
+        {
+            .btn-custom1
+            {
+                left:15px;
+            }
+            .active .btn-custom1
+            {
+                left:15px;
+
+            }
+
+        }
 
         .btn-custom1:hover
         {
-        background-color: #bbbbbb;
-        border-color: #333;
+            background-color: #bbbbbb;
+            border-color: #333;
         }
 
 
@@ -68,7 +80,7 @@
         {#.mapboxgl-map:-webkit-full-screen#}
         {#{#}
         {#      width: 100%;#}
-        {#      height: calc(100vh -150px);#}
+        {#      height: calc(100vh - 150px);#}
         {#      margin: 0px 0 0 0;#}
         {##}
         {#}#}
@@ -109,7 +121,7 @@
             border-color:grey;
             box-shadow:0 0 8px 0 grey;
         }
-        select[id=selectCommtype]
+        select[id=selectCommunityType]
         {
             width:85%;
             border:2px solid #aaa;
@@ -152,6 +164,34 @@
             width: 210px;
             margin-bottom: 15px;
         }
+        select[id=selectMission]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+        select[id=selectCommunity]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
 
         select[id=selectCollege]
         {
@@ -167,7 +207,6 @@
             width: 210px;
             margin-bottom: 15px;
         }
-
 
         .h2 {
             display: block;
@@ -195,6 +234,7 @@
 
 
         .legend {
+            {#margin-top:10px;#}
             background-color: #bbbbbb;
             border-radius: 10px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
@@ -205,7 +245,6 @@
             padding: 10px;
             color: white;
             width:230px;
-
         }
 
         .legend h4 {
@@ -317,7 +356,7 @@
             z-index: 999;
             width: 430px;
             position: absolute;
-            background-color: #282828;
+            background-color: #333;
             display:block;
             top:10px;
             right: 50px;
@@ -338,6 +377,7 @@
         {
 
         }
+
         .container-fluid
         {
             padding-left:0px;
@@ -347,17 +387,6 @@
         .card
         {
             border-radius:0px;
-        }
-        a#websitelink:link {
-            color: #d71920;
-            background-color: transparent;
-            text-decoration: underline ;
-        }
-
-        a#websitelink:link.active{
-            color: #d71920;
-            background-color: transparent;
-            text-decoration: underline ;
         }
     .fa{
     font-size: 15px;
@@ -369,34 +398,34 @@
         <nav id="sidebar" style="height: 103%">
             <div class="row" style="border-bottom: 1px solid grey; height:60px;">
                 <div class="col-lg-6 col-md-6">
-                    <h3 style="padding:15px;text-align:left; font-size:25px; background-color: #333">Filters</h3>
+                    <h3 style="padding:15px;text-align:left; font-size:25px;">Filters</h3>
                 </div>
                 <div class="col-lg-6 col-md-6" style="padding:15px;">
                     <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
                         Reset
                     </button>
                 </div>
-
             </div>
-
-
             <div id='state-legend' class='legend'>
-                <h4>Mission Areas</h4>
-                <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
+                <h4>Engagement Type</h4>
+                <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
                 </div>
-                <select style="margin-top:10px;" id="selectCommtype" class="selectCommtype"></select>
+                <select style="margin-top:10px;"  id="selectMission" class="selectMission"></select>
                 <select id="selectCollege" class="selectCollege"></select>
                 <select id="selectCampus" class="selectCampus"></select>
+                <select id="selectCommunity" class="selectCommunity"></select>
+                <select id="selectCommunityType" class="selectCommunityType"></select>
+                <select id="selectDistrict" class="selectDistrict"></select>
                 <select id="selectYear" class="selectYear"></select>
-                <select  id="selectDistrict" class="selectDistrict"></select>
                 <div>
-                    <input id='valueFilter' type='text' placeholder='Search Community Partner' />
+                    <input id='valueFilter' type='text' placeholder='Search Projects' />
                 </div>
             </div>
 
         </nav>
 
         <div id="content">
+
             <div class = "container-fluid" style="margin-top:78px;">
                 <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
@@ -406,40 +435,65 @@
                                     <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                         <span></span>
                                     </button>
+
                                 </div>
+
                                 <div class="col-lg-4 col-md-5">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                        <label><b>Maps: Community Partners</b></label>
+                                        <label><b>Maps: Projects</b></label>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
-                                    <div style="box-sizing: border-box; padding:5px;">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
-                                            {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                    <div style="box-sizing: border-box; padding:3px;">
+                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b>{# &nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Projects without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>#}
+                                            {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
                                                 <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
                                             {% endif %}{% endfor %}
-                                        </label>
+                                            </label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <head>
+                        <title>Simple Map</title>
+                        <meta name="viewport" content="initial-scale=1.0">
+                        <meta charset="utf-8">
+                        <style>
+                            /* Always set the map height explicitly to define the size of the div
+                             * element that contains the map. */
+                            #map {
+                                height: 100%;
+                            }
+                            /* Optional: Makes the sample page fill the window. */
+                            html, body {
+                                height: 100%;
+                                margin: 0;
+                                padding: 0;
+                            }
+                        </style>
+                    </head>
+
 
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                        <div class="card">
+                        <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
                             <div id='map_canvas' class='map'>
-                                {{ districtData | json_script:"district-data"}}
-                                {{ collection | json_script:"commPartner-data"}}
+                                {{ collection | json_script:"project-data"}}
+                                {{ districtData | json_script:"district"}}
                                 {{ Missionlist | json_script:"missionlist"}}
-                                {{ CommTypeList | json_script:"CommTypelist"}}
+                                {{ CommTypelist | json_script:"CommTypelist"}}
+                                {{ Collegename | json_script:"collegename-list"}}
                                 {{ Campuspartner | json_script:"campusPartner-list"}}
-                                {{ year | json_script:"year-list" }}
-                                {{ College | json_script:"collegename-list"}}
+                                {{ Communitypartner | json_script:"communitypartner-list" }}
+                                {{ EngagementType | json_script:"engagementType" }}
+                                {{ year | json_script:"year-list"}}
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <footer>
                 <div class="container-fluid">
                     <div class="row">
@@ -460,7 +514,7 @@
                         </div>
                         <div class="col-md-3">
                             <ul class="imgadjust">
-                                <img src="{% static 'img/UNOFooter1.png' %}">
+                                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo">
                             </ul>
                         </div>
                     </div>
@@ -468,17 +522,17 @@
             </footer>
 
         </div>
-    </div>
 
+    </div>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY"></script>
 
-    {#    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-marker-clusterer/1.0.0/markerclusterer_compiled.js"></script>#}
+    {#    markercluster#}
     <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
-
+    {#    spiderfy#}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
 
-    <script type="text/javascript" src='{% static "js/googlehomepage.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/projectMap.js" %}'></script>
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
@@ -500,7 +554,8 @@
             });
         });
     </script>
-     <script>
+
+   <script>
         $(function () {
             $('[data-toggle="popover"]').popover()
         })

@@ -112,7 +112,7 @@ def Contactus(request):
         email = EmailMessage(
             "CPI Contact Form submission", #Subject line of the Contact Us Page
             content,
-            "Community Partnership Initiative" + '',
+            # "Community Partnership Initiative" + '',
             ['djantz@unomaha.edu'], #Email to whom all the queries in Contact Us Page would be redirected to
             headers={'Reply-To': contact_email}
         )

@@ -92,8 +92,7 @@ def communitypartnerproject(request):
 
 @login_required()
 # @campuspartner_required()
-def proj_view_user(request):
-
+def myProjects(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
     camp_part_names=[]
@@ -103,11 +102,8 @@ def proj_view_user(request):
         p = c.campus_partner_id
         # get all the project names base on the campus partner id
         proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
-
         for f in proj_camp:
-
             k=list(Project.objects.filter(id = f.project_name_id))
-
             for x in k:
              projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
              cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
@@ -135,13 +131,13 @@ def proj_view_user(request):
 
 
 
-    return render(request, 'projects/Projectlist.html', {'project': projects_list,'data_definition':data_definition})
+    return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
 
 @login_required()
 # @campuspartner_required()
 
-def project_total_Add(request):
+def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
@@ -176,7 +172,7 @@ def project_total_Add(request):
                     formset4 = secondary_mission_details(queryset=ProjectMission.objects.none())
                     # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
-                    return render(request, 'projects/projectadd.html',
+                    return render(request, 'projects/createProject.html',
                                   {'project': project, 'formset': formset, 'formset4': formset4,'formset3': formset3, 'course': course})
             proj.save()
             coord = Point([proj.longitude, proj.latitude])
@@ -261,7 +257,7 @@ def project_total_Add(request):
                             'camp_part': list_camp_part_names
                             }
                     projects_list.append(data)
-            return render(request, 'projects/projectadd_done.html', {'project': projects_list})
+            return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
     else:
         month=datetime.datetime.now() .month
         year=datetime.datetime.now() .year
@@ -278,13 +274,13 @@ def project_total_Add(request):
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
 
-    return render(request, 'projects/projectadd.html',
+    return render(request, 'projects/createProject.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
 
 @login_required()
 @campuspartner_required()
-def project_edit_new(request,pk):
+def editProject(request,pk):
 
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
@@ -364,8 +360,8 @@ def project_edit_new(request,pk):
 
                         projects_list.append(data)
 
-                return HttpResponseRedirect("/campususerproject")
-                #return render(request, 'projects/Projectlist.html', {'project': projects_list})
+                return HttpResponseRedirect("/myProjects")
+                #return render(request, 'projects/myProjects.html', {'project': projects_list})
 
     else:
 
@@ -382,14 +378,14 @@ def project_edit_new(request,pk):
             formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
-            return render(request,'projects/projectedit.html',{'project': project,'course': course,
+            return render(request, 'projects/editProject.html', {'project': project, 'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details})
 
 @login_required()
 @login_required()
-def SearchForProject(request):
+def showAllProjects(request):
 
     data_definition=DataDefinition.objects.all()
 
@@ -426,7 +422,7 @@ def SearchForProject(request):
                     }
             projects_list.append(data)
 
-    return render(request,'projects/SearchProject.html',{'project': projects_list, 'data_definition':data_definition})
+    return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
 
 @login_required()
@@ -449,7 +445,7 @@ def SearchForProjectAdd(request,pk):
     cp = CampusPartnerUser.objects.filter(user_id=request.user.id)[0].campus_partner
     object = ProjectCampusPartner(project_name=foundProject, campus_partner=cp)
     object.save()
-    return redirect("proj_view_user")
+    return redirect("myProjects")
 
 
 # List Projects for Public View

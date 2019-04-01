@@ -37,7 +37,7 @@ class CSVDownloadButtonOnAllProjectsPage(unittest.TestCase):
         # Click on All Projects
         driver.find_element_by_xpath("//A[@class='dropdown-item'][text()='My Projects']/preceding-sibling::A").click()
 
-        self.assertEqual(driver.current_url, sta_url + "projectSearch/")
+        self.assertEqual(driver.current_url, sta_url + "allProjects/")
         # Select the CSV download button
         driver.find_element_by_xpath("//SELECT[@name='example_length']/../../..//SPAN[text()='CSV']").click()
         # time.sleep(9)

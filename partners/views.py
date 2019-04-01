@@ -411,7 +411,7 @@ def registerCampusPartner_forprojects(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return HttpResponseRedirect("/project_total_Add/")
+                return HttpResponseRedirect("/createProject/")
 
     else:
         campus_partner_form = CampusPartnerForm()
@@ -509,7 +509,7 @@ def registerCommunityPartner_forprojects(request):
                 with open(output_filename, 'w') as output_file:
                     output_file.write(format(jsonstring))  # write the file to the location
                 ######## Minh's code ends here ######################
-            return HttpResponseRedirect("/project_total_Add/")
+            return HttpResponseRedirect("/createProject/")
 
     else:
         community_partner_form = CommunityPartnerForm()

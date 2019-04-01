@@ -2,6 +2,24 @@
 {% block content %}
 
 <style>
+    #loading
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
     .form-inline label
     {
@@ -52,7 +70,7 @@
 
 </style>
 
-
+<div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -248,7 +266,10 @@ $(document).ready(function(){
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
+</script>
 
 <script type="text/javascript">
    $(document).ready(function() {

@@ -3,6 +3,24 @@
 
 {% block content %}
 <style>
+    #loading
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
 label, .btn-default
 {
@@ -73,6 +91,7 @@ label, .btn-default
 
 </style>
 
+<div class="loader" id =loading></div>
  <div class = "container-fluid">
         <div class="row justify-content-md-center">
 		    <div class="col-lg-12 col-md-12">
@@ -204,8 +223,10 @@ label, .btn-default
 
    } );
 </script>
-
-
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
+</script>
 <style>
 
     div.dataTables_wrapper div.dataTables_length label

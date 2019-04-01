@@ -89,5 +89,5 @@ class projectAssociated(unittest.TestCase):
         time.sleep(2)
 
         #Confirm if all the edited organizations along with their projects are visible
-        driver.get('http://127.0.0.1:8000/campususerproject/')
+        driver.get('http://127.0.0.1:8000/myProjects/')
         time.sleep(5)

@@ -83,7 +83,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
 
@@ -109,7 +109,7 @@
 
 <!-- Collapsible element -->
         <div class="card" style="border: 2px solid #C3C3C3;">
-        <div class="collapse" id="collapseExample">
+        <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
             <form class="form-inline" role="form" id="filters-form" method="get">

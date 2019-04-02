@@ -12,62 +12,6 @@ from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
 
-@register_snippet
-class Campus_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('text'),
-    ]
-
-    def __str__(self):
-        return self.text
-
-    class Meta:
-        verbose_name = "Campus Partner Snippet"
-
-@register_snippet
-class Campus_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('text'),
-    ]
-
-    def __str__(self):
-        return self.text
-
-    class Meta:
-        verbose_name = "Campus Partner User Snippet"
-
-@register_snippet
-class Community_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('text'),
-    ]
-
-    def __str__(self):
-        return self.text
-
-    class Meta:
-        verbose_name = "Community Partner Snippet"
-
-@register_snippet
-class Community_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('text'),
-    ]
-
-    def __str__(self):
-        return self.text
-
-    class Meta:
-        verbose_name = "Community Partner User Snippet"
-
 class HomePage(Page):
 
     # Hero section of HomePage
@@ -81,7 +25,7 @@ class HomePage(Page):
     )
     hero_text = models.CharField(
         max_length=255,
-        help_text='Write an introduction for the bakery'
+        help_text='Write an introduction for the Site'
         )
 
     # Body section of the HomePage
@@ -428,3 +372,115 @@ class DataDefinition(models.Model):
 
     def __str__(self):
         return str(self.title)
+
+@register_snippet
+class Campus_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner Snippet"
+
+@register_snippet
+class Campus_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Campus Partner User Snippet"
+
+@register_snippet
+class Community_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner Snippet"
+
+@register_snippet
+class Community_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner User Snippet"
+
+@register_snippet
+class Public_Project_Report_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Public Project Report Snippet"
+
+@register_snippet
+class Private_Project_Report_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Private Project Report Snippet"
+
+@register_snippet
+class Community_Public_Report_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Public Report Snippet"
+
+@register_snippet
+class Community_Private_Report_Snippet(models.Model):
+    text = models.CharField(max_length=255)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Private Report Snippet"

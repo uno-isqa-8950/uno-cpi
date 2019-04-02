@@ -1,6 +1,5 @@
-{% extends 'home/base_home.html' %}
-{% block content %}
-
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
 <style>
     #loading
     {
@@ -67,6 +66,16 @@
     color:grey;
     }
 
+    div.layout {
+      text-align: center;
+    }
+
+    div.center {
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
 </style>
 
@@ -75,9 +84,17 @@
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
-           <div class="card" style="padding: 5px;margin-top:50px;">
-               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Community Partners</h4></b></label>
-           </div>
+               <div class="card" style="padding: 5px;margin-top:50px;">
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Community Partners</h4></b></label>
+               </div>
+            </div>
+            <div class="layout">
+                <div class="center">
+                     <br>
+                    {% pub_comms %}
+                    <br>
+                </div>
+            </div>
         </div>
     </div>
 </div>

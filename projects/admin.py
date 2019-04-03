@@ -3,6 +3,7 @@ from .models import Project, ProjectMission, ProjectCommunityPartner, ProjectCam
     ActivityType, Status, AcademicYear
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
+from simple_history.admin import SimpleHistoryAdmin
 
 class ProjectResource(resources.ModelResource):
     project_name = fields.Field(attribute='project_name', column_name="Project Name")
@@ -18,7 +19,7 @@ class ProjectResource(resources.ModelResource):
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')
 
-class ProjectList(ImportExportModelAdmin):
+class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
                     'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
@@ -39,7 +40,7 @@ class ProjectMissionResource(resources.ModelResource):
         model = ProjectMission
         fields = ('project_name', 'mission_type', 'mission')
 
-class ProjectMissionList(ImportExportModelAdmin):
+class ProjectMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'mission_type', 'mission')
 
@@ -55,7 +56,7 @@ class ProjectCommunityPartnerResource(resources.ModelResource):
         model = ProjectCommunityPartner
         fields = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
 
-class ProjectCommunityPartnerList(ImportExportModelAdmin):
+class ProjectCommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
 
@@ -71,7 +72,7 @@ class ProjectCampusPartnerResource(resources.ModelResource):
         model = ProjectCampusPartner
         fields = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
 
-class ProjectCampusPartnerList(ImportExportModelAdmin):
+class ProjectCampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
 
@@ -85,7 +86,7 @@ class EngagementTypeResource(resources.ModelResource):
     class Meta:
         model = EngagementType
 
-class EngagementTypeList(ImportExportModelAdmin):
+class EngagementTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'description')
 
@@ -99,7 +100,7 @@ class ActivityTypeResource(resources.ModelResource):
     class Meta:
         model = ActivityType
 
-class ActivityTypeList(ImportExportModelAdmin):
+class ActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'description')
 
@@ -120,7 +121,7 @@ class AcademicYearResource(resources.ModelResource):
     class Meta:
         model = AcademicYear
 
-class AcademicYearList(ImportExportModelAdmin):
+class AcademicYearList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('academic_year', 'description')
 

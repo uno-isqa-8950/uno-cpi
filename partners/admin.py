@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
+from simple_history.admin import SimpleHistoryAdmin
+
 
 class CommunityPartnerResource(resources.ModelResource):
     community_type = fields.Field(attribute='community_type', column_name="Community Type")
@@ -10,7 +12,7 @@ class CommunityPartnerResource(resources.ModelResource):
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part')
 
-class CommunityPartnerList(ImportExportModelAdmin):
+class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'website_url', 'community_type', 'k12_level',
 
@@ -31,7 +33,7 @@ class CampusPartnerResource(resources.ModelResource):
         model = CampusPartner
         fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system')
 
-class CampusPartnerList(ImportExportModelAdmin):
+class CampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'college_name','department','weitz_cec_part','active')
 
@@ -45,7 +47,7 @@ class CampusPartnerUserResource(resources.ModelResource):
     class Meta:
         model = CampusPartnerUser
 
-class CampusPartnerUserList(ImportExportModelAdmin):
+class CampusPartnerUserList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('campus_partner', 'user')
 
@@ -60,7 +62,7 @@ class CommunityPartnerUserResource(resources.ModelResource):
     class Meta:
         model = CommunityPartnerUser
 
-class CommunityPartnerUserList(ImportExportModelAdmin):
+class CommunityPartnerUserList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('community_partner', 'user')
 
     search_fields = ('community_partner__name', 'user__email')
@@ -76,7 +78,7 @@ class CommunityPartnerMissionResource(resources.ModelResource):
     class Meta:
         model = CommunityPartnerMission
 
-class CommunityPartnerMissionList(ImportExportModelAdmin):
+class CommunityPartnerMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('community_partner','mission_area','mission_type')
 
     search_fields = ('community_partner__name','mission_area__mission_name','mission_type')
@@ -93,7 +95,7 @@ class CommunityPartnerMissionList(ImportExportModelAdmin):
 
 admin.site.register(CommunityPartner,CommunityPartnerList)
 admin.site.register(CommunityPartnerUser,CommunityPartnerUserList)
-admin.site.register(CommunityType)
+admin.site.register(CommunityType, SimpleHistoryAdmin)
 admin.site.register(CommunityPartnerMission,CommunityPartnerMissionList)
 admin.site.register(CampusPartner,CampusPartnerList)
 admin.site.register(CampusPartnerUser,CampusPartnerUserList)

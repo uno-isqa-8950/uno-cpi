@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django_filters',
     'import_export',
     'logentry_admin',
+    'simple_history',
 
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
@@ -80,6 +81,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 

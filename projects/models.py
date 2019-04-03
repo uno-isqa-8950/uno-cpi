@@ -1,5 +1,6 @@
 from django.utils import timezone
 from django.db import models
+from simple_history.models import HistoricalRecords
 
 
 class Project (models.Model):
@@ -36,6 +37,7 @@ class Project (models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
+    history = HistoricalRecords()
 
     def created(self):
         self.created_date = timezone.now()
@@ -57,6 +59,7 @@ class ProjectMission (models.Model):
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20, choices=mission_choices)
     mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.mission)
@@ -68,6 +71,7 @@ class ProjectCommunityPartner (models.Model):
     total_hours = models.IntegerField(blank=True, null=True)
     total_people = models.IntegerField(blank=True, null=True)
     wages = models.IntegerField(default=22)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.project_name)
@@ -79,6 +83,7 @@ class ProjectCampusPartner (models.Model):
     total_hours = models.IntegerField(blank=True, null=True, default=0)
     total_people = models.IntegerField(blank=True, null=True, default=0)
     wages = models.IntegerField(blank=True, null=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.project_name)
@@ -89,6 +94,7 @@ class ProjectCampusPartner (models.Model):
 class Status(models.Model):
     name = models.CharField(max_length=80, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.name)
@@ -101,6 +107,7 @@ class Status(models.Model):
 class EngagementType(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.name)
@@ -109,6 +116,7 @@ class EngagementType(models.Model):
 class ActivityType(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.name)
@@ -117,6 +125,7 @@ class ActivityType(models.Model):
 class AcademicYear(models.Model):
     academic_year = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.academic_year)

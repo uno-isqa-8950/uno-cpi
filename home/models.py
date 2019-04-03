@@ -11,6 +11,7 @@ from wagtail.images.edit_handlers import ImageChooserPanel
 from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
+from simple_history.models import HistoricalRecords
 
 class HomePage(Page):
 
@@ -315,6 +316,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
+    history = HistoricalRecords()
 
 
 class Contact(models.Model):
@@ -331,6 +333,7 @@ class Contact(models.Model):
     contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select')
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,null=True,blank=True)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.email_id)
@@ -354,6 +357,7 @@ class HouseholdIncome(models.Model):
     median_income = models.IntegerField(null=False, blank=False)
     margin_error = models.IntegerField(null=False, blank=False)
     rank = models.IntegerField(null=False, blank=False)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.county)
@@ -369,6 +373,7 @@ class DataDefinition(models.Model):
     description = models.CharField(max_length=1000)
     group = models.ForeignKey('DataDefinitionGroup', on_delete=models.CASCADE,default=True)
     is_active = models.BooleanField(default=False)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.title)

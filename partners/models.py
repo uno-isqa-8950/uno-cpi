@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from simple_history.models import HistoricalRecords
 
 
 class CommunityPartner(models.Model):
@@ -26,6 +27,8 @@ class CommunityPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
+    history = HistoricalRecords()
+
 
     def __str__(self):
         return str(self.name)
@@ -40,10 +43,12 @@ class CommunityPartnerMission(models.Model):
     mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,
                                           related_name='communitypartnermission', null=True)
+    history = HistoricalRecords()
 
 
 class CommunityType(models.Model):
     community_type = models.CharField(max_length=50,verbose_name="Community Type")
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.community_type)
@@ -61,6 +66,7 @@ class CampusPartner(models.Model):
     education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True,blank=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
     active = models.BooleanField(default=False)
+    history = HistoricalRecords()
 
     def __str__(self):
         return str(self.name)
@@ -69,11 +75,13 @@ class CampusPartner(models.Model):
 class CampusPartnerUser(models.Model):
     campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE, null=False,unique=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    history = HistoricalRecords()
 
 
 class CommunityPartnerUser(models.Model):
-     community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE,
+    community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE,
                                            related_name='communitypartner', null=True)
-     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    history = HistoricalRecords()
 
 

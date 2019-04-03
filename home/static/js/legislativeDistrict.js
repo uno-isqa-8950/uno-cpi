@@ -347,8 +347,9 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
     google.maps.event.addListener(marker, 'rightclick', function() {
         infowindow.setContent(
             '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)\s*/g,"<br> ")+ '</td></tr><br />')
+            // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)(?:,)\s*/g,"<br> ")+ '</td></tr><br />')
          // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
+        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
         map.panTo(this.getPosition());
 
         // google.maps.event.addListener(marker, 'rightclick', function() {

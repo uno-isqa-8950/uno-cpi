@@ -236,8 +236,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var selectCollege = communityData.features[i].properties["College Name"]
         var marker = new google.maps.Marker({
             position: {
-                lat: parseFloat(communityData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 50000,
-                lng: parseFloat(communityData.features[i].geometry.coordinates[0])+ (Math.random() -.5) / 50000
+                lat: parseFloat(communityData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 25000,
+                lng: parseFloat(communityData.features[i].geometry.coordinates[0])+ (Math.random() -.5) / 25000
             },
             map: map,
             icon: circle, // set the icon here
@@ -332,7 +332,8 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ")+ '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Website:</span>&nbsp;&nbsp;<td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
-            '<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')
+            (project_number == 0 ? '':
+                ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());

@@ -4,6 +4,8 @@ from .models import EducationSystem, University , College, Department,Course
 
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
+from simple_history.admin import SimpleHistoryAdmin
+
 
 class EducationSystemList(admin.ModelAdmin):
 
@@ -27,7 +29,7 @@ class CollegeResource(resources.ModelResource):
         model = College
         fields = ('college_name', 'university')
 
-class CollegeList(ImportExportModelAdmin):
+class CollegeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('college_name', 'university')
 
@@ -41,7 +43,7 @@ class DepartmentResource(resources.ModelResource):
     class Meta:
         model = Department
 
-class DepartmentList(ImportExportModelAdmin):
+class DepartmentList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('department_name', 'college_name')
 
@@ -58,7 +60,7 @@ class CourseResource(resources.ModelResource):
         model = Course
         fields = ('prefix', 'number', 'name','project_name', 'university')
 
-class CourseList(ImportExportModelAdmin):
+class CourseList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('prefix', 'number', 'name','project_name', 'university')
 

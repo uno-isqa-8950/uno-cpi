@@ -98,11 +98,15 @@ class CommunityPartnerForm(forms.ModelForm):
 
         }
 
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if CommunityPartner.objects.filter(name__icontains=name).exists():
-            raise forms.ValidationError('Community partner with this Name already exists.')
-        return name
+
+    # def clean_name(self):
+    #     name = self.cleaned_data['name']
+    #     try:
+    #         CommunityPartner.objects.filter(name__icontains=name)
+
+        # except ObjectDoesNotExist:
+        #     return name
+        # raise forms.ValidationError('Community partner with this Name already exists.')
 
     # def clean_country(self):
     #         name = self.cleaned_data['country']

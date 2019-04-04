@@ -474,29 +474,3 @@ $(document).on('click', '.remove-mission-row', function(e){
 </script>
 
 {% endblock %}
-
-{% block js %}
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-
-<script>
-    $("#id_name").change(function () {
-      var name = $(this).val();
-
-      $.ajax({
-        url: "{% url 'partners:ajax_load_project' %}",
-        data: {
-          'name': name
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert("A Community Partner with this name already exists!");
-            document.getElementById('errorname').innerHTML="A Community Partner with this name already exists!";
-          }
-        }
-      });
-
-    });
-</script>
-
-{% endblock %}

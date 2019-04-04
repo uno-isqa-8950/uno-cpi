@@ -62,7 +62,7 @@ class DataDefinitionGroupResource(resources.ModelResource):
         model = DataDefinitionGroup
 
 
-class DataDefinitionGroupList(SimpleHistoryAdmin, ImportExportModelAdmin):
+class DataDefinitionGroupList(ImportExportModelAdmin):
     list_display = ('group',)
     search_fields = ('group',)
     resource_class = DataDefinitionGroupResource

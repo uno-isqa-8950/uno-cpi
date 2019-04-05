@@ -870,3 +870,18 @@ def communityPrivateReport(request):
 #
 #     return render(request, 'reports/projects_private_view.html', {'projects': projects,
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
+
+
+def checkProject(request):
+    project = ProjectForm()
+    projectNames = []
+    for object in Project.objects.order_by('project_name'):
+        project = object.project_name.split('(')[0]
+        if project not in projectNames:
+            projectNames.append(project)
+    if request.method == 'POST':
+        project = ProjectForm(request.POST)
+
+    print(projectNames)
+    return render(request, 'projects/checkProject.html',
+                  {'project': project, 'projectNames':projectNames})

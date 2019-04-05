@@ -76,10 +76,10 @@
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Search for a Project</h4></div>
                         <div class="panel-body">&emsp;
-                            <form action="createProject.html" method="POST">{% csrf_token %}
+                            <form method="POST">{% csrf_token %}
                                     <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
                             </form>
-                            <div class="justify-content-md-center" id="node-id" style="margin-left: 30%"></div>
+                            <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
                             <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
                             <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
                         </div>
@@ -110,6 +110,8 @@ valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
     console.log(value)
+    console.log(project_db)
+    var projectlist = []
 
     if (value == "") {
         document.getElementById('node-id'). innerHTML = "";
@@ -119,29 +121,38 @@ valueFilter.addEventListener("keyup", function (e) {
 
 
     } else {
+        projectlist = [];
+          if (e.keyCode == 32 || e.keyCode == 13) {
 
         for (var i = 0; i < project_db.length; i++) {
 
             if (project_db[i].toLowerCase().includes(value)) {
+                if (!(project_db[i] in projectlist)){
+
+                    projectlist.push(project_db[i])
+                    console.log(projectlist)
+
                 document.getElementById('node-id'). innerHTML =
                     '<br>'+
                 '<tr><td>Do you see the project you want to create here? </td></tr><br><br>'+
-                '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';
+                {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
+                '<tr><td>'+ projectlist.join("<br>")+'</td></tr>';
 
 
                 document.getElementById('node1-id').innerHTML =
                         '<br>' +
-                        '<tr><td>If you see the project in the list, it already exists! Click on the button below to access it</td></tr><br /><br />' +
-                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-link btn-primary" href="../allProjects.html" role="button">All Projects</a></td></tr>'
+                        '<tr><td>If yes, the project already exists! Click on the button below to access it</td></tr><br /><br />' +
+                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-link btn-primary" href="/allProjects/" role="button">All Projects</a></td></tr>'
 
-
+}
             } else {
-                if(!(project_db[i].toLowerCase().includes(value))){
+                if (!(project_db[i].toLowerCase().includes(value))) {
                     document.getElementById('button-id').innerHTML =
                         '<br>' +
                         '<tr><td>If you do not find the project in the list, kindly go ahead and create a new project</td></tr><br /><br />' +
-                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-link btn-primary" href="../createProject.html" role="button">Create Project</a></td></tr>'
+                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-link btn-primary" href="/createProject/" role="button">Create Project</a></td></tr>'
                 }
+            }
 
             }
         }

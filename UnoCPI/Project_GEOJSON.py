@@ -7,6 +7,9 @@ import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from googlemaps import Client
+
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -34,7 +37,7 @@ df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name 
 
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
 # df['fulladdress'] = df[["address_line1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 

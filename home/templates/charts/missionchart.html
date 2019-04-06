@@ -1,5 +1,5 @@
-{% extends 'home/base_home.html' %}
-{% block content %}
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
 
 <style>
     #loading
@@ -71,6 +71,11 @@
                <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Chart : Mission Areas</h4></b></label>
                </div>
+            </div>
+            <div class="card" style="padding: 10px;">
+                <div class="center">
+                    {% miss_charts %}
+                </div>
             </div>
         </div>
     </div>

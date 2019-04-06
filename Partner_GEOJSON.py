@@ -2,12 +2,13 @@ import pandas as pd
 import googlemaps
 import json
 import datetime
-import boto3
 from pandas import DataFrame
 import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from googlemaps import Client
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -26,15 +27,15 @@ district = geojson["features"]
 logger=logging.getLogger("UNO CPI Application")
 
 #setup connection to database --LOCAL
-conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
+# conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
 
 # CAT STAGING
-# conn = psycopg2.connect(user="fhhzsyefbuyjdp",
-#                               password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-#                               host="ec2-75-101-131-79.compute-1.amazonaws.com",
-#                               port="5432",
-#                               database="dal99elrltiq5q",
-#                               sslmode="require")
+conn = psycopg2.connect(user="fhhzsyefbuyjdp",
+                              password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
+                              host="ec2-75-101-131-79.compute-1.amazonaws.com",
+                              port="5432",
+                              database="dal99elrltiq5q",
+                              sslmode="require")
 
 #setup connection to database --SERVER
 # conn = psycopg2.connect(user= "nbzsljiyoqyakc",
@@ -70,7 +71,7 @@ else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyD8vG1H-o1SKnC1VOG6Ip5DNWZAVjfE2IY')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 if(gmaps):
     logger.info("GMAPS API works!")
@@ -146,8 +147,8 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
         feature['properties']['Mission Type'] = MissionType
         feature['properties']['City'] = City
 
-    collection['features'].append(feature)
-    return feature
+        collection['features'].append(feature)
+        return feature
 
 
 geojson_series = dfCommunity.apply(
@@ -162,12 +163,3 @@ print("Partners GeoJSON  "+ repr(len(dfCommunity)) + " records are generated at 
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))
-
-#writing into amazon s3 bucket
-ACCESS_ID='AKIA2VNRCWYZ6XLKFCU2'
-ACCESS_KEY='/luyByQmXVZNlHVlDR6qhZk6PWisTVKj/Ory1suT'
-s3 = boto3.resource('s3',
-         aws_access_key_id=ACCESS_ID,
-         aws_secret_access_key= ACCESS_KEY)
-
-s3.Object('djantz-bucket1', 'geojson/Partner.geojson').put(Body=format(jsonstring))

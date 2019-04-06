@@ -548,9 +548,13 @@ def communityPublicReport(request):
         proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
         project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
-        community_dict['community_name'] = m.name
         project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        if project_count == 0:
+            continue
+
+        community_dict['community_name'] = m.name
         community_dict['project_count'] = project_count
+
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
@@ -663,9 +667,12 @@ def communityPrivateReport(request):
         proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
         project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
+        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        if project_count==0:
+            continue
+
         community_dict['community_name'] = m.name
         community_dict['website'] = m.website_url
-        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         community_dict['project_count'] = project_count
 
         # Code to get the contact email id of community partners from Contacts Model

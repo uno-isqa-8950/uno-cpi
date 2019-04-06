@@ -260,9 +260,9 @@ padding: 0px 8px;
                 </div>
                 </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
-              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
+{#              </li>#}
               {% endif %}
 
                 {% if user.is_communitypartner %}
@@ -270,6 +270,10 @@ padding: 0px 8px;
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
                  {% endif %}
+
+                <li class=" nav-item dropdown">
+                         <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                </li>
 
               {% if user.is_authenticated and user.is_superuser  %}
                 <li class=" nav-item dropdown">

@@ -25,7 +25,10 @@ import pandas as pd
 import json
 from django.db.models import Sum
 import datetime
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+from django.conf import settings
+from googlemaps import Client
+
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
 @login_required()

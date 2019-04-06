@@ -7,6 +7,9 @@ import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from googlemaps import Client
+
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -70,7 +73,7 @@ else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 if(gmaps):
     logger.info("GMAPS API works!")

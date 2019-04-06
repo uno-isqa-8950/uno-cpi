@@ -2,49 +2,65 @@
 {% load bootstrap %}
 {% block content %}
   <style>
+
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+}
+
+
+
+
 .select2-container--default .select2-selection--single
 {
-    border: 2px solid #aaa;
+    {#border: 2px solid #aaa;#}
     height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
 }
     label
     {
         margin-left: 25px;
         font-weight: bold;
     }
+
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
         label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_students]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
-        label[for=id_form-0-mission]:after,label[for=id_zip]:after
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
     {
         content:"*" ;
         color:red
     }
+
     h4
     {
         line-height: 2.7;
         font-size: 1.3em;
     }
+
     .h9{
         font-size:0.8em;
         font-style: italic;
     }
+
     .btn-link{
+
         font-size: small;
         font-style: italic;
     }
-    input[id=id_start_date],input[id=id_end_date], textarea[id=id_description],textarea[id=id_total_uno_hours],input[type=text],[type=password],[type=email],select[id=id_engagement_type], select[id=id_activity_type],textarea[id=id_description],select[id=id_semester],input[type=number],select[id=id_status],select[id=id_academic_year],
-    input[id=id_engagement_type],input[id=id_activity_type]
+
+    select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country]
     {
         width:95%;
         height: 1%;
         color: black;
     }
-    .select2-container--default .select2-selection--single
-    {
-        margin-left:22px;
-        width:100%
-    }
+
+
     .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -53,14 +69,21 @@
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-    .select2-container--open .select2-dropdown--below
-    {
-        margin-left:22px
-    }
+
+
   select[id=id_form-0-campus_partner]
    {
        width:93%;
    }
+
+
+   .btn-link, .btn-link:hover
+
+   {
+   color: #d71920
+   }
+
+
     </style>
 
 
@@ -80,6 +103,7 @@
                                     <label for="id_project_name">Project Name</label>
                                     {{ project.project_name }}
                                 </div>
+
                                 <div class="form-group">
                                     {{ project.engagement_type.errors }}
                                     <label for="id_engagement_type">Engagement Type</label>
@@ -88,8 +112,8 @@
                                     {{ project.engagement_type }}
                                 </div>
 
-                                <div class="form-group">
-                                    {{ project.engagement_type.errors }}
+                                <div class="col-lg-18 form-group">
+                                    {{ project.activity_type.errors }}
                                     <label for="id_activity_type">Activity Type</label>
                                     {% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     {% endif %} {% endfor %}
@@ -97,7 +121,8 @@
                                 </div>
                                 {{ course|bootstrap }}
 
-                              {% for form2 in formset2 %}
+                                {% for form2 in formset2 %}
+
                                     <div class="community-row" id="contact1">
                                         <div class="col-lg-12">
                                             <h6>Community Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -142,11 +167,11 @@
 
                                 <div class="col-lg-12">
                                     <p class = h9>Couldn't find your Campus Partner or Community Partner? Please Register your Partner before creating a New Project.</p>
-                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"
+                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
                                                                 ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
-                                    <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject"
+                                    <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
                                                                 ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>
@@ -161,15 +186,16 @@
                                                </h6><br>
                                         </div>
                                             <div class="input-group">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6" id="id_mission-0-mission'">
                                                     {{ form.mission|bootstrap }}
                                                 </div>
+
                                             </div>
                                     <p id="errorid"></p>
                                     </div>
                                 {% endfor %}
                                 {% for form4 in formset4 %}
-                                    <div class="secondary_mission-row" id="contact1" style="margin-top:20px;">
+                                    <div class="mission-row" id="contact1" style="margin-top:20px;">
                                         <div class="col-lg-12">
                                             <h6>Secondary Mission Areas
                                                 {% for data_definition in data_definition %}{% if data_definition.id == 40%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -177,15 +203,19 @@
                                             </h6><br>
                                         </div>
                                             <div class="input-group">
-                                                <div class="col-lg-6">
+                                                <div class="col-lg-6" id="id_secondary_mission-0-mission">
                                                     {{ form4.mission|bootstrap }}
+
                                                 </div>
                                             </div>
+                                       {% endfor %}
                                             <div class="input-group-append" >
                                                 <button class="btn btn-secondary add-secondary_mission-row">Add Additional Mission Area</button>
                                             </div>
+                                      <p class = h9>If you have additional Mission Areas, you can update them while editing your Project details!</p>
+                                     <p id="errorid"></p>
                                     </div>
-                                {% endfor %}
+
 
                                 <div class = "row">
                                     <div class="col-lg-12 col-md-12 col-sm-12">
@@ -205,13 +235,14 @@
                                             <label for="id_academic_year">Academic Year</label>
                                             {{ project.academic_year}}
                                         </div>
+
                                         </div>
                                         <div class="col-lg-12">
                                             &nbsp;&nbsp;<h6 style="margin-left: 3%">  Primary Location of the Project: </h6><br>
                                         </div>
 
                                         <div class="input-group">
-                                                <div class="col-lg-10">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-group">
                                                         {{ project.address_line1.errors }}
                                                         <label for="id_academic_year">Address Line 1</label>
@@ -222,6 +253,15 @@
                                                     {{ project.zip|bootstrap }}
                                                     {{ project.country|bootstrap }}
                                                 </div>
+                                                {{ project.total_uno_students|bootstrap }}
+                                                {{ project.total_economic_impact|bootstrap }}
+                                                {{ project.total_k12_hours|bootstrap }}
+                                                {{ project.total_k12_students|bootstrap }}
+                                                {{ project.total_other_community_members|bootstrap }}
+                                                {{ project.total_uno_faculty|bootstrap }}
+                                                {{ project.total_uno_hours|bootstrap }}
+
+
                                         </div>
                                     </div>
                                 </div>
@@ -229,7 +269,7 @@
 
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">
-                                        <button type="submit" class="save btn btn-custom">Submit</button>
+                                        <button type="submit" class="save btn btn-custom" style="background-color: #333">Submit</button>
                                     </div>
                                 </div>
                             </form><br><br>
@@ -388,74 +428,73 @@ window.onload = function () {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
+
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
-    $('#id_mission-0-mission').select2({placeholder: 'Select Primary Mission Area',});
-    $('#id_secondary_mission-0-mission').select2({placeholder: 'Select Secondary Mission Area',});
     $('#id_semester').select2({placeholder: 'Select Semester',});
-    $('#id_community-0-community_partner').select2({placeholder:'Choose your Community Partner',});
-     $('#id_campus-0-campus_partner').select2({placeholder:'Choose your Campus Partner',});
 });
 </script>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
         -Joseph Nabity
-{#<script>#}
-{#function validateFormsets(){#}
-{#     var id =event.target.id;#}
-{#     var name = event.target.name;#}
-{#     console.log(id);#}
-{#     console.log(name);#}
-{#     console.log(document.getElementById(id).value);#}
-{#    { console.log("helloooo");#}
-{#        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")#}
-{#        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {#}
-{#            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {#}
-{#                $('#'+id+'-error').remove();#}
-{#                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');#}
-{#                document.getElementById(id).style.borderColor = "red";#}
-{#                return false;#}
-{#            }#}
-{#            else {#}
-{#                document.getElementById(id).style.borderColor = "gray";#}
-{#                $('#'+id+'-error').remove();#}
-{#                return true;#}
-{#            }#}
-{#        }#}
-{#        if(id.includes("country")||id.includes("city") {#}
-{#            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){#}
-{#                $('#'+id+'-error').remove();#}
-{#                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');#}
-{#                document.getElementById(id).style.borderColor = "red";#}
-{#                return false;#}
-{#            }#}
-{#            else {#}
-{#                document.getElementById(id).style.borderColor = "gray";#}
-{#                $('#'+id+'-error').remove();#}
-{#                return true;#}
-{#            }#}
-{#        }#}
-{#        if(id.includes("total_economic_impact")){#}
-{#            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))#}
-{#            {#}
-{#                $('#'+id+'-error').remove();#}
-{#                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');#}
-{#                document.getElementById(id).style.borderColor = "red";#}
-{#                return false;#}
-{#            }#}
-{#        }#}
-{#    }#}
-{#return true;#}
-{#}#}
-{#</script>#}
+<script>
+function validateFormsets(){
+     var id =event.target.id;
+     var name = event.target.name;
+     console.log(id);
+     console.log(name);
+     console.log(document.getElementById(id).value);
+    { console.log("helloooo");
+        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
+        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+        }
+        if(id.includes("country")||id.includes("city") {
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+        }
+        if(id.includes("total_economic_impact")){
+            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
+            {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+        }
+    }
+return true;
+}
+</script>
 -->
 <!-- Adding script per ticket 723-->
 <script>
 window.onsubmit = function checking() {
     var id_name = document.getElementById('id_mission-0-mission');
+    var id_campus = document.getElementById('id_campus-0-campus_partner');
     var val = id_name.options[id_name.selectedIndex].text;
+    var val1 = id_campus.options[id_campus.selectedIndex].text;
     var location = document.getElementById("errorid").scrollTop;
 if (val === '---------') {
     error = "Please select a Primary Mission Area";
@@ -463,6 +502,12 @@ if (val === '---------') {
     document.documentElement.scrollTop = 900;
     return false
 }
+else if (val1 === '---------'){
+    error = "Please select atleast one Campus Partner";
+    document.getElementById("errorid1").innerHTML = error;
+    document.getElementById('id_community-0-community_partner').scrollIntoView();
+    return false
+    }
 }
 </script>
 <script>

@@ -28,6 +28,7 @@ urlpatterns = [
    path('countProjectCP/', views.unique_count, name='unique_count'),
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
+   path('recentchanges/', views.recentchanges, name='recentchanges' ),
    path('Contactus',views.Contactus,name='Contactus'),
    path('thanks/', views.thanks, name='thanks'),
    path('projectMap',views.googleprojectdata, name='googleprojectmap'),

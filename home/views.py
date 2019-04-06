@@ -25,10 +25,8 @@ sys.setrecursionlimit(1500)
 # importing models in home views.py
 from .models import *
 from university.models import *
-from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, \
-    CommunityPartnerMission
-from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectMission, \
-    ProjectCommunityPartner
+from partners.models import *
+from projects.models import *
 # importing filters in home views.py, used for adding filter
 from .filters import *
 # aggregating function
@@ -189,6 +187,26 @@ def signup(request):
 def signupuser(request):
     return render(request, 'home/registration/signupuser.html', {'signupuser': signupuser})
 
+def recentchanges(request):
+    #project app
+    recent_project = Project.history.all()
+    recent_proj_mission = ProjectMission.history.all()
+    recent_proj_campus = ProjectCampusPartner.history.all()
+    recent_proj_comm = ProjectCommunityPartner.history.all()
+    #partner app
+    recent_campus = CampusPartner.history.all()
+    recent_comm = CommunityPartner.history.all()
+    recent_comm_mission = CommunityPartnerMission.history.all()
+    #users and contacts
+    recent_user = User.history.all()
+    recent_contact = Contact.history.all()
+    print (recent_contact.values())
+
+    return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
+                                                        'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
+
+                                                        'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
+                                                        'recent_user': recent_user, 'recent_contact':recent_contact})
 
 def registerCampusPartnerUser(request):
     data = []

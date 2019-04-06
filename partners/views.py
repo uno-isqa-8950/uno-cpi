@@ -4,7 +4,7 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from home.decorators import campuspartner_required
 from home.forms import UserForm, CampusPartnerAvatar
 from .forms import *
@@ -175,24 +175,21 @@ def registerCommunityPartner(request):
                    'formset': formset,'data_definition': data_definition,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
-#auto complete for community name in register community partner form				   
-def ajax_load_project(request):
-    if request.is_ajax():
-        q = request.GET.get('term', '')
-        projects = CommunityPartner.objects.filter(name__istartswith=q)[:5]
-        results = []
-        for project in projects:
-            project_json = {}
-            project_json['id'] = project.id
-            project_json['value'] = project.name
-            project_json['label'] = project.name
-            results.append(project_json)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+#validation for community name in register community partner form
+def ajax_load_community(request):
+    name = request.GET.get('name', None)
+    data = {
+        'is_taken': CommunityPartner.objects.filter(name__iexact=name).exists()
+    }
+    return JsonResponse(data)
 
+#validation for campus name in register community partner form
+def ajax_load_campus(request):
+    name = request.GET.get('name', None)
+    data = {
+        'is_taken': CampusPartner.objects.filter(name__iexact=name).exists()
+    }
+    return JsonResponse(data)
 	
 #Campus and Community Partner user Profile
 @login_required

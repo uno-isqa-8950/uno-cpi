@@ -1057,7 +1057,7 @@ def invitecommunityPartnerUser(request):
             communitypartneruser.save()
             mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
             current_site = get_current_site(request)
-            message = render_to_string('account/invitation_email.html', {
+            message = render_to_string('account/CommunityPartner_Invite_email.html', {
                 'user': new_user,
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),

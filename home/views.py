@@ -31,6 +31,7 @@ from projects.models import *
 from .filters import *
 # aggregating function
 from django.db.models import Sum
+from django.conf import settings
 # importing forms into home views.py
 from .forms import *
 from django.shortcuts import render, redirect
@@ -40,8 +41,10 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import os
+from googlemaps import Client
+from home import context_processors
 
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 def countyGEO():
     with open('home/static/GEOJSON/USCounties_final.geojson') as f:
@@ -410,6 +413,10 @@ def project_partner_info(request):
     data_definition = DataDefinition.objects.all()
     mission_dict = {}
     mission_list = []
+    proj_total = 0
+    comm_total = 0
+    students_total = 0
+    hours_total = 0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -476,10 +483,15 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
+        proj_total += project_count
+        comm_total += community_count
+        students_total += total_uno_students
+        hours_total += total_uno_hours
     return render(request, 'reports/ProjectPartnerInfo.html',
                   {'project_filter': project_filter, 'data_definition': data_definition,
                    'communityPartners': communityPartners, 'mission_list': mission_list,
-                   'campus_filter': campus_filter, 'college_filter':college_filter})
+                   'campus_filter': campus_filter, 'college_filter':college_filter,
+                   'proj_total':proj_total, 'comm_total':comm_total, 'students_total':students_total, 'hours_total':hours_total})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

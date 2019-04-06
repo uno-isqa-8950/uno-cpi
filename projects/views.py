@@ -548,9 +548,13 @@ def communityPublicReport(request):
         proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
         project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
-        community_dict['community_name'] = m.name
         project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        if project_count == 0:
+            continue
+
+        community_dict['community_name'] = m.name
         community_dict['project_count'] = project_count
+
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
@@ -663,9 +667,12 @@ def communityPrivateReport(request):
         proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
         project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
+        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        if project_count==0:
+            continue
+
         community_dict['community_name'] = m.name
         community_dict['website'] = m.website_url
-        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         community_dict['project_count'] = project_count
 
         # Code to get the contact email id of community partners from Contacts Model
@@ -873,6 +880,21 @@ def communityPrivateReport(request):
 #
 #     return render(request, 'reports/projects_private_view.html', {'projects': projects,
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
+
+
+def checkProject(request):
+    project = ProjectForm()
+    projectNames = []
+    for object in Project.objects.order_by('project_name'):
+        project = object.project_name.split('(')[0]
+        if project not in projectNames:
+            projectNames.append(project)
+    if request.method == 'POST':
+        project = ProjectForm(request.POST)
+
+    print(projectNames)
+    return render(request, 'projects/checkProject.html',
+                  {'project': project, 'projectNames':projectNames})
 
 @login_required()
 # @campuspartner_required()

@@ -37,5 +37,6 @@ urlpatterns = [
    path('communityPartner',views.googlepartnerdata, name='googlehomepage'),
    path('communityPartnerType',views.googlemapdata, name='googlemap'),
    path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),
-   path('inviteCommPartner/<str:uidb64>/<str:token>', views.registerCommPartner, name='inviteCommPartner')
+   path('inviteCommPartner/<str:uidb64>/<str:token>', views.registerCommPartner, name='inviteCommPartner'),
+   path('inviteCommPartner/<str:uidb64>/', views.registerCommPartnerComplete, name='inviteCommPartnerComplete')
 ]

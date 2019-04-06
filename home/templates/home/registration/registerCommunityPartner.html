@@ -78,12 +78,11 @@ label
     <div class ="row justify-content-md-center">
         <div class="col-xl-7 col-md-10">
             <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Invite Community Partner</h4></div>
+		        <div class="panel-heading text-center"><h4>Registration - Community Partner</h4></div>
 			        <div class="panel-body">
-                        <p id="align">Complete Registration for Community Partner User</p>
-                        <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
+                        <form action="."  name="myForm" method="post">
                         {% csrf_token %}
-{#                        {{ community_user|bootstrap}}#}
+{#                        {{ community_partner|bootstrap}}#}
                         {{ form.first_name|bootstrap}}
                         {{ form.last_name|bootstrap}}
                         {{ form.email|bootstrap }}
@@ -145,3 +144,8 @@ $(document).ready(function(){
 </style>
 {% endblock %}
 
+{% block js %}
+<script type="text/javascript">
+    document.getElementById('id_email').readOnly = true;
+</script>
+{% endblock %}

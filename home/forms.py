@@ -49,15 +49,11 @@ class CommunityPartnerUserInvite(forms.ModelForm):
         fields = ('first_name','last_name', 'email')
 
 class CommunityPartnerUserCompleteRegistration(forms.ModelForm):
-    first_name = forms.CharField(label='First Name')
-    last_name = forms.CharField(label='Last Name')
-    email = forms.EmailField(label='Email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
-
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     def clean_password2(self):
         pas = self.cleaned_data['password']

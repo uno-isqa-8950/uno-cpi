@@ -8,6 +8,7 @@ urlpatterns = [
     path('communitypartnerproject/', views.communitypartnerproject, name='communitypartnerproject'),
     url(r'^project/(?P<pk>\d+)/edit/$', views.editProject, name='editProject'),
     url(r'^createProject/$', views.createProject, name='createProject'),
+    url(r'^projectadd/$', views.project_total_Add, name='projectadd'),
     path('myProjects/',views.myProjects, name='myProjects'),
     path('allProjects/', views.showAllProjects, name='showAllProjects'),
     url(r'^projectSearchAdd/(?P<pk>\d+)/', views.SearchForProjectAdd, name='projectSearchAdd'),

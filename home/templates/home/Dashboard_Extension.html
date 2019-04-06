@@ -150,9 +150,9 @@ margin-top:15px;
                     <a class="dropdown-item" href='/createProject/'>Create Project</a>
                 </div>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
-                </li>
+{#                <li class="nav-item">#}
+{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
+{#                </li>#}
                 {% endif %}
                {% if user.is_communitypartner %}
 
@@ -160,7 +160,7 @@ margin-top:15px;
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
                {% endif %}
-               {% if not user.is_authenticated %}
+{#               {% if not user.is_authenticated %}#}
                 <li class=" nav-item dropdown">
 {#                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">#}
 {#                        <i class="fa fa-handshake-o"></i>Partners#}
@@ -172,7 +172,7 @@ margin-top:15px;
 {#                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>#}
 {#                </div>#}
                 </li>
-               {% endif %}
+{#               {% endif %}#}
                 {% if user.is_authenticated and user.is_superuser  %}
 
 
@@ -188,6 +188,8 @@ margin-top:15px;
 {#                   <a class="dropdown-item" href="#">About us CMS</a>#}
                      <a class="dropdown-item" href= '/Adminframe/'>Admin View</a>
                      <a class="dropdown-item" href='/uploadProject/'>Import Data</a>
+                     <a class="dropdown-item" href='/cms/'>CMS</a>
+                    <a class="dropdown-item" href='/recentchanges/'>Recent Changes</a>
                 </div>
                 </li>
                 {% endif %}

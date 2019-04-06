@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 {% load staticfiles %}
 <html lang="en">
 <head>
@@ -19,6 +20,7 @@
   <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
   <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 
 
@@ -56,7 +58,6 @@ padding: .1rem 1rem;
 #example1
     {
         margin-top:100px;
-        margin-left: 250px;
     }
 
 
@@ -260,9 +261,9 @@ padding: 0px 8px;
                 </div>
                 </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
-              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
+{#              </li>#}
               {% endif %}
 
                 {% if user.is_communitypartner %}
@@ -270,6 +271,10 @@ padding: 0px 8px;
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
                  {% endif %}
+
+                <li class=" nav-item dropdown">
+                         <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                </li>
 
               {% if user.is_authenticated and user.is_superuser  %}
                 <li class=" nav-item dropdown">
@@ -283,6 +288,8 @@ padding: 0px 8px;
 {#                   <a class="dropdown-item" href="#">About us CMS</a>#}
                      <a class="dropdown-item" href= '/Adminframe/'>Admin View</a>
                      <a class="dropdown-item" href='/uploadProject/'>Import Data</a>
+                     <a class="dropdown-item" href='/cms/'>CMS</a>
+                     <a class="dropdown-item" href='/recentchanges/'>Recent Changes</a>
                 </div>
                 </li>
               {% endif %}

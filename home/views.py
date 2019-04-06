@@ -34,7 +34,8 @@ from django.db.models import Sum
 from django.conf import settings
 # importing forms into home views.py
 from .forms import *
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 import googlemaps
@@ -203,7 +204,6 @@ def recentchanges(request):
     #users and contacts
     recent_user = User.history.all()
     recent_contact = Contact.history.all()
-    print (recent_contact.values())
 
     return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
                                                         'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,

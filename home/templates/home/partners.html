@@ -136,7 +136,7 @@
                                 {% comm_part_users %}
     {#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
                                 {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
-                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Community Partner on UNO campus" href='/registerCommunityPartnerUser/'>Community Partner User Signup </a>
+                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Community Partner Users associated with a Community Partner"  href="{% url 'invitecommunityPartnerUser' %}">Invite Community Partner User </a>
                                 {% endif %}
                                 <br>
                                 <br>

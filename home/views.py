@@ -1033,3 +1033,74 @@ def googlemapdata(request):
                    'College': sorted(College)
                    }
                   )
+
+#TO invite community Partner to the Application
+@login_required()
+def invitecommunityPartnerUser(request):
+    form = CommunityPartnerUserInvite()
+    community_partner_user_form = CommunityPartnerUserForm()
+    commPartner = []
+    for object in CommunityPartner.objects.order_by('name'):
+        commPartner.append(object.name)
+
+    if request.method == 'POST':
+        form = CommunityPartnerUserInvite(request.POST)
+        community_partner_user_form = CommunityPartnerUserForm(request.POST)
+        if form.is_valid() and community_partner_user_form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.is_communitypartner = True
+            new_user.is_active = False
+            new_user.set_password(raw_password='Default')
+            new_user.save()
+            communitypartneruser = CommunityPartnerUser(
+                community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
+            communitypartneruser.save()
+            mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
+            current_site = get_current_site(request)
+            message = render_to_string('account/invitation_email.html', {
+                'user': new_user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'token': account_activation_token.make_token(new_user),
+            })
+            to_email = new_user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return render(request, 'home/communityuser_register_done.html', )
+    return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
+                                                                              'community_partner_user_form':community_partner_user_form})
+
+
+def registerCommPartner(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = get_object_or_404(User,pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        community_partner = get_object_or_404(CommunityPartner, pk=user.pk)
+        if request.method == 'POST':
+           form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+           if form.is_valid():
+               user = form.save(commit=False)
+               user.set_password(form.cleaned_data['password'])
+               user.is_active = True
+               user.is_communitypartner = True
+               user.save(commit=True)
+               return redirect('communitypartnerproject')
+           else:
+             form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+             return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
+                                                                                    'community_partner' : community_partner})
+        else:
+            form = CommunityPartnerUserCompleteRegistration(instance=user)
+        return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
+                                                                              'community_partner' : community_partner})
+    else:
+        return render(request, 'home/registration/register_fail.html')
+
+def registerCommPartnerComplete(request, uidb64):
+    return render(request,'home/register_done.html')
+

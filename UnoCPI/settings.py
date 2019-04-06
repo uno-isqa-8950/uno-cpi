@@ -98,6 +98,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'home.context_processors.global_settings',
             ],
         },
     },
@@ -219,6 +220,8 @@ except ImportError:
 
 WAGTAIL_SITE_NAME = 'UNO-CPI'
 
+
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
 AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
 AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')

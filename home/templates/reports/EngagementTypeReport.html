@@ -252,6 +252,14 @@
             <td>{{e.total_uno_hours}}</td>
         </tr>
     {% endfor %}
+        <tr>
+            <td><b>Total</b></td>
+            <td><b>{{ proj_total }}</b></td>
+            <td><b>{{ comm_total }}</b></td>
+            <td><b>{{ camp_total }}</b></td>
+            <td><b>{{ students_total }}</b></td>
+            <td><b>{{ hours_total }}</b></td>
+        </tr>
 </tbody>
 </table>
         </div>
@@ -292,7 +300,8 @@ $(document).ready(function(){
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
-       }
+       },
+       ordering:false
    });
 
    } );

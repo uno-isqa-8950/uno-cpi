@@ -272,8 +272,7 @@
                                 <td>{{m.total_uno_hours}}</td>
                             </tr>
                             {% endfor %}
-                        </tbody>
-                        <tbody>
+
                             <tr>
                                 <td><b>Total</b></td>
                                 <td><b>{{ comm_total }}</b></td>
@@ -383,7 +382,8 @@ $(document).ready(function(){
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
-       }
+       },
+       ordering:false
    });
 
    } );

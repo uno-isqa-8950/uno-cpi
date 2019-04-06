@@ -503,6 +503,11 @@ def engagement_info(request):
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
+    proj_total = 0
+    comm_total = 0
+    camp_total = 0
+    students_total = 0
+    hours_total = 0
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -586,9 +591,16 @@ def engagement_info(request):
         engagement_Dict['total_uno_hours'] = total_uno_hours
         engagement_Dict['total_uno_students'] = total_uno_students
         engagement_List.append(engagement_Dict.copy())
+        proj_total += project_count
+        comm_total += unique_comm_ids_count
+        camp_total += unique_camp_ids_count
+        students_total += total_uno_students
+        hours_total += total_uno_hours
     return render(request, 'reports/EngagementTypeReport.html',
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
-                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter})
+                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'camp_total':camp_total, 'students_total': students_total,
+                   'hours_total': hours_total})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea

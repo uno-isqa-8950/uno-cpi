@@ -33,6 +33,7 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
 from .filters import *
 # aggregating function
 from django.db.models import Sum
+from django.conf import settings
 # importing forms into home views.py
 from .forms import *
 from django.shortcuts import render, redirect
@@ -42,8 +43,10 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import os
+from googlemaps import Client
+from home import context_processors
 
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 def countyGEO():
     with open('home/static/GEOJSON/USCounties_final.geojson') as f:

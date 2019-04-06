@@ -53,7 +53,7 @@ finally:
         connection.close()
 
 #Another way of querying the database
-df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id", con=conn)
+df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, part_comm.community_type , uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id inner join partners_communitytype part_comm on pc.community_type_id = part_comm.id", con=conn)
 
 conn.close()
 
@@ -66,11 +66,11 @@ with open('static/GEOJSON/ID2.geojson') as f:
 
 district = geojson["features"]
 #
-def feature_from_row(Projectname, Engagement, Activity, Description, Year, College, Campus, Community, Mission, Address, City, State, Zip):
+def feature_from_row(Projectname, Engagement, Activity, Description, Year, College, Campus, Community, Mission,CommunityType, Address, City, State, Zip):
     feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
-                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'',
+                                                 'Campus Partner': '', 'Community Partner':'', 'Mission Area':'','Community Partner Type':'',
                                                  'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
@@ -97,6 +97,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             feature['properties']['Campus Partner'] = Campus
             feature['properties']['Community Partner'] = Community
             feature['properties']['Mission Area'] = Mission
+            feature['properties']['Community Partner Type']=CommunityType
             feature['properties']['Address Line1'] = Address
             feature['properties']['City'] = City
             feature['properties']['State'] = State
@@ -105,7 +106,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             return feature
 
 
-geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
+geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 output_filename = 'static/GEOJSON/Project.geojson' #The file will be saved under static/GEOJSON

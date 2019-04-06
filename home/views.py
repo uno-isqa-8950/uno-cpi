@@ -3,7 +3,7 @@ from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404
 from django.urls import reverse
 from home.decorators import campuspartner_required, admin_required
 from django.contrib.auth import authenticate, login, logout
@@ -42,6 +42,23 @@ import googlemaps
 from shapely.geometry import shape, Point
 import pandas as pd
 import os
+import boto3
+
+#writing into amazon s3 bucket
+ACCESS_ID='AKIA2VNRCWYZ6XLKFCU2'
+ACCESS_KEY='/luyByQmXVZNlHVlDR6qhZk6PWisTVKj/Ory1suT'
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+#read Partner.geojson from s3
+content_object = s3.Object('djantz-bucket1', 'geojson/Partner.geojson')
+partner_geojson = content_object.get()['Body'].read().decode('utf-8')
+
+#read Project.geojson from s3
+content_object = s3.Object('djantz-bucket1', 'geojson/Project.geojson')
+project_geojson = content_object.get()['Body'].read().decode('utf-8')
+
 
 gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
 
@@ -238,12 +255,74 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
-        return redirect('login')
+        return redirect('/')
     else:
         return render(request, 'home/registration/register_fail.html')
+from django.contrib import messages
+def invitecommunityPartnerUser(request):
+    form = CommunityPartnerUserInvite()
+    community_partner_user_form = CommunityPartnerUserForm()
+    commPartner = []
+    for object in CommunityPartner.objects.order_by('name'):
+        commPartner.append(object.name)
 
-@login_required()
+    if request.method == 'POST':
+        form = CommunityPartnerUserInvite(request.POST)
+        community_partner_user_form = CommunityPartnerUserForm(request.POST)
+        if form.is_valid() and community_partner_user_form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.is_communitypartner = True
+            new_user.is_active = False
+            new_user.set_password(raw_password='Default')
+            new_user.save()
+            communitypartneruser = CommunityPartnerUser(
+                community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
+            communitypartneruser.save()
+            mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
+            current_site = get_current_site(request)
+            message = render_to_string('account/invitation_email.html', {
+                'user': new_user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'token': account_activation_token.make_token(new_user),
+            })
+            to_email = new_user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return render(request, 'home/communityuser_register_done.html', )
+    return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
+                                                                              'community_partner_user_form':community_partner_user_form})
+
+def registerCommPartner(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        print(user.first_name)
+        print(user.last_name)
+        print(user.email)
+        form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+        if request.method == 'GET':
+            form.fields['first_name'] = user.first_name
+            form.fields['last_name'] = user.first_name
+            form.fields['email'] = user.email
+            if request.method == 'POST':
+                if form.is_valid():
+                    form.save()
+                    return redirect('/')
+                else:
+                    form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+                    return HttpResponse('Refill form')
+        return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form })
+    else:
+        return HttpResponse('Message Invalid')
+
+
+
 def registerCommunityPartnerUser(request):
     community_partner_user_form = CommunityPartnerUserForm()
     user_form = CommunityuserForm()
@@ -842,10 +921,10 @@ def EngagementType_Chart(request):
 
 
 def GEOJSON():
-    if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
-        with open('home/static/GEOJSON/Partner.geojson') as f:
-            geojson1 = json.load(f)  # get the GEOJSON
-        collection = geojson1  # assign it the collection variable to avoid changing the other code
+    # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
+        # with open('home/static/GEOJSON/Partner.geojson') as f:
+        #     geojson1 = json.load(f)  # get the GEOJSON
+    collection = json.loads(partner_geojson)  # assign it the collection variable to avoid changing the other code
 
     mission_list = MissionArea.objects.all()
     mission_list = [m.mission_name for m in mission_list]
@@ -879,7 +958,7 @@ def countyData(request):
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': sorted(Campuspartner),
-                   'number': len(data['features']),
+                   'number': 10,#len(data['features']),
                    'year': GEOJSON()[4]
                    }
                   )
@@ -887,10 +966,11 @@ def countyData(request):
 
 
 def GEOJSON2():
-    if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
-        with open('home/static/GEOJSON/Project.geojson') as f:
-            geojson1 = json.load(f)  # get the GEOJSON
-        collection = geojson1  # assign it the collection variable to avoid changing the other code
+    # if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
+    #     with open('home/static/GEOJSON/Project.geojson') as f:
+    #         geojson1 = json.load(f)  # get the GEOJSON
+    collection = format(project_geojson) # assign it the collection variable to avoid changing the other code
+
     Missionlist = []  ## a placeholder array of unique mission areas
     Engagementlist = []
     Academicyearlist = []

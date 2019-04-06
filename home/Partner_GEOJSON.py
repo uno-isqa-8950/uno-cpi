@@ -1,6 +1,7 @@
 import pandas as pd
 import googlemaps
 import json
+import boto3
 import datetime
 from pandas import DataFrame
 import os
@@ -17,21 +18,21 @@ with open('static/GEOJSON/ID2.geojson') as f:
 district = geojson["features"]
 
 #setup connection to database --LOCAL
-# conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
+conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
 
 #setup connection to database --SERVER
-conn = psycopg2.connect(user= "nbzsljiyoqyakc",
-                        password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
-                        host="ec2-54-227-241-179.compute-1.amazonaws.com",
-                        port="5432",
-                        database="d46q2igt2d4vbg",
-                        sslmode="require")
+# conn = psycopg2.connect(user= "nbzsljiyoqyakc",
+#                         password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
+#                         host="ec2-54-227-241-179.compute-1.amazonaws.com",
+#                         port="5432",
+#                         database="d46q2igt2d4vbg",
+#                         sslmode="require")
 #Get all the Community Partners from the database
 dfCommunity = pd.read_sql_query("SELECT pc.name as Community_Partner,pc.address_line1, pc.address_line2, pc.city, pc.state,pc.zip, hm.mission_name ,p.mission_type, pc.legislative_district,pc.median_household_income, pc2.community_type,pc.website_url FROM partners_communitypartner PC join partners_communitypartnermission p on PC.id = p.community_partner_id join home_missionarea hm on p.mission_area_id = hm.id join partners_communitytype pc2 on PC.community_type_id = pc2.id",con=conn)
 #Get all the Projects from the database and get their Campus Partners , Community Partners associated
 dfProjects = pd.read_sql_query("SELECT  project_name,academic_year , pc2.name as campus_partner ,um.college_name,ppcp.name as community_partner FROM projects_project P join projects_academicyear pa on P.academic_year_id = pa.id join projects_projectcampuspartner pc on P.id = pc.project_name_id join projects_projectcommunitypartner ppc on P.id = ppc.project_name_id join partners_communitypartner ppcp on ppc.community_partner_id = ppcp.id join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id join university_college um on um.id = pc2.college_name_id WHERE p.id IN (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 conn.close()
-gmaps = googlemaps.Client(key='AIzaSyBUB50OW6SELa9aE2LDPqmXv9s6EhLWYYY')
+gmaps = googlemaps.Client(key='AIzaSyD8vG1H-o1SKnC1VOG6Ip5DNWZAVjfE2IY')
 collection = {'type': 'FeatureCollection', 'features': []}
 
 dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].apply(lambda x: ' '.join(x.astype(str)), axis=1)
@@ -100,7 +101,8 @@ def feature_from_row(Community, Address, Mission, MissionType,City,CommunityType
     return feature
 
 
-geojson_series = dfCommunity.apply(lambda x: feature_from_row(x['community_partner'], x['fulladdress'], x['mission_name'],x['mission_type'], x['city'], x['community_type'], x['website_url']), axis=1)
+geojson_series = dfCommunity.apply(
+    lambda x: feature_from_row(x['community_partner'], x['fulladdress'], x['mission_name'],x['mission_type'], x['city'], x['community_type'], x['website_url']), axis=1)
 #
 jsonstring = pd.io.json.dumps(collection)
 
@@ -110,3 +112,12 @@ currentDT = datetime.datetime.now()
 print("Community Partners of  "+ repr(len(dfCommunity)) + " records are generated at "+ str(currentDT))
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
+
+#writing into amazon s3 bucket
+ACCESS_ID='AKIA2VNRCWYZ6XLKFCU2'
+ACCESS_KEY='/luyByQmXVZNlHVlDR6qhZk6PWisTVKj/Ory1suT'
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+s3.Object('djantz-bucket1', 'Partner.geojson').put(Body=format(jsonstring))

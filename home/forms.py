@@ -42,6 +42,40 @@ class CommunityPartnerUserForm(forms.ModelForm):
         queryset=CommunityPartner.objects.order_by().distinct('name'),
                                  label='Community Partner Name',help_text='Please Register your Organization if not found in list')
 
+class CommunityPartnerUserInvite(forms.ModelForm):
+    email = forms.EmailField(label='Email')
+    class Meta:
+        model = User
+        fields = ('first_name','last_name', 'email')
+
+class CommunityPartnerUserCompleteRegistration(forms.ModelForm):
+    first_name = forms.CharField(label='First Name')
+    last_name = forms.CharField(label='Last Name')
+    email = forms.EmailField(label='Email')
+    password = forms.CharField(label='Password', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
+
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
+    def clean_password2(self):
+        pas = self.cleaned_data['password']
+        cd = self.cleaned_data['password2']
+        MIN_LENGTH = 8
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if pas and cd:
+            if pas != cd:
+                raise forms.ValidationError('Passwords don\'t match.')
+            else:
+                if len(pas) < MIN_LENGTH:
+                    raise forms.ValidationError("Password should have atleast %d characters" % MIN_LENGTH)
+                if pas.isdigit():
+                    raise forms.ValidationError("Password should not be all numeric")
+                if pas.isalpha():
+                    raise forms.ValidationError("Password should have atleast one digit")
+                if not any(char in special_characters for char in pas):
+                    raise forms.ValidationError("Password should have atleast one Special Character")
 
 class CampususerForm(forms.ModelForm):
     password = forms.CharField(label='Password', widget=forms.PasswordInput)

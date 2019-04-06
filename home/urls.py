@@ -31,9 +31,12 @@ urlpatterns = [
    path('recentchanges/', views.recentchanges, name='recentchanges' ),
    path('Contactus',views.Contactus,name='Contactus'),
    path('thanks/', views.thanks, name='thanks'),
-   path('projectMap',views.googleprojectdata, name='googleprojectmap'),
-   path('legislativeDistrict',views.googleDistrictdata, name='googleDistrictmap'),
-   path('communityPartner',views.googlepartnerdata, name='googlehomepage'),
-   path('communityPartnerType',views.googlemapdata, name='googlemap'),
-   path('activate/<str:uidb64>/<str:token>', views.activate, name='activate')
+   path('inviteCommunityPartnerUser/', views.invitecommunityPartnerUser, name='invitecommunityPartnerUser'),
+   path('projectMap', views.googleprojectdata, name='googleprojectmap'),
+   path('legislativeDistrict', views.googleDistrictdata, name='googleDistrictmap'),
+   path('communityPartner', views.googlepartnerdata, name='googlehomepage'),
+   path('communityPartnerType', views.googlemapdata, name='googlemap'),
+   path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),
+   path('inviteCommPartner/<str:uidb64>/<str:token>', views.registerCommPartner, name='inviteCommPartner'),
+   path('inviteCommPartner/<str:uidb64>/', views.registerCommPartnerComplete, name='inviteCommPartnerComplete')
 ]

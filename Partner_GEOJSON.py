@@ -19,6 +19,7 @@ county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson
 district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
+
 with open(county_file) as f:
     geojson1 = json.load(f)
 county = geojson1["features"]
@@ -27,12 +28,9 @@ with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
 logger=logging.getLogger("UNO CPI Application")
-
-#setup connection to database --LOCAL
 # conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
-# CAT STAGING
-conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+#setup connection to database
+conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
@@ -88,61 +86,60 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                                                  'Academic Year': '', 'Website': ''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    if (Address != "N/A"):
-        geocode_result = gmaps.geocode(Address)  # get the coordinates
-        if (geocode_result[0]):
-            latitude = geocode_result[0]['geometry']['location']['lat']
-            longitude = geocode_result[0]['geometry']['location']['lng']
-            feature['geometry']['coordinates'] = [longitude, latitude]
-            coord = Point([longitude, latitude])
-            for i in range(len(district)):  # iterate through a list of district polygons
-                property = district[i]
-                polygon = shape(property['geometry'])  # get the polygons
-                if polygon.contains(coord):  # check if a partner is in a polygon
-                    feature['properties']['Legislative District Number'] = property["properties"][
-                        "id"]  # assign the district number to a partner
-            for m in range(len(county)):  # iterate through the County Geojson
-                properties2 = county[m]
-                polygon = shape(properties2['geometry'])  # get the polygon
-                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                    feature['properties']['County'] = properties2['properties']['NAME']
-                    feature['properties']['Income'] = properties2['properties']['Income']
-            projectlist = 0
-        yearlist = []
-        campuslist = []
-        projectList = []
-        collegeList = []
-        partners = dfProjects['community_partner']
-        years = dfProjects['academic_year']
-        campuses = dfProjects['campus_partner']
-        projects = dfProjects['project_name']
-        colleges = dfProjects['college_name']
-        count = 0
-        for n in range(len(partners)):
-            if (partners[n] == Community):
-                if (years[n] not in yearlist):
-                    yearlist.append(years[n])
-                if (campuses[n] not in campuslist):
-                    campuslist.append(campuses[n])
-                if (projects[n] not in projectList):
-                    projectList.append(projects[n])
-                if (colleges[n] not in collegeList):
-                    collegeList.append(colleges[n])
-                count += 1
-        feature['properties']['Number of projects'] = count
-        feature['properties']['Campus Partner'] = campuslist
-        feature['properties']['Academic Year'] = yearlist
-        feature['properties']['Projects'] = projectList
-        feature['properties']['College Name'] = collegeList
-        feature['properties']['CommunityPartner'] = Community
-        feature['properties']['CommunityType'] = CommunityType
-        feature['properties']['Website'] = Website
-        feature['properties']['Mission Area'] = Mission
-        feature['properties']['Mission Type'] = MissionType
-        feature['properties']['City'] = City
+    geocode_result = gmaps.geocode(Address)  # get the coordinates
+    if (geocode_result[0]):
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
+        feature['geometry']['coordinates'] = [longitude, latitude]
+        coord = Point([longitude, latitude])
+        for i in range(len(district)):  # iterate through a list of district polygons
+            property = district[i]
+            polygon = shape(property['geometry'])  # get the polygons
+            if polygon.contains(coord):  # check if a partner is in a polygon
+                feature['properties']['Legislative District Number'] = property["properties"][
+                    "id"]  # assign the district number to a partner
+        for m in range(len(county)):  # iterate through the County Geojson
+            properties2 = county[m]
+            polygon = shape(properties2['geometry'])  # get the polygon
+            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                feature['properties']['County'] = properties2['properties']['NAME']
+                feature['properties']['Income'] = properties2['properties']['Income']
+        projectlist = 0
+    yearlist = []
+    campuslist = []
+    projectList = []
+    collegeList = []
+    partners = dfProjects['community_partner']
+    years = dfProjects['academic_year']
+    campuses = dfProjects['campus_partner']
+    projects = dfProjects['project_name']
+    colleges = dfProjects['college_name']
+    count = 0
+    for n in range(len(partners)):
+        if (partners[n] == Community):
+            if (years[n] not in yearlist):
+                yearlist.append(years[n])
+            if (campuses[n] not in campuslist):
+                campuslist.append(campuses[n])
+            if (projects[n] not in projectList):
+                projectList.append(projects[n])
+            if (colleges[n] not in collegeList):
+                collegeList.append(colleges[n])
+            count += 1
+    feature['properties']['Number of projects'] = count
+    feature['properties']['Campus Partner'] = campuslist
+    feature['properties']['Academic Year'] = yearlist
+    feature['properties']['Projects'] = projectList
+    feature['properties']['College Name'] = collegeList
+    feature['properties']['CommunityPartner'] = Community
+    feature['properties']['CommunityType'] = CommunityType
+    feature['properties']['Website'] = Website
+    feature['properties']['Mission Area'] = Mission
+    feature['properties']['Mission Type'] = MissionType
+    feature['properties']['City'] = City
 
-        collection['features'].append(feature)
-        return feature
+    collection['features'].append(feature)
+    return feature
 
 
 geojson_series = dfCommunity.apply(
@@ -153,7 +150,6 @@ jsonstring = pd.io.json.dumps(collection)
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
-print("Partners GeoJSON  "+ repr(len(dfCommunity)) + " records are generated at "+ str(currentDT))
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))
@@ -166,6 +162,5 @@ s3 = boto3.resource('s3',
          aws_secret_access_key= ACCESS_KEY)
 
 s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
-
 
 print("Partner GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

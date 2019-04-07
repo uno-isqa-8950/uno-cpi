@@ -12,6 +12,7 @@ sched1 = BackgroundScheduler()
 # Initializing the sql files
 sql = sqlfiles
 
+
 # Schedules job_function to be run on the third Friday
 # of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
 # sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
@@ -26,16 +27,15 @@ def generateGEOJSON():
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 # @sched.scheduled_job('interval', minutes=5)
 @sched1.add_job(generateGEOJSON,'interval', hours=1)
-def scheduled_job():
-    print('This job is ran every day at 11pm.')
-    # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')
-    # print('This job is ran every minute.')
 
+def scheduled_job():
+    print('This job is ran every day at 10 PM.')
+    os.system(Project_GEOJSON)
+    os.system(Partner_GEOJSON)
     global connection
     global cursor
 
     try:
-        # CAT STAGING
         connection = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                                       password=settings.DATABASES['default']['PASSWORD'],
                                       host=settings.DATABASES['default']['HOST'],
@@ -97,7 +97,6 @@ def scheduled_job():
             cursor.close()
             connection.close()
             print("Postgres SQL connection is closed")
-            
 
 sched.start()
-sched1.start()
+

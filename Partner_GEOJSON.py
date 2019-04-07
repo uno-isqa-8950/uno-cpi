@@ -166,3 +166,6 @@ s3 = boto3.resource('s3',
          aws_secret_access_key= ACCESS_KEY)
 
 s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
+
+
+print("Partner GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

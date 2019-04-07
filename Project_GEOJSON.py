@@ -31,8 +31,6 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               port=settings.DATABASES['default']['PORT'],
                               database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
-
-
 #Another way of querying the database
 df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, part_comm.community_type , uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id inner join partners_communitytype part_comm on pc.community_type_id = part_comm.id", con=conn)
 
@@ -104,10 +102,6 @@ s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
 
-# s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
-#
-# content_object = s3.Object('djantz-bucket1', 'geojson/Partner.geojson')
-# file_content = content_object.get()['Body'].read().decode('utf-8')
-#
-# print(json.loads(file_content))
+s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
 
+print("Project GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

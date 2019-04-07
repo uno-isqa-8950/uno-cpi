@@ -169,9 +169,9 @@ class ProjectForm2(ModelForm):
 class ProjectFormAdd(ModelForm):
     SEMESTER = [
     ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
-    address_line1= forms.CharField(required=True)
-    country = forms.CharField(required=True)
-    city = forms.CharField(required=True)
+    address_line1= forms.CharField(required=False)
+    country = forms.CharField(required=False)
+    city = forms.CharField(required=False)
     #state = forms.CharField(required=True)
     #zip = forms.CharField(required=True)
     semester = forms.ChoiceField(required=True, choices=SEMESTER)

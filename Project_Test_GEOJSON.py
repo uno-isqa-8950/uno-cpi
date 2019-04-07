@@ -43,7 +43,7 @@ df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name 
 conn.close()
 
 
-gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
+gmaps = Client(key=GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
 df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 

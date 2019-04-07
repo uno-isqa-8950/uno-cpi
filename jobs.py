@@ -2,7 +2,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 
 import psycopg2
-from UnoCPI import sqlfiles
+from UnoCPI import sqlfiles,settings
 import os
 
 import Project_GEOJSON,Partner_GEOJSON
@@ -16,17 +16,18 @@ sql = sqlfiles
 # of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
 # sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
 
+def generateGEOJSON():
+    os.system(Partner_GEOJSON)
+    os.system(Project_GEOJSON)
+
 
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 # @sched.scheduled_job('interval', minutes=5)
-@sched1.add_job(generateGEOJSON,'cron', day_of_week='mon-sun', hour=20)
+@sched1.add_job(generateGEOJSON,'interval', hours=1)
 
 
-def generateGEOJSON():
-    os.system(Partner_GEOJSON)
-    os.system(Project_GEOJSON)
-    
+
 def scheduled_job():
     print('This job is ran every day at 11pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')
@@ -37,29 +38,14 @@ def scheduled_job():
 
     try:
         # CAT STAGING
-        connection = psycopg2.connect(user="fhhzsyefbuyjdp",
-                                      password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-                                      host="ec2-75-101-131-79.compute-1.amazonaws.com",
-                                      port="5432",
-                                      database="dal99elrltiq5q",
-                                      sslmode="require")
+        connection = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
+                              sslmode="require")
 
-        # CAT
-        # connection = psycopg2.connect(user="nbzsljiyoqyakc",
-        #                               password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
-        #                               host="ec2-54-227-241-179.compute-1.amazonaws.com",
-        #                               port="5432",
-        #                               database="d46q2igt2d4vbg",
-        #                               sslmode="require")
 
-        # sslmode = require is needed for Heroku
-        # connection = psycopg2.connect(user="postgres",
-        #                               password="frosty04",
-        #                               host="localhost",
-        #                               port="5432",
-        #                               database="capstone2"
-        #                               # sslmode="require"
-        #                               )
 
         if connection:
             print("Postgres SQL Database successful connection")

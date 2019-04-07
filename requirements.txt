@@ -8,8 +8,10 @@ django-discover-runner==1.0
 django-filter==2.0.0
 django-filters==0.2.1
 django-import-export==1.2.0
+django-logentry-admin==1.0.4
 django-parsley==0.7
 django-role-permissions==2.2.0
+django-simple-history==2.7.0
 django-storages==1.7.1
 googlemaps==3.0.2
 gunicorn==19.9.0

@@ -140,7 +140,7 @@
                                                 <td>{{ project.activityType }}</td>
 {#                                                <td>{{ project.facilitator }}</td>#}
                                                 <td>{{ project.description }}</td>
-                                                <td><a href="{% url 'project_edit_new' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Edit</a> </td>
+                                                <td><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Edit</a> </td>
                                            </tr>
                                             {% endfor %}
                                         </tbody>

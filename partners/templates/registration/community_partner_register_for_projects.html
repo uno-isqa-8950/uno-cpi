@@ -221,13 +221,6 @@ width:100%
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <script>
-$(function() {
-  $("#id_name").autocomplete({
-    source: "{% url 'partners:ajax_load_project' %}",
-    minLength: 2,
-  });
-});
-
 $(document).ready(function(){
   $('#id_community_type').select2(
       {
@@ -452,5 +445,38 @@ $(document).on('click', '.remove-mission-row', function(e){
 </script>
 -->
 
+
+{% endblock %}
+
+{% block js %}
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+
+    $('#id_name').focus(function() {
+        $('#id_name').css('border','2px solid #aaa');
+    });
+
+    $("#id_name").change(function () {
+      var name = $(this).val();
+
+      $.ajax({
+        url: "{% url 'partners:ajax_load_community' %}",
+        data: {
+          'name': name
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert("A Community Partner with this name already exists!");
+            document.getElementById("id_name").value=("");
+            document.getElementById("id_name").style.borderColor="red";
+          }
+        }
+      });
+
+    });
+
+</script>
 
 {% endblock %}

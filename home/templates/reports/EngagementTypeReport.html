@@ -1,6 +1,25 @@
-{% extends 'home/base_home.html' %}
-{% block content %}
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
+
 <style>
+    #loading
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
     .form-inline label
     {
@@ -49,6 +68,7 @@
 })
   </script>
 
+<div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -57,6 +77,11 @@
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:white;"><h4 style="line-height:.8em;padding-top:10px;">Report: Engagement Types</h4></b></label>
                </div>
             </div>
+            <div class="card" style="padding: 10px;">
+                <div class="center">
+                    {% eng_types %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -64,7 +89,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
 
@@ -90,12 +115,14 @@
 
 <!-- Collapsible element -->
         <div class="card" style="border: 2px solid #C3C3C3;">
-        <div class="collapse" id="collapseExample">
+        <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
             <form class="form-inline" role="form" id="filters-form" method="get">
-            <div class="col-lg-3 col-md-5 form-group">
-            <label for="mission"> Mission Areas
+
+            <div class="col-lg-3 col-md-5 form-group embed-responsive">
+            <label for="mission">Project Mission Areas
+
                 {% for data_definition in data_definition %}
                     {% if data_definition.id == 3%}
                         <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -111,7 +138,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group">
+            <div class="col-lg-3 col-md-5 form-group embed-responsive">
             <label for="academic_year"> Academic Years
                 {% for data_definition in data_definition %}
                     {% if data_definition.id == 32%}
@@ -128,8 +155,10 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group">
-            <label for="college_name"> College Names
+
+            <div class="col-lg-3 col-md-5 form-group embed-responsive">
+            <label for="college_name">Colleges and Main Units
+
                 {% for data_definition in data_definition %}
                     {% if data_definition.id == 43%}
                         <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -145,7 +174,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group">
+            <div class="col-lg-3 col-md-5 form-group embed-responsive">
             <label for="campus_partner"> Campus Partners
                 {% for data_definition in data_definition %}
                     {% if data_definition.id == 1%}
@@ -164,7 +193,7 @@
                 </select>
             </div>
 
-             <div class="col-lg-3 col-md-5 form-group">
+             <div class="col-lg-3 col-md-5 form-group embed-responsive">
                 <label for="weitz_cec_part"> CEC Building Partners
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 27%}
@@ -181,7 +210,7 @@
                             {% endfor %}
                     </select>
             </div>
-            <div class="col-lg-5 col-md-7 form-group">
+            <div class="col-lg-5 col-md-7 form-group embed-responsive">
                 <label for="community_type"> Community Partner Types
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 33%}
@@ -227,6 +256,14 @@
             <td>{{e.total_uno_hours}}</td>
         </tr>
     {% endfor %}
+        <tr>
+            <td><b>Total</b></td>
+            <td><b>{{ proj_total }}</b></td>
+            <td><b>{{ comm_total }}</b></td>
+            <td><b>{{ camp_total }}</b></td>
+            <td><b>{{ students_total }}</b></td>
+            <td><b>{{ hours_total }}</b></td>
+        </tr>
 </tbody>
 </table>
         </div>
@@ -267,10 +304,15 @@ $(document).ready(function(){
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
-       }
+       },
+       ordering:false
    });
 
    } );
+</script>
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
 <style>
     .btn-group{float:left;, labels:"Export"}

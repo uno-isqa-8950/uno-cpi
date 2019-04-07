@@ -48,6 +48,7 @@ background-color:#282828;
 color:White;
 font-family:'Helvetica';
 font-size:1em;
+justify-content: left;
 /*height: 80px;*/
 }
 
@@ -85,8 +86,6 @@ color: #f7f0f0;
 
 {
 margin-left:auto;
-background:#686868;
-width:70px;
 color:White;
 font-size:18px;
 }

@@ -2,11 +2,15 @@ import pandas as pd
 import googlemaps
 import json
 import datetime
+import boto3
 from pandas import DataFrame
 import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from UnoCPI import settings
+from googlemaps import Client
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -20,12 +24,12 @@ currentDT = datetime.datetime.now()
 #Get lat long details of all US counties in json format
 
 # conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
-conn = psycopg2.connect(user="fhhzsyefbuyjdp",
-                              password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-                              host="ec2-75-101-131-79.compute-1.amazonaws.com",
-                              port="5432",
-                              database="dal99elrltiq5q",
+#
+conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
 
 
@@ -35,7 +39,7 @@ df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name 
 conn.close()
 
 
-gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
 df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
@@ -92,3 +96,18 @@ print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(cur
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
+
+#writing into amazon aws s3
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+# s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
+#
+# content_object = s3.Object('djantz-bucket1', 'geojson/Partner.geojson')
+# file_content = content_object.get()['Body'].read().decode('utf-8')
+#
+# print(json.loads(file_content))
+

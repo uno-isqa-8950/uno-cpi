@@ -3,10 +3,14 @@ import googlemaps
 import json
 import datetime
 from pandas import DataFrame
+import boto3
 import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from UnoCPI import settings
+from googlemaps import Client
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -28,20 +32,12 @@ logger=logging.getLogger("UNO CPI Application")
 # conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
 
 # CAT STAGING
-conn = psycopg2.connect(user="fhhzsyefbuyjdp",
-                              password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-                              host="ec2-75-101-131-79.compute-1.amazonaws.com",
-                              port="5432",
-                              database="dal99elrltiq5q",
+conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
-
-#setup connection to database --SERVER
-# conn = psycopg2.connect(user= "nbzsljiyoqyakc",
-#                         password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
-#                         host="ec2-54-227-241-179.compute-1.amazonaws.com",
-#                         port="5432",
-#                         database="d46q2igt2d4vbg",
-#                         sslmode="require")
 
 if (conn):
     logger.info("Connection Successful!")
@@ -69,7 +65,7 @@ else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 if(gmaps):
     logger.info("GMAPS API works!")
@@ -161,3 +157,12 @@ print("Partners GeoJSON  "+ repr(len(dfCommunity)) + " records are generated at 
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))
+
+#writing into amazon aws s3
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))

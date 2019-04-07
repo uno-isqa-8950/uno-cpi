@@ -12,7 +12,7 @@ label
 
 
 input[type=number],textarea[name=project_name],.form-control,input[type=text],select[id=id_status],textarea[id=id_description],textarea[id=id_total_uno_hours],
-input[id=id_start_date],input[id=id_end_date]
+input[id=id_start_date],input[id=id_end_date],select[id=id_semester]
     {
         width: 95%;
         height: 10%;
@@ -83,7 +83,9 @@ input[id=id_start_date],input[id=id_end_date]
 {#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
                             {{ project.semester|bootstrap }}
+                            {{ project.end_semester|bootstrap }}
                             {{ project.academic_year|bootstrap }}
+                            {{ project.end_academic_year|bootstrap }}
                             {{ project.total_uno_students|bootstrap }}
                             {{ project.total_uno_hours|bootstrap }}
                             {{ project.total_k12_students|bootstrap }}

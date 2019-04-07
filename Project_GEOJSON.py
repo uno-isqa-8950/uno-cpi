@@ -104,7 +104,7 @@ s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
 
-s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
+# s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
 #
 # content_object = s3.Object('djantz-bucket1', 'geojson/Partner.geojson')
 # file_content = content_object.get()['Body'].read().decode('utf-8')

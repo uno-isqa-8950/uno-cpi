@@ -53,9 +53,6 @@ ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
 s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
-print(settings.AWS_STORAGE_BUCKET_NAME)
-print(settings.AWS_ACCESS_KEY_ID)
-print(settings.AWS_SECRET_ACCESS_KEY)
 #read Partner.geojson from s3
 content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
 partner_geojson = content_object.get()['Body'].read().decode('utf-8')

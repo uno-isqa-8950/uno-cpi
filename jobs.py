@@ -21,10 +21,10 @@ def generateGEOJSON():
     os.system(Project_GEOJSON)
 
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
 # @sched.scheduled_job('interval', minutes=5)
-@sched1.add_job(generateGEOJSON,'interval', hours=1)
+@sched1.add_job(generateGEOJSON,'cron', day_of_week='mon-sun', hour=23)
 
 
 

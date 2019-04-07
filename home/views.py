@@ -44,6 +44,25 @@ import pandas as pd
 import os
 from googlemaps import Client
 from home import context_processors
+import boto3
+from UnoCPI import settings
+
+#writing into amazon s3 bucket
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+print(settings.AWS_STORAGE_BUCKET_NAME)
+print(settings.AWS_ACCESS_KEY_ID)
+print(settings.AWS_SECRET_ACCESS_KEY)
+#read Partner.geojson from s3
+content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
+partner_geojson = content_object.get()['Body'].read().decode('utf-8')
+
+#read Project.geojson from s3
+content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
+project_geojson = content_object.get()['Body'].read().decode('utf-8')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -883,11 +902,11 @@ def EngagementType_Chart(request):
 
 
 def GEOJSON():
-    if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
-        with open('home/static/GEOJSON/Partner.geojson') as f:
-            geojson1 = json.load(f)  # get the GEOJSON
-        collection = geojson1  # assign it the collection variable to avoid changing the other code
-
+    # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
+    #     with open('home/static/GEOJSON/Partner.geojson') as f:
+    #         geojson1 = json.load(f)  # get the GEOJSON
+    #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    collection = json.loads(partner_geojson)
     mission_list = MissionArea.objects.all()
     mission_list = [m.mission_name for m in mission_list]
     CommTypelist = CommunityType.objects.all()
@@ -928,10 +947,11 @@ def countyData(request):
 
 
 def GEOJSON2():
-    if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
-        with open('home/static/GEOJSON/Project.geojson') as f:
-            geojson1 = json.load(f)  # get the GEOJSON
-        collection = geojson1  # assign it the collection variable to avoid changing the other code
+    # if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
+    #     with open('home/static/GEOJSON/Project.geojson') as f:
+    #         geojson1 = json.load(f)  # get the GEOJSON
+    #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    collection = json.loads(project_geojson)
     Missionlist = []  ## a placeholder array of unique mission areas
     Engagementlist = []
     Academicyearlist = []

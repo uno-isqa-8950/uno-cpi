@@ -1,12 +1,12 @@
 //*********************************** Get data from HTML *****************************************************
 
-const colorCodeObject = {
-    "Business":"#27ffcb",
-    "Government Agency" :"#65dc1e",
-    "Higher Education Institution":"#1743f3",
-    "K-12":"#ba55d3",
-    "Nonprofit":"#e55e5e",
-}
+// const colorCodeObject = {
+//     "Business":"#27ffcb",
+//     "Government Agency" :"#65dc1e",
+//     "Higher Education Institution":"#1743f3",
+//     "K-12":"#ba55d3",
+//     "Nonprofit":"#e55e5e",
+// }
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
@@ -14,6 +14,18 @@ var CollegeName = JSON.parse(document.getElementById('college-list').textContent
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
+
+const colorCodeObject = {
+    [CommunityType[0]]:         "#01B8AA",
+    [CommunityType[1]]:         "#374649",
+    [CommunityType[2]]:    "#FD625E",
+    [CommunityType[3]]:          "#8AD4EB",
+    [CommunityType[4]]:        "#FE9666",
+    [CommunityType[5]]:       "#A66999",
+    [CommunityType[6]]:       "#3599B8",
+    [CommunityType[7]]:       "#DFBFBF",
+    [CommunityType[8]]:       "#1743f3"
+}
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
 communityData.features.forEach(function(feature) {

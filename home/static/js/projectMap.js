@@ -1,13 +1,13 @@
 // mapboxgl.accessToken = 'pk.eyJ1IjoidmJoYXRob3NtYXQiLCJhIjoiY2pyNGc5MzNzMDNvZTQ1bzIxcmJ5ejJhayJ9.lMH6o8Nk36qm3lG3M0apdQ';
 var projectData = JSON.parse(document.getElementById('project-data').textContent); //load the variable from views.py. See the line from html first
 var districtData = JSON.parse(document.getElementById('district').textContent); //load the variable from views.py. See the line from html first
-const colorCodeObject = {
-    "Community-Based Learning": "#27ffcb",
-    "Knowledge/Info Sharing" : "#65dc1e",
-    "Providing Access": "#1743f3",
-    "Service Learning": "#ba55d3",
-    "Volunteering": "#e55e5e"
-}
+// const colorCodeObject = {
+//     "Community-Based Learning": "#27ffcb",
+//     "Knowledge/Info Sharing" : "#65dc1e",
+//     "Providing Access": "#1743f3",
+//     "Service Learning": "#ba55d3",
+//     "Volunteering": "#e55e5e"
+// }
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
 var CollegeNamelist = JSON.parse(document.getElementById('collegename-list').textContent);
@@ -16,6 +16,17 @@ var communityPartnerlist = JSON.parse(document.getElementById('communitypartner-
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 var Engagement = JSON.parse(document.getElementById('engagementType').textContent);
 
+const colorCodeObject = {
+    [Engagement[0]]:         "#01B8AA",
+    [Engagement[1]]:         "#374649",
+    [Engagement[2]]:    "#FD625E",
+    [Engagement[3]]:          "#8AD4EB",
+    [Engagement[4]]:        "#FE9666",
+    [Engagement[5]]:       "#A66999",
+    [Engagement[6]]:       "#3599B8",
+    [Engagement[7]]:       "#DFBFBF",
+    [Engagement[8]]:       "#1743f3"
+}
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var count = 0;

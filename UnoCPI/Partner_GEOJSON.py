@@ -30,7 +30,7 @@ with open(district_file) as f:
 district = geojson["features"]
 logger=logging.getLogger("UNO CPI Application")
 
-#setup connection to database --LOCAL
+#setup connection to database
 conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
@@ -38,7 +38,6 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
 
-# CAT STAGING
 
 if (conn):
     logger.info("Connection Successful!")

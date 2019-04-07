@@ -155,8 +155,8 @@ def createProject(request):
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and formset4.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
-            a = 0
-            project.total_uno_hours = a
+            #a = 0
+            #project.total_uno_hours = a
             proj = project.save()
             proj.project_name = proj.project_name + " :" + str(proj.academic_year)
             eng = str(proj.engagement_type)
@@ -221,9 +221,9 @@ def createProject(request):
                 c.project_name = proj
                 c.save()
                 # init = proj.total_uno_hours
-                t += c.total_hours * c.total_people
+                #t += c.total_hours * c.total_people
 
-                proj.total_uno_hours = t
+                #proj.total_uno_hours = t
                 proj.save()
 
             projects_list = []
@@ -336,10 +336,10 @@ def editProject(request,pk):
                         proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
                         for proj_camp_par in proj_camp_par:
                             camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                            tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
+                            #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
                             # total_project_hours += proj_camp_par.total_hours
-                            x.total_uno_hours = tot_hours
-                            x.total_uno_students += proj_camp_par.total_people
+                            #x.total_uno_hours = tot_hours
+                            #x.total_uno_students += proj_camp_par.total_people
                             x.save()
                             camp_part_names.append(camp_part)
                         list_camp_part_names = camp_part_names

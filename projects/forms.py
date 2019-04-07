@@ -46,12 +46,16 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ProjectForm2(ModelForm):
+    SEMESTER = [
+        ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
+    semester = forms.ChoiceField(required=True, choices=SEMESTER)
+    end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city','zip', 'state','latitude',
-                    'longitude','academic_year')
+                    'longitude','academic_year', 'end_academic_year', 'end_semester')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
@@ -72,6 +76,8 @@ class ProjectForm2(ModelForm):
             'address_line1': 'Address Line',
             'total_other_community_members':  'Number of Other Participants',
             'academic_year': 'Academic Year',
+            'end_academic_year': 'End Academic Year',
+            'end_semester':'End semester',
             'zip': 'Zip or Postal Code',
             'state': 'State or Province'
         }
@@ -175,13 +181,12 @@ class ProjectFormAdd(ModelForm):
     #state = forms.CharField(required=True)
     #zip = forms.CharField(required=True)
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
+    end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_economic_impact',
-                    'total_k12_hours', 'total_k12_students', 'total_other_community_members',
-                    'total_uno_faculty', 'total_uno_hours')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours', 'end_semester', 'end_academic_year')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -191,20 +196,21 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            'uno_students': 'UNO Students',
-            'uno_student_service_hours': 'UNO Student Service Hours',
+            # 'uno_students': 'UNO Students',
+            # 'uno_student_service_hours': 'UNO Student Service Hours',
             'total_uno_students': 'UNO Students',
             'total_uno_hours': 'UNO Student Service Hours',
-            'total_k12_students': 'Number Of K-12 Students',
-            'total_k12_hours': 'Number Of K-12 Hours',
-            'total_uno_faculty': 'Number Of UNO Faculty/Staff',
+            # 'total_k12_students': 'Number Of K-12 Students',
+            # 'total_k12_hours': 'Number Of K-12 Hours',
+            # 'total_uno_faculty': 'Number Of UNO Faculty/Staff',
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
-            'other_details': 'Other Important Details',
-            'outcomes': 'Outcomes',
+            # 'other_details': 'Other Important Details',
+            # 'outcomes': 'Outcomes',
             'address_line1': 'Address Line 1',
             # 'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
+            'end_academic_year': 'End Academic Year',
             'zip': 'Zip or Postal Code',
             'state': 'State or Province'
         }

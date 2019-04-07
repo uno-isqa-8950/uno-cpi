@@ -27,7 +27,7 @@
     }
 
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
-        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_students]:after,label[for=id_uno_student_service_hours]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
         label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
     {
@@ -53,7 +53,8 @@
     }
 
     select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country]
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id=id_total_uno_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year]
     {
         width:95%;
         height: 1%;
@@ -133,11 +134,9 @@
                                                 {{form2|bootstrap}}
                                             </div>
                                         </div>
-{#                                            <div class="input-group-append" >#}
-{#                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>#}
-{#                                            </div>#}
-                                        <p class = h9>  If you have additional Community Partners, you can update them while editing your Project details!</p>
-                                        <p id="errorid1"></p>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                            </div>
                                     </div>
                                 {%endfor%}
 
@@ -153,10 +152,9 @@
                                             {{ form3.campus_partner|bootstrap }}
                                             </div>
                                         </div>
-{#                                        <div class="input-group-append" >#}
-{#                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>#}
-{#                                        </div>#}
-                                        <p class = h9>  If you have additional Campus Partners, you can update them while editing your Project details!</p>
+                                        <div class="input-group-append" >
+                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>
+                                        </div>
                                     <p id="errorid1"></p>
                                     </div>
 
@@ -230,9 +228,29 @@
                                             {{ project.semester}}
                                         </div>
                                         <div class="form-group">
+                                            {{ project.end_semester.errors }}
+                                            <label for="id_end_semester">End Semester</label>
+                                            {{ project.end_semester}}
+                                        </div>
+                                        <div class="form-group">
                                             {{ project.academic_year.errors }}
                                             <label for="id_academic_year">Academic Year</label>
                                             {{ project.academic_year}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.end_academic_year.errors }}
+                                            <label for="id_end_academic_year">End Academic Year</label>
+                                            {{ project.end_academic_year}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.total_uno_students.errors }}
+                                            <label for="id_uno_students">Total UNO Students</label>
+                                            {{ project.total_uno_students}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.total_uno_hours.errors }}
+                                            <label for="id_uno_hours">UNO Student Hours</label>
+                                            {{ project.total_uno_hours}}
                                         </div>
 
                                         </div>
@@ -424,6 +442,8 @@ $(document).ready(function(){
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
     $('#id_semester').select2({placeholder: 'Select Semester',});
+    $('#id_end_semester').select2({placeholder: 'Select End Semester',});
+    $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
 });
 </script>
 <!--    Commenting out script per ticket #551

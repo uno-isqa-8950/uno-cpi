@@ -6,7 +6,6 @@ from UnoCPI import sqlfiles,settings
 import os
 
 import Project_GEOJSON,Partner_GEOJSON
-from UnoCPI.jobs import generateGEOJSON
 
 sched = BlockingScheduler()
 sched1 = BackgroundScheduler()
@@ -17,6 +16,10 @@ sql = sqlfiles
 # of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
 # sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
 
+def generateGEOJSON():
+    os.system(Partner_GEOJSON)
+    os.system(Project_GEOJSON)
+
 
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
 # @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
@@ -24,10 +27,7 @@ sql = sqlfiles
 @sched1.add_job(generateGEOJSON,'interval', hours=1)
 
 
-def generateGEOJSON():
-    os.system(Partner_GEOJSON)
-    os.system(Project_GEOJSON)
-    
+
 def scheduled_job():
     print('This job is ran every day at 11pm.')
     # print('This job is ran every 1st day of the month of January, June and August at 12 AM.')

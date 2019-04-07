@@ -150,7 +150,7 @@
     <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
              <form class="form-inline" id="filters-form" method="get">
-                 <div class="col-lg-3 col-md-5 form-group">
+                 <div class="col-lg-3 col-md-5 form-group embed-responsive">
                      <label for="academic_year"> Academic Years
                          {% for data_definition in data_definition %}
                              {% if data_definition.id == 32%}
@@ -168,8 +168,10 @@
                         </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group">
+
+                <div class="col-lg-3 col-md-5 form-group embed-responsive">
                     <label for="mission"> Project Mission Areas
+
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -186,8 +188,10 @@
                         </select>
                 </div>
 
-                 <div class="col-lg-3 col-md-5 form-group">
+
+                <div class="col-lg-3 col-md-5 form-group embed-responsive">
                 <label for="college_name"> Colleges and Main Units
+
                     {% for data_definition in data_definition %}
                              {% if data_definition.id == 43%}
                                  <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -203,7 +207,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group">
+                <div class="col-lg-3 col-md-5 form-group embed-responsive">
                 <label for="campus_partner"> Campus Partners
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 1%}
@@ -221,7 +225,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group">
+                <div class="col-lg-3 col-md-5 form-group embed-responsive">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -239,7 +243,7 @@
                         </select>
                 </div>
 
-                <div class="col-lg-5 col-md-7 form-group">
+                <div class="col-lg-5 col-md-7 form-group embed-responsive">
                     <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}

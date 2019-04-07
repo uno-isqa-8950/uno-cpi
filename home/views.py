@@ -25,10 +25,8 @@ sys.setrecursionlimit(1500)
 # importing models in home views.py
 from .models import *
 from university.models import *
-from partners.models import CampusPartnerUser, CommunityPartnerUser, CampusPartner, CommunityPartner, \
-    CommunityPartnerMission
-from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, ProjectMission, \
-    ProjectCommunityPartner
+from partners.models import *
+from projects.models import *
 # importing filters in home views.py, used for adding filter
 from .filters import *
 # aggregating function
@@ -36,7 +34,8 @@ from django.db.models import Sum
 from django.conf import settings
 # importing forms into home views.py
 from .forms import *
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
 import googlemaps
@@ -192,6 +191,25 @@ def signup(request):
 def signupuser(request):
     return render(request, 'home/registration/signupuser.html', {'signupuser': signupuser})
 
+def recentchanges(request):
+    #project app
+    recent_project = Project.history.all()
+    recent_proj_mission = ProjectMission.history.all()
+    recent_proj_campus = ProjectCampusPartner.history.all()
+    recent_proj_comm = ProjectCommunityPartner.history.all()
+    #partner app
+    recent_campus = CampusPartner.history.all()
+    recent_comm = CommunityPartner.history.all()
+    recent_comm_mission = CommunityPartnerMission.history.all()
+    #users and contacts
+    recent_user = User.history.all()
+    recent_contact = Contact.history.all()
+
+    return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
+                                                        'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
+
+                                                        'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
+                                                        'recent_user': recent_user, 'recent_contact':recent_contact})
 
 def registerCampusPartnerUser(request):
     data = []
@@ -241,8 +259,7 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
-        return redirect('login')
+        return redirect('/')
     else:
         return render(request, 'home/registration/register_fail.html')
 
@@ -395,6 +412,10 @@ def project_partner_info(request):
     data_definition = DataDefinition.objects.all()
     mission_dict = {}
     mission_list = []
+    proj_total = 0
+    comm_total = 0
+    students_total = 0
+    hours_total = 0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -461,10 +482,15 @@ def project_partner_info(request):
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
         mission_list.append(mission_dict.copy())
+        proj_total += project_count
+        comm_total += community_count
+        students_total += total_uno_students
+        hours_total += total_uno_hours
     return render(request, 'reports/ProjectPartnerInfo.html',
                   {'project_filter': project_filter, 'data_definition': data_definition,
                    'communityPartners': communityPartners, 'mission_list': mission_list,
-                   'campus_filter': campus_filter, 'college_filter':college_filter})
+                   'campus_filter': campus_filter, 'college_filter':college_filter,
+                   'proj_total':proj_total, 'comm_total':comm_total, 'students_total':students_total, 'hours_total':hours_total})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
@@ -477,6 +503,11 @@ def engagement_info(request):
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
+    proj_total = 0
+    comm_total = 0
+    camp_total = 0
+    students_total = 0
+    hours_total = 0
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -560,9 +591,16 @@ def engagement_info(request):
         engagement_Dict['total_uno_hours'] = total_uno_hours
         engagement_Dict['total_uno_students'] = total_uno_students
         engagement_List.append(engagement_Dict.copy())
+        proj_total += project_count
+        comm_total += unique_comm_ids_count
+        camp_total += unique_camp_ids_count
+        students_total += total_uno_students
+        hours_total += total_uno_hours
     return render(request, 'reports/EngagementTypeReport.html',
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
-                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter})
+                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'camp_total':camp_total, 'students_total': students_total,
+                   'hours_total': hours_total})
 
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
@@ -1007,3 +1045,74 @@ def googlemapdata(request):
                    'College': sorted(College)
                    }
                   )
+
+#TO invite community Partner to the Application
+@login_required()
+def invitecommunityPartnerUser(request):
+    form = CommunityPartnerUserInvite()
+    community_partner_user_form = CommunityPartnerUserForm()
+    commPartner = []
+    for object in CommunityPartner.objects.order_by('name'):
+        commPartner.append(object.name)
+
+    if request.method == 'POST':
+        form = CommunityPartnerUserInvite(request.POST)
+        community_partner_user_form = CommunityPartnerUserForm(request.POST)
+        if form.is_valid() and community_partner_user_form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.is_communitypartner = True
+            new_user.is_active = False
+            new_user.set_password(raw_password='Default')
+            new_user.save()
+            communitypartneruser = CommunityPartnerUser(
+                community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
+            communitypartneruser.save()
+            mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
+            current_site = get_current_site(request)
+            message = render_to_string('account/CommunityPartner_Invite_email.html', {
+                'user': new_user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'token': account_activation_token.make_token(new_user),
+            })
+            to_email = new_user.email
+            email = EmailMessage(mail_subject, message, to=[to_email])
+            email.send()
+            return render(request, 'home/communityuser_register_done.html', )
+    return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
+                                                                              'community_partner_user_form':community_partner_user_form})
+
+
+def registerCommPartner(request, uidb64, token):
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = get_object_or_404(User,pk=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        community_partner = get_object_or_404(CommunityPartner, pk=user.pk)
+        if request.method == 'POST':
+           form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+           if form.is_valid():
+               user = form.save(commit=False)
+               user.set_password(form.cleaned_data['password'])
+               user.is_active = True
+               user.is_communitypartner = True
+               user.save(commit=True)
+               return redirect('communitypartnerproject')
+           else:
+             form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
+             return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
+                                                                                    'community_partner' : community_partner})
+        else:
+            form = CommunityPartnerUserCompleteRegistration(instance=user)
+        return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
+                                                                              'community_partner' : community_partner})
+    else:
+        return render(request, 'home/registration/register_fail.html')
+
+def registerCommPartnerComplete(request, uidb64):
+    return render(request,'home/register_done.html')
+

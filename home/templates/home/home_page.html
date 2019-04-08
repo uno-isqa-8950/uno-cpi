@@ -549,8 +549,9 @@ span.outline {
     height: 100%;}
 
 </style>
-
-<div class="homepage">
+{#<div class="homepage">#}
+<div class="homepage" style="width: 100vw;
+  position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 
 {% image page.image fill-1920x600 as image %}
 <div class="container-fluid hero" style="background-image:url('{{ image.url }}')">

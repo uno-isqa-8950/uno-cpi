@@ -321,37 +321,6 @@
 				"group": 1,
 				"is_active": 1
 			}
-		}
-	,
-		{
-			"model": "home.datadefinition",
-			"pk": 28,
-			"fields": {
-				"title": "Community Partner Count",
-				"description": "Definition of Community Partner Count",
-				"group": 1,
-				"is_active": 1
-			}
-		}	,
-		{
-			"model": "home.datadefinition",
-			"pk": 29,
-			"fields": {
-				"title": "Project Count ",
-				"description": "Definition of Project Count ",
-				"group": 1,
-				"is_active": 1
-			}
-		}	,
-		{
-			"model": "home.datadefinition",
-			"pk": 30,
-			"fields": {
-				"title": "Campus Partner Count ",
-				"description": "Definition of Campus Partner Count ",
-				"group": 1,
-				"is_active": 1
-			}
 		},
         {
 			"model": "home.datadefinition",

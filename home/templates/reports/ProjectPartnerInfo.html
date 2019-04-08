@@ -255,11 +255,51 @@
                     <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Mission Areas</th>
-                                <th>Community Partners</th>
-                                <th>Projects</th>
-                                <th>Number of UNO Students</th>
-                                <th>Number of UNO Students Hours</th>
+                                <th>Mission Areas
+                                   {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 3%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>Community Partners
+                                    {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 46%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>Projects
+                                    {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 47%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>UNO Students
+                                    {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 48%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </th>
+                                <th>UNO Students Hours
+                                    {% for data_definition in data_definition %}
+                                        {% if data_definition.id == 49%}
+                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

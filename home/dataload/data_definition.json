@@ -502,5 +502,45 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 46,
+			"fields": {
+				"title": "Community Partners Count",
+				"description": "Count of Community Partners",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 47,
+			"fields": {
+				"title": "Projects Count",
+				"description": "Count of overall Projects",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 48,
+			"fields": {
+				"title": "UNO Students Count",
+				"description": "Count of overall UNO Students",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 49,
+			"fields": {
+				"title": "UNO Student Hours Count",
+				"description": "Count of overall UNO Student Hour",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

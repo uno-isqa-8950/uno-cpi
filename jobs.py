@@ -2,7 +2,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
 
 import psycopg2
-from UnoCPI import sqlfiles, settings
+from UnoCPI import sqlfiles,settings
 import os
 
 import Project_GEOJSON,Partner_GEOJSON
@@ -13,20 +13,7 @@ sched1 = BackgroundScheduler()
 sql = sqlfiles
 
 
-# Schedules job_function to be run on the third Friday
-# of June, July, August, November and December at 00:00, 01:00, 02:00 and 03:00
-# sched.add_job(YOURRUNCTIONNAME, 'cron', month='6-8,11-12', day='3rd fri', hour='0-3')
-
-
-def generateGEOJSON():
-    os.system(Partner_GEOJSON)
-    os.system(Project_GEOJSON)
-
-
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=23)
-# @sched.scheduled_job('cron', month='1,6,8', day='1', hour='0')
-# @sched.scheduled_job('interval', minutes=5)
-@sched1.add_job(generateGEOJSON,'interval', hours=1)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
 
 def scheduled_job():
     print('This job is ran every day at 10 PM.')
@@ -99,4 +86,3 @@ def scheduled_job():
             print("Postgres SQL connection is closed")
 
 sched.start()
-

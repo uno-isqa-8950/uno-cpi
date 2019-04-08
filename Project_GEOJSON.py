@@ -11,7 +11,7 @@ import psycopg2
 from django.conf import settings
 from UnoCPI import settings
 from googlemaps import Client
-#TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
+
 #Get lat long details of all US counties in json format
 
 dirname = os.path.dirname(__file__)
@@ -56,7 +56,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
                }
 
 
-    if (Address != "N/A"):
+    if ("N/A" not in Address):
         geocode_result = gmaps.geocode(Address)
         if (geocode_result[0]):
             latitude = geocode_result[0]['geometry']['location']['lat']
@@ -86,8 +86,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             collection['features'].append(feature)
             return feature
 
-
-geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
+geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['fulladdress']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(currentDT))

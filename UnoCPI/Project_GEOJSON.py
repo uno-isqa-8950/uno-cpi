@@ -12,9 +12,6 @@ from django.conf import settings
 from UnoCPI import settings
 from googlemaps import Client
 
-#TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
-#Get lat long details of all US counties in json format
-
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'../home/static/GEOJSON/USCounties_final.geojson')
 district_file = os.path.join(dirname,'../home/static/GEOJSON/ID2.geojson')
@@ -41,7 +38,7 @@ conn.close()
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
-# df['fulladdress'] = df[["address_line1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
+df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
 with open(district_file) as f:
     geojson = json.load(f)
@@ -56,10 +53,11 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
                                                  'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    if (Address != "nan"):
-        if (Address):
-            fulladdress = str(Address) + ' ' + str(City) + ' ' + str(State)
-            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+
+
+    if ("N/A" not in Address):
+        geocode_result = gmaps.geocode(Address)
+        if (geocode_result[0]):
             latitude = geocode_result[0]['geometry']['location']['lat']
             longitude = geocode_result[0]['geometry']['location']['lng']
             feature['geometry']['coordinates'] = [longitude, latitude]
@@ -87,16 +85,13 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             collection['features'].append(feature)
             return feature
 
-
-geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
+geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['fulladdress']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(currentDT))
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
-
-
 
 #writing into amazon aws s3
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
@@ -106,6 +101,5 @@ s3 = boto3.resource('s3',
          aws_secret_access_key= ACCESS_KEY)
 
 s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
-
 
 print("Project GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

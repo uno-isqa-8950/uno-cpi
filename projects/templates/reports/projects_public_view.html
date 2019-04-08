@@ -259,10 +259,42 @@
             <thead>
 
             <tr>
-                <th>Projects</th>
-                <th>Community Partners</th>
-                <th>Campus Partners</th>
-                <th>Engagement Types</th>
+                <th>Projects
+                    {% for data_definition in data_definition %}
+                    {% if data_definition.id == 30%}
+                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                              data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    {% endif %}
+                    {% endfor%}
+                </th>
+                <th>Community Partners
+                      {% for data_definition in data_definition %}
+                            {% if data_definition.id == 2%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                </th>
+                <th>Campus Partners
+                      {% for data_definition in data_definition %}
+                            {% if data_definition.id == 1%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                </th>
+                <th>Engagement Types
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 31%}
+                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}
+                </th>
             </tr>
             </thead>
             <tbody>

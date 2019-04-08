@@ -322,7 +322,17 @@
 				"is_active": 1
 			}
 		},
-  ,
+		{
+			"model": "home.datadefinition",
+			"pk": 29,
+			"fields": {
+				"title": "Community Partner - Website",
+				"description": "Websites associated with a Community Partner",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+
         {
 			"model": "home.datadefinition",
 			"pk": 30,

@@ -16,7 +16,7 @@ sql = sqlfiles
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
 
 def scheduled_job():
-    print('This job is ran every day at 10 PM.')
+    print('This job runs every day at 10 PM.')
     os.system(Project_GEOJSON)
     os.system(Partner_GEOJSON)
     global connection

@@ -542,5 +542,15 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 50,
+			"fields": {
+				"title": "Campus Partners Count",
+				"description": "Campus Partners Count",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

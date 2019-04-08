@@ -522,16 +522,17 @@
 
                                 <div class="col-lg-4 col-md-5">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                        <label><b>Maps: Projects</b></label>
+                                        <label><b>Maps: Projects</b> {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
+                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                        {% endif %}{% endfor %}
+                                        </label>
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:3px;">
                                         <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b>{# &nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Projects without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>#}
-                                            {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
-                                                <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
-                                            {% endif %}{% endfor %}
-                                            </label>
+
+                                        </label>
                                     </div>
                                 </div>
                             </div>

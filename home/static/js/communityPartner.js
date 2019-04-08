@@ -235,8 +235,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var selectCollege = communityData.features[i].properties["College Name"]
         var marker = new google.maps.Marker({
             position: {
-                lat: parseFloat(communityData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 50000,
-                lng: parseFloat(communityData.features[i].geometry.coordinates[0])+ (Math.random() -.5) / 50000
+                lat: parseFloat(communityData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 25000,
+                lng: parseFloat(communityData.features[i].geometry.coordinates[0])+ (Math.random() -.5) / 25000
             },
             map: map,
             icon: circle, // set the icon here

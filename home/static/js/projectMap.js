@@ -268,8 +268,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var marker = new google.maps.Marker({
 
             position: {
-                lat: parseFloat(projectData.features[i].geometry.coordinates[1]+ (Math.random() -.5) / 50000),
-                lng: parseFloat(projectData.features[i].geometry.coordinates[0]+ (Math.random() -.5) / 50000)
+                lat: parseFloat(projectData.features[i].geometry.coordinates[1])+ (Math.random() -.5) / 25000,
+                lng: parseFloat(projectData.features[i].geometry.coordinates[0])+ (Math.random() -.5) / 25000
             },
             map: map,
             icon: circle, // set the icon here

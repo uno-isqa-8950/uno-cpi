@@ -7,14 +7,14 @@ from simple_history.admin import SimpleHistoryAdmin
 
 class ProjectResource(resources.ModelResource):
     project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    engagement_type = fields.Field(attribute='engagement_type', column_name="Engagement Type")
-    activity_type = fields.Field(attribute='activity_type', column_name="Activity Type")
-    status = fields.Field(attribute='status', column_name="Status")
+    # engagement_type = fields.Field(attribute='engagement_type', column_name="Engagement Type")
+    # activity_type = fields.Field(attribute='activity_type', column_name="Activity Type")
+    # status = fields.Field(attribute='status', column_name="Status")
 
     class Meta:
         model = Project
-        fields = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
-                    'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
+        fields = ('id','project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description',
+                    'semester', 'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
                     'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')

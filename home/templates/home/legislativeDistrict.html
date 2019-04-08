@@ -489,15 +489,16 @@ color: #d71920;
                                     </div>
                                     <div class="col-lg-4 col-md-5">
                                         <div style="box-sizing: border-box;padding:5px;">
-                                            <label><b>Maps: Legislative District</b></label>
+                                            <label><b>Maps: Legislative District</b>
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                                    <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                                {% endif %}{% endfor %}
+                                            </label>
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-md-6">
                                         <div style="box-sizing: border-box; padding:5px;">
                                             <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;
-                                                 {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
-                                                <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
-                                            {% endif %}{% endfor %}
                                             </label>
                                         </div>
                                     </div>

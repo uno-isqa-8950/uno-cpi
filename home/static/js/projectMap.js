@@ -198,7 +198,7 @@ $('#selectCommunity').html(select3);
 //*********************************** Add Community Partner *****************************************************
 
 var select7 = '';
-select7 += '<option value="' + "All Colleges" + '" selected="selected">' + 'All Colleges' + '</option>';
+select7 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeNamelist.length; i++) {
     select7 += '<option value="' + CollegeNamelist[i] + '">' + CollegeNamelist[i] + '</option>';
 }
@@ -304,12 +304,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Engagement Types", "All Mission Areas","All Colleges", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
+    defaultFilterValues = ["All Engagement Types", "All Mission Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
     // Object to identify filters set by the user
     filters = {
         "selectEngagement":     "All Engagement Types",
         "selectMission":        "All Mission Areas",
-        "selectCollege":        "All Colleges",
+        "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
         "selectCommunityType":  "All Community Partner Types",
@@ -566,7 +566,7 @@ $("#reset").click(function () {
     const defaultFilterObject = {
         "selectEngagement":     "All Engagement Types",
         "selectMission":        "All Mission Areas",
-        "selectCollege":        "All Colleges",
+        "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
         "selectCommunityType":  "All Community Partner Types",

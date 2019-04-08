@@ -173,7 +173,7 @@ $('#selectYear').html(select4);
 //*********************************** Add id variable to College Data GEOJSON for search function later *****************************************************
 
 var select5 = '';
-select5 += '<option value="' + "All Colleges" + '" selected="selected">' + 'All Colleges' + '</option>';
+select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeName.length; i++) {
     select5 += '<option value="' + CollegeName[i] + '">' + CollegeName[i] + '</option>';
 }
@@ -270,14 +270,14 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Community Partner Types", "All Mission Areas", "All Campus Partners", "All Academic Years", "All Colleges",  "All Legislative Districts"];
+    defaultFilterValues = ["All Community Partner Types", "All Mission Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
     // Object to identify filters set by the user
     filters = {
         "selectCommType":       "All Community Partner Types",
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges",
+        "selectCollege":        "All Colleges and Main Units",
         "selectDistrict":       "All Legislative Districts"
     };
 
@@ -509,7 +509,7 @@ $("#reset").click(function () {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges",
+        "selectCollege":        "All Colleges and Main Units",
         "selectDistrict":       "All Legislative Districts"
     };
     Object.assign(filters, defaultFilterObject);

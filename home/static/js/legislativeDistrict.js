@@ -177,7 +177,7 @@ $('#selectYear').html(select4);
 //*********************************** Add id variable to College Data GEOJSON for search function later *****************************************************
 
 var select5 = '';
-select5 += '<option value="' + "All Colleges" + '" selected="selected">' + 'All Colleges' + '</option>';
+select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeName.length; i++) {
     select5 += '<option value="' + CollegeName[i] + '">' + CollegeName[i] + '</option>';
 }
@@ -280,7 +280,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Types", "All Legislative Districts", "All Academic Years", "All Colleges"];
+    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
     // Object to identify filters set by the user
     filters = {
         "selectMission":        "All Mission Areas",
@@ -288,7 +288,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         "selectCommtype":       "All Community Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges"
+        "selectCollege":        "All Colleges and Main Units"
     };
 
 });
@@ -565,7 +565,7 @@ $("#reset").click(function () {
         "selectCommtype":       "All Community Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges"
+        "selectCollege":        "All Colleges and Main Units"
     };
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {

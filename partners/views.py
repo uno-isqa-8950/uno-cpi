@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from home.decorators import campuspartner_required
 from home.forms import UserForm, CampusPartnerAvatar
+from projects.forms import ProjectForm
 from .forms import *
 from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
@@ -521,3 +522,22 @@ def registerCommunityPartner_forprojects(request):
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission': formset_primary_mission}, )
+
+
+def checkCommunityPartner(request):
+    partnerForm = ProjectForm()
+    communityParnterName = []
+    for object in CommunityPartner.objects.order_by('name'):
+        partner = object.name
+
+        if partner not in communityParnterName:
+            communityParnterName.append(partner)
+
+    if request.method == 'POST':
+        partnerForm = ProjectForm(request.POST)
+
+
+
+    # print(projectNames)
+    return render(request, 'partners/checkCommunityPartner.html',
+                  {'partnerForm': partnerForm, 'partnerNames':communityParnterName})

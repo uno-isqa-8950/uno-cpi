@@ -36,13 +36,13 @@
      .select2-container--default .select2-selection--single
      {
         margin-left:22px;
-        width:200px;
+        width:100%;
      }
 
 
     .select2-container--open .select2-dropdown--below
     {
-        width:200px;
+        width:100%;
         margin-left:22px;
     }
 
@@ -140,7 +140,7 @@
 
             <form class="form-inline" id="filters-form" method="get">
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
 
                     <label for="academic_year"> Engagement Types
                          {% for data_definition in data_definition %}
@@ -160,7 +160,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
                     <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
@@ -178,7 +178,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
                     <label for="mission"> Project Mission Areas
 
                         {% for data_definition in data_definition %}
@@ -197,7 +197,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
                     <label for="college_name"> Colleges and Main Units
 
                          {% for data_definition in data_definition %}
@@ -216,7 +216,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-3 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -234,7 +234,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-5 col-md-7 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group embed-responsive">
                     <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
@@ -395,12 +395,12 @@ $(document).ready(function(){
 $(document).ready(function(){
 
 
-    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '200px'});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
-    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
-    $('#id_college_name').select2({placeholder: 'All College Names',width: '200px',
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%'});
+    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '75%'});
+    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%'});
+    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -414,7 +414,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px'});
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%'});
 
 });
 </script>

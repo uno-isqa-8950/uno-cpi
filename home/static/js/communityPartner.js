@@ -159,7 +159,7 @@ var select3 = '';
 select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
 
-    select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    select3 += '<option value= "' + CampusPartnerlist[i] + '">' + CampusPartnerlist[i] + '</option>';
 }
 $('#selectCampus').html(select3);
 
@@ -176,9 +176,8 @@ $('#selectYear').html(select4);
 
 var select5 = '';
 select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
-
 for (i = 0; i < CollegeName.length; i++) {
-    select5 += '<option value="' + CollegeName[i].id + '">' + CollegeName[i].cname + '</option>';
+    select5 += '<option value="' + CollegeName[i] + '">' + CollegeName[i] + '</option>';
 }
 $('#selectCollege').html(select5);
 
@@ -443,18 +442,7 @@ selectFilters.addEventListener("change", function(event) {
 
     selectFilterChildren.forEach((child) => {
         // Set each filter's value
-        if (child.id == "selectCollege"){
-            var select3 = '';
-            select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
-            for (i = 0; i < CampusPartnerlist.length; i++) {
-                if(CampusPartnerlist[i].c_id == child.value || child.value == 'All Colleges and Main Units')
-                    select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
-            }
-            $('#selectCampus').html(select3);
-            mapFilter('selectCampus', 'All Campus Partners');
-            mapFilter('selectCollege', child.options[child.selectedIndex].text);
-        }
-        else if (child.id !== "missionAreaFilters") {
+        if (child.id !== "missionAreaFilters") {
             mapFilter(child.id, child.value);
         }
     });

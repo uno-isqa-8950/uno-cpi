@@ -909,17 +909,17 @@ def GEOJSON():
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [{'name':m.name, 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    CampusPartnerlist = [m.name for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
-    collegeNamelist = [{'cname': m.college_name, 'id': m.id} for m in collegeName_list]
+    collegeNamelist = [m.college_name for m in collegeName_list]
     yearlist=[]
     for year in AcademicYear.objects.all():
         yearlist.append(year.academic_year)
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
-    return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist), (collegeNamelist))
+    return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
+            sorted(commPartnerlist), sorted(collegeNamelist))
 
 
 ######## export data to Javascript for Household map ################################
@@ -1037,10 +1037,10 @@ def googlepartnerdata(request):
                   {'collection': data, 'districtData':district,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
-                   'Campuspartner': (Campuspartner),
+                   'Campuspartner': sorted(Campuspartner),
                    'number': len(data['features']),
                    'year': GEOJSON()[4],'data_definition':data_definition,
-                   'College': (College) #k sorted
+                   'College': sorted(College)
                    }
                   )
 
@@ -1132,3 +1132,4 @@ def registerCommPartner(request, uidb64, token):
 
 def registerCommPartnerComplete(request, uidb64):
     return render(request,'home/register_done.html')
+

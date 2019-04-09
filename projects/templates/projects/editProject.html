@@ -82,9 +82,13 @@ input[id=id_start_date],input[id=id_end_date],select[id=id_semester]
                             {{project.activity_type|bootstrap}}
 {#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
-                            {{ project.semester|bootstrap }}
-                            {{ project.end_semester|bootstrap }}
+                            <div class="form-group">
+                                {{ project.semester.errors }}
+                                <label for="id_semester">Start Semester</label>
+                                {{ project.semester}}
+                            </div>
                             {{ project.academic_year|bootstrap }}
+                            {{ project.end_semester|bootstrap }}
                             {{ project.end_academic_year|bootstrap }}
                             {{ project.total_uno_students|bootstrap }}
                             {{ project.total_uno_hours|bootstrap }}

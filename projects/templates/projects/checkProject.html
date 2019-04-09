@@ -122,7 +122,6 @@
 
 <div style="margin-bottom: 300px"></div>
 
-
 <script>
 var valueFilter = document.getElementById("project_name");
 
@@ -140,8 +139,9 @@ valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
     console.log(value)
-    console.log(project_db)
+    console.log(project_db[0])
     var projectlist = []
+    var partnerlist = [];
 
     if (value == "") {
         document.getElementById('node-id'). innerHTML = "";
@@ -159,19 +159,23 @@ valueFilter.addEventListener("keyup", function (e) {
 
             for (var i = 0; i < project_db.length; i++) {
 
-                if (project_db[i].toLowerCase().includes(value)) {
-                    if (!(project_db[i] in projectlist)) {
+                if (project_db[i][0].toLowerCase().includes(value)) {
+                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist)) {
 
-                        projectlist.push(project_db[i])
-                        console.log(projectlist)
+                        projectlist.push(project_db[i][0])
+                        partnerlist.push(project_db[i][1])
+                        console.log(projectlist, partnerlist)
 
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
                             '<tr><td>Do you see the project you want to create here? </td></tr><br><br>' +
                             {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
                             '<table class="table table-hover table-sm">' +
-                            '<tr><th>Project Name and the Academic Year</th></tr>' +
-                            '<tr><td><b>' + projectlist.join("<br>") + '<b></td></tr>' +
+                            '<tr><th>Project Name and the Academic Year</th>' +
+                            '<th>Community Partner</th></tr>' +
+                            '<tr><td><b>' + projectlist.join("<br>") + '<b></td>' +
+                            '<td><b>' + partnerlist.join("<br>") + '<b></td>'+
+                            '</tr>' +
                             '<table>'
 
 
@@ -182,7 +186,7 @@ valueFilter.addEventListener("keyup", function (e) {
 
                     }
                 } else {
-                    if (!(project_db[i].toLowerCase().includes(value))) {
+                    if (!(project_db[i][0].toLowerCase().includes(value))) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>If you do not find the project in the list, kindly go ahead and create a new project</td></tr><br /><br />' +

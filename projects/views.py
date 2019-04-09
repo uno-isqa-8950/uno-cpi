@@ -881,18 +881,24 @@ def communityPrivateReport(request):
 #     return render(request, 'reports/projects_private_view.html', {'projects': projects,
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners})
 
-
+#project duplication check
 def checkProject(request):
     project = ProjectForm()
     projectNames = []
+    combinedList =[]
+
     for object in Project.objects.order_by('project_name'):
         project = object.project_name.split('(')[0]
-        if project not in projectNames:
-            projectNames.append(project)
+        for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
+            compartner = part.community_partner
+
+            combinedList = [object.project_name.split('(')[0],str(compartner)]
+            if combinedList not in projectNames:
+                projectNames.append(combinedList)
+
     if request.method == 'POST':
         project = ProjectForm(request.POST)
 
-    print(projectNames)
     return render(request, 'projects/checkProject.html',
                   {'project': project, 'projectNames':projectNames})
 

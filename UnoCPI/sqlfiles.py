@@ -13,9 +13,9 @@ start_and_end_dates_temp_table_sql = """CREATE TEMP TABLE all_projects_start_and
 		,start_date
 		,end_date
 		,case 
-			when EXTRACT(YEAR FROM start_date) <> EXTRACT(YEAR FROM current_date) then 'Inactive'
-			when EXTRACT(YEAR FROM start_date) =  EXTRACT(YEAR FROM current_date) 
-			and EXTRACT(MONTH FROM start_date) >  EXTRACT(MONTH FROM current_date) then 'Pending'	 
+			when EXTRACT(YEAR FROM start_date) < EXTRACT(YEAR FROM current_date) then 'Inactive'
+			when (EXTRACT(YEAR FROM start_date) =  EXTRACT(YEAR FROM current_date) and EXTRACT(MONTH FROM start_date) >  EXTRACT(MONTH FROM current_date))
+			or EXTRACT(YEAR FROM start_date) >  EXTRACT(YEAR FROM current_date) then 'Pending'	 
 			when 
 			(EXTRACT(YEAR FROM start_date) =  EXTRACT(YEAR FROM current_date) and EXTRACT(MONTH FROM start_date) <=  EXTRACT(MONTH FROM current_date))
 				AND

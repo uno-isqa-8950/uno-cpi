@@ -75,11 +75,13 @@ class ProjectForm2(ModelForm):
             'outcomes': 'Outcomes',
             'address_line1': 'Address Line',
             'total_other_community_members':  'Number of Other Participants',
-            'academic_year': 'Academic Year',
+            'academic_year': 'Start Academic Year',
             'end_academic_year': 'End Academic Year',
             'end_semester':'End semester',
+            'semester': 'Start semester',
             'zip': 'Zip or Postal Code',
-            'state': 'State or Province'
+            'state': 'State or Province',
+
         }
 
     # def clean_facilitator(self):

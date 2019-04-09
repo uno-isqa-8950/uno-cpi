@@ -96,7 +96,6 @@
                         <div class="panel-body">&emsp;
                             <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
                                 {{formset.management_form}}
-                                {{formset4.management_form}}
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
                                 <div class="form-group">
@@ -191,27 +190,6 @@
                                     <p id="errorid"></p>
                                     </div>
                                 {% endfor %}
-                                {% for form4 in formset4 %}
-                                    <div class="mission-row" id="contact1" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                            <h6>Secondary Mission Areas
-                                                {% for data_definition in data_definition %}{% if data_definition.id == 40%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}
-                                            </h6><br>
-                                        </div>
-                                            <div class="input-group">
-                                                <div class="col-lg-6" id="id_secondary_mission-0-mission">
-                                                    {{ form4.mission|bootstrap }}
-
-                                                </div>
-                                            </div>
-                                       {% endfor %}
-{#                                            <div class="input-group-append" >#}
-{#                                                <button class="btn btn-secondary add-secondary_mission-row">Add Additional Mission Area</button>#}
-{#                                            </div>#}
-                                      <p class = h9>If you have additional Mission Areas, you can update them while editing your Project details!</p>
-                                     <p id="errorid"></p>
-                                    </div>
 
 
                                 <div class = "row">
@@ -224,18 +202,18 @@
                                         </div>
                                         <div class="form-group">
                                             {{ project.semester.errors }}
-                                            <label for="id_semester">Semester</label>
+                                            <label for="id_semester">Start Semester</label>
                                             {{ project.semester}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.academic_year.errors }}
+                                            <label for="id_academic_year">Start Academic Year</label>
+                                            {{ project.academic_year}}
                                         </div>
                                         <div class="form-group">
                                             {{ project.end_semester.errors }}
                                             <label for="id_end_semester">End Semester</label>
                                             {{ project.end_semester}}
-                                        </div>
-                                        <div class="form-group">
-                                            {{ project.academic_year.errors }}
-                                            <label for="id_academic_year">Academic Year</label>
-                                            {{ project.academic_year}}
                                         </div>
                                         <div class="form-group">
                                             {{ project.end_academic_year.errors }}

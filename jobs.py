@@ -12,13 +12,17 @@ sched1 = BackgroundScheduler()
 # Initializing the sql files
 sql = sqlfiles
 
+#
+# @sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
+@sched.scheduled_job( 'interval',minutes=20)
 
 def scheduled_job():
     print('This job is ran every day at 10 PM.')
-    os.system(Project_GEOJSON)
-    os.system(Partner_GEOJSON)
+    project = 'python Project_GEOJSON.py'
+    partner = 'python Partner_GEOJSON.py'
+    os.system(project)
+    os.system(partner)
     global connection
     global cursor
 

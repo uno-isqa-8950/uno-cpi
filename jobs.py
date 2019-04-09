@@ -13,12 +13,12 @@ sched1 = BackgroundScheduler()
 sql = sqlfiles
 
 #
-# @sched.scheduled_job('cron', day_of_week='mon-sun', hour=22)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=7)
 
-@sched.scheduled_job( 'interval',minutes=20)
+# @sched.scheduled_job( 'interval',minutes=20)
 
 def scheduled_job():
-    print('This job is ran every day at 10 PM.')
+    print('This job is ran every day at 7 AM GMT/ 2 AM CDT.')
     project = 'python Project_GEOJSON.py'
     partner = 'python Partner_GEOJSON.py'
     os.system(project)

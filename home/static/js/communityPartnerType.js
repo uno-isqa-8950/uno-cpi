@@ -157,7 +157,7 @@ var select3 = '';
 select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
 
-    select3 += '<option value= "' + CampusPartnerlist[i] + '">' + CampusPartnerlist[i] + '</option>';
+    select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
 }
 $('#selectCampus').html(select3);
 
@@ -175,7 +175,7 @@ $('#selectYear').html(select4);
 var select5 = '';
 select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeName.length; i++) {
-    select5 += '<option value="' + CollegeName[i] + '">' + CollegeName[i] + '</option>';
+    select5 += '<option value="' + CollegeName[i].id + '">' + CollegeName[i].cname + '</option>';
 }
 $('#selectCollege').html(select5);
 
@@ -435,6 +435,21 @@ function filterMarkers() {
     }
 }
 
+const selectCollege_tag = document.getElementById('selectCollege');
+selectCollege_tag.addEventListener("change", function(event) {
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        if(CampusPartnerlist[i].c_id == selectCollege_tag.value || selectCollege_tag.value == 'All Colleges and Main Units')
+            select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+    mapFilter('selectCampus', 'All Campus Partners');
+
+    mapFilter('selectCollege', selectCollege_tag.options[selectCollege_tag.selectedIndex].text);
+    filterMarkers();
+    $('#totalnumber').html(getClusterSize());
+});
 // Create a wrapper div around all the filters and a change event listener
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
@@ -443,7 +458,7 @@ selectFilters.addEventListener("change", function(event) {
 
     selectFilterChildren.forEach((child) => {
         // Set each filter's value
-        if (child.id !== "commTypeFilters") {
+        if (child.id !== "commTypeFilters" && child.id !== "selectCollege") {
             mapFilter(child.id, child.value);
         }
     });
@@ -516,6 +531,15 @@ $("#reset").click(function () {
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);
     }
+
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+
+
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });

@@ -171,7 +171,7 @@ $('#selectCommunityType').html(select6);
 var select4 = '';
 select4 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
-    select4 += '<option value="' + CampusPartnerlist[i] + '">' + CampusPartnerlist[i] + '</option>';
+    select4 += '<option value="' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
 }
 $('#selectCampus').html(select4);
 
@@ -200,10 +200,9 @@ $('#selectCommunity').html(select3);
 var select7 = '';
 select7 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeNamelist.length; i++) {
-    select7 += '<option value="' + CollegeNamelist[i] + '">' + CollegeNamelist[i] + '</option>';
+    select7 += '<option value="' + CollegeNamelist[i].id + '">' + CollegeNamelist[i].cname + '</option>';
 }
 $('#selectCollege').html(select7);
-
 
 //*********************************** Load the map *****************************************************
 
@@ -494,6 +493,22 @@ function filterMarkers() {
     }
 }
 
+const selectCollege_tag = document.getElementById('selectCollege');
+selectCollege_tag.addEventListener("change", function(event) {
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        if(CampusPartnerlist[i].c_id == selectCollege_tag.value || selectCollege_tag.value == 'All Colleges and Main Units')
+            select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+    mapFilter('selectCampus', 'All Campus Partners');
+
+    mapFilter('selectCollege', selectCollege_tag.options[selectCollege_tag.selectedIndex].text);
+    filterMarkers();
+    $('#totalnumber').html(getClusterSize());
+});
+
 // Create a wrapper div around all the filters and a change event listener
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
@@ -502,13 +517,16 @@ selectFilters.addEventListener("change", function(event) {
 
     selectFilterChildren.forEach((child) => {
         // Set each filter's value
-        if (child.id !== "engagementFilters") {
+        if (child.id !== "engagementFilters" && child.id !== "selectCollege") {
             mapFilter(child.id, child.value);
         }
     });
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });
+
+
+
 
 var engagementFilters = Array.from(document.getElementsByClassName("selectEngagement"));
 for (let engageFilter of engagementFilters) {
@@ -581,6 +599,13 @@ $("#reset").click(function () {
     for (var k=0; k<states.length; k++) {
             states[k].setMap(null);
         }
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });

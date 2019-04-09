@@ -150,7 +150,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
+select2 += '<option value="' + "All Community Types" + '" selected="selected">' + 'All Community Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -161,7 +161,7 @@ var select3 = '';
 select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
 for (i = 0; i < CampusPartnerlist.length; i++) {
 
-    select3 += '<option value= "' + CampusPartnerlist[i] + '">' + CampusPartnerlist[i] + '</option>';
+    select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
 }
 $('#selectCampus').html(select3);
 
@@ -179,7 +179,7 @@ $('#selectYear').html(select4);
 var select5 = '';
 select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
 for (i = 0; i < CollegeName.length; i++) {
-    select5 += '<option value="' + CollegeName[i] + '">' + CollegeName[i] + '</option>';
+    select5 += '<option value="' + CollegeName[i].id + '">' + CollegeName[i].cname + '</option>';
 }
 $('#selectCollege').html(select5);
 
@@ -280,12 +280,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Partner Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
+    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
     // Object to identify filters set by the user
     filters = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
+        "selectCommtype":       "All Community Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -490,6 +490,22 @@ function filterMarkers() {
     }
 }
 
+const selectCollege_tag = document.getElementById('selectCollege');
+selectCollege_tag.addEventListener("change", function(event) {
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        if(CampusPartnerlist[i].c_id == selectCollege_tag.value || selectCollege_tag.value == 'All Colleges and Main Units')
+            select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+    mapFilter('selectCampus', 'All Campus Partners');
+
+    mapFilter('selectCollege', selectCollege_tag.options[selectCollege_tag.selectedIndex].text);
+    filterMarkers();
+    $('#totalnumber').html(getClusterSize());
+});
+
 // Create a wrapper div around all the filters and a change event listener
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
@@ -498,7 +514,7 @@ selectFilters.addEventListener("change", function(event) {
 
     selectFilterChildren.forEach((child) => {
         // Set each filter's value
-        if (child.id !== "missionAreaFilters") {
+        if (child.id !== "missionAreaFilters" && child.id !== "selectCollege") {
             mapFilter(child.id, child.value);
         }
     });
@@ -562,7 +578,7 @@ $("#reset").click(function () {
     const defaultFilterObject = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
+        "selectCommtype":       "All Community Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -574,6 +590,14 @@ $("#reset").click(function () {
     for (var k=0; k<states.length; k++) {
             states[k].setMap(null);
         }
+
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });

@@ -909,17 +909,17 @@ def GEOJSON():
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [m.name for m in CampusPartner_qs]
+    CampusPartnerlist = [{'name':m.name, 'c_id':m.college_name_id} for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
-    collegeNamelist = [m.college_name for m in collegeName_list]
+    collegeNamelist = [{'cname': m.college_name, 'id': m.id} for m in collegeName_list]
     yearlist=[]
     for year in AcademicYear.objects.all():
         yearlist.append(year.academic_year)
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [m.name for m in commPartnerlist]
-    return (collection, sorted(mission_list), sorted(CommTypelist), sorted(CampusPartnerlist), sorted(yearlist),
-            sorted(commPartnerlist), sorted(collegeNamelist))
+    return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
+            sorted(commPartnerlist), (collegeNamelist))
 
 
 ######## export data to Javascript for Household map ################################
@@ -964,7 +964,7 @@ def GEOJSON2():
     for e in College.objects.all():
         if(str(e.college_name) not in CollegeNamelist):
             if (str(e.college_name) != "N/A"):
-                CollegeNamelist.append(str(e.college_name))
+                CollegeNamelist.append({'cname':str(e.college_name), 'id':e.id})
 
 
     for year in AcademicYear.objects.all():
@@ -980,10 +980,11 @@ def GEOJSON2():
         CommunityPartnerlist.append(communitypart.name)
 
     for campuspart in CampusPartner.objects.all():
-        CampusPartnerlist.append(campuspart.name)
+        CampusPartnerlist.append({'name': campuspart.name, 'c_id': campuspart.college_name_id})
+
 
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
-            sorted(CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), sorted(CollegeNamelist))
+            (CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), (CollegeNamelist))
 
 
 ###Project map export to javascript
@@ -999,11 +1000,11 @@ def googleprojectdata(request):
                    'number': len(data['features']),
                    'Missionlist': sorted(GEOJSON2()[2]),
                    'CommTypelist': sorted(GEOJSON2()[5]),  # pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
+                   'Campuspartner': (Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(GEOJSON2()[1]),
                    'year': sorted(GEOJSON2()[6]),'data_definition':data_definition,
-                   'Collegename': sorted(GEOJSON2()[7])
+                   'Collegename': (GEOJSON2()[7])
                    }
                   )
 
@@ -1018,7 +1019,7 @@ def googleDistrictdata(request):
                   {'districtData': district, 'collection': GEOJSON()[0],
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
+                   'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
                    'year': sorted(GEOJSON()[4]),'data_definition':data_definition,
                    'Collegename': GEOJSON()[6]
@@ -1037,10 +1038,10 @@ def googlepartnerdata(request):
                   {'collection': data, 'districtData':district,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
+                   'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
                    'year': GEOJSON()[4],'data_definition':data_definition,
-                   'College': sorted(College)
+                   'College': (College) #k sorted
                    }
                   )
 
@@ -1056,10 +1057,10 @@ def googlemapdata(request):
                   {'collection': data, 'districtData': district,
                    'Missionlist': sorted(GEOJSON()[1]),
                    'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
-                   'Campuspartner': sorted(Campuspartner),
+                   'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
                    'year': GEOJSON()[4],'data_definition':data_definition,
-                   'College': sorted(College)
+                   'College': (College)
                    }
                   )
 
@@ -1132,4 +1133,3 @@ def registerCommPartner(request, uidb64, token):
 
 def registerCommPartnerComplete(request, uidb64):
     return render(request,'home/register_done.html')
-

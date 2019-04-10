@@ -85,7 +85,7 @@
                                 <a class="dropdown-item" href="#">Community Partner Name</a>
                             </div>
                         </div>
-                        <form method="POST">{% csrf_token %}
+                        <form method="POST" onsubmit="return false">{% csrf_token %}
                             <input style="margin-left: 7%" id="partner_name" type="text" name="name_field" value="">
                         </form>
                         <div class="justify-content-md-center" style="margin-left: 40%">

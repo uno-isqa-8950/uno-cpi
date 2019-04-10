@@ -282,7 +282,7 @@ def createProject(request):
                    'formset2': formset2})
 
 @login_required()
-@campuspartner_required()
+# @campuspartner_required()
 def editProject(request,pk):
 
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)

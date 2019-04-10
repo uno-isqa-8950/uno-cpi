@@ -150,7 +150,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community Types" + '" selected="selected">' + 'All Community Types' + '</option>';
+select2 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -280,12 +280,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
+    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Partner Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
     // Object to identify filters set by the user
     filters = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -578,7 +578,7 @@ $("#reset").click(function () {
     const defaultFilterObject = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"

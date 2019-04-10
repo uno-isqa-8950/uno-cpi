@@ -104,7 +104,8 @@
 
     </style>
     <br>
-        <div class="container-fluid">
+        <div class="container-fluid" style="width: 100vw;
+  position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
             <div class="row">
                 <div id="ab1" class="col-xs-6 col-md-4">
 {#                    <div class = "panel-default panel-heading  text-center">#}
@@ -126,18 +127,21 @@
 
                              <div class="col text-center">
                                 <div class="card" style="border:none">
-                                    <form action="{% url 'partners:registerCommunityPartner' %}" >
+                                    <form action="{% url 'partners:checkCommunityPartner' %}" >
                                     <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
                                       Register Community Partner</button><br><br>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <div class="rich-text">
-                            {% comm_part_users %}
-{#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
-                            <br>
-                            <br>
+                            <div class="rich-text" >
+                                {% comm_part_users %}
+    {#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
+                                {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
+                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Community Partner Users associated with a Community Partner"  href="{% url 'invitecommunityPartnerUser' %}">Invite Community Partner User </a>
+                                {% endif %}
+                                <br>
+                                <br>
+                            </div>
                         </div>
                     </div>
 {#                </div>#}

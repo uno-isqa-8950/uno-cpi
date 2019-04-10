@@ -1,0 +1,49 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+@media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p {
+    margin-left: 25px;
+    margin-top: 15px;
+}
+.panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+</style>
+<div class="container">
+ <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Thank You</h4></div>
+			<div class="panel-body">
+              <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been successfully added.
+                  A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myProjects/'>My Projects<a> page.</p><br>
+            </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

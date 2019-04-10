@@ -1,0 +1,435 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+label
+    {
+    margin-left: 22px;
+    font-weight: bold;
+    }
+
+
+input[type=number],textarea[name=project_name],.form-control,input[type=text],select[id=id_status],textarea[id=id_description],textarea[id=id_total_uno_hours],
+input[id=id_start_date],input[id=id_end_date],select[id=id_semester]
+    {
+        width: 95%;
+        height: 10%;
+
+    }
+
+
+.select2-container--default .select2-selection--single
+{
+   margin-left:22px;
+   width:100%
+}
+
+
+.select2-container--open .select2-dropdown--below
+{
+   margin-left:22px
+}
+.panel {
+  margin-bottom: 1%;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+ .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
+
+</style>
+
+
+
+<div class = "container" id="main12">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-10 col-md-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4>Edit Project</h4></div>
+                    <div class="panel-body" style="margin-top:10px;">
+                        <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
+                            {{formset_missiondetails.management_form}}
+                            {{formset_comm_details.management_form}}
+                            {{formset_camp_details.management_form}}
+
+
+                            {{project.project_name|bootstrap}}
+                            {{ project.status|bootstrap}}
+                            {{project.engagement_type|bootstrap}}
+{#                            {{ course.name|bootstrap }}#}
+{#                            {{ course.prefix|bootstrap }}#}
+{#                            {{ course.number|bootstrap }}#}
+                            {{project.activity_type|bootstrap}}
+{#                            {{ project.facilitator|bootstrap }}#}
+                            {{ project.description|bootstrap }}
+                            <div class="form-group">
+                                {{ project.semester.errors }}
+                                <label for="id_semester">Start Semester</label>
+                                {{ project.semester}}
+                            </div>
+                            {{ project.academic_year|bootstrap }}
+                            {{ project.end_semester|bootstrap }}
+                            {{ project.end_academic_year|bootstrap }}
+                            {{ project.total_uno_students|bootstrap }}
+                            {{ project.total_uno_hours|bootstrap }}
+                            {{ project.total_k12_students|bootstrap }}
+                            {{ project.total_k12_hours|bootstrap }}
+                            {{ project.total_uno_faculty|bootstrap }}
+                            {{ project.total_other_community_members|bootstrap }}
+                            {{ project.start_date|bootstrap }}
+                            {{ project.end_date|bootstrap }}
+                            {{ project.other_details|bootstrap }}
+                            {{ project.outcomes|bootstrap }}
+                            {{ project.address_line1|bootstrap }}
+                            {{ project.city|bootstrap }}
+                            {{ project.state|bootstrap }}
+                            {{ project.zip|bootstrap }}
+                            {{ project.country|bootstrap }}
+                             <div class="mission" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Mission Areas
+                                        </h6>
+                                    </div>
+                            {% for missform in formset_missiondetails %}
+                                <div class="mission_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+
+                                                {{ missform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-mission_edit-row">Add an Additional Mission Areas</button><span></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                            <div class="community" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Community Partners
+                                        </h6>
+                                    </div>
+                            {% for commform in formset_comm_details %}
+                                <div class="community_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{ commform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-community_edit-row">Add an Additional Community Partner</button><span></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                            <div class="campus" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                        <h6>Campus Partners
+                                        </h6>
+                                    </div>
+                            {% for campform in formset_camp_details %}
+                                <div class="campus_edit-row" id="contact1" style="margin-top:20px;">
+                                    <div class="col-lg-12">
+                                    </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{ campform|bootstrap }}
+                                            </div>
+                                        </div>
+                                    <div class="input-group-append" >
+                                        <button class="btn btn-secondary add-campus_edit-row">Add an Additional Campus Partner</button><span></span>
+                                    </div>
+
+                                </div>
+                            {% endfor %}
+                            </div>
+
+                        <div class="row justify-content-md-center" style="margin-top:30px;">
+                            <div class="col-lg-2 col-md-5">
+                                <button type="submit" class="save btn btn-custom">Update</button>
+                            </div>
+                        </div>
+                        </form><br><br>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div> <br><br>
+
+
+{% endblock %}
+
+
+{% block custom_js %}
+    <script type="text/javascript">
+    window.onsubmit = function formset_delete() {
+        var id_comm = document.getElementById('id_community_edit-0-community_partner');
+        var val_comm = id_comm.options[id_comm.selectedIndex].text;
+        if (val_comm === '---------') {
+            document.getElementById('id_community_edit-0-DELETE').click()
+        }
+        var id_camp = document.getElementById('id_campus_edit-0-campus_partner');
+        var val_camp = id_camp.options[id_camp.selectedIndex].text;
+        if (val_camp === '---------') {
+            document.getElementById('id_campus_edit-0-DELETE').click()
+        }
+        var id_miss = document.getElementById('id_mission_edit-0-mission');
+        var val_miss = id_miss.options[id_miss.selectedIndex].text;
+        var id_misstype = document.getElementById('id_mission_edit-0-mission_type');
+        var val_misstype = id_misstype.options[id_misstype.selectedIndex].text;
+        if (val_miss === '---------' || val_misstype === '---------') {
+            document.getElementById('id_mission_edit-0-DELETE').click()
+        }
+    }
+    </script>
+<script type="text/javascript">
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
+    .removeClass('btn-success')
+    .removeClass('add-' + prefix + '-row')
+    return false;
+}
+function deleteForm(prefix, btn) {
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  if (total > 1) {
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
+}
+$(document).on('click', '.add-mission_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission_edit-row:last', 'mission_edit');
+    return false;
+});
+$(document).on('click', '.add-community_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.community_edit-row:last', 'community_edit');
+    return false;
+});
+$(document).on('click', '.add-campus_edit-row', function(e){
+    e.preventDefault();
+    cloneMore('.campus_edit-row:last', 'campus_edit');
+    return false;
+});
+$(document).on('click', '.remove-mission_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('mission_edit', $(this));
+    return false;
+});
+
+$(document).on('click', '.remove-community_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('community_edit', $(this));
+    return false;
+});
+$(document).on('click', '.remove-campus_edit-row', function(e){
+    e.preventDefault();
+    deleteForm('campus_edit', $(this));
+    return false;
+});
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+$(".add-mission_edit-row").slice(0, -1).hide();
+$(".add-community_edit-row").slice(0, -1).hide();
+$(".add-campus_edit-row").slice(0, -1).hide();
+
+
+</script>
+<!--    Commenting out script per ticket #551
+        Removing HTML validations as Validation Messages are coded in forms.py file
+        -Joseph Nabity
+    <script type="text/javascript">
+
+
+function validateFormsets(){
+
+     var id =event.target.id;
+     var name = event.target.name;
+     console.log(id);
+     console.log(name);
+     console.log(document.getElementById(id).value);
+    { console.log("helloooo");
+        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
+        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+
+        }
+
+        if(id.includes("country")||id.includes("city")){
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+
+        }
+        if(id.includes("total_economic_impact")){
+
+            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
+            {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+
+
+            }
+        }
+    }
+return true;
+
+}
+
+</script>
+-->
+
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+  $('#id_engagement_type').select2(
+      {
+              placeholder: 'Select an Engagement Type',
+      }
+  );
+  $('#id_activity_type').select2(
+      {
+              placeholder: 'Select an Activity Type',
+      }
+  );
+  $('#id_status').select2(
+      {
+              placeholder: 'Select a Status',
+      }
+  );
+  {#$('#id_projectmission_set-0-mission_type').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Mission Type',#}
+  {#    }#}
+  {#);#}
+  {#$('#id_projectmission_set-0-mission').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Mission',#}
+  {#    }#}
+  {#);#}
+  {#$('#id_projectcommunitypartner_set-0-community_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Community Partner',#}
+  {#    }#}
+  {#);#}
+  {# $('#id_projectcampuspartner_set-0-campus_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Campus Partner',#}
+  {#    }#}
+  {#);#}
+  {# $('#id_projectcampuspartner_set-1-campus_partner').select2(#}
+  {#    {#}
+  {#            placeholder: 'Select a Campus Partner',#}
+  {#    }#}
+  {#);#}
+});
+</script>
+<style>
+.select2-container .select2-selection--single
+{
+   height:35px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+</style>
+
+{% endblock %}
+

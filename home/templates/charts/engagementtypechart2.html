@@ -1,8 +1,26 @@
-{% extends 'home/base_home.html' %}
-{% block content %}
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
 
 <style>
 
+    #loading
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
 
     .form-inline label
     {
@@ -17,14 +35,18 @@
      .select2-container--default .select2-selection--single
      {
         margin-left:22px;
-        width:200px;
+        width:100%;
      }
 
 
     .select2-container--open .select2-dropdown--below
     {
-        width:200px;
+        width:100%;
         margin-left:22px;
+    }
+
+    .select2-selection__placeholder{
+        font-size: small;
     }
 
 
@@ -41,7 +63,7 @@
 
 </style>
 
-
+<div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -49,6 +71,11 @@
                <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Chart: Engagement Types</h4></b></label>
                </div>
+            </div>
+            <div class="card" style="padding: 10px;">
+                <div class="center">
+                    {% eng_charts %}
+                </div>
             </div>
         </div>
     </div>
@@ -59,7 +86,7 @@
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Show Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "HideFilters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'EngagementType_Chart' %}' " value="Reset Filters" >
 
@@ -82,10 +109,10 @@
     <!-- / Collapse buttons -->
 
         <div class="card" style="border: 2px solid #C3C3C3;">
-            <div class="collapse" id="collapseExample">
+            <div class="collapse show" id="collapseExample">
                 <form class="form-inline" id="filters-form" method="get">
-                    <div class="col-lg-3 col-md-5 form-group">
-                        <label for="mission">Mission Areas
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="mission">Project Mission Areas
                         {% for data_definition in data_definition %}
                                 {% if data_definition.id == 3%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -102,7 +129,7 @@
                             </select>
                     </div>
 
-                    <div class="col-lg-3 col-md-5 form-group">
+                    <div class="col-lg-4 col-md-5 form-group">
                         <label for="academic_year">Academic Years
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 32%}
@@ -120,8 +147,8 @@
                             </select>
                     </div>
 
-                    <div class="col-lg-3 col-md-5 form-group embed-responsive">
-                    <label for="college-name"> College Names
+                    <div class="col-lg-4 col-md-5 form-group">
+                    <label for="college-name"> Colleges and Main Units
                               {% for data_definition in data_definition %}
                                 {% if data_definition.id == 43%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -130,7 +157,7 @@
                                 {% endif %}
                             {% endfor %}
                     </label>
-                        <select  style="width: 3%" id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                             <option> All </option>
                                 {% for college in college_filter.form.college_name %}
                                     {{college}}
@@ -138,7 +165,7 @@
                         </select>
                     </div>
 
-                    <div class="col-lg-3 col-md-5 form-group">
+                    <div class="col-lg-4 col-md-5 form-group">
                         <label for="campus_partner"> Campus Partners
                              {% for data_definition in data_definition %}
                                 {% if data_definition.id == 1%}
@@ -155,7 +182,7 @@
                                     {% endfor %}
                             </select>
                     </div>
-                     <div class="col-lg-3 col-md-5 form-group">
+                     <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -172,7 +199,7 @@
                         {% endfor %}
                     </select>
                     </div>
-                    <div class="col-lg-5 col-md-7 form-group">
+                    <div class="col-lg-4 col-md-5 form-group">
                         <label for="community_type"> Community Partner Types
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 33%}
@@ -208,14 +235,18 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px'});
-    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '200px'});
-    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
-    $('#id_college_name').select2({placeholder: 'All College Names',width: '200px'});
+    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '75%'});
+    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%'});
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%'});
 
 });
+</script>
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
     <script>
         $(function () {

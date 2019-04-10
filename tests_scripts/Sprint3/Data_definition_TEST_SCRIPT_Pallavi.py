@@ -25,7 +25,7 @@ class UnoCpi(unittest.TestCase):
         elem.send_keys(pwd)
         elem = driver.find_element_by_xpath('/html/body/div/div/div/div/div/div[2]/div/form/div[1]/div/p/button').click()
         time.sleep(1)
-        driver.get('http://127.0.0.1:8000/campususerproject/')
+        driver.get('http://127.0.0.1:8000/myProjects/')
         time.sleep(1)
         elem = driver.find_element_by_css_selector('#example > thead > tr > th.sorting_asc > span > i').click()
         time.sleep(2)

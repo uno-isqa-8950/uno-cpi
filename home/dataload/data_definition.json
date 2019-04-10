@@ -321,34 +321,24 @@
 				"group": 1,
 				"is_active": 1
 			}
-		}
-	,
-		{
-			"model": "home.datadefinition",
-			"pk": 28,
-			"fields": {
-				"title": "Community Partner Count",
-				"description": "Definition of Community Partner Count",
-				"group": 1,
-				"is_active": 1
-			}
-		}	,
+		},
 		{
 			"model": "home.datadefinition",
 			"pk": 29,
 			"fields": {
-				"title": "Project Count ",
-				"description": "Definition of Project Count ",
+				"title": "Community Partner - Website",
+				"description": "Websites associated with a Community Partner",
 				"group": 1,
 				"is_active": 1
 			}
-		}	,
-		{
+		},
+
+        {
 			"model": "home.datadefinition",
 			"pk": 30,
 			"fields": {
-				"title": "Campus Partner Count ",
-				"description": "Definition of Campus Partner Count ",
+				"title": "Projects",
+				"description": "Projects",
 				"group": 1,
 				"is_active": 1
 			}
@@ -479,6 +469,76 @@
 			"fields": {
 				"title": "College Name",
 				"description": "Colleges associated to the Campus Partners within UNO",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 44,
+			"fields": {
+				"title": "Google Map - Projects",
+				"description": "The Markers in the map doesn't include any Projects without address!",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 45,
+			"fields": {
+				"title": "Google Map - Community Partner",
+				"description": "The Markers in the map doesn't include any Community Partner without address!",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 46,
+			"fields": {
+				"title": "Community Partners Count",
+				"description": "Count of Community Partners",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 47,
+			"fields": {
+				"title": "Projects Count",
+				"description": "Count of overall Projects",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 48,
+			"fields": {
+				"title": "UNO Students Count",
+				"description": "Count of overall UNO Students",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 49,
+			"fields": {
+				"title": "UNO Student Hours Count",
+				"description": "Count of overall UNO Student Hour",
+				"group": 1,
+				"is_active": 1
+			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 50,
+			"fields": {
+				"title": "Campus Partners Count",
+				"description": "Campus Partners Count",
 				"group": 1,
 				"is_active": 1
 			}

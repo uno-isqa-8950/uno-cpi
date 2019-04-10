@@ -58,6 +58,18 @@ margin-top:15px;
     .dropdown-menu .dropdown-submenu{
         width: auto;
     }
+    .himg{
+        width:90%;
+        height:90%;
+    }
+
+}
+
+    @media (max-width:710px) {
+    .himg{
+        width:70%;
+        height:70%;
+    }
 }
 </style>
 
@@ -66,13 +78,12 @@ margin-top:15px;
 <!-- Navbar Begins -->
 
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
-    <div class="collapse navbar-collapse" id="target">
-        <a class="navbar-brand" href="/">
-            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-        <a class ="navbar-brand" href="/" id="uno"><b>University of Nebraska Omaha</b>
-                <b id="cpi">Community Partnership Initiative</b></a>
-            <ul class="navbar-nav ml-auto">
+    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
+            <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha
+                <b id="cpi">Community Partnership Initiative</b>
+                    <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
+                    <div class="collapse navbar-collapse" id="target">
+                        <ul class="navbar-nav ml-auto">
                 <!--li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
                 </li-->
@@ -82,10 +93,10 @@ margin-top:15px;
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/googlehomepage">Community Partners</a>
-                    <a class="dropdown-item" href="/googleDistrictmap">Legislative District</a>
-                    <a class="dropdown-item" href="/googlemap">Community Partner Type</a>
-                    <a class="dropdown-item" href="/googleprojectmap">Projects</a>
+                    <a class="dropdown-item" href="/communityPartner">Community Partners</a>
+                    <a class="dropdown-item" href="/legislativeDistrict">Legislative District</a>
+                    <a class="dropdown-item" href="/communityPartnerType">Community Partner Type</a>
+                    <a class="dropdown-item" href="/projectMap">Projects</a>
 {#                 {% if  user.is_superuser or user.is_campuspartner  %}#}
 {#                    <a class="dropdown-item" href="/projectmap">Projects</a>#}
 {#                  {% endif %}#}
@@ -134,14 +145,14 @@ margin-top:15px;
                         <span class="caret"></span>
                     </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/projectSearch/">All Projects</a>
-                    <a class="dropdown-item" href='/campususerproject/'>My Projects</a>
-                    <a class="dropdown-item" href='/project_total_Add/'>Create Project</a>
+                    <a class="dropdown-item" href="/allProjects/">All Projects</a>
+                    <a class="dropdown-item" href='/myProjects/'>My Projects</a>
+                    <a class="dropdown-item" href='/createProject/'>Create Project</a>
                 </div>
                 </li>
-                <li class="nav-item">
-                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>
-                </li>
+{#                <li class="nav-item">#}
+{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
+{#                </li>#}
                 {% endif %}
                {% if user.is_communitypartner %}
 
@@ -149,7 +160,7 @@ margin-top:15px;
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
                {% endif %}
-               {% if not user.is_authenticated %}
+{#               {% if not user.is_authenticated %}#}
                 <li class=" nav-item dropdown">
 {#                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">#}
 {#                        <i class="fa fa-handshake-o"></i>Partners#}
@@ -161,7 +172,7 @@ margin-top:15px;
 {#                    <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>#}
 {#                </div>#}
                 </li>
-               {% endif %}
+{#               {% endif %}#}
                 {% if user.is_authenticated and user.is_superuser  %}
 
 
@@ -177,14 +188,17 @@ margin-top:15px;
 {#                   <a class="dropdown-item" href="#">About us CMS</a>#}
                      <a class="dropdown-item" href= '/Adminframe/'>Admin View</a>
                      <a class="dropdown-item" href='/uploadProject/'>Import Data</a>
+                     <a class="dropdown-item" href='/cms/'>CMS</a>
+                    <a class="dropdown-item" href='/recentchanges/'>Recent Changes</a>
                 </div>
                 </li>
                 {% endif %}
                 {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
                      <li class="nav-item dropdown">
                     <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
-                        <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30" alt="Avatar"><span id="pic">{{ user.first_name }}</span>
-                      <span class="caret"></span>
+                        {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
+                        {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
+                        <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         {% if not user.is_superuser  %}

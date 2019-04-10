@@ -1,290 +1,383 @@
-<!DOCTYPE html>
-{% load staticfiles %}
-<html lang="en">
-<head>
-  <title>Community Partnership Initiative</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-  <link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
-  <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
-  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
-
-
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script-->
-
-
-<style>
-
-#contact
-{
-background: #D3D3D3;
-}
-
-.navbar
-{
-padding: .1rem 1rem;
-}
-
-a
-{
-color:black;
-}
-
-#example1
-    {
-        margin-top:100px;
-        margin-left: 250px;
-    }
- {#Please do not remove the below css it is for dropdowns#}
-.dropdown-submenu{
-    position: relative;
-}
-.dropdown-submenu a::after{
-    transform: rotate(-90deg);
-    position: absolute;
-    right: 3px;
-    top: 40%;
-}
-.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
-    display: flex;
-    flex-direction: column;
-    position: absolute !important;
-    margin-top: -30px;
-    left: 100%;
-}
-@media (max-width: 992px) {
-    .dropdown-menu{
-        width: 50%;
-    }
-    .dropdown-menu .dropdown-submenu{
-        width: auto;
-    }
-}
-
-    .panel > .panel-heading {
-        background-color: #333;
-    }
-
-    .btn-custom {
-        background-color: #333;
-    }
-
-</style>
-
-</head>
-
-
-<body>
-
-
-
-<!-- Navbar Begins -->
-
-
-
-<nav class="navbar navbar-expand-md navbar-custom sticky-top">
-    <button class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu">Menu</button>
-    <div class="collapse navbar-collapse" id="target">
-
-        <a class="navbar-brand" href="/">
-            <img src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-        <a class ="navbar-brand" href='/' id="uno"><b>University of Nebraska Omaha</b>
-                <b id="cpi">Community Partnership Initiative</b></a>
-
-            <ul class="navbar-nav ml-auto">
-                <li class=" nav-item dropdown">
-                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                            <i class="fa fa-globe"></i>Maps
-                            <span class="caret"></span>
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                            <a class="dropdown-item" href="/googlehomepage">Community Partners</a>
-                            <a class="dropdown-item" href="/googleDistrictmap">Legislative District</a>
-                            <a class="dropdown-item" href="/googlemap">Community Partner Type</a>
-                            <a class="dropdown-item" href="/googleprojectmap">Projects</a>
-                        </div>
-                    </li>
-                <li class="nav-item dropdown">
-                        <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                            <i class="fa fa-line-chart"></i>Analytics
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-
-                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
-                                <ul class="dropdown-menu">
-                                    <a class="dropdown-item" href="/projectInfo">Mission Areas</a>
-                                    <a class="dropdown-item" href="/engageType">Engagement Types</a>
-{#                                    <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
-                                    {% if  user.is_authenticated %}
-                                    <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
-
-                                    {% else %}
-                                    <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                                    <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
-                                    {% endif %}
-                                </ul>
-                            </li>
-                            <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
-                                <ul class="dropdown-menu">
-                                    <a class="dropdown-item" href="/missionchart">Mission Areas</a>
-                                    <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                <li class="nav-item">
-                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
-                </li>
-
-
-                <li class="nav-item dropdown">
-                  <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
-                      <img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30" width="30" alt="Avatar"><span id="pic">{{ user.first_name  }}</span>
-                        <span class="caret"></span>
-                  </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
-                    <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
-                    <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
-                </div>
-              </li>
-
-            </ul>
-    </div>
-</nav>
-
-
-
-
-<!-- Navbar ends-->
-
-<!-- Table Begins ---- Add Block Content Here-->
-
-
-
-
-
-
-
-
-
-
-
-<div class="container">
-
-{% block content %}
-    <p>Welcome Community Partner </p>
-{% endblock %}
-
-</div>
-
-
-
-<!--Contact Begins >
-
-
-
-<section id="contact">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8 mx-auto text-center">
-            <h2 class="section-heading">Let's Get In Touch!</h2>
-            <hr class="my-4">
-            <p class="mb-5">Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 ml-auto text-center">
-            <i class="fa fa-skype fa-3x mb-3 sr-contact-1"></i>
-            <p>
-                <a href="skype:Goutham Viswanathan?call"><b>Connect with us on Skype</b></a>
-            </p>
-          </div>
-          <div class="col-lg-4 mr-auto text-center">
-            <i class="fa fa-envelope fa-3x mb-3 sr-contact-2"></i>
-            <p>
-              <a href="mailto:your-email@your-domain.com"><b>kshenouda@unomaha.edu</b></a>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-
-<!-- Contact Ends here-->
-
-
-
-
-<!--Footer Begins here-->
-
-
-<footer>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-3" style="margin-top:8px;">
-            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
-               <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
-          </div>
-          <div class="col-md-6">
-            <ul class="footertext">
-                UNO is an AA/EEO /ADA institution. For questions, accommodations or assistance
-please call/contact ADA/504 coordinator (phone: 402.554.3490 or TTY
-402.554.2978) or the director of Accessibility Services Center (phone:
-402.554.2872). The University of Nebraska does not discriminate based on race,
-color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity,
-religion, disability, age, genetic information, veteran status, marital status, and/or
-political affiliation in its programs, activities, or employment.
-            </ul>
-          </div>
-          <div class="col-md-3">
-              <ul class="imgadjust">
-                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo">
-              </ul>
-          </div>
-        </div>
-      </div>
-    </footer>
-
-
-
-<!-- Footer Ends Here-->
-
-{% block searchjs %}
-{% endblock %}
-{% block js %}
-{% endblock %}
-{% block custom_js %}
-{% endblock %}
-{% block selectizeForm %}
-{% endblock %}
-
-
-</body>
-
-<!--script type="text/javascript">
-     $(document).ready(function() {
-    $('#example').DataTable();
-} );
- </script-->
-</html>
+<!--<!DOCTYPE html>-->
+<!--{% load staticfiles %}-->
+<!--<html lang="en">-->
+<!--<head>-->
+  <!--<title>Community Partnership Initiative</title>-->
+  <!--<meta charset="utf-8">-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+  <!--<meta name="description" content="">-->
+  <!--<meta name="author" content="">-->
+  <!--<link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>-->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">-->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">-->
+  <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>-->
+  <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>-->
+  <!--<link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">-->
+  <!--<link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">-->
+  <!--<link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">-->
+  <!--<link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">-->
+  <!--<link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">-->
+  <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">-->
+  <!--&lt;!&ndash;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css">-->
+  <!--<link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">-->
+  <!--<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">-->
+
+
+  <!--<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>-->
+  <!--<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script&ndash;&gt;-->
+
+
+<!--<style>-->
+
+<!--#contact-->
+<!--{-->
+<!--background: #D3D3D3;-->
+<!--}-->
+
+<!--.navbar-->
+<!--{-->
+<!--padding: .1rem 1rem;-->
+<!--}-->
+
+<!--a-->
+<!--{-->
+<!--color:black;-->
+<!--}-->
+
+<!--#example1-->
+    <!--{-->
+        <!--margin-top:100px;-->
+        <!--margin-left: 250px;-->
+    <!--}-->
+ <!--{#Please do not remove the below css it is for dropdowns#}-->
+<!--.dropdown-submenu{-->
+    <!--position: relative;-->
+<!--}-->
+<!--.dropdown-submenu a::after{-->
+    <!--transform: rotate(-90deg);-->
+    <!--position: absolute;-->
+    <!--right: 3px;-->
+    <!--top: 40%;-->
+<!--}-->
+<!--.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{-->
+    <!--display: flex;-->
+    <!--flex-direction: column;-->
+    <!--position: absolute !important;-->
+    <!--margin-top: -30px;-->
+    <!--left: 100%;-->
+<!--}-->
+<!--@media (max-width: 992px) {-->
+    <!--.dropdown-menu{-->
+        <!--width: 50%;-->
+    <!--}-->
+    <!--.dropdown-menu .dropdown-submenu{-->
+        <!--width: auto;-->
+    <!--}-->
+
+    <!--.col-sm-2 {-->
+        <!--margin-left: 0!important;-->
+    <!--}-->
+    <!--.footertext {-->
+        <!--margin-left: 15px!important;-->
+        <!--margin-right: 15px!important;-->
+    <!--}-->
+    <!--.break {-->
+        <!--display: block!important;-->
+    <!--}-->
+
+    <!--.fimg {-->
+        <!--width:100%!important;-->
+
+    <!--}-->
+    <!--.himg{-->
+        <!--width:90%;-->
+        <!--height:90%;-->
+    <!--}-->
+<!--}-->
+
+    <!--.panel > .panel-heading {-->
+        <!--background-color: #333;-->
+    <!--}-->
+
+    <!--.btn-custom {-->
+        <!--background-color: #333;-->
+    <!--}-->
+
+
+    <!--@media (max-width:575px) {-->
+    <!--.fleft, .fright {-->
+        <!--border:none!important;-->
+    <!--}-->
+<!--}-->
+
+    <!--@media (max-width:710px) {-->
+    <!--.himg{-->
+        <!--width:70%;-->
+        <!--height:70%;-->
+    <!--}-->
+<!--}-->
+
+    <!--.footertext {-->
+        <!--margin-top:8px;-->
+        <!--margin-left: 165px;-->
+        <!--width: 100%;-->
+        <!--text-align: left;-->
+        <!--margin-right: 165px;-->
+    <!--}-->
+
+    <!--hr {-->
+      <!--display: block;-->
+      <!--margin-top: 0.5em;-->
+      <!--margin-bottom: 0.5em;-->
+      <!--margin-left: auto;-->
+      <!--margin-right: auto;-->
+      <!--border:0;-->
+      <!--border-top: 1px solid;-->
+      <!--color:#BABABA-->
+    <!--}-->
+
+    <!--.fleft {-->
+        <!--color:#BABABA!important;-->
+        <!--border: solid;-->
+        <!--border-width: 1px;-->
+        <!--border-top: 0;-->
+        <!--border-bottom:0;-->
+        <!--border-left:0;-->
+        <!--padding: 2px 6px;-->
+        <!--font-size:10px;-->
+        <!--display: inline-block;-->
+    <!--}-->
+
+    <!--.fright {-->
+        <!--color:#BABABA;-->
+        <!--border: solid;-->
+        <!--border-width: 1px;-->
+        <!--border-top: 0;-->
+        <!--border-bottom:0;-->
+        <!--border-right:0;-->
+        <!--padding: 2px 6px;-->
+        <!--font-size:10px;-->
+        <!--display: inline-block;-->
+    <!--}-->
+
+    <!--.fcenter {-->
+        <!--color:#BABABA;-->
+        <!--font-size:12px;-->
+    <!--}-->
+
+    <!--.fleft:hover, .fright:hover, .fcenter:hover{-->
+        <!--color:white !important;-->
+        <!--text-decoration: none;-->
+    <!--}-->
+
+    <!--.break {-->
+        <!--display: inline;-->
+    <!--}-->
+<!--</style>-->
+
+<!--</head>-->
+
+
+<!--<body>-->
+
+
+
+<!--&lt;!&ndash; Navbar Begins &ndash;&gt;-->
+
+<!--<nav class="navbar navbar-expand-lg navbar-custom sticky-top">-->
+    <!--<a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>-->
+    <!--<a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>-->
+    <!--<a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>-->
+    <!--<div class="collapse navbar-collapse" id="target">-->
+        <!--<ul class="navbar-nav ml-auto">-->
+
+            <!--<li class=" nav-item dropdown">-->
+                <!--<a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">-->
+                    <!--<i class="fa fa-globe"></i>Maps-->
+                    <!--<span class="caret"></span>-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">-->
+                    <!--<a class="dropdown-item" href="/communityPartner">Community Partners</a>-->
+                    <!--<a class="dropdown-item" href="/legislativeDistrict">Legislative District</a>-->
+                    <!--<a class="dropdown-item" href="/communityPartnerType">Community Partner Type</a>-->
+                    <!--<a class="dropdown-item" href="/projectMap">Projects</a>-->
+                <!--</div>-->
+            <!--</li>-->
+
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">-->
+                    <!--<i class="fa fa-line-chart"></i>Analytics-->
+                    <!--<span class="caret"></span>-->
+                <!--</a>-->
+                <!--<ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+                    <!--<li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>-->
+                        <!--<ul class="dropdown-menu">-->
+                            <!--<a class="dropdown-item" href="/projectInfo">Mission Areas</a>-->
+                            <!--<a class="dropdown-item" href="/engageType">Engagement Types</a>-->
+<!--{#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}-->
+                            <!--{% if  user.is_authenticated %}-->
+                               <!--<a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>-->
+                               <!--<a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>-->
+                            <!--{% else %}-->
+                                <!--<a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>-->
+                                <!--<a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>-->
+                            <!--{% endif %}-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                    <!--<li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>-->
+                        <!--<ul class="dropdown-menu">-->
+                            <!--<a class="dropdown-item" href="/missionchart">Mission Areas</a>-->
+                            <!--<a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>-->
+                        <!--</ul>-->
+                    <!--</li>-->
+                <!--</ul>-->
+            <!--</li>-->
+
+            <!--<li class="nav-item">-->
+                <!--<a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>-->
+            <!--</li>-->
+
+            <!--<li class=" nav-item dropdown">-->
+                <!--<a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>-->
+            <!--</li>-->
+
+            <!--<li class="nav-item dropdown">-->
+                <!--<a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>-->
+                    <!--{% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %}   <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">-->
+                    <!--{% else %}<img class="rounded-circle account-img" src="{{ user.avatar.url }}" height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{user.last_name.0 }}</span>-->
+                    <!--<span class="caret"></span>-->
+                <!--</a>-->
+                <!--<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">-->
+                    <!--<a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>-->
+                    <!--<a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>-->
+                    <!--<a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>-->
+                <!--</div>-->
+            <!--</li>-->
+
+        <!--</ul>-->
+    <!--</div>-->
+<!--</nav>-->
+
+<!--&lt;!&ndash; Navbar ends&ndash;&gt;-->
+
+<!--&lt;!&ndash; Table Begins &#45;&#45;&#45;&#45; Add Block Content Here&ndash;&gt;-->
+
+<!--<div class="container">-->
+
+<!--{% block content %}-->
+    <!--<p>Welcome Community Partner </p>-->
+<!--{% endblock %}-->
+
+<!--</div>-->
+
+
+
+<!--&lt;!&ndash;Contact Begins >-->
+
+
+
+<!--<section id="contact">-->
+      <!--<div class="container">-->
+        <!--<div class="row">-->
+          <!--<div class="col-lg-8 mx-auto text-center">-->
+            <!--<h2 class="section-heading">Let's Get In Touch!</h2>-->
+            <!--<hr class="my-4">-->
+            <!--<p class="mb-5">Ready to start your next project with us? That's great! Give us a call or send us an email and we will get back to you as soon as possible!</p>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div class="row">-->
+          <!--<div class="col-lg-4 ml-auto text-center">-->
+            <!--<i class="fa fa-skype fa-3x mb-3 sr-contact-1"></i>-->
+            <!--<p>-->
+                <!--<a href="skype:Goutham Viswanathan?call"><b>Connect with us on Skype</b></a>-->
+            <!--</p>-->
+          <!--</div>-->
+          <!--<div class="col-lg-4 mr-auto text-center">-->
+            <!--<i class="fa fa-envelope fa-3x mb-3 sr-contact-2"></i>-->
+            <!--<p>-->
+              <!--<a href="mailto:your-email@your-domain.com"><b>kshenouda@unomaha.edu</b></a>-->
+            <!--</p>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</section>-->
+
+
+
+<!--&lt;!&ndash; Contact Ends here&ndash;&gt;-->
+
+
+
+
+<!--&lt;!&ndash;Footer Begins here&ndash;&gt;-->
+
+
+<!--<footer >-->
+      <!--<div class="container-fluid">-->
+        <!--<div class="row">-->
+          <!--<div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">-->
+                <!--<span><a class="fleft" href="https://www.unomaha.edu/campus-policies/index.php">UNIVERSITY POLICIES</a></span>-->
+                <!--<span><a class="fleft" href="https://www.unomaha.edu/campus-policies/privacy-policy.php">PRIVACY POLICY</a></span><br>-->
+                <!--<span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>-->
+          <!--</div>-->
+
+          <!--<div class="col-sm-6" style="margin-top:10px;text-align: left;"><hr>-->
+                <!--<span><a class="fcenter" href="https://www.google.com/maps/place/University+of+Nebraska+Omaha/@41.2582497,-96.0107049,15z/data=!4m5!3m4!1s0x0:0x4dbea6a55857784f!8m2!3d41.2582497!4d-96.0107049">-->
+                       <!--University of Nebraska Omaha,<span class="break"></span>-->
+                       <!--6001 Dodge Street,<span class="break"></span>-->
+                       <!--Omaha, NE, 68182 &nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>-->
+                      <!--</a></span><br>-->
+                <!--<span><a class="fleft" style="font-size: 12px;">-->
+                        <!--<script type="text/JavaScript">-->
+			                    <!--document.write("&copy; "+new Date().getFullYear());-->
+		                <!--</script></a></span><span class="break"></span>-->
+                <!--<span><a class="fleft" style="font-size: 12px;" href="https://www.unomaha.edu/emergency/index.php">Emergency Information Alert</a></span><span class="break"></span>-->
+                <!--<span><a class="fleft" style="font-size: 12px; border-right:0" href="https://www.unomaha.edu/report-a-concern/index.php">Report an Incident or Concern</a></span>-->
+          <!--</div>-->
+
+          <!--<div class="col-sm-2" style="margin-top:8px; text-align: left;">-->
+                <!--<span><a class="fright" href="mailto:communityengagement@unomaha.edu">CONTACT US</a></span>-->
+                <!--<span><a class="fright" href="https://unomaha.box.com/s/gth9thxo5y8v044obrhdr92pnhha0ypn" target="_blank">USER MANUAL</a></span>-->
+          <!--</div>-->
+
+          <!--<div class="footertext"><hr></div>-->
+
+          <!--<div class="footertext" style="line-height:1"><a style="color:#BABABA; font-size:10px;">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
+          <!--</div>-->
+
+          <!--<div class="footertext"><hr></div>-->
+        <!--</div>-->
+      <!--</div>-->
+<!--</footer>-->
+
+
+
+<!--&lt;!&ndash; Footer Ends Here&ndash;&gt;-->
+
+<!--{% block searchjs %}-->
+<!--{% endblock %}-->
+<!--{% block js %}-->
+<!--{% endblock %}-->
+<!--{% block custom_js %}-->
+<!--{% endblock %}-->
+<!--{% block selectizeForm %}-->
+<!--{% endblock %}-->
+
+
+<!--</body>-->
+
+<!--&lt;!&ndash;script type="text/javascript">-->
+     <!--$(document).ready(function() {-->
+    <!--$('#example').DataTable();-->
+<!--} );-->
+ <!--</script&ndash;&gt;-->
+<!--</html>-->

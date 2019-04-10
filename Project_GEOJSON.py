@@ -2,12 +2,16 @@ import pandas as pd
 import googlemaps
 import json
 import datetime
+import boto3
 from pandas import DataFrame
 import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
-#TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
+from django.conf import settings
+from UnoCPI import settings
+from googlemaps import Client
+
 #Get lat long details of all US counties in json format
 
 dirname = os.path.dirname(__file__)
@@ -20,22 +24,20 @@ currentDT = datetime.datetime.now()
 #Get lat long details of all US counties in json format
 
 # conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
-conn = psycopg2.connect(user="fhhzsyefbuyjdp",
-                              password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-                              host="ec2-75-101-131-79.compute-1.amazonaws.com",
-                              port="5432",
-                              database="dal99elrltiq5q",
+#
+conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
-
-
 #Another way of querying the database
 df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, part_comm.community_type , uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id inner join partners_communitytype part_comm on pc.community_type_id = part_comm.id", con=conn)
 
 conn.close()
 
 
-gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
 df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
@@ -54,7 +56,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
                }
 
 
-    if (Address != "N/A"):
+    if ("N/A" not in Address):
         geocode_result = gmaps.geocode(Address)
         if (geocode_result[0]):
             latitude = geocode_result[0]['geometry']['location']['lat']
@@ -84,11 +86,21 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
             collection['features'].append(feature)
             return feature
 
-
-geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
+geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['fulladdress']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(currentDT))
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
+
+#writing into amazon aws s3
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
+
+print("Project GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

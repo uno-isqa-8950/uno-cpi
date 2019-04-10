@@ -1,0 +1,506 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+  <style>
+
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+}
+
+
+
+
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+
+    label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
+        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
+    {
+        content:"*" ;
+        color:red
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+
+    .h9{
+        font-size:0.8em;
+        font-style: italic;
+    }
+
+    .btn-link{
+
+        font-size: small;
+        font-style: italic;
+    }
+
+    select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id=id_total_uno_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year]
+    {
+        width:95%;
+        height: 1%;
+        color: black;
+    }
+
+
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
+
+
+   .btn-link, .btn-link:hover
+
+   {
+   color: #d71920
+   }
+
+
+    </style>
+
+
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-10 col-md-10">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4>Create Project</h4></div>
+                        <div class="panel-body">&emsp;
+                            <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
+                                {{formset.management_form}}
+                                {{formset2.management_form}}
+                                {{formset3.management_form}}
+                                <div class="form-group">
+                                    {{ project.project_name.errors }}
+                                    <label for="id_project_name">Project Name</label>
+                                    {{ project.project_name }}
+                                </div>
+
+                                <div class="form-group">
+                                    {{ project.engagement_type.errors }}
+                                    <label for="id_engagement_type">Engagement Type</label>
+                                    {% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    {{ project.engagement_type }}
+                                </div>
+
+                                <div class="col-lg-18 form-group">
+                                    {{ project.activity_type.errors }}
+                                    <label for="id_activity_type">Activity Type</label>
+                                    {% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    {{ project.activity_type }}
+                                </div>
+                                {{ course|bootstrap }}
+
+                                {% for form2 in formset2 %}
+                                    <div class="community-row" id="contact1">
+                                        <div class="col-lg-12">
+                                            <h6>Community Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                                {{form2|bootstrap}}
+                                            </div>
+                                        </div>
+                                            <div class="input-group-append" >
+                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                            </div>
+                                    </div>
+                                {%endfor%}
+
+                                {% for form3 in formset3 %}
+                                    <div class="campus-row" id="contact1" style="margin-top:20px;">
+                                        <div class="col-lg-12">
+                                            <h6>Campus Partner Information {% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                            </h6><br>
+                                        </div>
+                                        <div class="input-group">
+                                            <div class="col-lg-6">
+                                            {{ form3.campus_partner|bootstrap }}
+                                            </div>
+                                        </div>
+                                        <div class="input-group-append" >
+                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>
+                                        </div>
+                                    <p id="errorid1"></p>
+                                    </div>
+
+                                {% endfor %}
+
+
+
+                                <div class="col-lg-12">
+                                    <p class = h9>Couldn't find your Campus Partner or Community Partner? Please Register your Partner before creating a New Project.</p>
+                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
+                                    <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>
+                                </div>
+
+                                 {% for form in formset %}
+                                    <div class="mission-row" id="contact1" onsubmit="checking()">
+                                        <div class="col-lg-12">
+                                            <h6>Primary Project Mission Area <span style="color:red;">*</span>
+                                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                {% endif %} {% endfor %}
+                                               </h6><br>
+                                        </div>
+                                            <div class="input-group">
+                                                <div class="col-lg-6" id="id_mission-0-mission'">
+                                                    {{ form.mission|bootstrap }}
+                                                </div>
+
+                                            </div>
+                                    <p id="errorid"></p>
+                                    </div>
+                                {% endfor %}
+
+
+                                <div class = "row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+
+                                        <div class="form-group">
+                                            {{ project.status.errors }}
+                                            <label for="id_status">Project Status</label>
+                                            {{ project.status}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.semester.errors }}
+                                            <label for="id_semester">Start Semester</label>
+                                            {{ project.semester}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.academic_year.errors }}
+                                            <label for="id_academic_year">Start Academic Year</label>
+                                            {{ project.academic_year}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.end_semester.errors }}
+                                            <label for="id_end_semester">End Semester</label>
+                                            {{ project.end_semester}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.end_academic_year.errors }}
+                                            <label for="id_end_academic_year">End Academic Year</label>
+                                            {{ project.end_academic_year}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.total_uno_students.errors }}
+                                            <label for="id_uno_students">Total UNO Students</label>
+                                            {{ project.total_uno_students}}
+                                        </div>
+                                        <div class="form-group">
+                                            {{ project.total_uno_hours.errors }}
+                                            <label for="id_uno_hours">UNO Student Hours</label>
+                                            {{ project.total_uno_hours}}
+                                        </div>
+
+                                        </div>
+                                        <div class="col-lg-12">
+                                            &nbsp;&nbsp;<h6 style="margin-left: 3%">  Primary Location of the Project: </h6><br>
+                                        </div>
+
+                                        <div class="input-group">
+                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    <div class="form-group">
+                                                        {{ project.address_line1.errors }}
+                                                        <label for="id_academic_year">Address Line 1</label>
+                                                        {{ project.address_line1}}
+                                                    </div>
+                                                    {{ project.city|bootstrap }}
+                                                    {{ project.state|bootstrap }}
+                                                    {{ project.zip|bootstrap }}
+                                                    {{ project.country|bootstrap }}
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row justify-content-md-center" style="margin-top:30px;">
+                                    <div class="col-lg-2 col-md-5">
+                                        <button type="submit" class="save btn btn-custom" style="background-color: #333">Submit</button>
+                                    </div>
+                                </div>
+                            </form><br><br>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<br><br><br>
+{% endblock %}
+
+
+{% block custom_js %}
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+<script type="text/javascript">
+function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+function cloneMore(selector, prefix) {
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name')
+        if(name) {
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+        }
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.find('.btn.add-' + prefix +'-row')
+    .removeClass('btn-success').addClass('btn-danger')
+    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+    .html('Remove This Entry');
+    return false;
+}
+function deleteForm(prefix, btn) {
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  console.log('In deleteForm - total', total);
+  if (total > 1) {
+    btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
+}
+$(document).on('click', '.add-mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission-row:last', 'mission');
+    return false;
+});
+$(document).on('click', '.add-secondary_mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.secondary_mission-row:last', 'secondary_mission');
+    return false;
+});
+$(document).on('click', '.add-community-row', function(e){
+    e.preventDefault();
+    cloneMore('.community-row:last', 'community');
+    return false;
+});
+$(document).on('click', '.add-campus-row', function(e){
+    e.preventDefault();
+    cloneMore('.campus-row:last', 'campus');
+    return false;
+});
+$(document).on('click', '.remove-mission-row', function(e){
+    e.preventDefault();
+    deleteForm('mission', $(this));
+    return false;
+});
+$(document).on('click', '.remove-secondary_mission-row', function(e){
+    e.preventDefault();
+    deleteForm('secondary_mission', $(this));
+    return false;
+});
+$(document).on('click', '.remove-community-row', function(e){
+    e.preventDefault();
+    deleteForm('community', $(this));
+    return false;
+});
+$(document).on('click', '.remove-campus-row', function(e){
+    e.preventDefault();
+    deleteForm('campus', $(this));
+    return false;
+});
+</script>
+{#   Js to show the course form if some error happens after the form #}
+<script>
+window.onload = function () {
+  var val = $("#id_activity_type").find("option:selected").text();
+           if (val === 'Course') {
+              $("#id_name").show();
+              $("label.control-label[for=id_name], input#id_name").show();
+              $("label.control-label[for=id_prefix], input#id_prefix").show();
+              $("label.control-label[for=id_section], input#id_section").show();
+           $("#id_prefix").show();
+           $("label.control-label[for=id_number], input#id_number").show();
+           $("#id_number").show();
+           }
+}
+</script>
+{#  JS to Hide the#}
+<script>
+   $(function() {
+       function hideInputs() {
+           $("label.control-label[for=id_name], input#id_name").hide();
+           $("#id_id_name").hide();
+           $("label.control-label[for=id_prefix], input#id_prefix").hide();
+           $("#id_prefix").hide();
+           $("label.control-label[for=id_number], input#id_number").hide();
+           $("#id_number").hide();
+           $("label.control-label[for=id_section], input#id_section").hide();
+           $("#id_section").hide();
+           console.log('label.control-label[for=id_name], input#id_name');
+       }
+       $("#id_activity_type").on('change', function () {
+           var val = $("#id_activity_type").find("option:selected").text();
+           console.log(val)
+           if (val === 'Course') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+               $("#id_prefix").show();
+               $("label.control-label[for=id_number], input#id_number").show();
+               $("#id_number").show();
+               $("label.control-label[for=id_section], input#id_section").show();
+               $("#id_section").show();
+           }
+           else {
+               hideInputs();
+           }
+       });
+       hideInputs();
+   });
+</script>
+{% endblock %}
+
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+
+    $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
+    $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
+    $('#id_status').select2({placeholder: 'Select Status',});
+    $('#id_semester').select2({placeholder: 'Select Semester',});
+    $('#id_end_semester').select2({placeholder: 'Select End Semester',});
+    $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
+});
+</script>
+<!--    Commenting out script per ticket #551
+        Removing HTML validations as Validation Messages are coded in forms.py file
+        -Joseph Nabity
+<script>
+function validateFormsets(){
+     var id =event.target.id;
+     var name = event.target.name;
+     console.log(id);
+     console.log(name);
+     console.log(document.getElementById(id).value);
+    { console.log("helloooo");
+        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
+        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
+            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+        }
+        if(id.includes("country")||id.includes("city") {
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+        }
+        if(id.includes("total_economic_impact")){
+            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
+            {
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+        }
+    }
+return true;
+}
+</script>
+-->
+<!-- Adding script per ticket 723-->
+<script>
+window.onsubmit = function checking() {
+    var id_name = document.getElementById('id_mission-0-mission');
+    var id_campus = document.getElementById('id_campus-0-campus_partner');
+    var val = id_name.options[id_name.selectedIndex].text;
+    var val1 = id_campus.options[id_campus.selectedIndex].text;
+    var location = document.getElementById("errorid").scrollTop;
+if (val === '---------') {
+    error = "Please select a Primary Mission Area";
+    document.getElementById("errorid").innerHTML = error;
+    document.documentElement.scrollTop = 900;
+    return false
+}
+else if (val1 === '---------'){
+    error = "Please select atleast one Campus Partner";
+    document.getElementById("errorid1").innerHTML = error;
+    document.getElementById('id_community-0-community_partner').scrollIntoView();
+    return false
+    }
+}
+</script>
+<script>
+$(function () {
+         $('[data-toggle="popover"]').popover()
+     })
+</script>
+{% endblock %}

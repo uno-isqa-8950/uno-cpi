@@ -3,10 +3,14 @@ import googlemaps
 import json
 import datetime
 from pandas import DataFrame
+import boto3
 import logging
 import os
 from shapely.geometry import shape, Point
 import psycopg2
+from django.conf import settings
+from UnoCPI import settings
+from googlemaps import Client
 #TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
 
@@ -15,6 +19,7 @@ county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson
 district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
+
 with open(county_file) as f:
     geojson1 = json.load(f)
 county = geojson1["features"]
@@ -23,25 +28,14 @@ with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
 logger=logging.getLogger("UNO CPI Application")
-
-#setup connection to database --LOCAL
 # conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
-# CAT STAGING
-conn = psycopg2.connect(user="fhhzsyefbuyjdp",
-                              password="e13f9084680555f19d5c0d2d48dd59d4b8b7a2fcbd695b47911335b514369304",
-                              host="ec2-75-101-131-79.compute-1.amazonaws.com",
-                              port="5432",
-                              database="dal99elrltiq5q",
+#setup connection to database
+conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
-
-#setup connection to database --SERVER
-# conn = psycopg2.connect(user= "nbzsljiyoqyakc",
-#                         password="56c6e80a45b37276d84917e4258a7798e2df7c1ec6eee012d160edc9de2ce6c1",
-#                         host="ec2-54-227-241-179.compute-1.amazonaws.com",
-#                         port="5432",
-#                         database="d46q2igt2d4vbg",
-#                         sslmode="require")
 
 if (conn):
     logger.info("Connection Successful!")
@@ -69,7 +63,7 @@ else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
 conn.close()
 
-gmaps = googlemaps.Client(key='AIzaSyBamhv8MvqDKQQ5Px5QKSULD3nMxMxAeOk')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 if(gmaps):
     logger.info("GMAPS API works!")
@@ -92,61 +86,60 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                                                  'Academic Year': '', 'Website': ''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    if (Address != "N/A"):
-        geocode_result = gmaps.geocode(Address)  # get the coordinates
-        if (geocode_result[0]):
-            latitude = geocode_result[0]['geometry']['location']['lat']
-            longitude = geocode_result[0]['geometry']['location']['lng']
-            feature['geometry']['coordinates'] = [longitude, latitude]
-            coord = Point([longitude, latitude])
-            for i in range(len(district)):  # iterate through a list of district polygons
-                property = district[i]
-                polygon = shape(property['geometry'])  # get the polygons
-                if polygon.contains(coord):  # check if a partner is in a polygon
-                    feature['properties']['Legislative District Number'] = property["properties"][
-                        "id"]  # assign the district number to a partner
-            for m in range(len(county)):  # iterate through the County Geojson
-                properties2 = county[m]
-                polygon = shape(properties2['geometry'])  # get the polygon
-                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                    feature['properties']['County'] = properties2['properties']['NAME']
-                    feature['properties']['Income'] = properties2['properties']['Income']
-            projectlist = 0
-        yearlist = []
-        campuslist = []
-        projectList = []
-        collegeList = []
-        partners = dfProjects['community_partner']
-        years = dfProjects['academic_year']
-        campuses = dfProjects['campus_partner']
-        projects = dfProjects['project_name']
-        colleges = dfProjects['college_name']
-        count = 0
-        for n in range(len(partners)):
-            if (partners[n] == Community):
-                if (years[n] not in yearlist):
-                    yearlist.append(years[n])
-                if (campuses[n] not in campuslist):
-                    campuslist.append(campuses[n])
-                if (projects[n] not in projectList):
-                    projectList.append(projects[n])
-                if (colleges[n] not in collegeList):
-                    collegeList.append(colleges[n])
-                count += 1
-        feature['properties']['Number of projects'] = count
-        feature['properties']['Campus Partner'] = campuslist
-        feature['properties']['Academic Year'] = yearlist
-        feature['properties']['Projects'] = projectList
-        feature['properties']['College Name'] = collegeList
-        feature['properties']['CommunityPartner'] = Community
-        feature['properties']['CommunityType'] = CommunityType
-        feature['properties']['Website'] = Website
-        feature['properties']['Mission Area'] = Mission
-        feature['properties']['Mission Type'] = MissionType
-        feature['properties']['City'] = City
+    geocode_result = gmaps.geocode(Address)  # get the coordinates
+    if (geocode_result[0]):
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
+        feature['geometry']['coordinates'] = [longitude, latitude]
+        coord = Point([longitude, latitude])
+        for i in range(len(district)):  # iterate through a list of district polygons
+            property = district[i]
+            polygon = shape(property['geometry'])  # get the polygons
+            if polygon.contains(coord):  # check if a partner is in a polygon
+                feature['properties']['Legislative District Number'] = property["properties"][
+                    "id"]  # assign the district number to a partner
+        for m in range(len(county)):  # iterate through the County Geojson
+            properties2 = county[m]
+            polygon = shape(properties2['geometry'])  # get the polygon
+            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                feature['properties']['County'] = properties2['properties']['NAME']
+                feature['properties']['Income'] = properties2['properties']['Income']
+        projectlist = 0
+    yearlist = []
+    campuslist = []
+    projectList = []
+    collegeList = []
+    partners = dfProjects['community_partner']
+    years = dfProjects['academic_year']
+    campuses = dfProjects['campus_partner']
+    projects = dfProjects['project_name']
+    colleges = dfProjects['college_name']
+    count = 0
+    for n in range(len(partners)):
+        if (partners[n] == Community):
+            if (years[n] not in yearlist):
+                yearlist.append(years[n])
+            if (campuses[n] not in campuslist):
+                campuslist.append(campuses[n])
+            if (projects[n] not in projectList):
+                projectList.append(projects[n])
+            if (colleges[n] not in collegeList):
+                collegeList.append(colleges[n])
+            count += 1
+    feature['properties']['Number of projects'] = count
+    feature['properties']['Campus Partner'] = campuslist
+    feature['properties']['Academic Year'] = yearlist
+    feature['properties']['Projects'] = projectList
+    feature['properties']['College Name'] = collegeList
+    feature['properties']['CommunityPartner'] = Community
+    feature['properties']['CommunityType'] = CommunityType
+    feature['properties']['Website'] = Website
+    feature['properties']['Mission Area'] = Mission
+    feature['properties']['Mission Type'] = MissionType
+    feature['properties']['City'] = City
 
-        collection['features'].append(feature)
-        return feature
+    collection['features'].append(feature)
+    return feature
 
 
 geojson_series = dfCommunity.apply(
@@ -157,7 +150,17 @@ jsonstring = pd.io.json.dumps(collection)
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
-print("Partners GeoJSON  "+ repr(len(dfCommunity)) + " records are generated at "+ str(currentDT))
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))
+
+#writing into amazon aws s3
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
+
+print("Partner GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))

@@ -17,7 +17,7 @@ def user_login(request):
             if user is not None:
                 if user.is_campuspartner:
                     login(request, user)
-                    response = redirect('/campususerproject')
+                    response = redirect('/myProjects')
                     return response
                 elif user.is_communitypartner:
                     login(request, user)
@@ -37,7 +37,7 @@ def user_login(request):
 
 
 def campushome(request):
-    return render(request, 'projects/Projectlist.html',{'campushome': campushome})
+    return render(request, 'projects/myProjects.html', {'campushome': campushome})
 
 
 def CommunityHome(request):

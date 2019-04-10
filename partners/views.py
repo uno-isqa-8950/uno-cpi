@@ -4,9 +4,10 @@ from django.db.models import Count
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from home.decorators import campuspartner_required
 from home.forms import UserForm, CampusPartnerAvatar
+from projects.forms import ProjectForm
 from .forms import *
 from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
@@ -16,10 +17,12 @@ from home.forms import userUpdateForm
 from django.template.loader import render_to_string
 import googlemaps
 from shapely.geometry import shape, Point
+from django.conf import settings
+from googlemaps import Client
 
 # import pandas as pd
 import json
-gmaps = googlemaps.Client(key='AIzaSyBH5afRK4l9rr_HOR_oGJ5Dsiw2ldUzLv0')
+gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 import os
 def countyGEO():
     with open('home/static/GEOJSON/NEcounties2.geojson') as f:
@@ -173,24 +176,21 @@ def registerCommunityPartner(request):
                    'formset': formset,'data_definition': data_definition,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
-#auto complete for community name in register community partner form				   
-def ajax_load_project(request):
-    if request.is_ajax():
-        q = request.GET.get('term', '')
-        projects = CommunityPartner.objects.filter(name__istartswith=q)[:5]
-        results = []
-        for project in projects:
-            project_json = {}
-            project_json['id'] = project.id
-            project_json['value'] = project.name
-            project_json['label'] = project.name
-            results.append(project_json)
-        data = json.dumps(results)
-    else:
-        data = 'fail'
-    mimetype = 'application/json'
-    return HttpResponse(data, mimetype)
+#validation for community name in register community partner form
+def ajax_load_community(request):
+    name = request.GET.get('name', None)
+    data = {
+        'is_taken': CommunityPartner.objects.filter(name__iexact=name).exists()
+    }
+    return JsonResponse(data)
 
+#validation for campus name in register community partner form
+def ajax_load_campus(request):
+    name = request.GET.get('name', None)
+    data = {
+        'is_taken': CampusPartner.objects.filter(name__iexact=name).exists()
+    }
+    return JsonResponse(data)
 	
 #Campus and Community Partner user Profile
 @login_required
@@ -411,7 +411,7 @@ def registerCampusPartner_forprojects(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return HttpResponseRedirect("/project_total_Add/")
+                return HttpResponseRedirect("/createProject/")
 
     else:
         campus_partner_form = CampusPartnerForm()
@@ -509,7 +509,7 @@ def registerCommunityPartner_forprojects(request):
                 with open(output_filename, 'w') as output_file:
                     output_file.write(format(jsonstring))  # write the file to the location
                 ######## Minh's code ends here ######################
-            return HttpResponseRedirect("/project_total_Add/")
+            return HttpResponseRedirect("/createProject/")
 
     else:
         community_partner_form = CommunityPartnerForm()
@@ -522,3 +522,22 @@ def registerCommunityPartner_forprojects(request):
                   {'community_partner_form': community_partner_form,
                    'formset': formset,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission': formset_primary_mission}, )
+
+
+def checkCommunityPartner(request):
+    partnerForm = ProjectForm()
+    communityParnterName = []
+    for object in CommunityPartner.objects.order_by('name'):
+        partner = object.name
+
+        if partner not in communityParnterName:
+            communityParnterName.append(partner)
+
+    if request.method == 'POST':
+        partnerForm = ProjectForm(request.POST)
+
+
+
+    # print(projectNames)
+    return render(request, 'partners/checkCommunityPartner.html',
+                  {'partnerForm': partnerForm, 'partnerNames':communityParnterName})

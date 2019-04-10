@@ -1,0 +1,725 @@
+{% extends 'home/base_home.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<style>
+    #loading
+    {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
+    }
+
+label, .btn-default
+{
+    margin-left:100px;
+}
+
+
+
+/* Datatable Css */
+
+    .btn-group{float:left;, labels:"Export"}
+    #example_length{float:left; margin:0 0 0 0px;}
+    #example_length select{width:50%;}
+
+
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        margin-left:0px;
+    }
+
+
+    div.dataTables_wrapper div.dataTables_filter label
+    {
+        float:right;
+    }
+
+
+    @media (max-width: 900px)
+    {
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            float:left;
+            margin-left:50px;
+        }
+        #example_length select{width:35%;}
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+.panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+ .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+
+    .page-link
+    {
+    color:#333333;
+    }
+
+    .page-link:hover
+    {
+    color:grey;
+    }
+
+    .hideContent {
+    overflow: hidden;
+    height: 0em;
+    }
+
+    .showContent {
+        height: auto;
+    }
+
+</style>
+<!-- Project app -->
+ <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Projects</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_proj_id">
+                        <div class="container">
+                            <table id="example" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcp in recent_project %}
+                                <tr>
+                                    <td>{{ rcp.history_object }}</td>
+                                    <td>{{ rcp.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcp.history_user }}</td>
+                                    <td>
+                                    {% if rcp.history_type == "+" %}
+                                        Created
+                                    {% elif rcp.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+    <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Project Missions</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_projmiss_id">
+                        <div class="container">
+                            <table id="example1" data-order='[[3, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Mission Type</th>
+                                    <th>Mission Area</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcpm in recent_proj_mission %}
+                                <tr>
+                                    <td>{{ rcpm.project_name }}</td>
+                                    <td>{{ rcpm.mission_type }}</td>
+                                    <td>{{ rcpm.history_object }}</td>
+                                    <td>{{ rcpm.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcpm.history_user}}</td>
+                                    <td>
+                                    {% if rcpm.history_type == "+" %}
+                                        Created
+                                    {% elif rcpm.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-projmission" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+     <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Project Campus Partners</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_projcampus_id">
+                        <div class="container">
+                            <table id="example2" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Campus Partner Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcpc in recent_proj_campus %}
+                                <tr>
+                                    <td>{{ rcpc.project_name }}</td>
+                                    <td>{{ rcpc.campus_partner }}</td>
+                                    <td>{{ rcpc.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcpc.history_user}}</td>
+                                    <td>
+                                    {% if rcpc.history_type == "+" %}
+                                        Created
+                                    {% elif rcpc.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-projcampus" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+  <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Project Community Partners</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_projcomm_id">
+                        <div class="container">
+                            <table id="example3" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Project Name</th>
+                                    <th>Community Partner Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcpco in recent_proj_comm %}
+                                <tr>
+                                    <td>{{ rcpco.project_name }}</td>
+                                    <td>{{ rcpco.community_partner }}</td>
+                                    <td>{{ rcpco.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcpco.history_user}}</td>
+                                    <td>
+                                    {% if rcpco.history_type == "+" %}
+                                        Created
+                                    {% elif rcpco.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-projcomm" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+    <!-- Partners -->
+  <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Campus Partners</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_campus_id">
+                        <div class="container">
+                            <table id="example9" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Campus Partner Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcc in recent_campus %}
+                                <tr>
+                                    <td>{{ rcc.name }}</td>
+                                    <td>{{ rcc.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcc.history_user}}</td>
+                                    <td>
+                                    {% if rcc.history_type == "+" %}
+                                        Created
+                                    {% elif rcc.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-campus" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+  <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Community Partners</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_comm_id">
+                        <div class="container">
+                            <table id="example5" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word">
+                            <thead>
+                                <tr>
+                                    <th>Community Partner Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcco in recent_comm %}
+                                <tr>
+                                    <td>{{ rcco.name }}</td>
+                                    <td>{{ rcco.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcco.history_user}}</td>
+                                    <td>
+                                    {% if rcco.history_type == "+" %}
+                                        Created
+                                    {% elif rcco.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-comm" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+  <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Community Partner Missions</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_commmiss_id">
+                        <div class="container">
+                            <table id="example6" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>Community Partner Name</th>
+                                    <th>Mission Area</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rcco in recent_comm_mission %}
+                                <tr>
+                                    <td>{{ rcco.community_partner }}</td>
+                                    <td>{{ rcco.mission_area }}</td>
+                                    <td>{{ rcco.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rcco.history_user}}</td>
+                                    <td>
+                                    {% if rcco.history_type == "+" %}
+                                        Created
+                                    {% elif rcco.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-commmiss" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+    <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Users</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_contact_id">
+                        <div class="container">
+                            <table id="example8" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" >
+                            <thead>
+                                <tr>
+                                    <th>User Email</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rco in recent_user %}
+                                <tr>
+                                    <td>{{ rco.history_object }}</td>
+                                    <td>{{ rco.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rco.history_user}}</td>
+                                    <td>
+                                    {% if rco.history_type == "+" %}
+                                        Created
+                                    {% elif rco.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-contact" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+       <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:98%; margin-left: 1%">
+                    <div class="panel-heading text-center"><h4>Recent Changes To Contacts</h4></div>
+			            <div class="panel-body">
+                            <div class="content hideContent" id="content_user_id">
+                        <div class="container">
+                            <table id="example7" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word">
+                            <thead>
+                                <tr>
+                                    <th>Contact Name</th>
+                                    <th>Updated Date/Time</th>
+                                    <th>Changed By</th>
+                                    <th>Change Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                {% for rc in recent_contact %}
+                                <tr>
+                                    <td>{{ rc.history_object }}</td>
+                                    <td>{{ rc.history_date|date:"M-d-Y : H:i:s" }}</td>
+                                    <td>{{ rc.history_user}}</td>
+                                    <td>
+                                    {% if rc.history_type == "+" %}
+                                        Created
+                                    {% elif rc.history_type == "~" %}
+                                        Edited
+                                    {% else %}
+                                        Deleted
+                                    {% endif %}
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>
+                        </div>
+                        </div>
+                        <div class="show-more-user" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+ </div>
+
+ {% endblock %}
+
+{% block js %}
+
+<!--<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>-->
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src='{% static "js/pdfmake.min.js" %}'></script>
+<script type="text/javascript" src='{% static "js/datatables.min.js" %}'></script>
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<!--script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script-->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+<script type="text/javascript">
+$(".show-more a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_proj_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-projmission a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_projmiss_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-projcampus a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_projcampus_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-projcomm a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_projcomm_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-campus a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_campus_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-comm a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_comm_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-commmiss a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_commmiss_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-user a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_user_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+$(".show-more-contact a").on("click", function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  var $content = $("#content_contact_id");
+  var linkText = $this.text().toUpperCase();
+
+  if (linkText === "SHOW MORE") {
+    linkText = "Show less";
+    $content.switchClass("hideContent", "showContent", 400);
+  } else {
+    linkText = "Show more";
+    $content.switchClass("showContent", "hideContent", 400);
+  };
+
+  $this.text(linkText);
+});
+</script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+       $('#example').DataTable({
+       });
+       $('#example1').DataTable({
+       });
+       $('#example2').DataTable({
+       });
+       $('#example3').DataTable({
+       });
+       $('#example9').DataTable({
+       });
+       $('#example5').DataTable({
+       });
+       $('#example6').DataTable({
+       });
+       $('#example7').DataTable({
+       });
+       $('#example8').DataTable({
+       });
+   });
+</script>
+<style>
+
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    margin-left:30px;
+    }
+
+
+    @media (max-width: 900px)
+    {
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        float:left;
+        margin-left:50px;
+    }
+    }
+
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+
+</style>
+
+
+{% endblock %}

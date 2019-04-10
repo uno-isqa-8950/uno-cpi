@@ -1,0 +1,204 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+  <style>
+
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+}
+
+
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+
+    {
+        content:"*" ;
+        color:red
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+
+    .h9{
+        font-size:0.8em;
+        font-style: italic;
+    }
+
+    .btn-link{
+
+        font-size: small;
+        font-style: italic;
+    }
+
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
+
+
+   .btn-link, .btn-link:hover
+
+   {
+   color: #d71920
+   }
+
+
+    </style>
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-10 col-md-10">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4>Create Project</h4></div>
+                    <div class="panel-body">&emsp;
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">
+                                Search Type
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#">Keyword</a>
+                                <a class="dropdown-item" href="#">Project Name</a>
+                            </div>
+                        </div>
+                        <form method="POST">{% csrf_token %}
+                            <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
+                        </form>
+{#                         <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
+{#                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
+{#                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>#}
+{#                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>#}
+                        <div class="justify-content-md-center" style="margin-left: 40%">
+                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button">Next</a>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-10 col-md-10">
+{#                <div class = "panel panel-default">#}
+{#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
+                    <div class="panel-body">&emsp;
+                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     {{ projectNames | json_script:"project-data"}}
+
+<div style="margin-bottom: 300px"></div>
+
+<script>
+var valueFilter = document.getElementById("project_name");
+
+//Press the listening button
+valueFilter.addEventListener("keydown", function (e) {
+    if (e.keyCode == 8) {
+
+
+    }
+});
+
+// the listening button off
+valueFilter.addEventListener("keyup", function (e) {
+    project_db = JSON.parse(document.getElementById('project-data').textContent);
+    //get the input value
+    var value = e.target.value.trim().toLowerCase();
+    console.log(value)
+    console.log(project_db[0])
+    var projectlist = []
+    var partnerlist = [];
+
+    if (value == "") {
+        document.getElementById('node-id'). innerHTML = "";
+        document.getElementById('node1-id'). innerHTML = "";
+        document.getElementById('button-id'). innerHTML = "";
+
+
+
+    } else {
+        projectlist = [];
+        {#if (e.keyCode == 32 || e.keyCode == 13) {#}
+
+        document.getElementById('next').onclick = function () {
+
+
+            for (var i = 0; i < project_db.length; i++) {
+
+                if (project_db[i][0].toLowerCase().includes(value)) {
+                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist)) {
+
+                        projectlist.push(project_db[i][0])
+                        partnerlist.push(project_db[i][1])
+                        console.log(projectlist, partnerlist)
+
+                        document.getElementById('node-id').innerHTML =
+                            '<br>' +
+                            '<tr><td>Do you see the project you want to create here? </td></tr><br><br>' +
+                            {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
+                            '<table class="table table-hover table-sm">' +
+                            '<tr><th>Project Name and the Academic Year</th>' +
+                            '<th>Community Partner</th></tr>' +
+                            '<tr><td><b>' + projectlist.join("<br>") + '<b></td>' +
+                            '<td><b>' + partnerlist.join("<br>") + '<b></td>'+
+                            '</tr>' +
+                            '<table>'
+
+
+                        document.getElementById('node1-id').innerHTML =
+                            '<br>' +
+                            '<tr><td>If yes, the project already exists! Click on the button below to access it</td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button">All Projects</a></td></tr>'
+
+                    }
+                } else {
+                    if (!(project_db[i][0].toLowerCase().includes(value))) {
+                        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td>If you do not find the project in the list, kindly go ahead and create a new project</td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button">Create Project</a></td></tr>'
+                    }
+                }
+
+            }
+        }
+    };
+
+});
+</script>
+
+{% endblock %}

@@ -85,7 +85,7 @@
                                 <a class="dropdown-item" href="#">Project Name</a>
                             </div>
                         </div>
-                        <form method="POST">{% csrf_token %}
+                        <form method="POST" onsubmit="return false">{% csrf_token %}
                             <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
                         </form>
 {#                         <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
@@ -105,8 +105,6 @@
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg-10 col-md-10">
-{#                <div class = "panel panel-default">#}
-{#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
                     <div class="panel-body">&emsp;
                         <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
                         <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>

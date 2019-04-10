@@ -121,7 +121,7 @@ label, .btn-default
                                 {% for rcp in recent_project %}
                                 <tr>
                                     <td>{{ rcp.history_object }}</td>
-                                    <td>{{ rcp.history_date }}</td>
+                                    <td>{{ rcp.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcp.history_user }}</td>
                                     <td>
                                     {% if rcp.history_type == "+" %}
@@ -170,7 +170,7 @@ label, .btn-default
                                     <td>{{ rcpm.project_name }}</td>
                                     <td>{{ rcpm.mission_type }}</td>
                                     <td>{{ rcpm.history_object }}</td>
-                                    <td>{{ rcpm.history_date }}</td>
+                                    <td>{{ rcpm.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcpm.history_user}}</td>
                                     <td>
                                     {% if rcpm.history_type == "+" %}
@@ -217,7 +217,7 @@ label, .btn-default
                                 <tr>
                                     <td>{{ rcpc.project_name }}</td>
                                     <td>{{ rcpc.campus_partner }}</td>
-                                    <td>{{ rcpc.history_date }}</td>
+                                    <td>{{ rcpc.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcpc.history_user}}</td>
                                     <td>
                                     {% if rcpc.history_type == "+" %}
@@ -264,7 +264,7 @@ label, .btn-default
                                 <tr>
                                     <td>{{ rcpco.project_name }}</td>
                                     <td>{{ rcpco.community_partner }}</td>
-                                    <td>{{ rcpco.history_date }}</td>
+                                    <td>{{ rcpco.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcpco.history_user}}</td>
                                     <td>
                                     {% if rcpco.history_type == "+" %}
@@ -310,7 +310,7 @@ label, .btn-default
                                 {% for rcc in recent_campus %}
                                 <tr>
                                     <td>{{ rcc.name }}</td>
-                                    <td>{{ rcc.history_date }}</td>
+                                    <td>{{ rcc.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcc.history_user}}</td>
                                     <td>
                                     {% if rcc.history_type == "+" %}
@@ -355,7 +355,7 @@ label, .btn-default
                                 {% for rcco in recent_comm %}
                                 <tr>
                                     <td>{{ rcco.name }}</td>
-                                    <td>{{ rcco.history_date }}</td>
+                                    <td>{{ rcco.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcco.history_user}}</td>
                                     <td>
                                     {% if rcco.history_type == "+" %}
@@ -402,7 +402,7 @@ label, .btn-default
                                 <tr>
                                     <td>{{ rcco.community_partner }}</td>
                                     <td>{{ rcco.mission_area }}</td>
-                                    <td>{{ rcco.history_date }}</td>
+                                    <td>{{ rcco.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rcco.history_user}}</td>
                                     <td>
                                     {% if rcco.history_type == "+" %}
@@ -447,7 +447,7 @@ label, .btn-default
                                 {% for rco in recent_user %}
                                 <tr>
                                     <td>{{ rco.history_object }}</td>
-                                    <td>{{ rco.history_date }}</td>
+                                    <td>{{ rco.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rco.history_user}}</td>
                                     <td>
                                     {% if rco.history_type == "+" %}
@@ -492,7 +492,7 @@ label, .btn-default
                                 {% for rc in recent_contact %}
                                 <tr>
                                     <td>{{ rc.history_object }}</td>
-                                    <td>{{ rc.history_date }}</td>
+                                    <td>{{ rc.history_date|date:"M-d-Y : H:i:s" }}</td>
                                     <td>{{ rc.history_user}}</td>
                                     <td>
                                     {% if rc.history_type == "+" %}

@@ -14,16 +14,16 @@ class ProjectResource(resources.ModelResource):
     class Meta:
         model = Project
         fields = ('id','project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description',
-                    'semester', 'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
-                    'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
-                    'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
-                    'state', 'zip', 'latitude', 'longitude')
+                    'semester', 'end_semester', 'academic_year', 'end_academic_year', 'total_uno_students', 'total_uno_hours', 
+                    'total_k12_students','total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 
+                    'end_date', 'other_details', 'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 
+                    'country', 'city', 'state', 'zip', 'latitude', 'longitude')
 
 class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
-                    'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
-                    'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
+                    'total_uno_students', 'end_semester', 'academic_year', 'end_academic_year', 'total_uno_hours', 'total_k12_students',
+                    'total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')
 

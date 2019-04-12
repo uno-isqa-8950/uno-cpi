@@ -555,7 +555,6 @@ def engagement_info(request):
         filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
         filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
         filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
-
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
 
@@ -588,7 +587,7 @@ def engagement_info(request):
 
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
-        if a is None or b == "All" or a == '':
+        if a is None or a == "All" or a == '':
             if b is None or b == "All" or b == '':
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
 
@@ -836,7 +835,7 @@ def EngagementType_Chart(request):
 
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
-        if a is None or b == "All" or a == '':
+        if a is None or a == "All" or a == '':
             if b is None or b == "All" or b == '':
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(
                     id__in=filtered_project_ids1).count()

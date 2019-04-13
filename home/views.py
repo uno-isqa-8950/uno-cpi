@@ -266,17 +266,15 @@ def registerCampusPartnerUser(request):
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data': data})
 
-def activate(request, uid, token):
+def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uid))
-        print(uid)
+        uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
-        if commit:
-            user.save()
+        user.save()
         return redirect('/')
     else:
         return render(request, 'home/registration/register_fail.html')

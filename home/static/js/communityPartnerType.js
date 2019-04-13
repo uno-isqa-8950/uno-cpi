@@ -454,16 +454,21 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    const selectFilterChildren = Array.from(selectFilters.children);
+    if (event.target == valueFilter){
+        return
+    }
+    else {
+        const selectFilterChildren = Array.from(selectFilters.children);
 
-    selectFilterChildren.forEach((child) => {
-        // Set each filter's value
-        if (child.id !== "commTypeFilters" && child.id !== "selectCollege") {
-            mapFilter(child.id, child.value);
-        }
-    });
-    filterMarkers();
-    $('#totalnumber').html(getClusterSize());
+        selectFilterChildren.forEach((child) => {
+            // Set each filter's value
+            if (child.id !== "commTypeFilters" && child.id !== "selectCollege") {
+                mapFilter(child.id, child.value);
+            }
+        });
+        filterMarkers();
+        $('#totalnumber').html(getClusterSize());
+    }
 });
 
 var commTypeFilters = Array.from(document.getElementsByClassName("selectCommType"));
@@ -527,6 +532,7 @@ $("#reset").click(function () {
         "selectCollege":        "All Colleges and Main Units",
         "selectDistrict":       "All Legislative Districts"
     };
+    valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);

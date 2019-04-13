@@ -149,6 +149,7 @@ valueFilter.addEventListener("keyup", function (e) {
     } else {
         partnerlist = [];
         document.getElementById('next').onclick = function () {
+            document.getElementById('next').onclick= null;
             for (var i = 0; i < partners.length; i++) {
                 if (partners[i].toLowerCase().includes(value)) {
                     if (!(partners[i] in partnerlist)) {

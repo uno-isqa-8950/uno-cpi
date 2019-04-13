@@ -54,12 +54,12 @@ s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
 #read Partner.geojson from s3
-content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
-partner_geojson = content_object.get()['Body'].read().decode('utf-8')
+content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
+partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
 
 #read Project.geojson from s3
-content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
-project_geojson = content_object.get()['Body'].read().decode('utf-8')
+content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
+project_geojson = content_object_project.get()['Body'].read().decode('utf-8')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -246,7 +246,7 @@ def registerCampusPartnerUser(request):
                 campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
             campuspartneruser.save()
             # Send an email to the user with the token:
-            mail_subject = 'UNO-CPI Application - Email Verification'
+            mail_subject = 'UNO-CPI Community Partner Registration'
             current_site = get_current_site(request)
             message = render_to_string('account/acc_active_email.html', {
                 'user': new_user,
@@ -255,7 +255,7 @@ def registerCampusPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
+            email = EmailMessage(mail_subject, message,'UNO-CPI Do Not Reply <do_not_reply_cec@unomaha.edu>', to=[to_email])
             email.send()
             return render(request, 'home/register_done.html', )
     else:
@@ -1084,7 +1084,7 @@ def invitecommunityPartnerUser(request):
             communitypartneruser = CommunityPartnerUser(
                 community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
             communitypartneruser.save()
-            mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
+            mail_subject = 'UNO-CPI Community Partner Registration'
             current_site = get_current_site(request)
             message = render_to_string('account/CommunityPartner_Invite_email.html', {
                 'user': new_user,
@@ -1093,7 +1093,7 @@ def invitecommunityPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
+            email = EmailMessage(mail_subject, message, 'UNO-CPI Do Not Reply <do_not_reply_cec@unomaha.edu>', to=[to_email])
             email.send()
             return render(request, 'home/communityuser_register_done.html', )
     return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,

@@ -128,8 +128,9 @@ var valueFilter = document.getElementById("project_name");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     if (e.keyCode == 8) {
-
-
+        document.getElementById('node-id'). innerHTML = "";
+        document.getElementById('node1-id'). innerHTML = "";
+        document.getElementById('button-id'). innerHTML = "";
     }
 });
 
@@ -155,8 +156,6 @@ valueFilter.addEventListener("keyup", function (e) {
         {#if (e.keyCode == 32 || e.keyCode == 13) {#}
 
         document.getElementById('next').onclick= function myfunction() {
-            valueFilter.value=''
-
 
             for (var i = 0; i < project_db.length; i++) {
 

@@ -104,9 +104,9 @@
 {#                <div class = "panel panel-default">#}
 {#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
                     <div class="panel-body">&emsp;
-                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
                         <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
-                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="button-id" style="margin-left: 15%"></div>
                     </div>
                 </div>
             </div>
@@ -124,8 +124,9 @@ var valueFilter = document.getElementById("partner_name");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     if (e.keyCode == 8) {
-
-
+        document.getElementById('node-id'). innerHTML = "";
+        document.getElementById('node1-id'). innerHTML = "";
+        document.getElementById('button-id'). innerHTML = "";
     }
 });
 
@@ -148,6 +149,7 @@ valueFilter.addEventListener("keyup", function (e) {
     } else {
         partnerlist = [];
         document.getElementById('next').onclick = function () {
+            document.getElementById('next').onclick= null;
             for (var i = 0; i < partners.length; i++) {
                 if (partners[i].toLowerCase().includes(value)) {
                     if (!(partners[i] in partnerlist)) {
@@ -156,25 +158,39 @@ valueFilter.addEventListener("keyup", function (e) {
 
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
-                            '<tr><td>Do you see the Community Partner you want to register? </td></tr><br><br>' +
+                            '<tr><td>The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</td></tr><br><br>' +
                             {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
-                            '<table class="table table-hover table-sm">' +
+                            '<table class="table table-hover table-sm table-bordered">' +
                             '<tr><th>Community Partner</th></tr>' +
-                            '<tr><td><b>' + partnerlist.join("<br>") + '<b></td></tr>' +
+                            '<tr><td>' + partnerlist.join("<br>") + '</td></tr>' +
                             '<table>'
 
 
-                        document.getElementById('node1-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>If yes, the Community Partner already exists! Click on the button below to access it</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button">Community Partner Report</a></td></tr>'
+                        {#document.getElementById('node1-id').innerHTML =#}
+                        {#    '<br>' +#}
+                        {#    '<tr><td>If yes, the Community Partner already exists! Click on the button below to access it</td></tr><br /><br />' +#}
+                        {#    '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button">Community Partner Report</a></td></tr>'#}
 
                     }
                 } else {
-                    if (!(partners[i].toLowerCase().includes(value))) {
+                    if (!(partners[i].toLowerCase().includes(value)))
+                    if(partnerlist.length == 0)
+                        {
+                            document.getElementById('button-id').innerHTML =
+                                '<br>' +
+                                 '<tr><td>In this instance, the community partner search is unique enough that no list is provided.</td></tr>' +
+                                    '<br>'+
+
+                            {#document.getElementById('button-id').innerHTML =#}
+                                '<br>' +
+                                '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
+                                '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register Community Partner</a></td></tr>'
+                        }
+                    else
+                    {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td>If you do not find the Community Partner in the list, kindly go ahead and register the Community Partner</td></tr><br /><br />' +
+                            '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register Community Partner</a></td></tr>'
                     }
                 }
@@ -187,3 +203,4 @@ valueFilter.addEventListener("keyup", function (e) {
 </script>
 
 {% endblock %}
+

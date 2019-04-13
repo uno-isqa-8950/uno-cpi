@@ -361,7 +361,7 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
         infowindow.open(map, marker);
@@ -513,16 +513,21 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    const selectFilterChildren = Array.from(selectFilters.children);
+    if (event.target == valueFilter){
+        return
+    }
+    else {
+        const selectFilterChildren = Array.from(selectFilters.children);
 
-    selectFilterChildren.forEach((child) => {
-        // Set each filter's value
-        if (child.id !== "engagementFilters" && child.id !== "selectCollege") {
-            mapFilter(child.id, child.value);
-        }
-    });
-    filterMarkers();
-    $('#totalnumber').html(getClusterSize());
+        selectFilterChildren.forEach((child) => {
+            // Set each filter's value
+            if (child.id !== "engagementFilters" && child.id !== "selectCollege") {
+                mapFilter(child.id, child.value);
+            }
+        });
+        filterMarkers();
+        $('#totalnumber').html(getClusterSize());
+    }
 });
 
 

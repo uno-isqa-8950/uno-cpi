@@ -510,6 +510,10 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
+    if (event.target == valueFilter){
+        return
+    }
+    else {
     const selectFilterChildren = Array.from(selectFilters.children);
 
     selectFilterChildren.forEach((child) => {
@@ -520,6 +524,7 @@ selectFilters.addEventListener("change", function(event) {
     });
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
+    }
 });
 
 var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));

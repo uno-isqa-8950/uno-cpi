@@ -182,7 +182,7 @@ $('#selectCollege').html(select5);
 
 //*********************************** Load the map *****************************************************
 var markers =[];
-var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
 var markerCluster = null;
 var defaultFilterValues = [];
 var filters = {};

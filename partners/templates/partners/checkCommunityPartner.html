@@ -178,20 +178,15 @@ valueFilter.addEventListener("keyup", function (e) {
                         {
                             document.getElementById('button-id').innerHTML =
                                 '<br>' +
-                                 '<tr><td>In this instance, the community partner search is unique enough that no list is provided.</td></tr>' +
-                                    '<br>'+
-
-                            {#document.getElementById('button-id').innerHTML =#}
-                                '<br>' +
-                                '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
-                                '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register Community Partner</a></td></tr>'
+                                '<tr><td>This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration. </td></tr><br /><br />' +
+                                '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register the Community Partner</a></td></tr>'
                         }
                     else
                     {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register Community Partner</a></td></tr>'
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register the Community Partner</a></td></tr>'
                     }
                 }
 

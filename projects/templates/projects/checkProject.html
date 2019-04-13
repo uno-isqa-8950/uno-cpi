@@ -76,15 +76,17 @@
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Create Project</h4></div>
                     <div class="panel-body">&emsp;
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">
-                                Search Type
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Keyword</a>
-                                <a class="dropdown-item" href="#">Project Name</a>
-                            </div>
-                        </div>
+{#                        <div class="dropdown">#}
+{#                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">#}
+{#                                Search Type#}
+{#                            </button>#}
+{#                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">#}
+{#                                <a class="dropdown-item" href="#">Keyword</a>#}
+{#                                <a class="dropdown-item" href="#">Project Name</a>#}
+{#                            </div>#}
+{#                        </div>#}
+                        <p style="margin-left: 15%"><em>Please enter the first couple of phrases of the Project to check if it already exists</em></p>
+                        <p style="margin-left: 15%"><em>For example, to search for "Adopt a Classroom" type in "adopt" and click next</em></p>
                         <form method="POST" onsubmit="return false">{% csrf_token %}
                             <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
                         </form>
@@ -92,7 +94,7 @@
 {#                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>#}
-                        <div class="justify-content-md-center" style="margin-left: 40%">
+                        <div class="justify-content-md-center" style="margin-left: 40%; margin-top: 2%; margin-bottom: 2%">
                         <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button">Next</a>
                             </div>
                     </div>
@@ -106,7 +108,7 @@
         <div class="row justify-content-md-center">
             <div class="col-lg-10 col-md-10">
                     <div class="panel-body">&emsp;
-                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
                         <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
                         <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
                     </div>
@@ -137,7 +139,7 @@ valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
     console.log(value)
-    console.log(project_db[0])
+    console.log(project_db)
     var projectlist = []
     var partnerlist = [];
 
@@ -152,7 +154,8 @@ valueFilter.addEventListener("keyup", function (e) {
         projectlist = [];
         {#if (e.keyCode == 32 || e.keyCode == 13) {#}
 
-        document.getElementById('next').onclick = function () {
+        document.getElementById('next').onclick= function myfunction() {
+            valueFilter.value=''
 
 
             for (var i = 0; i < project_db.length; i++) {
@@ -166,20 +169,20 @@ valueFilter.addEventListener("keyup", function (e) {
 
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
-                            '<tr><td>Do you see the project you want to create here? </td></tr><br><br>' +
+                            '<tr><td>Here is a list of Projects that closely matches the phrase entered, these Projects already exist </td></tr><br><br>' +
                             {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
-                            '<table class="table table-hover table-sm">' +
+                            '<table class="table table-hover table-sm table-bordered">' +
                             '<tr><th>Project Name and the Academic Year</th>' +
                             '<th>Community Partner</th></tr>' +
-                            '<tr><td><b>' + projectlist.join("<br>") + '<b></td>' +
-                            '<td><b>' + partnerlist.join("<br>") + '<b></td>'+
+                            '<tr><td>' + projectlist.join("<br>") + '</td>' +
+                            '<td>' + partnerlist.join("<br>") + '</td>'+
                             '</tr>' +
                             '<table>'
 
 
                         document.getElementById('node1-id').innerHTML =
                             '<br>' +
-                            '<tr><td>If yes, the project already exists! Click on the button below to access it</td></tr><br /><br />' +
+                            '<tr><td>To access any of the Projects that already exist click on the button below </td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button">All Projects</a></td></tr>'
 
                     }
@@ -187,7 +190,7 @@ valueFilter.addEventListener("keyup", function (e) {
                     if (!(project_db[i][0].toLowerCase().includes(value))) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td>If you do not find the project in the list, kindly go ahead and create a new project</td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create a new project, click on the button below</td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button">Create Project</a></td></tr>'
                     }
                 }

@@ -207,7 +207,7 @@ $('#selectCollege').html(select7);
 //*********************************** Load the map *****************************************************
 
 var markers =[];
-var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
 var markerCluster = null;
 var defaultFilterValues = [];
 var filters = {};
@@ -361,7 +361,7 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
         infowindow.open(map, marker);
@@ -591,6 +591,7 @@ $("#reset").click(function () {
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
+    valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         console.log(`${filters[filter]}`)

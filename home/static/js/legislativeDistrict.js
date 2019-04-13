@@ -186,7 +186,7 @@ $('#selectCollege').html(select5);
 
 //*********************************** Load the map *****************************************************
 var markers =[];
-var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
 var markerCluster = null;
 var defaultFilterValues = [];
 var filters = {};
@@ -583,6 +583,7 @@ $("#reset").click(function () {
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
     };
+    valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);

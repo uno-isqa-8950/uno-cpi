@@ -618,33 +618,6 @@ def engagement_info(request):
                    'hours_total': hours_total})
 
 
-# (15) Engagement Summary Report: filter by AcademicYear, MissionArea
-
-
-def unique_count(request):
-    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    project_year_ids = [p.id for p in year_filter.qs]
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    mission_ids = [m.mission_id for m in missions_filter.qs]
-    project_missions = [p.project_name_id for p in missions_filter.qs]
-    unique_project_ids = list(set(campus_filtered_ids).intersection(project_year_ids))
-    total_unique_project = list(set(unique_project_ids).intersection(project_missions))
-    unique_project = len(total_unique_project)
-
-    # community partner count
-    community_mission_filter = CommunityPartnerMission.objects.filter(mission_area_id__in=mission_ids)
-    community_mission_ids = [c.community_partner_id for c in community_mission_filter]
-    # unique_community_ids = ProjectCommunityPartner.objects.filter(project_name_id__in=unique_project_ids)
-    # total_unique_community = list(set(community_mission_ids).intersection(unique_community_ids))
-    unique_community = len(community_mission_ids)
-
-    return render(request, 'reports/8CountOfUniqueCommunityPartner.html',
-                  {'missions_filter': missions_filter, 'year_filter': year_filter,
-                   'campus_filter': campus_filter, 'unique_project': unique_project,
-                   'unique_community': unique_community, 'community_mission_filter': community_mission_filter})
-
 
 # Chart for projects with mission areas
 

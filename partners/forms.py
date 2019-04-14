@@ -75,18 +75,19 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+        if ".edu" not in email:
+            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
         return email
 
 class CommunityPartnerForm(forms.ModelForm):
+    website_url = forms.URLField(max_length=200,label='Your Website',initial="http://", required=False)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
                    'zip','county','country')
         labels = {
             'name': ('Community Partner Organization'),
-            'website_url': ('Website'),
+            # 'website_url': ('Website'),
             'community_type': ('Community Type'),
             'k12_level':('K12 Level'),
             'address_line1': ('Address Line 1'),

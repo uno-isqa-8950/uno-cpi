@@ -74,8 +74,8 @@ class CampususerForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if ".edu" in email:
-            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner")
+        if ".edu" not in email:
+            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner User.")
         return email
 
     def clean_password2(self):
@@ -184,7 +184,7 @@ class userUpdateForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if ".edu" in email:
+        if ".edu" not in email:
             raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 

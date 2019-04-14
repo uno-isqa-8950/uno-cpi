@@ -533,15 +533,16 @@ def communityPublicReport(request):
 
     # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    campus_filtered_ids = ProjectCampusPartner.objects.all().values_list('project_name', flat=True)
+    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
 
     # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
 
 
     # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     # project_filtered_ids = [project.id for project in project_filter.qs]
-    project_filtered_ids = Project.objects.all().values_list('id', flat=True)
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
 
     proj_ids = list(set(campus_project_filtered_ids).intersection(campus_filtered_ids))
     proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
@@ -639,7 +640,7 @@ def projectsPrivateReport(request):
 def communityPrivateReport(request):
     community_dict = {}
     community_list = []
-    comp_part_contact = []
+    # comp_part_contact = []
     data_definition=DataDefinition.objects.all()
     proj_comm = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
     proj_comm_ids = [comm.community_partner_id for comm in proj_comm.qs]
@@ -657,15 +658,16 @@ def communityPrivateReport(request):
 
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    campus_filtered_ids = ProjectCampusPartner.objects.all().values_list('project_name', flat=True)
+    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
 
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     # project_filtered_ids = [project.id for project in project_filter.qs]
-    project_filtered_ids = Project.objects.all().values_list('id', flat=True)
-
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    
     proj_ids = list(set(campus_project_filtered_ids).intersection(campus_filtered_ids))
     proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))

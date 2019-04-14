@@ -75,8 +75,8 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+        if ".edu" not in email:
+            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
         return email
 
 class CommunityPartnerForm(forms.ModelForm):

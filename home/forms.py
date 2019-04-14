@@ -74,8 +74,8 @@ class CampususerForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a campus partner")
+        if ".edu" in email:
+            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner")
         return email
 
     def clean_password2(self):

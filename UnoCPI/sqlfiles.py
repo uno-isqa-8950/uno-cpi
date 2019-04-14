@@ -13,42 +13,51 @@ start_and_end_dates_temp_table_sql = """CREATE TEMP TABLE all_projects_start_and
 		,start_date
 		,end_date
 		,case 
-			when EXTRACT(YEAR FROM start_date) < EXTRACT(YEAR FROM current_date) then 'Inactive'
-			when (EXTRACT(YEAR FROM start_date) =  EXTRACT(YEAR FROM current_date) and EXTRACT(MONTH FROM start_date) >  EXTRACT(MONTH FROM current_date))
-			or EXTRACT(YEAR FROM start_date) >  EXTRACT(YEAR FROM current_date) then 'Pending'	 
-			when 
-			(EXTRACT(YEAR FROM start_date) =  EXTRACT(YEAR FROM current_date) and EXTRACT(MONTH FROM start_date) <=  EXTRACT(MONTH FROM current_date))
-				AND
-			(EXTRACT(YEAR FROM   end_date) =  EXTRACT(YEAR FROM current_date) and EXTRACT(MONTH FROM   end_date)  >  EXTRACT(MONTH FROM current_date)) 
-			then 'Active'
+			when current_date < start_date then 'Pending'
+            when current_date > end_date then 'Inactive'
+            when current_date >= start_date and current_date <= end_date then 'Active'
 		end proj_status
 	from 
 			(select p2.id
-				,cast ((cast(end_year as varchar(4))||'-'||cast(start_month as varchar(4))||'-'||'1') as date) start_date
+				,cast ((cast(start_year as varchar(4))||'-'||cast(start_month as varchar(4))||'-'||'1') as date) start_date
 				,cast ((cast(end_year as varchar(4))||'-'||cast(end_month as varchar(4))||'-'||'31') as date) end_date
 			from
 				(select p1.*
 					,case
-						when start_month = 1 then cast((substring(academic_year,1,4)) as integer)+1 
-						when start_month = 6 then cast((substring(academic_year,1,4)) as integer)+1 
-						when start_month = 8 then cast((substring(academic_year,1,4)) as integer) 
+						when end_month = 5 then cast((substring(end_academic_year,1,4)) as integer)+1
+						when end_month = 7 then cast((substring(end_academic_year,1,4)) as integer)+1
+						when end_month = 12 then cast((substring(end_academic_year,1,4)) as integer)
 					end end_year
+                    ,case
+                        when start_month = 1 then cast((substring(start_academic_year,1,4)) as integer)+1
+                        when start_month = 6 then cast((substring(start_academic_year,1,4)) as integer)+1
+                        when start_month = 8 then cast((substring(start_academic_year,1,4)) as integer)
+                    end start_year
 				from
-					(select p.id
-						,p.semester
-						,ay.academic_year
+					(select p0.id
+						,p0.start_academic_year
+                        ,p0.end_academic_year
 						,case 
-							when semester like 'Fall%' then 8
-							when semester like 'Spring%' then 1
-							when semester like 'Summer%' then 6 
+							when p0.start_semester like 'Fall%' then 8
+							when p0.start_semester like 'Spring%' then 1
+							when p0.start_semester like 'Summer%' then 6
 						end start_month
 						,case 
-							when semester like 'Fall%' then 12
-							when semester like 'Spring%' then 5
-							when semester like 'Summer%' then 7 
+							when p0.end_semester like 'Fall%' then 12
+							when p0.end_semester like 'Spring%' then 5
+							when p0.end_semester like 'Summer%' then 7
 						end end_month
-					FROM public.projects_project p
+					FROM
+                        (
+                        select p.id
+                            ,p.semester start_semester
+                            ,ay.academic_year start_academic_year
+                            ,coalesce(end_semester, semester) end_semester
+                            ,coalesce(ay2.academic_year, ay.academic_year) end_academic_year
+                        from public.projects_project p
 						inner join projects_academicyear ay on p.academic_year_id = ay.id
+                        left join projects_academicyear ay2 on p.end_academic_year_id = ay2.id
+                        )p0
 					)p1
 				)p2
 			)p3

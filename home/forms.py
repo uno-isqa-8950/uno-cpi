@@ -184,8 +184,8 @@ class userUpdateForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+        if ".edu" in email:
+            raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 
 

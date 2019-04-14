@@ -453,84 +453,87 @@ def SearchForProjectAdd(request,pk):
 
 # List Projects for Public View
 
+# def projectsPublicReport(request):
+#     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
+#     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
+#     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+#     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+#     data_definition = DataDefinition.objects.all()
+#     projectsData = []
+#     camp_part = []
+#     comm_part = []
+#     for project in projects.qs:
+#         projectMissions = ProjectMission.objects.filter(project_name_id=project, mission_type='Primary')
+#         data = {}
+#         for mission in projectMissions:
+#             if mission in missions.qs:
+#                 projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+#                 for projectCampusPartner in projectCampusPartners:
+#                     if projectCampusPartner.campus_partner in campusPartners.qs:
+#
+#                         a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
+#                         if project.id not in a:
+#                             b = request.GET.get('community_type', None)
+#                             c = request.GET.get('weitz_cec_part', None)
+#                             if b is None or b == "All" or b == '':
+#                                 if c is None or c == "All" or c == '':
+#                                     data['projectName'] = project.project_name
+#                                     data['engagementType'] = project.engagement_type
+#
+#                                     projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+#                                     for projectCampusPartner in projectCampusPartners:
+#                                         camp_part.append(projectCampusPartner.campus_partner)
+#                                     list_camp = camp_part
+#                                     camp_part = []
+#                                     data['campusPartner'] = list_camp
+#
+#                         projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
+#                         for projectCommunityPartner in projectCommunityPartners:
+#                             if projectCommunityPartner.community_partner in communityPartners.qs:
+#                                 data['projectName'] = project.project_name.split("(")[0]
+#                                 data['engagementType'] = project.engagement_type
+#
+#                                 projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
+#                                 for projectCampusPartner in projectCampusPartners:
+#                                     camp_part.append(projectCampusPartner.campus_partner)
+#                                 list_camp = camp_part
+#                                 camp_part = []
+#                                 data['campusPartner'] = list_camp
+#
+#                                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
+#                                 for projectCommunityPartner in projectCommunityPartners:
+#                                     comm_part.append(projectCommunityPartner.community_partner)
+#                                 list_comm = comm_part
+#                                 comm_part = []
+#                                 data['communityPartner'] = list_comm
+#         if data:
+#             projectsData.append(data)
+#
+#     return render(request, 'reports/projects_public_view.html', {'projects': projects,'data_definition':data_definition,
+#                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
+
+# Projects Report Speed up Version (Vineeth)
 def projectsPublicReport(request):
-    projects = ProjectFilter(request.GET, queryset=Project.objects.all())
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    data_definition = DataDefinition.objects.all()
-    projectsData = []
-    camp_part = []
-    comm_part = []
-    for project in projects.qs:
-        projectMissions = ProjectMission.objects.filter(project_name_id=project, mission_type='Primary')
-        data = {}
-        for mission in projectMissions:
-            if mission in missions.qs:
-                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-                for projectCampusPartner in projectCampusPartners:
-                    if projectCampusPartner.campus_partner in campusPartners.qs:
-
-                        a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
-                        if project.id not in a:
-                            b = request.GET.get('community_type', None)
-                            c = request.GET.get('weitz_cec_part', None)
-                            if b is None or b == "All" or b == '':
-                                if c is None or c == "All" or c == '':
-                                    data['projectName'] = project.project_name
-                                    data['engagementType'] = project.engagement_type
-
-                                    projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-                                    for projectCampusPartner in projectCampusPartners:
-                                        camp_part.append(projectCampusPartner.campus_partner)
-                                    list_camp = camp_part
-                                    camp_part = []
-                                    data['campusPartner'] = list_camp
-
-                        projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
-                        for projectCommunityPartner in projectCommunityPartners:
-                            if projectCommunityPartner.community_partner in communityPartners.qs:
-                                data['projectName'] = project.project_name.split("(")[0]
-                                data['engagementType'] = project.engagement_type
-
-                                projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-                                for projectCampusPartner in projectCampusPartners:
-                                    camp_part.append(projectCampusPartner.campus_partner)
-                                list_camp = camp_part
-                                camp_part = []
-                                data['campusPartner'] = list_camp
-
-                                projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
-                                for projectCommunityPartner in projectCommunityPartners:
-                                    comm_part.append(projectCommunityPartner.community_partner)
-                                list_comm = comm_part
-                                comm_part = []
-                                data['communityPartner'] = list_comm
-        if data:
-            projectsData.append(data)
-
-    return render(request, 'reports/projects_public_view.html', {'projects': projects,'data_definition':data_definition,
-                  'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
-
-# Trying to speed up the project reports (Vineeth)
-def projectsPrivateReport(request):
     data= {}
     data_list=[]
-
     data_definition = DataDefinition.objects.all()
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    community_filtered_ids = [community.id for community in communityPartners.qs]
-    community_project_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
-    community_project_filtered_ids = [project.project_name_id for project in community_project_filter.qs]
-
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_filtered_ids = [campus.id for campus in campusPartners.qs]
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+
+    community_filtered_ids = communityPartners.qs.values_list('id',flat=True)
+    # community_filtered_ids = [community.id for community in communityPartners.qs]
+    community_project_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    # community_project_filtered_ids = [project.project_name_id for project in community_project_filter.qs]
+    community_project_filtered_ids = community_project_filter.qs.values_list('project_name', flat=True)
+
+    campus_filtered_ids = campusPartners.qs.values_list('id',flat=True)
+    # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_filtered_ids))
-    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
 
     mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
@@ -571,6 +574,81 @@ def projectsPrivateReport(request):
                 data['communityPartner'] = []
                 data_list.append(data.copy())
 
+    return render(request, 'reports/projects_public_view.html',
+                  {'projects': project_filter, 'data_definition': data_definition,
+                   'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
+                   "campus_filter": campus_project_filter, 'college_filter': campusPartners})
+
+# Trying to speed up the project reports (Vineeth)
+# List Projects for Private View
+@admin_required()
+def projectsPrivateReport(request):
+    data= {}
+    data_list=[]
+    data_definition = DataDefinition.objects.all()
+
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+
+    community_filtered_ids = communityPartners.qs.values_list('id',flat=True)
+    # community_filtered_ids = [community.id for community in communityPartners.qs]
+    community_project_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    # community_project_filtered_ids = [project.project_name_id for project in community_project_filter.qs]
+    community_project_filtered_ids = community_project_filter.qs.values_list('project_name', flat=True)
+
+    campus_filtered_ids = campusPartners.qs.values_list('id',flat=True)
+    # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_filtered_ids))
+    # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+
+    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+
+    # Finding intersection of all the filters
+    proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
+    proj_ids2 = list(set(proj_ids1).intersection(project_filtered_ids))
+    project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
+
+    # To get the projects which does not have community partners
+    projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
+    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+
+    #List of all Projects with Campus, Community Partners and have Mission
+    projects = list(Project.objects.filter(id__in=project_ids))
+
+    for project in projects:
+        data['projectName']= project.project_name
+        data['engagementType']=project.engagement_type
+        data['total_UNO_students'] = project.total_uno_students
+        data['total_hours'] = project.total_uno_hours
+        data['economic_impact'] = project.total_economic_impact
+        # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+        proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
+        # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+        proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+        data['campusPartner'] = proj_camp_par
+        data['communityPartner']= proj_comm_par
+        data_list.append(data.copy())
+
+    # This Part is to display any Projects without Community Partners
+    for project in projects_comm:
+        b = request.GET.get('community_type', None)
+        c = request.GET.get('weitz_cec_part', None)
+        if b is None or b == "All" or b == '':
+            if c is None or c == "All" or c == '':
+                data['projectName'] = project.project_name
+                data['engagementType'] = project.engagement_type
+                data['total_UNO_students'] = project.total_uno_students
+                data['total_hours'] = project.total_uno_hours
+                data['economic_impact'] = project.total_economic_impact
+                proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+                data['campusPartner'] = proj_camp_par
+                data['communityPartner'] = []
+                data_list.append(data.copy())
+
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
@@ -586,118 +664,37 @@ def communityPublicReport(request):
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))   # This filters project mission areas not community partners mission areas
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
-    # campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+    campus_partner_filtered_ids = campus_partner_filter.qs.values_list('id',flat=True)
+    # campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name',flat=True)
+    # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
 
-    # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
-
-    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
     mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
-
-
-    # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    # project_filtered_ids = [project.id for project in project_filter.qs]
+    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    # project_filtered_ids = [project.id for project in project_filter.qs]
 
-    proj_ids = list(set(campus_project_filtered_ids).intersection(campus_filtered_ids))
-    proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
+    proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
-
 
     for m in communityPartners.qs:
         project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         if project_count == 0:
             continue
-
         community_dict['community_name'] = m.name
         community_dict['project_count'] = project_count
-
-        # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
-    return render(request, 'reports/community_public_view.html', { 'college_filter': campus_partner_filter, 'campus_filter': campus_filter,
+    return render(request, 'reports/community_public_view.html', { 'college_filter': campus_partner_filter, 'campus_filter': campus_project_filter,
                                                                 'project_filter': project_filter,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'missions': missions,
                                                                  'data_definition':data_definition})
-
-
-# List Projects for Private View
-# @admin_required()
-# def projectsPrivateReport(request):
-#     projects = ProjectFilter(request.GET, queryset=Project.objects.all())
-#     data_definition=DataDefinition.objects.all()
-#     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-#     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-#     projectsData = []
-#     camp_part = []
-#     comm_part = []
-#     for project in projects.qs:
-#         projectMissions = ProjectMission.objects.filter(project_name_id=project.id, mission_type='Primary')
-#         data = {}
-#         for mission in projectMissions:
-#             if mission in missions.qs:
-#                 projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-#                 for projectCampusPartner in projectCampusPartners:
-#                     if projectCampusPartner.campus_partner in campusPartners.qs:
-#
-#                         a = ProjectCommunityPartner.objects.all().values_list('project_name', flat=True)
-#                         if project.id not in a:
-#                             b = request.GET.get('community_type', None)
-#                             c = request.GET.get('weitz_cec_part', None)
-#                             if b is None or b == "All" or b == '':
-#                                 if c is None or c == "All" or c == '':
-#                                     data['projectName'] = mission.project_name
-#                                     data['engagementType'] = project.engagement_type
-#                                     data['total_UNO_students'] = project.total_uno_students
-#                                     data['total_hours'] = project.total_uno_hours
-#                                     data['economic_impact'] = project.total_economic_impact
-#
-#                                     projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-#                                     for projectCampusPartner in projectCampusPartners:
-#                                         camp_part.append(projectCampusPartner.campus_partner)
-#                                     list_camp = camp_part
-#                                     camp_part = []
-#                                     data['campusPartner'] = list_camp
-#
-#                         projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
-#                         for projectCommunityPartner in projectCommunityPartners:
-#                             if projectCommunityPartner.community_partner in communityPartners.qs:
-#                                 data['projectName'] = project.project_name.split(":")[0]
-#                                 data['engagementType'] = project.engagement_type
-#                                 data['total_UNO_students'] = project.total_uno_students
-#                                 data['total_hours'] = project.total_uno_hours
-#                                 data['economic_impact'] = project.total_economic_impact
-#
-#                                 projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)
-#                                 for projectCampusPartner in projectCampusPartners:
-#                                     camp_part.append(projectCampusPartner.campus_partner)
-#                                 list_camp = camp_part
-#                                 camp_part = []
-#                                 data['campusPartner'] = list_camp
-#
-#                                 projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
-#                                 for projectCommunityPartner in projectCommunityPartners:
-#                                     comm_part.append(projectCommunityPartner.community_partner)
-#                                 list_comm = comm_part
-#                                 comm_part = []
-#                                 data['communityPartner'] = list_comm
-#         if data:
-#             projectsData.append(data)
-#
-#     return render(request, 'reports/projects_private_view.html', {'projects': projects,'data_definition':data_definition,
-#                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 
 @login_required()
@@ -706,43 +703,32 @@ def communityPrivateReport(request):
     community_list = []
     # comp_part_contact = []
     data_definition=DataDefinition.objects.all()
-    proj_comm = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
-    proj_comm_ids = [comm.community_partner_id for comm in proj_comm.qs]
-    # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(id__in=proj_comm_ids))
-    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())   # This filters project mission areas not community partners mission areas
-    # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    # campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-
-
-    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
-
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
-
-    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
-    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    # project_filtered_ids = [project.id for project in project_filter.qs]
-    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
-    proj_ids = list(set(campus_project_filtered_ids).intersection(campus_filtered_ids))
-    proj_ids1 = list(set(proj_ids).intersection(mission_filtered_ids))
+    campus_partner_filtered_ids = campus_partner_filter.qs.values_list('id', flat=True)
+    # campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+    # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+
+
+    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
+    # mission_filtered_ids = [mission.project_name_id for mission in missions.qs]
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    # project_filtered_ids = [project.id for project in project_filter.qs]
+
+    proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
 
     for m in communityPartners.qs:
-
         project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         if project_count==0:
             continue
-
         community_dict['community_name'] = m.name
         community_dict['website'] = m.website_url
         community_dict['project_count'] = project_count
@@ -770,13 +756,12 @@ def communityPrivateReport(request):
         community_dict['total_uno_hours'] = total_uno_hours
         community_dict['total_uno_students'] = total_uno_students
         community_dict['total_economic_impact'] = total_economic_impact
-        # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         community_list.append(community_dict.copy())
 
     return render(request, 'reports/community_private_view.html', {'college_filter': campus_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
-                                                                 'missions': missions, 'campus_filter': campus_filter})
+                                                                 'missions': missions, 'campus_filter': campus_project_filter})
 
 
 #project duplication check

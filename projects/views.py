@@ -176,7 +176,7 @@ def createProject(request):
                     # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
                     return render(request, 'projects/createProject.html',
-                                  {'project': project, 'formset': formset, 'formset4': formset4,'formset3': formset3, 'course': course})
+                                  {'project': project, 'formset': formset,'formset3': formset3, 'course': course})
             proj.save()
             coord = Point([proj.longitude, proj.latitude])
             for i in range(len(district)):  # iterate through a list of district polygons
@@ -490,7 +490,7 @@ def projectsPublicReport(request):
                         projectCommunityPartners = ProjectCommunityPartner.objects.filter(project_name_id=project.id)
                         for projectCommunityPartner in projectCommunityPartners:
                             if projectCommunityPartner.community_partner in communityPartners.qs:
-                                data['projectName'] = project.project_name.split(":")[0]
+                                data['projectName'] = project.project_name.split("(")[0]
                                 data['engagementType'] = project.engagement_type
 
                                 projectCampusPartners = ProjectCampusPartner.objects.filter(project_name_id=project.id)

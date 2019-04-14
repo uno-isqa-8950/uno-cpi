@@ -12,9 +12,6 @@ from django.conf import settings
 from UnoCPI import settings
 from googlemaps import Client
 
-#TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
-#Get lat long details of all US counties in json format
-
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'../home/static/GEOJSON/USCounties_final.geojson')
 district_file = os.path.join(dirname,'../home/static/GEOJSON/ID2.geojson')
@@ -48,8 +45,7 @@ logger.info("Get all the Community Partners from the Database")
 
 # Get all the Community Partners from the database
 dfCommunity = pd.read_sql_query(
-    "SELECT pc.name as Community_Partner,pc.address_line1, pc.address_line2, pc.city, pc.state,pc.zip, hm.mission_name ,p.mission_type, pc.legislative_district,pc.median_household_income, pc2.community_type,pc.website_url FROM partners_communitypartner PC join partners_communitypartnermission p on PC.id = p.community_partner_id join home_missionarea hm on p.mission_area_id = hm.id join partners_communitytype pc2 on PC.community_type_id = pc2.id",
-    con=conn)
+    "SELECT pc.name as Community_Partner,pc.address_line1, pc.address_line2, pc.city, pc.state,pc.zip, hm.mission_name ,p.mission_type, pc.legislative_district,pc.median_household_income, pc2.community_type,pc.website_url FROM partners_communitypartner PC join partners_communitypartnermission p on PC.id = p.community_partner_id join home_missionarea hm on p.mission_area_id = hm.id join partners_communitytype pc2 on PC.community_type_id = pc2.id where  (pc.address_line1 not in ('','NA','N/A') or pc.city not in ('','NA','N/A') or pc.state not in ('','NA','N/A')) and lower(p.mission_type) = 'primary'",con=conn)
 if len(dfCommunity) == 0:
     logger.critical("No Community Partners fetched from the Database on " + str(currentDT))
 else:
@@ -125,9 +121,10 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                 campuslist.append(campuses[n])
             if (projects[n] not in projectList):
                 projectList.append(projects[n])
+                count +=1
             if (colleges[n] not in collegeList):
                 collegeList.append(colleges[n])
-            count += 1
+
     feature['properties']['Number of projects'] = count
     feature['properties']['Campus Partner'] = campuslist
     feature['properties']['Academic Year'] = yearlist
@@ -157,7 +154,6 @@ with open(output_filename, 'w') as output_file:
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))
 
 
-
 #writing into amazon aws s3
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -167,6 +163,4 @@ s3 = boto3.resource('s3',
 
 s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
 
-
-
-print("Partner GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))
+print("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

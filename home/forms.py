@@ -76,6 +76,9 @@ class CampususerForm(forms.ModelForm):
         email = self.cleaned_data['email']
         if ".edu" not in email:
             raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner User.")
+        if User.objects.filter(email__exact=email).exists():
+            raise forms.ValidationError(
+                'A user with this email address is already registered. Once logged in, the user can be associated to multiple campus partners through the Organization portal.')
         return email
 
     def clean_password2(self):

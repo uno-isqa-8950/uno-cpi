@@ -167,18 +167,24 @@ valueFilter.addEventListener("keyup", function (e) {
                         partnerlist.push(project_db[i][1])
                         console.log(projectlist, partnerlist)
 
+                        var mylist = '<table class="table table-hover table-sm table-bordered">' +
+                            '<tr><th>Project Name and the Academic Year</th>' +
+                            '<th>Community Partner</th></tr>';
+                        for (let j =0; j<projectlist.length;j++ ){
+                            mylist +='<tr>' +
+                                '<td>' + projectlist[j] + '</td>' +
+                                    {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
+                                    '<td>'  + partnerlist[j] + '</td>' +
+                                    '</tr>'
+
+                        }
+                        mylist += '<table>';
+
+
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
                             '<tr><td>Here is a list of Projects that closely matches the phrase entered, these Projects already exist </td></tr><br><br>' +
-                            {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
-                            '<table class="table table-hover table-sm table-bordered">' +
-                            '<tr><th>Project Name and the Academic Year</th>' +
-                            '<th>Community Partner</th></tr>' +
-                            '<tr><td>' + projectlist.join("<br>") + '</td>' +
-                            '<td>' + partnerlist.join("<br>") + '</td>'+
-                            '</tr>' +
-                            '<table>'
-
+                                 mylist
 
                         document.getElementById('node1-id').innerHTML =
                             '<br>' +

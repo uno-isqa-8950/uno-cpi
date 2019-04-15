@@ -47,11 +47,20 @@ margin-left:22px;
 width:100%
 
 }
+.select2 {
+width:93%!important;
+}
 
 .select2-container--open .select2-dropdown--below
 {
-    margin-left:22px
+    margin-left:22px;
 }
+
+.select2-container--open .select2-dropdown--above
+{
+    margin-left:22px;
+}
+
 .panel {
     margin-bottom: 20px;
     background-color: #ffffff;
@@ -231,6 +240,33 @@ $(document).ready(function(){
   );
 });
 </script>
+<style>
+.select2-container .select2-selection--single
+{
+   height:38px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:12px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 32px;
+}
+</style>
 {% endblock %}
 
 

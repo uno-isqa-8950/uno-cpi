@@ -52,7 +52,10 @@ start_and_end_dates_temp_table_sql = """CREATE TEMP TABLE all_projects_start_and
                         select p.id
                             ,p.semester start_semester
                             ,ay.academic_year start_academic_year
-                            ,coalesce(end_semester, semester) end_semester
+                            ,case
+                                when end_semester = '' then semester
+                                else end_semester
+                             end end_semester
                             ,coalesce(ay2.academic_year, ay.academic_year) end_academic_year
                         from public.projects_project p
 						inner join projects_academicyear ay on p.academic_year_id = ay.id

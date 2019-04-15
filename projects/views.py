@@ -564,7 +564,7 @@ def projectsPrivateReport(request):
         c = request.GET.get('weitz_cec_part', None)
         if b is None or b == "All" or b == '':
             if c is None or c == "All" or c == '':
-                data['projectName'] = project.project_name
+                data['projectName'] = project.project_name.split('(')[0]
                 data['engagementType'] = project.engagement_type
                 proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
                 data['campusPartner'] = proj_camp_par

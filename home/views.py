@@ -15,7 +15,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -246,7 +246,7 @@ def registerCampusPartnerUser(request):
                 campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
             campuspartneruser.save()
             # Send an email to the user with the token:
-            mail_subject = 'UNO-CPI Community Partner Registration'
+            mail_subject = 'UNO-CPI Campus Partner Registration'
             current_site = get_current_site(request)
             message = render_to_string('account/acc_active_email.html', {
                 'user': new_user,

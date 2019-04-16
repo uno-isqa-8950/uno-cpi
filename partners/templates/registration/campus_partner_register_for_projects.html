@@ -369,7 +369,7 @@ function validateForm() {
         dataType: 'json',
         success: function (data) {
           if (data.is_taken) {
-            alert("A Campus Partner with this name already exists!");
+            alert("A Campus Partner with this name already exists");
             document.getElementById("id_name").value=("");
             document.getElementById("id_name").style.borderColor="red";
           }

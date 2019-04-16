@@ -504,7 +504,7 @@ $(document).on('click', '.remove-mission-row', function(e){
         dataType: 'json',
         success: function (data) {
           if (data.is_taken) {
-            alert("A Community Partner with this name already exists!");
+            alert("A Community Partner with this name already exists");
             document.getElementById("id_name").value=("");
             document.getElementById("id_name").style.borderColor="red";
           }

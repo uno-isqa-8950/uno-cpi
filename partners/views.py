@@ -20,6 +20,8 @@ from shapely.geometry import shape, Point
 from django.conf import settings
 from googlemaps import Client
 
+from django.core.cache import cache
+
 # import pandas as pd
 import json
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -52,6 +54,7 @@ def registerCampusPartner(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
+        cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -81,6 +84,7 @@ def registerCommunityPartner(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
+        cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
@@ -401,6 +405,7 @@ def registerCampusPartner_forprojects(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
+        cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -429,6 +434,7 @@ def registerCommunityPartner_forprojects(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
+        cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')

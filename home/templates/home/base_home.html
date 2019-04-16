@@ -295,11 +295,10 @@ margin-top:15px;
 
 
 
-
 <!--Footer Begins here-->
 
 
-<footer >
+<footer id="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
@@ -346,10 +345,50 @@ margin-top:15px;
 <!-- Footer Ends Here-->
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
-{% block js %}{% endblock %}
-{% block custom_js %}{% endblock %}
-{% block selectizeForm %}{% endblock %}
+{% block js %}
 
+{% endblock %}
+{% block custom_js %}
+    <script>
+    $(window).bind("load", function() {
+
+       var footerHeight = 0,
+           footerTop = 0,
+           $footer = $("#footer");
+
+       positionFooter();
+
+       function positionFooter() {
+
+                footerHeight = $footer.height();
+                console.log(footerHeight)
+                console.log($("body").height())
+                console.log($(document).height());
+                footerTop = ($(document).height()-$("body").height())+"px";
+                console.log(footerTop)
+
+               if ( ($("body").height()) < $(document).height()) {
+                   $footer.css({
+                        position: "relative"
+                   }).animate({
+                        top: footerTop
+                   })
+               } else {
+                   $footer.css({
+                        position: "static"
+                   })
+               }
+
+       }
+
+       $(window)
+               .scroll(positionFooter)
+               .resize(positionFooter)
+
+    });
+    </script>
+{% endblock %}
+{% block selectizeForm %}{% endblock %}
 
 
 

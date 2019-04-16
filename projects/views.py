@@ -163,7 +163,7 @@ def createProject(request):
             #a = 0
             #project.total_uno_hours = a
             proj = project.save()
-            proj.project_name = proj.project_name + ": " + str(proj.academic_year)
+            proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
 
             address = proj.address_line1

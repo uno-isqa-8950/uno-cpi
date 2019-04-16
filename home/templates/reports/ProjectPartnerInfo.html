@@ -427,6 +427,11 @@ $(document).ready(function(){
    $(document).ready(function() {
    $('#example').DataTable({
        dom: 'B<"clear">lft',
+       <!-- To remove the show entries from the mission area report-->
+       bpaginate: false,
+       bLengthChange:false,
+       bInfo:false,
+       bAutoWidth:false,
        <!--To remove search function from mission area report-->
        searching:false,
        buttons: {

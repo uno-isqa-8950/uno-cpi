@@ -392,7 +392,7 @@ def editProject(request,pk):
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details})
 
-timeout = None
+timeout = 60*60*24*7
 @cache_page(timeout)
 @login_required()
 def showAllProjects(request):
@@ -520,7 +520,6 @@ def SearchForProjectAdd(request,pk):
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 # Projects Report Speed up Version (Vineeth)
-timeout = 60*60*24*7
 @cache_page(timeout)
 def projectsPublicReport(request):
     data= {}

@@ -163,8 +163,7 @@ def createProject(request):
             #a = 0
             #project.total_uno_hours = a
             proj = project.save()
-            proj.project_name = proj.project_name + ": " + str(proj.academic_year)
-            eng = str(proj.engagement_type)
+            proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
 
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there

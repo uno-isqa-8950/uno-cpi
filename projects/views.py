@@ -393,7 +393,7 @@ def editProject(request,pk):
                                                    'formset_camp_details':formset_camp_details})
 
 timeout = 60*60*24*7
-@cache_page(timeout)
+# @cache_page(timeout)
 @login_required()
 def showAllProjects(request):
 

@@ -54,7 +54,7 @@ def registerCampusPartner(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -84,7 +84,7 @@ def registerCommunityPartner(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
@@ -405,7 +405,7 @@ def registerCampusPartner_forprojects(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -434,7 +434,7 @@ def registerCommunityPartner_forprojects(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')

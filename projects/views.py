@@ -27,7 +27,7 @@ from django.db.models import Sum
 import datetime
 from django.conf import settings
 from googlemaps import Client
-from django.shortcuts import render_to_response
+
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
@@ -151,7 +151,7 @@ def createProject(request):
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None, prefix='mission')
@@ -296,7 +296,7 @@ def editProject(request,pk):
     #print('print input to edit')
 
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
             project = ProjectForm2(request.POST or None, instance=x)
@@ -392,7 +392,7 @@ def editProject(request,pk):
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details})
 
-timeout = 60*60*24*7
+# timeout = 60*60*24*7
 # @cache_page(timeout)
 @login_required()
 def showAllProjects(request):
@@ -520,7 +520,7 @@ def SearchForProjectAdd(request,pk):
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 # Projects Report Speed up Version (Vineeth)
-@cache_page(timeout)
+# @cache_page(timeout)
 def projectsPublicReport(request):
     data= {}
     data_list=[]
@@ -590,7 +590,7 @@ def projectsPublicReport(request):
 # Trying to speed up the project reports (Vineeth)
 # List Projects for Private View
 
-@cache_page(timeout)
+# @cache_page(timeout)
 @admin_required()
 def projectsPrivateReport(request):
     data= {}
@@ -667,7 +667,7 @@ def projectsPrivateReport(request):
 
 # List of community Partners Public View
 
-@cache_page(timeout)
+# @cache_page(timeout)
 def communityPublicReport(request):
     community_dict = {}
     community_list = []
@@ -708,7 +708,7 @@ def communityPublicReport(request):
                                                                  'data_definition':data_definition})
 
 
-@cache_page(timeout)
+# @cache_page(timeout)
 @login_required()
 def communityPrivateReport(request):
     community_dict = {}
@@ -735,7 +735,6 @@ def communityPrivateReport(request):
 
     proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
-
 
     for m in communityPartners.qs:
         project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
@@ -806,7 +805,7 @@ def project_total_Add(request):
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
     if request.method == 'POST':
-        cache.clear()
+        # cache.clear()
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None, prefix='mission')

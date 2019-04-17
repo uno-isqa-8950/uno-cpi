@@ -693,7 +693,9 @@ def communityPublicReport(request):
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
     for m in communityPartners.qs:
-        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
+        project_count = len(set(project_ids).intersection(proj_comm_par))
+        # project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         if project_count == 0:
             continue
         community_dict['community_name'] = m.name
@@ -737,7 +739,9 @@ def communityPrivateReport(request):
     project_ids = list(set(proj_ids1).intersection(project_filtered_ids))
 
     for m in communityPartners.qs:
-        project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
+        proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
+        project_count = len(set(project_ids).intersection(proj_comm_par))
+        # project_count = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids).count()
         if project_count==0:
             continue
         community_dict['community_name'] = m.name

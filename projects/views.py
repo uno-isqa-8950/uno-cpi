@@ -760,11 +760,15 @@ def communityPrivateReport(request):
         total_uno_students = 0
         total_uno_hours = 0
         total_economic_impact= 0
-        p_community = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids)
+        p_community = list(set(project_ids).intersection(proj_comm_par))
+        # p_community = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids)
         for pm in p_community:
-            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
-            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
-            economic_impact = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_economic_impact'))
+            uno_students = Project.objects.filter(id=pm).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm).aggregate(Sum('total_uno_hours'))
+            economic_impact = Project.objects.filter(id=pm).aggregate(Sum('total_economic_impact'))
+            # uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            # uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            # economic_impact = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_economic_impact'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
             total_economic_impact += economic_impact['total_economic_impact__sum']

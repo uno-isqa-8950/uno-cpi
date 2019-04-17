@@ -91,13 +91,13 @@ class CampususerForm(forms.ModelForm):
                 raise forms.ValidationError('Passwords don\'t match.')
             else:
                 if len(pas) < MIN_LENGTH:
-                    raise forms.ValidationError("Password should have atleast %d characters" % MIN_LENGTH)
+                    raise forms.ValidationError("Your password should have at least %d characters, 1 digit and 1 special character" % MIN_LENGTH)
                 if pas.isdigit():
-                    raise forms.ValidationError("Password should not be all numeric")
+                    raise forms.ValidationError("Your password should not be all numeric")
                 if pas.isalpha():
-                    raise forms.ValidationError("Password should have atleast one digit")
+                    raise forms.ValidationError("Your password should have atleast one digit")
                 if not any(char in special_characters for char in pas):
-                    raise forms.ValidationError("Password should have atleast one Special Character")
+                    raise forms.ValidationError("Your password should have atleast one Special Character")
 
 
 class UserForm(forms.ModelForm):
@@ -424,8 +424,6 @@ class CommunityPartnerUserCompleteRegistration(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     def clean_password2(self):
         pas = self.cleaned_data['password']

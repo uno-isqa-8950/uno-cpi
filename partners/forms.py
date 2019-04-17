@@ -139,13 +139,13 @@ class CommunityPartnerForm(forms.ModelForm):
             return name
 
 
-    def clean_zip(self):
-        zip = self.cleaned_data['zip']
-        if any(char.isalpha() for char in zip):
-            raise forms.ValidationError("Zip cannot have alphabets")
-        if len(zip) == 0:
-            raise forms.ValidationError("Please enter a Zip Code")
-        return zip
+    # def clean_zip(self):
+    #     zip = self.cleaned_data['zip']
+    #     if any(char.isalpha() for char in zip):
+    #         raise forms.ValidationError("Zip cannot have alphabets")
+    #     if len(zip) == 0:
+    #         raise forms.ValidationError("Please enter a Zip Code")
+    #     return zip
 
 
 class CommunityContactForm(forms.ModelForm):

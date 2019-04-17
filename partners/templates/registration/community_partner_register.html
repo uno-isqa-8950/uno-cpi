@@ -459,20 +459,20 @@ $(document).on('click', '.remove-mission-row', function(e){
         return true;
          }
     }
-            if (id.includes("zip")) {
-            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
-                $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+            <!--if (id.includes("zip")) {-->
+            <!--if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {-->
+                <!--$('#'+id+'-error').remove();-->
+                <!--$('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');-->
 
-                document.getElementById(id).style.borderColor = "red";
-                return false;
-            }
-            else {
-                document.getElementById(id).style.borderColor = "gray";
-                $('#'+id+'-error').remove();
-                return true;
-            }
-            }
+                <!--document.getElementById(id).style.borderColor = "red";-->
+                <!--return false;-->
+            <!--}-->
+            <!--else {-->
+                <!--document.getElementById(id).style.borderColor = "gray";-->
+                <!--$('#'+id+'-error').remove();-->
+                <!--return true;-->
+            <!--}-->
+            <!--}-->
 
             if(id.includes("email_id")){
                 if (! /\S+@\S+/.test(document.getElementById(id).value)){

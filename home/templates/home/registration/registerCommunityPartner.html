@@ -1,105 +1,95 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
-{% block title %}Reset your Password{% endblock%}
-
 {% block content %}
+  <style>
 
-<style>
-
-.form-control, input[type=text]
-{
-    width:95%;
-    border:2px solid #aaa;
-    border-radius:4px;
-    margin:0px 0 8px 4px;
-    outline:none;
-    padding:3px;
-    box-sizing:border-box;
-    transition:.3s;
-    margin-left: 22px;
-}
-
-.form-control:focus
-{
-   border-color:grey;
-   box-shadow:0 0 8px 0 grey;
-}
-
-
-h4
-{
-	line-height: 2.7;
-	font-size: 1.3em;
-}
-
-.help-block
-{
-    margin-left: 25px;
-    margin-top: 5px;
-
-}
-
-label:after
-{
-    content:"*" ;
-    color:red
-}
-
-label
-{
-    margin-left: 25px;
-    margin-top: 5px;
-    font-weight: bold;
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
 }
 
 
 .select2-container--default .select2-selection--single
 {
-    margin-left:22px;
-    width:100%
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
 
+    {
+        content:"*" ;
+        color:red
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+
+    .h9{
+        font-size:0.8em;
+        font-style: italic;
+    }
+
+    .btn-link{
+
+        font-size: small;
+        font-style: italic;
+    }
+
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-.select2-container--open .select2-dropdown--below
-{
-    margin-left:22px
-}
-.panel {
-    margin-top: 10%;
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
+
+
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
+
+
+   .btn-link, .btn-link:hover
+
+   {
+   color: #d71920
+   }
+
 </style>
 
-<div class = "container">
-    <div class ="row justify-content-md-center">
-        <div class="col-xl-7 col-md-10">
-            <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Registration - Community Partner</h4></div>
-			        <div class="panel-body">
-                        <form action="."  name="myForm" method="post">
-                        {% csrf_token %}
-{#                        {{ community_partner|bootstrap}}#}
-                        {{ form.first_name|bootstrap}}
-                        {{ form.last_name|bootstrap}}
-                        {{ form.email|bootstrap }}
-                        {{ form.password|bootstrap }}
-                        {{ form.password2|bootstrap }}
-                         <div class = "row justify-content-md-center">
-                                <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-custom"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                        Submit</button>
-                                </div>
-                            </div><br><br>
-                        </form>
-                    </div>
-                </div>
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-8 col-md-8">
+                <div class = "panel panel-default">
+            <div class="panel-heading text-center"><h4>Registration Success</h4></div>
+            <div class="panel-body">
+                <br>
+                <p class="text-justify" style="margin-left: 5%; margin-right: 3%">
+                    {% if user.is_active %}
+                        Dear {{user.first_name }},
+                        <br> <br>
+                        You have been activated to be a Community Partner User for the UNO-CPI Application <br>
+                        Click on the button below to reset your password</p>
+                    {% endif %}
             </div>
+                    <a style="margin-left: 40%" class="btn btn btn-secondary btn-md" href='/password_reset/' role="button"> <i class="fa fa-key" aria-hidden="true"> Password Reset</i></a>
+        </div>
     </div>
-</div>
+        </div>
+    </div>
 
 {% endblock %}
 

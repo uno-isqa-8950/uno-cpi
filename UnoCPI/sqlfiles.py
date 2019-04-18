@@ -3,7 +3,7 @@ tables_sql = "SELECT table_schema || '.' || table_name "\
            "WHERE table_type = 'BASE TABLE' "\
            "AND table_schema NOT IN ('pg_catalog', 'information_schema');"
 
-
+# Please dont make changes to this query, it directly affects AllProjects Page
 all_projects_sql = """select distinct p.project_name
                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners

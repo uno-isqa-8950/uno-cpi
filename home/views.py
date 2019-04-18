@@ -90,59 +90,6 @@ def MapHome(request):
     return render(request, 'home/Map_Home.html',
                   {'MapHome': MapHome})
 
-
-def Definitions(request):
-    data_definition = DataDefinition.objects.values('id', 'title', 'description', 'group_id')
-    for group_id in data_definition:
-        group = group_id['group_id']
-        data_definition_group = DataDefinitionGroup.objects.filter(pk=group)
-    return render(request, 'home/DataDefinitions.html',
-                  {'data_definition': data_definition},
-                  {'data_definition_group': data_definition_group})
-
-
-
-def Contactus(request):
-    form_class = ContactForm
-    if request.method == 'POST':
-        form = form_class(data=request.POST)
-
-        if form.is_valid():
-            contact_name = request.POST.get(
-                'contact_name'
-                , '')
-            contact_email = request.POST.get(
-                'contact_email'
-                , '')
-            topic = request.POST.get('topic', '')
-            form_content = request.POST.get('content', '')
-
-            # Email the profile with the
-            # contact information
-            template = get_template('home/contact_template.txt')
-        context = {
-            'contact_name': contact_name,
-            'contact_email': contact_email,
-            'topic': topic,
-            'form_content': form_content,
-        }
-        content = template.render(context)
-
-        email = EmailMessage(
-            "CPI Contact Form submission", #Subject line of the Contact Us Page
-            content,
-            # "Community Partnership Initiative" + '',
-            ['djantz@unomaha.edu'], #Email to whom all the queries in Contact Us Page would be redirected to
-            headers={'Reply-To': contact_email}
-        )
-        email.send()
-        return redirect('thanks')
-
-    return render(request, 'home/ContactUs.html', {
-        'form': form_class,
-    })
-
-
 def thanks(request):
     return render(request, 'home/thanks.html',
                   {'thank': thanks})

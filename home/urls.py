@@ -12,7 +12,6 @@ urlpatterns = [
    path('CommunityHome',views.CommunityHome, name='CommunityHome'),
    path('partners/',views.partners,name='partners'),
    path('map', views.countyData, name='map'),
-   path('definitions',views.Definitions,name='Definitions'),
    path('registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),
    path('registerCommunityPartnerUser/', views.registerCommunityPartnerUser, name='registerCommunityPartnerUser'),
    path('signupuser/registerCampusPartnerUser/', views.registerCampusPartnerUser, name='registerCampusPartnerUser'),

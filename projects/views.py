@@ -27,7 +27,9 @@ from django.db.models import Sum
 import datetime
 from django.conf import settings
 from googlemaps import Client
-
+# The imports below are for running sql queries for AllProjects Page
+from django.db import connection
+from UnoCPI import sqlfiles
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
@@ -394,45 +396,63 @@ def editProject(request,pk):
 
 # timeout = 60*60*24*7
 # @cache_page(timeout)
+# @login_required()
+# def showAllProjects(request):
+#
+#     data_definition=DataDefinition.objects.all()
+#
+#     projects_list = []
+#
+#     if request.method == "GET":
+#
+#         # To get list of all Projects frm the Database
+#         projects = list(Project.objects.all())
+#
+#         for x in projects:
+#
+#             # Finding the Mission of each project from ProjectMission Table
+#             projmisn =ProjectMission.objects.filter(project_name_id=x.id).values('mission__mission_name','mission_type')
+#
+#             # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+#             proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=x.id).values_list('community_partner__name', flat=True)
+#
+#             # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+#             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=x.id).values_list('campus_partner__name',flat=True)
+#
+#             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
+#                     'activityType': x.activity_type,
+#                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+#                     'description': x.description,
+#                     'startDate': x.start_date,
+#                     'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+#                     'total_uno_hours': x.total_uno_hours,
+#                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+#                     'total_uno_faculty': x.total_uno_faculty,
+#                     'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+#                     'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'comm_part': proj_comm_par,
+#                     'camp_part': proj_camp_par
+#                     }
+#             projects_list.append(data)
+#
+#     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
+
+
 @login_required()
 def showAllProjects(request):
-
     data_definition=DataDefinition.objects.all()
-
-    projects_list = []
-
-    if request.method == "GET":
-
-        # To get list of all Projects frm the Database
-        projects = list(Project.objects.all())
-
-        for x in projects:
-
-            # Finding the Mission of each project from ProjectMission Table
-            projmisn =ProjectMission.objects.filter(project_name_id=x.id).values('mission__mission_name','mission_type')
-
-            # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-            proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=x.id).values_list('community_partner__name', flat=True)
-
-            # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-            proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=x.id).values_list('campus_partner__name',flat=True)
-
-            data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
-                    'activityType': x.activity_type,
-                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                    'description': x.description,
-                    'startDate': x.start_date,
-                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                    'total_uno_hours': x.total_uno_hours,
-                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                    'total_uno_faculty': x.total_uno_faculty,
-                    'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'comm_part': proj_comm_par,
-                    'camp_part': proj_camp_par
-                    }
-            projects_list.append(data)
-
+    projects_list=[]
+    sql = sqlfiles
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql)
+    for obj in cursor.fetchall():
+         projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
+                              "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
+                              "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
+                              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
+
+
+
 
 
 @login_required()

@@ -156,8 +156,6 @@ label, .btn-default
                                     <th>Activity Type</th>
 {#                                    <th>Campus Facilitator</th>#}
                                     <th>Description</th>
-{#                                    <th>Action</th>#}
-
                                 </tr>
                             </thead>
                             <tbody>
@@ -165,11 +163,13 @@ label, .btn-default
                                 {% for project in project %}
                                 <tr>
                                     <td>{{ project.name }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                    <td>{% for projmisn in project.projmisn %}
-                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission__mission_name}}<br> <br>{% endfor %} </td>
+{#                                    <td>{% for projmisn in project.projmisn %}#}
+{#                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission__mission_name}}<br> <br>{% endfor %} </td>#}
+                                    <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
                                     <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                                     <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
-                                    <td>{{ project.engagementType }}</td>
+{#                                    <td>{{ project.engagementType }}</td> #}   {# This is for old code in case we roll back #}
+                                    <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
                                     <td>{{ project.academic_year }}</td>
                                     <td>{{ project.semester}}</td>
                                     <td>{{ project.status}}</td>
@@ -185,19 +185,6 @@ label, .btn-default
                                     <td>{{ project.activityType }}</td>
 {#                                    <td>{{ project.facilitator }}</td>#}
                                     <td>{{ project.description }}</td>
-
-{#                                    <form action="." method="POST">#}
-{#                                        {% for current in theList %}#}
-{#                                            {% if forloop.parentloop.counter0 == forloop.counter0 %}#}
-{#                                                {% if current %}#}
-{#                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-primary disabled" style="margin-top:10px;">Add</a> </td>#}
-{#                                                {% else %}#}
-{#                                                    <td><a href="{% url 'projectSearchAdd' pk=project.pk %}" class="btn btn-secondary disabled" style="margin-top:10px;">Add</a> </td>#}
-{#                                                {% endif %}#}
-{#                                            {% endif %}#}
-{#                                        {% endfor %}#}
-{#                                    </form>#}
-
                                 </tr>
                                 {% endfor %}
                             </tbody>

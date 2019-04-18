@@ -29,7 +29,6 @@ urlpatterns = [
    path('AdminHome/', views.AdminHome , name= 'adminhome'),
    path('Adminframe/', views.Adminframe, name='Adminframe'),
    path('recentchanges/', views.recentchanges, name='recentchanges' ),
-   path('Contactus',views.Contactus,name='Contactus'),
    path('thanks/', views.thanks, name='thanks'),
    path('inviteCommunityPartnerUser/', views.invitecommunityPartnerUser, name='invitecommunityPartnerUser'),
    path('projectMap', views.googleprojectdata, name='googleprojectmap'),

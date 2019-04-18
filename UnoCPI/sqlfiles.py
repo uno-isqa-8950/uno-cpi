@@ -3,8 +3,56 @@ tables_sql = "SELECT table_schema || '.' || table_name "\
            "WHERE table_type = 'BASE TABLE' "\
            "AND table_schema NOT IN ('pg_catalog', 'information_schema');"
 
-
-all_projects_sql = "SELECT project_name FROM projects_project;"
+# Please dont make changes to this query, it directly affects AllProjects Page
+all_projects_sql = """select distinct p.project_name
+                          ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                          ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+                        -- 	,pc.name CommPartners
+                        -- 	,c.name CampPartners
+                        -- 	,e.name engagement_type
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                        group by p.project_name
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                        order by p.project_name;"""
 
 drop_temp_table_all_projects_start_and_end_dates_sql = "DROP TABLE all_projects_start_and_end_dates;"
 

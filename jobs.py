@@ -13,9 +13,9 @@ sched1 = BackgroundScheduler()
 sql = sqlfiles
 
 #
-# @sched.scheduled_job('cron', day_of_week='mon-sun', hour=7)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=7)
 
-@sched.scheduled_job( 'interval',hours=6)
+# @sched.scheduled_job( 'interval',hours=6)
 
 def scheduled_job():
     print('This job is ran every day at 7 AM GMT/ 2 AM CDT.')

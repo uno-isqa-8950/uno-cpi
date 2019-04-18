@@ -148,24 +148,24 @@
 
             } else {
                 partnerlist = [];
-                document.getElementById('next').onclick = function () {
+                document.getElementById('next').onclick = function myfunction() {
                     document.getElementById('next').onclick= null;
                     for (var i = 0; i < partners.length; i++) {
                         if (partners[i].toLowerCase().includes(value)) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i])
-                                {#console.log(partnerlist)#}
+                                console.log(partnerlist)
 
-                                var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
-                                    '<tr>' +
-                                    '<th>Community Partner</th></tr>';
-                                for (let j =0; j<partnerlist.length;j++ ){
-                                    mylist +='<tr>' +
-                                        '<td>' + partnerlist[j] + '</td>' +
-                                        '</tr>'
+                                 var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
+                            '<tr>' +
+                            '<th>Community Partner</th></tr>';
+                        for (let j =0; j<partnerlist.length;j++ ){
+                            mylist +='<tr>' +
+                                '<td>' + partnerlist[j] + '</td>' +
+                                    '</tr>'
 
-                                }
-                                mylist += '<table>';
+                        }
+                        mylist += '<table>';
 
                                 document.getElementById('node-id').innerHTML =
                                     '<br>' +
@@ -188,6 +188,7 @@
                             if (!(partners[i].toLowerCase().includes(value))){
                                 if(partnerlist.length == 0)
                                 {
+                                     document.getElementById('node-id'). innerHTML = "";
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
                                         '<tr><td>This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration. </td></tr><br /><br />' +

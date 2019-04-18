@@ -46,7 +46,8 @@ from googlemaps import Client
 from home import context_processors
 import boto3
 from UnoCPI import settings
-
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -261,7 +262,6 @@ def registerCampusPartnerUser(request):
     else:
         user_form = CampususerForm()
         campus_partner_user_form = CampusPartnerUserForm()
-
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data': data})
@@ -1074,7 +1074,6 @@ def invitecommunityPartnerUser(request):
     return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
                                                                               'community_partner_user_form':community_partner_user_form})
 
-
 def registerCommPartner(request, uidb64, token):
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
@@ -1084,26 +1083,23 @@ def registerCommPartner(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        community_partner = get_object_or_404(CommunityPartner, pk=user.pk)
-        if request.method == 'POST':
-           form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
-           if form.is_valid():
-               user = form.save(commit=False)
-               user.set_password(form.cleaned_data['password'])
-               user.is_active = True
-               user.is_communitypartner = True
-               user.save(commit=True)
-               return redirect('communitypartnerproject')
-           else:
-             form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
-             return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
-                                                                                    'community_partner' : community_partner})
-        else:
-            form = CommunityPartnerUserCompleteRegistration(instance=user)
-        return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
-                                                                              'community_partner' : community_partner})
+        return render(request, 'home/registration/registerCommunityPartner.html', {'user': user})
     else:
         return render(request, 'home/registration/register_fail.html')
 
-def registerCommPartnerComplete(request, uidb64):
+
+
+def commPartnerResetPassword(request):
+    if request.method == 'POST':
+        form = SetPasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, ('Your password was successfully updated!'))
+            return redirect('/')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = SetPasswordForm(request.user)
+    return render(request, 'registration/password_reset_confirm.html', {'form': form })
     return render(request,'home/register_done.html')

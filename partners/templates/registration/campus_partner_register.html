@@ -3,162 +3,174 @@
 {% block content %}
 
 
-<style>
+    <style>
 
-label[for=id_name]:after,label[for=id_college_name]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after
-{
-    content:"*" ;
-    color:red
-}
+        label[for=id_name]:after,label[for=id_college_name]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after
+        {
+            content:"*" ;
+            color:red
+        }
 
-@media (min-width: 700px)
-{
+        @media (min-width: 700px)
+        {
 
-input[name=name]
-{
-    width:93%;
-}
-}
+            input[name=name]
+            {
+                width:93%;
+            }
+            .help-block
+            {
+                margin-left: 25px;
+                margin-top: 5px;
+                margin-right: 25px;
+                font-size: small;
+                font-style: italic;
+                font-weight: bold;
+                color: red;
+                border-color: red;
+            }
+        }
 
 
-label
-{
-    margin-left: 25px;
-    margin-top: 5px;
-    font-weight: bold;
-}
+        label
+        {
+            margin-left: 25px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
 
-.select2 {
-width:93%!important;
-}
+        .select2 {
+            width:93%!important;
+        }
+        #button-center{
+            text-align: center;
+        }
 
-.select2-container--default .select2-selection--single
-{
-    margin-left:22px;
-    width:100%
-  }
+        .select2-container--default .select2-selection--single
+        {
+            margin-left:22px;
+            width:100%
+        }
 
-.select2-container--open .select2-dropdown--below
-{
-    margin-left:22px
-}
-.panel{
-    box-shadow: none;
-}
-.panel-heading{
-    padding: 0px;
-    margin: 0px;
-}
-</style>
-<div class = "container">
-    <div class="row justify-content-md-center">
-		<div class="col-lg-9 col-md-10">
-        <div class="container panel">
-            <div class = " panel-default card">
-		        <div class=" panel-heading text-center">
-                    <h4 title="Registers Campus Partners with a Point of Contact at University of Nebraska at Omaha Campus">Register: Campus Partner</h4>
-                </div>
+        .select2-container--open .select2-dropdown--below
+        {
+            margin-left:22px
+        }
+        .panel{
+            box-shadow: none;
+        }
+        .panel-heading{
+            padding: 0px;
+            margin: 0px;
+        }
+    </style>
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-9 col-md-10">
+                <div class="container panel">
+                    <div class = " panel-default card">
+                        <div class=" panel-heading text-center">
+                            <h4 title="Registers Campus Partners with a Point of Contact at University of Nebraska at Omaha Campus">Register: Campus Partner</h4>
+                        </div>
 
-			        <div class="panel-body">
-                        <form action="." onfocusout="return validateForm()" method="post">
-                            {% csrf_token %}
+                        <div class="panel-body">
+                            <form action="." onfocusout="return validateForm()" method="post">
+                                {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-12 col-lg-12">
                                         {{ campus_partner_form.name|bootstrap }}
-					    			        <div class = "row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <div class = "row">
+                                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12 col-lg-12">
+                                                {{ campus_partner_form.college_name|bootstrap }}
+                                                <div class = "row">
+                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                                    </div>
                                                 </div>
                                             </div>
+                                        </div>
 
-                                            <div class="row">
-                                                <div class="col-md-12 col-lg-12">
-                                                    {{ campus_partner_form.college_name|bootstrap }}
-                                                        <div class = "row">
-                                                            <div class="col-lg-12 col-md-12 col-sm-12">
-                                                            </div>
-{#                                                <div class="col-md-6 col-sm-6">#}
-{#                                                   {{ campus_partner_form.department|bootstrap }}#}
-{#                                                </div>#}
-                                                        </div>
-			        						    </div>
-					        		        </div>
-
-                                                {{ formset.management_form }}
-                                                {% for form in formset %}
-                                                    <div class="form-row" id="contact1">
-                                                        <div class="col-md-12">
-                                                            <label>Point of Contact Information
-                                                                {% for data_definition in data_definition %}
-                                                                    {% if data_definition.id == 34%}
-                                                                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                                              data-content="{{ data_definition.description }}" class="float" >
+                                        {{ formset.management_form }}
+                                        {% for form in formset %}
+                                            <div class="form-row" id="contact1">
+                                                <div class="col-md-12">
+                                                    <label>Point of Contact Information
+                                                        {% for data_definition in data_definition %}
+                                                            {% if data_definition.id == 34%}
+                                                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                      data-content="{{ data_definition.description }}" class="float" >
                                                                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                                    {% endif %}
-                                                                {% endfor %}
-                                                            </label>
-                                                        </div>
-                                                        <div class="input-group">
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.contact_type|bootstrap }}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.email_id|bootstrap }}
-                                                            </div>
-                                                        </div>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </label>
+                                                </div>
+                                                <div class="input-group">
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.contact_type|bootstrap }}
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.email_id|bootstrap }}
+                                                    </div>
+                                                </div>
 
 
-                                                        <div class="input-group">
-                                            <!--div class="row"-->
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.first_name|bootstrap }}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.last_name|bootstrap }}
-                                                            </div>
-                                            <!--/div-->
-                                            <!--div class="row"-->
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.work_phone|bootstrap }}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.cell_phone|bootstrap }}
-                                                            </div>
+                                                <div class="input-group">
+                                                    <!--div class="row"-->
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.first_name|bootstrap }}
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.last_name|bootstrap }}
+                                                    </div>
+                                                    <!--/div-->
+                                                    <!--div class="row"-->
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.work_phone|bootstrap }}
+                                                    </div>
+                                                    <div class="col-md-6 col-sm-6">
+                                                        {{ form.cell_phone|bootstrap }}
+                                                    </div>
 
-                    <!--/div-->
+                                                    <!--/div-->
 
 
-                  <!--div class="row"-->
-                      <!--div class="col-md-6 col-sm-6">
+                                                    <!--div class="row"-->
+                                                    <!--div class="col-md-6 col-sm-6">
                                                             {{ form.email_id|bootstrap }}
                       </div-->
-                                                        </div>
+                                                </div>
 
 
 
-                                                        <div class="input-group-append" >
-                        <!--button-- class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button-->
-                                                            <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
+                                                <div class="input-group-append" >
+                                                    <!--button-- class="btn btn-outline-info btn-sm add-form-row">Add more contacts</button-->
+                                                    <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
 
-   <!--  <p><button type="submit" class="btn btn-custom">Submit</button></p><br> -->
+                                        <!--  <p><button type="submit" class="btn btn-custom">Submit</button></p><br> -->
 
 
 
-                            <div class = "row justify-content-md-center">
-                                <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-custom">Submit</button><br><br>
-                                </div>
-                            </div><br>
+                                        <div class = "row justify-content-md-center">
+                                            <div class="col-lg-2 col-md-3 col-sm-3">
+                                                <p id="button-center">  <button type="submit" class="btn btn-custom"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                                    Submit</button> </p><br><br>
+                                            </div>
+                                        </div><br>
 
                                     </div></div>    </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-         </div>
-</div>  <br><br>
+    </div>  <br><br>
 
 {% endblock %}
 {% block selectizeForm %}
@@ -166,225 +178,225 @@ width:93%!important;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
-<script>
-$(document).ready(function(){
-  $('#id_college_name').select2(
-      {
-              placeholder: 'Select a College Name',
-                            sorter: function(data) {
-                                                        /* Sort data using lowercase comparison */
-                                                        return data.sort(function (a, b) {
-                                                            a = a.text.toLowerCase();
-                                                            b = b.text.toLowerCase();
-                                                            if (a > b) {
-                                                                return 1;
-                                                            } else if (a < b) {
-                                                                return -1;
-                                                            }
-                                                            return 0;
-                                                        });
-                                                    }}
-  );
-});
+    <script>
+        $(document).ready(function(){
+            $('#id_college_name').select2(
+                {
+                    placeholder: 'Select a College Name',
+                    sorter: function(data) {
+                        /* Sort data using lowercase comparison */
+                        return data.sort(function (a, b) {
+                            a = a.text.toLowerCase();
+                            b = b.text.toLowerCase();
+                            if (a > b) {
+                                return 1;
+                            } else if (a < b) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+                    }}
+            );
+        });
 
-</script>
-<style>
-.select2-container .select2-selection--single
-{
-   height:38px;
-}
+    </script>
+    <style>
+        .select2-container .select2-selection--single
+        {
+            height:38px;
+        }
 
-.select2-container--default .select2-selection--single
-{
-   border: 2px solid #aaa;
-   margin-top:8px;
-}
+        .select2-container--default .select2-selection--single
+        {
+            border: 2px solid #aaa;
+            margin-top:8px;
+        }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow
-{
-   top:12px;
-}
+        .select2-container--default .select2-selection--single .select2-selection__arrow
+        {
+            top:12px;
+        }
 
-.select2-container--default .select2-selection--single:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
-}
+        .select2-container--default .select2-selection--single:focus
+        {
+            border-color:grey;
+            box-shadow:0 0 8px 0 grey;
+        }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 32px;
-}
-</style>
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 32px;
+        }
+    </style>
 {% endblock %}
 
 
- {% block custom_js %}
-{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
-<script type="text/javascript">
-function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
-}
-function cloneMore(selector, prefix) {
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name')
-        if(name) {
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-            var id = 'id_' + name;
-            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+{% block custom_js %}
+{#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+    <script type="text/javascript">
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
         }
+        function cloneMore(selector, prefix) {
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name')
+                if(name) {
+                    name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+                }
 
-    });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.form-row:not(:last)');
-    conditionRow.find('.btn.add-form-row')
-    .removeClass('btn-success').addClass('btn-secondary')
-    .removeClass('add-form-row').addClass('remove-form-row')
-    .html('Remove');
-    return false;
-}
-function deleteForm(prefix, btn) {
-    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-    if (total > 1){
-        btn.closest('.form-row').remove();
-        var forms = $('.form-row');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-            $(forms.get(i)).find(':input').each(function() {
-                updateElementIndex(this, prefix, i);
             });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            var conditionRow = $('.form-row:not(:last)');
+            conditionRow.find('.btn.add-form-row')
+                .removeClass('btn-success').addClass('btn-secondary')
+                .removeClass('add-form-row').addClass('remove-form-row')
+                .html('Remove');
+            return false;
         }
-    }
-    return false;
-}
-$(document).on('click', '.add-form-row', function(e){
-    e.preventDefault();
-    cloneMore('.form-row:last', 'form');
-    return false;
-});
-$(document).on('click', '.remove-form-row', function(e){
-    e.preventDefault();
-    deleteForm('form', $(this));
-    return false;
-});
-</script>
-
-
-
-
-
-
-<script>
-
-function validateForm() {
-    console.log("informs");
-    var id = event.target.id;
-    var name = event.target.name;
-    if (id.includes("work_phone")|| id.includes("cell_phone")){
-        phoneMask(event)
+        function deleteForm(prefix, btn) {
+            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            if (total > 1){
+                btn.closest('.form-row').remove();
+                var forms = $('.form-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i=0, formCount=forms.length; i<formCount; i++) {
+                    $(forms.get(i)).find(':input').each(function() {
+                        updateElementIndex(this, prefix, i);
+                    });
+                }
+            }
+            return false;
         }
-    function phoneMask(event) {
-    const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
-    const isPhoneFormatted = validPhoneFormat.test(event.target.value);
+        $(document).on('click', '.add-form-row', function(e){
+            e.preventDefault();
+            cloneMore('.form-row:last', 'form');
+            return false;
+        });
+        $(document).on('click', '.remove-form-row', function(e){
+            e.preventDefault();
+            deleteForm('form', $(this));
+            return false;
+        });
+    </script>
 
-    if(!isPhoneFormatted) {
-        const phoneInput = event.target.value.replace(/\D/g, "");
-        const thirdPhoneDigit = 3;
-        const sixthPhoneDigit = 6;
-        const tenthPhoneDigit = 10;
-        const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
-        const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
-        const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
-        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
-    }
-}
-    if(id.includes("email_id")){
-    if (! /\S+@\S+/.test(document.getElementById(id).value)){
-        $('#'+id+'-error').remove();
-        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
-        document.getElementById(id).style.borderColor = "red";
-        return false;
-     }
-    else {
-       document.getElementById(id).style.borderColor = "gray";
-       $('#'+id+'-error').remove();
-       return true;
-          }
 
-    }
-    var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
-    if (id.includes("work_phone") || id.includes("cell_phone")) {
-    if (!(document.getElementById(id).value).match(numbers)) {
-        console.log("good test")
-        $('#'+id+'-error').remove();
-        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-        document.getElementById(id).style.borderColor = "red";
-        return false;
-    }
-    else {
-        document.getElementById(id).style.borderColor = "gray";
-        $('#'+id+'-error').remove();
-        return true;
-         }
-    }
-    if(id.includes("first_name") || id.includes("last_name")){
-    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
-       $('#'+id+'-error').remove();
-       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
-       document.getElementById(id).style.borderColor = "red";
-       return false;
-    }
-    else {
-         document.getElementById(id).style.borderColor = "gray";
-         $('#'+id+'-error').remove();
-         return true;
-         }
-    }
-    }
-</script>
-     <script>
-         $(function () {
-             $('[data-toggle="popover"]').popover()
-         })
-     </script>
+
+
+
+
+    <script>
+
+        function validateForm() {
+            console.log("informs");
+            var id = event.target.id;
+            var name = event.target.name;
+            if (id.includes("work_phone")|| id.includes("cell_phone")){
+                phoneMask(event)
+            }
+            function phoneMask(event) {
+                const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
+                const isPhoneFormatted = validPhoneFormat.test(event.target.value);
+
+                if(!isPhoneFormatted) {
+                    const phoneInput = event.target.value.replace(/\D/g, "");
+                    const thirdPhoneDigit = 3;
+                    const sixthPhoneDigit = 6;
+                    const tenthPhoneDigit = 10;
+                    const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
+                    const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
+                    const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
+                    event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+                }
+            }
+            if(id.includes("email_id")){
+                if (! /\S+@\S+/.test(document.getElementById(id).value)){
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
+                else {
+                    document.getElementById(id).style.borderColor = "gray";
+                    $('#'+id+'-error').remove();
+                    return true;
+                }
+
+            }
+            var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+            if (id.includes("work_phone") || id.includes("cell_phone")) {
+                if (!(document.getElementById(id).value).match(numbers)) {
+                    console.log("good test")
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
+                else {
+                    document.getElementById(id).style.borderColor = "gray";
+                    $('#'+id+'-error').remove();
+                    return true;
+                }
+            }
+            if(id.includes("first_name") || id.includes("last_name")){
+                if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
+                else {
+                    document.getElementById(id).style.borderColor = "gray";
+                    $('#'+id+'-error').remove();
+                    return true;
+                }
+            }
+        }
+    </script>
+    <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 {% endblock %}
 
 {% block js %}
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+{#    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>#}
 
-<script>
+    <script>
 
-    $('#id_name').focus(function() {
-        $('#id_name').css('border','2px solid #aaa');
-    });
+        $('#id_name').focus(function() {
+            $('#id_name').css('border','2px solid #aaa');
+        });
 
-    $("#id_name").change(function () {
-      var name = $(this).val();
+        $("#id_name").change(function () {
+            var name = $(this).val();
 
-      $.ajax({
-        url: "{% url 'partners:ajax_load_campus' %}",
-        data: {
-          'name': name
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert("A Campus Partner with this name already exists");
-            document.getElementById("id_name").value=("");
-            document.getElementById("id_name").style.borderColor="red";
-          }
-        }
-      });
+            $.ajax({
+                url: "{% url 'partners:ajax_load_campus' %}",
+                data: {
+                    'name': name
+                },
+                dataType: 'json',
+                success: function (data) {
+                    if (data.is_taken) {
+                        alert("A Campus Partner with this name already exists");
+                        document.getElementById("id_name").value=("");
+                        document.getElementById("id_name").style.borderColor="red";
+                    }
+                }
+            });
 
-    });
+        });
 
-</script>
+    </script>
 
 {% endblock %}

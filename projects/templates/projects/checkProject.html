@@ -95,7 +95,8 @@
 {#                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>#}
                         <div class="justify-content-md-center" style="margin-left: 40%; margin-top: 2%; margin-bottom: 2%">
-                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button">Next</a>
+                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right"></i>
+                            Next</a>
                             </div>
                     </div>
                 </div>
@@ -189,7 +190,8 @@ valueFilter.addEventListener("keyup", function (e) {
                         document.getElementById('node1-id').innerHTML =
                             '<br>' +
                             '<tr><td>To access any of the Projects that already exist click on the button below </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button">All Projects</a></td></tr>'
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
 
                     }
                 } else {
@@ -197,7 +199,8 @@ valueFilter.addEventListener("keyup", function (e) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create a new project, click on the button below</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button">Create Project</a></td></tr>'
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button"><i class="fa fa-plus" aria-hidden="true"></i>' +
+                            ' Create Project</a></td></tr>'
                     }
                 }
 

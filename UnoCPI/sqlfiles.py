@@ -319,3 +319,21 @@ from projects_project p
 	inner join partners_campuspartner c on pp2.campus_partner_id = c.id
 group by p.project_name
 order by p.project_name;"""
+
+
+# This Query is used by Projects Report (Dont delete)
+projects_report = """
+select distinct p.project_name
+    ,array_agg(distinct pc.name) CommPartners
+    ,array_agg(distinct c.name) CampPartners
+    ,e.name engagement_type
+from projects_project p
+    left join projects_engagementtype e on e.id = p.engagement_type_id
+    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+    left join partners_communitypartner pc on pp.community_partner_id = pc.id
+    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+    inner join partners_campuspartner c on pp2.campus_partner_id = c.id
+where p.id = ANY(%s)
+group by p.project_name, e.name
+order by p.project_name;
+"""

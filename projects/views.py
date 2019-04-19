@@ -591,8 +591,7 @@ def projectsPublicReport(request):
             cursor.execute(sql.projects_report, [projects_comm_ids])
 
             for obj in cursor.fetchall():
-                data_list.append(
-                    {"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
                      "engagementType": obj[3]})
 
     # for project in projects:

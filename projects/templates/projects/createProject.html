@@ -7,11 +7,25 @@
     .select2 {
         width: 95% !important;
     }
+      #button-center{
+          text-align: center;
+      }
 }
 
     .select2 {
         width:96%!important;
     }
+  .help-block
+  {
+      margin-left: 25px;
+      margin-top: 5px;
+      margin-right: 25px;
+      font-size: small;
+      font-style: italic;
+      font-weight: bold;
+      color: red;
+      border-color: red;
+  }
 
 .select2-container--open .select2-dropdown--below
     {
@@ -148,7 +162,7 @@
                                             </div>
                                         </div>
                                             <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                                <button class="btn btn-secondary add-community-row"><i class="fa fa-plus" aria-hidden="true"></i> Add an Additional Community Partner</button>
                                             </div>
                                     </div>
                                 {%endfor%}
@@ -166,7 +180,7 @@
                                             </div>
                                         </div>
                                         <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>
+                                            <button class="btn btn-secondary add-campus-row"><i class="fa fa-plus" aria-hidden="true"></i> Add an Additional Campus Partner</button>
                                         </div>
                                     <p id="errorid1"></p>
                                     </div>
@@ -269,7 +283,8 @@
 
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">
-                                        <button type="submit" class="save btn btn-custom" style="background-color: #333">Submit</button>
+                                        <p id="button-center"><button type="submit" class="save btn btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                            Submit</button></p>
                                     </div>
                                 </div>
                             </form><br><br>

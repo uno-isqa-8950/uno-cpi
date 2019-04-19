@@ -48,83 +48,58 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     fullscreenControl: false,
     mapTypeControl: false,
     styles: [
-        {
-            "featureType": "landscape",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.business",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.local",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        }
-    ]
+ {
+   "featureType": "landscape",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "labels.text",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.business",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "geometry.stroke",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "transit",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ }
+]
 });
 
 

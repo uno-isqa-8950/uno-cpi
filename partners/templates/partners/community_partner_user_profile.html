@@ -20,6 +20,18 @@ margin-left: 25px;
 margin-top: 5px;
 font-weight: bold;
 }
+ .help-block
+        {
+            margin-left: 25px;
+            margin-top: 5px;
+            margin-right: 25px;
+            font-size: small;
+            font-style: italic;
+            font-weight: bold;
+            color: red;
+            border-color: red;
+        }
+
 
 img.center {
 display: block;
@@ -33,6 +45,9 @@ margin-right: auto;
     border-radius: 4px;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+#button-center{
+    text-align: center;
 }
 
 </style>
@@ -83,7 +98,7 @@ margin-right: auto;
           <br>
         </div>
         <div>
-          <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-custom" role="button"> Edit </a>
+        <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-custom" role="button"><i class="fa fa-edit"></i> Edit </a>
         </div>
         <br><br>
       </div>

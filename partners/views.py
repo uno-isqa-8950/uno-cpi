@@ -309,18 +309,15 @@ def orgProfileUpdate(request, pk):
         community_partner = get_object_or_404(CommunityPartner, pk=pk)
 
         if request.method == 'POST':
-            community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
+            community_org_form = CommunityPartnerUpdateForm(data=request.POST, instance=community_partner)
 
             if community_org_form.is_valid():
                 community_org_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofileupdate')
 
         else:
-            community_org_form = CommunityPartnerForm(instance=community_partner)
+            community_org_form = CommunityPartnerUpdateForm(instance=community_partner)
 
         return render(request,
                           'partners/community_partner_org_update.html', {'community_org_form': community_org_form
@@ -336,9 +333,6 @@ def orgProfileUpdate(request, pk):
                 campus_org_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofileupdate')
 
         else:
             campus_org_form = CampusPartnerForm(instance=campus_partner)

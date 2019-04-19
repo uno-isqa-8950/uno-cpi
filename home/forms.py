@@ -191,50 +191,6 @@ class userUpdateForm(forms.ModelForm):
             raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 
-
-class CommunityPartnerForm(forms.ModelForm):
-
-    class Meta:
-        model = User
-        fields = ( 'first_name', 'last_name', 'email' )
-        help_texts = {
-
-            'email': None,
-        }
-
-        labels = {
-
-            'first_name': ('First Name'),
-            'last_name': ('Last Name'),
-            'email': ('Email ID')
-        }
-
-    def clean_first_name(self):
-        firstname = self.cleaned_data['first_name']
-        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-        if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
-        if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First Name should not have Special Characters")
-        return firstname
-
-    def clean_last_name(self):
-        lastname = self.cleaned_data['last_name']
-        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-        if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
-        if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last Name should not have Special Characters")
-        return lastname
-
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
-
-
-
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
     activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")

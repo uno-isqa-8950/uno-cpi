@@ -1,6 +1,6 @@
 base_url = "https://uno-cpi-cat.herokuapp.com/"
 sta_url = "https://uno-cpi-sta.herokuapp.com/"
-test_url = "http://127.0.0.1:8000/home"
+test_url = "http://127.0.0.1:8000/login"
 
 campus_partner_user = "aanzalone@unomaha.edu"  # campus partner user
 campus_partner_pwd = "Capstone2019"  # campus partner pwd

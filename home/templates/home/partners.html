@@ -1,15 +1,8 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-    {% load wagtailcore_tags register_tags %}
-
-
+{% load wagtailcore_tags register_tags %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
-    {#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>#}
-    {#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
-    {#    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>#}
-
-    {#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">#}
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">#}
     <style>
         @media (min-width: 768px)
         {
@@ -51,11 +44,7 @@
             /* For mobile phones: */ {
         {#width: 100%;#}
         }
-            img{
-                width: 100%;
-                height: 70%;
 
-            }
 
             h4{
                 font-size: large;
@@ -66,7 +55,7 @@
             }
             a{
                 font-size: small;
-                text-align: center;
+                {#text-align: center;#}
             }
             a.btn.btn-secondary{
                 margin: 10%;
@@ -161,9 +150,7 @@
                             <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
                         </div>
                         <div style="text-align: center;">
-                                {% cam_parts %}
-{#                                <p> A Campus Partner is an organization in University of Nebraska Omaha involved in carrying out projects pertaining to varied mission areas</p>#}
-                             <div class="col text-center">
+                                {% cam_parts %}<div class="col text-center">
                                 <div class="card" style="border:none">
                                     <form action="{% url 'partners:registerCampusPartner' %}" >
                                     <button id="myButton1" type="submit" class="btn btn-custom">   <i class="fa fa-user fa-1x" aria-hidden="true"></i>
@@ -171,16 +158,10 @@
                                     </form>
                                 </div>
                             </div>
-{#                            <a type="button" class="btn btn-custom "  style="font-size:1.1em; margin-bottom: 5%" href="{% url 'partners:registerCampusPartner' %}">#}
-{#                                    <i class="fa fa-user fa-1x" aria-hidden="true"></i> Register Campus Partner</a>#}
-                                <div class="richtext-image" style="margin: auto">
-                                    {% cam_part_users %}
-{#                                    <p> Campus Partner User is a person associated with the Campus Partner at University of Nebraska Omaha</p>#}
-                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
+                            <div class="richtext-image" style="margin: auto">
+                                    {% cam_part_users %}<a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Signup </a>
                                 </div>
                             </div>
-
-{#                    </div>#}
                 </div>
             </div>
         </div>

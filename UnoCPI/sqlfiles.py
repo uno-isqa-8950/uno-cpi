@@ -54,7 +54,7 @@ all_projects_sql = """select distinct p.project_name
                             ,p.description
                         order by p.project_name;"""
 
-drop_temp_table_all_projects_start_and_end_dates_sql = "DROP TABLE all_projects_start_and_end_dates"
+drop_temp_table_all_projects_start_and_end_dates_sql = "DROP TABLE all_projects_start_and_end_dates;"
 
 start_and_end_dates_temp_table_sql = """CREATE TEMP TABLE all_projects_start_and_end_dates AS (
 	select p3.id
@@ -140,7 +140,7 @@ from
 	group by p.community_partner_id
 )p
 where coalesce(active_prj,'') = 'Active'
-order by p.community_partner_id"""
+order by p.community_partner_id;"""
 
 comm_partners_to_be_set_to_inactive ="""select community_partner_id
 from
@@ -167,7 +167,7 @@ from
 	group by p.community_partner_id
 )p
 where coalesce(active_prj,'') = ''
-order by p.community_partner_id"""
+order by p.community_partner_id;"""
 
 update_comm_partner_to_inactive_sql = """
 --UPDATE COMMUNITY PARTNER WHEN TIED TO A INACTIVE PROJECTS ONLY TO FALSE (INACTIVE)

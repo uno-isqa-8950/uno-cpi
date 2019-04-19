@@ -33,7 +33,7 @@ from UnoCPI import sqlfiles
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
-
+sql=sqlfiles
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
@@ -441,7 +441,6 @@ def editProject(request,pk):
 def showAllProjects(request):
     data_definition=DataDefinition.objects.all()
     projects_list=[]
-    sql = sqlfiles
     cursor = connection.cursor()
     cursor.execute(sql.all_projects_sql)
     for obj in cursor.fetchall():
@@ -542,7 +541,7 @@ def SearchForProjectAdd(request,pk):
 # Projects Report Speed up Version (Vineeth)
 # @cache_page(timeout)
 def projectsPublicReport(request):
-    data= {}
+    # data= {}
     data_list=[]
     data_definition = DataDefinition.objects.all()
 
@@ -573,34 +572,52 @@ def projectsPublicReport(request):
 
     # To get the projects which does not have community partners
     projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
-    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+    # projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
 
     #List of all Projects with Campus, Community Partners and have Mission
-    projects = list(Project.objects.filter(id__in=project_ids))
+    # projects = list(Project.objects.filter(id__in=project_ids))
 
-    for project in projects:
-        data['projectName']= project.project_name
-        data['engagementType']=project.engagement_type
-        # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-        proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
-        # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-        proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-        data['campusPartner'] = proj_camp_par
-        data['communityPartner']= proj_comm_par
-        data_list.append(data.copy())
+    cursor = connection.cursor()
+    cursor.execute(sql.projects_report, [project_ids])
 
-    # This Part is to display any Projects without Community Partners
-    for project in projects_comm:
-        b = request.GET.get('community_type', None)
-        c = request.GET.get('weitz_cec_part', None)
-        if b is None or b == "All" or b == '':
-            if c is None or c == "All" or c == '':
-                data['projectName'] = project.project_name
-                data['engagementType'] = project.engagement_type
-                proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-                data['campusPartner'] = proj_camp_par
-                data['communityPartner'] = []
-                data_list.append(data.copy())
+    for obj in cursor.fetchall():
+        data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                          "engagementType": obj[3]})
+
+    b = request.GET.get('community_type', None)
+    c = request.GET.get('weitz_cec_part', None)
+    if b is None or b == "All" or b == '':
+        if c is None or c == "All" or c == '':
+            cursor.execute(sql.projects_report, [projects_comm_ids])
+
+            for obj in cursor.fetchall():
+                data_list.append(
+                    {"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                     "engagementType": obj[3]})
+
+    # for project in projects:
+    #     data['projectName']= project.project_name
+    #     data['engagementType']=project.engagement_type
+    #     # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+    #     proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
+    #     # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+    #     proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #     data['campusPartner'] = proj_camp_par
+    #     data['communityPartner']= proj_comm_par
+    #     data_list.append(data.copy())
+    #
+    # # This Part is to display any Projects without Community Partners
+    # for project in projects_comm:
+    #     b = request.GET.get('community_type', None)
+    #     c = request.GET.get('weitz_cec_part', None)
+    #     if b is None or b == "All" or b == '':
+    #         if c is None or c == "All" or c == '':
+    #             data['projectName'] = project.project_name
+    #             data['engagementType'] = project.engagement_type
+    #             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #             data['campusPartner'] = proj_camp_par
+    #             data['communityPartner'] = []
+    #             data_list.append(data.copy())
 
     return render(request, 'reports/projects_public_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
@@ -644,40 +661,57 @@ def projectsPrivateReport(request):
 
     # To get the projects which does not have community partners
     projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
-    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+    # projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
 
     #List of all Projects with Campus, Community Partners and have Mission
-    projects = list(Project.objects.filter(id__in=project_ids))
+    # projects = list(Project.objects.filter(id__in=project_ids))
+    cursor = connection.cursor()
+    cursor.execute(sql.projects_report, [project_ids])
 
-    for project in projects:
-        data['projectName']= project.project_name
-        data['engagementType']=project.engagement_type
-        data['total_UNO_students'] = project.total_uno_students
-        data['total_hours'] = project.total_uno_hours
-        data['economic_impact'] = project.total_economic_impact
-        # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-        proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
-        # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-        proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-        data['campusPartner'] = proj_camp_par
-        data['communityPartner']= proj_comm_par
-        data_list.append(data.copy())
+    for obj in cursor.fetchall():
+        data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                          "engagementType": obj[3]})
 
-    # This Part is to display any Projects without Community Partners
-    for project in projects_comm:
-        b = request.GET.get('community_type', None)
-        c = request.GET.get('weitz_cec_part', None)
-        if b is None or b == "All" or b == '':
-            if c is None or c == "All" or c == '':
-                data['projectName'] = project.project_name.split('(')[0]
-                data['engagementType'] = project.engagement_type
-                data['total_UNO_students'] = project.total_uno_students
-                data['total_hours'] = project.total_uno_hours
-                data['economic_impact'] = project.total_economic_impact
-                proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-                data['campusPartner'] = proj_camp_par
-                data['communityPartner'] = []
-                data_list.append(data.copy())
+    b = request.GET.get('community_type', None)
+    c = request.GET.get('weitz_cec_part', None)
+    if b is None or b == "All" or b == '':
+        if c is None or c == "All" or c == '':
+            cursor.execute(sql.projects_report, [projects_comm_ids])
+
+            for obj in cursor.fetchall():
+                data_list.append(
+                    {"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                     "engagementType": obj[3]})
+
+    # for project in projects:
+    #     data['projectName']= project.project_name
+    #     data['engagementType']=project.engagement_type
+    #     data['total_UNO_students'] = project.total_uno_students
+    #     data['total_hours'] = project.total_uno_hours
+    #     data['economic_impact'] = project.total_economic_impact
+    #     # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+    #     proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
+    #     # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+    #     proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #     data['campusPartner'] = proj_camp_par
+    #     data['communityPartner']= proj_comm_par
+    #     data_list.append(data.copy())
+    #
+    # # This Part is to display any Projects without Community Partners
+    # for project in projects_comm:
+    #     b = request.GET.get('community_type', None)
+    #     c = request.GET.get('weitz_cec_part', None)
+    #     if b is None or b == "All" or b == '':
+    #         if c is None or c == "All" or c == '':
+    #             data['projectName'] = project.project_name.split('(')[0]
+    #             data['engagementType'] = project.engagement_type
+    #             data['total_UNO_students'] = project.total_uno_students
+    #             data['total_hours'] = project.total_uno_hours
+    #             data['economic_impact'] = project.total_economic_impact
+    #             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #             data['campusPartner'] = proj_camp_par
+    #             data['communityPartner'] = []
+    #             data_list.append(data.copy())
 
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,

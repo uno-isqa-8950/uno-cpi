@@ -280,7 +280,10 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-12 col-lg-12">
+                                    <input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">Terms & Conditions</a></p>
+                                </div>
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">
                                         <p id="button-center"><button type="submit" class="save btn btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
@@ -452,6 +455,7 @@ $(document).ready(function(){
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
 });
+document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single

@@ -155,7 +155,10 @@
 
                                         <!--  <p><button type="submit" class="btn btn-custom">Submit</button></p><br> -->
 
-
+                                        <div class="col-md-12 col-lg-12">
+                                            <input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                             I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">Terms & Conditions</a></p>
+                                        </div>
 
                                         <div class = "row justify-content-md-center">
                                             <div class="col-lg-2 col-md-3 col-sm-3">
@@ -198,6 +201,8 @@
                     }}
             );
         });
+
+        document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 
     </script>
     <style>

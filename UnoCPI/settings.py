@@ -192,7 +192,7 @@ DATABASES['default'].update(db_from_env)
 
 ###Email settings
 LOGIN_REDIRECT_URL = reverse_lazy('/')
-LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('account:loginPage')
 #LOGOUT_REDIRECT_URL = reverse_lazy('logout')
 
 

@@ -191,6 +191,43 @@ class userUpdateForm(forms.ModelForm):
             raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 
+class userCommUpdateForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ( 'first_name', 'last_name', 'email' )
+
+        labels = {
+
+            'first_name': ('First Name'),
+            'last_name': ('Last Name'),
+            'email': ('Email ID')
+        }
+
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "@" not in email:
+            raise forms.ValidationError("Please use a Valid email address.")
+        return email
+
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
     activity_type = forms.ModelChoiceField(queryset=ActivityType.objects.all(), to_field_name="name")
@@ -338,9 +375,9 @@ class CampusPartnerAvatar(ModelForm):
                                             'GIF or PNG image.')
 
             # validate file size
-            if len(avatar) > (2 * 1024 *1024):
+            if len(avatar) > (10 * 1024 *1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 2mb.')
+                    u'Avatar file size may not exceed 10mb.')
 
         except AttributeError:
             """

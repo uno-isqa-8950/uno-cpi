@@ -123,7 +123,8 @@ DATABASES = {
     }
 }
 
-
+# Thousand separator
+USE_THOUSAND_SEPARATOR = True
 
 
 

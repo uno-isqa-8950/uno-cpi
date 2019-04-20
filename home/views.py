@@ -450,13 +450,25 @@ def project_partner_info(request):
         comm_total += community_count
         students_total += total_uno_students
         hours_total += total_uno_hours
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if(campus_id is None or campus_id == "All" or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
     return render(request, 'reports/ProjectPartnerInfo.html',
                   {'project_filter': project_filter, 'data_definition': data_definition,
                    'communityPartners': communityPartners, 'mission_list': mission_list,
                    'campus_filter': campus_filter, 'college_filter': college_filter,
                    'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
-                   'hours_total': hours_total})
-
+                   'hours_total': hours_total, 'campus_id':campus_id})
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
 
@@ -557,9 +569,24 @@ def engagement_info(request):
         # camp_total += unique_camp_ids_count
         # students_total += total_uno_students
         # hours_total += total_uno_hours
+
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if(campus_id is None or campus_id == "All" or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     return render(request, 'reports/EngagementTypeReport.html',
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
-                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter,})
+                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter, 'campus_id':campus_id})
 
 
 
@@ -671,10 +698,23 @@ def missionchart(request):
         'series': [project_count_series, partner_count_series]
     }
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if (campus_id is None or campus_id == "All" or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     dump = json.dumps(chart)
     return render(request, 'charts/missionchart.html',
                   {'chart': dump, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter})
+                    'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
 def EngagementType_Chart(request):
@@ -804,10 +844,23 @@ def EngagementType_Chart(request):
         'series': [project_engagement_series, engagment_community_series, engagment_campus_series]
     }
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if (campus_id is None or campus_id == "All" or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
                  {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': year_filter,'data_definition':data_definition,
-                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': campus_partner_filter})
+                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': campus_partner_filter, 'campus_id':campus_id})
 
 
 def GEOJSON():

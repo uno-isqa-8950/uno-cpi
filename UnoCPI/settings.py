@@ -123,7 +123,8 @@ DATABASES = {
     }
 }
 
-
+# Thousand separator
+USE_THOUSAND_SEPARATOR = True
 
 
 
@@ -191,7 +192,7 @@ DATABASES['default'].update(db_from_env)
 
 ###Email settings
 LOGIN_REDIRECT_URL = reverse_lazy('/')
-LOGIN_URL = reverse_lazy('login')
+LOGIN_URL = reverse_lazy('account:loginPage')
 #LOGOUT_REDIRECT_URL = reverse_lazy('logout')
 
 
@@ -205,6 +206,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
 EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'UNO-CPI Do Not Reply <partners@unomaha.edu>'
 
 
 # Simplified static file serving.

@@ -27,11 +27,13 @@ from django.db.models import Sum
 import datetime
 from django.conf import settings
 from googlemaps import Client
-
+# The imports below are for running sql queries for AllProjects Page
+from django.db import connection
+from UnoCPI import sqlfiles
 from django.views.decorators.cache import cache_page
 from django.core.cache import cache
 
-
+sql=sqlfiles
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
@@ -394,45 +396,62 @@ def editProject(request,pk):
 
 # timeout = 60*60*24*7
 # @cache_page(timeout)
+# @login_required()
+# def showAllProjects(request):
+#
+#     data_definition=DataDefinition.objects.all()
+#
+#     projects_list = []
+#
+#     if request.method == "GET":
+#
+#         # To get list of all Projects frm the Database
+#         projects = list(Project.objects.all())
+#
+#         for x in projects:
+#
+#             # Finding the Mission of each project from ProjectMission Table
+#             projmisn =ProjectMission.objects.filter(project_name_id=x.id).values('mission__mission_name','mission_type')
+#
+#             # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+#             proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=x.id).values_list('community_partner__name', flat=True)
+#
+#             # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+#             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=x.id).values_list('campus_partner__name',flat=True)
+#
+#             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
+#                     'activityType': x.activity_type,
+#                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+#                     'description': x.description,
+#                     'startDate': x.start_date,
+#                     'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+#                     'total_uno_hours': x.total_uno_hours,
+#                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+#                     'total_uno_faculty': x.total_uno_faculty,
+#                     'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+#                     'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'comm_part': proj_comm_par,
+#                     'camp_part': proj_camp_par
+#                     }
+#             projects_list.append(data)
+#
+#     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
+
+
 @login_required()
 def showAllProjects(request):
-
     data_definition=DataDefinition.objects.all()
-
-    projects_list = []
-
-    if request.method == "GET":
-
-        # To get list of all Projects frm the Database
-        projects = list(Project.objects.all())
-
-        for x in projects:
-
-            # Finding the Mission of each project from ProjectMission Table
-            projmisn =ProjectMission.objects.filter(project_name_id=x.id).values('mission__mission_name','mission_type')
-
-            # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-            proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=x.id).values_list('community_partner__name', flat=True)
-
-            # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-            proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=x.id).values_list('campus_partner__name',flat=True)
-
-            data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
-                    'activityType': x.activity_type,
-                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                    'description': x.description,
-                    'startDate': x.start_date,
-                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                    'total_uno_hours': x.total_uno_hours,
-                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                    'total_uno_faculty': x.total_uno_faculty,
-                    'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'comm_part': proj_comm_par,
-                    'camp_part': proj_camp_par
-                    }
-            projects_list.append(data)
-
+    projects_list=[]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql)
+    for obj in cursor.fetchall():
+         projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
+                              "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
+                              "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
+                              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
+
+
+
 
 
 @login_required()
@@ -522,7 +541,7 @@ def SearchForProjectAdd(request,pk):
 # Projects Report Speed up Version (Vineeth)
 # @cache_page(timeout)
 def projectsPublicReport(request):
-    data= {}
+    # data= {}
     data_list=[]
     data_definition = DataDefinition.objects.all()
 
@@ -553,34 +572,51 @@ def projectsPublicReport(request):
 
     # To get the projects which does not have community partners
     projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
-    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+    # projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
 
     #List of all Projects with Campus, Community Partners and have Mission
-    projects = list(Project.objects.filter(id__in=project_ids))
+    # projects = list(Project.objects.filter(id__in=project_ids))
 
-    for project in projects:
-        data['projectName']= project.project_name
-        data['engagementType']=project.engagement_type
-        # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-        proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
-        # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-        proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-        data['campusPartner'] = proj_camp_par
-        data['communityPartner']= proj_comm_par
-        data_list.append(data.copy())
+    cursor = connection.cursor()
+    cursor.execute(sql.projects_report, [project_ids])
 
-    # This Part is to display any Projects without Community Partners
-    for project in projects_comm:
-        b = request.GET.get('community_type', None)
-        c = request.GET.get('weitz_cec_part', None)
-        if b is None or b == "All" or b == '':
-            if c is None or c == "All" or c == '':
-                data['projectName'] = project.project_name
-                data['engagementType'] = project.engagement_type
-                proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-                data['campusPartner'] = proj_camp_par
-                data['communityPartner'] = []
-                data_list.append(data.copy())
+    for obj in cursor.fetchall():
+        data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                          "engagementType": obj[3]})
+
+    b = request.GET.get('community_type', None)
+    c = request.GET.get('weitz_cec_part', None)
+    if b is None or b == "All" or b == '':
+        if c is None or c == "All" or c == '':
+            cursor.execute(sql.projects_report, [projects_comm_ids])
+
+            for obj in cursor.fetchall():
+                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                     "engagementType": obj[3]})
+
+    # for project in projects:
+    #     data['projectName']= project.project_name
+    #     data['engagementType']=project.engagement_type
+    #     # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+    #     proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
+    #     # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+    #     proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #     data['campusPartner'] = proj_camp_par
+    #     data['communityPartner']= proj_comm_par
+    #     data_list.append(data.copy())
+    #
+    # # This Part is to display any Projects without Community Partners
+    # for project in projects_comm:
+    #     b = request.GET.get('community_type', None)
+    #     c = request.GET.get('weitz_cec_part', None)
+    #     if b is None or b == "All" or b == '':
+    #         if c is None or c == "All" or c == '':
+    #             data['projectName'] = project.project_name
+    #             data['engagementType'] = project.engagement_type
+    #             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #             data['campusPartner'] = proj_camp_par
+    #             data['communityPartner'] = []
+    #             data_list.append(data.copy())
 
     return render(request, 'reports/projects_public_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
@@ -624,40 +660,56 @@ def projectsPrivateReport(request):
 
     # To get the projects which does not have community partners
     projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
-    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+    # projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
 
     #List of all Projects with Campus, Community Partners and have Mission
-    projects = list(Project.objects.filter(id__in=project_ids))
+    # projects = list(Project.objects.filter(id__in=project_ids))
+    cursor = connection.cursor()
+    cursor.execute(sql.projects_report, [project_ids])
 
-    for project in projects:
-        data['projectName']= project.project_name
-        data['engagementType']=project.engagement_type
-        data['total_UNO_students'] = project.total_uno_students
-        data['total_hours'] = project.total_uno_hours
-        data['economic_impact'] = project.total_economic_impact
-        # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-        proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
-        # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-        proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-        data['campusPartner'] = proj_camp_par
-        data['communityPartner']= proj_comm_par
-        data_list.append(data.copy())
+    for obj in cursor.fetchall():
+        data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                          "engagementType": obj[3]})
 
-    # This Part is to display any Projects without Community Partners
-    for project in projects_comm:
-        b = request.GET.get('community_type', None)
-        c = request.GET.get('weitz_cec_part', None)
-        if b is None or b == "All" or b == '':
-            if c is None or c == "All" or c == '':
-                data['projectName'] = project.project_name.split('(')[0]
-                data['engagementType'] = project.engagement_type
-                data['total_UNO_students'] = project.total_uno_students
-                data['total_hours'] = project.total_uno_hours
-                data['economic_impact'] = project.total_economic_impact
-                proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
-                data['campusPartner'] = proj_camp_par
-                data['communityPartner'] = []
-                data_list.append(data.copy())
+    b = request.GET.get('community_type', None)
+    c = request.GET.get('weitz_cec_part', None)
+    if b is None or b == "All" or b == '':
+        if c is None or c == "All" or c == '':
+            cursor.execute(sql.projects_report, [projects_comm_ids])
+
+            for obj in cursor.fetchall():
+                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                     "engagementType": obj[3]})
+
+    # for project in projects:
+    #     data['projectName']= project.project_name
+    #     data['engagementType']=project.engagement_type
+    #     data['total_UNO_students'] = project.total_uno_students
+    #     data['total_hours'] = project.total_uno_hours
+    #     data['economic_impact'] = project.total_economic_impact
+    #     # Finding the Community Partner of each Project from ProjectCommunityPartner Table
+    #     proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=project.id).values_list('community_partner__name', flat=True)
+    #     # Finding the Campus Partner of each Project from ProjectCampusPartner Table
+    #     proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #     data['campusPartner'] = proj_camp_par
+    #     data['communityPartner']= proj_comm_par
+    #     data_list.append(data.copy())
+    #
+    # # This Part is to display any Projects without Community Partners
+    # for project in projects_comm:
+    #     b = request.GET.get('community_type', None)
+    #     c = request.GET.get('weitz_cec_part', None)
+    #     if b is None or b == "All" or b == '':
+    #         if c is None or c == "All" or c == '':
+    #             data['projectName'] = project.project_name.split('(')[0]
+    #             data['engagementType'] = project.engagement_type
+    #             data['total_UNO_students'] = project.total_uno_students
+    #             data['total_hours'] = project.total_uno_hours
+    #             data['economic_impact'] = project.total_economic_impact
+    #             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=project.id).values_list('campus_partner__name', flat=True)
+    #             data['campusPartner'] = proj_camp_par
+    #             data['communityPartner'] = []
+    #             data_list.append(data.copy())
 
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
@@ -760,11 +812,15 @@ def communityPrivateReport(request):
         total_uno_students = 0
         total_uno_hours = 0
         total_economic_impact= 0
-        p_community = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids)
+        p_community = list(set(project_ids).intersection(proj_comm_par))
+        # p_community = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).filter(project_name_id__in=project_ids)
         for pm in p_community:
-            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
-            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
-            economic_impact = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_economic_impact'))
+            uno_students = Project.objects.filter(id=pm).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm).aggregate(Sum('total_uno_hours'))
+            economic_impact = Project.objects.filter(id=pm).aggregate(Sum('total_economic_impact'))
+            # uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            # uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            # economic_impact = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_economic_impact'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
             total_economic_impact += economic_impact['total_economic_impact__sum']

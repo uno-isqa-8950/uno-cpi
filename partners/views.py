@@ -13,7 +13,7 @@ from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
 from partners.models import *
 from home.models import *
-from home.forms import userUpdateForm
+from home.forms import userUpdateForm, userCommUpdateForm
 from django.template.loader import render_to_string
 import googlemaps
 from shapely.geometry import shape, Point
@@ -213,10 +213,9 @@ def userProfile(request):
 
 @login_required
 def userProfileUpdate(request):
-    if request.user.is_campuspartner:
+    user = get_object_or_404(User, id=request.user.id)
 
-        #campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        user = get_object_or_404(User, id=request.user.id)
+    if request.user.is_campuspartner:
 
         if request.method == 'POST':
             request.POST._mutable = True
@@ -233,26 +232,20 @@ def userProfileUpdate(request):
                 avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
 
         else:
             user_form = userUpdateForm(instance=user)
             avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                          'partners/campus_partner_user_update.html', {'user_form': user_form,
-                        'avatar_form': avatar_form
-                          }) #"campus_partner_name": str(campus_user.campus_partner),
+                    'partners/campus_partner_user_update.html', {'user_form': user_form,
+                    'avatar_form': avatar_form})
 
     elif request.user.is_communitypartner:
 
-        #community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        user = get_object_or_404(User, id=request.user.id)
-
         if request.method == 'POST':
-            user_form = userUpdateForm(data=request.POST, instance=user)
+
+            user_form = userCommUpdateForm(data=request.POST, instance=user)
             avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
             if user_form.is_valid()and avatar_form.is_valid():
@@ -260,19 +253,14 @@ def userProfileUpdate(request):
                 avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
 
         else:
-            user_form = userUpdateForm(instance=user)
+            user_form = userCommUpdateForm(instance=user)
             avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                      'partners/community_partner_user_update.html',
-                      {'user_form': user_form,
-                       'avatar_form': avatar_form}
-                    )
+                    'partners/community_partner_user_update.html',{'user_form': user_form,
+                    'avatar_form': avatar_form})
 
 
 # Campus and Community Partner org Profile

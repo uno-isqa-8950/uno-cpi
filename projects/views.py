@@ -626,7 +626,9 @@ def projectsPublicReport(request):
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     campus_id = request.GET.get('campus_partner')
-    if (campus_id is None or campus_id == "All" or campus_id == ''):
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
         campus_id = 0
     else:
         campus_id = int(campus_id)
@@ -850,7 +852,9 @@ def communityPrivateReport(request):
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     campus_id = request.GET.get('campus_partner')
-    if (campus_id is None or campus_id == "All" or campus_id == ''):
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
         campus_id = 0
     else:
         campus_id = int(campus_id)

@@ -297,6 +297,7 @@ margin-top:15px;
 
 <!--Footer Begins here-->
 
+{% block footer %}
 
 <footer id="footer">
       <div class="container-fluid">
@@ -342,6 +343,7 @@ margin-top:15px;
 </footer>
 
 
+
 <!-- Footer Ends Here-->
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
@@ -379,9 +381,11 @@ margin-top:15px;
 
     });
     </script>
+
+{% endblock %}
+
 {% endblock %}
 {% block selectizeForm %}{% endblock %}
-
 
 
 </body>

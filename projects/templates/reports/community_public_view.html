@@ -204,9 +204,11 @@
                 </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                         <option> All </option>
+                        <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
-                        {% for campus in campus_filter.form.campus_partner %}
-                            {{campus}}
+
+                        {% for campus in campus_filter %}
+                            <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
                         {% endfor %}
                     </select>
                 </div>

@@ -8,7 +8,7 @@ from selenium.webdriver.support.ui import Select
 import os
 
 
-class CreateProject(unittest.TestCase):
+class ProjectDuplicateValidation(unittest.TestCase):
     def setUp(self):
         pathname = os.path.join(os.getcwd(), "chromedriver")
         self.driver = webdriver.Chrome(pathname)
@@ -78,8 +78,7 @@ class CreateProject(unittest.TestCase):
         driver.find_element_by_xpath(
             "(.//*[normalize-space(text()) and normalize-space(.)='Country'])[1]/following::button[1]").click()
         # time.sleep(30)
-        print(driver.find_element_by_xpath("/html/body/div/div/div/div[2]/p").text)
-        self.assertEqual(thankyou, driver.find_element_by_xpath("/html/body/div/div/div/div[2]/p").text)
+
 
     def tearDown(self):
         self.driver.close()

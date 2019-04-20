@@ -517,6 +517,13 @@ def engagement_info(request):
 
         engagement_Dict['engagement_name'] = e.name
 
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+        unique_camp_ids = set(proj_camp_ids)
+        unique_camp_ids_count = len(unique_camp_ids)
+
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
         if a is None or a == "All" or a == '':
@@ -524,18 +531,10 @@ def engagement_info(request):
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
                 projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
                 proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
-                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).distinct()
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
                 proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
                 unique_camp_ids = set(proj_camp_ids)
                 unique_camp_ids_count = len(unique_camp_ids)
-        else:
-            project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
-            projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-            proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-            proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-            unique_camp_ids = set(proj_camp_ids)
-            unique_camp_ids_count = len(unique_camp_ids)
-
 
         engagement_Dict['project_count'] = project_count
         engagement_Dict['community_count'] = unique_comm_ids_count
@@ -723,18 +722,20 @@ def EngagementType_Chart(request):
 
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-
         # gets the distinct ids from projectcommunity partner table for all the above projects
         proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-
         # gets all the community partner ids in a array. These are not distinct
         proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
-
         # sets the non distinct array to a distinct set of community partner ids
         unique_comm_ids = set(proj_comm_ids)
-
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
+
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+        unique_camp_ids = set(proj_camp_ids)
+        unique_camp_ids_count = len(unique_camp_ids)
 
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
@@ -742,16 +743,10 @@ def EngagementType_Chart(request):
             if b is None or b == "All" or b == '':
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
                 proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
-                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).distinct()
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
                 proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
                 unique_camp_ids = set(proj_camp_ids)
                 unique_camp_ids_count = len(unique_camp_ids)
-        else:
-            project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
-            proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-            proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-            unique_camp_ids = set(proj_camp_ids)
-            unique_camp_ids_count = len(unique_camp_ids)
 
         project_engagement_count.append(project_count)
         engagment_community_counts.append(unique_comm_ids_count)

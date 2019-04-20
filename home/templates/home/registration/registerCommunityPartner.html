@@ -81,11 +81,14 @@
                     {% if user.is_active %}
                         Dear {{user.first_name }},
                         <br> <br>
-                        You have been activated to be a Community Partner User for the UNO-CPI Application <br>
-                        Click on the button below to reset your password</p>
+                       You are now registered as a community partner user which will allow you to view project-level data about your community organization’s partnership with UNO. <br>
+                       Please click on the button below to create a password.<br>
                     {% endif %}
+                </p>
+                <p class="text-justify" style="margin-left: 5%; margin-right: 3%">
+                    <i>By submitting this form, I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank"><i>terms and conditions</i></a> of the Community Partnership Initiative.</i></p>
             </div>
-                    <a style="margin-left: 40%" class="btn btn btn-secondary btn-md" href='/password_reset/' role="button"> <i class="fa fa-key" aria-hidden="true"> Password Reset</i></a>
+                    <a style="margin-left: 40%" class="btn btn btn-secondary btn-md" href='/password_reset/' role="button"> <i class="fa fa-key" aria-hidden="true"> Create Password</i></a>
         </div>
     </div>
         </div>

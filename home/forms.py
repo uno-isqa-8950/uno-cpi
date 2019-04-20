@@ -191,16 +191,11 @@ class userUpdateForm(forms.ModelForm):
             raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 
-
-class CommunityPartnerForm(forms.ModelForm):
+class userCommUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
         fields = ( 'first_name', 'last_name', 'email' )
-        help_texts = {
-
-            'email': None,
-        }
 
         labels = {
 
@@ -227,13 +222,11 @@ class CommunityPartnerForm(forms.ModelForm):
             raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
-
-
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "@" not in email:
+            raise forms.ValidationError("Please use a Valid email address.")
+        return email
 
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
@@ -382,9 +375,9 @@ class CampusPartnerAvatar(ModelForm):
                                             'GIF or PNG image.')
 
             # validate file size
-            if len(avatar) > (2 * 1024 *1024):
+            if len(avatar) > (10 * 1024 *1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 2mb.')
+                    u'Avatar file size may not exceed 10mb.')
 
         except AttributeError:
             """

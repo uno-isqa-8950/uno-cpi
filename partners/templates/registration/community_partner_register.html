@@ -18,7 +18,20 @@ label
     margin-top: 5px;
     font-weight: bold;
 }
-
+ .help-block
+ {
+     margin-left: 25px;
+     margin-top: 5px;
+     margin-right: 25px;
+     font-size: small;
+     font-style: italic;
+     font-weight: bold;
+     color: red;
+     border-color: red;
+ }
+ #button-center{
+     text-align: center;
+ }
 
 input[type=email],input[type=text],select[id=id_community_type]
     {
@@ -222,9 +235,15 @@ width:93%!important;
 
                         {% endfor %}
 
+                            <div class="col-md-12 col-lg-12">
+                                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                 I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
+                            </div>
+
                             <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-custom" style="margin-bottom:20px;">Submit</button>
+                                    <p id="button-center"><button type="submit" class="btn btn-custom" style="margin-bottom:20px;"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        Submit</button></p>
                                 </div>
                             </div><br>
 
@@ -256,6 +275,7 @@ $(document).ready(function(){
       }
   );
 });
+document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single
@@ -459,20 +479,6 @@ $(document).on('click', '.remove-mission-row', function(e){
         return true;
          }
     }
-            <!--if (id.includes("zip")) {-->
-            <!--if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {-->
-                <!--$('#'+id+'-error').remove();-->
-                <!--$('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');-->
-
-                <!--document.getElementById(id).style.borderColor = "red";-->
-                <!--return false;-->
-            <!--}-->
-            <!--else {-->
-                <!--document.getElementById(id).style.borderColor = "gray";-->
-                <!--$('#'+id+'-error').remove();-->
-                <!--return true;-->
-            <!--}-->
-            <!--}-->
 
             if(id.includes("email_id")){
                 if (! /\S+@\S+/.test(document.getElementById(id).value)){
@@ -506,7 +512,7 @@ $(document).on('click', '.remove-mission-row', function(e){
 {% endblock %}
 
 {% block js %}
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+{#<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>#}
 
 <script>
 

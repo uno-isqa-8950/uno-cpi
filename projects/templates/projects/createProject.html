@@ -7,11 +7,25 @@
     .select2 {
         width: 95% !important;
     }
+      #button-center{
+          text-align: center;
+      }
 }
 
     .select2 {
         width:96%!important;
     }
+  .help-block
+  {
+      margin-left: 25px;
+      margin-top: 5px;
+      margin-right: 25px;
+      font-size: small;
+      font-style: italic;
+      font-weight: bold;
+      color: red;
+      border-color: red;
+  }
 
 .select2-container--open .select2-dropdown--below
     {
@@ -148,7 +162,7 @@
                                             </div>
                                         </div>
                                             <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row">Add an Additional Community Partner</button>
+                                                <button class="btn btn-secondary add-community-row"><i class="fa fa-plus" aria-hidden="true"></i> Additional Community Partner</button>
                                             </div>
                                     </div>
                                 {%endfor%}
@@ -166,7 +180,7 @@
                                             </div>
                                         </div>
                                         <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus-row">Add an Additional Campus Partner</button>
+                                            <button class="btn btn-secondary add-campus-row"><i class="fa fa-plus" aria-hidden="true"></i> Additional Campus Partner</button>
                                         </div>
                                     <p id="errorid1"></p>
                                     </div>
@@ -266,10 +280,14 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-12 col-lg-12">
+                                    <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
+                                </div>
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">
-                                        <button type="submit" class="save btn btn-custom" style="background-color: #333">Submit</button>
+                                        <p id="button-center"><button type="submit" class="save btn btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                            Submit</button></p>
                                     </div>
                                 </div>
                             </form><br><br>
@@ -437,6 +455,7 @@ $(document).ready(function(){
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
 });
+document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single

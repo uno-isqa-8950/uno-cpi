@@ -266,7 +266,10 @@
                                     </div>
                                 </div>
 
-
+                                <div class="col-md-12 col-lg-12">
+                                    <input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">Terms & Conditions</a></p>
+                                </div>
                                 <div class="row justify-content-md-center" style="margin-top:30px;">
                                     <div class="col-lg-2 col-md-5">
                                         <button type="submit" class="save btn btn-custom" style="background-color: #333">Submit</button>
@@ -435,6 +438,7 @@ $(document).ready(function(){
     $('#id_status').select2({placeholder: 'Select Status',});
     $('#id_semester').select2({placeholder: 'Select Semester',});
 });
+document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file

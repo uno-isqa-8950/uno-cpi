@@ -1,241 +1,218 @@
 {% extends "home/base_home.html" %}
 {% load bootstrap %}
 {% block javascript %}
-  <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
 {% endblock %}
 
 {% block content %}
-{% block additionalCSS %}
-<style>
- .btn-custom
+    {% block additionalCSS %}
+        <style>
+            .btn-custom
 
-  .form-control:focus
- {
-    border-color:grey;
-    box-shadow:0 0 8px 0 grey;
- }
- h4
- {
- 	line-height: 2.7;
- 	font-size: 1.3em;
- }
-  label
- {
- margin-left: 25px;
- margin-top: 5px;
-font-weight: bold;
-}
-label:after
-    {
-    content:"*" ;
-    color:red
-    }
- .help-block
-{
-margin-left: 25px;
-margin-top: 5px;
+            .form-control:focus
+            {
+                border-color:grey;
+                box-shadow:0 0 8px 0 grey;
+            }
+            h4
+            {
+                line-height: 2.7;
+                font-size: 1.3em;
+            }
+            label
+            {
+                margin-left: 25px;
+                margin-top: 5px;
+                font-weight: bold;
+            }
+            label:after
+            {
+                content:"*" ;
+                color:red
+            }
+            .help-block1
+            {
+                margin-left: 25px;
+                margin-top: 5px;
+            }
+            .help-block
+            {
+                margin-left: 25px;
+                margin-top: 5px;
+                margin-right: 25px;
+                font-size: small;
+                font-style: italic;
+                font-weight: bold;
+                color: red;
+                border-color: red;
+            }
+            .select2-container--default .select2-selection--single
+            {
+                margin-left:22px;
+                width:100%
+            }
 
-}
-.select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
+            .select2-container--open .select2-dropdown--below
+            {
+                margin-left:22px
+            }
 
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+            .select2 {
+                width:91%!important;
+            }
 
-.select2 {
-width:91%!important;
-}
+            @media (max-width: 599px) {
+                .select2 {
+                    width:85%!important;
+                }
+                #button-center{
+                    text-align: center;
+                }
+            }
 
-@media (max-width: 599px) {
-    .select2 {
-width:85%!important;
-    }
+        </style>
+    {% endblock %}
+    {% block selectizeForm %}
 
-}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
-</style>
-{% endblock %}
-{% block selectizeForm %}
+        <script>
+            $(document).ready(function(){
+                $('#id_campus_partner').select2(
+                    {
+                        placeholder: 'Select a Campus Partner',
+                        left: '20px'
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
-<script>
-$(document).ready(function(){
-  $('#id_campus_partner').select2(
-      {
-              placeholder: 'Select a Campus Partner',
-              left: '20px'
-
-      }
-  );
-});
-</script>
-{% endblock %}
-
-
-<style>
-@media (min-width: 600px)
-{
-input[type=text], input[type=email], input[type=password], .form-control
-{
-width:91%;
-}
-.btn-custom
-{
-left:200px;
-}
-}
-
-
-label:after
-    {
-    content:"*" ;
-    color:red
-    }
-
-label
-{
-margin-left: 25px;
-margin-top: 5px;
-font-weight: bold;
-}
-.panel-default
-  {
-      margin-top: 20px;
-  }
+                    }
+                );
+            });
+            document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+        </script>
+    {% endblock %}
 
 
-@media (max-width: 600px)
-{
-.panel-heading
-{
-height:100px;
-}
-}
-.panel {
-    margin-top: 10%;
-    margin-bottom: 10%;
-    background-color: #ffffff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
+    <style>
+        @media (min-width: 600px)
+        {
+            input[type=text], input[type=email], input[type=password], .form-control
+            {
+                width:91%;
+            }
+            .btn-custom
+            {
+                left:200px;
+            }
+        }
 
-.select2-container--default .select2-selection--single
-{
-margin-left:22px;
-width:100%
-}
 
-.select2-container--open .select2-dropdown--below
-{
-margin-left:22px
-}
+        label:after
+        {
+            content:"*" ;
+            color:red
+        }
 
-</style>
-<div class = "container">
-    <div class="row justify-content-md-center">
-		<div class="col-xl-6 col-md-10 col-sm-8">
-	         <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Register: Campus Partner User</h4></div>
-			        <div class="panel-body">
-                <form action="." onfocusout="return validateForm()" name="myForm" method="post">{% csrf_token %}
-                  <div class = "row">
-                    <div class="col-lg-12 col-md-12 col-sm-12">
-                      {{ campus_partner_user_form|bootstrap }}
-                      {{ user_form.first_name|bootstrap }}
-                      {{ user_form.last_name|bootstrap }}
-                      {{ user_form.email|bootstrap }}
-                      {{ user_form.password|bootstrap }}
-                        <i><small style="color: grey;" class="help-block">Your password should have at least 8 characters, 1 digit and 1 special character.</small></i>
-                     {{ user_form.password2|bootstrap }}
-                        <i><small style="color: grey; " class="help-block">Your password should have at least 8 characters, 1 digit and 1 special character.</small></i>
+        label
+        {
+            margin-left: 25px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+        .panel-default
+        {
+            margin-top: 20px;
+        }
+
+
+        @media (max-width: 600px)
+        {
+            .panel-heading
+            {
+                height:100px;
+            }
+        }
+        .panel {
+            margin-top: 10%;
+            margin-bottom: 10%;
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .select2-container--default .select2-selection--single
+        {
+            margin-left:22px;
+            width:100%
+        }
+
+        .select2-container--open .select2-dropdown--below
+        {
+            margin-left:22px
+        }
+
+    </style>
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-xl-6 col-md-10 col-sm-8">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4>Register: Campus Partner User</h4></div>
+                    <div class="panel-body">
+                        <form action="." name="myForm" method="post">{% csrf_token %}
+                            <div class = "row">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    {{ campus_partner_user_form|bootstrap }}
+                                    {{ user_form.first_name|bootstrap }}
+                                    {{ user_form.last_name|bootstrap }}
+                                    {{ user_form.email|bootstrap }}
+                                    {{ user_form.password|bootstrap }}
+                                    <i><small style="color: grey;" class="help-block1">Your password should have at least 8 characters, 1 digit and 1 special character.</small></i>
+                                    {{ user_form.password2|bootstrap }}
+                                    <i><small style="color: grey; " class="help-block1">Your password should have at least 8 characters, 1 digit and 1 special character.</small></i>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="col-lg-12 col-md-12 col-sm-12">
+                                <p style="font-size: 14px"><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                 I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
+                            </div>
+                            <p id="button-center"><button type="submit" class="btn btn-custom" > <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                Submit</button></p><br>
+                        </form>
                     </div>
-                  </div>
-                  <br>
-                  <p><button type="submit" class="btn btn-custom"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                      Submit</button></p><br>
-                </form>
-              </div>
-             </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
 
-<br><br>
+    <br><br>
 
-<!--    Commenting out script per ticket #551
-        Removing HTML validations as Validation Messages are coded in forms.py file
-        -Joseph Nabity
 
-<script>
-function validateForm()
-{   var id = event.target.id;
-    var name = event.target.name;
-    if(id.includes("first_name") || id.includes("last_name")){
-    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
-       $('#'+id+'-error').remove();
-       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
-       document.getElementById(id).style.borderColor = "red";
-       return false;
-    }
-    else {
-         document.getElementById(id).style.borderColor = "gray";
-         $('#'+id+'-error').remove();
-         return true;
-         }
-    }
-    if(id.includes("email")){
-    if (! /\S+@\S+/.test(document.getElementById(id).value)){
-        $('#'+id+'-error').remove();
-        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
-        document.getElementById(id).style.borderColor = "red";
-        return false;
-     }
-    else {
-       document.getElementById(id).style.borderColor = "gray";
-       $('#'+id+'-error').remove();
-       return true;
-          }
+    <style>
+        .select2-container .select2-selection--single
+        {
+            height:35px;
+        }
 
-    }
+        .select2-container--default .select2-selection--single
+        {
+            border: 2px solid #aaa;
+            margin-top:8px;
+        }
 
-}
+        .select2-container--default .select2-selection--single .select2-selection__arrow
+        {
+            top:10px;
+        }
 
-</script>
--->
-
-<style>
-.select2-container .select2-selection--single
-{
-   height:35px;
-}
-
-.select2-container--default .select2-selection--single
-{
-   border: 2px solid #aaa;
-   margin-top:8px;
-}
-
-.select2-container--default .select2-selection--single .select2-selection__arrow
-{
-   top:10px;
-}
-
-.select2-container--default .select2-selection--single:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
-}
-</style>
+        .select2-container--default .select2-selection--single:focus
+        {
+            border-color:grey;
+            box-shadow:0 0 8px 0 grey;
+        }
+    </style>
 {% endblock %}

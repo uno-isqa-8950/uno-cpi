@@ -46,83 +46,58 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     fullscreenControl: false,
     mapTypeControl: false,
     styles: [
-        {
-            "featureType": "landscape",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.business",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.local",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        }
-    ]
+ {
+   "featureType": "landscape",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "labels.text",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.business",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "geometry.stroke",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "transit",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ }
+]
 });
 
 //*********************************** Dynamically add the legends *****************************************************
@@ -329,7 +304,7 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
              (project_number == 0 ? '':
             ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));

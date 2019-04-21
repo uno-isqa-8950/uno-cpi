@@ -413,6 +413,30 @@ class CommunityPartnerUserInvite(forms.ModelForm):
         model = User
         fields = ('first_name','last_name', 'email')
 
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "@" not in email:
+            raise forms.ValidationError("Please use a valid email address to register Community Partner User")
+        return email
+
 class CommunityPartnerUserCompleteRegistration(forms.ModelForm):
     class Meta:
         model = User

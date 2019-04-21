@@ -545,3 +545,101 @@ class Engagement_Types_Chart_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Engagement Types Chart Snippet"
+
+@register_snippet
+class Register_Campus_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Register Campus Partner Snippet"
+
+@register_snippet
+class Register_Community_Partner_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Register Community Partner Snippet"
+
+@register_snippet
+class Register_Campus_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Register Campus Partner User Snippet"
+
+@register_snippet
+class Register_Community_Partner_User_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Register Community Partner User Snippet"
+
+@register_snippet
+class All_Projects_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "All Projects Page Snippet"
+
+@register_snippet
+class My_Projects_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "My Projects Page Snippet"
+
+@register_snippet
+class Create_Projects_Snippet(models.Model):
+    text = models.CharField(max_length=1000)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Create Projects Page Snippet"

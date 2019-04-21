@@ -101,6 +101,9 @@
       margin-left: auto;
       margin-right: auto;
     }
+.select2-selection__placeholder{
+        font-size: small;
+    }
 </style>
 
 
@@ -153,7 +156,7 @@
 
             <form class="form-inline" id="filters-form" method="get">
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
 
                     <label for="academic_year"> Engagement Types
                          {% for data_definition in data_definition %}
@@ -173,7 +176,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
@@ -191,7 +194,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="mission"> Project Mission Areas
 
                         {% for data_definition in data_definition %}
@@ -210,7 +213,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="college_name"> Colleges and Main Units
 
                          {% for data_definition in data_definition %}
@@ -229,7 +232,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="campus_partner"> Campus Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
@@ -248,7 +251,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part"> CEC Building Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -266,7 +269,7 @@
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}

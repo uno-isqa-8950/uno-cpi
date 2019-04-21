@@ -1,5 +1,6 @@
 {% extends "home/base_home.html" %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block javascript %}
     <script src="https://code.jquery.com/jquery-1.12.4.js" xmlns="http://www.w3.org/1999/html"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -161,6 +162,12 @@
             <div class="col-xl-6 col-md-10 col-sm-8">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Register: Campus Partner User</h4></div>
+                     <div class="panel-body">
+                            <div class="card" style="padding: 10px;">
+                                <div class="container">
+                                    {% cam_part_user_regs %}
+                                </div>
+                             </div>
                     <div class="panel-body">
                         <form action="." name="myForm" method="post">{% csrf_token %}
                             <div class = "row">

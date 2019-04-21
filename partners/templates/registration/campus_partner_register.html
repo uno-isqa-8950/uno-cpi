@@ -1,7 +1,8 @@
 {% extends 'home/base_home.html' %}
+{% load staticfiles %}
 {% load bootstrap %}
 {% block content %}
-
+{% load wagtailcore_tags register_tags %}
 
     <style>
 
@@ -74,6 +75,11 @@
                         </div>
 
                         <div class="panel-body">
+                            <div class="card" style="padding: 10px;">
+                                <div class="container">
+                                    {% cam_part_regs %}
+                                </div>
+                             </div>
                             <form action="." onfocusout="return validateForm()" method="post">
                                 {% csrf_token %}
                                 <div class="row">

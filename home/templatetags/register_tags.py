@@ -2,7 +2,9 @@ from django import template
 from home.models import Community_Partner_Snippet, Community_Partner_User_Snippet, Campus_Partner_Snippet, \
     Campus_Partner_User_Snippet, Public_Project_Report_Snippet, Private_Project_Report_Snippet, \
     Community_Public_Report_Snippet, Community_Private_Report_Snippet, Engagement_Types_Chart_Snippet, \
-    Engagement_Types_Report_Snippet, Mission_Areas_Chart_Snippet, Mission_Areas_Report_Snippet
+    Engagement_Types_Report_Snippet, Mission_Areas_Chart_Snippet, Mission_Areas_Report_Snippet, \
+    Register_Campus_Partner_Snippet, Register_Campus_Partner_User_Snippet, Register_Community_Partner_Snippet, \
+    Register_Community_Partner_User_Snippet, All_Projects_Snippet, Create_Projects_Snippet, My_Projects_Snippet
 
 register = template.Library()
 
@@ -88,5 +90,54 @@ def eng_charts(context):
 def miss_charts(context):
     return {
         'miss_charts': Mission_Areas_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/register_campus_partner_snippet.html', takes_context=True)
+def cam_part_regs(context):
+    return {
+        'cam_part_regs': Register_Campus_Partner_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/register_community_partner_snippet.html', takes_context=True)
+def com_part_regs(context):
+    return {
+        'com_part_regs': Register_Community_Partner_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/register_campus_partner_user_snippet.html', takes_context=True)
+def cam_part_user_regs(context):
+    return {
+        'cam_part_user_regs': Register_Campus_Partner_User_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/register_community_partner_user_snippet.html', takes_context=True)
+def com_part_user_regs(context):
+    return {
+        'com_part_user_regs': Register_Community_Partner_User_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/all_projects_snippet.html', takes_context=True)
+def all_projects(context):
+    return {
+        'all_projects': All_Projects_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/my_projects_snippet.html', takes_context=True)
+def my_projects(context):
+    return {
+        'my_projects': My_Projects_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/create_projects_snippet.html', takes_context=True)
+def create_projects(context):
+    return {
+        'create_projects': Create_Projects_Snippet.objects.all(),
         'request': context['request'],
     }

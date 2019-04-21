@@ -145,19 +145,18 @@
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
+                                {% for field in community_org_form %}
+                                    <div class="form-group">
+                                        <label for="{{field.name}}">{{field.label}}</label>
+                                        <input type="text" class="form-control" name="{{field.name}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
+                                    </div>
 
-                                {{ community_org_form.name|bootstrap }}
-                                {{ community_org_form.website_url|bootstrap }}
-                                {{ community_org_form.community_type|bootstrap }}
-                                {{ community_org_form.k12_level|bootstrap }}
-                                {{ community_org_form.address_line1|bootstrap }}
-                                {{ community_org_form.city|bootstrap }}
-                                {{ community_org_form.county|bootstrap }}
-                                {{ community_org_form.state|bootstrap }}
-                                {{ community_org_form.zip|bootstrap }}
-                                {{ community_org_form.country|bootstrap }}
-
-
+                                    {% for error in field.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endfor %}
 {#                                <p id="button-center">#}
                                     <button id="button-center"  type="submit" class="btn btn-custom"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button>
 {#                                </p>#}

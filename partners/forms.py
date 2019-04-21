@@ -152,7 +152,7 @@ class CommunityPartnerUpdateForm(forms.ModelForm):
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
-                   'zip','county','country')
+                   'zip','country')
         labels = {
             'name': ('Community Partner Organization'),
             # 'website_url': ('Website'),
@@ -162,7 +162,7 @@ class CommunityPartnerUpdateForm(forms.ModelForm):
             'city': ('City'),
             'state': ('State'),
             'zip':('Zip Code'),
-            'county':('County'),
+            # 'county':('County'),
             'country':('Country'),
 
         }

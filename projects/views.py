@@ -618,10 +618,25 @@ def projectsPublicReport(request):
     #             data['communityPartner'] = []
     #             data_list.append(data.copy())
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     return render(request, 'reports/projects_public_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
-                   "campus_filter": campus_project_filter, 'college_filter': campusPartners})
+                   "campus_filter": campus_filter, 'college_filter': campusPartners, 'campus_id':campus_id})
 
 # Trying to speed up the project reports (Vineeth)
 # List Projects for Private View
@@ -754,12 +769,29 @@ def communityPublicReport(request):
         community_dict['project_count'] = project_count
         community_list.append(community_dict.copy())
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
+
     return render(request, 'reports/community_public_view.html', { 'college_filter': campus_partner_filter, 'campus_filter': campus_project_filter,
                                                                 'project_filter': project_filter,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'missions': missions,
-                                                                 'data_definition':data_definition})
+                                                                 'data_definition':data_definition,
+                                                                 'campus_id':campus_id})
 
 
 # @cache_page(timeout)
@@ -829,10 +861,25 @@ def communityPrivateReport(request):
         community_dict['total_economic_impact'] = total_economic_impact
         community_list.append(community_dict.copy())
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     return render(request, 'reports/community_private_view.html', {'college_filter': campus_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
-                                                                 'missions': missions, 'campus_filter': campus_project_filter})
+                                                                 'missions': missions, 'campus_filter': campus_project_filter, 'campus_id':campus_id})
 
 
 #project duplication check

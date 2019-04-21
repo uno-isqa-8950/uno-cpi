@@ -28,6 +28,9 @@ class College (models.Model):
     university = models.ForeignKey(University, on_delete=models.CASCADE)
     history = HistoricalRecords()
 
+    class Meta:
+        ordering = ('college_name',)
+
     def __str__(self):
         return str(self.college_name)
 

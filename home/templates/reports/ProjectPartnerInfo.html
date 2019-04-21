@@ -85,6 +85,9 @@
     {
     color:grey;
     }
+    .select2-selection__placeholder{
+        font-size: small;
+    }
 
 </style>
 
@@ -141,7 +144,7 @@
         <div class="card" style="border: 2px solid #C3C3C3;">
             <div class="collapse show" id="collapseExample">
                     <form class="form-inline" role="form" id="filters-form" method="get">
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="engagement_type"> Engagement Types
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 31%}
@@ -161,7 +164,7 @@
                             </div>
                         <!--/div-->
 
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="academic_year"> Academic Years
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 32%}
@@ -180,7 +183,7 @@
 
                             </div>
 
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="college-name">Colleges and Main Units
                                        {% for data_definition in data_definition %}
                                         {% if data_definition.id == 43%}
@@ -198,7 +201,7 @@
                                     </select>
                             </div>
 
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="campus_partner"> Campus Partners
                                 {% for data_definition in data_definition %}
                                         {% if data_definition.id == 1%}
@@ -217,7 +220,7 @@
                                     </select>
                             </div>
 
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="weitz_cec_part"> CEC Building Partners
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 27%}
@@ -236,7 +239,7 @@
                             </div>
 
 
-                            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                            <div class="col-lg-4 col-md-5 form-group">
                                 <label for="community_type"> Community Partner Types
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 33%}

@@ -105,7 +105,7 @@
                 {#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
                 <div class="panel-body">&emsp;
                     <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
-                    <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
+                    <div class="justify-content-md-center" id="node1-id" style="margin-left: 17%"></div>
                     <div class="justify-content-md-center" id="button-id" style="margin-left: 15%"></div>
                 </div>
             </div>
@@ -135,8 +135,6 @@
             partners = JSON.parse(document.getElementById('partner-data').textContent);
             //get the input value
             var value = e.target.value.trim().toLowerCase();
-            console.log(value)
-            console.log(partners)
             var partnerlist = []
 
             if (value == "") {
@@ -154,7 +152,6 @@
                         if (partners[i].toLowerCase().includes(value)) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i])
-                                console.log(partnerlist)
 
                                  var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
                             '<tr>' +
@@ -178,10 +175,10 @@
                                 mylist
 
 
-                                {#document.getElementById('node1-id').innerHTML =#}
-                                {#    '<br>' +#}
-                                {#    '<tr><td>If yes, the Community Partner already exists! Click on the button below to access it</td></tr><br /><br />' +#}
-                                {#    '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button">Community Partner Report</a></td></tr>'#}
+                                document.getElementById('node1-id').innerHTML =
+                                    '<br>' +
+                                    '<tr><td>Click on ‘Community Partner Report’ to access Community Partners already registered</td></tr><br /><br />' +
+                                    '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button">Community Partner Report</a></td></tr>'
 
                             }
                         } else {
@@ -199,7 +196,7 @@
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
                                         '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
-                                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register the Community Partner</a></td></tr>'
+                                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register the Community Partner</a></td></tr>'
                                 }
                             }
                         }
@@ -209,6 +206,15 @@
             };
 
         });
+
+
+        $("#dropdownMenuButton").on("click", function() {
+  $('.dropdown-menu').toggleClass('open');
+});
+$(".dropdown-menu a").on("click", function() {
+  $('#dropdownMenuButton').text($(this).text());
+  $('.dropdown-menu').removeClass('open');
+});
     </script>
 
 {% endblock %}

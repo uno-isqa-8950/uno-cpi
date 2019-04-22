@@ -46,6 +46,11 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ProjectForm2(ModelForm):
+    address_line1 = forms.CharField(required=True)
+    country = forms.CharField(required=True)
+    city = forms.CharField(required=True)
+    state = forms.CharField(required=True, label="State or Province")
+    zip = forms.CharField(required=True, label="Zip or Postal Code")
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
@@ -54,7 +59,7 @@ class ProjectForm2(ModelForm):
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
-                    'status','total_economic_impact', 'address_line1' ,'address_line1' ,'country' ,'city','zip', 'state','latitude',
+                    'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
                     'longitude','academic_year', 'end_academic_year', 'end_semester')
         widgets = {
             'start_date': DateInput(),
@@ -73,14 +78,14 @@ class ProjectForm2(ModelForm):
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            'address_line1': 'Address Line',
+            #'address_line1': 'Address Line',
             'total_other_community_members':  'Number of Other Participants',
             'academic_year': 'Start Academic Year',
             'end_academic_year': 'End Academic Year',
             'end_semester':'End semester',
             'semester': 'Start semester',
-            'zip': 'Zip or Postal Code',
-            'state': 'State or Province',
+            #'zip': 'Zip or Postal Code',
+            #'state': 'State or Province',
 
         }
 

@@ -26,10 +26,10 @@ SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 # SECURITY WARNING: don't run with debug turned on in production!
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-DEBUG = False
+DEBUG = True
 
 
-ALLOWED_HOSTS = ['*','https://uno-cpi-sta.herokuapp.com/','https://uno-cpi.herokuapp.com/']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

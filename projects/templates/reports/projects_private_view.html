@@ -226,7 +226,7 @@
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="weitz_cec_part"> CEC Community Building Partners
+                    <label for="weitz_cec_part"> CEC Building Community Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -352,7 +352,7 @@ $(document).ready(function(){
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '200px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '200px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
-    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Community Building Partner',width: '200px'});
+    $('#id_weitz_cec_part').select2({placeholder: 'CEC Building Community Partner',width: '200px'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '200px'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '200px',
                                         sorter: function(data) {

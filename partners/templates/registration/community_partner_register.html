@@ -92,6 +92,7 @@ width:93%!important;
                                     {% com_part_regs %}
                                 </div>
                              </div>
+              </div>
 			    <div class="panel-body">
                     <form action="." onfocusout="return validateForm()"  method="post">
                     <div class="row">
@@ -449,16 +450,12 @@ $(document).on('click', '.remove-mission-row', function(e){
         event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
     }
 }
-        console.log(id);
-        console.log(name);
-        console.log(document.getElementById(id).value);
         {
-            console.log("helloooo");
             if(id.includes("country")||id.includes("city")|| id.includes("state") || id.includes("county")
             || id.includes("first_name") || id.includes("last_name")){
             if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
                 $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                $('#'+id).after('<div style="color:red;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
                 document.getElementById(id).style.borderColor = "red";
                 return false;
 

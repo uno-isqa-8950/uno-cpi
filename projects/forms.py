@@ -177,11 +177,11 @@ class ProjectForm2(ModelForm):
 class ProjectFormAdd(ModelForm):
     SEMESTER = [
     ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
-    address_line1= forms.CharField(required=False)
-    country = forms.CharField(required=False)
-    city = forms.CharField(required=False)
-    #state = forms.CharField(required=True)
-    #zip = forms.CharField(required=True)
+    address_line1= forms.CharField(required=True)
+    country = forms.CharField(required=True)
+    city = forms.CharField(required=True)
+    state = forms.CharField(required=True, label="State or Province")
+    zip = forms.CharField(required=True, label="Zip or Postal Code")
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
     class Meta:
@@ -213,8 +213,6 @@ class ProjectFormAdd(ModelForm):
             # 'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
             'end_academic_year': 'End Academic Year',
-            'zip': 'Zip or Postal Code',
-            'state': 'State or Province'
         }
 
     # def clean_engagement_type(self):

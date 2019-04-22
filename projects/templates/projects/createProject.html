@@ -154,6 +154,8 @@
                                         <div class="input-group">
                                             <div class="col-lg-6">
                                                 {{form2|bootstrap}}
+                                                {% if  form2.errors %} {% for error in  form2.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                             </div>
                                         </div>
                                             <div class="input-group-append" >
@@ -172,6 +174,8 @@
                                         <div class="input-group">
                                             <div class="col-lg-6">
                                             {{ form3.campus_partner|bootstrap }}
+                                            {% if  form3.campus_partner.errors %} {% for error in  form3.campus_partner.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                             </div>
                                         </div>
                                         <div class="input-group-append" >
@@ -207,6 +211,7 @@
                                             <div class="input-group">
                                                 <div class="col-lg-6" id="id_mission-0-mission'">
                                                     {{ form.mission|bootstrap }}
+                                                     {% if  form.mission.errors %} {% for error in  form.mission.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                                 </div>
 
                                             </div>

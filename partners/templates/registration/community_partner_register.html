@@ -21,14 +21,8 @@ label
 }
  .help-block
  {
-     margin-left: 25px;
-     margin-top: 5px;
-     margin-right: 25px;
-     font-size: small;
-     font-style: italic;
-     font-weight: bold;
-     color: red;
-     border-color: red;
+     visibility: hidden;
+     display: none;
  }
  #button-center{
      text-align: center;
@@ -104,40 +98,46 @@ width:93%!important;
                         <div class="col-lg-12 col-md-12">
                             {% csrf_token %}
                             {{ community_partner_form.name |bootstrap }}
+                            {% if community_partner_form.name.errors %} {% for error in community_partner_form.name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             <div class = "row">
-                       <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
 
-                            {{ community_partner_form.website_url |bootstrap }}
-                            {{ community_partner_form.community_type |bootstrap }}
-                            {{ community_partner_form.k12_level |bootstrap }}
-                            {{ community_partner_form.address_line1 |bootstrap }}
-                        </div>
-                    </div>
+                                    {{ community_partner_form.website_url |bootstrap }}
+                                    {% if community_partner_form.website_url.errors %} {% for error in community_partner_form.website_url.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.community_type |bootstrap }}
+                                    {% if community_partner_form.community_type.errors %} {% for error in community_partner_form.community_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.k12_level |bootstrap }}
+                                    {% if community_partner_form.k12_level.errors %} {% for error in community_partner_form.k12_level.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.address_line1 |bootstrap }}
+                                    {% if community_partner_form.address_line1.errors %} {% for error in community_partner_form.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                </div>
+                            </div>
                     <div class="row">
                         <div class="col-md-6">
                             {{ community_partner_form.city |bootstrap }}
+                            {% if community_partner_form.city.errors %} {% for error in community_partner_form.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                         <div class="col-md-6">
                             {{ community_partner_form.state |bootstrap }}
+                            {% if community_partner_form.state.errors %} {% for error in community_partner_form.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             {{ community_partner_form.zip |bootstrap }}
+                            {% if community_partner_form.zip.errors %} {% for error in community_partner_form.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                         <div class="col-md-6">
                             {{ community_partner_form.country |bootstrap }}
+                            {% if community_partner_form.country.errors %} {% for error in community_partner_form.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                     </div>
                   </div>
               </div>
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-6">-->
-                            <!--{{ community_partner_form.zip |bootstrap }}-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-
                     {{ formset.management_form }}
                         {% for form in formset %}
                         <div class="contact-row" id="contact1">
@@ -156,28 +156,30 @@ width:93%!important;
                         <div class="input-group">
                             <div class="col-md-6">
                                 {{ form.contact_type|bootstrap }}
+                                {% if form.contact_type.errors %} {% for error in form.contact_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.email_id|bootstrap }}
+                               {% if form.email_id.errors %} {% for error in form.email_id.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                         </div>
                         <div class="input-group">
-                            <!--div class="row"-->
                             <div class="col-md-6">
                                 {{ form.first_name|bootstrap }}
+                                 {% if form.first_name.errors %} {% for error in form.first_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.last_name|bootstrap }}
+                                {% if form.last_name.errors %} {% for error in form.last_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
-                            <!--/div-->
-                            <!--div class="row"-->
                             <div class="col-md-6">
                                 {{ form.work_phone|bootstrap }}
+                                {% if form.work_phone.errors %} {% for error in form.work_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.cell_phone|bootstrap }}
+                                 {% if form.cell_phone.errors %} {% for error in form.cell_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
-                            <!--/div-->
                         </div>
 
                         <div class="input-group-append" >
@@ -224,10 +226,6 @@ width:93%!important;
                                                 {% endfor %}
                                             </h6><br>
                                         </div>
-                                <!--<div class="col-md-12">-->
-                                    <!--<label>Mission Areas</label>-->
-                                    <!--<br>-->
-                                <!--</div>-->
                             <div class="input-group">
                             <!--div class="row"-->
                                 <div class="col-md-6">
@@ -283,6 +281,7 @@ $(document).ready(function(){
   );
 });
 document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+document.getElementById("id_primary_mission-0-mission_area").required=true;
 </script>
 <style>
 .select2-container .select2-selection--single

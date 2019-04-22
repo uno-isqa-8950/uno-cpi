@@ -53,14 +53,8 @@ label
 }
 .help-block
 {
-    margin-left: 25px;
-    margin-top: 5px;
-    margin-right: 25px;
-    font-size: small;
-    font-style: italic;
-    font-weight: bold;
-    color: red;
-    border-color: red;
+    visibility: hidden;
+    display: none;
 }
 #button-center{
     text-align: center;
@@ -101,12 +95,16 @@ label
                         </p>
                         <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
                         {% csrf_token %}
-                        {{ community_partner_user_form|bootstrap}}
-                        {{ form.first_name|bootstrap}}
-                        {{ form.last_name|bootstrap}}
-                        {{ form.email|bootstrap }}
+                            {{ community_partner_user_form|bootstrap}}
+                            {% if community_partner_form.errors %} {% for error in community_partner_form.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                            {{ form.first_name|bootstrap}}
+                            {% if form.first_name.errors %} {% for error in form.first_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                            {{ form.last_name|bootstrap}}
+                            {% if form.last_name.errors %} {% for error in form.last_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                            {{ form.email|bootstrap }}
+                            {% if form.email.errors %} {% for error in form.email.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
-                         <div class = "row justify-content-md-center">
+                            <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
                                     <p id="button-center"><button type="submit" class="btn btn-custom"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                                         Submit</button></p>

@@ -1037,7 +1037,7 @@ def invitecommunityPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message, 'UNO-CPI Do Not Reply <do_not_reply_cec@unomaha.edu>', to=[to_email])
+            email = EmailMessage(mail_subject, message,  to=[to_email])
             email.send()
             return render(request, 'home/communityuser_register_done.html', )
     return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,

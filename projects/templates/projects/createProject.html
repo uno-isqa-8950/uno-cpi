@@ -17,14 +17,7 @@
     }
   .help-block
   {
-      margin-left: 25px;
-      margin-top: 5px;
-      margin-right: 25px;
-      font-size: small;
-      font-style: italic;
-      font-weight: bold;
-      color: red;
-      border-color: red;
+     display: none;
   }
 
 .select2-container--open .select2-dropdown--below
@@ -127,27 +120,29 @@
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
                                 <div class="form-group">
-                                    {{ project.project_name.errors }}
                                     <label for="id_project_name">Project Name</label>
                                     {{ project.project_name }}
+                                    {% if  project.project_name.errors %} {% for error in  project.project_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                 </div>
 
                                 <div class="form-group">
-                                    {{ project.engagement_type.errors }}
                                     <label for="id_engagement_type">Engagement Type</label>
                                     {% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     {% endif %} {% endfor %}
                                     {{ project.engagement_type }}
+                                    {% if  project.engagement_type.errors %} {% for error in  project.engagement_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                 </div>
 
                                 <div class="col-lg-18 form-group">
-                                    {{ project.activity_type.errors }}
                                     <label for="id_activity_type">Activity Type</label>
                                     {% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     {% endif %} {% endfor %}
                                     {{ project.activity_type }}
+                                    {% if  project.activity_type.errors %} {% for error in  project.activity_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                 </div>
                                 {{ course|bootstrap }}
+                                {% if  course.errors %} {% for error in  course.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
 
                                 {% for form2 in formset2 %}
                                     <div class="community-row" id="contact1">
@@ -159,10 +154,12 @@
                                         <div class="input-group">
                                             <div class="col-lg-6">
                                                 {{form2|bootstrap}}
+                                                {% if  form2.errors %} {% for error in  form2.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                             </div>
                                         </div>
                                             <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row"><i class="fa fa-plus" aria-hidden="true"></i> Additional Community Partner</button>
+                                                <button class="btn btn-secondary add-community-row"><i class="fa fa-plus-square" aria-hidden="true"></i> Additional Community Partner</button>
                                             </div>
                                     </div>
                                 {%endfor%}
@@ -177,10 +174,12 @@
                                         <div class="input-group">
                                             <div class="col-lg-6">
                                             {{ form3.campus_partner|bootstrap }}
+                                            {% if  form3.campus_partner.errors %} {% for error in  form3.campus_partner.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                             </div>
                                         </div>
                                         <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus-row"><i class="fa fa-plus" aria-hidden="true"></i> Additional Campus Partner</button>
+                                            <button class="btn btn-secondary add-campus-row"><i class="fa fa-plus-square" aria-hidden="true"></i> Additional Campus Partner</button>
                                         </div>
                                     <p id="errorid1"></p>
                                     </div>
@@ -212,6 +211,7 @@
                                             <div class="input-group">
                                                 <div class="col-lg-6" id="id_mission-0-mission'">
                                                     {{ form.mission|bootstrap }}
+                                                     {% if  form.mission.errors %} {% for error in  form.mission.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                                 </div>
 
                                             </div>
@@ -224,39 +224,40 @@
                                     <div class="col-lg-12 col-md-12 col-sm-12">
 
                                         <div class="form-group">
-                                            {{ project.status.errors }}
                                             <label for="id_status">Project Status</label>
                                             {{ project.status}}
+                                            {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                         </div>
                                         <div class="form-group">
-                                            {{ project.semester.errors }}
                                             <label for="id_semester">Start Semester</label>
                                             {{ project.semester}}
+                                            {% if  project.semester.errors %} {% for error in  project.semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
                                         <div class="form-group">
-                                            {{ project.academic_year.errors }}
                                             <label for="id_academic_year">Start Academic Year</label>
                                             {{ project.academic_year}}
+                                            {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
                                         <div class="form-group">
-                                            {{ project.end_semester.errors }}
                                             <label for="id_end_semester">End Semester</label>
                                             {{ project.end_semester}}
+                                            {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
                                         <div class="form-group">
-                                            {{ project.end_academic_year.errors }}
                                             <label for="id_end_academic_year">End Academic Year</label>
                                             {{ project.end_academic_year}}
+                                            {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
                                         <div class="form-group">
-                                            {{ project.total_uno_students.errors }}
                                             <label for="id_uno_students">Total UNO Students</label>
                                             {{ project.total_uno_students}}
+                                            {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
                                         <div class="form-group">
-                                            {{ project.total_uno_hours.errors }}
                                             <label for="id_uno_hours">UNO Student Hours</label>
                                             {{ project.total_uno_hours}}
+                                            {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
 
                                         </div>
@@ -267,14 +268,22 @@
                                         <div class="input-group">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        {{ project.address_line1.errors }}
                                                         <label for="id_academic_year">Address Line 1</label>
                                                         {{ project.address_line1}}
+                                                         {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                                     </div>
                                                     {{ project.city|bootstrap }}
+                                                     {% if  project.city.errors %} {% for error in  project.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                                     {{ project.state|bootstrap }}
+                                                 {% if  project.state.errors %} {% for error in  project.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                                     {{ project.zip|bootstrap }}
+                                                  {% if  project.zip.errors %} {% for error in  project.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                                     {{ project.country|bootstrap }}
+                                                   {% if  project.country.errors %} {% for error in  project.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
                                                 </div>
                                         </div>
                                     </div>

@@ -19,6 +19,14 @@
 
         }
 
+        label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,
+        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after
+        {
+            content:"*" ;
+            color:red
+        }
+
 
         .select2-container--default .select2-selection--single
         {
@@ -30,14 +38,7 @@
         }
         .help-block
         {
-            margin-left: 25px;
-            margin-top: 5px;
-            margin-right: 25px;
-            font-size: small;
-            font-style: italic;
-            font-weight: bold;
-            color: red;
-            border-color: red;
+            display: none;
         }
 
         .select2-container--open .select2-dropdown--below
@@ -87,6 +88,7 @@
 
 
                             {{project.project_name|bootstrap}}
+                            {% if  project.project_name.errors %} {% for error in  project.project_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.status|bootstrap}}
                             {{project.engagement_type|bootstrap}}
                             {#                            {{ course.name|bootstrap }}#}
@@ -95,29 +97,45 @@
                             {{project.activity_type|bootstrap}}
                             {#                            {{ project.facilitator|bootstrap }}#}
                             {{ project.description|bootstrap }}
+                            {% if  project.description.errors %} {% for error in  project.description.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             <div class="form-group">
-                                {{ project.semester.errors }}
                                 <label for="id_semester">Start Semester</label>
                                 {{ project.semester}}
+                                {% if  project.semester.errors %} {% for error in  project.semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             {{ project.academic_year|bootstrap }}
                             {{ project.end_semester|bootstrap }}
                             {{ project.end_academic_year|bootstrap }}
                             {{ project.total_uno_students|bootstrap }}
+                             {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.total_uno_hours|bootstrap }}
+                             {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.total_k12_students|bootstrap }}
+                             {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.total_k12_hours|bootstrap }}
+                             {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.total_uno_faculty|bootstrap }}
+                            {% if  project.total_uno_faculty.errors %} {% for error in  project.total_uno_faculty.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.total_other_community_members|bootstrap }}
+                            {% if  project.total_other_community_members.errors %} {% for error in  project.total_other_community_members.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.start_date|bootstrap }}
+                            {% if  project.start_date.errors %} {% for error in  project.start_date.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.end_date|bootstrap }}
+                            {% if  project.end_date.errors %} {% for error in  project.end_date.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.other_details|bootstrap }}
+                             {% if  project.other_details.errors %} {% for error in  project.other_details.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.outcomes|bootstrap }}
+                             {% if  project.outcomes.errors %} {% for error in  project.outcomes.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.address_line1|bootstrap }}
+                             {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.city|bootstrap }}
+                             {% if  project.city.errors %} {% for error in  project.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.state|bootstrap }}
+                             {% if  project.state.errors %} {% for error in  project.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.zip|bootstrap }}
+                              {% if  project.zip.errors %} {% for error in  project.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             {{ project.country|bootstrap }}
+                             {% if  project.country.errors %} {% for error in  project.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             <div class="mission" id="contact1" style="margin-top:20px;">
                                 <div class="col-lg-12">
                                     <h6>Mission Areas

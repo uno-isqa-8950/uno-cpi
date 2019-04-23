@@ -753,7 +753,7 @@ def EngagementType_Chart(request):
         unique_comm_ids_count = len(unique_comm_ids)
 
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_project_filtered_ids).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
         proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
         unique_camp_ids = set(proj_camp_ids)
         unique_camp_ids_count = len(unique_camp_ids)
@@ -764,7 +764,7 @@ def EngagementType_Chart(request):
             if b is None or b == "All" or b == '':
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
                 proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
-                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_project_filtered_ids).filter(campus_partner_id__in=campus_partner_filtered_ids).distinct()
                 proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
                 unique_camp_ids = set(proj_camp_ids)
                 unique_camp_ids_count = len(unique_camp_ids)

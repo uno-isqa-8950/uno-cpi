@@ -461,10 +461,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-    if (e.keyCode == 8) {
+    if (e.keyCode == 8 || e.keyCode == 46) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
-            markerCluster.removeMarker(markers[i]);
+            markerCluster.clearMarkers(markers[i]);
         }
         markerCluster.redraw();
     }

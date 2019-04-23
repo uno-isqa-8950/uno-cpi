@@ -80,7 +80,7 @@ class CampusPartnerContactForm(forms.ModelForm):
         return email
 
 class CommunityPartnerForm(forms.ModelForm):
-    website_url = forms.URLField(max_length=200,label='Your Website',initial="http://", required=False)
+    website_url = forms.URLField(max_length=200,label='Your Website', required=False)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',

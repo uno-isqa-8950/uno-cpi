@@ -66,29 +66,24 @@ label[for=first_name]:after,label[for=last_name]:after,label[for=email]:after
                                 {{ avatar_form.avatar|bootstrap }}
                             </div>
                         </div></div>
-                        {% if user_form.errors %}
-                            {% for field in user_form %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-danger">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
-                                {% endfor %}
-                            {% endfor %}
-                            {% for error in form.non_field_errors %}
-                                <div class="alert alert-danger">
-                                    <strong>{{ error|escape }}</strong>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
+
+
                         {% for field in user_form %}
                             <div class="form-group">
                                 <label for="{{field.name}}">{{field.label}}</label>
                                     <input type="text" class="form-control" name="{{field.label}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
                             </div>
+
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+
                         {% endfor %}
 
                         <p>
-                        <button type="submit" class="btn btn-custom">Update</button>
+                        <button type="submit" class="btn btn-custom"><i  class="fa fa-refresh"></i> Update</button>
                         </p>
                         <br><br>
                         </form>

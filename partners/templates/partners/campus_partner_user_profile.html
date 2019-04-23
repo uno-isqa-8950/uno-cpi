@@ -23,11 +23,12 @@ display: block;
 margin-left: auto;
 margin-right: auto;
 }
+a:hover{
+    background-color: #9C9C9C;
+    color: white;
 
-.btn-custom
-{
-margin-left:-200px;
 }
+
 .panel {
     margin-bottom: 20px;
     background-color: #ffffff;
@@ -58,12 +59,6 @@ margin-left:-200px;
                 <img src="{{ user.avatar.url }}" class="center" width="100" alt="Avatar">
                 </div><br>
                 <div class="row">
-                    <!--<div class="col-sm-6 text-right">-->
-                        <!--<label> User Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>-->
-                    <!--</div>-->
-                    <!--<div class="col-sm-6">-->
-                        <!--<label> {{user.username}} </label>-->
-                    <!--</div>-->
                     <div class="col-sm-6 text-right">
                         <label> First Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
                     </div>
@@ -87,7 +82,7 @@ margin-left:-200px;
                 </div>
                 </div>
                   <div class="text-center">
-                    <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-custom" role="button"> Edit </a>
+                    <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-custom" role="button"><i class="fa fa-edit"></i> Edit </a>
                 </div>
                 <br><br>
             </div>

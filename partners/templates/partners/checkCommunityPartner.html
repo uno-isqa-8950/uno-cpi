@@ -1,6 +1,8 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
+{% load wagtailcore_tags register_tags %}
+
     <style>
 
         @media screen and (max-width: 768px) {
@@ -75,6 +77,13 @@
             <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Register a Community Partner</h4></div>
+                        <div class="panel-body">
+                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% com_part_regs %}
+                                </div>
+                             </div>
+                         </div>
                     <div class="panel-body">&emsp;
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">

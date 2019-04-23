@@ -197,24 +197,24 @@
                 </div>
 
 
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="mission"> Project Mission Areas
-
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 3%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                        <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
-                            <option> All </option>
-                                {% for mission in missions.form.mission %}
-                                    {{mission}}
-                                {% endfor %}
-                        </select>
-                </div>
+{#                <div class="col-lg-4 col-md-5 form-group">#}
+{#                    <label for="mission"> Project Mission Areas#}
+{##}
+{#                        {% for data_definition in data_definition %}#}
+{#                            {% if data_definition.id == 3%}#}
+{#                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"#}
+{#                                      data-content="{{ data_definition.description }}" class="float" >#}
+{#                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                    </label>#}
+{#                        <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">#}
+{#                            <option> All </option>#}
+{#                                {% for mission in missions.form.mission %}#}
+{#                                    {{mission}}#}
+{#                                {% endfor %}#}
+{#                        </select>#}
+{#                </div>#}
 
 
                 <div class="col-lg-4 col-md-5 form-group">
@@ -308,6 +308,7 @@
                         {% endif %}
                     {% endfor %}
                 </th>
+                <th>Community Mission Area</th>
                 <th>Projects
                      {% for data_definition in data_definition %}
                         {% if data_definition.id == 30%}
@@ -350,6 +351,7 @@
             {% for community in community_list %}
             <tr>
                 <td>{{community.community_name}}</td>
+                <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
 {#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
                 <td>{{community.project_count}}</td>
                 <td>{{community.total_uno_students}}</td>
@@ -436,7 +438,7 @@ $(document).ready(function(){
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
        },
-       aoColumns: [ {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": true}]
+       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": true}]
    });
 
    } );

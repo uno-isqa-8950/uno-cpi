@@ -5,7 +5,7 @@
 
 <style>
 
- label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
+ label[for=id_name]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
  label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_primary_mission-0-mission_area]:after
     {
     content:"*" ;
@@ -426,7 +426,7 @@ $(document).on('click', '.remove-mission-row', function(e){
 
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
-        -Joseph Nabity -->!
+        -Joseph Nabity -->
 
 <script>
     function validateForm() {
@@ -505,7 +505,7 @@ $(document).on('click', '.remove-mission-row', function(e){
 
 
 </script>
--->
+
 <script>
  $(function () {
              $('[data-toggle="popover"]').popover()
@@ -518,6 +518,12 @@ $(document).on('click', '.remove-mission-row', function(e){
 {#<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>#}
 
 <script>
+
+    $('#id_website_url').keyup(function () {
+        if (  ($(this).val().length >=5) && ($(this).val().substr(0, 5) != 'http:') && ($(this).val().substr(0, 5) != 'https') ) {
+            $(this).val('https://' + $(this).val());
+        }
+    });
 
     $('#id_name').focus(function() {
         $('#id_name').css('border','2px solid #aaa');

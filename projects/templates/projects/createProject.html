@@ -115,7 +115,7 @@
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Create Project</h4></div>
                         <div class="panel-body">&emsp;
-                            <form method="POST" onfocusout="return validateFormsets()" >{% csrf_token %}
+                            <form method="POST" onsubmit="checking()">{% csrf_token %}
                                 {{formset.management_form}}
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
@@ -174,8 +174,6 @@
                                         <div class="input-group">
                                             <div class="col-lg-6">
                                             {{ form3.campus_partner|bootstrap }}
-                                            {% if  form3.campus_partner.errors %} {% for error in  form3.campus_partner.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-
                                             </div>
                                         </div>
                                         <div class="input-group-append" >
@@ -550,18 +548,32 @@ window.onsubmit = function checking() {
     var val = id_name.options[id_name.selectedIndex].text;
     var val1 = id_campus.options[id_campus.selectedIndex].text;
     var location = document.getElementById("errorid").scrollTop;
-if (val === '---------') {
-    error = "Please select a Primary Mission Area";
-    document.getElementById("errorid").innerHTML = error;
-    document.documentElement.scrollTop = 900;
-    return false
-}
-else if (val1 === '---------'){
-    error = "Please select atleast one Campus Partner";
-    document.getElementById("errorid1").innerHTML = error;
-    document.getElementById('id_community-0-community_partner').scrollIntoView();
-    return false
+
+    if (val === '---------') {
+        error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
+        document.getElementById("errorid").innerHTML = error;
+        document.documentElement.scrollTop = 900;
     }
+    if (val1 === '---------') {
+        error = "<div class='alert alert-danger'><strong>{{ 'Please select atleast one Campus Partner'|escape }}</strong></div>";
+        document.getElementById("errorid1").innerHTML = error;
+        document.documentElement.scrollTop = 900;
+        {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
+        {#return false#}
+    }
+    if (val === '---------' || val1 === '---------'){
+    return false
+        }
+
+if (val !== '---------')  {
+  document.getElementById("errorid").innerHTML = "";
+}
+
+if (val1 !== '---------'){
+    document.getElementById("errorid1").innerHTML = "";
+}
+
+
 }
 </script>
 <script>

@@ -4,7 +4,7 @@
 
 <style>
 
- label[for=id_name]:after,label[for=id_website_url]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
+ label[for=id_name]:after,label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,
  label[for=id_zip]:after,label[for=id_country]:after,label[for=id_contact-0-email_id]:after,label[for=id_contact-0-first_name]:after,label[for=id_contact-0-last_name]:after,label[for=id_contact-0-work_phone]:after,label[for=id_form-0-mission_type]:after,label[for=id_primary_mission-0-mission_area]:after
     {
     content:"*" ;
@@ -18,7 +18,14 @@ label
     margin-top: 5px;
     font-weight: bold;
 }
-
+ .help-block
+ {
+     visibility: hidden;
+     display: none;
+ }
+ #button-center{
+     text-align: center;
+ }
 
 input[type=email],input[type=text],select[id=id_community_type]
     {
@@ -27,7 +34,7 @@ input[type=email],input[type=text],select[id=id_community_type]
 
 .form-control
     {
-    width: relative;
+    width: 93%;
     }
 
 input[id=id_county],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_form-0-first_name],input[id=id_form-0-last_name],
@@ -47,11 +54,20 @@ margin-left:22px;
 width:100%
 
 }
+.select2 {
+width:93%!important;
+}
 
 .select2-container--open .select2-dropdown--below
 {
-    margin-left:22px
+    margin-left:22px;
 }
+
+.select2-container--open .select2-dropdown--above
+{
+    margin-left:22px;
+}
+
 .panel{
     box-shadow: none;
 }
@@ -75,40 +91,46 @@ width:100%
                         <div class="col-lg-12 col-md-12">
                             {% csrf_token %}
                             {{ community_partner_form.name |bootstrap }}
+                            {% if community_partner_form.name.errors %} {% for error in community_partner_form.name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             <div class = "row">
-                       <div class="col-lg-12 col-md-12 col-sm-12">
+                                <div class="col-lg-12 col-md-12 col-sm-12">
 
-                            {{ community_partner_form.website_url |bootstrap }}
-                            {{ community_partner_form.community_type |bootstrap }}
-                            {{ community_partner_form.k12_level |bootstrap }}
-                            {{ community_partner_form.address_line1 |bootstrap }}
-                        </div>
-                    </div>
+                                    {{ community_partner_form.website_url |bootstrap }}
+                                    {% if community_partner_form.website_url.errors %} {% for error in community_partner_form.website_url.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.community_type |bootstrap }}
+                                    {% if community_partner_form.community_type.errors %} {% for error in community_partner_form.community_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.k12_level |bootstrap }}
+                                    {% if community_partner_form.k12_level.errors %} {% for error in community_partner_form.k12_level.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                    {{ community_partner_form.address_line1 |bootstrap }}
+                                    {% if community_partner_form.address_line1.errors %} {% for error in community_partner_form.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                </div>
+                            </div>
                     <div class="row">
                         <div class="col-md-6">
                             {{ community_partner_form.city |bootstrap }}
+                            {% if community_partner_form.city.errors %} {% for error in community_partner_form.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                         <div class="col-md-6">
                             {{ community_partner_form.state |bootstrap }}
+                            {% if community_partner_form.state.errors %} {% for error in community_partner_form.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             {{ community_partner_form.zip |bootstrap }}
+                            {% if community_partner_form.zip.errors %} {% for error in community_partner_form.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                         <div class="col-md-6">
                             {{ community_partner_form.country |bootstrap }}
+                            {% if community_partner_form.country.errors %} {% for error in community_partner_form.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                         </div>
                     </div>
                   </div>
               </div>
-                    <!--<div class="row">-->
-                        <!--<div class="col-md-6">-->
-                            <!--{{ community_partner_form.zip |bootstrap }}-->
-                        <!--</div>-->
-                    <!--</div>-->
-
-
                     {{ formset.management_form }}
                         {% for form in formset %}
                         <div class="contact-row" id="contact1">
@@ -127,28 +149,30 @@ width:100%
                         <div class="input-group">
                             <div class="col-md-6">
                                 {{ form.contact_type|bootstrap }}
+                                {% if form.contact_type.errors %} {% for error in form.contact_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.email_id|bootstrap }}
+                               {% if form.email_id.errors %} {% for error in form.email_id.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                         </div>
                         <div class="input-group">
-                            <!--div class="row"-->
                             <div class="col-md-6">
                                 {{ form.first_name|bootstrap }}
+                                 {% if form.first_name.errors %} {% for error in form.first_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.last_name|bootstrap }}
+                                {% if form.last_name.errors %} {% for error in form.last_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
-                            <!--/div-->
-                            <!--div class="row"-->
                             <div class="col-md-6">
                                 {{ form.work_phone|bootstrap }}
+                                {% if form.work_phone.errors %} {% for error in form.work_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
                             <div class="col-md-6">
                                 {{ form.cell_phone|bootstrap }}
+                                 {% if form.cell_phone.errors %} {% for error in form.cell_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                             </div>
-                            <!--/div-->
                         </div>
 
                         <div class="input-group-append" >
@@ -195,10 +219,6 @@ width:100%
                                                 {% endfor %}
                                             </h6><br>
                                         </div>
-                                <!--<div class="col-md-12">-->
-                                    <!--<label>Mission Areas</label>-->
-                                    <!--<br>-->
-                                <!--</div>-->
                             <div class="input-group">
                             <!--div class="row"-->
                                 <div class="col-md-6">
@@ -213,9 +233,15 @@ width:100%
 
                         {% endfor %}
 
+                            <div class="col-md-12 col-lg-12">
+                                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
+                                 I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
+                            </div>
+
                             <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-custom" style="margin-bottom:20px;">Submit</button>
+                                    <p id="button-center"><button type="submit" class="btn btn-custom" style="margin-bottom:20px;"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        Submit</button></p>
                                 </div>
                             </div><br>
 
@@ -247,7 +273,36 @@ $(document).ready(function(){
       }
   );
 });
+document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+document.getElementById("id_primary_mission-0-mission_area").required=true;
 </script>
+<style>
+.select2-container .select2-selection--single
+{
+   height:38px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:12px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 32px;
+}
+</style>
 {% endblock %}
 
 
@@ -363,7 +418,7 @@ $(document).on('click', '.remove-mission-row', function(e){
 
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
-        -Joseph Nabity
+        -Joseph Nabity -->
 
 <script>
     function validateForm() {
@@ -387,16 +442,12 @@ $(document).on('click', '.remove-mission-row', function(e){
         event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
     }
 }
-        console.log(id);
-        console.log(name);
-        console.log(document.getElementById(id).value);
         {
-            console.log("helloooo");
             if(id.includes("country")||id.includes("city")|| id.includes("state") || id.includes("county")
             || id.includes("first_name") || id.includes("last_name")){
             if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
                 $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                $('#'+id).after('<div style="color:red;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
                 document.getElementById(id).style.borderColor = "red";
                 return false;
 
@@ -423,20 +474,6 @@ $(document).on('click', '.remove-mission-row', function(e){
         return true;
          }
     }
-            if (id.includes("zip")) {
-            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
-                $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-
-                document.getElementById(id).style.borderColor = "red";
-                return false;
-            }
-            else {
-                document.getElementById(id).style.borderColor = "gray";
-                $('#'+id+'-error').remove();
-                return true;
-            }
-            }
 
             if(id.includes("email_id")){
                 if (! /\S+@\S+/.test(document.getElementById(id).value)){
@@ -460,7 +497,7 @@ $(document).on('click', '.remove-mission-row', function(e){
 
 
 </script>
--->
+
 <script>
  $(function () {
              $('[data-toggle="popover"]').popover()
@@ -470,9 +507,15 @@ $(document).on('click', '.remove-mission-row', function(e){
 {% endblock %}
 
 {% block js %}
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+{#<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>#}
 
 <script>
+
+    $('#id_website_url').keyup(function () {
+        if (  ($(this).val().length >=5) && ($(this).val().substr(0, 5) != 'http:') && ($(this).val().substr(0, 5) != 'https') ) {
+            $(this).val('https://' + $(this).val());
+        }
+    });
 
     $('#id_name').focus(function() {
         $('#id_name').css('border','2px solid #aaa');
@@ -489,7 +532,7 @@ $(document).on('click', '.remove-mission-row', function(e){
         dataType: 'json',
         success: function (data) {
           if (data.is_taken) {
-            alert("A Community Partner with this name already exists!");
+            alert("A Community Partner with this name already exists");
             document.getElementById("id_name").value=("");
             document.getElementById("id_name").style.borderColor="red";
           }

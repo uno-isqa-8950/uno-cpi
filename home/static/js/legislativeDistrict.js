@@ -48,83 +48,58 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     fullscreenControl: false,
     mapTypeControl: false,
     styles: [
-        {
-            "featureType": "landscape",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.business",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.local",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        }
-    ]
+ {
+   "featureType": "landscape",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "labels.text",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.business",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "geometry.stroke",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "transit",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ }
+]
 });
 
 
@@ -150,7 +125,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community Types" + '" selected="selected">' + 'All Community Types' + '</option>';
+select2 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -186,7 +161,7 @@ $('#selectCollege').html(select5);
 
 //*********************************** Load the map *****************************************************
 var markers =[];
-var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
 var markerCluster = null;
 var defaultFilterValues = [];
 var filters = {};
@@ -280,12 +255,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
+    defaultFilterValues = ["All Mission Areas", "All Campus Partners", "All Community Partner Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
     // Object to identify filters set by the user
     filters = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -341,7 +316,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.toString().split(",").join(" , ")+ '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ")+ '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Website:</span>&nbsp;&nbsp;<td><a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
             (project_number == 0 ? '':
                 ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
@@ -510,6 +485,10 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
+    if (event.target == valueFilter){
+        return
+    }
+    else {
     const selectFilterChildren = Array.from(selectFilters.children);
 
     selectFilterChildren.forEach((child) => {
@@ -520,6 +499,7 @@ selectFilters.addEventListener("change", function(event) {
     });
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
+    }
 });
 
 var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));
@@ -537,10 +517,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-    if (e.keyCode == 8) {
+    if (e.keyCode == 8 || e.keyCode == 46) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
-            markerCluster.removeMarker(markers[i]);
+            markerCluster.clearMarkers(markers[i]);
         }
         markerCluster.redraw();
     }
@@ -578,11 +558,12 @@ $("#reset").click(function () {
     const defaultFilterObject = {
         "selectMission":        "All Mission Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
     };
+    valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);

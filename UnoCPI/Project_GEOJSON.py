@@ -15,37 +15,30 @@ from googlemaps import Client
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'../home/static/GEOJSON/USCounties_final.geojson')
 district_file = os.path.join(dirname,'../home/static/GEOJSON/ID2.geojson')
-output_filename = os.path.join(dirname,'../home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
+output_filename = os.path.join(dirname,'../home/static/GEOJSON/Project.geojson') #The file will be saved  locally GEOJSON
 currentDT = datetime.datetime.now()
 
-#TODO - MAP THE DATABASE CREDENTIALS USING ENV VARIABLES
 #Get lat long details of all US counties in json format
-
-# conn = psycopg2.connect("dbname=postgres user=postgres password=admin")
-
 conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
                               database=settings.DATABASES['default']['NAME'],
                               sslmode="require")
-
-
-#Another way of querying the database
-df = pd.read_sql_query("SELECT project_name,pe.name as engagement_type, pa.name as activity_type, pro.description,ay.academic_year, semester, total_uno_students, total_uno_hours, total_k12_students, total_k12_hours, total_other_community_members, total_uno_faculty,total_economic_impact, other_details, outcomes,  pc.name as community_partner, p.name as campus_partner, hm.mission_name as mission ,pp.mission_type as mission_type, ps.name as status, pro.address_line1 as Address_Line1, pro.address_line2, pro.city as City, pro.state as State, pro.zip as Zip, part_comm.community_type , uc.college_name FROM projects_project pro left join projects_projectcommunitypartner proCommPartnerLink on pro.id = proCommPartnerLink.project_name_id inner join partners_communitypartner pc on proCommPartnerLink.community_partner_id = pc.id left join projects_projectcampuspartner proCampPartnerLink on pro.id=proCampPartnerLink.project_name_id inner join partners_campuspartner p on proCampPartnerLink.campus_partner_id = p.id left join projects_projectmission pp on pro.id = pp.project_name_id inner join home_missionarea hm on pp.mission_id = hm.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_academicyear ay on pro.academic_year_id = ay.id left join projects_status ps on pro.status_id = ps.id inner join university_college uc on p.college_name_id = uc.id inner join partners_communitytype part_comm on pc.community_type_id = part_comm.id", con=conn)
-
+##Get Projects from the database
+df_projects = pd.read_sql_query("select  project_name, pro.address_line1 as Address_Line1,mis.mission_type, pro.description,pro.city as City, pro.state as State, pro.zip as Zip FROM projects_project pro  join projects_projectmission  mis on pro.id = mis.project_name_id where (pro.address_line1 not in ('','NA','N/A') or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A'))  and lower(mis.mission_type)='primary'",con=conn)
+##Get all the Campus Partners and College Names
+df = pd.read_sql_query("select pro.project_name, pc.name as campus_partner ,uc.college_name , p.name as community_partner , pa.name as activity_type, pe.name as engagement_type,a.academic_year, hm.mission_name,c.community_type from projects_project pro left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id join partners_campuspartner pc on procamp.campus_partner_id = pc.id join university_college uc on pc.college_name_id = uc.id  left join projects_projectcommunitypartner pp on pro.id = pp.project_name_id left join partners_communitypartner p on pp.community_partner_id = p.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_academicyear a on pro.academic_year_id = a.id left join projects_projectmission pp2 on pro.id = pp2.project_name_id join home_missionarea hm on pp2.mission_id = hm.id left join partners_communitytype c on p.community_type_id = c.id",con=conn)
 conn.close()
-
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
-collection = {'type': 'FeatureCollection', 'features': []}
-df['fulladdress'] = df[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
+collection = {'type': 'FeatureCollection', 'features': []}
+df_projects['fulladdress'] = df_projects[["address_line1", "city","state"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 with open(district_file) as f:
     geojson = json.load(f)
-
 district = geojson["features"]
-#
-def feature_from_row(Projectname, Engagement, Activity, Description, Year, College, Campus, Community, Mission,CommunityType, Address, City, State, Zip):
+
+def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, Zip):
     feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
@@ -54,41 +47,76 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
                'geometry': {'type': 'Point', 'coordinates': []}
                }
 
+    geocode_result = gmaps.geocode(FullAddress)
+    if (geocode_result[0]):
+        latitude = geocode_result[0]['geometry']['location']['lat']
+        longitude = geocode_result[0]['geometry']['location']['lng']
+        feature['geometry']['coordinates'] = [longitude, latitude]
+        coord = Point([longitude, latitude])
+        for i in range(len(district)):  # iterate through a list of district polygons
+            property = district[i]
+            polygon = shape(property['geometry'])  # get the polygons
+            if polygon.contains(coord):  # check if a partner is in a polygon
+                feature['properties']['Legislative District Number'] = property["properties"][
+                    "id"]  # assign the district number to a partner
+    yearlist = []
+    campusPartnersList = []
+    communityPartnerList = []
+    communityTypeList = []
+    collegeList = []
+    missionAreaList = []
+    activityTypeList = []
+    engagementTypeList = []
+    projects = df['project_name']
+    campusPartners = df['campus_partner']
+    academicYear = df['academic_year']
+    communityPartners = df['community_partner']
+    missionAreas = df['mission_name']
+    communityPartnerType = df['community_type']
+    activityType = df['activity_type']
+    colleges = df['college_name']
+    engagementType = df['engagement_type']
 
-    if ("N/A" not in Address):
-        geocode_result = gmaps.geocode(Address)
-        if (geocode_result[0]):
-            latitude = geocode_result[0]['geometry']['location']['lat']
-            longitude = geocode_result[0]['geometry']['location']['lng']
-            feature['geometry']['coordinates'] = [longitude, latitude]
-            coord = Point([longitude, latitude])
-            for i in range(len(district)):  # iterate through a list of district polygons
-                property = district[i]
-                polygon = shape(property['geometry'])  # get the polygons
-                if polygon.contains(coord):  # check if a partner is in a polygon
-                    feature['properties']['Legislative District Number'] = property["properties"][
-                        "id"]  # assign the district number to a partner
-            feature['properties']['Project Name'] = Projectname
-            feature['properties']['Engagement Type'] = Engagement
-            feature['properties']['Activity Type'] = Activity
-            feature['properties']['Description'] = Description
-            feature['properties']['Academic Year'] = Year
-            feature['properties']['College Name'] = College
-            feature['properties']['Campus Partner'] = Campus
-            feature['properties']['Community Partner'] = Community
-            feature['properties']['Mission Area'] = Mission
-            feature['properties']['Community Partner Type']=CommunityType
-            feature['properties']['Address Line1'] = Address
-            feature['properties']['City'] = City
-            feature['properties']['State'] = State
-            feature['properties']['Zip'] = Zip
-            collection['features'].append(feature)
-            return feature
+    for n in range(len(projects)):
+        if (projects[n] == Projectname):
+            if (campusPartners[n] not in campusPartnersList):
+                campusPartnersList.append(campusPartners[n])
+            if (colleges[n] not in collegeList):
+                collegeList.append(colleges[n])
+            if (academicYear[n] not in yearlist):
+                yearlist.append(academicYear[n])
+            if (communityPartners[n] not in communityPartnerList):
+                communityPartnerList.append(communityPartners[n])
+            if (communityPartnerType[n] not in communityTypeList):
+                communityTypeList.append(communityPartnerType[n])
+            if (missionAreas[n] not in missionAreaList):
+                missionAreaList.append(missionAreas[n])
+            if (activityType[n] not in activityTypeList):
+                activityTypeList.append(activityType[n])
+            if (engagementType[n] not in engagementTypeList):
+                engagementTypeList.append(engagementType[n])
 
-geojson_series = df.apply(lambda x: feature_from_row(x['project_name'], x['engagement_type'], x['activity_type'], x['description'],x['academic_year'], x['college_name'], x['campus_partner'], x['community_partner'],x['mission'],x['community_type'], str(x['fulladdress']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
+    feature['properties']['Project Name'] = Projectname
+    feature['properties']['Engagement Type'] = engagementTypeList
+    feature['properties']['Activity Type'] = activityTypeList
+    feature['properties']['Description'] = Description
+    feature['properties']['Academic Year'] = yearlist
+    feature['properties']['College Name'] = collegeList
+    feature['properties']['Campus Partner'] = campusPartnersList
+    feature['properties']['Community Partner'] = communityPartnerList
+    feature['properties']['Mission Area'] = missionAreaList
+    feature['properties']['Community Partner Type']=communityTypeList
+    feature['properties']['Address Line1'] = Address_line1
+    feature['properties']['City'] = City
+    feature['properties']['State'] = State
+    feature['properties']['Zip'] = Zip
+    collection['features'].append(feature)
+    return feature
+
+geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'], str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']), str(x['zip'])), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
-print("Project GeoJSON  "+ repr(len(df)) + " records are generated at "+ str(currentDT))
+print("Project GeoJSON  "+ repr(len(df_projects)) + " records are generated at "+ str(currentDT))
 
 with open(output_filename, 'w') as output_file:
     output_file.write(format(jsonstring))
@@ -102,4 +130,4 @@ s3 = boto3.resource('s3',
 
 s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
 
-print("Project GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +str(currentDT))
+print("Project GEOJSON file written to S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at "+str(currentDT))

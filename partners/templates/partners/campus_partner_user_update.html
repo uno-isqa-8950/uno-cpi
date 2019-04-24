@@ -27,6 +27,13 @@ width:92%
 {
 left:280px;
 }
+
+label[for=first_name]:after,label[for=last_name]:after,label[for=email]:after
+{
+    content:"*" ;
+    color:red
+}
+
 }
 .panel {
     margin-bottom: 20px;
@@ -47,33 +54,36 @@ left:280px;
                 <div class="panel-body">
                     <div class="body">
                         <form  action="." id="id_avatar" method="post"  onfocusout="return validateForm()"  enctype="multipart/form-data">
-                        {% if messages %}
-                            <ul class="messages">
-                            {% for message in messages %}
-                                <li class="{{ message.tags }}">{{ message }}</li>
-                            {% endfor %}
-                            </ul>
-                        {% endif %}
                         <br>
                         <div class="row justify-content-md-center">
                         <div class="col-lg-3 col-md-4 col-sm-12">
+
                             <div class='media'>
                                 <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100" alt="">
                             </div>
                             <div class="form-group">
                                 {% csrf_token %}
-                                {{ avatar_form|bootstrap }}
+                                {{ avatar_form.avatar|bootstrap }}
                             </div>
                         </div></div>
+
+
                         {% for field in user_form %}
                             <div class="form-group">
                                 <label for="{{field.name}}">{{field.label}}</label>
                                     <input type="text" class="form-control" name="{{field.label}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
                             </div>
+
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger">
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+
                         {% endfor %}
 
                         <p>
-                        <button type="submit" class="btn btn-custom">Update</button>
+                        <button type="submit" class="btn btn-custom"><i  class="fa fa-refresh"></i> Update</button>
                         </p>
                         <br><br>
                         </form>

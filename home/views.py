@@ -15,7 +15,7 @@ from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from .tokens import account_activation_token
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import EmailMessage
@@ -46,7 +46,8 @@ from googlemaps import Client
 from home import context_processors
 import boto3
 from UnoCPI import settings
-
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -54,12 +55,12 @@ s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
 #read Partner.geojson from s3
-content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
-partner_geojson = content_object.get()['Body'].read().decode('utf-8')
+content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
+partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
 
 #read Project.geojson from s3
-content_object = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
-project_geojson = content_object.get()['Body'].read().decode('utf-8')
+content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
+project_geojson = content_object_project.get()['Body'].read().decode('utf-8')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -88,59 +89,6 @@ def home(request):
 def MapHome(request):
     return render(request, 'home/Map_Home.html',
                   {'MapHome': MapHome})
-
-
-def Definitions(request):
-    data_definition = DataDefinition.objects.values('id', 'title', 'description', 'group_id')
-    for group_id in data_definition:
-        group = group_id['group_id']
-        data_definition_group = DataDefinitionGroup.objects.filter(pk=group)
-    return render(request, 'home/DataDefinitions.html',
-                  {'data_definition': data_definition},
-                  {'data_definition_group': data_definition_group})
-
-
-
-def Contactus(request):
-    form_class = ContactForm
-    if request.method == 'POST':
-        form = form_class(data=request.POST)
-
-        if form.is_valid():
-            contact_name = request.POST.get(
-                'contact_name'
-                , '')
-            contact_email = request.POST.get(
-                'contact_email'
-                , '')
-            topic = request.POST.get('topic', '')
-            form_content = request.POST.get('content', '')
-
-            # Email the profile with the
-            # contact information
-            template = get_template('home/contact_template.txt')
-        context = {
-            'contact_name': contact_name,
-            'contact_email': contact_email,
-            'topic': topic,
-            'form_content': form_content,
-        }
-        content = template.render(context)
-
-        email = EmailMessage(
-            "CPI Contact Form submission", #Subject line of the Contact Us Page
-            content,
-            # "Community Partnership Initiative" + '',
-            ['djantz@unomaha.edu'], #Email to whom all the queries in Contact Us Page would be redirected to
-            headers={'Reply-To': contact_email}
-        )
-        email.send()
-        return redirect('thanks')
-
-    return render(request, 'home/ContactUs.html', {
-        'form': form_class,
-    })
-
 
 def thanks(request):
     return render(request, 'home/thanks.html',
@@ -246,7 +194,7 @@ def registerCampusPartnerUser(request):
                 campus_partner=campus_partner_user_form.cleaned_data['campus_partner'], user=new_user)
             campuspartneruser.save()
             # Send an email to the user with the token:
-            mail_subject = 'UNO-CPI Application - Email Verification'
+            mail_subject = 'UNO-CPI Campus Partner Registration'
             current_site = get_current_site(request)
             message = render_to_string('account/acc_active_email.html', {
                 'user': new_user,
@@ -255,13 +203,12 @@ def registerCampusPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
+            email = EmailMessage(mail_subject, message,'UNO-CPI Do Not Reply <do_not_reply_cec@unomaha.edu>', to=[to_email])
             email.send()
             return render(request, 'home/register_done.html', )
     else:
         user_form = CampususerForm()
         campus_partner_user_form = CampusPartnerUserForm()
-
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data': data})
@@ -436,36 +383,36 @@ def project_partner_info(request):
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    # college_filtered_ids = [campus.id for campus in college_filter.qs]
+    college_filtered_ids = college_filter.qs.values_list('id',flat=True)
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=college_filtered_ids))
+    # campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filter_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+
+    # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
+
+    # project_filtered_ids = [project.id for project in project_filter.qs]
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+
+    # community_filtered_ids = [community.id for community in communityPartners.qs]
+    community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    # comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+    comm_filtered_ids = comm_filter.qs.values_list('project_name', flat=True)
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
+    project_ids = list(set(proj2_ids).intersection(comm_filtered_ids))
+
+    proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(community_partner_id__in=community_filtered_ids).distinct()
+    proj_comm_ids = [community.community_partner_id for community in proj_comm]
+
     for m in missions:
-
-        college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-        college_filtered_ids = [campus.id for campus in college_filter.qs]
-        campus_project_filter= ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=college_filtered_ids))
-        campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
-
-        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        project_filtered_ids = [project.id for project in project_filter.qs]
-
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        community_filtered_ids = [community.id for community in communityPartners.qs]
-
-        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
-        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
-        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-        proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
-        project_ids = list(set(proj2_ids).intersection(comm_filtered_ids))
-
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
-
-        proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(community_partner_id__in=community_filtered_ids).distinct()
-        proj_comm_ids = [community.community_partner_id for community in proj_comm]
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
-
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
@@ -502,12 +449,27 @@ def project_partner_info(request):
         comm_total += community_count
         students_total += total_uno_students
         hours_total += total_uno_hours
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
     return render(request, 'reports/ProjectPartnerInfo.html',
                   {'project_filter': project_filter, 'data_definition': data_definition,
                    'communityPartners': communityPartners, 'mission_list': mission_list,
-                   'campus_filter': campus_filter, 'college_filter':college_filter,
-                   'proj_total':proj_total, 'comm_total':comm_total, 'students_total':students_total, 'hours_total':hours_total})
-
+                   'campus_filter': campus_filter, 'college_filter': college_filter,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
+                   'hours_total': hours_total, 'campus_id':campus_id})
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
 
@@ -515,90 +477,72 @@ def project_partner_info(request):
 def engagement_info(request):
 
     engagements = EngagementType.objects.all()
-    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
-    proj_total = 0
-    comm_total = 0
-    camp_total = 0
-    students_total = 0
-    hours_total = 0
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_campus_filtered_ids = [campus.campus_partner_id for campus in campus_project_filter.qs]
 
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_year_ids = [project.id for project in year_filter.qs]
+
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filtered_ids = [community.id for community in communityPartners.qs]
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
+    filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
+    filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
+    filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
     for e in engagements:
-
-        campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-        campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
-        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-        campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
-
-        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-
-        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-        project_mission_ids = [p.project_name_id for p in missions_filter.qs]
-
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        project_year_ids = [project.id for project in year_filter.qs]
-
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        community_filtered_ids = [community.id for community in communityPartners.qs]
-        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
-        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
-
-        filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
-        filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
-        filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
-        filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
-
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-
         # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
         # gets all the community partner ids in a array. These are not distinct
         proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
-
         # sets the non distinct array to a distinct set of community partner ids
         unique_comm_ids = set(proj_comm_ids)
-
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
 
-        # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-
-        # gets all the campus partner ids in a array. These are not distinct
-        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-
-        # sets the non distinct array to a distinct set of campus partner ids
-        unique_camp_ids = set(proj_camp_ids)
-
-        # counts within the set of unique campus partner ids
-        unique_camp_ids_count = len(unique_camp_ids)
-
-        engagement_Dict['engagement_name'] = e.name
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+        unique_camp_ids = set(proj_camp_ids)
+        unique_camp_ids_count = len(unique_camp_ids)
 
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
-        if a is None or b == "All" or a == '':
+        if a is None or a == "All" or a == '':
             if b is None or b == "All" or b == '':
                 project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
+                projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
+                proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+                proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+                unique_camp_ids = set(proj_camp_ids)
+                unique_camp_ids_count = len(unique_camp_ids)
 
+        engagement_Dict['engagement_name'] = e.name
         engagement_Dict['project_count'] = project_count
         engagement_Dict['community_count'] = unique_comm_ids_count
         engagement_Dict['campus_count'] = unique_camp_ids_count
         total_uno_students = 0
         total_uno_hours = 0
 
-        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
         for p in projects:
             uno_students = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_hours'))
@@ -607,44 +551,31 @@ def engagement_info(request):
         engagement_Dict['total_uno_hours'] = total_uno_hours
         engagement_Dict['total_uno_students'] = total_uno_students
         engagement_List.append(engagement_Dict.copy())
-        proj_total += project_count
-        comm_total += unique_comm_ids_count
-        camp_total += unique_camp_ids_count
-        students_total += total_uno_students
-        hours_total += total_uno_hours
+        # proj_total += project_count
+        # comm_total += unique_comm_ids_count
+        # camp_total += unique_camp_ids_count
+        # students_total += total_uno_students
+        # hours_total += total_uno_hours
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     return render(request, 'reports/EngagementTypeReport.html',
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
-                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter,
-                   'proj_total': proj_total, 'comm_total': comm_total, 'camp_total':camp_total, 'students_total': students_total,
-                   'hours_total': hours_total})
+                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter, 'campus_id':campus_id})
 
-
-# (15) Engagement Summary Report: filter by AcademicYear, MissionArea
-
-
-def unique_count(request):
-    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    project_year_ids = [p.id for p in year_filter.qs]
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    mission_ids = [m.mission_id for m in missions_filter.qs]
-    project_missions = [p.project_name_id for p in missions_filter.qs]
-    unique_project_ids = list(set(campus_filtered_ids).intersection(project_year_ids))
-    total_unique_project = list(set(unique_project_ids).intersection(project_missions))
-    unique_project = len(total_unique_project)
-
-    # community partner count
-    community_mission_filter = CommunityPartnerMission.objects.filter(mission_area_id__in=mission_ids)
-    community_mission_ids = [c.community_partner_id for c in community_mission_filter]
-    # unique_community_ids = ProjectCommunityPartner.objects.filter(project_name_id__in=unique_project_ids)
-    # total_unique_community = list(set(community_mission_ids).intersection(unique_community_ids))
-    unique_community = len(community_mission_ids)
-
-    return render(request, 'reports/8CountOfUniqueCommunityPartner.html',
-                  {'missions_filter': missions_filter, 'year_filter': year_filter,
-                   'campus_filter': campus_filter, 'unique_project': unique_project,
-                   'unique_community': unique_community, 'community_mission_filter': community_mission_filter})
 
 
 # Chart for projects with mission areas
@@ -755,91 +686,90 @@ def missionchart(request):
         'series': [project_count_series, partner_count_series]
     }
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     dump = json.dumps(chart)
     return render(request, 'charts/missionchart.html',
                   {'chart': dump, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter})
+                    'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
 def EngagementType_Chart(request):
     engagements = EngagementType.objects.all()
-    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     data_definition = DataDefinition.objects.all()
-    engagement_Dict = {}
-    engagement_List = []
     project_engagement_count = []
     engagment_community_counts = []
     engagment_campus_counts = []
     project_engagement_series = []
     engagament_names = []
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.all())
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_campus_filtered_ids = [campus.campus_partner_id for campus in campus_project_filter.qs]
+
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_year_ids = [project.id for project in year_filter.qs]
+
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filtered_ids = [community.id for community in communityPartners.qs]
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
+    filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
+    filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
+    filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+
 
     for e in engagements:
-
-        campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-        campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
-        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-            campus_partner_id__in=campus_partner_filtered_ids))
-        campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
-
-        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-
-        missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-        project_mission_ids = [p.project_name_id for p in missions_filter.qs]
-
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        project_year_ids = [project.id for project in year_filter.qs]
-
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        community_filtered_ids = [community.id for community in communityPartners.qs]
-        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
-            community_partner_id__in=community_filtered_ids))
-        comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
-        filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
-        filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
-        filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
-        filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
-
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
-
         # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
         # gets all the community partner ids in a array. These are not distinct
         proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
-
         # sets the non distinct array to a distinct set of community partner ids
         unique_comm_ids = set(proj_comm_ids)
-
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
 
-        # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-
-        # gets all the campus partner ids in a array. These are not distinct
-        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-
-        # sets the non distinct array to a distinct set of campus partner ids
-        unique_camp_ids = set(proj_camp_ids)
-
-        # counts within the set of unique campus partner ids
-        unique_camp_ids_count = len(unique_camp_ids)
-
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+        unique_camp_ids = set(proj_camp_ids)
+        unique_camp_ids_count = len(unique_camp_ids)
 
         a = request.GET.get('weitz_cec_part', None)
         b = request.GET.get('community_type', None)
-        if a is None or b == "All" or a == '':
+        if a is None or a == "All" or a == '':
             if b is None or b == "All" or b == '':
-                project_count = Project.objects.filter(engagement_type_id=e.id).filter(
-                    id__in=filtered_project_ids1).count()
+                project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
+                proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+                proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+                unique_camp_ids = set(proj_camp_ids)
+                unique_camp_ids_count = len(unique_camp_ids)
 
         project_engagement_count.append(project_count)
         engagment_community_counts.append(unique_comm_ids_count)
@@ -892,10 +822,25 @@ def EngagementType_Chart(request):
         'series': [project_engagement_series, engagment_community_series, engagment_campus_series]
     }
 
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
     dump = json.dumps(chart)
     return render(request, 'charts/engagementtypechart2.html',
                  {'chart': dump, 'missions_filter': missions_filter, 'academicyear_filter': year_filter,'data_definition':data_definition,
-                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': campus_partner_filter})
+                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': campus_partner_filter, 'campus_id':campus_id})
 
 
 def GEOJSON():
@@ -1085,7 +1030,7 @@ def invitecommunityPartnerUser(request):
             communitypartneruser = CommunityPartnerUser(
                 community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
             communitypartneruser.save()
-            mail_subject = 'UNO-CPI Application - Invitation for Community Partner Registration'
+            mail_subject = 'UNO-CPI Community Partner Registration'
             current_site = get_current_site(request)
             message = render_to_string('account/CommunityPartner_Invite_email.html', {
                 'user': new_user,
@@ -1094,12 +1039,11 @@ def invitecommunityPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message, to=[to_email])
+            email = EmailMessage(mail_subject, message,  to=[to_email])
             email.send()
             return render(request, 'home/communityuser_register_done.html', )
     return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
                                                                               'community_partner_user_form':community_partner_user_form})
-
 
 def registerCommPartner(request, uidb64, token):
     try:
@@ -1110,26 +1054,23 @@ def registerCommPartner(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        community_partner = get_object_or_404(CommunityPartner, pk=user.pk)
-        if request.method == 'POST':
-           form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
-           if form.is_valid():
-               user = form.save(commit=False)
-               user.set_password(form.cleaned_data['password'])
-               user.is_active = True
-               user.is_communitypartner = True
-               user.save(commit=True)
-               return redirect('communitypartnerproject')
-           else:
-             form = CommunityPartnerUserCompleteRegistration(data=request.POST, instance=user)
-             return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
-                                                                                    'community_partner' : community_partner})
-        else:
-            form = CommunityPartnerUserCompleteRegistration(instance=user)
-        return render(request, 'home/registration/registerCommunityPartner.html' , {'form': form ,
-                                                                              'community_partner' : community_partner})
+        return render(request, 'home/registration/registerCommunityPartner.html', {'user': user})
     else:
         return render(request, 'home/registration/register_fail.html')
 
-def registerCommPartnerComplete(request, uidb64):
+
+
+def commPartnerResetPassword(request):
+    if request.method == 'POST':
+        form = SetPasswordForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, ('Your password was successfully updated!'))
+            return redirect('/')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = SetPasswordForm(request.user)
+    return render(request, 'registration/password_reset_confirm.html', {'form': form })
     return render(request,'home/register_done.html')

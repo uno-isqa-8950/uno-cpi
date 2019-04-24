@@ -19,6 +19,17 @@
         -webkit-animation: spin 2s linear infinite;
         animation: spin 2s linear infinite;
     }
+    @-webkit-keyframes spin
+    {
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin
+    {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
 
     .form-inline label
     {
@@ -76,6 +87,23 @@
       margin-left: auto;
       margin-right: auto;
     }
+.select2-selection__placeholder{
+        font-size: small;
+    }
+    @media only screen and (max-width: 768px)
+    {
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            float:left;
+            margin-left:50px;
+        }
+        #example_length select{width:35%;}
+
+        label{
+            font-size: small;
+        }
+
+    }
 
 </style>
 
@@ -89,7 +117,7 @@
                </div>
             </div>
             <div class="card" style="padding: 10px;">
-                <div class="center">
+                <div class="container">
                     {% pub_comms %}
                 </div>
             </div>
@@ -126,7 +154,7 @@
         <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
         <form class="form-inline" id="filters-form" method="get">
-            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+            <div class="col-lg-4 col-md-5 form-group">
                 <label for="academic_year"> Academic Years
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 32%}
@@ -144,26 +172,26 @@
                 </select>
             </div>
 
-            <div class="col-lg-4 col-md-5 form-group embed-responsive">
-                <label for="mission"> Project Mission Areas
+{#            <div class="col-lg-4 col-md-5 form-group">#}
+{#                <label for="mission"> Project Mission Areas#}
+{##}
+{#                    {% for data_definition in data_definition %}#}
+{#                        {% if data_definition.id == 3%}#}
+{#                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"#}
+{#                                  data-content="{{ data_definition.description }}" class="float" >#}
+{#                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                </label>#}
+{#                <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">#}
+{#                    <option> All </option>#}
+{#                    {% for mission in missions.form.mission %}#}
+{#                        {{mission}}#}
+{#                    {% endfor %}#}
+{#                </select>#}
+{#            </div>#}
 
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 3%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}
-                </label>
-                <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for mission in missions.form.mission %}
-                        {{mission}}
-                    {% endfor %}
-                </select>
-            </div>
-
-            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+            <div class="col-lg-4 col-md-5 form-group">
                 <label for="college_name"> Colleges and Main Units
 
                       {% for data_definition in data_definition %}
@@ -181,7 +209,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-5 form-group embed-responsive">
+                <div class="col-lg-4 col-md-5 form-group">
                 <label for="campus_partner"> Campus Partners
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 1%}
@@ -193,14 +221,18 @@
                 </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                         <option> All </option>
+                        <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
-                        {% for campus in campus_filter.form.campus_partner %}
-                            {{campus}}
+
+                        {% for campus in campus_filter %}
+                            <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
-            <div class="col-lg-4 col-md-5 form-group embed-responsive">
-                <label for="weitz_cec_part"> CEC Building Partners
+            <div class="col-lg-4 col-md-5 form-group">
+
+                <label for="weitz_cec_part"> CEC Community Building Partners
+
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 27%}
                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -217,7 +249,7 @@
                 </select>
             </div>
 
-            <div class="col-lg-4 col-md-5 form-group embed-responsive">
+            <div class="col-lg-4 col-md-5 form-group">
                 <label for="community_type"> Community Partner Types
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 33%}
@@ -250,6 +282,15 @@
                         {% endif %}
                     {% endfor %}
                 </th>
+                <th>Community Partner Mission Area
+                      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 51%}
+                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}
+                </th>
                 <th>Projects
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 47%}
@@ -265,6 +306,7 @@
             {% for community in community_list %}
             <tr>
                 <td>{{community.community_name}}</td>
+                <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
                 <td>{{community.project_count}}</td>
             </tr>
             {% endfor %}
@@ -286,7 +328,7 @@ $(document).ready(function(){
 
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'Select if CEC Building Partner',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                         sorter: function(data) {
@@ -340,7 +382,8 @@ $(document).ready(function(){
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
-       }
+       },
+       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false} ]
    });
 
    } );

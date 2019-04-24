@@ -14,16 +14,16 @@ class ProjectResource(resources.ModelResource):
     class Meta:
         model = Project
         fields = ('id','project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description',
-                    'semester', 'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
-                    'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
-                    'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
-                    'state', 'zip', 'latitude', 'longitude')
+                    'semester', 'end_semester', 'academic_year', 'end_academic_year', 'total_uno_students', 'total_uno_hours', 
+                    'total_k12_students','total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 
+                    'end_date', 'other_details', 'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 
+                    'country', 'city', 'state', 'zip', 'latitude', 'longitude')
 
 class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('project_name', 'engagement_type', 'activity_type', 'legislative_district','facilitator', 'description', 'semester',
-                    'total_uno_students', 'total_uno_hours', 'total_k12_students','total_k12_hours',
-                    'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
+                    'total_uno_students', 'end_semester', 'academic_year', 'end_academic_year', 'total_uno_hours', 'total_k12_students',
+                    'total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')
 
@@ -34,11 +34,11 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
 
 class ProjectMissionResource(resources.ModelResource):
-    project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    mission = fields.Field(attribute='mission', column_name="Mission Name")
+    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    # mission = fields.Field(attribute='mission', column_name="Mission Name")
     class Meta:
         model = ProjectMission
-        fields = ('project_name', 'mission_type', 'mission')
+        fields = ('id', 'project_name', 'mission_type', 'mission')
 
 class ProjectMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
@@ -50,11 +50,11 @@ class ProjectMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
 
 class ProjectCommunityPartnerResource(resources.ModelResource):
-    project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
+    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    # community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
     class Meta:
         model = ProjectCommunityPartner
-        fields = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
+        fields = ('id', 'project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
 
 class ProjectCommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
@@ -66,11 +66,11 @@ class ProjectCommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
 
 class ProjectCampusPartnerResource(resources.ModelResource):
-    project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    campus_partner = fields.Field(attribute='campus_partner', column_name="Campus Partner")
+    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
+    # campus_partner = fields.Field(attribute='campus_partner', column_name="Campus Partner")
     class Meta:
         model = ProjectCampusPartner
-        fields = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
+        fields = ('id', 'project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
 
 class ProjectCampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 

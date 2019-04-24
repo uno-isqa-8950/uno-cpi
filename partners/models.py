@@ -29,6 +29,8 @@ class CommunityPartner(models.Model):
     median_household_income = models.IntegerField(null=True, blank=True)
     history = HistoricalRecords()
 
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return str(self.name)
@@ -67,6 +69,9 @@ class CampusPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
     active = models.BooleanField(default=False)
     history = HistoricalRecords()
+
+    class Meta:
+        ordering = ('name',)
 
     def __str__(self):
         return str(self.name)

@@ -13,12 +13,14 @@ from .models import CampusPartner as CampusPartnerModel
 from projects.models import *
 from partners.models import *
 from home.models import *
-from home.forms import userUpdateForm
+from home.forms import userUpdateForm, userCommUpdateForm
 from django.template.loader import render_to_string
 import googlemaps
 from shapely.geometry import shape, Point
 from django.conf import settings
 from googlemaps import Client
+
+from django.core.cache import cache
 
 # import pandas as pd
 import json
@@ -52,6 +54,7 @@ def registerCampusPartner(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
+        # cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -81,6 +84,7 @@ def registerCommunityPartner(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
+        # cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
@@ -209,10 +213,9 @@ def userProfile(request):
 
 @login_required
 def userProfileUpdate(request):
-    if request.user.is_campuspartner:
+    user = get_object_or_404(User, id=request.user.id)
 
-        #campus_user = get_object_or_404(CampusPartnerUser, user=request.user.id)
-        user = get_object_or_404(User, id=request.user.id)
+    if request.user.is_campuspartner:
 
         if request.method == 'POST':
             request.POST._mutable = True
@@ -229,26 +232,20 @@ def userProfileUpdate(request):
                 avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
 
         else:
             user_form = userUpdateForm(instance=user)
             avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                          'partners/campus_partner_user_update.html', {'user_form': user_form,
-                        'avatar_form': avatar_form
-                          }) #"campus_partner_name": str(campus_user.campus_partner),
+                    'partners/campus_partner_user_update.html', {'user_form': user_form,
+                    'avatar_form': avatar_form})
 
     elif request.user.is_communitypartner:
 
-        #community_user = get_object_or_404(CommunityPartnerUser, user=request.user.id)
-        user = get_object_or_404(User, id=request.user.id)
-
         if request.method == 'POST':
-            user_form = userUpdateForm(data=request.POST, instance=user)
+
+            user_form = userCommUpdateForm(data=request.POST, instance=user)
             avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
             if user_form.is_valid()and avatar_form.is_valid():
@@ -256,19 +253,14 @@ def userProfileUpdate(request):
                 avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:userprofileupdate')
 
         else:
-            user_form = userUpdateForm(instance=user)
+            user_form = userCommUpdateForm(instance=user)
             avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                      'partners/community_partner_user_update.html',
-                      {'user_form': user_form,
-                       'avatar_form': avatar_form}
-                    )
+                    'partners/community_partner_user_update.html',{'user_form': user_form,
+                    'avatar_form': avatar_form})
 
 
 # Campus and Community Partner org Profile
@@ -305,18 +297,15 @@ def orgProfileUpdate(request, pk):
         community_partner = get_object_or_404(CommunityPartner, pk=pk)
 
         if request.method == 'POST':
-            community_org_form = CommunityPartnerForm(data=request.POST, instance=community_partner)
+            community_org_form = CommunityPartnerUpdateForm(data=request.POST, instance=community_partner)
 
             if community_org_form.is_valid():
                 community_org_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofileupdate')
 
         else:
-            community_org_form = CommunityPartnerForm(instance=community_partner)
+            community_org_form = CommunityPartnerUpdateForm(instance=community_partner)
 
         return render(request,
                           'partners/community_partner_org_update.html', {'community_org_form': community_org_form
@@ -332,9 +321,6 @@ def orgProfileUpdate(request, pk):
                 campus_org_form.save()
                 messages.success(request, 'Organization profile was successfully updated!')
                 return redirect('partners:orgprofile')
-            else:
-                messages.error(request, 'Please correct the error below.')
-                return redirect('partners:orgprofileupdate')
 
         else:
             campus_org_form = CampusPartnerForm(instance=campus_partner)
@@ -401,6 +387,7 @@ def registerCampusPartner_forprojects(request):
     #    departmnts.append(object.department_name)
 
     if request.method == 'POST':
+        # cache.clear()
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -429,6 +416,7 @@ def registerCommunityPartner_forprojects(request):
         commType.append(object.community_type)
 
     if request.method == 'POST':
+        # cache.clear()
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')

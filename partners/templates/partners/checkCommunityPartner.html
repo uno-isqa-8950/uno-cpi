@@ -1,72 +1,74 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block content %}
-  <style>
+{% load wagtailcore_tags register_tags %}
 
-  @media screen and (max-width: 768px) {
-    .select2 {
-        width: 95% !important;
-    }
-}
+    <style>
 
-
-.select2-container--default .select2-selection--single
-{
-    {#border: 2px solid #aaa;#}
-    height:35px;
-    margin-left:3%;
-    margin-right: -2%;
-    max-width: 100%;
-}
-    label
-    {
-        margin-left: 25px;
-        font-weight: bold;
-    }
-
-    {
-        content:"*" ;
-        color:red
-    }
-
-    h4
-    {
-        line-height: 2.7;
-        font-size: 1.3em;
-    }
-
-    .h9{
-        font-size:0.8em;
-        font-style: italic;
-    }
-
-    .btn-link{
-
-        font-size: small;
-        font-style: italic;
-    }
-
-    .panel {
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
+        @media screen and (max-width: 768px) {
+            .select2 {
+                width: 95% !important;
+            }
+        }
 
 
-  select[id=id_form-0-campus_partner]
-   {
-       width:93%;
-   }
+        .select2-container--default .select2-selection--single
+        {
+        {#border: 2px solid #aaa;#}
+            height:35px;
+            margin-left:3%;
+            margin-right: -2%;
+            max-width: 100%;
+        }
+        label
+        {
+            margin-left: 25px;
+            font-weight: bold;
+        }
+
+        {
+            content:"*" ;
+            color:red
+        }
+
+        h4
+        {
+            line-height: 2.7;
+            font-size: 1.3em;
+        }
+
+        .h9{
+            font-size:0.8em;
+            font-style: italic;
+        }
+
+        .btn-link{
+
+            font-size: small;
+            font-style: italic;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        }
 
 
-   .btn-link, .btn-link:hover
+        select[id=id_form-0-campus_partner]
+        {
+            width:93%;
+        }
 
-   {
-   color: #d71920
-   }
+
+        .btn-link, .btn-link:hover
+
+        {
+            color: #d71920
+        }
 
 
     </style>
@@ -75,6 +77,13 @@
             <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Register a Community Partner</h4></div>
+                        <div class="panel-body">
+                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% com_part_regs %}
+                                </div>
+                             </div>
+                         </div>
                     <div class="panel-body">&emsp;
                         <div class="dropdown">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">
@@ -85,12 +94,12 @@
                                 <a class="dropdown-item" href="#">Community Partner Name</a>
                             </div>
                         </div>
-                        <form method="POST">{% csrf_token %}
+                        <form method="POST" onsubmit="return false">{% csrf_token %}
                             <input style="margin-left: 7%" id="partner_name" type="text" name="name_field" value="">
                         </form>
                         <div class="justify-content-md-center" style="margin-left: 40%">
-                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button">Next</a>
-                            </div>
+                            <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right" aria-hidden="true"></i> Next</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,89 +110,125 @@
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg-10 col-md-10">
-{#                <div class = "panel panel-default">#}
-{#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
-                    <div class="panel-body">&emsp;
-                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
-                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
-                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
-                    </div>
+                {#                <div class = "panel panel-default">#}
+                {#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
+                <div class="panel-body">&emsp;
+                    <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
+                    <div class="justify-content-md-center" id="node1-id" style="margin-left: 17%"></div>
+                    <div class="justify-content-md-center" id="button-id" style="margin-left: 15%"></div>
                 </div>
             </div>
         </div>
     </div>
+    </div>
 
 
-     {{ partnerNames | json_script:"partner-data"}}
+    {{ partnerNames | json_script:"partner-data"}}
 
-<div style="margin-bottom: 300px"></div>
+    <div style="margin-bottom: 300px"></div>
 
-<script>
-var valueFilter = document.getElementById("partner_name");
+    <script>
+        var valueFilter = document.getElementById("partner_name");
 
-//Press the listening button
-valueFilter.addEventListener("keydown", function (e) {
-    if (e.keyCode == 8) {
+        //Press the listening button
+        valueFilter.addEventListener("keydown", function (e) {
+            if (e.keyCode == 8) {
+                document.getElementById('node-id'). innerHTML = "";
+                document.getElementById('node1-id'). innerHTML = "";
+                document.getElementById('button-id'). innerHTML = "";
+            }
+        });
 
+        // the listening button off
+        valueFilter.addEventListener("keyup", function (e) {
+            partners = JSON.parse(document.getElementById('partner-data').textContent);
+            //get the input value
+            var value = e.target.value.trim().toLowerCase();
+            var partnerlist = []
 
-    }
-});
-
-// the listening button off
-valueFilter.addEventListener("keyup", function (e) {
-    partners = JSON.parse(document.getElementById('partner-data').textContent);
-    //get the input value
-    var value = e.target.value.trim().toLowerCase();
-    console.log(value)
-    console.log(partners)
-    var partnerlist = []
-
-    if (value == "") {
-        document.getElementById('node-id'). innerHTML = "";
-        document.getElementById('node1-id'). innerHTML = "";
-        document.getElementById('button-id'). innerHTML = "";
-
+            if (value == "") {
+                document.getElementById('node-id'). innerHTML = "";
+                document.getElementById('node1-id'). innerHTML = "";
+                document.getElementById('button-id'). innerHTML = "";
 
 
-    } else {
-        partnerlist = [];
-        document.getElementById('next').onclick = function () {
-            for (var i = 0; i < partners.length; i++) {
-                if (partners[i].toLowerCase().includes(value)) {
-                    if (!(partners[i] in partnerlist)) {
-                        partnerlist.push(partners[i])
-                        console.log(partnerlist)
 
-                        document.getElementById('node-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>Do you see the Community Partner you want to register? </td></tr><br><br>' +
-                            {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
-                            '<table class="table table-hover table-sm">' +
-                            '<tr><th>Community Partner</th></tr>' +
-                            '<tr><td><b>' + partnerlist.join("<br>") + '<b></td></tr>' +
-                            '<table>'
+            } else {
+                partnerlist = [];
+                document.getElementById('next').onclick = function myfunction() {
+                    document.getElementById('next').onclick= null;
+                    for (var i = 0; i < partners.length; i++) {
+                        if (partners[i].toLowerCase().includes(value)) {
+                            if (!(partners[i] in partnerlist)) {
+                                partnerlist.push(partners[i])
+
+                                 var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
+                            '<tr>' +
+                            '<th>Community Partner</th></tr>';
+                        for (let j =0; j<partnerlist.length;j++ ){
+                            mylist +='<tr>' +
+                                '<td>' + partnerlist[j] + '</td>' +
+                                    '</tr>'
+
+                        }
+                        mylist += '<table>';
+
+                                document.getElementById('node-id').innerHTML =
+                                    '<br>' +
+                                    '<tr><td>The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</td></tr><br><br>' +
+                                    {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
+                                    {#'<table class="table table-hover table-sm table-bordered">' +#}
+                                    {#'<tr><th>Community Partner</th></tr>' +#}
+                                    {#'<tr><td>' + partnerlist.join("<br>") + '</td></tr>' +#}
+                                    {#'<table>'#}
+                                mylist
 
 
-                        document.getElementById('node1-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>If yes, the Community Partner already exists! Click on the button below to access it</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button">Community Partner Report</a></td></tr>'
+                                document.getElementById('node1-id').innerHTML =
+                                    '<br>' +
+                                    '<tr><td>Click on ‘Community Partner Report’ to access Community Partners already registered</td></tr><br /><br />' +
 
-                    }
-                } else {
-                    if (!(partners[i].toLowerCase().includes(value))) {
-                        document.getElementById('button-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>If you do not find the Community Partner in the list, kindly go ahead and register the Community Partner</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button">Register Community Partner</a></td></tr>'
+                                    '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/communityprivatereport" role="button"><i class="fa fa-file" aria-hidden="true"></i> Community Partner Report</a></td></tr>'
+
+
+                            }
+                        } else {
+                            if (!(partners[i].toLowerCase().includes(value))){
+                                if(partnerlist.length == 0)
+                                {
+                                     document.getElementById('node-id'). innerHTML = "";
+                                    document.getElementById('button-id').innerHTML =
+                                        '<br>' +
+                                        '<tr><td>This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration. </td></tr><br /><br />' +
+                                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button"><i class="fa fa-users" aria-hidden="true"></i> Register the Community Partner</a></td></tr>'
+                                }
+                                else
+                                {
+                                    document.getElementById('button-id').innerHTML =
+                                        '<br>' +
+                                        '<tr><td>If you do not find the community partner in the list, please register the community partner.</td></tr><br /><br />' +
+
+                                        '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/partners/registerCommunityPartner/" role="button"><i class="fa fa-users" aria-hidden="true"></i> Register the Community Partner</a></td></tr>'
+
+                                }
+                            }
+                        }
+
                     }
                 }
+            };
 
-            }
-        }
-    };
+        });
 
+
+        $("#dropdownMenuButton").on("click", function() {
+  $('.dropdown-menu').toggleClass('open');
 });
-</script>
+$(".dropdown-menu a").on("click", function() {
+  $('#dropdownMenuButton').text($(this).text());
+  $('.dropdown-menu').removeClass('open');
+});
+    </script>
 
 {% endblock %}
+

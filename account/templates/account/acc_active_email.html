@@ -1,11 +1,12 @@
 {% autoescape off %}
 Hi {{ user.first_name }},
 
-Thank you for signing up as a Campus Partner User  at the UNO's Community Partnership Initiative!
+Thank you for signing up as a Campus Partner User at the UNO Community Partnership Initiative!
 
-Please click on the link to confirm your registration,
+Please click the link below to complete your registration:
 http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
 
 Sincerely,
-Team UNO Community Partnership Initiative
+The University of Nebraska at Omaha’s Community Engagement Team.
+Email:partnerships@unomaha.edu
 {% endautoescape %}

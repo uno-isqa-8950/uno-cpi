@@ -49,83 +49,58 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     fullscreenControl: false,
     mapTypeControl: false,
     styles: [
-        {
-            "featureType": "landscape",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi",
-            "elementType": "labels.text",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "poi.business",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road",
-            "elementType": "labels.icon",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.arterial",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "geometry.stroke",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.highway",
-            "elementType": "labels",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "road.local",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        },
-        {
-            "featureType": "transit",
-            "stylers": [
-                {
-                    "visibility": "off"
-                }
-            ]
-        }
-    ]
+ {
+   "featureType": "landscape",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi",
+   "elementType": "labels.text",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "poi.business",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road",
+   "elementType": "labels.icon",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "road.highway",
+   "elementType": "geometry.stroke",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ },
+ {
+   "featureType": "transit",
+   "stylers": [
+     {
+       "visibility": "off"
+     }
+   ]
+ }
+]
 });
 
 
@@ -207,7 +182,7 @@ $('#selectCollege').html(select7);
 //*********************************** Load the map *****************************************************
 
 var markers =[];
-var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 0.5});
+var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
 var markerCluster = null;
 var defaultFilterValues = [];
 var filters = {};
@@ -359,10 +334,10 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
         if (openedInfoWindow != null) openedInfoWindow.close();
         infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner.join(" | ") + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type.join(" | ")  + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
         infowindow.open(map, marker);
         // map.setZoom(16);
@@ -513,16 +488,21 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    const selectFilterChildren = Array.from(selectFilters.children);
+    if (event.target == valueFilter){
+        return
+    }
+    else {
+        const selectFilterChildren = Array.from(selectFilters.children);
 
-    selectFilterChildren.forEach((child) => {
-        // Set each filter's value
-        if (child.id !== "engagementFilters" && child.id !== "selectCollege") {
-            mapFilter(child.id, child.value);
-        }
-    });
-    filterMarkers();
-    $('#totalnumber').html(getClusterSize());
+        selectFilterChildren.forEach((child) => {
+            // Set each filter's value
+            if (child.id !== "engagementFilters" && child.id !== "selectCollege") {
+                mapFilter(child.id, child.value);
+            }
+        });
+        filterMarkers();
+        $('#totalnumber').html(getClusterSize());
+    }
 });
 
 
@@ -543,10 +523,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-    if (e.keyCode == 8) {
+    if (e.keyCode == 8 || e.keyCode == 46) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
-            markerCluster.removeMarker(markers[i]);
+            markerCluster.clearMarkers(markers[i]);
         }
         markerCluster.redraw();
     }
@@ -591,6 +571,7 @@ $("#reset").click(function () {
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
+    valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         console.log(`${filters[filter]}`)

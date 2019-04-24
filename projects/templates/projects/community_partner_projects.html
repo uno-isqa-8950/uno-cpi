@@ -90,14 +90,9 @@
                                               data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     {% endif %} {% endfor %}
                                 </th>
-                                <th>Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Activity Type{% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
+                                <th>Semester</th>
+                                <th>Activity Type</th>
+                                <th>Outcomes</th>
                                 <th>Total UNO Students</th>
                                 <th>Total UNO Students Hours</th>
                                 <th>UNO Faculty/Staff</th>
@@ -112,7 +107,7 @@
 
 
                             {% for project in project %}
-                                <br>
+                                <tr>
 
                                 <td>{{ project.name }}</td>
                                 <td>{% for projmisn in project.projmisn %}
@@ -124,6 +119,7 @@
                                 <td>{{ project.status}}</td>
                                 <td>{{ project.semester }}</td>
                                 <td>{{ project.activityType }}</td>
+                                <td>{{ project.outcomes }}</td>
                                 <td>{{project.total_uno_students}}</td>
                                 <td>{{project.total_uno_hours}}</td>
                                 <td>{{ project.facilitator }}</td>

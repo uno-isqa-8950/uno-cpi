@@ -74,8 +74,11 @@ class CampususerForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+        if ".edu" not in email:
+            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner User.")
+        if User.objects.filter(email__exact=email).exists():
+            raise forms.ValidationError(
+                'A user with this email address is already registered. Once logged in, the user can be associated to multiple campus partners through the Organization portal.')
         return email
 
     def clean_password2(self):
@@ -88,13 +91,13 @@ class CampususerForm(forms.ModelForm):
                 raise forms.ValidationError('Passwords don\'t match.')
             else:
                 if len(pas) < MIN_LENGTH:
-                    raise forms.ValidationError("Password should have atleast %d characters" % MIN_LENGTH)
+                    raise forms.ValidationError("Your password should have at least %d characters, 1 digit and 1 special character" % MIN_LENGTH)
                 if pas.isdigit():
-                    raise forms.ValidationError("Password should not be all numeric")
+                    raise forms.ValidationError("Your password should not be all numeric")
                 if pas.isalpha():
-                    raise forms.ValidationError("Password should have atleast one digit")
+                    raise forms.ValidationError("Your password should have atleast one digit")
                 if not any(char in special_characters for char in pas):
-                    raise forms.ValidationError("Password should have atleast one Special Character")
+                    raise forms.ValidationError("Your password should have atleast one Special Character")
 
 
 class UserForm(forms.ModelForm):
@@ -184,20 +187,15 @@ class userUpdateForm(forms.ModelForm):
 
     def clean_email(self):
         email = self.cleaned_data['email']
-        if "edu" != email.split("@")[1].split('.')[1]:
-            raise forms.ValidationError("Please use .edu email ")
+        if ".edu" not in email:
+            raise forms.ValidationError("Please use your campus email (.edu) inorder to update your profile.")
         return email
 
-
-class CommunityPartnerForm(forms.ModelForm):
+class userCommUpdateForm(forms.ModelForm):
 
     class Meta:
         model = User
         fields = ( 'first_name', 'last_name', 'email' )
-        help_texts = {
-
-            'email': None,
-        }
 
         labels = {
 
@@ -224,13 +222,11 @@ class CommunityPartnerForm(forms.ModelForm):
             raise forms.ValidationError("Last Name should not have Special Characters")
         return lastname
 
-    def clean_password2(self):
-        cd = self.cleaned_data
-        if cd['password'] != cd['password2']:
-            raise forms.ValidationError('Passwords don\'t match.')
-        return cd['password2']
-
-
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "@" not in email:
+            raise forms.ValidationError("Please use a Valid email address.")
+        return email
 
 class UploadProjectForm(forms.ModelForm):
     engagement_type = forms.ModelChoiceField(queryset=EngagementType.objects.all(), to_field_name="name")
@@ -379,9 +375,9 @@ class CampusPartnerAvatar(ModelForm):
                                             'GIF or PNG image.')
 
             # validate file size
-            if len(avatar) > (2 * 1024 *1024):
+            if len(avatar) > (10 * 1024 *1024):
                 raise forms.ValidationError(
-                    u'Avatar file size may not exceed 2mb.')
+                    u'Avatar file size may not exceed 10mb.')
 
         except AttributeError:
             """
@@ -417,12 +413,34 @@ class CommunityPartnerUserInvite(forms.ModelForm):
         model = User
         fields = ('first_name','last_name', 'email')
 
+    def clean_first_name(self):
+        firstname = self.cleaned_data['first_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in firstname):
+            raise forms.ValidationError("First Name cannot have digits")
+        if any(char in special_characters for char in firstname):
+            raise forms.ValidationError("First Name should not have Special Characters")
+        return firstname
+
+    def clean_last_name(self):
+        lastname = self.cleaned_data['last_name']
+        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+        if any(char.isdigit() for char in lastname):
+            raise forms.ValidationError("Last Name cannot have digits")
+        if any(char in special_characters for char in lastname):
+            raise forms.ValidationError("Last Name should not have Special Characters")
+        return lastname
+
+    def clean_email(self):
+        email = self.cleaned_data['email']
+        if "@" not in email:
+            raise forms.ValidationError("Please use a valid email address to register Community Partner User")
+        return email
+
 class CommunityPartnerUserCompleteRegistration(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
-    password = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Confirm Password', widget=forms.PasswordInput)
 
     def clean_password2(self):
         pas = self.cleaned_data['password']

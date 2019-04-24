@@ -24,6 +24,9 @@
             background-color: #bbbbbb;
             color:white;
         }
+#button-center{
+    text-align: center;
+}
 
         div.dataTables_wrapper div.dataTables_length label
         {
@@ -113,16 +116,16 @@
                                         <td>{{community_partner.state}}</td>
                                         <td>{{community_partner.zip}}</td>
                                         <td>{{community_partner.country}}</td>
-                                        <td align="center"><a href="{% url 'partners:orgprofilemission' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Missions </a></td>
-                                        <td align="center"><a href="{% url 'partners:orgprofilecontact' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Contacts </a></td>
-                                        <td align="center"><a href="{% url 'partners:orgprofileupdate' pk=community_partner.pk %}" class="btn btn-actions" role="button"> Edit </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofilemission' pk=community_partner.pk %}" class="btn btn-actions" role="button"><i class="fa fa-bullseye" aria-hidden="true"></i> Missions </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofilecontact' pk=community_partner.pk %}" class="btn btn-actions" role="button"><i class="fa fa-address-book" aria-hidden="true"></i> Contacts </a></td>
+                                        <td align="center"><a href="{% url 'partners:orgprofileupdate' pk=community_partner.pk %}" class="btn btn-actions" role="button"><i class="fa fa-edit" aria-hidden="true"></i> Edit </a></td>
                                     </tr>
                                 {% endfor %}
                             </table>
                         </div>
                     </div><br>
                     <div style="text-align:center">
-                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"><i class="fa fa-plus fa-fw"></i> Join Community Partners</a>
+                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button"><i class="fa fa-plus-square fa-fw"></i> Join Community Partners</a>
                     </div>
                 <br><br>
                 </div>

@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load staticfiles %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -63,7 +64,9 @@
     {
     color:grey;
     }
-
+    #button-center{
+        text-align: center;
+    }
 
 </style>
 
@@ -75,6 +78,13 @@
 		    <div class="col-lg-12 col-md-12" style="margin-left: 5%">
                 <div class = "panel panel-default" style="width:90%">
                     <div class="panel-heading text-center"><h4>My Projects</h4></div>
+                  <div class="panel-body">
+                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% my_projects %}
+                                </div>
+                             </div>
+                  </div>
                             <div class="container-fluid">
                                     <table id="example" class="table table-responsive table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                         <thead>
@@ -100,11 +110,10 @@
                                                 <th>Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Status{% for data_definition in data_definition %}{% if data_definition.id == 38%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}
-                                                </th>
-                                                <th>Start Date </th>
-                                                <th>End Date </th>
+                                                <th> Status </th>
+                                                <th> Start Date </th>
+                                                <th> End Date </th>
+                                                <th> Outcomes</th>
                                                 <th> Number of UNO Students</th>
                                                 <th> Number of UNO Students Hours</th>
                                                 <th> Number of UNO Faculty/Staff</th>
@@ -131,6 +140,7 @@
                                                 <td>{{ project.status }}</td>
                                                 <td>{{ project.startDate }}</td>
                                                 <td>{{ project.endDate }}</td>
+                                                <td>{{ project.outcomes }}</td>
                                                 <td>{{project.total_uno_students}}</td>
                                                 <td>{{project.total_uno_hours}}</td>
                                                 <td>{{project.total_uno_faculty}}</td>
@@ -140,7 +150,7 @@
                                                 <td>{{ project.activityType }}</td>
 {#                                                <td>{{ project.facilitator }}</td>#}
                                                 <td>{{ project.description }}</td>
-                                                <td><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;">Edit</a> </td>
+                                                <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> </td>
                                            </tr>
                                             {% endfor %}
                                         </tbody>

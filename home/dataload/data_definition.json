@@ -542,5 +542,15 @@
 				"group": 1,
 				"is_active": 1
 			}
+		},
+        {
+			"model": "home.datadefinition",
+			"pk": 51,
+			"fields": {
+				"title": "Community Partner Mission Area",
+				"description": "Community Partner Mission Area Description",
+				"group": 1,
+				"is_active": 1
+			}
 		}
 ]

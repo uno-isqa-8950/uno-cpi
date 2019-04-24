@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
   <style>
 
@@ -75,8 +76,15 @@
             <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Create Project</h4></div>
+                      <div class="panel-body">
+                            <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% create_projects %}
+                                </div>
+                             </div>
+                      </div>
                     <div class="panel-body">&emsp;
-                        <div class="dropdown">
+                        <div class="dropdown" style="margin-bottom: 2%">
                             <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">
                                 Search Type
                             </button>
@@ -85,15 +93,17 @@
                                 <a class="dropdown-item" href="#">Project Name</a>
                             </div>
                         </div>
-                        <form method="POST">{% csrf_token %}
+
+                        <form method="POST" onsubmit="return false">{% csrf_token %}
                             <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
                         </form>
 {#                         <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>#}
 {#                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>#}
-                        <div class="justify-content-md-center" style="margin-left: 40%">
-                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button">Next</a>
+                        <div class="justify-content-md-center" style="margin-left: 40%; margin-top: 2%; margin-bottom: 2%">
+                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right"></i>
+                            Next</a>
                             </div>
                     </div>
                 </div>
@@ -105,10 +115,8 @@
     <div class = "container">
         <div class="row justify-content-md-center">
             <div class="col-lg-10 col-md-10">
-{#                <div class = "panel panel-default">#}
-{#                    <div class="panel-heading text-center"><h4>Search for a Project</h4></div>#}
                     <div class="panel-body">&emsp;
-                        <div class="justify-content-md-center" id="node-id" style="margin-left: 20%"></div>
+                        <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
                         <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
                         <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
                     </div>
@@ -128,8 +136,9 @@ var valueFilter = document.getElementById("project_name");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     if (e.keyCode == 8) {
-
-
+        document.getElementById('node-id'). innerHTML = "";
+        document.getElementById('node1-id'). innerHTML = "";
+        document.getElementById('button-id'). innerHTML = "";
     }
 });
 
@@ -138,8 +147,6 @@ valueFilter.addEventListener("keyup", function (e) {
     project_db = JSON.parse(document.getElementById('project-data').textContent);
     //get the input value
     var value = e.target.value.trim().toLowerCase();
-    console.log(value)
-    console.log(project_db[0])
     var projectlist = []
     var partnerlist = [];
 
@@ -154,43 +161,50 @@ valueFilter.addEventListener("keyup", function (e) {
         projectlist = [];
         {#if (e.keyCode == 32 || e.keyCode == 13) {#}
 
-        document.getElementById('next').onclick = function () {
-
+        document.getElementById('next').onclick= function myfunction() {
+            document.getElementById('next').onclick= null;
 
             for (var i = 0; i < project_db.length; i++) {
 
                 if (project_db[i][0].toLowerCase().includes(value)) {
                     if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist)) {
 
-                        projectlist.push(project_db[i][0])
-                        partnerlist.push(project_db[i][1])
-                        console.log(projectlist, partnerlist)
+                        projectlist.push(project_db[i][0]);
+                        partnerlist.push(project_db[i][1]);
+
+                        var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
+                            '<tr><th>Project Name and the Academic Year</th>' +
+                            '<th>Community Partner</th></tr>';
+                        for (let j =0; j<projectlist.length;j++ ){
+                            mylist +='<tr>' +
+                                '<td>' + projectlist[j] + '</td>' +
+                                    {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
+                                    '<td>'  + partnerlist[j] + '</td>' +
+                                    '</tr>'
+
+                        }
+                        mylist += '<table>';
+
 
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
-                            '<tr><td>Do you see the project you want to create here? </td></tr><br><br>' +
-                            {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
-                            '<table class="table table-hover table-sm">' +
-                            '<tr><th>Project Name and the Academic Year</th>' +
-                            '<th>Community Partner</th></tr>' +
-                            '<tr><td><b>' + projectlist.join("<br>") + '<b></td>' +
-                            '<td><b>' + partnerlist.join("<br>") + '<b></td>'+
-                            '</tr>' +
-                            '<table>'
-
+                                '<tr><td>Here is a list of Projects that closely matches the phrase entered, these Projects already exist </td></tr><br><br>' +
+                                 mylist
 
                         document.getElementById('node1-id').innerHTML =
                             '<br>' +
-                            '<tr><td>If yes, the project already exists! Click on the button below to access it</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button">All Projects</a></td></tr>'
+                            '<tr><td>To access any of the Projects that already exist click on the ‘All Projects’ button below </td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
 
                     }
                 } else {
                     if (!(project_db[i][0].toLowerCase().includes(value))) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td>If you do not find the project in the list, kindly go ahead and create a new project</td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button">Create Project</a></td></tr>'
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To create a new project, click on the button below</td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            ' Create Project</a></td></tr>'
                     }
                 }
 
@@ -199,6 +213,16 @@ valueFilter.addEventListener("keyup", function (e) {
     };
 
 });
+
+
+$("#dropdownMenuButton").on("click", function() {
+  $('.dropdown-menu').toggleClass('open');
+});
+$(".dropdown-menu a").on("click", function() {
+  $('#dropdownMenuButton').text($(this).text());
+  $('.dropdown-menu').removeClass('open');
+});
+
 </script>
 
 {% endblock %}

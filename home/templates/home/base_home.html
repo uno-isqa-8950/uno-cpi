@@ -21,6 +21,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138745579-1"></script>
+<script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
+
+ gtag('config', 'UA-138745579-1');
+</script>
+
+
 <style>
 
 #brand
@@ -152,6 +164,10 @@ margin-top:15px;
         display: inline;
     }
 
+    @media only screen and (max-width: 768px){
+    a {
+        font-size: small;
+    }}
 
 
 </style>
@@ -248,7 +264,7 @@ margin-top:15px;
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href= '/Adminframe/'>Admin View</a>
-                        <a class="dropdown-item" href='/uploadProject/'>Import Data</a>
+{#                        <a class="dropdown-item" href='/uploadProject/'>Import Data</a>#}
                         <a class="dropdown-item" href='/cms/'>CMS</a>
                         <a class="dropdown-item" href='/recentchanges/'>Audit Logs</a>
                     </div>
@@ -295,11 +311,11 @@ margin-top:15px;
 
 
 
-
 <!--Footer Begins here-->
 
+{% block footer %}
 
-<footer >
+<footer id="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
@@ -323,8 +339,8 @@ margin-top:15px;
           </div>
 
           <div class="col-sm-2" style="margin-top:8px; text-align: left;">
-                <span><a class="fright" href="mailto:communityengagement@unomaha.edu">CONTACT US</a></span>
-                <span><a class="fright" href="https://unomaha.box.com/s/gth9thxo5y8v044obrhdr92pnhha0ypn" target="_blank">USER MANUAL</a></span>
+                <span><a class="fright" href="mailto:partnerships@unomaha.edu">CONTACT US</a></span>
+                <span><a class="fright" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">USER MANUAL</a></span>
           </div>
 
           <div class="footertext"><hr></div>
@@ -343,14 +359,49 @@ margin-top:15px;
 </footer>
 
 
+
 <!-- Footer Ends Here-->
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
-{% block js %}{% endblock %}
-{% block custom_js %}{% endblock %}
+{% block js %} {% endblock %}
+{% block custom_js %}
+    <script>
+    $(window).bind("load", function() {
+
+       var footerTop = 0,
+           $footer = $("#footer");
+
+       positionFooter();
+
+       function positionFooter() {
+                footerTop = ($(document).height()-$("body").height())+"px";
+
+
+               if ( ($("body").height()) < $(document).height()) {
+                   $footer.css({
+                        position: "relative"
+                   }).animate({
+                        top: footerTop
+                   })
+               } else {
+                   $footer.css({
+                        position: "static"
+                   })
+               }
+
+       }
+
+       $(window)
+               .scroll(positionFooter)
+               .resize(positionFooter)
+
+    });
+    </script>
+
+{% endblock %}
+
+{% endblock %}
 {% block selectizeForm %}{% endblock %}
-
-
 
 
 </body>

@@ -308,7 +308,15 @@
                         {% endif %}
                     {% endfor %}
                 </th>
-                <th>Community Mission Area</th>
+                <th>Community Partner Mission Area
+                      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 51%}
+                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}
+                </th>
                 <th>Projects
                      {% for data_definition in data_definition %}
                         {% if data_definition.id == 30%}

@@ -14,7 +14,7 @@ class UserResource(resources.ModelResource):
 
 
 @admin.register(User)
-class UserAdmin(SimpleHistoryAdmin, ImportExportModelAdmin):
+class UserAdmin(ImportExportModelAdmin):
     """Define admin model for custom User model with no email field."""
 
     fieldsets = (

@@ -11,7 +11,9 @@
         }
 
         .form-control{
-            width: 92% !important;
+            margin-left: 2% !important;
+            margin-right: 2% !important;
+            width: 94% !important;
         }
         .select2-container--default .select2-selection--single
         {
@@ -29,12 +31,15 @@
             width: 583px !important;
         }
 
-        label[for=id_community_type]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after
+        label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after
         {
             content:"*" ;
             color:red
         }
-
+        .help-block
+        {
+            display: none;
+        }
         .btn-custom
         {
             background-color: #282828;
@@ -145,21 +150,25 @@
                                         {% endfor %}
                                     </ul>
                                 {% endif %}
-                                {% for field in community_org_form %}
-                                    <div class="form-group">
-                                        <label for="{{field.name}}">{{field.label}}</label>
-                                        <input type="text" class="form-control" name="{{field.name}}" id="{{field.name}}" value="{{field.value|default_if_none:''}}" required>
-                                    </div>
-
-                                    {% for error in field.errors %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-                                {% endfor %}
-{#                                <p id="button-center">#}
+                                {{ community_org_form.name|bootstrap }}
+                                    {% if  community_org_form.name.errors %} {% for error in  community_org_form.name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.website_url|bootstrap }}
+                                    {% if  community_org_form.website_url.errors %} {% for error in  community_org_form.website_url.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.community_type|bootstrap }}
+                                    {% if  community_org_form.community_type.errors %} {% for error in  community_org_form.community_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.k12_level|bootstrap }}
+                                    {% if  community_org_form.k12_level.errors %} {% for error in  community_org_form.k12_level.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.address_line1|bootstrap }}
+                                    {% if  community_org_form.address_line1.errors %} {% for error in  community_org_form.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.city|bootstrap }}
+                                    {% if  community_org_form.city.errors %} {% for error in  community_org_form.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.state|bootstrap }}
+                                   {% if  community_org_form.state.errors %} {% for error in  community_org_form.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.zip|bootstrap }}
+                                    {% if  community_org_form.zip.errors %} {% for error in  community_org_form.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.country|bootstrap }}
+                                     {% if  community_org_form.country.errors %} {% for error in  community_org_form.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                     <button id="button-center"  type="submit" class="btn btn-custom"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button>
-{#                                </p>#}
                                 <br><br>
                             </form>
                         </div>
@@ -177,6 +186,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
     <script>
+        $('#id_website_url').keyup(function () {
+            if (  ($(this).val().length >=5) && ($(this).val().substr(0, 5) != 'http:') && ($(this).val().substr(0, 5) != 'https') ) {
+                $(this).val('https://' + $(this).val());
+            }
+        });
         $(document).ready(function(){
             $('#id_community_type').select2({border:'2px solid #aaa'});
         });

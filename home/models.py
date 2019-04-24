@@ -316,7 +316,7 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
-    history = HistoricalRecords()
+    # history = HistoricalRecords()
 
 
 class Contact(models.Model):

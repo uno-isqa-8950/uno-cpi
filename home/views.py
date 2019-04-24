@@ -166,14 +166,14 @@ def recentchanges(request):
     recent_comm = CommunityPartner.history.all().order_by('-history_date')[:150]
     recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:150]
     #users and contacts
-    recent_user = User.history.all().order_by('-history_date')[:100]
+    # recent_user = User.history.all().order_by('-history_date')[:100]
     recent_contact = Contact.history.all().order_by('-history_date')[:100]
 
     return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
                                                         'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
 
                                                         'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
-                                                        'recent_user': recent_user, 'recent_contact':recent_contact})
+                                                        'recent_contact':recent_contact})
 
 def registerCampusPartnerUser(request):
     data = []

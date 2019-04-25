@@ -385,6 +385,23 @@
 
 {% block custom_js %}
 
+{#<script>#}
+{##}
+{#$('.btn.btn-secondary.buttons-csv.buttons-html5').click(function(){#}
+{#$('.content.hideContent').removeClass('hideContent').addClass('showContent');#}
+{#$('.show-more').remove()#}
+{#});#}
+{##}
+{#if ($('.btn.btn-secondary.buttons-pdf.buttons-html5').click(function(){#}
+{#$(".content.hideContent").removeClass('hideContent').addClass('showContent');#}
+{#$(".show-more").hide()#}
+{#}));#}
+{##}
+{##}
+{##}
+{#</script>#}
+
+
 <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 <script type="text/javascript">
 $(".show-more a").on("click", function(e) {
@@ -420,9 +437,15 @@ $(".show-more a").on("click", function(e) {
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel', 'pdf']
+       buttons: ['csv', 'excel', 'pdf'],
+       exportOptions: $('.show-more').detach(),
+       exportOptions: $('.content.hideContent').removeClass('hideContent').addClass('showContent')
+
        }
    });
+   {#$('.content.hideContent').removeClass('showContent').addClass('hideContent')#}
+   {#$('.show-more').addClass('.show-more')#}
+
 
    } );
 </script>

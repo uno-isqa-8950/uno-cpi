@@ -46,11 +46,7 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ProjectForm2(ModelForm):
-    address_line1 = forms.CharField(required=True)
-    country = forms.CharField(required=True)
-    city = forms.CharField(required=True)
-    state = forms.CharField(required=True, label="State or Province")
-    zip = forms.CharField(required=True, label="Zip or Postal Code")
+
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
@@ -78,14 +74,14 @@ class ProjectForm2(ModelForm):
             'end_date': 'Project End Date',
             'other_details': 'Other Important Details',
             'outcomes': 'Outcomes',
-            #'address_line1': 'Address Line',
+            'address_line1': 'Address',
             'total_other_community_members':  'Number of Other Participants',
             'academic_year': 'Start Academic Year',
             'end_academic_year': 'End Academic Year',
             'end_semester':'End semester',
             'semester': 'Start semester',
-            #'zip': 'Zip or Postal Code',
-            #'state': 'State or Province',
+            'zip': 'Zip or Postal Code',
+            'state': 'State or Province',
 
         }
 
@@ -214,7 +210,7 @@ class ProjectFormAdd(ModelForm):
             'end_date': 'Project End Date',
             # 'other_details': 'Other Important Details',
             # 'outcomes': 'Outcomes',
-            'address_line1': 'Address Line 1',
+            'address_line1': 'Address',
             # 'total_other_community_members':  'Number Of Other Participants',
             'academic_year': 'Academic Year',
             'end_academic_year': 'End Academic Year',

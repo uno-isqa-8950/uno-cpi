@@ -81,7 +81,7 @@ class CampusPartnerContactForm(forms.ModelForm):
 
 class CommunityPartnerForm(forms.ModelForm):
     website_url = forms.URLField(max_length=200,label='Your Website', required=False)
-    address_line1 = forms.CharField(max_length=200,label='Address Line 1', required=True)
+    address_line1 = forms.CharField(max_length=200,label='Address', required=True)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
@@ -91,7 +91,6 @@ class CommunityPartnerForm(forms.ModelForm):
             # 'website_url': ('Website'),
             'community_type': ('Community Type'),
             'k12_level':('K12 Level'),
-            # 'address_line1': ('Address Line 1'),
             'city': ('City'),
             'state': ('State'),
             'zip':('Zip Code'),
@@ -150,7 +149,7 @@ class CommunityPartnerForm(forms.ModelForm):
 
 class CommunityPartnerUpdateForm(forms.ModelForm):
     website_url = forms.URLField(max_length=200,label='Your Website', required=False)
-    address_line1 = forms.CharField(max_length=200,label='Address Line 1', required=True)
+    address_line1 = forms.CharField(max_length=200,label='Address', required=True)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
@@ -160,7 +159,6 @@ class CommunityPartnerUpdateForm(forms.ModelForm):
             # 'website_url': ('Website'),
             'community_type': ('Community Type'),
             'k12_level':('K12 Level'),
-            #'address_line1': ('Address Line 1'),
             'city': ('City'),
             'state': ('State'),
             'zip':('Zip Code'),

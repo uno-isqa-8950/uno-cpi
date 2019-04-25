@@ -64,13 +64,10 @@
 
     .h9{
         font-size:0.8em;
-        font-style: italic;
     }
 
     .btn-link{
-
         font-size: small;
-        font-style: italic;
     }
 
     select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
@@ -187,7 +184,7 @@
 
 
                                 <div class="col-lg-12">
-                                    <p class = h9>Couldn't find your Campus Partner or Community Partner? Please Register your Partner before creating a New Project.</p>
+                                    <p class = h9>If you cannot find your campus partners and/or community partners in the list, please register them before submitting a new project form.</p>
                                     <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
@@ -266,7 +263,7 @@
                                         <div class="input-group">
                                                 <div class="col-lg-12 col-md-12 col-sm-12">
                                                     <div class="form-group">
-                                                        <label for="id_academic_year">Address Line 1</label>
+                                                        <label for="id_academic_year">Address</label>
                                                         {{ project.address_line1}}
                                                          {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                                     </div>

@@ -1,16 +1,42 @@
 {% extends "home/base_home.html" %}
 {% load wagtailimages_tags %}
 
+
+
+{% block content %}
+
 <style>
-  .centered {
+
+.centered {
   align-items: center;
   justify-content: center;
   text-align: center;
 }
+
+.rich-text {
+    text-align: center;
+}
+.rich-text img {
+    max-width: 100%;
+    height: auto;
+}
+.rich-text a:hover {
+  color: #d71920;
+  background-color: transparent;
+  text-decoration: underline ;
+}
+.rich-text a {
+  color: red;
+  background-color: transparent;
+  text-decoration: underline;
+  target-name:new;
+  target-new:tab;
+}
+
+
 </style>
 
-{% block content %}
-
+{#    Add this section back in if you want to display default image associated with this page.#}
 {#    <div class="container">#}
 {#    <div class="row">#}
 {#        <div class="col-md-7 base-header">#}

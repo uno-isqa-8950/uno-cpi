@@ -435,9 +435,9 @@ class CommunityPartnerUserInvite(forms.ModelForm):
         email = self.cleaned_data['email']
         match = User.objects.get(email=email)
         if "@" not in email:
-            raise forms.ValidationError("Please use a valid email address to register Community Partner User")
+            raise forms.ValidationError("Please use a valid email address to register Community Partner User.")
         if (str(match).lower() == str(email).lower()):
-            raise forms.ValidationError("A user with this email address is already registered. Please log into the portal")
+            raise forms.ValidationError("A user with this email address is already registered. Please log into the portal.")
         return email
 
 

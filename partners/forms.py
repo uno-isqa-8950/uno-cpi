@@ -47,18 +47,18 @@ class CampusPartnerContactForm(forms.ModelForm):
         firstname = self.cleaned_data['first_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
+            raise forms.ValidationError("First name cannot have digits")
         if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First Name should not have Special Characters")
+            raise forms.ValidationError("First name should not have special characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
+            raise forms.ValidationError("Last name cannot have digits")
         if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last Name should not have Special Characters")
+            raise forms.ValidationError("Last name should not have special characters")
         return lastname
 
     def clean_work_phone(self):
@@ -241,18 +241,18 @@ class CommunityContactForm(forms.ModelForm):
         firstname = self.cleaned_data['first_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
+            raise forms.ValidationError("First name cannot have digits")
         if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First Name should not have Special Characters")
+            raise forms.ValidationError("First name should not have special characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
+            raise forms.ValidationError("Last name cannot have digits")
         if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last Name should not have Special Characters")
+            raise forms.ValidationError("Last name should not have special characters")
         return lastname
 
     def clean_work_phone(self):

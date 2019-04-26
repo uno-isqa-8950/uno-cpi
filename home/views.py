@@ -157,17 +157,17 @@ def signupuser(request):
 
 def recentchanges(request):
     #project app
-    recent_project = Project.history.all().order_by('-history_date')[:200]
-    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:200]
-    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:200]
-    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:200]
+    recent_project = Project.history.all().order_by('-history_date')[:100]
+    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:100]
+    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:100]
+    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:100]
     #partner app
-    recent_campus = CampusPartner.history.all().order_by('-history_date')[:150]
-    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:150]
-    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:150]
+    recent_campus = CampusPartner.history.all().order_by('-history_date')[:100]
+    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:100]
+    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:100]
     #users and contacts
     # recent_user = User.history.all().order_by('-history_date')[:100]
-    recent_contact = Contact.history.all().order_by('-history_date')[:100]
+    recent_contact = Contact.history.all().order_by('-history_date')[:50]
 
     return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
                                                         'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,

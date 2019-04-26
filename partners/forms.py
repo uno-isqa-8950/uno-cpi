@@ -18,7 +18,7 @@ class CampusPartnerForm(forms.ModelForm):
 
         labels= {
             'name': ('Campus Partner Name'),
-            'college_name': ('College Name')
+            'college_name': ('College or Main Unit')
              }
 
     def __init__(self, *args, **kwargs):

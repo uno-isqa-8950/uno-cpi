@@ -93,11 +93,11 @@ class CampususerForm(forms.ModelForm):
                 if len(pas) < MIN_LENGTH:
                     raise forms.ValidationError("Your password should have at least %d characters, 1 digit and 1 special character" % MIN_LENGTH)
                 if pas.isdigit():
-                    raise forms.ValidationError("Your password should not be all numeric")
+                    raise forms.ValidationError("Your password should not be all numeric.")
                 if pas.isalpha():
-                    raise forms.ValidationError("Your password should have atleast one digit")
+                    raise forms.ValidationError("Your password should have at least 1 digit.")
                 if not any(char in special_characters for char in pas):
-                    raise forms.ValidationError("Your password should have atleast one Special Character")
+                    raise forms.ValidationError("Your password should have at least 1 special character.")
 
 
 class UserForm(forms.ModelForm):

@@ -221,7 +221,7 @@ def userProfileUpdate(request):
             request.POST._mutable = True
             request.POST['first_name'] = request.POST['First Name']
             request.POST['last_name'] = request.POST['Last Name']
-            request.POST['email'] = request.POST['Email ID']
+            request.POST['email'] = request.POST['Email']
             request.POST._mutable = False
 
             user_form = userUpdateForm(data=request.POST, instance=user)

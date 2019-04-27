@@ -1060,17 +1060,18 @@ def registerCommPartner(request, uidb64, token):
 
 
 
-def commPartnerResetPassword(request):
+def commPartnerResetPassword(request,pk):
     if request.method == 'POST':
-        form = SetPasswordForm(request.user, request.POST)
+        user_obj = User.objects.get(pk=pk)
+        form = SetPasswordForm(user_obj, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, ('Your password was successfully updated!'))
-            return redirect('/')
+            return render(request,'home/registration/communityPartnerRegistrationComplete.html')
         else:
-            messages.error(request, 'Please correct the error below.')
+            messages.error(request, 'Please correct the errors!.')
     else:
         form = SetPasswordForm(request.user)
-    return render(request, 'registration/password_reset_confirm.html', {'form': form })
-    return render(request,'home/register_done.html')
+    return render(request, 'registration/password_reset_confirm.html', {
+        'form': form,'validlink':True
+    })

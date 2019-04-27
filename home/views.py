@@ -1069,9 +1069,7 @@ def commPartnerResetPassword(request,pk):
             update_session_auth_hash(request, user)  # Important!
             return render(request,'home/registration/communityPartnerRegistrationComplete.html')
         else:
-            messages.error(request, 'Please correct the errors!.')
+            return render(request, 'registration/password_reset_confirm.html', {'form': form, 'validlink': True })
     else:
         form = SetPasswordForm(request.user)
-    return render(request, 'registration/password_reset_confirm.html', {
-        'form': form,'validlink':True
-    })
+    return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })

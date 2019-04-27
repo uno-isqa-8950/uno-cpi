@@ -81,7 +81,7 @@
                     <div class="panel-heading text-center"><h4>Mission Area Details</h4></div>&emsp;
                     <div class="panel-body">
                         <div class="container">
-                            <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <table id="example" data-order='[[0, "desc"]]' class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                 <thead>
                                 <tr>
                                     <th>Mission Type</th>
@@ -104,4 +104,24 @@
     </div>
 
     <br><br><br>
+{% endblock %}
+
+{% block js %}
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src='{% static "js/pdfmake.min.js" %}'></script>
+<script type="text/javascript" src='{% static "js/datatables.min.js" %}'></script>
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<!--script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script-->
+<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+       $('#example').DataTable({
+           searching:false,
+           "bPaginate": false,
+           "info": false
+       });
+   });
+</script>
 {% endblock %}

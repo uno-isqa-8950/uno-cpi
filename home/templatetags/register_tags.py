@@ -202,3 +202,10 @@ def part_org_prof_ups(context):
         'part_org_prof_ups': Partners_Organizatiion_Profile_Partners_Update_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/partners_organization_profile_add_snippet.html', takes_context=True)
+def part_org_prof_adds(context):
+    return {
+        'part_org_prof_adds': Partners_Organizatiion_Profile_Partners_Add_Snippet.objects.all(),
+        'request': context['request'],
+    }

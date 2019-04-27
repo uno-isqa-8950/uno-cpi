@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style xmlns="http://www.w3.org/1999/html">
@@ -58,6 +59,11 @@ width:100%;
   <div class = "panel panel-default">
     <div class="panel-heading text-center"><h4>Add Organization to your Profile</h4></div>
       <div class="panel-body"><br><br>
+      <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+          <div class="container">
+              {% part_org_prof_adds %}
+           </div>
+      </div>
         <div class="body">
           <form action="." method="post" class="form-horizontal1" enctype="multipart/form-data">
             {% csrf_token %}

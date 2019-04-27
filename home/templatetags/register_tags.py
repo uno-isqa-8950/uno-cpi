@@ -4,7 +4,12 @@ from home.models import Community_Partner_Snippet, Community_Partner_User_Snippe
     Community_Public_Report_Snippet, Community_Private_Report_Snippet, Engagement_Types_Chart_Snippet, \
     Engagement_Types_Report_Snippet, Mission_Areas_Chart_Snippet, Mission_Areas_Report_Snippet, \
     Register_Campus_Partner_Snippet, Register_Campus_Partner_User_Snippet, Register_Community_Partner_Snippet, \
-    Register_Community_Partner_User_Snippet, All_Projects_Snippet, Create_Projects_Snippet, My_Projects_Snippet
+    Register_Community_Partner_User_Snippet, All_Projects_Snippet, Create_Projects_Snippet, My_Projects_Snippet, \
+    Community_Partner_Project_Snippet, Create_Projects_Form_Snippet, Login_Snippet, Logout_Snippet, \
+    Partners_Organizatiion_Profile_Contacts_Snippet, Partners_Organizatiion_Profile_Partners_Add_Snippet, \
+    Partners_Organizatiion_Profile_Partners_Update_Snippet, Partners_Organizatiion_Profile_Snippet, \
+    Partners_User_Profile_Snippet, Partners_User_Profile_Update_Snippet, Password_Reset_Done_Snippet, \
+    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet
 
 register = template.Library()
 
@@ -139,5 +144,68 @@ def my_projects(context):
 def create_projects(context):
     return {
         'create_projects': Create_Projects_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/create_projects_form_snippet.html', takes_context=True)
+def create_project_forms(context):
+    return {
+        'create_project_forms': Create_Projects_Form_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/register_community_partner_form_snippet.html', takes_context=True)
+def reg_comm_forms(context):
+    return {
+        'reg_comm_forms': Register_Community_Partner_Form_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/community_partner_project_snippet.html', takes_context=True)
+def comm_part_projs(context):
+    return {
+        'comm_part_projs': Community_Partner_Project_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_user_profile_snippet.html', takes_context=True)
+def part_user_profs(context):
+    return {
+        'part_user_profs': Partners_User_Profile_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_user_profile_update_snippet.html', takes_context=True)
+def part_user_prof_ups(context):
+    return {
+        'part_user_prof_ups': Partners_User_Profile_Update_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_organization_profile_snippet.html', takes_context=True)
+def part_org_profs(context):
+    return {
+        'part_org_profs': Partners_Organizatiion_Profile_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_organization_profile_contacts_snippet.html', takes_context=True)
+def part_org_prof_cons(context):
+    return {
+        'part_org_prof_cons': Partners_Organizatiion_Profile_Contacts_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_organization_profile_updates_snippet.html', takes_context=True)
+def part_org_prof_ups(context):
+    return {
+        'part_org_prof_ups': Partners_Organizatiion_Profile_Partners_Update_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_organization_profile_add_snippet.html', takes_context=True)
+def part_org_prof_adds(context):
+    return {
+        'part_org_prof_adds': Partners_Organizatiion_Profile_Partners_Add_Snippet.objects.all(),
         'request': context['request'],
     }

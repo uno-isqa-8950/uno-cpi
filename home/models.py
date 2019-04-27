@@ -380,7 +380,7 @@ class DataDefinition(models.Model):
 
 @register_snippet
 class Campus_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -394,7 +394,7 @@ class Campus_Partner_Snippet(models.Model):
 
 @register_snippet
 class Campus_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -408,7 +408,7 @@ class Campus_Partner_User_Snippet(models.Model):
 
 @register_snippet
 class Community_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -422,7 +422,7 @@ class Community_Partner_Snippet(models.Model):
 
 @register_snippet
 class Community_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -436,7 +436,7 @@ class Community_Partner_User_Snippet(models.Model):
 
 @register_snippet
 class Public_Project_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -450,7 +450,7 @@ class Public_Project_Report_Snippet(models.Model):
 
 @register_snippet
 class Private_Project_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -464,7 +464,7 @@ class Private_Project_Report_Snippet(models.Model):
 
 @register_snippet
 class Community_Public_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -478,7 +478,7 @@ class Community_Public_Report_Snippet(models.Model):
 
 @register_snippet
 class Community_Private_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -492,7 +492,7 @@ class Community_Private_Report_Snippet(models.Model):
 
 @register_snippet
 class Engagement_Types_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -506,7 +506,7 @@ class Engagement_Types_Report_Snippet(models.Model):
 
 @register_snippet
 class Mission_Areas_Report_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -520,7 +520,7 @@ class Mission_Areas_Report_Snippet(models.Model):
 
 @register_snippet
 class Mission_Areas_Chart_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -534,7 +534,7 @@ class Mission_Areas_Chart_Snippet(models.Model):
 
 @register_snippet
 class Engagement_Types_Chart_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -548,7 +548,7 @@ class Engagement_Types_Chart_Snippet(models.Model):
 
 @register_snippet
 class Register_Campus_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -562,7 +562,7 @@ class Register_Campus_Partner_Snippet(models.Model):
 
 @register_snippet
 class Register_Community_Partner_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -572,11 +572,11 @@ class Register_Community_Partner_Snippet(models.Model):
         return self.text
 
     class Meta:
-        verbose_name = "Register Community Partner Snippet"
+        verbose_name = "Register Community Partner Search Snippet"
 
 @register_snippet
 class Register_Campus_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -590,7 +590,7 @@ class Register_Campus_Partner_User_Snippet(models.Model):
 
 @register_snippet
 class Register_Community_Partner_User_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -604,7 +604,7 @@ class Register_Community_Partner_User_Snippet(models.Model):
 
 @register_snippet
 class All_Projects_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -618,7 +618,7 @@ class All_Projects_Snippet(models.Model):
 
 @register_snippet
 class My_Projects_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -632,7 +632,7 @@ class My_Projects_Snippet(models.Model):
 
 @register_snippet
 class Create_Projects_Snippet(models.Model):
-    text = models.CharField(max_length=1000)
+    text = models.CharField(max_length=1250)
 
     panels = [
         FieldPanel('text'),
@@ -642,4 +642,186 @@ class Create_Projects_Snippet(models.Model):
         return self.text
 
     class Meta:
-        verbose_name = "Create Projects Page Snippet"
+        verbose_name = "Create Projects Search Page Snippet"
+
+@register_snippet
+class Create_Projects_Form_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Create Projects Form Snippet"
+
+@register_snippet
+class Register_Community_Partner_Form_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Register Community Partner Form Snippet"
+
+@register_snippet
+class Community_Partner_Project_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Community Partner Project Snippet"
+
+@register_snippet
+class Partners_User_Profile_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners User Profile Snippet"
+
+@register_snippet
+class Partners_User_Profile_Update_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners User Profile Update Snippet"
+
+@register_snippet
+class Partners_Organizatiion_Profile_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners Organization Profile Snippet"
+
+@register_snippet
+class Partners_Organizatiion_Profile_Contacts_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners Organization Profile Contacts Snippet"
+
+@register_snippet
+class Partners_Organizatiion_Profile_Partners_Add_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners Organization Profile Partners Add Snippet"
+
+@register_snippet
+class Partners_Organizatiion_Profile_Partners_Update_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partners Organization Profile Partners Update Snippet"
+
+@register_snippet
+class Logout_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Logout Snippet"
+
+@register_snippet
+class Login_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Login Snippet"
+
+@register_snippet
+class Password_Reset_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Password Reset Snippet"
+
+@register_snippet
+class Password_Reset_Done_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Password Reset Done_Snippet"

@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style xmlns="http://www.w3.org/1999/html">
@@ -52,22 +53,27 @@ label[for=first_name]:after,label[for=last_name]:after,label[for=email]:after
             <div class = "panel panel-default">
                 <div class="panel-heading text-center"><h4>My Profile</h4></div>
                 <div class="panel-body">
+                <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                <div class="container">
+                    {% part_user_prof_ups %}
+                </div>
+                </div>
                     <div class="body">
                         <form  action="." id="id_avatar" method="post"  onfocusout="return validateForm()"  enctype="multipart/form-data">
                         <br>
-                        <div class="row justify-content-md-center">
-                        <div class="col-lg-3 col-md-4 col-sm-12">
+{#                        <div class="row justify-content-md-center">#}
+{#                        <div class="col-lg-3 col-md-4 col-sm-12">#}
+{##}
+{#                            <div class='media'>#}
+{#                                <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100" alt="">#}
+{#                            </div>#}
+{#                            <div class="form-group">#}
+{#                                {% csrf_token %}#}
+{#                                {{ avatar_form.avatar|bootstrap }}#}
+{#                            </div>#}
+{#                        </div></div>#}
 
-                            <div class='media'>
-                                <img class="rounded-circle account-img" src="{{ user.avatar.url }}" width="100" alt="">
-                            </div>
-                            <div class="form-group">
-                                {% csrf_token %}
-                                {{ avatar_form.avatar|bootstrap }}
-                            </div>
-                        </div></div>
-
-
+                        {% csrf_token %}
                         {% for field in user_form %}
                             <div class="form-group">
                                 <label for="{{field.name}}">{{field.label}}</label>
@@ -141,4 +147,10 @@ function validateForm()
 </script>
 -->
 
+{% endblock %}
+
+{% block js %}
+    <script type="text/javascript">
+        document.getElementById('email').readOnly = true;
+    </script>
 {% endblock %}

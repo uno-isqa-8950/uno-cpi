@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
     {% load staticfiles %}
 
@@ -140,6 +141,11 @@
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Organization Profile</h4></div>
                     <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% part_org_prof_ups %}
+                        </div>
+                    </div>
                         <div class="container">
                             <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
                                 {% csrf_token %}

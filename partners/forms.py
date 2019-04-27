@@ -75,7 +75,8 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
-        if ".edu" not in email:
+        sufix = ".edu"
+        if not email.endswith(sufix):
             raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
         return email
 

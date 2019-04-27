@@ -225,42 +225,40 @@ def userProfileUpdate(request):
             request.POST._mutable = False
 
             user_form = userUpdateForm(data=request.POST, instance=user)
-            avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
+            #avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
-            if user_form.is_valid() and avatar_form.is_valid():
+            if user_form.is_valid(): #and avatar_form.is_valid():
                 user_form.save()
-                avatar_form.save()
+                #avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
 
         else:
             user_form = userUpdateForm(instance=user)
-            avatar_form = CampusPartnerAvatar(instance=user)
+            #avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                    'partners/campus_partner_user_update.html', {'user_form': user_form,
-                    'avatar_form': avatar_form})
+                    'partners/campus_partner_user_update.html', {'user_form': user_form}) #'avatar_form': avatar_form
 
     elif request.user.is_communitypartner:
 
         if request.method == 'POST':
 
             user_form = userCommUpdateForm(data=request.POST, instance=user)
-            avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
+            #avatar_form = CampusPartnerAvatar(data=request.POST, files=request.FILES, instance=user)
 
-            if user_form.is_valid()and avatar_form.is_valid():
+            if user_form.is_valid(): #and avatar_form.is_valid():
                 user_form.save()
-                avatar_form.save()
+                #avatar_form.save()
                 messages.success(request, 'Your profile was successfully updated!')
                 return redirect('partners:userprofile')
 
         else:
             user_form = userCommUpdateForm(instance=user)
-            avatar_form = CampusPartnerAvatar(instance=user)
+            #avatar_form = CampusPartnerAvatar(instance=user)
 
         return render(request,
-                    'partners/community_partner_user_update.html',{'user_form': user_form,
-                    'avatar_form': avatar_form})
+                    'partners/community_partner_user_update.html',{'user_form': user_form}) #'avatar_form': avatar_form
 
 
 # Campus and Community Partner org Profile

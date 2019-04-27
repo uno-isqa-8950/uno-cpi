@@ -165,7 +165,7 @@ class userUpdateForm(forms.ModelForm):
 
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
-            'email': ('Email ID')
+            'email': ('Email')
         }
 
     def clean_first_name(self):
@@ -203,7 +203,7 @@ class userCommUpdateForm(forms.ModelForm):
 
             'first_name': ('First Name'),
             'last_name': ('Last Name'),
-            'email': ('Email ID')
+            'email': ('Email')
         }
 
     def clean_first_name(self):

@@ -154,9 +154,16 @@ def create_project_forms(context):
         'request': context['request'],
     }
 
-@register.inclusion_tag('tags/register_community_partner_form.html', takes_context=True)
+@register.inclusion_tag('tags/register_community_partner_form_snippet.html', takes_context=True)
 def reg_comm_forms(context):
     return {
         'reg_comm_forms': Register_Community_Partner_Form_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/community_partner_project_snippet.html', takes_context=True)
+def comm_part_projs(context):
+    return {
+        'comm_part_projs': Community_Partner_Project_Snippet.objects.all(),
         'request': context['request'],
     }

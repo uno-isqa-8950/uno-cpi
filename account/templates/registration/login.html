@@ -1,4 +1,5 @@
 {% extends 'home/base_home.html' %}
+{% load wagtailcore_tags register_tags %}
 
 {% block content %}
 
@@ -69,6 +70,11 @@ width:87%;
 	        <div class = "panel panel-default">
 		        <div class="panel-heading text-center"><h4>Login</h4></div>&emsp;
 	    	        <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% logins %}
+                        </div>
+                    </div>
 
                         <div class="login-form">
                             <form action='.' method="post">

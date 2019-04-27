@@ -209,3 +209,31 @@ def part_org_prof_adds(context):
         'part_org_prof_adds': Partners_Organizatiion_Profile_Partners_Add_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/logout_snippet.html', takes_context=True)
+def logouts(context):
+    return {
+        'logouts': Logout_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/login_snippet.html', takes_context=True)
+def logins(context):
+    return {
+        'logins': Login_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/password_reset_snippet.html', takes_context=True)
+def pass_resets(context):
+    return {
+        'pass_resets': Password_Reset_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/password_reset_done.html', takes_context=True)
+def pass_dones(context):
+    return {
+        'pass_dones': Password_Reset_Done_Snippet.objects.all(),
+        'request': context['request'],
+    }

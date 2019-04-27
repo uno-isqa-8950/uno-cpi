@@ -153,3 +153,10 @@ def create_project_forms(context):
         'create_project_forms': Create_Projects_Form_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/register_community_partner_form.html', takes_context=True)
+def reg_comm_forms(context):
+    return {
+        'reg_comm_forms': Register_Community_Partner_Form_Snippet.objects.all(),
+        'request': context['request'],
+    }

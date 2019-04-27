@@ -171,44 +171,6 @@
             <form class="form-inline" id="filters-form" method="get">
 
                 <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="academic_year"> Engagement Types
-                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for engagement in projects.form.engagement_type %}
-                            {{engagement}}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year"> Academic Years
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for sem in projects.form.academic_year %}
-                            {{sem}}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
                     <label for="mission"> Project Mission Areas
 
                         {% for data_definition in data_definition %}
@@ -223,6 +185,42 @@
                         <option> All </option>
                         {% for mission in missions.form.mission %}
                             {{mission}}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="academic_year"> Engagement Types
+                         {% for data_definition in data_definition %}
+                            {% if data_definition.id == 31%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for engagement in projects.form.engagement_type %}
+                            {{engagement}}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="community_type"> Community Partner Types
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 33%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for community_type in communityPartners.form.community_type %}
+                            {{community_type}}
                         {% endfor %}
                     </select>
                 </div>
@@ -266,9 +264,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-
                     <label for="weitz_cec_part"> CEC Community Building Partners
-
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -286,22 +282,23 @@
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="community_type"> Community Partner Types
+                    <label for="academic_year"> Academic Years
                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 33%}
+                            {% if data_definition.id == 32%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
                                       data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                         <option> All </option>
-                        {% for community_type in communityPartners.form.community_type %}
-                            {{community_type}}
+                        {% for sem in projects.form.academic_year %}
+                            {{sem}}
                         {% endfor %}
                     </select>
                 </div>
+
             </form>
 </div>
 </div>

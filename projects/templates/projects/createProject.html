@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
   <style>
 
@@ -111,6 +112,13 @@
             <div class="col-lg-10 col-md-10">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Create Project</h4></div>
+                       <div class="panel-body">
+                            <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% create_project_forms %}
+                                </div>
+                             </div>
+                       </div>
                         <div class="panel-body">&emsp;
                             <form method="POST" onsubmit="checking()">{% csrf_token %}
                                 {{formset.management_form}}

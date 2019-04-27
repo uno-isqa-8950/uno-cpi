@@ -174,3 +174,10 @@ def part_user_profs(context):
         'part_user_profs': Partners_User_Profile_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/partners_user_profile_update_snippet.html', takes_context=True)
+def part_user_prof_ups(context):
+    return {
+        'part_user_prof_ups': Partners_User_Profile_Update_Snippet.objects.all(),
+        'request': context['request'],
+    }

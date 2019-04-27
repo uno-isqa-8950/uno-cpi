@@ -188,3 +188,17 @@ def part_org_profs(context):
         'part_org_profs': Partners_Organizatiion_Profile_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/partners_organization_profile_contacts_snippet.html', takes_context=True)
+def part_org_prof_cons(context):
+    return {
+        'part_org_prof_cons': Partners_Organizatiion_Profile_Contacts_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partners_organization_profile_updates_snippet.html', takes_context=True)
+def part_org_prof_ups(context):
+    return {
+        'part_org_prof_ups': Partners_Organizatiion_Profile_Partners_Update_Snippet.objects.all(),
+        'request': context['request'],
+    }

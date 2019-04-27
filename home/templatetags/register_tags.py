@@ -167,3 +167,10 @@ def comm_part_projs(context):
         'comm_part_projs': Community_Partner_Project_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/partners_user_profile_snippet.html', takes_context=True)
+def part_user_profs(context):
+    return {
+        'part_user_profs': Partners_User_Profile_Snippet.objects.all(),
+        'request': context['request'],
+    }

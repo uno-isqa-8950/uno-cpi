@@ -87,6 +87,32 @@
             });
             document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
         </script>
+        <style>
+            .select2-container .select2-selection--single
+            {
+                height:38px;
+            }
+
+            .select2-container--default .select2-selection--single
+            {
+                border: 2px solid #aaa;
+                margin-top:8px;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__arrow
+            {
+                top:12px;
+            }
+
+            .select2-container--default .select2-selection--single:focus
+            {
+                border-color:grey;
+                box-shadow:0 0 8px 0 grey;
+            }
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 32px;
+            }
+        </style>
     {% endblock %}
 
 
@@ -200,28 +226,4 @@
 
     <br><br>
 
-
-    <style>
-        .select2-container .select2-selection--single
-        {
-            height:35px;
-        }
-
-        .select2-container--default .select2-selection--single
-        {
-            border: 2px solid #aaa;
-            margin-top:8px;
-        }
-
-        .select2-container--default .select2-selection--single .select2-selection__arrow
-        {
-            top:10px;
-        }
-
-        .select2-container--default .select2-selection--single:focus
-        {
-            border-color:grey;
-            box-shadow:0 0 8px 0 grey;
-        }
-    </style>
 {% endblock %}

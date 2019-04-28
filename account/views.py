@@ -29,7 +29,7 @@ def user_login(request):
                     return response
             else:
                 messages.error(request, 'Email or Password is incorrect')
-                return redirect('/account/loginPage/')
+                return render(request, 'registration/login.html', {'form': form})
                 #return HttpResponse('Invalid Credentials')
     else:
         form = LoginForm()

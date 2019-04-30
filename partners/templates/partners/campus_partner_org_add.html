@@ -5,17 +5,61 @@
 
 <style xmlns="http://www.w3.org/1999/html">
 
+ @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+      #button-center{
+          text-align: center;
+      }
+      .container{
+          width: auto !important;
+      }
+      h4{
+          word-break-wrap: normal;
+      }
+}
+
+    .select2 {
+        width:93%!important;
+    }
+  .help-block
+  {
+     display: none;
+  }
+
+.select2-container--open .select2-dropdown--below
+    {
+       margin-left:20px;
+    }
+
+.select2-container--open .select2-dropdown--above
+    {
+    margin-left:20px;
+    }
+
+
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+
+.container
+    {
+        width: 800px;
+    }
+
 h4
 {
   line-height: 2.7;
   font-size: 1.3em;
 }
 
-#id_campus_partner
-{
-    width:90%;
-    margin-left: 5%;
-}
+
 label
 {
 margin-left: 25px;
@@ -83,6 +127,45 @@ width:100%;
     </div>
         </div></div></div>
   <br><br><br>
+
+{% endblock %}
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+
+    $('#id_campus_partner').select2({placeholder: 'Select a Community Partner',border:'2px solid #aaa'});
+});
+</script>
+<style>
+.select2-container .select2-selection--single
+{
+    height:32px;
+    margin-left: 20px;
+    width: 300px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+</style>
+
 
 {% endblock %}
 

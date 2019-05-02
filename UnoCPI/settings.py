@@ -26,7 +26,7 @@ SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 # SECURITY WARNING: don't run with debug turned on in production!
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', False)
 
 
 ALLOWED_HOSTS = ['*']
@@ -206,7 +206,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'UNO-CPI Do Not Reply <partners@unomaha.edu>'
+DEFAULT_FROM_EMAIL = 'UNO Community Partnership Initiative <partnerships@unomaha.edu>'
 
 
 # Simplified static file serving.
@@ -228,53 +228,6 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-def get_cache():
-  import os
-  try:
-    servers = os.environ['MEMCACHIER_SERVERS']
-    username = os.environ['MEMCACHIER_USERNAME']
-    password = os.environ['MEMCACHIER_PASSWORD']
-    return {
-      'default': {
-        'BACKEND': 'django.core.cache.backends.memcached.PyLibMCCache',
-        # TIMEOUT is not the connection timeout! It's the default expiration
-        # timeout that should be applied to keys! Setting it to `None`
-        # disables expiration.
-        'TIMEOUT': None,
-        'LOCATION': servers,
-        'OPTIONS': {
-          'binary': True,
-          'username': username,
-          'password': password,
-          'behaviors': {
-            # Enable faster IO
-            'no_block': True,
-            'tcp_nodelay': True,
-            # Keep connection alive
-            'tcp_keepalive': True,
-            # Timeout settings
-            'connect_timeout': 2000, # ms
-            'send_timeout': 750 * 1000, # us
-            'receive_timeout': 750 * 1000, # us
-            '_poll_timeout': 2000, # ms
-            # Better failover
-            'ketama': True,
-            'remove_failed': 1,
-            'retry_timeout': 2,
-            'dead_timeout': 30,
-          }
-        }
-      }
-    }
-  except:
-    return {
-      'default': {
-        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache'
-      }
-    }
-
-CACHES = get_cache()
 
 
 try:

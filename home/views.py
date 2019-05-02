@@ -157,23 +157,23 @@ def signupuser(request):
 
 def recentchanges(request):
     #project app
-    recent_project = Project.history.all().order_by('-history_date')[:200]
-    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:200]
-    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:200]
-    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:200]
+    recent_project = Project.history.all().order_by('-history_date')[:100]
+    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:100]
+    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:100]
+    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:100]
     #partner app
-    recent_campus = CampusPartner.history.all().order_by('-history_date')[:150]
-    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:150]
-    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:150]
+    recent_campus = CampusPartner.history.all().order_by('-history_date')[:100]
+    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:100]
+    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:100]
     #users and contacts
-    recent_user = User.history.all().order_by('-history_date')[:100]
-    recent_contact = Contact.history.all().order_by('-history_date')[:100]
+    # recent_user = User.history.all().order_by('-history_date')[:100]
+    recent_contact = Contact.history.all().order_by('-history_date')[:50]
 
     return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
                                                         'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
 
                                                         'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
-                                                        'recent_user': recent_user, 'recent_contact':recent_contact})
+                                                        'recent_contact':recent_contact})
 
 def registerCampusPartnerUser(request):
     data = []
@@ -203,7 +203,7 @@ def registerCampusPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message,'UNO-CPI Do Not Reply <do_not_reply_cec@unomaha.edu>', to=[to_email])
+            email = EmailMessage(mail_subject, message,to=[to_email])
             email.send()
             return render(request, 'home/register_done.html', )
     else:
@@ -1039,7 +1039,7 @@ def invitecommunityPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message,  to=[to_email])
+            email = EmailMessage(mail_subject, message,to=[to_email])
             email.send()
             return render(request, 'home/communityuser_register_done.html', )
     return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
@@ -1060,17 +1060,16 @@ def registerCommPartner(request, uidb64, token):
 
 
 
-def commPartnerResetPassword(request):
+def commPartnerResetPassword(request,pk):
     if request.method == 'POST':
-        form = SetPasswordForm(request.user, request.POST)
+        user_obj = User.objects.get(pk=pk)
+        form = SetPasswordForm(user_obj, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.success(request, ('Your password was successfully updated!'))
-            return redirect('/')
+            return render(request,'home/registration/communityPartnerRegistrationComplete.html')
         else:
-            messages.error(request, 'Please correct the error below.')
+            return render(request, 'registration/password_reset_confirm.html', {'form': form, 'validlink': True })
     else:
         form = SetPasswordForm(request.user)
-    return render(request, 'registration/password_reset_confirm.html', {'form': form })
-    return render(request,'home/register_done.html')
+    return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })

@@ -30,8 +30,6 @@ from googlemaps import Client
 # The imports below are for running sql queries for AllProjects Page
 from django.db import connection
 from UnoCPI import sqlfiles
-from django.views.decorators.cache import cache_page
-from django.core.cache import cache
 
 sql=sqlfiles
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -48,104 +46,93 @@ def communitypartnerhome(request):
 
 
 @login_required()
-@communitypartner_required()
-def communitypartnerproject(request):
-    p = 0
-    projects_list=[]
-    comm_part_names=[]
-    data_definition=DataDefinition.objects.all()
-    # Get the campus partner id related to the user
-    comm_part_user = CommunityPartnerUser.objects.filter(user_id = request.user.id)
-    for c in comm_part_user:
-        p =c.community_partner_id
-    # get all the project names base on the campus partner id
-        proj_comm = list(ProjectCommunityPartner.objects.filter(community_partner_id = p))
-        for f in proj_comm:
-
-            k=list(Project.objects.filter(id = f.project_name_id))
-
-            for x in k:
-             projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-             cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-
-             camp = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-             proj_comm_par = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-             for proj_comm_par in proj_comm_par:
-                comm_part = CommunityPartner.objects.get(id=proj_comm_par.community_partner_id)
-
-                comm_part_names.append(comm_part)
-             list_comm_part_names = comm_part_names
-
-             comm_part_names = []
-         #total_project_hours += proj_cam_par.total_hours
-
-             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                'activityType': x.activity_type,
-                'facilitator': x.facilitator, 'semester': x.semester , 'status': x.status,
-                'startDate': x.start_date,
-                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                'total_uno_hours': x.total_uno_hours,
-                'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                'total_uno_faculty': x.total_uno_faculty,
-                'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                'total_economic_impact': x.total_economic_impact,'description':x.description,'projmisn': projmisn, 'proj_comm': proj_comm,
-                'camp':camp, 'comm_part':list_comm_part_names
-                 }
-
-             projects_list.append(data)
-
-
-
-    return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
-
-
-@login_required()
-# @campuspartner_required()
 def myProjects(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-    camp_part_names=[]
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
-    for c in camp_part_user:
-        p = c.campus_partner_id
-        # get all the project names base on the campus partner id
-        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
-        for f in proj_camp:
-            k=list(Project.objects.filter(id = f.project_name_id))
-            for x in k:
-             projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-             cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-             proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-             for proj_camp_par in proj_camp_par:
-                camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-
-                camp_part_names.append(camp_part)
-             list_camp_part_names = camp_part_names
-             camp_part_names = []
-
-             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
-                'activityType': x.activity_type, 'academic_year': x.academic_year,
-                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
-                'startDate': x.start_date,
-                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                'total_uno_hours': x.total_uno_hours,
-                'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                'total_uno_faculty': x.total_uno_faculty,
-                'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
-                 }
-
-             projects_list.append(data)
-
-
+    camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
+    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
+    project_ids = [project.project_name_id for project in proj_camp]
+    cursor = connection.cursor()
+    cursor.execute(sql.my_projects, [project_ids])
+    for obj in cursor.fetchall():
+        projects_list.append(
+            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+             "engagementType": obj[4], "academic_year": obj[5],
+             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
+             "total_uno_students": obj[11],
+             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
+             "total_k12_hours": obj[15], "pk":obj[19],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
 
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
+@login_required()
+def communitypartnerproject(request):
+    projects_list = []
+    data_definition = DataDefinition.objects.all()
+    # Get the campus partner id's related to the user
+    comm_part_user = CommunityPartnerUser.objects.filter(user_id=request.user.id)
+    comm_part_id = comm_part_user.values_list('community_partner_id', flat=True)
+    proj_comm = ProjectCommunityPartner.objects.filter(community_partner__in=comm_part_id)
+    project_ids = [project.project_name_id for project in proj_comm]
+    cursor = connection.cursor()
+    cursor.execute(sql.my_projects, [project_ids])
+    for obj in cursor.fetchall():
+        projects_list.append(
+            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+             "engagementType": obj[4], "academic_year": obj[5],
+             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
+             "total_uno_students": obj[11],
+             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
+             "total_k12_hours": obj[15],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+    return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
+
+#Old Code for My Projects Page
+
+# @login_required()
+# def myProjects(request):
+#     projects_list=[]
+#     camp_part_names=[]
+#     data_definition=DataDefinition.objects.all()
+#     # Get the campus partner id's related to the user
+#     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+#     for c in camp_part_user:
+#         p = c.campus_partner_id
+#         # get all the project names base on the campus partner id
+#         proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
+#         for f in proj_camp:
+#             k=list(Project.objects.filter(id = f.project_name_id))
+#             for x in k:
+#              projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+#              cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+#              proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+#              for proj_camp_par in proj_camp_par:
+#                 camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+#
+#                 camp_part_names.append(camp_part)
+#              list_camp_part_names = camp_part_names
+#              camp_part_names = []
+#
+#              data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
+#                 'activityType': x.activity_type, 'academic_year': x.academic_year,
+#                 'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
+#                 'startDate': x.start_date,
+#                 'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+#                 'total_uno_hours': x.total_uno_hours,
+#                 'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+#                 'total_uno_faculty': x.total_uno_faculty,
+#                 'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+#                 'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
+#                  }
+#
+#              projects_list.append(data)
+#     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
+
 
 @login_required()
-# @campuspartner_required()
-
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     #secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
@@ -289,7 +276,6 @@ def createProject(request):
                    'formset2': formset2})
 
 @login_required()
-# @campuspartner_required()
 def editProject(request,pk):
 
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
@@ -364,9 +350,6 @@ def editProject(request,pk):
                                 'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
                                 'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
                                 'camp_part': list_camp_part_names,
-
-
-
                                 }
 
                         projects_list.append(data)
@@ -394,8 +377,7 @@ def editProject(request,pk):
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details})
 
-# timeout = 60*60*24*7
-# @cache_page(timeout)
+
 # @login_required()
 # def showAllProjects(request):
 #
@@ -539,7 +521,7 @@ def SearchForProjectAdd(request,pk):
 #                   'projectsData': projectsData, "missions": missions, "communityPartners": communityPartners, "campusPartners":campusPartners})
 
 # Projects Report Speed up Version (Vineeth)
-# @cache_page(timeout)
+
 def projectsPublicReport(request):
     # data= {}
     data_list=[]
@@ -641,7 +623,6 @@ def projectsPublicReport(request):
 # Trying to speed up the project reports (Vineeth)
 # List Projects for Private View
 
-# @cache_page(timeout)
 @admin_required()
 def projectsPrivateReport(request):
     data= {}
@@ -734,7 +715,6 @@ def projectsPrivateReport(request):
 
 # List of community Partners Public View
 
-# @cache_page(timeout)
 def communityPublicReport(request):
     community_dict = {}
     community_list = []
@@ -791,7 +771,7 @@ def communityPublicReport(request):
                                                                  'campus_id':campus_id})
 
 
-# @cache_page(timeout)
+
 @login_required()
 def communityPrivateReport(request):
     community_dict = {}
@@ -1034,7 +1014,6 @@ def project_total_Add(request):
         formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
-        #print('hello')
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})

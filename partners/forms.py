@@ -18,7 +18,7 @@ class CampusPartnerForm(forms.ModelForm):
 
         labels= {
             'name': ('Campus Partner Name'),
-            'college_name': ('College Name')
+            'college_name': ('College or Main Unit')
              }
 
     def __init__(self, *args, **kwargs):
@@ -47,18 +47,18 @@ class CampusPartnerContactForm(forms.ModelForm):
         firstname = self.cleaned_data['first_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
+            raise forms.ValidationError("First name cannot have digits")
         if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First Name should not have Special Characters")
+            raise forms.ValidationError("First name should not have special characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
+            raise forms.ValidationError("Last name cannot have digits")
         if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last Name should not have Special Characters")
+            raise forms.ValidationError("Last name should not have special characters")
         return lastname
 
     def clean_work_phone(self):
@@ -75,12 +75,14 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     def clean_email_id(self):
         email = self.cleaned_data['email_id']
-        if ".edu" not in email:
+        sufix = ".edu"
+        if not email.endswith(sufix):
             raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
         return email
 
 class CommunityPartnerForm(forms.ModelForm):
     website_url = forms.URLField(max_length=200,label='Your Website', required=False)
+    address_line1 = forms.CharField(max_length=200,label='Address', required=True)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
@@ -90,7 +92,6 @@ class CommunityPartnerForm(forms.ModelForm):
             # 'website_url': ('Website'),
             'community_type': ('Community Type'),
             'k12_level':('K12 Level'),
-            'address_line1': ('Address Line 1'),
             'city': ('City'),
             'state': ('State'),
             'zip':('Zip Code'),
@@ -148,7 +149,8 @@ class CommunityPartnerForm(forms.ModelForm):
     #     return zip
 
 class CommunityPartnerUpdateForm(forms.ModelForm):
-    website_url = forms.URLField(max_length=200,label='Your Website',initial="http://", required=False)
+    website_url = forms.URLField(max_length=200,label='Your Website', required=False)
+    address_line1 = forms.CharField(max_length=200,label='Address', required=True)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url', 'community_type', 'k12_level', 'address_line1', 'city','state',
@@ -158,7 +160,6 @@ class CommunityPartnerUpdateForm(forms.ModelForm):
             # 'website_url': ('Website'),
             'community_type': ('Community Type'),
             'k12_level':('K12 Level'),
-            'address_line1': ('Address Line 1'),
             'city': ('City'),
             'state': ('State'),
             'zip':('Zip Code'),
@@ -241,18 +242,18 @@ class CommunityContactForm(forms.ModelForm):
         firstname = self.cleaned_data['first_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First Name cannot have digits")
+            raise forms.ValidationError("First name cannot have digits")
         if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First Name should not have Special Characters")
+            raise forms.ValidationError("First name should not have special characters")
         return firstname
 
     def clean_last_name(self):
         lastname = self.cleaned_data['last_name']
         special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
         if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last Name cannot have digits")
+            raise forms.ValidationError("Last name cannot have digits")
         if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last Name should not have Special Characters")
+            raise forms.ValidationError("Last name should not have special characters")
         return lastname
 
     def clean_work_phone(self):

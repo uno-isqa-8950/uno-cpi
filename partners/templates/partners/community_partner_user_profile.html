@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -69,8 +70,13 @@ margin-right: auto;
       <div class ="row justify-content-md-center">
         <div class="col-xl-8 col-md-10 col-sm-10">
           <div class = "panel panel-default">
-            <div class="panel-heading text-center"><h4><b>My Profile</b></h4></div>
+            <div class="panel-heading text-center"><h4>My Profile</h4></div>
                <div class="panel-body">
+               <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                <div class="container">
+                    {% part_user_profs %}
+                </div>
+                </div>
                  <div class="col-12">
                  <br>
                    <img src="{{ user.avatar.url }}" class="center" width="100" alt="Avatar">

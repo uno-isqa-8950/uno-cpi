@@ -86,7 +86,7 @@
                              </div>
                   </div>
                             <div class="container-fluid">
-                                    <table id="example" class="table table-responsive table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                                    <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                         <thead>
                                             <tr>
                                                 <th>Projects{% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -130,11 +130,15 @@
                                             {% for project in project %}
                                             <tr>
                                                 <td>{{ project.name }}</td>
-                                                <td>{% for projmisn in project.projmisn %}
-                                                 <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>
-                                                <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>
+                                                <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
+                                                <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                                                 <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
-                                                <td>{{ project.engagementType }}</td>
+                                                <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
+{#                                                <td>{% for projmisn in project.projmisn %}#}
+{#                                                 <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission}}<br> <br>{% endfor %} </td>#}
+{#                                                <td> {% for cp in project.cp %} {{cp.community_partner}} <br> <br> {% endfor %} </td>#}
+{#                                                <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>#}
+{#                                                <td>{{ project.engagementType }}</td>#}
                                                 <td>{{ project.academic_year }}</td>
                                                 <td>{{ project.semester}}</td>
                                                 <td>{{ project.status }}</td>

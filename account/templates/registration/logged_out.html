@@ -1,6 +1,7 @@
 
 {% extends 'home/base_home.html' %}
 {% block title %}Logged Out{% endblock %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -47,9 +48,14 @@ margin-top: 15px;
         <div class = "panel panel-default">
             <div class="panel-heading text-center"><h4>Logged Out</h4></div>
             <div class="panel-body">
-                <div >
-                <p>You successfully logged out of the University of Nebraska Omaha Community Partnership application.</p><br>
+            <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                <div class="container">
+                    {% logouts %}
                 </div>
+            </div>
+{#                <div >#}
+{#                <p>You successfully logged out of the University of Nebraska Omaha Community Partnership application.</p><br>#}
+{#                </div>#}
             </div>
         </div>
     </div>

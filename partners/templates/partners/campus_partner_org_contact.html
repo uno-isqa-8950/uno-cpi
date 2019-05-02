@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}{% load staticfiles %}
 
     <style>
@@ -73,6 +74,11 @@
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4>Contact Details</h4></div>&emsp;
                     <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% part_org_prof_cons %}
+                        </div>
+                    </div>
                         <div class="container">
                             <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                 <thead>

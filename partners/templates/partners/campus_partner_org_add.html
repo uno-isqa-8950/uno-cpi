@@ -1,8 +1,57 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style xmlns="http://www.w3.org/1999/html">
+
+ @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+      #button-center{
+          text-align: center;
+      }
+      .container{
+          width: auto !important;
+      }
+      h4{
+          word-break-wrap: normal;
+      }
+}
+
+    .select2 {
+        width:93%!important;
+    }
+  .help-block
+  {
+     display: none;
+  }
+
+.select2-container--open .select2-dropdown--below
+    {
+       margin-left:20px;
+    }
+
+.select2-container--open .select2-dropdown--above
+    {
+    margin-left:20px;
+    }
+
+
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+
+.container
+    {
+        width: 800px;
+    }
 
 h4
 {
@@ -10,10 +59,7 @@ h4
   font-size: 1.3em;
 }
 
-input[id=id_campus_partner]
-{
-    width:95%;
-}
+
 label
 {
 margin-left: 25px;
@@ -34,7 +80,7 @@ width:100%;
 .btn-add
 {
     alignment: center;
-    background-color: #636568;
+    background-color: #333;
     color: white;
 }
 
@@ -56,8 +102,13 @@ width:100%;
       <div class ="row justify-content-md-center">
         <div class="col-xl-6 col-md-8">
   <div class = "panel panel-default">
-    <div class="panel-heading text-center"><h4><b>Add Organization to your Profile</b></h4></div>
+    <div class="panel-heading text-center"><h4>Add Organization to your Profile</h4></div>
       <div class="panel-body"><br><br>
+      <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+          <div class="container">
+              {% part_org_prof_adds %}
+           </div>
+      </div>
         <div class="body">
           <form action="." method="post" class="form-horizontal1" enctype="multipart/form-data">
             {% csrf_token %}
@@ -76,6 +127,45 @@ width:100%;
     </div>
         </div></div></div>
   <br><br><br>
+
+{% endblock %}
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+
+    $('#id_campus_partner').select2({placeholder: 'Select a Campus Partner',border:'2px solid #aaa'});
+});
+</script>
+<style>
+.select2-container .select2-selection--single
+{
+    height:32px;
+    margin-left: 20px;
+    width: 300px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+</style>
+
 
 {% endblock %}
 

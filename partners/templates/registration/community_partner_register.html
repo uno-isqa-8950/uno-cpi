@@ -1,5 +1,6 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -86,6 +87,13 @@ width:93%!important;
             <div class = " panel-default card">
 		        <div class=" panel-heading text-center"><h4>Register: A New Community Partner </h4></div>
 			    <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% create_project_forms %}
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
                     <form action="." onfocusout="return validateForm()"  method="post">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">

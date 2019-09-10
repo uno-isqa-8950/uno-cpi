@@ -3,7 +3,7 @@ from django.db import connection
 from django.http import HttpResponse, HttpResponseRedirect
 from numpy import shape
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
-from home.views import gmaps
+#from home.views import gmaps
 from partners.views import district, countyData
 from projects.models import *
 from home.models import *
@@ -32,7 +32,7 @@ from django.db import connection
 from UnoCPI import sqlfiles
 
 sql=sqlfiles
-gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
+#gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
 @login_required()
@@ -158,7 +158,7 @@ def createProject(request):
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
                 fulladdress = proj.address_line1 + ' ' + proj.city
-                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                geocode_result = None # gmaps.geocode(fulladdress)  # get the coordinates
                 proj.latitude = geocode_result[0]['geometry']['location']['lat']
                 proj.longitude = geocode_result[0]['geometry']['location']['lng']
                 #### checking lat and long are incorrect
@@ -263,8 +263,18 @@ def createProject(request):
         else:
             a_year = str(year-1) + "-" + str(year) [-2:]
 
-        test = AcademicYear.objects.get(academic_year=a_year)
-        project =ProjectFormAdd(initial={"academic_year":test})
+        print('ayeat---', a_year)
+       # a_year='2018-19'
+        try:
+            test = AcademicYear.objects.get(academic_year=a_year)
+        except AcademicYear.DoesNotExist:
+            test = None
+        print('test---', test)
+        if test is not None:
+            project =ProjectFormAdd(initial={"academic_year":test})
+        else:
+            project = ProjectFormAdd()
+
         course = CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
         #formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')

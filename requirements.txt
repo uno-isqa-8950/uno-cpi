@@ -27,13 +27,9 @@ python-decouple==3.1
 pytz==2018.5
 requests==2.20.1
 shape==1.0.0
-Shapely==1.6.4.post2
 six==1.11.0
 urllib3==1.24.1
 wagtail==2.4
 whitenoise==3.3.1
 APScheduler==3.5.3
 
-
-pylibmc==1.5.1
-pytest

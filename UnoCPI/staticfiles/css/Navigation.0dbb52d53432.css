@@ -1,0 +1,105 @@
+/* Font color, size, type */
+
+@media (min-width:900px)
+{
+.navbar
+{
+padding: .1rem 1rem;
+}
+}
+
+.navbar-brand
+{
+color:White;
+font-family:'Helvetica';
+font-size:1.1em;
+}
+
+
+
+@media (max-width: 700px)
+{
+.navbar-brand
+{
+color:White;
+font-family:'Helvetica';
+font-size:16.6px;
+}
+
+}
+
+
+
+/* Highlight brand on hover*/
+
+.navbar-brand:hover
+{
+color:White;
+}
+
+
+
+/* Custom-navbar for Font, color, size, type */
+
+.navbar-custom
+{
+border-bottom: 5px solid #e22626;
+background-color:#282828;
+color:White;
+font-family:'Helvetica';
+font-size:1em;
+justify-content: left;
+/*height: 80px;*/
+}
+
+
+
+
+
+.nav-link
+{
+color: White;
+}
+
+
+
+
+.navbar-custom .nav-link
+{
+color: #f7f0f0;
+}
+
+
+
+/* Highlight section with white color on hover */
+
+.navbar-custom .navbar-nav > li > a:focus, .navbar-custom .navbar-nav > li > a:hover
+{
+    color: Black;
+    background-color: White;
+}
+
+
+/* Menu for Mobile View */
+
+#Menu
+
+{
+margin-left:auto;
+color:White;
+font-size:18px;
+}
+
+
+/* icon spacing with text */
+
+.navbar-nav i
+{
+padding:0px 8px;
+}
+
+
+#pic
+{
+padding: 0px 8px;
+}

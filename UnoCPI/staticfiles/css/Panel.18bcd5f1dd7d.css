@@ -1,0 +1,215 @@
+/* Login Panel */
+
+#align
+{
+    margin-left:18px;
+    margin-top:12px;
+}
+
+
+
+
+
+/* Register forms highlight box */
+
+#contact1
+{
+    border:1.5px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top:10px;
+    background-color:#f3f3f3;
+
+}
+
+#contact2
+{
+    border:1.5px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 12px;
+    margin-right: 12px;
+    margin-top:10px;
+    background-color:#d8d8d8;
+
+}
+
+/* End Design */
+
+
+
+
+
+
+
+/* Text boxes design */
+
+
+
+select[id=id_college_name]
+
+{
+    width:93%;
+}
+
+
+
+
+
+input[type=text],[type=password],[type=email]
+{
+    width:85%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:10px 0 8px 4px;
+    outline:none;
+    padding:4px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+
+}
+
+
+input[type=text]:focus, input[type=password]:focus, input[type=email]:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+
+input[id=id_start_date],input[id=id_end_date],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
+{
+    width:85%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:10px 0 8px 4px;
+    outline:none;
+    padding:4px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+
+
+input[id=id_start_date]:focus,input[id=id_end_date]:focus,select[id=id_engagement_type]:focus,select[id=id_activity_type]:focus,textarea[id=id_description]:focus,textarea[id=id_total_uno_hours]:focus,select[id=id_semester]:focus, select[id=id_status]:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+
+
+/* Text box layout ends */
+
+
+
+
+
+
+
+
+/* Panel Layout */
+
+.panel
+{
+    width: relative;
+    box-shadow: 5px 10px 10px 5px grey;
+    height:relative;
+    margin-top: 100px;
+    font-family:Helvetica;
+}
+
+
+
+
+.panel-default > .panel-heading
+{
+    background-color: #636568;
+    color:White;
+}
+
+
+
+.panel-heading
+{
+	height:60px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+
+
+
+@media (max-width: 550px)
+{
+.panel-heading
+{
+	height:50px;
+	margin-top:5px;
+	border-radius: 5px;
+}
+}
+
+.panel
+{
+	border-radius: 5px;
+}
+
+
+/* Panel Layout ends */
+
+
+
+
+
+h4
+{
+	line-height: 2.4;
+    font-size:1.4em
+}
+
+/* Register Campus and Community Partners */
+
+.form-control
+{
+    width:85%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:10px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+
+@media (max-width: 600px)
+{
+h4
+    {
+    font-size:1.3em
+    }
+
+}
+
+/* end */

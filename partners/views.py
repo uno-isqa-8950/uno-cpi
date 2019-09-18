@@ -195,7 +195,7 @@ def ajax_load_campus(request):
         'is_taken': CampusPartner.objects.filter(name__iexact=name).exists()
     }
     return JsonResponse(data)
-	
+
 #Campus and Community Partner user Profile
 @login_required
 def userProfile(request):

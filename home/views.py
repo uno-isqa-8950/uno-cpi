@@ -49,18 +49,20 @@ from UnoCPI import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 #writing into amazon s3 bucket
-ACCESS_ID=settings.AWS_ACCESS_KEY_ID
-ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
-s3 = boto3.resource('s3',
-         aws_access_key_id=ACCESS_ID,
-         aws_secret_access_key= ACCESS_KEY)
+
+#
+#ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+#ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+#s3 = boto3.resource('s3',
+ #        aws_access_key_id=ACCESS_ID,
+         #aws_secret_access_key= ACCESS_KEY)
 #read Partner.geojson from s3
-content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
-partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
+#content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
+#partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
 
 #read Project.geojson from s3
-content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
-project_geojson = content_object_project.get()['Body'].read().decode('utf-8')
+#content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
+#project_geojson = content_object_project.get()['Body'].read().decode('utf-8')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -849,7 +851,7 @@ def GEOJSON():
     #     with open('home/static/GEOJSON/Partner.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
-    collection = json.loads(partner_geojson)
+    collection = []#json.loads(partner_geojson)
     mission_list = MissionArea.objects.all()
     mission_list = [m.mission_name for m in mission_list]
     CommTypelist = CommunityType.objects.all()
@@ -894,7 +896,7 @@ def GEOJSON2():
     #     with open('home/static/GEOJSON/Project.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
-    collection = json.loads(project_geojson)
+    collection = [] #json.loads(project_geojson)
     Missionlist = []  ## a placeholder array of unique mission areas
     Engagementlist = []
     Academicyearlist = []

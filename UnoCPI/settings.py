@@ -26,8 +26,8 @@ SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 # SECURITY WARNING: don't run with debug turned on in production!
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# DEBUG = os.environ.get('DEBUG', False)
-DEBUG=True
+DEBUG = os.environ.get('DEBUG', False)
+
 
 ALLOWED_HOSTS = ['*']
 
@@ -183,8 +183,7 @@ MESSAGE_TAGS = {
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    # os.path.join(PROJECT_ROOT, 'static'),
-    os.path.join(BASE_DIR, 'static'),
+    os.path.join(PROJECT_ROOT, 'static'),
 )
 
 # Update database configuration with $DATABASE_URL.

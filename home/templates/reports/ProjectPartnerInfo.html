@@ -469,13 +469,15 @@ $(document).ready(function(){
    $('#example').DataTable({
        dom: 'B<"clear">ft',
        <!--To remove search function from mission area report-->
-       searching:false,
+       // searching:false,
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
        },
-       ordering:false
+       // ordering:false
+       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  ]
    });
+
 
    } );
 </script>

@@ -263,8 +263,18 @@ def createProject(request):
         else:
             a_year = str(year-1) + "-" + str(year) [-2:]
 
-        test = AcademicYear.objects.get(academic_year=a_year)
-        project =ProjectFormAdd(initial={"academic_year":test})
+      #  test = AcademicYear.objects.get(academic_year=a_year)
+      #  project =ProjectFormAdd(initial={"academic_year":test})
+        try:
+            test = AcademicYear.objects.get(academic_year=a_year)
+        except AcademicYear.DoesNotExist:
+            test = None
+
+        if test is not None:
+            project =ProjectFormAdd(initial={"academic_year":test})
+        else:
+            project = ProjectFormAdd()
+
         course = CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
         #formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')

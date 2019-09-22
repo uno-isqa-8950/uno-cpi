@@ -1,111 +1,8 @@
-{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
+{% extends 'home/base_home.html' %}
+{% load staticfiles %}
+{% block content %}
     {% load wagtailcore_tags register_tags %}
-<style>
-    #loading
-    {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        z-index: 1;
-        width: 150px;
-        height: 150px;
-        margin: -75px 0 0 -75px;
-        border: 16px solid #f3f3f3;
-        border-bottom: 16px solid red;
-        border-top: 16px solid gray;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-    }
-    @-webkit-keyframes spin
-    {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin
-    {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-
-    .form-inline label
-    {
-    font-weight:bold;
-    text-align:left;
-    margin-bottom:10px;
-    display:inline;
-    margin-left:22px;
-    }
-
-     .select2-container--default .select2-selection--single
-     {
-        margin-left:22px;
-        width:100%;
-     }
-
-
-    .select2-container--open .select2-dropdown--below
-    {
-        width:100%;
-        margin-left:22px;
-    }
-
-
-    .form-inline .form-group
-    {
-        display:inline-grid;
-        margin-bottom:30px;
-        margin-top:10px;
-    }
-
-      .page-item.active .page-link
-    {
-    background-color: #333333;
-    border-color: #333333;
-    }
-
-    .page-link
-    {
-    color:#333333;
-    }
-
-    .page-link:hover
-    {
-    color:grey;
-    }
-
-    div.layout {
-      text-align: center;
-    }
-
-    div.center {
-      text-align: center;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-.select2-selection__placeholder{
-        font-size: small;
-    }
-    @media only screen and (max-width: 768px)
-    {
-        div.dataTables_wrapper div.dataTables_length label
-        {
-            float:left;
-            margin-left:50px;
-        }
-        #example_length select{width:35%;}
-
-        label{
-            font-size: small;
-        }
-
-    }
-
-</style>
+<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -131,7 +28,7 @@
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'communitypublicreport' %}' " value="Reset Filters" >
+            <input type="button" id="btn1" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'communitypublicreport' %}' " value="Reset Filters" >
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -207,25 +104,6 @@
                     {% endfor %}
                 </select>
             </div>
-{#            <div class="col-lg-4 col-md-5 form-group">#}
-{#                <label for="mission"> Project Mission Areas#}
-{##}
-{#                    {% for data_definition in data_definition %}#}
-{#                        {% if data_definition.id == 3%}#}
-{#                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"#}
-{#                                  data-content="{{ data_definition.description }}" class="float" >#}
-{#                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>#}
-{#                        {% endif %}#}
-{#                    {% endfor %}#}
-{#                </label>#}
-{#                <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">#}
-{#                    <option> All </option>#}
-{#                    {% for mission in missions.form.mission %}#}
-{#                        {{mission}}#}
-{#                    {% endfor %}#}
-{#                </select>#}
-{#            </div>#}
-
             <div class="col-lg-4 col-md-5 form-group">
                 <label for="college_name"> Colleges and Main Units
                       {% for data_definition in data_definition %}
@@ -409,45 +287,21 @@ $(document).ready(function(){
        },
        aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false} ]
    });
-
+       $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
    } );
-</script>
-<style>
 
-    .btn-group{float:left;, labels:"Export"}
-    #example_length{float:left; margin:0 0 0 0px;}
-    #example_length select{width:50%;}
-
-
-    div.dataTables_wrapper div.dataTables_length label
-    {
-    margin-left:30px;
-    }
-
-
-    div.dataTables_wrapper div.dataTables_filter label
-    {
-    float:right;
-    }
-
-
-    @media (max-width: 900px)
-    {
-    div.dataTables_wrapper div.dataTables_length label
-    {
-        float:left;
-        margin-left:50px;
-    }
-    #example_length select{width:35%;}
-    }
-
-    div.dataTables_wrapper div.dataTables_paginate
-    {
-        float:right;
-    }
-
-</style>
-    <script>
         $(function () {
             $('[data-toggle="popover"]').popover()
         })

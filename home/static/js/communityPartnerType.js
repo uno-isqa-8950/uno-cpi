@@ -194,6 +194,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var campus_partner = communityData.features
     var academic_year = communityData.features
     var website = communityData.features
+    console.log('website in pageload---'+website);
     var city = communityData.features
     var projects = communityData.features
     // var markers =[];
@@ -295,7 +296,9 @@ var rightclickwindow = null;
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects) {
     var infowindow = new google.maps.InfoWindow();
+    console.log('infowindow---'+infowindow);
     google.maps.event.addListener(marker, 'click', function () {
+        console.log('infowindow---'+infowindow);
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
         infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
@@ -305,7 +308,7 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
             '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank">' + website + '</a></td></tr><br /><br>' +
+            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>' +
              (project_number == 0 ? '':
             ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
         infowindow.open(map, marker);

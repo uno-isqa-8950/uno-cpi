@@ -109,3 +109,4 @@ venv.bak/
 .tests_scripts/Sprint 0/chromedriver.exe
 *.sqlite3
 gitignore
+staticfiles

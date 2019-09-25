@@ -24,7 +24,7 @@ from django.core.cache import cache
 
 # import pandas as pd
 import json
-gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
+#gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 import os
 def countyGEO():
     with open('home/static/GEOJSON/NEcounties2.geojson') as f:
@@ -115,7 +115,7 @@ def registerCommunityPartner(request):
             if (address != "N/A"):  # check if a community partner's address is there
 
                 fulladdress = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
-                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                geocode_result = None #gmaps.geocode(fulladdress)  # get the coordinates
                 community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
                 community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
             community_partner.save()
@@ -444,7 +444,7 @@ def registerCommunityPartner_forprojects(request):
             if (address != "N/A"):  # check if a community partner's address is there
 
                 fulladdress = community_partner.address_line1 + ' ' + community_partner.city + ' ' + community_partner.state
-                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                geocode_result = None # gmaps.geocode(fulladdress)  # get the coordinates
                 community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
                 community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
             community_partner.save()

@@ -3,7 +3,7 @@ from django.db import connection
 from django.http import HttpResponse, HttpResponseRedirect
 from numpy import shape
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
-from home.views import gmaps
+#from home.views import gmaps
 from partners.views import district, countyData
 from projects.models import *
 from home.models import *
@@ -13,7 +13,7 @@ from university.models import Course
 from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
-from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
+from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
@@ -32,7 +32,7 @@ from django.db import connection
 from UnoCPI import sqlfiles
 
 sql=sqlfiles
-gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
+#gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
 @login_required()
@@ -158,7 +158,7 @@ def createProject(request):
             address = proj.address_line1
             if (address != "N/A"):  # check if a community partner's address is there
                 fulladdress = proj.address_line1 + ' ' + proj.city
-                geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                geocode_result = None # gmaps.geocode(fulladdress)  # get the coordinates
                 proj.latitude = geocode_result[0]['geometry']['location']['lat']
                 proj.longitude = geocode_result[0]['geometry']['location']['lng']
                 #### checking lat and long are incorrect
@@ -263,13 +263,22 @@ def createProject(request):
         else:
             a_year = str(year-1) + "-" + str(year) [-2:]
 
+<<<<<<< HEAD
       #  test = AcademicYear.objects.get(academic_year=a_year)
       #  project =ProjectFormAdd(initial={"academic_year":test})
+=======
+        print('ayeat---', a_year)
+       # a_year='2018-19'
+>>>>>>> f356bf9f449ce1b5cd0f39fc9a8602538de44b32
         try:
             test = AcademicYear.objects.get(academic_year=a_year)
         except AcademicYear.DoesNotExist:
             test = None
+<<<<<<< HEAD
 
+=======
+        print('test---', test)
+>>>>>>> f356bf9f449ce1b5cd0f39fc9a8602538de44b32
         if test is not None:
             project =ProjectFormAdd(initial={"academic_year":test})
         else:
@@ -656,6 +665,8 @@ def projectsPrivateReport(request):
     # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
     campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
 
+    k12_choices = K12ChoiceForm()
+
     mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
 
@@ -679,13 +690,15 @@ def projectsPrivateReport(request):
 
     b = request.GET.get('community_type', None)
     c = request.GET.get('weitz_cec_part', None)
+    d = request.GET.get('k12_flag', None)
     if b is None or b == "All" or b == '':
         if c is None or c == "All" or c == '':
-            cursor.execute(sql.projects_report, [projects_comm_ids])
+            if d is None or d == 'All' or d == '':
+                cursor.execute(sql.projects_report, [projects_comm_ids])
 
-            for obj in cursor.fetchall():
-                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
-                     "engagementType": obj[3]})
+                for obj in cursor.fetchall():
+                    data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                         "engagementType": obj[3]})
 
     # for project in projects:
     #     data['projectName']= project.project_name
@@ -720,7 +733,8 @@ def projectsPrivateReport(request):
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
-                   "campus_filter": campus_project_filter, 'college_filter': campusPartners})
+                   "campus_filter": campus_project_filter, 'college_filter': campusPartners,
+                   "k12_choices": k12_choices})
 
 
 # List of community Partners Public View

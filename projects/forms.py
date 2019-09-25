@@ -8,7 +8,17 @@ from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCamp
 from django import forms
 from django.forms import ModelForm
 
+
+K12_CHOICES = [
+    ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
+
+
+class K12ChoiceForm(forms.Form):
+    k12_choice = forms.ChoiceField(label="K-12 Choices", choices=K12_CHOICES, required=False)
+
+
 class ProjectForm(forms.ModelForm):
+
     class Meta:
         model = Project
         fields = ('project_name',)
@@ -22,10 +32,10 @@ class ProjectForm(forms.ModelForm):
         }
 
 class missionform(forms.ModelForm):
+
     class Meta:
         model = ProjectMission
         fields = ('mission_type','mission')
-
 
 class ProjectCommunityPartnerForm(forms.ModelForm):
 
@@ -46,7 +56,6 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ProjectForm2(ModelForm):
-
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
@@ -171,9 +180,6 @@ class ProjectForm2(ModelForm):
     #     if type(zip) != int:
     #         raise forms.ValidationError("Invalid ZIP Code")
     #     return zip
-
-
-
 
 class ProjectFormAdd(ModelForm):
     SEMESTER = [

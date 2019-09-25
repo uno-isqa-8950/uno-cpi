@@ -3,6 +3,15 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 
 
+class AcademicYear(models.Model):
+    academic_year = models.CharField(max_length=20, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.academic_year)
+
+
 class Project (models.Model):
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
@@ -11,8 +20,8 @@ class Project (models.Model):
     description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, blank=False)
     end_semester = models.CharField(max_length=20, blank=True)
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
-    end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
+    academic_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=False, related_name = "academic_year1")
+    end_academic_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
     k12_flag = models.BooleanField(default=False)
@@ -123,12 +132,4 @@ class ActivityType(models.Model):
     def __str__(self):
         return str(self.name)
 
-
-class AcademicYear(models.Model):
-    academic_year = models.CharField(max_length=20, unique=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return str(self.academic_year)
 

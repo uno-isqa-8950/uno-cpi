@@ -932,7 +932,7 @@ span.outline {
 <HR class="new1">
 <br/>
     <br/>
-
+<!--Old feature 2 code-->
 {#<div class="container">#}
 {#    <div class="row">#}
 {#        <div class="col-md-12 feature-2">#}
@@ -958,17 +958,73 @@ span.outline {
 {#    </div>#}
 {#</div>#}
 
+    <!--feature 2 code ends here -->
+
+
+<!--feature 2 code starts here -->
+<div class="container">
+  <div class="row">
+      <div class="col-md-12 feature-3">
+     {% if page.featured_section_2 %}
+         <!--<h2>{{ page.featured_section_2_title }}</h2>-->
+           <div class="featured-children row">
+                    {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
+                        <li class="col">
+                            <a href="{{childpage.url}}">
+                               <blog.img>
+                                    {% image childpage.image fill-300x300-c100 %}
+                                </blog.img>
+                                <h3>{{childpage.title}}</h3>
+                            </a>
+                            <!--<div class="feature-2-text">-->
+                                <!--<h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>-->
+                                <!--<p>{{ childpage.introduction|truncatewords:15 }}</p>-->
+                            <!--</div>-->
+                        </li>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+    <!--feature 2 code ends here -->
+<!--original block -->
+<!--<div class="container">-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-12 feature-3">-->
+            <!--{% if page.featured_section_3 %}-->
+{#            <h2>{{ page.featured_section_3_title }}</h2>#}
+                <!--<div class="featured-children row">-->
+                    <!--{% for childpage in page.featured_section_3.specific.children|slice:"6" %}-->
+                        <!--<li class="col-md-4">-->
+                            <!--<a href="{{childpage.url}}">-->
+                                <!--<blog.img>-->
+                                    <!--{% image childpage.image fill-430x254-c100 %}-->
+                                <!--</blog.img>-->
+                                <!--<h3>{{childpage.title}}</h3>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--{% endfor %}-->
+                <!--</div>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+    <!--feature 3 code starts here -->
+
 <div class="container">
     <div class="row">
         <div class="col-md-12 feature-3">
             {% if page.featured_section_3 %}
-{#            <h2>{{ page.featured_section_3_title }}</h2>#}
-                <div class="featured-children row">
-                    {% for childpage in page.featured_section_3.specific.children|slice:"6" %}
-                        <li class="col-md-4">
-                            <a href="{{childpage.url}}">
-                                <blog.img>
-                                    {% image childpage.image fill-430x254-c100 %}
+            <div class="featured-children row">
+                {% for childpage in page.featured_section_3.specific.children|slice:"3" %}
+                <li class="col">
+                    <a href="{{childpage.url}}">
+                                <blog.img >
+                                    {% image childpage.image fill-300x300-c100 %}
                                 </blog.img>
                                 <h3>{{childpage.title}}</h3>
                             </a>
@@ -980,6 +1036,32 @@ span.outline {
     </div>
 </div>
 </div>
+    <!--feature 3 ends here -->
+    <!--<div class="container">-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-12 feature-3">-->
+            <!--{% if page.featured_section_2 %}-->
+            <!--<div class="featured-children row">-->
+                <!--{% for childpage in page.featured_section_2.specific.children|slice:"4" %}-->
+                <!--<li class="col-md-4">-->
+                    <!--<a href="{{childpage.url}}">-->
+                                <!--<blog.img>-->
+                                    <!--{% image childpage.image fill-430x254-c100 %}-->
+                                <!--</blog.img>-->
+                                <!--<h3>{{childpage.title}}</h3>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--{% endfor %}-->
+                <!--</div>-->
+            <!--{% endif %}-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+<!--</div>-->
+
+
+
+
 <br/>
 <HR class="new1">
 

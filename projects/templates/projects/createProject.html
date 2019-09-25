@@ -72,7 +72,7 @@
     }
 
     select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id=id_total_uno_hours],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
     select[id=id_end_semester],select[id=id_end_academic_year]
     {
         width:95%;
@@ -102,7 +102,37 @@
    {
    color: #d71920
    }
+/*K12 Checkbox-Parimita*/
+input[type="radio"]:checked ~ .reveal-if-active,
+input[type="checkbox"]:checked ~ .reveal-if-active {
+  opacity: 1;
+  max-height: 110px;
+  overflow: visible;
+    /*line-height: 2.7;*/
+    font-size: 1.00em;
 
+
+
+}
+
+  .reveal-if-active {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  /*transform: scale(0.8);*/
+  transition: 0.5s;
+  margin-left: 0px;
+
+  input[type="radio"]:checked ~ &,
+  input[type="checkbox"]:checked ~ & {
+    opacity: 1;
+    max-height: 100px;
+    overflow: visible;
+    padding: 10px 20px;
+    transform: scale(1);
+      margin-left: 0px;
+  }
+}
 
     </style>
 
@@ -262,8 +292,20 @@
                                             {{ project.total_uno_hours}}
                                             {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                         </div>
-
-                                        </div>
+<!--                                        K12 Flag-Parimita-->
+                                        <label for="id_k12_flag">Does this Project involve K-12 students?   </label>
+                                            <input type="checkbox" name="k12_flag" id="id_k12_flag"> {{ project.k12_flag}}
+                                            <div class="reveal-if-active">
+                                               <label for="id_k12_students">Total number of K-12 Students</label>
+                                                {{ project.total_k12_students}}
+                                                {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                            </div>
+                                             <div class="reveal-if-active">
+                                                <label for="id_k12_hours">Total number of K-12 Hours</label>
+                                                {{ project.total_k12_hours}}
+                                                {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                             </div>
+                                    </div>
                                         <div class="col-lg-12">
                                             &nbsp;&nbsp;<h6 style="margin-left: 3%">  Primary Location of the Project: </h6><br>
                                         </div>

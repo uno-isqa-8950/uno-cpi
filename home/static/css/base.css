@@ -711,7 +711,7 @@ span.outline {
 .homepage .feature-3 h3 {
   color: #fff;
   font-weight: 300;
-  font-size: 1.8em;
+  font-size: 16px;
   margin-bottom: 200px;
   margin-top: -255px;
   position: relative;
@@ -734,6 +734,7 @@ span.outline {
     background-color: black;
     opacity: .9;
     object-fit: cover;
+
 
 }
 div.feature-3{

@@ -296,12 +296,12 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
                                         <label for="id_k12_flag">Does this Project involve K-12 students?   </label>
                                             <input type="checkbox" name="k12_flag" id="id_k12_flag"> {{ project.k12_flag}}
                                             <div class="reveal-if-active">
-                                               <label for="id_k12_students">Total number of K-12 Students</label>
+                                               <label for="id_k12_students">Total number of K-12 Students:</label>
                                                 {{ project.total_k12_students}}
                                                 {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                             </div>
                                              <div class="reveal-if-active">
-                                                <label for="id_k12_hours">Total number of K-12 Hours</label>
+                                                <label for="id_k12_hours">Total number of K-12 Hours:</label>
                                                 {{ project.total_k12_hours}}
                                                 {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                              </div>

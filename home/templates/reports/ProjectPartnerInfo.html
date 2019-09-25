@@ -1,110 +1,6 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
 
-<style>
-    #loading
-    {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        z-index: 1;
-        width: 150px;
-        height: 150px;
-        margin: -75px 0 0 -75px;
-        border: 16px solid #f3f3f3;
-        border-bottom: 16px solid red;
-        border-top: 16px solid gray;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-    }
-    @-webkit-keyframes spin
-    {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
-
-    @keyframes spin
-    {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
-    .form-inline label
-    {
-        font-weight:bold;
-        text-align:left;
-        margin-bottom:10px;
-        display:inline;
-        margin-left:22px;
-    }
-
-
-     .select2-container--default .select2-selection--single
-     {
-        margin-left:22px;
-        width:100%;
-     }
-
-
-    .select2-container--open .select2-dropdown--below
-    {
-        width:100%;
-        margin-left:22px;
-    }
-
-
-    .form-inline .form-group
-    {
-        display:inline-grid;
-        margin-bottom:30px;
-        margin-top:10px;
-    }
-    .fa {
-    font-size: 15px;
-    }
-
-    body
-    {
-        font-family:Helvetica;
-    }
-
-       .page-item.active .page-link
-    {
-    background-color: #333333;
-    border-color: #333333;
-    }
-
-    .page-link
-    {
-    color:#333333;
-    }
-
-    .page-link:hover
-    {
-    color:grey;
-    }
-    .select2-selection__placeholder{
-        font-size: small;
-    }
-
- @media only screen and (max-width: 768px) {
-     div.dataTables_wrapper div.dataTables_length label {
-         float: left;
-         margin-left: 50px;
-     }
-
-     #example_length select {
-         width: 35%;
-     }
-
-     label {
-         font-size: small;
-     }
- }
-
-</style>
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -469,13 +365,27 @@ $(document).ready(function(){
    $('#example').DataTable({
        dom: 'B<"clear">ft',
        <!--To remove search function from mission area report-->
-       searching:false,
+       // searching:false,
        buttons: {
        name: 'primary',
        buttons: ['csv', 'excel', 'pdf']
        },
-       ordering:false
+       // ordering:false
+       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  ]
    });
+       $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
 
    } );
 </script>
@@ -484,43 +394,5 @@ $(document).ready(function(){
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
-
-<style>
-
-    .btn-group{float:left;, labels:"Export"}
-    #example_length{float:left; margin:0 0 0 0px;}
-    #example_length select{width:50%;}
-
-
-    div.dataTables_wrapper div.dataTables_length label
-    {
-        margin-left:30px;
-    }
-
-
-    div.dataTables_wrapper div.dataTables_filter label
-    {
-        float:right;
-    }
-
-
-    @media (max-width: 900px)
-    {
-        div.dataTables_wrapper div.dataTables_length label
-        {
-            float:left;
-            margin-left:50px;
-        }
-        #example_length select{width:35%;}
-    }
-
-    div.dataTables_wrapper div.dataTables_paginate
-    {
-        float:right;
-    }
-
-</style>
-
-
 {% endblock %}
 

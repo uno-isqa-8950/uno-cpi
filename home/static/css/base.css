@@ -432,7 +432,7 @@ cite {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  color: #d71920;
+  color: #d71723;
   /*background-color: transparent;*/
   text-decoration: underline ;
 }
@@ -720,7 +720,7 @@ span.outline {
   z-index: 1;
 }
 .homepage .feature-3 a:hover {
-  color: #d71920;
+  color: #d71723;
   background-color: transparent;
   text-decoration: underline ;
 }
@@ -746,7 +746,7 @@ div.feature-3{
     object-fit: cover;
 }
 .blog img a:hover {
-  color: #d71920;
+  color: #d71723;
   background-color: transparent;
   text-decoration: underline ;
 }
@@ -794,13 +794,13 @@ div.feature-3{
     height: auto;
 }
 .rich-text a{
-     color: #d71920;
+     color: #d71723;
   background-color: transparent;
-  text-decoration: none ;
+  text-decoration: underline ;
 }
 
 .rich-text a:hover {
-  color: #d71920;
+  color: #d71723;
   background-color: transparent;
   text-decoration: underline ;
 }

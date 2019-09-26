@@ -263,22 +263,16 @@ def createProject(request):
         else:
             a_year = str(year-1) + "-" + str(year) [-2:]
 
-<<<<<<< HEAD
-      #  test = AcademicYear.objects.get(academic_year=a_year)
-      #  project =ProjectFormAdd(initial={"academic_year":test})
-=======
+        #  test = AcademicYear.objects.get(academic_year=a_year)
+        #  project =ProjectFormAdd(initial={"academic_year":test})
         print('ayeat---', a_year)
-       # a_year='2018-19'
->>>>>>> f356bf9f449ce1b5cd0f39fc9a8602538de44b32
+        # a_year='2018-19'
         try:
             test = AcademicYear.objects.get(academic_year=a_year)
         except AcademicYear.DoesNotExist:
             test = None
-<<<<<<< HEAD
 
-=======
         print('test---', test)
->>>>>>> f356bf9f449ce1b5cd0f39fc9a8602538de44b32
         if test is not None:
             project =ProjectFormAdd(initial={"academic_year":test})
         else:

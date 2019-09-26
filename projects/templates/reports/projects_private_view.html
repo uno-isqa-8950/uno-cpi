@@ -154,7 +154,7 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option> All Partners </option>
+                        <option> All </option>
                         {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                             {{weitz_cec_part}}
                         {% endfor %}
@@ -192,9 +192,8 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
-                        <option> All Projects </option>
                         {% for k12_flag in k12_choices.k12_choice %}
-                            {{k12_flag}}
+                            {{ k12_flag }}
                         {% endfor %}
                     </select>
                 </div>

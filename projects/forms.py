@@ -10,7 +10,7 @@ from django.forms import ModelForm
 
 
 K12_CHOICES = [
-    ('All', 'All Projects'), ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
+    ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
 
 
 class K12ChoiceForm(forms.Form):

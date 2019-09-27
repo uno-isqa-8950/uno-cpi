@@ -13,7 +13,7 @@ from university.models import Course
 from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType
-from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset
+from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
@@ -639,7 +639,22 @@ def projectsPrivateReport(request):
     data_list=[]
     data_definition = DataDefinition.objects.all()
 
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    #set k12 flag on template choices field
+    k12_selection = request.GET.get('k12_flag', None)
+    k12_init_selection = "All"
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+    print('K12 flag set in view ' + k12_selection)
+
+    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
+    if k12_selection == 'Yes':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True))
+    elif k12_selection == 'No':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
+    else:
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -679,13 +694,18 @@ def projectsPrivateReport(request):
 
     b = request.GET.get('community_type', None)
     c = request.GET.get('weitz_cec_part', None)
+    k12_selection = request.GET.get('k12_flag', None)
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+    #print('K12 flag selected in page ' + k12_selection)
     if b is None or b == "All" or b == '':
         if c is None or c == "All" or c == '':
-            cursor.execute(sql.projects_report, [projects_comm_ids])
+            if k12_selection is None or k12_selection == 'All' or k12_selection == '':
+                cursor.execute(sql.projects_report, [projects_comm_ids])
 
-            for obj in cursor.fetchall():
-                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
-                     "engagementType": obj[3]})
+                for obj in cursor.fetchall():
+                    data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                         "engagementType": obj[3]})
 
     # for project in projects:
     #     data['projectName']= project.project_name
@@ -720,7 +740,9 @@ def projectsPrivateReport(request):
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
-                   "campus_filter": campus_project_filter, 'college_filter': campusPartners})
+                   "campus_filter": campus_project_filter, 'college_filter': campusPartners,
+                   "k12_choices": k12_choices,
+                   "k12_selection": k12_selection})
 
 
 # List of community Partners Public View

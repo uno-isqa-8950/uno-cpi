@@ -10,7 +10,7 @@
     margin-left:40px;
     margin-top:10px;
     margin-bottom:10px;
-    background-color:grey;
+    background-color: #333333;
 }
 
 .btn-secondary:hover
@@ -114,8 +114,8 @@ section h3.section-subheading {
 }
 
 .btn-primary {
-  background-color: grey;
-  border-color: grey;
+  background-color: #333333;
+  border-color: #333333;
   margin-bottom: 20px;
 }
 

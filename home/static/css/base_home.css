@@ -588,7 +588,7 @@ span.outline {
   /*background: linear-gradient(45deg, rgba(170,170,170,1) 0%,rgba(238,238,238,1) 44%);*/
 /*}*/
 .homepage .streamfield-column {
-  padding: 60px;
+  /*padding: 60px;*/
   margin: 0 auto;
   float: none;
 }
@@ -725,7 +725,7 @@ span.outline {
 .homepage .feature-3 h3 {
   color: #fff;
   font-weight: bolder;
-  font-size: 1.3em;
+  font-size: 1.1em;
   margin-bottom: 200px;
   margin-top: -255px;
   position: relative;
@@ -733,12 +733,12 @@ span.outline {
     opacity: 10%;
     /*text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);*/
   z-index: 1;
-
-
+    /*word-wrap: break-word;*/
+   /*white-space: normal;*/
 
 }
 .homepage .feature-3 a:hover {
-  color: #d71920;
+  color: #ffffff;
   background-color: transparent;
   text-decoration: underline ;
 }

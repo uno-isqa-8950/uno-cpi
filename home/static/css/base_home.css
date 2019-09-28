@@ -206,7 +206,7 @@ margin-top:15px;
     }
 
     @media (max-width:575px) {
-    .fleft, .fright {
+    .fleft, .fright, .fnone {
         border:none!important;
     }
 }
@@ -238,7 +238,7 @@ margin-top:15px;
     }
 
     .fleft {
-        color:#BABABA!important;
+        color:#bbbbbb!important;
         border: solid;
         border-width: 1px;
         border-top: 0;
@@ -249,8 +249,21 @@ margin-top:15px;
         display: inline-block;
     }
 
+    .fnone {
+        color:#bbbbbb!important;
+        border: solid;
+        border-width: 1px;
+        border-top: 0;
+        border-bottom:0;
+        border-left:0;
+        border-right:0;
+        padding: 2px 6px;
+        font-size:10px;
+        display: inline-block;
+    }
+
     .fright {
-        color:#BABABA;
+        color:#bbbbbb;
         border: solid;
         border-width: 1px;
         border-top: 0;
@@ -261,12 +274,13 @@ margin-top:15px;
         display: inline-block;
     }
 
+
     .fcenter {
-        color:#BABABA;
+        color:#bbbbbb;
         font-size:12px;
     }
 
-    .fleft:hover, .fright:hover, .fcenter:hover{
+    .fleft:hover, .fright:hover, .fnone:hover,.fcenter:hover{
         color:white !important;
         text-decoration: none;
     }
@@ -315,7 +329,7 @@ figcaption {
   background-color: rgba(99,33,13,0.8);
   bottom: 0;
   color: white;
-  font-family: 'Lato', sans-serif;
+  font-family: 'Arial Narrow', sans-serif;
   font-size: 16px;
   font-weight: 300;
   left: 0;
@@ -326,7 +340,7 @@ figcaption {
 
 /* Generic detail page styles */
 .intro {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Arial Narrow', sans-serif;
   font-weight: 300;
   margin: 0 0 40px;
   font-size: 22px;
@@ -378,7 +392,7 @@ blockquote p {
 }
 
 cite {
-  font-family: 'Lato', sans-serif;
+  font-family: 'Arial Narrow', sans-serif;
   text-transform: uppercase;
   color: #888;
   font-size: 12px;
@@ -432,7 +446,7 @@ cite {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
-  color: #d71723;
+  color: #d71920;
   /*background-color: transparent;*/
   text-decoration: underline ;
 }
@@ -710,17 +724,21 @@ span.outline {
 }
 .homepage .feature-3 h3 {
   color: #fff;
-  font-weight: bold;
-  font-size: 16px;
+  font-weight: bolder;
+  font-size: 1.3em;
   margin-bottom: 200px;
   margin-top: -255px;
   position: relative;
   text-align: center;
+    opacity: 10%;
     /*text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);*/
   z-index: 1;
+
+
+
 }
 .homepage .feature-3 a:hover {
-  color: #d71723;
+  color: #d71920;
   background-color: transparent;
   text-decoration: underline ;
 }
@@ -735,7 +753,6 @@ span.outline {
     opacity: .9;
     object-fit: cover;
 
-
 }
 div.feature-3{
     align-content: center;
@@ -746,7 +763,7 @@ div.feature-3{
     object-fit: cover;
 }
 .blog img a:hover {
-  color: #d71723;
+  color: #d71920;
   background-color: transparent;
   text-decoration: underline ;
 }
@@ -794,13 +811,13 @@ div.feature-3{
     height: auto;
 }
 .rich-text a{
-     color: #d71723;
+     color: #d71920;
   background-color: transparent;
   text-decoration: underline ;
 }
 
 .rich-text a:hover {
-  color: #d71723;
+  color: #d71920;
   background-color: transparent;
   text-decoration: underline ;
 }
@@ -843,8 +860,16 @@ div.feature-3{
 
 }
 
-    .font{
-        font-family: "URW Grotesk Cond Bold",serif;
-    font-size: 30vw;
-    font-weight: bolder;
+    .font {
+        font-family: "URW Grotesk Cond Bold", serif;
+        font-size: 30vw;
+        font-weight: bolder;
     }
+
+
+    .fcenter {
+        color:#BBBABA;
+        font-size:12px;
+    }
+
+

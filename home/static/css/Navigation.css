@@ -11,7 +11,7 @@ padding: .1rem 1rem;
 .navbar-brand
 {
 color:White;
-font-family:'Helvetica';
+font-family: 'Arial Narrow', sans-serif;
 font-size:1.1em;
 }
 
@@ -22,7 +22,7 @@ font-size:1.1em;
 .navbar-brand
 {
 color:White;
-font-family:'Helvetica';
+font-family: 'Arial Narrow', sans-serif;
 font-size:16.6px;
 }
 
@@ -43,10 +43,10 @@ color:White;
 
 .navbar-custom
 {
-border-bottom: 5px solid #e22626;
-background-color:#282828;
+border-bottom: 2px solid #e22626;
+background-color:#000000;
 color:White;
-font-family:'Helvetica';
+font-family: 'Arial Narrow', sans-serif;
 font-size:1em;
 justify-content: left;
 /*height: 80px;*/

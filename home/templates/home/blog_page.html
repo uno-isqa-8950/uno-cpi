@@ -763,7 +763,7 @@ span.outline {
 {#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                             {% if  user.is_authenticated %}
                                 <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+                                <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a>
                             {% else %}
                                 <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                                 <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>

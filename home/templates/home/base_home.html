@@ -29,7 +29,6 @@
  window.dataLayer = window.dataLayer || [];
  function gtag(){dataLayer.push(arguments);}
  gtag('js', new Date());
-
  gtag('config', 'UA-138745579-1');
 </script>
 
@@ -189,52 +188,39 @@
                 <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:12px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
                 </a></span>
              </div>
-
           <div class="footertext"></div>
-
           <div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">
                 The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,
                 gender identity, religion, disability, age, genetic information,
                 veteran status, marital status, and/or political affiliation in its programs,
-                activities, or employment. Learn more about Equity, Access and Diversity.</a>
+                activities, or employment.</a>
           </div>
-
           <div class="footertext"></div>
         </div>
       </div>
 </footer>
-
 <!-- Footer Ends Here-->
-
     <!-- JavaScript -->
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
-
 {#    <!-- Script to Activate the Carousel -->#}
 <!--    <script>-->
 <!--         $('.carousel').carousel({-->
 <!--        interval: 5000 //changes the speed#}-->
 <!--    });-->
 <!--    </script>-->
-
-
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
 {% block js %} {% endblock %}
 {% block custom_js %}
     <script>
     $(window).bind("load", function() {
-
        var footerTop = 0,
            $footer = $("#footer");
-
        positionFooter();
-
        function positionFooter() {
                 footerTop = ($(document).height()-$("body").height())+"px";
-
-
                if ( ($("body").height()) < $(document).height()) {
                    $footer.css({
                         position: "relative"
@@ -246,19 +232,13 @@
                         position: "static"
                    })
                }
-
        }
-
        $(window)
                .scroll(positionFooter)
                .resize(positionFooter)
-
     });
     </script>
-
 {% endblock %}
-
-
 {% block selectizeForm %}{% endblock %}
     </body>
 </html>

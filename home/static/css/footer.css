@@ -10,7 +10,7 @@ footer {
   position:relative;
   bottom: 0;
   text-align: center;
-  background-color: #282828;
+  background-color: #000000;
   width: 100%
   /*color:#999;*/
 }
@@ -23,7 +23,7 @@ footer span.copyright {
   line-height: 40px;
   text-transform: none;
   font-size: 1 em;
-  font-family: 'Helvetica';
+  font-family: 'Arial Narrow';
 }
 
 
@@ -37,8 +37,8 @@ footer ul.quicklinks {
   line-height: 40px;
   margin-bottom: 0;
   text-transform: none;
-  color: #fdf9f9;
-  font-family: 'Helvetica';
+  color: #BBBBBB;
+  font-family: 'Arial Narrow';
 }
 
 
@@ -83,10 +83,6 @@ margin-top:10px;
 ul.social-buttons {
   margin-bottom: 0;
 }
-
-
-
-
 ul.social-buttons li a {
   font-size: 20px;
   line-height: 50px;
@@ -100,7 +96,6 @@ ul.social-buttons li a {
   outline: none;
   background-color: grey;
 }
-
 ul.social-buttons li a:active, ul.social-buttons li a:focus, ul.social-buttons li a:hover {
   background-color: red;
 }

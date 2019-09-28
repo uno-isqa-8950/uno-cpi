@@ -72,7 +72,7 @@
     }
 
     select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
     select[id=id_end_semester],select[id=id_end_academic_year]
     {
         width:95%;
@@ -110,8 +110,6 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
   overflow: visible;
     /*line-height: 2.7;*/
     font-size: 1.00em;
-
-
 
 }
 
@@ -294,7 +292,8 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
                                         </div>
 <!--                                        K12 Flag-Parimita-->
                                         <label for="id_k12_flag">Does this Project involve K-12 students?   </label>
-                                            <input type="checkbox" name="k12_flag" id="id_k12_flag"> {{ project.k12_flag}}
+<!--                                            <input type="checkbox" name="k12_flag" id="id_k12_flag">-->
+                                                {{ project.k12_flag}}
                                             <div class="reveal-if-active">
                                                <label for="id_k12_students">Total number of K-12 Students:</label>
                                                 {{ project.total_k12_students}}

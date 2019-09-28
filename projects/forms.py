@@ -8,7 +8,17 @@ from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCamp
 from django import forms
 from django.forms import ModelForm
 
+
+K12_CHOICES = [
+    ('All', 'All Projects'), ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
+
+
+class K12ChoiceForm(forms.Form):
+    k12_choice = forms.ChoiceField(label="K-12 Choices", choices=K12_CHOICES, required=False)
+
+
 class ProjectForm(forms.ModelForm):
+
     class Meta:
         model = Project
         fields = ('project_name',)
@@ -22,10 +32,10 @@ class ProjectForm(forms.ModelForm):
         }
 
 class missionform(forms.ModelForm):
+
     class Meta:
         model = ProjectMission
         fields = ('mission_type','mission')
-
 
 class ProjectCommunityPartnerForm(forms.ModelForm):
 
@@ -46,14 +56,16 @@ class DateInput(forms.DateInput):
     input_type = 'date'
 
 class ProjectForm2(ModelForm):
-
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
+
+    """class MyForm(forms.Form):
+        k12_flag = forms.BooleanField(required=False)"""
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
                     'longitude','academic_year', 'end_academic_year', 'end_semester')
@@ -84,6 +96,7 @@ class ProjectForm2(ModelForm):
             'state': 'State or Province',
 
         }
+
 
     # def clean_facilitator(self):
     #     facilitator = self.cleaned_data['facilitator']
@@ -172,9 +185,6 @@ class ProjectForm2(ModelForm):
     #         raise forms.ValidationError("Invalid ZIP Code")
     #     return zip
 
-
-
-
 class ProjectFormAdd(ModelForm):
     SEMESTER = [
     ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
@@ -185,11 +195,12 @@ class ProjectFormAdd(ModelForm):
     zip = forms.CharField(required=True, label="Zip or Postal Code")
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
+    k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','total_k12_students','total_k12_hours','end_semester', 'end_academic_year')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -434,5 +445,4 @@ class CourseForm(forms.ModelForm):
             'number': ('Course Number'),
             'section': ('Course Section')
         }
-
 

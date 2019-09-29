@@ -167,7 +167,7 @@
 <!-- Navbar ends-->
 
 {#<div class="homepage">#}
-<div class="homepage" style="width: 100vw;
+<div class="homepage col-md-12" style="width: 100vw;
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 
 {% image page.image fill-1920x600 as image %}
@@ -248,16 +248,16 @@
     <br>
     <br>
 
-<div class="container-fluid">
+<div class="container-fluid" style="max-width: 1320px;align-items: center">
     <div class="row">
-
-        <div class="col-lg-12 feature-3">
+        <div class="col-md-12 feature-3">
             {% if page.featured_section_2 %}
 <!--            <h2>{{ page.featured_section_2_title }}</h2>-->
-                <div class="featured-children row ">
-                    <li class="col-md-2"></li>
+                <div class="featured-children row" >
+
                     {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
-                        <li class="col-md-2">
+<div class="col-md-3">
+                        <li>
                             <a href="{{childpage.url}}" >
                                 <blog.img>
                                     {% image childpage.image fill-300x300-c100 %}
@@ -269,6 +269,7 @@
 <!--                                <p>{{ childpage.introduction|truncatewords:15 }}</p>-->
 <!--                            </div>-->
                         </li>
+</div>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -276,16 +277,16 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container-fluid" style="max-width: 990px;align-items: center">
     <div class="row">
         <div class="col-md-12 feature-3">
             {% if page.featured_section_3 %}
 <!--{#            <h2>{{ page.featured_section_3_title }}</h2>#}-->
                 <div class="featured-children row">
-                    <li class="col-md-3 col-sm-1"></li>
+<!--                    <li class="col-md-3 col-sm-1"></li>-->
                     {% for childpage in page.featured_section_3.specific.children|slice:"3" %}
-
-                        <li class="col-md-2">
+<div class="col-md-4">
+                        <li>
                             <a href="{{childpage.url}}" >
                                 <blog.img>
                                     {% image childpage.image fill-300x300-c100 %}
@@ -293,6 +294,7 @@
                                 <h3 class="transbox font">{{childpage.title}}</h3>
                             </a>
                         </li>
+</div>
                     {% endfor %}
                 </div>
             {% endif %}

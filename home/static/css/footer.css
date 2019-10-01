@@ -23,7 +23,7 @@ footer span.copyright {
   line-height: 40px;
   text-transform: none;
   font-size: 1 em;
-  font-family: 'Arial Narrow';
+  font-family: 'Arial Narrow',sans-serif;
 }
 
 
@@ -38,7 +38,7 @@ footer ul.quicklinks {
   margin-bottom: 0;
   text-transform: none;
   color: #BBBBBB;
-  font-family: 'Arial Narrow';
+  font-family: 'Arial Narrow',sans-serif;
 }
 
 

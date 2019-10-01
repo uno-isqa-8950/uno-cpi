@@ -2,7 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load staticfiles %}
 <html lang="en">
-
 <head>
     <title>Community Partnership Initiative</title>
     <meta charset="utf-8">
@@ -249,6 +248,7 @@
     <br>
     <br>
 
+
 <div class="container-fluid centered">
     <div class="row">
         <div class="col-md-12 feature-3">
@@ -257,6 +257,7 @@
 
                     {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
 <div class="col-md-3" style="padding-bottom: 15px">
+
                         <li>
                             <a href="{{childpage.url}}" >
                                 <div class="cardheading">
@@ -270,13 +271,16 @@
 
                         </li>
 </div>
+
                     <br>
+
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
+
 <br>
 <div class="container-fluid centered">
     <div class="row">
@@ -288,7 +292,7 @@
                     <div class="col-md-3" style="padding-bottom: 15px">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li>
-                            <a href="{{childpage.url}}" >
+                        <a href="{{childpage.url}}" >
                                 <div class="cardheading">
                                 <h3 class="font">{{childpage.title}}</h3>
                                 </div>
@@ -297,7 +301,8 @@
                                 </blog.img>
                             </a>
                         </li>
-                    </div>
+
+</div>
                     {% endfor %}
 
                 </div>
@@ -306,7 +311,7 @@
         </div>
     </div>
 </div>
-</div>
+
 <br>
 <HR class="new1">
 

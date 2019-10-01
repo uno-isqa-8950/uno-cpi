@@ -245,7 +245,7 @@ def registerCommunityPartnerUser(request):
             communitypartneruser = CommunityPartnerUser(
                 community_partner=community_partner_user_form.cleaned_data['community_partner'], user=new_user)
             communitypartneruser.save()
-            return render(request, 'home/communityuser_register_done.html', )
+            return render(request, 'home/communityuser_register_done.html' )
     return render(request,
                   'home/registration/community_partner_user_register.html',
                   {'user_form': user_form, 'community_partner_user_form': community_partner_user_form

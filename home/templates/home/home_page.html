@@ -254,10 +254,8 @@
         <div class="col-md-12 feature-3">
             {% if page.featured_section_2 %}
                 <div class="featured-children row" >
-
                     {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
-<div class="col-md-3" style="padding-bottom: 15px">
-
+                    <div class="col-md-3" style="padding-bottom: 15px">
                         <li>
                             <a href="{{childpage.url}}" >
                                 <div class="cardheading">
@@ -266,14 +264,9 @@
                                 <blog.img>
                                     {% image childpage.image fill-300x300-c100 %}
                                 </blog.img>
-
                             </a>
-
                         </li>
-</div>
-
-                    <br>
-
+                    </div>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -286,10 +279,9 @@
     <div class="row">
         <div class="col-md-12 feature-3">
             {% if page.featured_section_3 %}
-
                 <div class="featured-children row">
                     {% for childpage in page.featured_section_3.specific.children|slice:"4" %}
-                    <div class="col-md-3" style="padding-bottom: 15px">
+                    <div class="col" style="padding-bottom: 15px">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li>
                         <a href="{{childpage.url}}" >
@@ -301,17 +293,14 @@
                                 </blog.img>
                             </a>
                         </li>
-
-</div>
+                    </div>
                     {% endfor %}
-
                 </div>
-            <br>
             {% endif %}
         </div>
     </div>
 </div>
-
+<br>
 <br>
 <HR class="new1">
 

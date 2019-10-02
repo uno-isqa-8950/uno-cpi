@@ -803,7 +803,7 @@ div.feature-3{
 /* Responsive image/video classes */
 .rich-text {
     text-align: center;
-    font-family: "Arial Narrow",sans-serif;
+    font-family: "grotesk",sans-serif;
     font-size: 18px;
 }
 .rich-text img {
@@ -861,7 +861,7 @@ div.feature-3{
 }
 
     .font {
-        font-family: "URW Grotesk Cond Bold", serif;
+        font-family: "grotesk", serif;
         font-size: 1.3em;
         font-weight: bolder;
     }
@@ -887,4 +887,10 @@ div.feature-3{
     display: flex;
     justify-content: center
 
+}
+
+@font-face {
+    font-family: 'grotesk';
+    src: local('grotesk');
+    url('..home/static/fonts/URWGrotesk.ttf') format("truetype")
 }

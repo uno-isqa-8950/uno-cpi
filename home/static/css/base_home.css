@@ -245,7 +245,7 @@ margin-top:15px;
         border-bottom:0;
         border-left:0;
         padding: 2px 6px;
-        font-size:10px;
+        font-size:14px;
         display: inline-block;
     }
 
@@ -258,7 +258,7 @@ margin-top:15px;
         border-left:0;
         border-right:0;
         padding: 2px 6px;
-        font-size:10px;
+        font-size:14px;
         display: inline-block;
     }
 
@@ -270,7 +270,7 @@ margin-top:15px;
         border-bottom:0;
         border-right:0;
         padding: 2px 6px;
-        font-size:10px;
+        font-size:14px;
         display: inline-block;
     }
 
@@ -721,30 +721,28 @@ span.outline {
 }
 .homepage .feature-3 .featured-children li {
   list-style: none;
+    width: 100%;
 }
 .homepage .feature-3 h3 {
   color: #fff;
   font-weight: bolder;
-  font-size: 1.1em;
-  margin-bottom: 240px;
-  margin-top: -300px;
+  font-size: 1.3em;
   position: relative;
   text-align: center;
     opacity: 10%;
     /*text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);*/
   z-index: 1;
-    /*word-wrap: break-word;*/
-   /*white-space: normal;*/
-
 }
 .homepage .feature-3 a:hover {
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);*/
   color: #ffffff;
-  background-color: transparent;
+  /*background-color: transparent;*/
   text-decoration: underline ;
 }
 .homepage .feature-2 li:hover img,
 .homepage .feature-3 li:hover img {
-  opacity: 0.7;
+  opacity: 0.8;
+   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
 }
 .homepage .feature-3 img{
     display: block;
@@ -805,6 +803,8 @@ div.feature-3{
 /* Responsive image/video classes */
 .rich-text {
     text-align: center;
+    font-family: "Arial Narrow",sans-serif;
+    font-size: 18px;
 }
 .rich-text img {
     max-width: 100%;
@@ -862,7 +862,7 @@ div.feature-3{
 
     .font {
         font-family: "URW Grotesk Cond Bold", serif;
-        font-size: 30vw;
+        font-size: 1.3em;
         font-weight: bolder;
     }
 
@@ -873,3 +873,18 @@ div.feature-3{
     }
 
 
+.cardheading{
+    padding: 1px 10px;
+    text-align: center;
+    height:100px;
+    padding-top: 25px;
+    text-decoration-color:white;
+    background: #1a1a1a;
+}
+.centered{
+    max-width: 1320px;
+    align-items: center;
+    display: flex;
+    justify-content: center
+
+}

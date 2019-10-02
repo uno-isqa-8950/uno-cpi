@@ -15,6 +15,7 @@ class Project (models.Model):
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
+    k12_flag = models.BooleanField(default=False)
     total_k12_students = models.PositiveIntegerField(null=True, default= 0)
     total_k12_hours = models.PositiveIntegerField(null=True, default= 0)
     total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)

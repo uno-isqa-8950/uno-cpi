@@ -2,7 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags %}
 {% load staticfiles %}
 <html lang="en">
-
 <head>
     <title>Community Partnership Initiative</title>
     <meta charset="utf-8">
@@ -79,7 +78,7 @@
 {#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                             {% if  user.is_authenticated %}
                                 <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
+                                <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a>
                             {% else %}
                                 <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                                 <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
@@ -167,7 +166,7 @@
 <!-- Navbar ends-->
 
 {#<div class="homepage">#}
-<div class="homepage" style="width: 100vw;
+<div class="homepage col-md-12" style="width: 100vw;
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 
 {% image page.image fill-1920x600 as image %}
@@ -233,6 +232,7 @@
 
 {% if page.body %}
 <div class="container-fluid streamfield">
+<br>
     <div class="container">
         <div class="row">
             <div class="col streamfield-column">
@@ -248,27 +248,25 @@
     <br>
     <br>
 
-<div class="container-fluid">
-    <div class="row">
 
-        <div class="col-lg-12 feature-3">
+<div class="container-fluid centered">
+    <div class="row">
+        <div class="col-md-12 feature-3">
             {% if page.featured_section_2 %}
-<!--            <h2>{{ page.featured_section_2_title }}</h2>-->
-                <div class="featured-children row ">
-                    <li class="col-md-2"></li>
+                <div class="featured-children row" >
                     {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
-                        <li class="col-md-2">
+                    <div class="col-md-3" style="padding-bottom: 15px">
+                        <li>
                             <a href="{{childpage.url}}" >
+                                <div class="cardheading">
+                                <h3 class="font">{{childpage.title}}</h3>
+                                </div>
                                 <blog.img>
                                     {% image childpage.image fill-300x300-c100 %}
                                 </blog.img>
-                                <h3 class="transbox font">{{childpage.title}}</h3>
                             </a>
-<!--                            <div class="feature-2-text">-->
-<!--                                <h3><a href="{{childpage.url}}">{{childpage.title}}</a></h3>-->
-<!--                                <p>{{ childpage.introduction|truncatewords:15 }}</p>-->
-<!--                            </div>-->
                         </li>
+                    </div>
                     {% endfor %}
                 </div>
             {% endif %}
@@ -276,30 +274,33 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<br>
+<div class="container-fluid centered">
     <div class="row">
         <div class="col-md-12 feature-3">
             {% if page.featured_section_3 %}
-<!--{#            <h2>{{ page.featured_section_3_title }}</h2>#}-->
                 <div class="featured-children row">
-                    <li class="col-md-3 col-sm-1"></li>
-                    {% for childpage in page.featured_section_3.specific.children|slice:"3" %}
-
-                        <li class="col-md-2">
-                            <a href="{{childpage.url}}" >
+                    {% for childpage in page.featured_section_3.specific.children|slice:"4" %}
+                    <div class="col" style="padding-bottom: 15px">
+<!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
+                    <li>
+                        <a href="{{childpage.url}}" >
+                                <div class="cardheading">
+                                <h3 class="font">{{childpage.title}}</h3>
+                                </div>
                                 <blog.img>
                                     {% image childpage.image fill-300x300-c100 %}
                                 </blog.img>
-                                <h3 class="transbox font">{{childpage.title}}</h3>
                             </a>
                         </li>
+                    </div>
                     {% endfor %}
                 </div>
             {% endif %}
         </div>
     </div>
 </div>
-</div>
+<br>
 <br>
 <HR class="new1">
 
@@ -319,25 +320,25 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+                <span><a href="/"><img class="fimg" style="font-size:12px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px; text-align: left;">
                 <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
                 <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
                 <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <br>
-                  <span><a class="fnone" style="font-size: 12px;">
+                  <span><a class="fnone">
                         <script type="text/JavaScript">
 			                    document.write("&copy; "+new Date().getFullYear());
 		                </script>, </a></span><span class="break"></span>
 
-                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:12px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
                 </a></span>
              </div>
 
           <div class="footertext"></div>
 
-          <div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">
+          <div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:14px;">
                 The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,
                 gender identity, religion, disability, age, genetic information,

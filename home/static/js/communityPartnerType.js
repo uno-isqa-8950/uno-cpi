@@ -296,9 +296,9 @@ var rightclickwindow = null;
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects) {
     var infowindow = new google.maps.InfoWindow();
-    console.log('infowindow---'+infowindow);
+    //console.log('infowindow---'+infowindow);
     google.maps.event.addListener(marker, 'click', function () {
-        console.log('infowindow---'+infowindow);
+        //console.log('infowindow---'+infowindow);
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
         infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +

@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from simple_history.models import HistoricalRecords
+from django.contrib.postgres.fields import ArrayField
 
 
 class Project (models.Model):
@@ -13,6 +14,8 @@ class Project (models.Model):
     end_semester = models.CharField(max_length=20, blank=True)
     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
+    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10,
+                                             blank=True, null=True)
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
     k12_flag = models.BooleanField(default=False)

@@ -205,7 +205,7 @@ def registerCampusPartnerUser(request):
             to_email = new_user.email
             email = EmailMessage(mail_subject, message,to=[to_email])
             email.send()
-            return render(request, 'home/register_done.html' )
+            return render(request, 'home/register_done.html')
     else:
         user_form = CampususerForm()
         campus_partner_user_form = CampusPartnerUserForm()

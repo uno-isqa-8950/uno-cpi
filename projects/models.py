@@ -7,14 +7,14 @@ from django.contrib.postgres.fields import ArrayField
 class Project (models.Model):
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
-    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
+    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, blank=True, null=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, blank=False)
     end_semester = models.CharField(max_length=20, blank=True)
     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
-    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10,
+    lead_faculty = ArrayField(base_field=models.CharField(max_length=100), size=10,
                                              blank=True, null=True)
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)

@@ -7,6 +7,8 @@
 //     "International Service":        "#e55e5e",
 //     "Social Justice":               "#29234b"
 // }
+
+ console.info('openedInfoWindow- starter-');
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
@@ -194,6 +196,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var campus_partner = communityData.features
     var academic_year = communityData.features
     var website = communityData.features
+    console.log('website---'+website);
     var city = communityData.features
     var projects = communityData.features
     // var markers =[];
@@ -294,8 +297,11 @@ var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects) {
+    console.error('website--before infowWindow'+website);
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
+        console.debug('openedInfoWindow--');
+       // console.log('openedInfoWindow--'+openedInfoWindow);
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
         infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +

@@ -171,7 +171,7 @@
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 
 {% image page.image fill-1920x600 as image %}
-<div class="container-fluid hero" style="background-image:url('{{ image.url }}')">
+<div class="container-fluid hero homepage-banner" style="background-image:url('{{ image.url }}')">
     <div class="hero-gradient-mask"></div>
     <div class="container">
         <div class="row">
@@ -233,7 +233,7 @@
 
 {% if page.body %}
 <div class="container-fluid streamfield">
-<br>
+<!--<br>-->
     <div class="container">
         <div class="row">
             <div class="col streamfield-column">
@@ -244,10 +244,10 @@
 </div>
 {% endif %}
 
-<HR class="new1">
-<br>
-    <br>
-    <br>
+<HR class="new1 home-spacer-2">
+<!--<br>-->
+    <!--<br>-->
+    <!--<br>-->
 
 
 <div class="container-fluid centered">
@@ -257,13 +257,13 @@
                 <div class="featured-children row" >
                     {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
                     <div class="col-md-3" style="padding-bottom: 15px">
-                        <li>
+                        <li class="z-depth" >
                             <a href="{{childpage.url}}" >
                                 <div class="cardheading">
-                                <h3 class="font">{{childpage.title}}</h3>
+                                <h3 >{{childpage.title}}</h3>
                                 </div>
                                 <blog.img>
-                                    {% image childpage.image fill-300x300-c100 %}
+                                    {% image childpage.image fill-300x230-c100 %}
                                 </blog.img>
                             </a>
                         </li>
@@ -275,7 +275,7 @@
     </div>
 </div>
 
-<br>
+<!--<br>-->
 <div class="container-fluid centered">
     <div class="row">
         <div class="col-md-12 feature-3">
@@ -284,13 +284,13 @@
                     {% for childpage in page.featured_section_3.specific.children|slice:"4" %}
                     <div class="col" style="padding-bottom: 15px">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
-                    <li>
+                    <li class="z-depth">
                         <a href="{{childpage.url}}" >
                                 <div class="cardheading">
-                                <h3 class="font">{{childpage.title}}</h3>
+                                <h3>{{childpage.title}}</h3>
                                 </div>
                                 <blog.img>
-                                    {% image childpage.image fill-300x300-c100 %}
+                                    {% image childpage.image fill-300x230-c100 %}
                                 </blog.img>
                             </a>
                         </li>
@@ -301,8 +301,6 @@
         </div>
     </div>
 </div>
-<br>
-<br>
 <HR class="new1">
 
 {% if page.bottom %}
@@ -327,7 +325,8 @@
                 <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
                 <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
                 <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
-                 <br>
+                 <!--<br>-->
+                 <p>
                   <span><a class="fnone">
                         <script type="text/JavaScript">
 			                    document.write("&copy; "+new Date().getFullYear());
@@ -335,19 +334,21 @@
 
                 <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
                 </a></span>
-             </div>
-
-          <div class="footertext"></div>
-
-          <div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:14px;">
-                The University of Nebraska does not discriminate based on race,
+                 </p>
+                     <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,
                 gender identity, religion, disability, age, genetic information,
                 veteran status, marital status, and/or political affiliation in its programs,
-                activities, or employment. Learn more about Equity, Access and Diversity.</a>
-          </div>
+                activities, or employment. Learn more about Equity, Access and Diversity.</p>
+             </div>
+          <!--<div class="footertext" style="line-height:1">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.-->
+          <!--</div>-->
 
-          <div class="footertext"></div>
         </div>
       </div>
 </footer>

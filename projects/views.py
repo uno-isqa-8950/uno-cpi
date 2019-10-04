@@ -157,9 +157,11 @@ def createProject(request):
                 project.k12_flag = False
             proj = project.save()
             proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            # Start removing from here
             eng = str(proj.engagement_type)
 
             address = proj.address_line1
+
             if (address != "N/A"):  # check if a community partner's address is there
                 fulladdress = proj.address_line1 + ' ' + proj.city
                 geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
@@ -175,7 +177,7 @@ def createProject(request):
                     formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
                     return render(request, 'projects/createProject.html',
                                   {'project': project, 'formset': formset,'formset3': formset3, 'course': course})
-            proj.save()
+            proj.save()# not sure about this line
             coord = Point([proj.longitude, proj.latitude])
             for i in range(len(district)):  # iterate through a list of district polygons
                 property = district[i]
@@ -190,7 +192,8 @@ def createProject(request):
                     proj.county = properties2['properties']['NAME']
                     proj.median_household_income = properties2['properties']['Income']
                     proj.save()
-            mission_form = formset.save(commit=False)
+                    # remove till here
+            mission_form = formset.save(commit=False) #not sure about formsets
             #secondary_mission_form = formset4.save(commit=False)
             proj_comm_form = formset2.save(commit=False)
             proj_campus_form = formset3.save(commit=False)

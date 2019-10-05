@@ -275,7 +275,7 @@ margin-top:15px;
         border-bottom:0;
         border-left:0;
         border-right:0;
-        padding: 2px 6px;
+        padding: 2px 0px;
         font-size:14px;
         display: inline-block;
     }
@@ -324,7 +324,7 @@ margin-top:15px;
   }
 
   p {
-    /*!*margin: 0 0 30px;*! commented to change footer alignment*/
+
       margin:0 0 30px;
   }
 }
@@ -387,7 +387,7 @@ figcaption {
 }
 hr.new1 {
   border-top: 4.0px dotted darkgray;
-  width: 70%;
+  width: 80%;
     margin-top: 30px;
     margin-bottom: 20px;
 }
@@ -838,7 +838,7 @@ div.feature-3{
 /* Responsive image/video classes */
 .rich-text {
     text-align: center;
-    font-family: "grotesk",sans-serif;
+    font-family: "Arial Narrow",sans-serif;
     font-size: 18px;
 }
 .rich-text img {

@@ -378,6 +378,16 @@ class DataDefinition(models.Model):
     def __str__(self):
         return str(self.title)
 
+
+class Resource (models.Model):
+    resource_descr = models.CharField(max_length=250, blank=True, null=False)
+    resource_link = models.CharField(max_length=250, blank=True, null=False)
+    isAccessible = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.resource_descr)
+
 @register_snippet
 class Campus_Partner_Snippet(models.Model):
     text = models.CharField(max_length=1250)

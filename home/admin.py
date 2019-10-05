@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import User
-from .models import Contact, MissionArea, HouseholdIncome, DataDefinition,DataDefinitionGroup
+from .models import Contact, MissionArea, HouseholdIncome, DataDefinition,DataDefinitionGroup, Resource
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 #from django.contrib.admin import AdminSite
 from import_export import resources, fields
@@ -98,6 +98,16 @@ class ContactAdmin(SimpleHistoryAdmin, ImportExportModelAdmin):
     search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner__name', 'campus_partner__name')
 
 
+class ResourceLinkAdmin(resources.ModelResource):
+    class Meta:
+        model = Resource
+
+
+class ResourceList(SimpleHistoryAdmin, ImportExportModelAdmin):
+        list_display = ('resource_descr', 'resource_link', 'isAccessible')
+        search_fields = ('resource_link',)
+        resource_class = ResourceLinkAdmin
+
 
 # admin.site.register(User)
 admin.site.register(Contact, ContactAdmin)
@@ -105,6 +115,7 @@ admin.site.register(MissionArea, MissionAreaList)
 admin.site.register(HouseholdIncome, HouseholdIncomeAdmin)
 admin.site.register(DataDefinition, DataDefinitionList)
 admin.site.register(DataDefinitionGroup, DataDefinitionGroupList)
+admin.site.register(Resource, ResourceList)
 admin.site.site_header = "UNO CPI Admin"
 admin.site.site_title = "Community Partnership Initiative"
 admin.site.index_title = " "

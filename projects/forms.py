@@ -60,9 +60,12 @@ class ProjectForm2(ModelForm):
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
+
+    """class MyForm(forms.Form):
+        k12_flag = forms.BooleanField(required=False)"""
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
                     'longitude','academic_year', 'end_academic_year', 'end_semester')
@@ -93,6 +96,7 @@ class ProjectForm2(ModelForm):
             'state': 'State or Province',
 
         }
+
 
     # def clean_facilitator(self):
     #     facilitator = self.cleaned_data['facilitator']
@@ -191,11 +195,12 @@ class ProjectFormAdd(ModelForm):
     zip = forms.CharField(required=True, label="Zip or Postal Code")
     semester = forms.ChoiceField(required=True, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
+    k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
         fields = ('project_name','engagement_type','activity_type','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','total_k12_students','total_k12_hours','end_semester', 'end_academic_year')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()

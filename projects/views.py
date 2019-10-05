@@ -151,6 +151,10 @@ def createProject(request):
             ##Convert address to cordinates and save the legislatve district and household income
             #a = 0
             #project.total_uno_hours = a
+            if request.POST.get('k12_flag'):
+                project.k12_flag = True
+            else:
+                project.k12_flag = False
             proj = project.save()
             proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
@@ -201,7 +205,15 @@ def createProject(request):
                 form.mission_type = 'Primary'
                 form.save()
 
-
+            # """def my_view(request):
+            #     ...
+            #     form = ProjectForm2(request.POST or None)
+            #     if request.method == "POST":
+            #         if form.is_valid():
+            #
+            #             if request.POST["k12_flag"]:
+            #                 # Checkbox was checked"""
+            #                 ...
             # for form4 in secondary_mission_form:
             #     form4.project_name = proj
             #
@@ -700,7 +712,7 @@ def projectsPrivateReport(request):
     k12_selection = request.GET.get('k12_flag', None)
     if k12_selection is None:
         k12_selection = k12_init_selection
-    print('K12 flag selected in page ' + k12_selection)
+    #print('K12 flag selected in page ' + k12_selection)
     if b is None or b == "All" or b == '':
         if c is None or c == "All" or c == '':
             if k12_selection is None or k12_selection == 'All' or k12_selection == '':

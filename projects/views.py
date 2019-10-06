@@ -139,6 +139,7 @@ def createProject(request):
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
+    #Populate project name-Parimita
     request.POST.get('id_project_name')
     if request.method == 'POST':
         # cache.clear()

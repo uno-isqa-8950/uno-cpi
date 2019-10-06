@@ -144,74 +144,89 @@ valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
     var projectlist = []
-    var partnerlist = [];
-
-    if (value == "") {
+    var partnerlist = []
+    var campuspartnerlist = [];
+    var displayAddProjectFlag =2;
+    if (value == "")
+    {
         document.getElementById('node-id'). innerHTML = "";
         document.getElementById('node1-id'). innerHTML = "";
         document.getElementById('button-id'). innerHTML = "";
-
-
-
-    } else {
+    }
+    else if(!(value == ""))
+    {
         projectlist = [];
         {#if (e.keyCode == 32 || e.keyCode == 13) {#}
-
         document.getElementById('next').onclick= function myfunction() {
             document.getElementById('next').onclick= null;
-
-            for (var i = 0; i < project_db.length; i++) {
-
-                if (project_db[i][0].toLowerCase().includes(value)) {
-                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist)) {
-
+            for (var i = 0; i < project_db.length; i++)
+            {
+                if (project_db[i][0].toLowerCase().includes(value.toLowerCase()))
+                {
+                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist)) {
                         projectlist.push(project_db[i][0]);
                         partnerlist.push(project_db[i][1]);
-
+                         // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table
+                        campuspartnerlist.push(project_db[i][2]);
                         var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
                             '<tr><th>Project Name and the Academic Year</th>' +
-                            '<th>Community Partner</th></tr>';
+                            '<th>Community Partner</th>' + '<th>Campus Partner</th></tr>';
                         for (let j =0; j<projectlist.length;j++ ){
+                             // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
+                            //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
+                            if(projectlist[j].toLowerCase().trim() == value.toLowerCase().trim())
+                            {
+                                displayAddProjectFlag = 1;
+                            }
+                            else
+                            {
+                                displayAddProjectFlag = 0;
+                            }
                             mylist +='<tr>' +
                                 '<td>' + projectlist[j] + '</td>' +
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
-                                    '<td>'  + partnerlist[j] + '</td>' +
+                                    '<td>'  + partnerlist[j] + '</td>' + '<td>' + campuspartnerlist[j] + '</td>' +
                                     '</tr>'
-
                         }
                         mylist += '<table>';
-
-
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
                                 '<tr><td>The following projects closely match your search and already exist in the database. Please ensure that the project you are trying to enter is not listed before proceeding.</td></tr><br><br>' +
                                  mylist
-
                         document.getElementById('node1-id').innerHTML =
                             '<br>' +
                             '<tr><td>Click on ‘All Projects’ to access a list of all community engagement projects in the database. </td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
 
-                    }
-                } else {
-                    if (!(project_db[i][0].toLowerCase().includes(value))) {
-
-                      var projectName = document.getElementById('project_name').value;
+                     if(displayAddProjectFlag == 0){
+                       var projectName = document.getElementById('project_name').value;
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             ' Create Project</a></td></tr>'
                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+                     }
                     }
                 }
-
             }
+            if (displayAddProjectFlag == 2)
+                    {
+                        var projectName = document.getElementById('project_name').value;
+                         document.getElementById('node-id'). innerHTML = "";
+                         document.getElementById('node1-id'). innerHTML = "";
+                         document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            ' Create Project</a></td></tr>'
+                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+                }
         }
     };
-
 });
+
 
 
 $("#dropdownMenuButton").on("click", function() {

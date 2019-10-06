@@ -196,11 +196,14 @@ valueFilter.addEventListener("keyup", function (e) {
                     }
                 } else {
                     if (!(project_db[i][0].toLowerCase().includes(value))) {
+
+                      var projectName = document.getElementById('project_name').value;
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/createProject/" role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             ' Create Project</a></td></tr>'
+                        document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                     }
                 }
 

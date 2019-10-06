@@ -139,6 +139,7 @@ def createProject(request):
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
+    request.POST.get('id_project_name')
     if request.method == 'POST':
         # cache.clear()
         project = ProjectFormAdd(request.POST)
@@ -916,6 +917,7 @@ def checkProject(request):
 
     return render(request, 'projects/checkProject.html',
                   {'project': project, 'projectNames':projectNames})
+
 
 @login_required()
 # @campuspartner_required()

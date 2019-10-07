@@ -104,7 +104,7 @@ class ResourceLinkAdmin(resources.ModelResource):
 
 
 class ResourceList(SimpleHistoryAdmin, ImportExportModelAdmin):
-        list_display = ('resource_descr', 'resource_link', 'isAccessible')
+        list_display = ('resource_descr', 'resource_link', 'isAccessible', 'updated_date')
         search_fields = ('resource_link',)
         resource_class = ResourceLinkAdmin
 

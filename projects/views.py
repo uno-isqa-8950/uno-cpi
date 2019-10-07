@@ -139,6 +139,8 @@ def createProject(request):
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
+    #Populate project name-Parimita
+    request.POST.get('id_project_name')
     if request.method == 'POST':
         # cache.clear()
         project = ProjectFormAdd(request.POST)
@@ -902,12 +904,14 @@ def checkProject(request):
     projectNames = []
     combinedList =[]
 
-    for object in Project.objects.order_by('project_name'):
+    for object in Project.objects.order_by('-academic_year'):
         project = object.project_name.split('(')[0]
         for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
             compartner = part.community_partner
-
-            combinedList = [object.project_name.split('(')[0],str(compartner)]
+        # Sprint2-#1390- Added Capus Partner list- Search Improvements - Siri
+        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
+            campartner = part.campus_partner
+            combinedList = [object.project_name.split('(')[0],str(compartner),str(campartner)]
             if combinedList not in projectNames:
                 projectNames.append(combinedList)
 
@@ -916,6 +920,8 @@ def checkProject(request):
 
     return render(request, 'projects/checkProject.html',
                   {'project': project, 'projectNames':projectNames})
+
+
 
 @login_required()
 # @campuspartner_required()

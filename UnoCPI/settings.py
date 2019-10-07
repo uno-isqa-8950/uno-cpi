@@ -214,6 +214,7 @@ DEFAULT_FROM_EMAIL = 'UNO Community Partnership Initiative <partnerships@unomaha
 
 #STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 # Internationalization
 
 WAGTAIL_SITE_NAME = 'UNO-CPI'

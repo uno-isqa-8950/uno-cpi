@@ -1061,3 +1061,166 @@ def project_total_Add(request):
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
+
+###my drafts
+@login_required()
+def myDrafts(request):
+    projects_list=[]
+    data_definition=DataDefinition.objects.all()
+    # Get the campus partner id's related to the user
+    camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+    camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
+    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
+    project_ids = [project.project_name_id for project in proj_camp]
+    cursor = connection.cursor()
+    cursor.execute(sql.my_drafts, [project_ids])
+    for obj in cursor.fetchall():
+        projects_list.append(
+            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+             "engagementType": obj[4], "academic_year": obj[5],
+             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
+             "total_uno_students": obj[11],
+             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
+             "total_k12_hours": obj[15], "pk":obj[19],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+
+    return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
+
+
+@login_required()
+def draftProject(request,pk):
+    mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
+    # secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
+    proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
+    proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
+    data_definition = DataDefinition.objects.all()
+    if request.method == 'POST':
+        # cache.clear()
+        project = ProjectFormAdd(request.POST)
+        project.status = "Drafts"
+        project.save()
+        course = CourseForm(request.POST)
+        formset = mission_details(request.POST or None, prefix='mission')
+        # formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
+        formset2 = proj_comm_part(request.POST or None, prefix='community')
+        formset3 = proj_campus_part(request.POST or None, prefix='campus')
+        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid():
+            ##Convert address to cordinates and save the legislatve district and household income
+            # a = 0
+            # project.total_uno_hours = a
+            if request.POST.get('k12_flag'):
+                project.k12_flag = True
+            else:
+                project.k12_flag = False
+            proj = project.save()
+            proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            eng = str(proj.engagement_type)
+
+
+            mission_form = formset.save(commit=False)
+            # secondary_mission_form = formset4.save(commit=False)
+            proj_comm_form = formset2.save(commit=False)
+            proj_campus_form = formset3.save(commit=False)
+            for k in proj_comm_form:
+                k.project_name = proj
+
+                k.save()
+
+            for form in mission_form:
+                form.project_name = proj
+
+                form.mission_type = 'Primary'
+                form.save()
+
+            # """def my_view(request):
+            #     ...
+            #     form = ProjectForm2(request.POST or None)
+            #     if request.method == "POST":
+            #         if form.is_valid():
+            #
+            #             if request.POST["k12_flag"]:
+            #                 # Checkbox was checked"""
+            #                 ...
+            # for form4 in secondary_mission_form:
+            #     form4.project_name = proj
+            #
+            #     form4.mission_type = 'Other'
+            #     form4.save()
+
+            # projh = Project.objects.get(pk=project_name_id.pk)
+            init = 0
+            t = 0
+            for c in proj_campus_form:
+                c.project_name = proj
+                c.save()
+                # init = proj.total_uno_hours
+                # t += c.total_hours * c.total_people
+
+                # proj.total_uno_hours = t
+                proj.save()
+
+            projects_list = []
+            camp_part_names = []
+            p = 0
+            # Get the campus partner id related to the user
+            camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+            for c in camp_part_user:
+                p = c.campus_partner_id
+            # get all the project names base on the campus partner id
+            proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+            for f in proj_camp:
+                k = list(Project.objects.filter(id=f.project_name_id))
+                for x in k:
+                    projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                    cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                    proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                    for proj_camp_par in proj_camp_par:
+                        camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+                        camp_part_names.append(camp_part)
+                    list_camp_part_names = camp_part_names
+                    camp_part_names = []
+                    data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
+                            'activityType': x.activity_type, 'academic_year': x.academic_year,
+                            'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                            'description': x.description,
+                            'startDate': x.start_date,
+                            'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                            'total_uno_hours': x.total_uno_hours,
+                            'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                            'total_uno_faculty': x.total_uno_faculty,
+                            'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                            'camp_part': list_camp_part_names
+                            }
+                    projects_list.append(data)
+            return render(request, 'projects/draftadd_done.html', {'project': projects_list})
+    else:
+        month = datetime.datetime.now().month
+        year = datetime.datetime.now().year
+        if month > 7:
+            a_year = str(year) + "-" + str(year + 1)[-2:]
+        else:
+            a_year = str(year - 1) + "-" + str(year)[-2:]
+
+        #  test = AcademicYear.objects.get(academic_year=a_year)
+        #  project =ProjectFormAdd(initial={"academic_year":test})
+        try:
+            test = AcademicYear.objects.get(academic_year=a_year)
+        except AcademicYear.DoesNotExist:
+            test = None
+
+        if test is not None:
+            project = ProjectFormAdd(initial={"academic_year": test})
+        else:
+            project = ProjectFormAdd()
+
+        course = CourseForm()
+        formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
+        # formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')
+        formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
+        formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
+
+    return render(request, 'projects/editProject.html',
+                  {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,
+                   'data_definition': data_definition,
+                   'formset2': formset2})

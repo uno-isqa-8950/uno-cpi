@@ -17,5 +17,8 @@ urlpatterns = [
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
     path('checkProject/', views.checkProject, name='checkProject'),
+    path('myDrafts/', views.myDrafts, name='myDrafts'),
+    url(r'^draftProject/$', views.draftProject, name='draftProject'),
+
 
 ]

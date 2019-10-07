@@ -1,19 +1,19 @@
-/*@font-face {*/
-    /*font-family: 'grotesk';*/
-    /*src: local('grotesk');*/
-    /*url('..home/static/fonts/URWGrotesk.ttf') format("truetype")*/
-/*}*/
-/*@font-face {*/
-    /*font-family: 'grotesk-bold';*/
-    /*src: local('grotesk-bold');*/
-    /*url('..home/static/fonts/URWGroteskCon-Bol_6.ttf') format("opentype")*/
-/*}*/
-/*@font-face {*/
-    /*font-family: 'grotesk-light';*/
-    /*src: local('grotesk-light');*/
-    /*url('..home/static/fonts/URWGroteskLig.ttf') format("truetype")*/
-/*}*/
+@font-face {
+    font-family: 'grotesk';
+    src: local('grotesk');
+    url('{% static 'fonts/URWGrotesk.ttf' %}') format("truetype")
+}
+@font-face {
+    font-family: 'grotesk-bold';
+    src: local('grotesk-bold');
+    url('{% static 'fonts/URWGroteskCon-Bol_6.ttf'%}') format("opentype")
 
+}
+@font-face {
+    font-family: 'grotesk-light';
+    src: local('grotesk-light');
+    url('{%static 'fonts/URWGroteskLig.ttf'%}') format("truetype")
+}
 .btn-group{float:left;, labels:"Export"}
     #example_length{float:left; margin:0 0 0 0px;}
     #example_length select{width:50%;}
@@ -326,6 +326,9 @@ margin-top:15px;
   p {
 
       margin:0 0 30px;
+  }
+  .homepage .feature-3 .featured-children li{
+      max-width: 300px;
   }
 }
 footer p {
@@ -896,7 +899,7 @@ div.feature-3{
 }
 /*need to add grotesk to this style*/
     .font {
-        font-family: "Arial Narrow", serif;
+        font-family: "grotesk-bold", serif;
         font-size: 1.3em;
         font-weight: bolder;
     }
@@ -916,7 +919,7 @@ div.feature-3{
     text-decoration-color: white;
     background: #1a1a1a;
     font-weight: 400;
-    font-family: "Arial Narrow",serif;
+    font-family: "grotesk-bold",serif;
 }
 
 .footer-disclaimer{

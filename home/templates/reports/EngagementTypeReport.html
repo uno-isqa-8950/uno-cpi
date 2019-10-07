@@ -240,9 +240,10 @@
    {% for e in engagement_List %}
         <tr>
             <td>{{e.engagement_name}}</td>
-            <td>{{e.project_count}}</td>
-            <td>{{ e.community_count }}</td>
-            <td>{{ e.campus_count }}</td>
+            <td><a href="{% url 'projectspublicreport' %}"target="_blank">{{e.project_count}}</a></td>
+
+            <td><a href="{% url 'communityprivatereport' %}"target="_blank">{{ e.community_count }}</a></td>
+            <td><a href="{% url 'partners:registerCampusPartner' %}"target="_blank">{{ e.campus_count }}</a></td>
             <td>{{e.total_uno_students}}</td>
             <td>{{e.total_uno_hours}}</td>
         </tr>

@@ -3,6 +3,25 @@
 {% load staticfiles %}
 <html lang="en">
 <head>
+    <style>
+        @font-face {
+    font-family: 'grotesk';
+    src: local('grotesk');
+    url('{% static 'fonts/URWGrotesk.ttf' %}') format("truetype")
+}
+@font-face {
+    font-family: 'grotesk-bold';
+    src: local('grotesk-bold');
+    url('{% static 'fonts/URWGroteskCon-Bol_6.ttf'%}') format("opentype")
+
+}
+@font-face {
+    font-family: 'grotesk-light';
+    src: local('grotesk-light');
+    url('{%static 'fonts/URWGroteskLig.ttf'%}') format("truetype")
+}
+
+    </style>
     <title>Community Partnership Initiative</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">

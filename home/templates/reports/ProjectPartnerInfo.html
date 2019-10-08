@@ -227,8 +227,8 @@
                             {% for m in mission_list %}
                             <tr>
                                 <td>{{m.mission_name}}</td>
-                                <td><a href="{% url 'communityprivatereport' %}"target="_blank">{{m.community_count}}</a></td>
-                                <td><a href="{% url 'projectspublicreport' %}"target="_blank">{{m.project_count}}</a></td>
+                                <td><a href="{% url 'communityprivatereport' %}" target="_blank">{{m.community_count}}</a></td>
+                                <td><a href="{% url 'projectsspecificpublicreport' m.id 'mission' %}" target="_blank">{{m.project_count}}</a></td>
                                 <td>{{m.total_uno_students}}</td>
                                 <td>{{m.total_uno_hours}}</td>
                             </tr>

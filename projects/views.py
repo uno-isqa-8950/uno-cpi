@@ -763,9 +763,9 @@ def projectsspecificPublicReport( request, pk, type):
         # data= {}
         data_list = []
         data_definition = DataDefinition.objects.all()
+        project_filter = ProjectFilter(request.GET, queryset=ProjectMission.objects.filter())
         if type == 'mission':
-            project_filter = ProjectFilter(request.GET, queryset=ProjectMission.objects.filter(mission=pk))
-        missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+            missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary', mission=pk))
         campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 

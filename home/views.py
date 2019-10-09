@@ -576,7 +576,15 @@ def engagement_info(request):
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
                    'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter, 'campus_id':campus_id})
 
+# Issues Addressed Analysis Chart
 
+def issuesaddressed(request):
+    return render(request, 'charts/issuesaddressed.html')
+
+# Trend Report Chart
+
+def trendreport(request):
+    return render(request, 'charts/trendreport.html')
 
 # Chart for projects with mission areas
 

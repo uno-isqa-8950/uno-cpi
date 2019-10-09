@@ -883,7 +883,7 @@ div.feature-3{
 }
 /*need to add grotesk to this style*/
     .font {
-        font-family: "grotesk-bold", serif;
+        font-family: "Arial Narrow", serif;
         font-size: 1.3em;
         font-weight: bolder;
     }
@@ -903,7 +903,7 @@ div.feature-3{
     text-decoration-color: white;
     background: #1a1a1a;
     font-weight: 400;
-    font-family: "grotesk-bold",serif;
+    font-family: "Arial Narrow",serif;
 }
 
 .footer-disclaimer{

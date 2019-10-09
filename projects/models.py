@@ -7,7 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 class Project (models.Model):
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
-    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
+    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, blank=False)
@@ -40,8 +40,7 @@ class Project (models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
-    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10,
-                                             blank=True, null=True)
+    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     history = HistoricalRecords()
 
     def created(self):
@@ -72,7 +71,7 @@ class SubCategory (models.Model):
         self.updated_date = timezone.now()
         self.save()
 
-    def _str_(self):
+    def __str__(self):
         return str(self.sub_category)
 
 class MissionSubCategory (models.Model):

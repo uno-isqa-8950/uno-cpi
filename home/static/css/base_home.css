@@ -1,4 +1,4 @@
-  .btn-group{float:left;, labels:"Export"}
+.btn-group{float:left;, labels:"Export"}
     #example_length{float:left; margin:0 0 0 0px;}
     #example_length select{width:50%;}
 
@@ -245,8 +245,10 @@ margin-top:15px;
         border-bottom:0;
         border-left:0;
         padding: 2px 6px;
-        font-size:10px;
+        font-size:14px;
         display: inline-block;
+        /*added padding karthik*/
+        padding-left: 1px;
     }
 
     .fnone {
@@ -257,8 +259,8 @@ margin-top:15px;
         border-bottom:0;
         border-left:0;
         border-right:0;
-        padding: 2px 6px;
-        font-size:10px;
+        padding: 2px 0px;
+        font-size:14px;
         display: inline-block;
     }
 
@@ -270,7 +272,7 @@ margin-top:15px;
         border-bottom:0;
         border-right:0;
         padding: 2px 6px;
-        font-size:10px;
+        font-size:14px;
         display: inline-block;
     }
 
@@ -306,10 +308,16 @@ margin-top:15px;
   }
 
   p {
-    margin: 0 0 30px;
+
+      margin:0 0 30px;
+  }
+  .homepage .feature-3 .featured-children li{
+      max-width: 300px;
   }
 }
-
+footer p {
+    margin:0 0 0px;
+}
 .figure {
   margin: 0 0 30px;
   position: relative;
@@ -366,7 +374,9 @@ figcaption {
 }
 hr.new1 {
   border-top: 4.0px dotted darkgray;
-  width: 70%;
+  width: 80%;
+    margin-top: 30px;
+    margin-bottom: 20px;
 }
 
 hr.new2 {
@@ -522,7 +532,7 @@ span.outline {
 }
 .homepage .hero {
   margin: 0;
-  padding: 200px 0 30px 0;
+  padding: 170px 0 0px 0;
 }
 
 .homepage .hero h1 {
@@ -721,30 +731,40 @@ span.outline {
 }
 .homepage .feature-3 .featured-children li {
   list-style: none;
+    width: 100%;
 }
 .homepage .feature-3 h3 {
   color: #fff;
   font-weight: bolder;
-  font-size: 1.1em;
-  margin-bottom: 240px;
-  margin-top: -300px;
+  font-size: 1em;
   position: relative;
   text-align: center;
     opacity: 10%;
     /*text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);*/
   z-index: 1;
-
-
-
+    padding: 0 20px;
+}
+.z-depth{
+    -webkit-box-shadow: 0 8px 17px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19);
+    box-shadow: 0 8px 17px 0 rgba(0,0,0,.2),0 6px 20px 0 rgba(0,0,0,.19)
+}
+.homepage-banner{
+    background-size: 90%;
+    background-repeat: no-repeat;
+}
+.new1.home-spacer-2{
+    margin-bottom: 35px;
 }
 .homepage .feature-3 a:hover {
+    /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);*/
   color: #ffffff;
-  background-color: transparent;
+  /*background-color: transparent;*/
   text-decoration: underline ;
 }
 .homepage .feature-2 li:hover img,
 .homepage .feature-3 li:hover img {
-  opacity: 0.7;
+  opacity: 0.8;
+   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3);
 }
 .homepage .feature-3 img{
     display: block;
@@ -805,6 +825,8 @@ div.feature-3{
 /* Responsive image/video classes */
 .rich-text {
     text-align: center;
+    font-family: "Arial Narrow",sans-serif;
+    font-size: 18px;
 }
 .rich-text img {
     max-width: 100%;
@@ -859,10 +881,10 @@ div.feature-3{
     padding: 20px; /* For IE8 and earlier */
 
 }
-
+/*need to add grotesk to this style*/
     .font {
-        font-family: "URW Grotesk Cond Bold", serif;
-        font-size: 30vw;
+        font-family: "grotesk-bold", serif;
+        font-size: 1.3em;
         font-weight: bolder;
     }
 
@@ -872,4 +894,29 @@ div.feature-3{
         font-size:12px;
     }
 
+/*add grotesk to this style*/
+.cardheading{
+    padding: 1px 52px;
+    text-align: center;
+    height: 70px;
+    padding-top: 16px;
+    text-decoration-color: white;
+    background: #1a1a1a;
+    font-weight: 400;
+    font-family: "grotesk-bold",serif;
+}
 
+.footer-disclaimer{
+    color:#BBBBBB;
+    font-size:14px;
+    line-height:1;
+    padding-top: 10px;
+    font-family: "Arial Narrow",serif;
+}
+.centered{
+    max-width: 1320px;
+    align-items: center;
+    display: flex;
+    justify-content: center
+
+}

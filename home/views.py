@@ -410,6 +410,7 @@ def project_partner_info(request):
     proj_comm_ids = [community.community_partner_id for community in proj_comm]
 
     for m in missions:
+        mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()

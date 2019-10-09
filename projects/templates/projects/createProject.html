@@ -443,8 +443,14 @@ $(document).on('click', '.remove-campus-row', function(e){
 });
 </script>
 {#   Js to show the course form if some error happens after the form #}
+<!--Populate project name Parimita-->
 <script>
 window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectName = urlParams.get('p_name');
+    $("#id_project_name").val(projectName);
+
+
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
               $("#id_name").show();

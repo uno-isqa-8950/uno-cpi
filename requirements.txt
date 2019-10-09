@@ -36,3 +36,4 @@ APScheduler==3.5.3
 
 
 pylibmc==1.5.1
+pytest

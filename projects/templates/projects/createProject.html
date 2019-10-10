@@ -363,17 +363,43 @@ function updateElementIndex(el, prefix, ndx) {
     if (el.id) el.id = el.id.replace(id_regex, replacement);
     if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
+
+var community_ids = [];
+var campus_ids = [];
+
 function cloneMore(selector, prefix) {
+
+    var selected = $(selector).find(':selected').val();
+    if (selected == '') {
+        alert('you cannot add empty value');
+        return;
+    }
+    if (prefix == 'community') {
+        if (community_ids.includes(selected)) {
+            alert('community already added');
+            return;
+        }
+        community_ids.push(selected);
+    } else if (prefix == 'campus') {
+        if (campus_ids.includes(selected)) {
+            alert('campus already added');
+            return;
+        }
+        campus_ids.push(selected);
+    }
+
     var newElement = $(selector).clone(true);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
     newElement.find(':input').each(function() {
         var name = $(this).attr('name')
         if(name) {
+            console.log(name);
             name = name.replace('-' + (total-1) + '-', '-' + total + '-');
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
     });
+
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
     $(selector).after(newElement);
@@ -385,6 +411,15 @@ function cloneMore(selector, prefix) {
     return false;
 }
 function deleteForm(prefix, btn) {
+    var selected = btn.parent().parent().find(':selected').val();
+    if (prefix == 'community') {
+        var index = community_ids.indexOf(selected);
+        if (index != -1) community_ids.splice(index, 1);
+    } else if (prefix == 'campus') {
+        var index = campus_ids.indexOf(selected);
+        if (index != -1) campus_ids.splice(index, 1);
+    }
+
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
   console.log('In deleteForm - total', total);
   if (total > 1) {
@@ -399,6 +434,8 @@ function deleteForm(prefix, btn) {
         });
     }
   }
+
+
   return false;
 }
 $(document).on('click', '.add-mission-row', function(e){

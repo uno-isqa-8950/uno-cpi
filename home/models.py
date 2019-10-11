@@ -12,6 +12,7 @@ from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
 from simple_history.models import HistoricalRecords
+from django.utils import timezone
 
 class HomePage(Page):
 
@@ -825,3 +826,24 @@ class Password_Reset_Done_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Password Reset Done_Snippet"
+
+
+class Resource (models.Model):
+    resource_descr = models.CharField(max_length=250, blank=True, null=False)
+    resource_link = models.CharField(max_length=250, blank=True, null=False)
+    isAccessible = models.BooleanField(default=True)
+    #updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    updated_date = models.DateField(default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.now)
+    history = HistoricalRecords()
+
+    def created(self):
+        self.created_date = timezone.now()
+        self.save()
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.resource_descr)

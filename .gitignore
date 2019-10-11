@@ -91,6 +91,7 @@ env.bak/
 venv.bak/
 .myvenv
 .myvenv/
+local_env/
 
 # Spyder project settings
 .spyderproject
@@ -109,4 +110,3 @@ venv.bak/
 .tests_scripts/Sprint 0/chromedriver.exe
 *.sqlite3
 gitignore
-staticfiles

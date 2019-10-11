@@ -98,6 +98,14 @@ def miss_charts(context):
         'request': context['request'],
     }
 
+@register.inclusion_tag('tags/issue_address_chart_snippet.html', takes_context=True)
+def iss_charts(context):
+    return {
+        'iss_charts': Mission_Areas_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+
 @register.inclusion_tag('tags/register_campus_partner_snippet.html', takes_context=True)
 def cam_part_regs(context):
     return {

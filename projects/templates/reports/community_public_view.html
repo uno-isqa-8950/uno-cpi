@@ -3,7 +3,11 @@
 {% block content %}
     {% load wagtailcore_tags register_tags %}
 <link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
 
+</style>
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -184,7 +188,7 @@
             <tr>
                 <td>{{community.community_name}}</td>
                 <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
-                <td>{{community.project_count}}</td>
+                <td><a href="{% url 'projectspublicreport' %}"target="_blank" class="class1">{{community.project_count}}</a></td>
             </tr>
             {% endfor %}
             </tbody>

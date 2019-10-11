@@ -1,6 +1,13 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
 
+
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
+
+</style>
+
   <script>
     $(function () {
   $('[data-toggle="popover"]').popover()
@@ -240,10 +247,11 @@
    {% for e in engagement_List %}
         <tr>
             <td>{{e.engagement_name}}</td>
-            <td><a href="{% url 'projectspublicreport' %}"target="_blank">{{e.project_count}}</a></td>
+            <td><a href="{% url 'projectspublicreport' %}"target="_blank" class="class1">{{e.project_count}}</a></td>
 
-            <td><a href="{% url 'communityprivatereport' %}"target="_blank">{{ e.community_count }}</a></td>
-            <td><a href="{% url 'partners:registerCampusPartner' %}"target="_blank">{{ e.campus_count }}</a></td>
+            <td><a href="{% url 'communityprivatereport' %}"target="_blank" class="class1">{{ e.community_count }}</a></td>
+            <td>{{ e.campus_count }}</td>
+
             <td>{{e.total_uno_students}}</td>
             <td>{{e.total_uno_hours}}</td>
         </tr>

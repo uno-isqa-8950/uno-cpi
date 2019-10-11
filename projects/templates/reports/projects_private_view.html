@@ -1,6 +1,10 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
 
+</style>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -239,7 +243,7 @@
                 <td>{{project.projectName}}</td>
                 <td>
                     <div class="content hideContent">
-                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
+                    {% for communitypartner in project.communityPartner %}<a href="{% url 'communityprivatereport' %}"target="_blank" class="class1">{{ communitypartner }} <br><br> {% endfor %}
                     </div>
                     <div class="show-more">
                         {% if project.communityPartner|length > 1 %}

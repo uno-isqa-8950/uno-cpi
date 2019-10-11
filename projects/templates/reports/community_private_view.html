@@ -1,6 +1,13 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
-  <script>
+
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
+
+</style>
+
+<script>
     $(function () {
   $('[data-toggle="popover"]').popover()
 })
@@ -209,8 +216,8 @@
             <tr>
                 <td>{{community.community_name}}</td>
                 <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
-{#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
-                <td>{{community.project_count}}</td>
+{#               <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
+                <td><a href="{% url 'projectspublicreport' %}"target="_blank" class="class1">{{community.project_count}}</a></td>
                 <td>{{community.total_uno_students}}</td>
                 <td>{{community.total_uno_hours}}</td>
 {#                <td>{{community.total_economic_impact}}</td>#}

@@ -4,7 +4,7 @@ from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
 from django.db.models import Max
 from university.models import Course
-from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType,AcademicYear
+from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType,AcademicYear, ProjectSubCategory
 from django import forms
 from django.forms import ModelForm
 
@@ -188,19 +188,19 @@ class ProjectForm2(ModelForm):
 class ProjectFormAdd(ModelForm):
     SEMESTER = [
     ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
-    address_line1= forms.CharField(required=True)
-    country = forms.CharField(required=True)
-    city = forms.CharField(required=True)
-    state = forms.CharField(required=True, label="State or Province")
-    zip = forms.CharField(required=True, label="Zip or Postal Code")
-    semester = forms.ChoiceField(required=True, choices=SEMESTER)
+    address_line1= forms.CharField(required=False)
+    country = forms.CharField(required=False)
+    city = forms.CharField(required=False)
+    state = forms.CharField(required=False, label="State or Province")
+    zip = forms.CharField(required=False, label="Zip or Postal Code")
+    semester = forms.ChoiceField(required=False, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
     k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','semester',
+        fields = ('project_name','engagement_type','activity_type','description','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year','campus_lead_staff')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -340,10 +340,17 @@ class AddProjectCommunityPartnerForm(ModelForm):
         model = ProjectCommunityPartner
         fields = ('community_partner',)
         labels = {
-            'community_partner': ('Community Partner'),
+            'community_partner': (' '),
 
         }
+class AddSubCategoryForm(ModelForm):
+    class Meta:
+        model = ProjectSubCategory
+        fields = ('sub_category',)
+        labels = {
+            'sub_category': (' '),
 
+        }
 
 class AddProjectCampusPartnerForm(ModelForm):
 
@@ -351,7 +358,7 @@ class AddProjectCampusPartnerForm(ModelForm):
         model = ProjectCampusPartner
         fields = ('campus_partner',)
         labels = {
-            'campus_partner':('Campus Partner'),
+            'campus_partner':(' '),
         }
 
 #    def clean_total_hours(self):
@@ -403,7 +410,7 @@ class ProjectMissionFormset(forms.ModelForm):
         model = ProjectMission
         fields = ( 'mission',)
         labels = {
-            'mission': ('Mission Area'),
+            'mission': (' '),
                     }
 
 
@@ -445,4 +452,3 @@ class CourseForm(forms.ModelForm):
             'number': ('Course Number'),
             'section': ('Course Section')
         }
-

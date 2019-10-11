@@ -19,6 +19,10 @@
     <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
@@ -29,7 +33,6 @@
  window.dataLayer = window.dataLayer || [];
  function gtag(){dataLayer.push(arguments);}
  gtag('js', new Date());
-
  gtag('config', 'UA-138745579-1');
 </script>
 
@@ -99,6 +102,7 @@
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
                         <a class="dropdown-item" href='/myProjects/'>My Project</a>
                         <a class="dropdown-item" href='/checkProject/'>Create Project</a>
+                        <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
 {#                <li class="nav-item">#}
@@ -195,7 +199,6 @@
                 veteran status, marital status, and/or political affiliation in its programs,
                 activities, or employment. Learn more about Equity, Access and Diversity.</p>
              </div>
-
           <!--<div class="footertext"></div>-->
 <!---->
           <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
@@ -210,37 +213,28 @@
         </div>
       </div>
 </footer>
-
 <!-- Footer Ends Here-->
-
     <!-- JavaScript -->
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
-
+<script type="text/javascript" src='{% static "js/jquery.smartWizard.min.js" %}'></script>
 {#    <!-- Script to Activate the Carousel -->#}
 <!--    <script>-->
 <!--         $('.carousel').carousel({-->
 <!--        interval: 5000 //changes the speed#}-->
 <!--    });-->
 <!--    </script>-->
-
-
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
 {% block js %} {% endblock %}
 {% block custom_js %}
     <script>
     $(window).bind("load", function() {
-
        var footerTop = 0,
            $footer = $("#footer");
-
        positionFooter();
-
        function positionFooter() {
                 footerTop = ($(document).height()-$("body").height())+"px";
-
-
                if ( ($("body").height()) < $(document).height()) {
                    $footer.css({
                         position: "relative"
@@ -252,19 +246,13 @@
                         position: "static"
                    })
                }
-
        }
-
        $(window)
                .scroll(positionFooter)
                .resize(positionFooter)
-
     });
     </script>
-
 {% endblock %}
-
-
 {% block selectizeForm %}{% endblock %}
     </body>
 </html>

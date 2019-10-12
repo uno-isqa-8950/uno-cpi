@@ -548,6 +548,20 @@ class Engagement_Types_Chart_Snippet(models.Model):
         verbose_name = "Engagement Types Chart Snippet"
 
 @register_snippet
+class TrendReport_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Trend Report Chart Snippet"
+
+@register_snippet
 class Register_Campus_Partner_Snippet(models.Model):
     text = models.CharField(max_length=1250)
 

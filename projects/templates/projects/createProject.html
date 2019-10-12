@@ -1012,6 +1012,7 @@ function updateElementIndex(el, prefix, ndx) {
 }
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
+
     var newElement = $(selector).clone(true);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
     newElement.find(':input').each(function() {

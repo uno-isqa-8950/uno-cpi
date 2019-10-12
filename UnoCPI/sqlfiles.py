@@ -408,7 +408,7 @@ order by p.project_name;
 
 my_drafts="""
 select distinct p.project_name
-  ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
+,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
   ,array_agg(distinct pc.name) CommPartners
     ,array_agg(distinct c.name) CampPartners
     ,array_agg(distinct e.name) engagement_type
@@ -428,9 +428,9 @@ select distinct p.project_name
     ,p.description
     ,p.id
 from projects_project p
-  inner join projects_projectmission m on p.id = m.project_name_id
-  inner join home_missionarea hm on hm.id = m.mission_id
-  inner join projects_engagementtype e on e.id = p.engagement_type_id
+  left join projects_projectmission m on p.id = m.project_name_id
+  left join home_missionarea hm on hm.id = m.mission_id
+  left join projects_engagementtype e on e.id = p.engagement_type_id
     left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
     left join partners_communitypartner pc on pp.community_partner_id = pc.id
     left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
@@ -438,7 +438,7 @@ from projects_project p
     inner join projects_academicyear pa on p.academic_year_id = pa.id
     inner join projects_status ps on p.status_id = ps.id
     inner join projects_activitytype a on p.activity_type_id = a.id
-    where p.status_id = '5'
+    where p.id =  ANY(%s) and p.status_id = '5' 
 group by p.project_name
     ,p.id
     ,pa.academic_year
@@ -455,5 +455,5 @@ group by p.project_name
     ,p.total_other_community_members
     ,a.name
     ,p.description
-order by p.project_name;
+    order by p.project_name;        
 """

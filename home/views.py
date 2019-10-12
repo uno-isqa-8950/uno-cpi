@@ -853,16 +853,17 @@ def issueaddress(request):
             },
         'plotOptions': {
             'xrange': {
+                'pointWidth': 10,
                 'dataLabels': {
                     'enabled': 'true',
                     'style': {
-                        'fontSize': '9px'
+                        'fontSize': '6px'
                     }
                 }
             },
             'scatter': {
                 'marker': {
-                    'radius': 15,
+                    'radius': 10,
                     'symbol':'circle'
                     }
                 }

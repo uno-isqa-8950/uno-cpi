@@ -4,25 +4,16 @@ from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import ArrayField
 
 
-class AcademicYear(models.Model):
-    academic_year = models.CharField(max_length=20, unique=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
-    history = HistoricalRecords()
-
-    def __str__(self):
-        return str(self.academic_year)
-
-
 class Project (models.Model):
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
-    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True)
+    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, blank=False)
     end_semester = models.CharField(max_length=20, blank=True)
-    academic_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=False, related_name = "academic_year1")
-    end_academic_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
+    end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
     k12_flag = models.BooleanField(default=False)
@@ -49,8 +40,7 @@ class Project (models.Model):
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
-    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10,
-                                             blank=True, null=True)
+    campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     history = HistoricalRecords()
 
     def created(self):
@@ -81,7 +71,7 @@ class SubCategory (models.Model):
         self.updated_date = timezone.now()
         self.save()
 
-    def _str_(self):
+    def __str__(self):
         return str(self.sub_category)
 
 class MissionSubCategory (models.Model):
@@ -202,4 +192,12 @@ class ActivityType(models.Model):
     def __str__(self):
         return str(self.name)
 
+
+class AcademicYear(models.Model):
+    academic_year = models.CharField(max_length=20, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.academic_year)
 

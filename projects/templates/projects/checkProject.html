@@ -95,7 +95,9 @@
                         </div>
 
                         <form method="POST" onsubmit="return false">{% csrf_token %}
-                            <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
+                            <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" class="form-control clearable" >
+                            <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
+                            <!--added for search by naresh --->
                         </form>
                         <div class="justify-content-md-center" style="margin-left: 40%; margin-top: 2%; margin-bottom: 2%">
                         <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right"></i>
@@ -127,6 +129,7 @@
 <div style="margin-bottom: 300px"></div>
 
 <script>
+
 var valueFilter = document.getElementById("project_name");
 
 //Press the listening button
@@ -244,6 +247,19 @@ $("#button-id").on("click",function () {
 $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
+// added for search by Naresh
+$('#project_name').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+
+});
+
 
 </script>
 

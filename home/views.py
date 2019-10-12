@@ -52,8 +52,11 @@ import sys
 import psycopg2
 import json
 import datetime
+# The imports below are for running sql queries for Charts
+from django.db import connection
+from UnoCPI import sqlfiles
 
-
+sql=sqlfiles
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -714,7 +717,7 @@ def missionchart(request):
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
-# Chart for projects with isssue address analysis
+# Chart for projects with issues addressed analysis  ~Naresh
 
 def issueaddress(request):
     missions = MissionArea.objects.all()
@@ -722,22 +725,37 @@ def issueaddress(request):
     data_definition = DataDefinition.objects.all()
     project_count_data = list()
     partner_count_data = list()
+    cursor = connection.cursor()
+    cursor.execute(sql.missionareas_sql)
+    acend=cursor.execute(sql.academic_sql)
+    acstart=0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
     for m in missions:
         mission_area1.append(m.mission_name)
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         start = request.GET.get('academic_year')
         end = request.GET.get('end_academic_year')
-        if start == '' or start == None:
-                start = 0
-        if end == '' or end == None:
-            end = 5
-        if start==end and not None:
-            start=0
-            end=end
+        # print("start", start)
+        # print("end", end)
+        if start=='' and end=='':
+            # print("strt ==end==blank")
+            start=acstart
+            end=acend
+        elif start=='' and end!='':
+            # print("bank vaue")
+            start=acstart
+        elif end=='' and start!='' :
+            # print("value blank")
+            end=acend
+        if start==None and end==None:
+            # print("strt ==end==none")
+            start=acstart
+            end=acend
+
       #  print("start year from req ",start)
      #   print("end yaer from req",end)
     #print("start year from req ", start)
@@ -753,25 +771,10 @@ def issueaddress(request):
     #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
     start_yr_id = start
     end_yr_id = end
-    conn = psycopg2.connect("dbname = 'CPI_DEV_DB' user = 'postgres' host = 'localhost' password = 'naresh@004'")
-    cursor = conn.cursor()
-    missions_sql = "SELECT MA.id, COALESCE(count,0) " \
-                   "FROM home_missionarea MA " \
-                   "LEFT JOIN " \
-                   "(SELECT mission_id, count(*) as count " \
-                   "FROM projects_projectmission PM " \
-                   "INNER JOIN projects_project P " \
-                   "   ON PM.project_name_id = P.id " \
-                   "WHERE P.academic_year_id <= %(yr_id)s " \
-                   "   AND P.end_academic_year_id is null OR P.end_academic_year_id >= %(yr_id)s " \
-                   "GROUP BY PM.mission_id) as TB " \
-                   "ON MA.id = TB.mission_id; "
-    missionareas_sql = "SELECT MA.id  FROM home_missionarea MA"
-    cursor.execute(missionareas_sql)
     ma = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': start_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': start_yr_id})
     start = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': end_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': end_yr_id})
     end = cursor.fetchall()
     json_data = []
     start_json_data = []
@@ -818,12 +821,12 @@ def issueaddress(request):
     Min = min(maxend)
 
     Academic_Year = {
-        'name': 'From Academic_Year',
+        'name': 'From Academic Year',
         'data': start_json_data,
         'color': 'turquoise',
         'type':'scatter'}
     End_Academic_Year = {
-        'name': 'To Academic_Year',
+        'name': 'To Academic Year',
         'data': end_json_data,
         'color': 'teal',
         'type': 'scatter'}

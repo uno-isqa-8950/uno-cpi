@@ -410,10 +410,14 @@ def project_partner_info(request):
     proj_comm_ids = [community.community_partner_id for community in proj_comm]
 
     for m in missions:
+        project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
+        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
+        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
+        print('project_ids: ', project_ids)
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
@@ -425,6 +429,8 @@ def project_partner_info(request):
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
                         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids).count()
+                        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids)
+                        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
 
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
@@ -439,12 +445,27 @@ def project_partner_info(request):
         total_uno_hours = 0
 
         for pm in p_mission:
+            project_id_list.append(pm.project_name_id)
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
+
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
+        mission_dict['project_id_list'] = project_id_list
+        mission_dict['comm_id_list'] = comm_id_list
+        comm_ids = ''
+        name_count=0
+        print('comm_id_list: ', comm_id_list)
+        for i in comm_id_list:
+            comm_ids = comm_ids+str(i)
+
+            if name_count < len(comm_id_list)-1:
+                comm_ids = comm_ids + str(",")
+                name_count = name_count + 1
+
+        mission_dict['comm_ids'] = comm_ids
         mission_list.append(mission_dict.copy())
         proj_total += project_count
         comm_total += community_count

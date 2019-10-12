@@ -586,6 +586,7 @@ def issuesaddressed(request):
 # Trend Report Chart
 
 def trendreport(request):
+    acad_years = AcademicYear.objects.all()
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -665,18 +666,10 @@ def trendreport(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    campus_id = request.GET.get('campus_partner')
-    if campus_id == "All":
-        campus_id = -1
-    if (campus_id is None or campus_id == ''):
-        campus_id = 0
-    else:
-        campus_id = int(campus_id)
-
     dump = json.dumps(chart)
     return render(request, 'charts/trendreport.html',
                   {'chart': dump, 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'college_filter':college_filter, 'campus_id':campus_id, 'communityPartners': communityPartners})
+                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners})
 
 # Chart for projects with mission areas
 

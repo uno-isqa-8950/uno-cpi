@@ -968,7 +968,7 @@ $(".nospecial").keypress(function (e) {
     $("#submitname").click(function () {
 var str = "";
 var name =  $('.concat > h6.finalname').length;
-// alert(name);
+//alert(name);
 if(name === 10) {
             alert("Only Upto 10 staff members are allowed");
                 $('#firstname').val('');
@@ -1082,7 +1082,7 @@ function cloneMore(selector, prefix) {
 }
 function deleteForm(prefix, elem) {
     var btn = elem.attr('name');
-    console.log("delete happening");
+    //console.log("delete happening");
     var selected = elem.attr('data-id');
        //var selected = btn.parent().parent().find(':selected').val();
     if (prefix == 'community') {

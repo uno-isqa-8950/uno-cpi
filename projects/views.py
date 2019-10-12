@@ -1255,11 +1255,14 @@ def project_total_Add(request):
 def myDrafts(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
+
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
-    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
+    proj_camp = ProjectCampusPartner.objects.filter(campus_partner_id__in=camp_part_id)
     project_ids = [project.project_name_id for project in proj_camp]
+    if len(project_ids) == 0:
+        project_ids = [project.id for project in Project.objects.all()]
     cursor = connection.cursor()
     cursor.execute(sql.my_drafts, [project_ids])
     for obj in cursor.fetchall():

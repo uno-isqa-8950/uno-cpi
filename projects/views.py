@@ -983,7 +983,7 @@ def communityPrivateReport(request):
                                                                    'campus_filter': campus_project_filter, 'campus_id':campus_id})
 
 
-def communityfromMissionReport(request):
+def communityfromMissionReport(request, pk):
     comm_ids = request.GET.get('comm_ids', None)
     print(comm_ids)
 
@@ -995,7 +995,9 @@ def communityfromMissionReport(request):
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
     if comm_ids is None:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_mission = CommunityPartnerMission.objects.filter(mission_area_id=pk). \
+            filter(mission_type='Primary').values_list('community_partner_id', flat=True)
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(id__in=community_mission))
 
     else:
         if comm_ids.find(",") != -1:

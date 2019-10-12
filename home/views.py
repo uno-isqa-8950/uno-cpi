@@ -48,7 +48,12 @@ import boto3
 from UnoCPI import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
-from django.db import connection
+import sys
+import psycopg2
+import json
+import datetime
+
+
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -578,98 +583,7 @@ def engagement_info(request):
                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
                    'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter, 'campus_id':campus_id})
 
-# Issues Addressed Analysis Chart
 
-def issuesaddressed(request):
-    return render(request, 'charts/issuesaddressed.html')
-
-# Trend Report Chart
-
-def trendreport(request):
-    acad_years = AcademicYear.objects.all()
-    data_definition = DataDefinition.objects.all()
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-
-    cursor = connection.cursor()
-    q = "SELECT  " \
-        "	(SELECT count(*) " \
-        "	FROM projects_project " \
-        "	WHERE academic_year_id <= YR.id " \
-        "		AND end_academic_year_id >= YR.id) as project_count " \
-        "FROM projects_academicyear YR ;"
-    cursor.execute(q)
-    projects_by_year = cursor.fetchall()
-    project_counts = []
-    for p in projects_by_year:
-        project_counts.append(p[0])
-
-    q = "SELECT " \
-    "	(SELECT count(distinct community_partner_id) " \
-    "	FROM projects_projectcommunitypartner CP " \
-    "	INNER JOIN projects_project P " \
-    "		ON P.id = CP.project_name_id " \
-    "	WHERE academic_year_id <= YR.id " \
-    "		AND end_academic_year_id >= YR.id) as community_partner_count " \
-    "FROM projects_academicyear YR ;"
-    cursor.execute(q)
-    community_partners_by_year = cursor.fetchall()
-    community_partners_counts = []
-    for p in community_partners_by_year:
-        community_partners_counts.append(p[0])
-
-    q = "SELECT " \
-    "	(SELECT count(distinct campus_partner_id) " \
-    "	FROM projects_projectcampuspartner CP " \
-    "	INNER JOIN projects_project P " \
-    "		ON P.id = CP.project_name_id " \
-    "	WHERE academic_year_id <= YR.id " \
-    "		AND end_academic_year_id >= YR.id) as campus_partner_count " \
-    "FROM projects_academicyear YR ;"
-    cursor.execute(q)
-    campus_partners_by_year = cursor.fetchall()
-    campus_partners_counts = []
-    for p in campus_partners_by_year:
-        campus_partners_counts.append(p[0])
-
-    project_count_series = {
-        'name': 'Project Count',
-        'data': project_counts,
-        'color': 'turquoise'}
-    community_partner_count_series = {
-        'name': 'Community Partner Count',
-        'data': community_partners_counts,
-        'color': 'teal'}
-    campus_partner_count_series = {
-        'name': 'Campus Partner Count',
-        'data': campus_partners_counts,
-        'color': 'blue'}
-    chart = {
-        'title': {'text': ''},
-        'yAxis': {'title': {'text': 'Projects/Partners'}},
-        'legend': {'layout': 'vertical','align': 'right','verticalAlign': 'middle'},
-        'plotOptions': {'series': {'label': {'connectorAllowed': 'false'},'pointStart': 2016}},
-        'series': [project_count_series, community_partner_count_series, campus_partner_count_series],
-        'responsive': {'rules': [{
-            'condition': {'maxWidth': 500},
-            'chartOptions': {'legend': {
-                'layout': 'horizontal',
-                'align': 'center',
-                'verticalAlign': 'bottom'}}}]}}
-
-    college_value = request.GET.get('college_name', None)
-    if college_value is None or college_value == "All" or college_value == '':
-        campus_filter_qs = CampusPartner.objects.all()
-    else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-
-    dump = json.dumps(chart)
-    return render(request, 'charts/trendreport.html',
-                  {'chart': dump, 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners})
 
 # Chart for projects with mission areas
 
@@ -798,6 +712,177 @@ def missionchart(request):
     return render(request, 'charts/missionchart.html',
                   {'chart': dump, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
+
+
+# Chart for projects with isssue address analysis
+
+def issueaddress(request):
+    missions = MissionArea.objects.all()
+    mission_area1 = list()
+    data_definition = DataDefinition.objects.all()
+    project_count_data = list()
+    partner_count_data = list()
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    for m in missions:
+        mission_area1.append(m.mission_name)
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        start = request.GET.get('academic_year')
+        end = request.GET.get('end_academic_year')
+        if start == '' or start == None:
+                start = 0
+        if end == '' or end == None:
+            end = 5
+        if start==end and not None:
+            start=0
+            end=end
+      #  print("start year from req ",start)
+     #   print("end yaer from req",end)
+    #print("start year from req ", start)
+    #print("end yaer from req", end)
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+
+    #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
+    start_yr_id = start
+    end_yr_id = end
+    conn = psycopg2.connect("dbname = 'CPI_DEV_DB' user = 'postgres' host = 'localhost' password = 'naresh@004'")
+    cursor = conn.cursor()
+    missions_sql = "SELECT MA.id, COALESCE(count,0) " \
+                   "FROM home_missionarea MA " \
+                   "LEFT JOIN " \
+                   "(SELECT mission_id, count(*) as count " \
+                   "FROM projects_projectmission PM " \
+                   "INNER JOIN projects_project P " \
+                   "   ON PM.project_name_id = P.id " \
+                   "WHERE P.academic_year_id <= %(yr_id)s " \
+                   "   AND P.end_academic_year_id is null OR P.end_academic_year_id >= %(yr_id)s " \
+                   "GROUP BY PM.mission_id) as TB " \
+                   "ON MA.id = TB.mission_id; "
+    missionareas_sql = "SELECT MA.id  FROM home_missionarea MA"
+    cursor.execute(missionareas_sql)
+    ma = cursor.fetchall()
+    cursor.execute(missions_sql, {'yr_id': start_yr_id})
+    start = cursor.fetchall()
+    cursor.execute(missions_sql, {'yr_id': end_yr_id})
+    end = cursor.fetchall()
+    json_data = []
+    start_json_data = []
+    end_json_data=[]
+    for e in end:
+        for s in start:
+            if (s[0] == e[0]):
+                res = {'x': s[1], 'x2': e[1], 'y': s[0]-1}
+                startres = {'x': s[1], 'y': s[0] - 1}
+                endres = {'x': e[1], 'y': s[0]-1}
+                json_data.append(res)
+                start_json_data.append(startres)
+                end_json_data.append(endres)
+    #json_data1 = json.dumps(json_data)
+    #print("jasondata1",json_data1)
+    #print("Pojectdata", project_data)
+
+    pm = []
+    for s in start:
+        # print("sss",s)
+        pm.append(s[0])
+    # print(pm)
+    for mission in ma:
+        for m in mission:
+            if m not in pm:
+                res = {'x': 0, 'x2': 0, 'y': m}
+                json_data.append(res)
+    json_data_req = json.dumps(json_data)
+    #print("jsondata ", json_data)
+
+    maxend = []
+    for e in end:
+     #   print(e[1])
+        for s in start:
+      #      print(s[1])
+            if s[1] not in maxend:
+                maxend.append(s[1])
+        if e[1] not in maxend:
+            maxend.append(e[1])
+
+    #print("max list ", maxend)
+    #print("ma value", max(maxend))
+    Max = max(maxend)
+    Min = min(maxend)
+
+    Academic_Year = {
+        'name': 'From Academic_Year',
+        'data': start_json_data,
+        'color': 'turquoise',
+        'type':'scatter'}
+    End_Academic_Year = {
+        'name': 'To Academic_Year',
+        'data': end_json_data,
+        'color': 'teal',
+        'type': 'scatter'}
+    project_over_academic_years = {
+        'name': 'Issues Addressed Over Selected Academic Years',
+        'data': json_data,
+        'color': 'teal'}
+
+    dumbellchart = {
+        'chart': {
+            'type': 'xrange'
+        },
+        'title': {
+            'text': 'Project Missions Over Years'
+        },
+        'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
+                                                    'style': {'fontWeight': 'bold', 'color': 'black',
+                                                              'fontSize': '15px'}}, 'min': Min, 'max': Max+2},
+        'yAxis':
+            {
+                'title': {'text': 'Primary Mission Areas',
+                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                'categories': mission_area1, 'labels': {'style': {'color': 'black', 'fontSize': '13px','min': 0, 'max': len(pm)}}
+            },
+        'plotOptions': {
+            'xrange': {
+                'dataLabels': {
+                    'enabled': 'true',
+                    'style': {
+                        'fontSize': '9px'
+                    }
+                }
+            },
+            'scatter': {
+                'marker': {
+                    'radius': 15,
+                    'symbol':'circle'
+                    }
+                }
+        },
+        'legend': {
+            'layout': 'horizontal',
+            'align': 'right',
+            'verticalAlign': 'top',
+            'x': -10,
+            'y': 50,
+            'borderWidth': 1,
+            'backgroundColor': '#FFFFFF',
+            'shadow': 'true'
+        },
+        'series': [project_over_academic_years,Academic_Year,End_Academic_Year]
+    }
+
+
+
+    dump = json.dumps(dumbellchart)
+    return render(request, 'charts/issueaddressanalysis.html',
+                  {'dumbellchart': dump, 'project_filter': project_filter, 'data_definition': data_definition,'a_year':a_year})
+
 
 
 def EngagementType_Chart(request):

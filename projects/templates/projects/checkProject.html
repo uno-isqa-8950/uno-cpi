@@ -79,12 +79,12 @@ A.class1:link  {text-decoration: underline; color: red;}
                    </form>
                  </div>
                  <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                        <a id="Search" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right"></i>Search</a>
+                        <a id="Search" class="btn btn btn-secondary btn-md" href="#" role="button" data-toggle="tooltip" title="Search for an existing Project" ><i class="fa fa-angle-double-right"></i>Search</a>
                  </div>
             </div>
         </div>
       </div>
-         <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
+         <div style="float: left;" id="node1-id" style="margin-left: 20% "></div>
          <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
          <div>
             <div class="panel-body">&emsp;
@@ -93,6 +93,7 @@ A.class1:link  {text-decoration: underline; color: red;}
      </div>
    </div>
 </div>
+
 
                 {{ projectNames | json_script:"project-data"}}
 
@@ -181,6 +182,8 @@ valueFilter.addEventListener("keyup", function (e) {
                             {
                                 displayAddProjectFlag = 0;
                             }
+
+                        document.getElementById('node1-id').innerHTML =
                             mylist +='<tr>' +
                                 '<td>'  + academicyearlist[j] + '</td>' + '<td><a href="/allProjects?p_name='+ projectlist[j].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + projectlist[j].split(':').slice(0,-1).join(':') + '</a></td>' +
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
@@ -189,8 +192,8 @@ valueFilter.addEventListener("keyup", function (e) {
                         }
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
-                            '<br>' +
-                                '<br><br>' +
+                            '<br><br>' +
+                                '<br><br>'
                                  mylist
                        /* document.getElementById('node1-id').innerHTML =
                             '<br>' +
@@ -199,8 +202,7 @@ valueFilter.addEventListener("keyup", function (e) {
                             ' All Projects</a></td></tr>'*/
                        document.getElementById('node1-id').innerHTML =
                             '<br>' +
-
-                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
                     /* if(displayAddProjectFlag == 0){
                        var projectName = document.getElementById('project_name').value;
@@ -216,7 +218,7 @@ valueFilter.addEventListener("keyup", function (e) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
 
-                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             'Create Project</a></td></tr>'
                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                      }
@@ -231,8 +233,7 @@ valueFilter.addEventListener("keyup", function (e) {
                          document.getElementById('node1-id'). innerHTML = "";
                          document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button" data-toggle="tooltip" title="Click on this button to create a new project" ><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             ' Create Project</a></td></tr>'
                          document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                 }
@@ -331,10 +332,16 @@ $(document).on('input', '.clearable', function(){
 });
    } );
 </script>
-        <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
     </script>
+
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
+</script>
 
 {% endblock %}

@@ -730,11 +730,11 @@ def issueaddress(request):
     range=[]
     cursor.execute(sql.academic_sql)
     range =cursor.fetchall()
-    print("range list ----",range)
+    # print("range list ----",range)
     acstart=range[0][0]
-    print("start min ",acstart)
+    # print("start min ",acstart)
     acend=range[0][1]
-    print("end max",acend)
+    # print("end max",acend)
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())

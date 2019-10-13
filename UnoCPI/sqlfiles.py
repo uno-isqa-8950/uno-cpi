@@ -373,7 +373,7 @@ select distinct p.project_name
     ,p.description
     ,p.id
 from projects_project p
-  inner join projects_projectmission m on p.id = m.project_name_id
+  inner join projects_projectmission m on p.id = m.project_name_id  
   inner join home_missionarea hm on hm.id = m.mission_id
   inner join projects_engagementtype e on e.id = p.engagement_type_id
     left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
@@ -421,4 +421,4 @@ missions_sql = """SELECT MA.id, COALESCE(count,0)
 #This query is for mission areas on y Axis for issues addressed analysis chart
 missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 
-academic_sql="""SELECT max(AC.id)  FROM projects_academicyear AC"""
+academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""

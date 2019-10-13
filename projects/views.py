@@ -1454,7 +1454,7 @@ def checkProject(request):
         #Check Project actual table logic end
 
                 if combinedList not in projectNames:
-                projectNames.append(combinedList)
+                    projectNames.append(combinedList)
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)

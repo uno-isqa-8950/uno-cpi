@@ -250,8 +250,16 @@
                             {% for m in mission_list %}
                             <tr>
                                 <td>{{m.mission_name}}</td>
-                                <td><a href="{% url 'communityfromMissionReport' m.id%}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a></td>
-                                <td><a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1">{{m.project_count}}</a></td>
+                                <td>
+                                    {% if  m.community_count  < 1 %}
+                                    {{m.community_count}}
+                                    {% else %}<a href="{% url 'communityfromMissionReport' m.id%}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a>
+                                    {% endif %}</td>
+                                <td>
+                                    {% if  m.project_count  < 1 %}
+                                    {{m.project_count}}
+                                    {% else %}<a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1">{{m.project_count}}</a>
+                                    {% endif %}</td>
                                 <td>{{m.total_uno_students}}</td>
                                 <td>{{m.total_uno_hours}}</td>
                             </tr>

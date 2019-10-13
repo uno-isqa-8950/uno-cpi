@@ -373,7 +373,7 @@ select distinct p.project_name
     ,p.description
     ,p.id
 from projects_project p
-  inner join projects_projectmission m on p.id = m.project_name_id
+  inner join projects_projectmission m on p.id = m.project_name_id  
   inner join home_missionarea hm on hm.id = m.mission_id
   inner join projects_engagementtype e on e.id = p.engagement_type_id
     left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
@@ -457,3 +457,23 @@ group by p.project_name
     ,p.description
 order by p.project_name;        
 """
+
+
+#This query is for issues addressed analysis chart
+missions_sql = """SELECT MA.id, COALESCE(count,0) 
+                   FROM home_missionarea MA 
+                   LEFT JOIN 
+                   (SELECT mission_id, count(*) as count 
+                   FROM projects_projectmission PM 
+                   INNER JOIN projects_project P 
+                      ON PM.project_name_id = P.id 
+                   WHERE P.academic_year_id <= %(yr_id)s 
+                      AND P.end_academic_year_id is null OR P.end_academic_year_id >= %(yr_id)s 
+                   GROUP BY PM.mission_id) as TB 
+                   ON MA.id = TB.mission_id;\
+                   """
+
+#This query is for mission areas on y Axis for issues addressed analysis chart
+missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
+
+academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""

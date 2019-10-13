@@ -503,6 +503,19 @@ def project_partner_info(request):
                 name_count = name_count + 1
 
         mission_dict['comm_ids'] = comm_ids
+
+        project_name_id = ''
+        project_name_count =0
+
+        for z in project_id_list:
+            project_name_id = project_name_id + str(z)
+
+            if project_name_count < len(project_id_list)-1:
+                project_name_id = project_name_id + str(",")
+                project_name_count = project_name_count + 1
+
+        mission_dict['project_name_ids'] =project_name_id
+       
         mission_list.append(mission_dict.copy())
         proj_total += project_count
         comm_total += community_count
@@ -801,9 +814,15 @@ def issueaddress(request):
     project_count_data = list()
     partner_count_data = list()
     cursor = connection.cursor()
-    cursor.execute(sql.missionareas_sql)
-    acend=cursor.execute(sql.academic_sql)
-    acstart=0
+    # cursor.execute(sql.missionareas_sql)
+    range=[]
+    cursor.execute(sql.academic_sql)
+    range =cursor.fetchall()
+    # print("range list ----",range)
+    acstart=range[0][0]
+    # print("start min ",acstart)
+    acend=range[0][1]
+    # print("end max",acend)
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -846,6 +865,8 @@ def issueaddress(request):
     #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
     start_yr_id = start
     end_yr_id = end
+    cursor = connection.cursor()
+    cursor.execute(sql.missionareas_sql)
     ma = cursor.fetchall()
     cursor.execute(sql.missions_sql, {'yr_id': start_yr_id})
     start = cursor.fetchall()

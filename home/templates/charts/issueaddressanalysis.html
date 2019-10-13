@@ -270,22 +270,23 @@ $(document).ready(function(){
 
 
     <script>
-    $("#id_endacademicyear").change(function () {
-        var fromacademicyear=$("#id_academicyear").val();
-        var toacademicyear=$("#id_endacademicyear").val();
-        if (fromacademicyear>toacademicyear ){
-            alert("Hello User! Please Select To Academic Year Greater Than From AcademicYear");
-            $("#id_endacademicyear").val('')
-            $("#id_academicyear").val('')
-        }
-
-
-
-    })
     $("#id_academicyear").change(function () {
         var fromacademicyear=$("#id_academicyear").val();
         var toacademicyear=$("#id_endacademicyear").val();
-        if (toacademicyear>fromacademicyear){
+        if( $("#id_endacademicyear").val()!=''){
+        if (fromacademicyear>toacademicyear ){
+            alert("Please Select from Academic Year Lesser Than To AcademicYear");
+            $("#id_endacademicyear").val('')
+            $("#id_academicyear").val('')
+        }
+        }
+
+
+    })
+    $("#id_endacademicyear").change(function () {
+        var fromacademicyear=$("#id_academicyear").val();
+        var toacademicyear=$("#id_endacademicyear").val();
+        if (fromacademicyear>toacademicyear){
             alert("Hello User! Please Select To Academic Year Greater Than From AcademicYear");
             $("#id_endacademicyear").val('')
             $("#id_academicyear").val('')

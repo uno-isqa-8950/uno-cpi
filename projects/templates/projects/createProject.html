@@ -866,7 +866,7 @@ $(document).ready(function(){
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        //  showStepURLhash:false,
+          showStepURLhash:false,
         // contentCache:true,
         toolbarSettings: {
             // toolbarPosition:'top',
@@ -890,25 +890,64 @@ $(document).ready(function(){
         });
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber == 0) {
-        if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_semester").val() == '')||($("#id_academic_year").val() == '')) {
-            alert("Please provide all required fields before proceeding to step 2.");
-            return false;
+// if(stepDirection === 'forward') {
+//     if (stepNumber == 0) {
+//         if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_semester").val() == '')||($("#id_academic_year").val() == '')) {
+//             alert("Please provide all required fields before proceeding to step 2.");
+//             return false;
+//         }
+//             $('#submit').hide();
+//
+//     }
+//     if (stepNumber == 1) {
+//         if ($("#id_campus-0-campus_partner").val() == '') {
+//             alert("Please provide a campus partner before proceeding.");
+//             return false;
+//         }
+//             $('#submit').hide();
+//     }
+//     if (stepNumber == 2) {
+//         if ($("#id_mission-0-mission").val() == '') {
+//             alert("Please provide a Primary Project Mission Area before proceeding.");
+//             return false;
+//         }
+//         else {
+//             $('#submit').show();
+//         }
+//     }
+// }
+
+     if(stepDirection === 'forward') {
+    if (stepNumber === 0) {
+        if(($("#id_project_name").val() === '')){
+            alert("Please provide Project name to proceed.");
+            return false
+        }
+        if( ($("#id_engagement_type").val() === '') ){
+            alert("Please enter Engagement type.");
+            return false
+        }
+        if(($("#id_semester").val() === '')){
+            alert("Please provide Project start semester.");
+            return false
+        }
+        if($("#id_academic_year").val() === ''){
+            alert("Please provide Project start academic year.");
+            return false
         }
             $('#submit').hide();
 
     }
-    if (stepNumber == 1) {
-        if ($("#id_campus-0-campus_partner").val() == '') {
-            alert("Please provide all required fields before proceeding.");
+    if (stepNumber === 1) {
+        if ($("#id_campus-0-campus_partner").val() === '') {
+            alert("Please provide Campus partner before proceeding.");
             return false;
         }
             $('#submit').hide();
     }
-    if (stepNumber == 2) {
+    if (stepNumber === 2) {
         if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide all required fields before proceeding.");
+            alert("Please provide Mission area before proceeding.");
             return false;
         }
         else {
@@ -916,6 +955,7 @@ if(stepDirection === 'forward') {
         }
     }
 }
+
 if (stepDirection === 'backward') {
             $('#submit').hide();
         }
@@ -1022,13 +1062,11 @@ function cloneMore(selector, prefix) {
        var selected = $(selector).find(':selected').val();
     if (selected == ' ') {
         alert('you cannot add empty value');
-        $(selector).val(' ');
         return;
     }
     if (prefix == 'community') {
         if (community_ids.includes(selected)) {
             alert('community already added');
-            $(selector).val(' ');
             return;
         }
         community_ids.push(selected);

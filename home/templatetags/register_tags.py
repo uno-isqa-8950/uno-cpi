@@ -9,7 +9,7 @@ from home.models import Community_Partner_Snippet, Community_Partner_User_Snippe
     Partners_Organizatiion_Profile_Contacts_Snippet, Partners_Organizatiion_Profile_Partners_Add_Snippet, \
     Partners_Organizatiion_Profile_Partners_Update_Snippet, Partners_Organizatiion_Profile_Snippet, \
     Partners_User_Profile_Snippet, Partners_User_Profile_Update_Snippet, Password_Reset_Done_Snippet, \
-    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet
+    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet, TrendReport_Chart_Snippet,Issue_Address_Chart_Snippet
 
 register = template.Library()
 
@@ -91,6 +91,13 @@ def eng_charts(context):
         'request': context['request'],
     }
 
+@register.inclusion_tag('tags/trendreport_chart_snippet.html', takes_context=True)
+def trend_charts(context):
+    return {
+        'trend_charts': TrendReport_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
 @register.inclusion_tag('tags/mission_areas_chart_snippet.html', takes_context=True)
 def miss_charts(context):
     return {
@@ -101,7 +108,7 @@ def miss_charts(context):
 @register.inclusion_tag('tags/issue_address_chart_snippet.html', takes_context=True)
 def iss_charts(context):
     return {
-        'iss_charts': Mission_Areas_Chart_Snippet.objects.all(),
+        'iss_charts': Issue_Address_Chart_Snippet.objects.all(),
         'request': context['request'],
     }
 

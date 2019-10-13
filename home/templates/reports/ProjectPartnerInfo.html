@@ -1,6 +1,10 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
 
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
+</style>
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -246,8 +250,8 @@
                             {% for m in mission_list %}
                             <tr>
                                 <td>{{m.mission_name}}</td>
-                                <td><a href="{% url 'communityprivatereport' %}" target="_blank">{{m.community_count}}</a></td>
-                                <td><a href="{% url 'projectsspecificpublicreport' m.id 'mission' %}" target="_blank">{{m.project_count}}</a></td>
+                                <td><a href="{% url 'communityfromMissionReport' m.id%}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a></td>
+                                <td><a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1">{{m.project_count}}</a></td>
                                 <td>{{m.total_uno_students}}</td>
                                 <td>{{m.total_uno_hours}}</td>
                             </tr>

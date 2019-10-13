@@ -847,3 +847,33 @@ class Resource (models.Model):
 
     def __str__(self):
         return str(self.resource_descr)
+
+
+@register_snippet
+class Issue_Address_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Issue Address Analysis  Charts Snippet"
+
+
+@register_snippet
+class TrendReport_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Trend Report Chart Snippet"

@@ -52,8 +52,11 @@ import sys
 import psycopg2
 import json
 import datetime
+# The imports below are for running sql queries for Charts
+from django.db import connection
+from UnoCPI import sqlfiles
 
-
+sql=sqlfiles
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -387,7 +390,7 @@ def project_partner_info(request):
     hours_total = 0
 
     legislative_choices = []
-    legislative_search = '';
+    legislative_search = ''
    
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -444,10 +447,14 @@ def project_partner_info(request):
     proj_comm_ids = [community.community_partner_id for community in proj_comm]
 
     for m in missions:
+        project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
+        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
+        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
+        
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
@@ -459,6 +466,8 @@ def project_partner_info(request):
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
                         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids).count()
+                        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids)
+                        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
 
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
@@ -473,12 +482,27 @@ def project_partner_info(request):
         total_uno_hours = 0
 
         for pm in p_mission:
+            project_id_list.append(pm.project_name_id)
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
+
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
+        mission_dict['project_id_list'] = project_id_list
+        mission_dict['comm_id_list'] = comm_id_list
+        comm_ids = ''
+        name_count=0
+        
+        for i in comm_id_list:
+            comm_ids = comm_ids+str(i)
+
+            if name_count < len(comm_id_list)-1:
+                comm_ids = comm_ids + str(",")
+                name_count = name_count + 1
+
+        mission_dict['comm_ids'] = comm_ids
         mission_list.append(mission_dict.copy())
         proj_total += project_count
         comm_total += community_count
@@ -768,7 +792,7 @@ def missionchart(request):
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
-# Chart for projects with isssue address analysis
+# Chart for projects with issues addressed analysis  ~Naresh
 
 def issueaddress(request):
     missions = MissionArea.objects.all()
@@ -776,22 +800,37 @@ def issueaddress(request):
     data_definition = DataDefinition.objects.all()
     project_count_data = list()
     partner_count_data = list()
+    cursor = connection.cursor()
+    cursor.execute(sql.missionareas_sql)
+    acend=cursor.execute(sql.academic_sql)
+    acstart=0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
     for m in missions:
         mission_area1.append(m.mission_name)
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         start = request.GET.get('academic_year')
         end = request.GET.get('end_academic_year')
-        if start == '' or start == None:
-                start = 0
-        if end == '' or end == None:
-            end = 5
-        if start==end and not None:
-            start=0
-            end=end
+        # print("start", start)
+        # print("end", end)
+        if start=='' and end=='':
+            # print("strt ==end==blank")
+            start=acstart
+            end=acend
+        elif start=='' and end!='':
+            # print("bank vaue")
+            start=acstart
+        elif end=='' and start!='' :
+            # print("value blank")
+            end=acend
+        if start==None and end==None:
+            # print("strt ==end==none")
+            start=acstart
+            end=acend
+
       #  print("start year from req ",start)
      #   print("end yaer from req",end)
     #print("start year from req ", start)
@@ -807,25 +846,10 @@ def issueaddress(request):
     #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
     start_yr_id = start
     end_yr_id = end
-    conn = psycopg2.connect("dbname = 'CPI_DEV_DB' user = 'postgres' host = 'localhost' password = 'naresh@004'")
-    cursor = conn.cursor()
-    missions_sql = "SELECT MA.id, COALESCE(count,0) " \
-                   "FROM home_missionarea MA " \
-                   "LEFT JOIN " \
-                   "(SELECT mission_id, count(*) as count " \
-                   "FROM projects_projectmission PM " \
-                   "INNER JOIN projects_project P " \
-                   "   ON PM.project_name_id = P.id " \
-                   "WHERE P.academic_year_id <= %(yr_id)s " \
-                   "   AND P.end_academic_year_id is null OR P.end_academic_year_id >= %(yr_id)s " \
-                   "GROUP BY PM.mission_id) as TB " \
-                   "ON MA.id = TB.mission_id; "
-    missionareas_sql = "SELECT MA.id  FROM home_missionarea MA"
-    cursor.execute(missionareas_sql)
     ma = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': start_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': start_yr_id})
     start = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': end_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': end_yr_id})
     end = cursor.fetchall()
     json_data = []
     start_json_data = []
@@ -839,45 +863,35 @@ def issueaddress(request):
                 json_data.append(res)
                 start_json_data.append(startres)
                 end_json_data.append(endres)
-    #json_data1 = json.dumps(json_data)
-    #print("jasondata1",json_data1)
-    #print("Pojectdata", project_data)
 
     pm = []
     for s in start:
-        # print("sss",s)
         pm.append(s[0])
-    # print(pm)
     for mission in ma:
         for m in mission:
             if m not in pm:
                 res = {'x': 0, 'x2': 0, 'y': m}
                 json_data.append(res)
     json_data_req = json.dumps(json_data)
-    #print("jsondata ", json_data)
 
     maxend = []
     for e in end:
-     #   print(e[1])
         for s in start:
-      #      print(s[1])
             if s[1] not in maxend:
                 maxend.append(s[1])
         if e[1] not in maxend:
             maxend.append(e[1])
 
-    #print("max list ", maxend)
-    #print("ma value", max(maxend))
     Max = max(maxend)
     Min = min(maxend)
 
     Academic_Year = {
-        'name': 'From Academic_Year',
+        'name': 'From Academic Year',
         'data': start_json_data,
         'color': 'turquoise',
         'type':'scatter'}
     End_Academic_Year = {
-        'name': 'To Academic_Year',
+        'name': 'To Academic Year',
         'data': end_json_data,
         'color': 'teal',
         'type': 'scatter'}
@@ -904,16 +918,17 @@ def issueaddress(request):
             },
         'plotOptions': {
             'xrange': {
+                'pointWidth': 10,
                 'dataLabels': {
                     'enabled': 'true',
                     'style': {
-                        'fontSize': '9px'
+                        'fontSize': '6px'
                     }
                 }
             },
             'scatter': {
                 'marker': {
-                    'radius': 15,
+                    'radius': 10,
                     'symbol':'circle'
                     }
                 }
@@ -937,6 +952,133 @@ def issueaddress(request):
     return render(request, 'charts/issueaddressanalysis.html',
                   {'dumbellchart': dump, 'project_filter': project_filter, 'data_definition': data_definition,'a_year':a_year})
 
+
+# Trend Report Chart
+
+def trendreport(request):
+    acad_years = AcademicYear.objects.all()
+    data_definition = DataDefinition.objects.all()
+    project_year_count = []
+    year_community_counts = []
+    year_campus_counts = []
+    year_names = []
+
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_campus_filtered_ids = [campus.campus_partner_id for campus in campus_project_filter.qs]
+
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+
+    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_year_ids = [project.id for project in year_filter.qs]
+
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filtered_ids = [community.id for community in communityPartners.qs]
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
+    filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
+    filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
+    filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+
+    yrs = []
+    for e in acad_years:
+        yrs.append(e.id)
+    max_yr_id = max(yrs)
+
+    for e in acad_years:
+        start = list(range(e.id+1))
+        end = list(range(e.id, (max_yr_id+1)))
+        proj_comm = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list)
+        proj_comme = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list)
+        proj_comm = proj_comm | proj_comme
+
+        # gets the distinct ids from projectcommunity partner table for all the above projects
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
+        # gets all the community partner ids in a array. These are not distinct
+        proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
+        # sets the non distinct array to a distinct set of community partner ids
+        unique_comm_ids = set(proj_comm_ids)
+        # counts within the set of unique community partner ids
+        unique_comm_ids_count = len(unique_comm_ids)
+
+        project_count = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list).count()
+        project_counte = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list).count()
+        project_count = project_count + project_counte
+
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+        unique_camp_ids = set(proj_camp_ids)
+        unique_camp_ids_count = len(unique_camp_ids)
+
+        a = request.GET.get('weitz_cec_part', None)
+        b = request.GET.get('community_type', None)
+        if a is None or a == "All" or a == '':
+            if b is None or b == "All" or b == '':
+                project_count = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_ids1).count()
+                project_counte = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_ids1).count()
+                project_count = project_count + project_counte
+
+                proj_camp1 = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_ids1)
+                proj_camp1e = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_ids1)
+                proj_camp1 = proj_camp1 | proj_camp1e
+
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+                proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+                unique_camp_ids = set(proj_camp_ids)
+                unique_camp_ids_count = len(unique_camp_ids)
+
+        project_year_count.append(project_count)
+        year_community_counts.append(unique_comm_ids_count)
+        year_campus_counts.append(unique_camp_ids_count)
+        year_names.append(e.academic_year)
+
+    project_count_series = {
+        'name': 'Project Count',
+        'data': project_year_count,
+        'color': 'turquoise'}
+    community_partner_count_series = {
+        'name': 'Community Partner Count',
+        'data': year_community_counts,
+        'color': 'teal'}
+    campus_partner_count_series = {
+        'name': 'Campus Partner Count',
+        'data': year_campus_counts,
+        'color': 'blue'}
+    chart = {
+        'title': {'text': ''},
+        'yAxis': {'title': {'text': 'Projects/Partners'}},
+        'legend': {'layout': 'vertical','align': 'right','verticalAlign': 'middle'},
+        'plotOptions': {'series': {'label': {'connectorAllowed': 'false'},'pointStart': 2016}},
+        'series': [project_count_series, community_partner_count_series, campus_partner_count_series],
+        'responsive': {'rules': [{
+            'condition': {'maxWidth': 500},
+            'chartOptions': {'legend': {
+                'layout': 'horizontal',
+                'align': 'center',
+                'verticalAlign': 'bottom'}}}]}}
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    dump = json.dumps(chart)
+    return render(request, 'charts/trendreport.html',
+                  {'chart': dump, 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
+                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners})
 
 
 def EngagementType_Chart(request):

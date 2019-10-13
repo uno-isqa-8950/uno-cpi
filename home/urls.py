@@ -24,6 +24,7 @@ urlpatterns = [
    path('uploadIncome/', views.upload_income, name='upload_income'),
    path('missionchart/', views.missionchart, name='missionchart'),
    path('issueaddress/', views.issueaddress, name='issueaddress'),
+   path('trendreport/', views.trendreport, name='trendreport'),
    path('projectInfo/', views.project_partner_info, name='project_partner_info'),
    path('engageType/', views.engagement_info, name='engagement_info'),
    path('engagementtypechart2/' , views.EngagementType_Chart, name = 'EngagementType_Chart'),

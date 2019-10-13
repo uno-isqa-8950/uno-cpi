@@ -1257,6 +1257,16 @@ $(document).ready(function(){
     $('#id_semester').select2({placeholder: 'Select Semester',});
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
+    $('#id_address_line1').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+    $(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+       }).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+      }).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+     });
 });
  document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>

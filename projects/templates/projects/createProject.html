@@ -68,6 +68,9 @@
         margin-top: 5px;
         margin-left: 10px;
     }
+    input[id=id_project_name]{
+        margin-bottom: 0px;
+    }
     .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -137,7 +140,7 @@
     margin-top: 33px;
 }
 textarea[id=id_description]{
-    height:150px;
+    height:130px;
 }
 label[for=id_campus-0-campus_partner]:after{
     display: none;
@@ -234,18 +237,6 @@ display: flex;
 }
     </style>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-<!--<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">-->
-<!--<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>-->
-<!--<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>-->
-<div class="container-fluid">
-
-    <div class="row justify-content-md-center">
-            <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Create Project</h4></div>
-                       <div class="panel-body">
                              {% create_project_forms %}
         <form method="POST" onsubmit="checking()">{% csrf_token %}
 <!--                           <form method="POST">{% csrf_token %}-->
@@ -253,6 +244,14 @@ display: flex;
                                 {{categoryformset.management_form}}
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
+<div class="container-fluid">
+
+    <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Create Project</h4></div>
+                       <div class="panel-body">
+
 <div id="smartwizard">
     <ul>
         <li><a href="#step-1">Project Information</a></li>
@@ -277,7 +276,7 @@ display: flex;
                     {% endif %}
                 </div>
                     <div class="row">
-                        <label for="id_engagement_type" class="col-sm-4">
+                        <label class="col-sm-4">
 <!--                    <label for="id_engagement_type" class="col-sm-3">Engagement Type</label>-->
                     {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
@@ -318,7 +317,7 @@ display: flex;
                     <label class="col-sm-2">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
-                    <div class="col-sm-7">
+                    <div class="col-sm-8">
                     {{ project.description }}
                     </div>
                     {% if  project.description.errors %}
@@ -347,7 +346,7 @@ display: flex;
                                         <div class="row">
                                             <div class="form-group col">
                                                 <div class="row">
-                                                    <label for="id_semester" class="col-md-5">Start Semester</label>
+                                                    <label class="col-md-5">Start Semester</label>
                                                 <div class="col-sm-6">
                                                     {{ project.semester}}
                                                 </div>
@@ -356,7 +355,7 @@ display: flex;
                                                     {% endfor %} {% endif %}
                                                 </div>
                                                     <div class="row">
-                                            <label for="id_end_semester" class="col-md-5">End Semester</label>
+                                            <label class="col-md-5">End Semester</label>
                                                 <div class="col-sm-6">
                                                 {{ project.end_semester}}
                                                 </div>
@@ -377,7 +376,7 @@ display: flex;
                                                     {% endfor %} {% endif %}
                                                     </div>
                                                     <div class="row">
-                                                <label for="id_end_academic_year" class="col-md-5">End Academic Year</label>
+                                                <label class="col-md-5">End Academic Year</label>
                                                 <div class="col-sm-6">
                                                 {{ project.end_academic_year}}
                                                 </div>
@@ -607,57 +606,61 @@ display: flex;
                                             </div>
                                         </div>
                                         <div class="campus-fields displaybox row" id="campus-fields"></div>
-                                        <h5 style="padding-top: 10px"><b><u>Lead Staff Name</u></b></h5>
-                                        <br>
-                                        <div class="row">
+                                                      <div class="row"><br></div>
+                                          <div class="centered">
+                                             <a class="btn btn-link" href="/partners/registerCampusPartnerForProject" style="color: #d71920; background:none;"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Campus Partner?')">Not in list? Register a New Campus Partner</a>
 
-                                            <div class="col-md-5">
+                                        </div>
+                                    </div>
+</div>
+                                        {% endfor %}
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
+    <i class="fa fa-plus"></i> Lead Campus Staff
+</button>
+<div id="leadstaffinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                       <div class="row">
+
+                                            <div class="col-md-12">
                                                 <div class="row">
+<!--                                                    <div class="col-md-4">-->
+<!--                                                        <label style="padding-top: 10px">First Name</label>-->
+<!--                                                    </div>-->
                                                     <div class="col-md-4">
                                                         <label style="padding-top: 10px">First Name</label>
-                                                    </div>
-                                                    <div class="col-md-8">
                                                         <input id='firstname'  type='text' class = "inputbox">
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-5">
-                                                <div class="row">
                                                     <div class="col-md-4">
                                                         <label style="padding-top: 10px">Last Name</label>
-                                                    </div>
-                                                    <div class="col-md-8">
                                                         <input id='lastname'  type='text' class = "inputbox">
                                                     </div>
+                                                    <div class="col-md-1 centered">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-1">
-                                                <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 10px" id="submitname" aria-hidden="true"></i>
-                                            </div>
-                                            </div>
-                                            </div>
-<!--                                            <input id="final" type='text'>-->
+                                       </div>
                                             <div style="display: none">
 <!--                                                <div>-->
                                             {{ project.campus_lead_staff}}
                                             </div>
                                         <div class="row displaybox" id='display'>
                                         </div>
-<br>
 
-                                        <div class="centered">
-                                             <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Campus Partner?')">Not in list? Register a New Campus Partner</a>
+                                </div>
 
-                                        </div>
                                   </div>
 
-                        <p id="errorid1"></p>
-                                </div>
-             {% endfor %}
+
+
  <div class="row justify-content-end" style="margin-top:30px;">
 <div class="col-md-3" style="float: right">
 <!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
@@ -692,27 +695,6 @@ display: flex;
 
 
               {% for catform in categoryformset %}
-<!--             <div class="row">-->
-<!--                 <div class="col-md-4">-->
-<!--                    <br>-->
-<!--                    <label>-->
-<!--                                 Sub Category-->
-
-<!--                                </label>-->
-<!--                </div>-->
-<!--                                            <div class="col-md-8">-->
-<!--                                                <div class="sub_category-row">-->
-<!--                                                {{ catform.sub_category | bootstrap}}-->
-<!--&lt;!&ndash;                                        <div class="col">&ndash;&gt;-->
-<!--                                            <br>-->
-<!--                                            <div class="input-group-append" >-->
-<!--                                                <i class="fa fa-plus-square fa-2x add-campus-row" style="padding-top:30px" aria-hidden="true"></i>-->
-<!--                                            </div>-->
-<!--&lt;!&ndash;                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>&ndash;&gt;-->
-<!--                                            </div>-->
-<!--                                        </div>-->
-<!--                                        <div class="sub_category-fields displaybox row" id="sub_categoty-fields"></div>-->
-
             <div class="row">
                 <div class="col-md-4">
                     <br>
@@ -747,14 +729,16 @@ display: flex;
  </div>
         </div>
         <div id="step-4">
-               <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
+            <div class="row"><br></div>
+                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
     <i class="fa fa-plus"></i> Address
 </button>
 <div id="contactinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
+
                                         <div class="row">
+
                                             <div class="form-group col-md-6">
                                                 <div class="row">
                                               <label for="id_academic_year" class="col-sm-4">Address</label>
@@ -813,18 +797,14 @@ display: flex;
                                         </div>
 
                                 </div>
-     <div class="form-group">
+     <div class="form-group" style="display: none">
                                             <label for="id_status">Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
                                         </div>
                               </div>
-            <div class="row centered">
-                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
-                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
-                    of the Community Partnership Initiative.</p>
-            </div>
+
 <!--            <div class="row justify-content-md-center" style="margin-top:30px;">-->
 <!--                <div class="col-lg-2 col-md-5">-->
 <!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Submit</button></p>-->
@@ -842,7 +822,21 @@ display: flex;
         </div>
 
     </div>
-             <div class="row centered" style="margin-top:30px;">
+
+
+                       </div>
+                </div>
+            </div>
+</div>
+</div>
+    <div class="container-fluid">
+
+                 <div class="row centered">
+                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+                    of the Community Partnership Initiative.</p>
+            </div>
+                               <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
                  <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>
 <!--            </div>-->
@@ -850,13 +844,10 @@ display: flex;
                  <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton"> <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Submit</button>
                 <button name="cancel" id="cancel" class="redbutton"> <i class="fa fa-times-circle" style="color: white" aria-hidden="true"></i> Cancel</button>
  </div>
+    </div>
 
-                  </form>
-                       </div>
-                </div>
-            </div>
-</div>
-</div>
+</form>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -901,24 +892,33 @@ $(document).ready(function(){
 var elmForm = $("#form-step-"+stepNumber);
 if(stepDirection === 'forward') {
     if (stepNumber == 0) {
-        if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_activity_type").val() == '')) {
+        if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_semester").val() == '')||($("#id_academic_year").val() == '')) {
             alert("Please provide all required fields before proceeding to step 2.");
             return false;
         }
+            $('#submit').hide();
+
     }
     if (stepNumber == 1) {
         if ($("#id_campus-0-campus_partner").val() == '') {
             alert("Please provide all required fields before proceeding.");
             return false;
         }
+            $('#submit').hide();
     }
     if (stepNumber == 2) {
         if ($("#id_mission-0-mission").val() == '') {
             alert("Please provide all required fields before proceeding.");
             return false;
         }
+        else {
+            $('#submit').show();
+        }
     }
 }
+if (stepDirection === 'backward') {
+            $('#submit').hide();
+        }
         return true;
     });
 $('#id_k12_flag').change(function () {
@@ -927,6 +927,7 @@ $('#id_k12_flag').change(function () {
     }
 });
     $('#id_project_name').addClass('inputbox');
+    $('#submit').hide();
     $("#k12-students").hide();
     $('#step-2').hide();
     $('#step-3').hide();
@@ -1019,13 +1020,15 @@ var subcategory_ids=[];
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();
-    if (selected == '') {
+    if (selected == ' ') {
         alert('you cannot add empty value');
+        $(selector).val(' ');
         return;
     }
     if (prefix == 'community') {
         if (community_ids.includes(selected)) {
             alert('community already added');
+            $(selector).val(' ');
             return;
         }
         community_ids.push(selected);
@@ -1246,7 +1249,6 @@ $(document).ready(function(){
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
 });
-document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single
@@ -1325,14 +1327,34 @@ return true;
 $(document).ready(function () {
     $('#id_status').hide();
 $('#draft').click(function(){
-    $('#id_status option[value=5]').attr('selected','selected');
-console.log('draft')
 
-});
+    $('#id_status option[value=5]').attr('selected','selected');
+console.log('draft');
+    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
+        alert("Please provide Project Name and Academic Year to save as Draft");
+        return false;
+    }
+    else{
+        return true;
+    }
+
 });
 
 $('#submit').click(function () {
      $('#id_status option[value=1]').attr('selected','selected');
+     document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+     // if($('#terms'))
+
+});
+    // if($("#addresscheck").checked === true){
+    //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){
+    //         alert("Provide all location details");
+    //         return false
+    //     }
+    //     else{
+    //         return true
+    //     }
+    // }
         window.onsubmit = function checking() {
         var id_name = document.getElementById('id_mission-0-mission');
         var id_campus = document.getElementById('id_campus-0-campus_partner');

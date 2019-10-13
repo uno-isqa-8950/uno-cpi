@@ -6,13 +6,13 @@ from django.contrib.postgres.fields import ArrayField
 
 class Project (models.Model):
     project_name = models.CharField(max_length=255, unique=True)
-    engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
+    engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True,blank=True)
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
-    description = models.TextField(blank=True, null=True)
-    semester = models.CharField(max_length=20, blank=False)
-    end_semester = models.CharField(max_length=20, blank=True)
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
+    description = models.TextField(blank=True,  null=True)
+    semester = models.CharField(max_length=20, null=True, blank=True)
+    end_semester = models.CharField(max_length=20, null=True, blank=True)
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE,  null=True, blank=True, related_name = "academic_year1")
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
@@ -25,7 +25,7 @@ class Project (models.Model):
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)
     outcomes = models.CharField(max_length=100, null=True, blank=True)
-    status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True, default=1)
+    status = models.ForeignKey('Status', on_delete=models.CASCADE,  null=True, blank=True, default=1)
     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True, default=0)
     address_line1 = models.CharField(max_length=1024, blank=True, null=True)
     address_line2 = models.CharField(max_length=1024, blank=True, null=True)
@@ -53,7 +53,6 @@ class Project (models.Model):
 
     def __str__(self):
         return str(self.project_name)
-
 
 class SubCategory (models.Model):
     sub_category = models.CharField(max_length=30, blank=True, null=False)

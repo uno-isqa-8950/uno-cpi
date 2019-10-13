@@ -58,7 +58,7 @@ class DateInput(forms.DateInput):
 class ProjectForm2(ModelForm):
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
-    semester = forms.ChoiceField(required=True, choices=SEMESTER)
+    semester = forms.ChoiceField(required=False, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
 
     """class MyForm(forms.Form):
@@ -244,16 +244,16 @@ class ProjectFormAdd(ModelForm):
 
         return facilitator
 
-    def clean_semester(self):
-        semester = self.cleaned_data['semester']
-        sem = semester.split('-')
-
-        if len(sem) < 0:
-            raise forms.ValidationError("Semester should contain -")
-        if sem[0] not in ['Fall', 'Spring', 'Summer']:
-            raise forms.ValidationError("Please enter Summer, Spring or Fall")
-
-        return semester
+    # def clean_semester(self):
+    #     semester = self.cleaned_data['semester']
+    #     sem = semester.split('-')
+    #
+    #     if len(sem) < 0:
+    #         raise forms.ValidationError("Semester should contain -")
+    #     if sem[0] not in ['Fall', 'Spring', 'Summer']:
+    #         raise forms.ValidationError("Please enter Summer, Spring or Fall")
+    #
+    #     return semester
 
     # def clean_total_uno_students(self):
     #     total_uno_students = self.cleaned_data['total_uno_students']
@@ -268,40 +268,40 @@ class ProjectFormAdd(ModelForm):
     #     if type(total_uno_hours)  != int :
     #         raise forms.ValidationError("Hours cannot be blank.If not sure at this time please insert 0 ")
 
-    def clean_total_k12_students(self):
-        total_k12_students = self.cleaned_data['total_k12_students']
-
-        if type(total_k12_students) != int:
-            raise forms.ValidationError("Number of K12 Students cannot be blank.If not sure at this time please insert 0")
-        return total_k12_students
-
-    def clean_total_k12_hours(self):
-        total_k12_hours = self.cleaned_data['total_k12_hours']
-
-        if type(total_k12_hours) not in [int, float]:
-            raise forms.ValidationError("Number of K12 Hours cannot be blank.If not sure at this time please insert 0")
-        return total_k12_hours
-
-    def clean_total_uno_faculty(self):
-        total_uno_faculty = self.cleaned_data['total_uno_faculty']
-
-        if type(total_uno_faculty) != int:
-            raise forms.ValidationError("Faculty cannot be blank.If not sure at this time please insert 0.")
-        return total_uno_faculty
-
-    def clean_total_other_community_members(self):
-        total_other_community_members = self.cleaned_data['total_other_community_members']
-
-        if type(total_other_community_members) != int:
-            raise forms.ValidationError("Participantscannot be blank.If not sure at this time please insert 0")
-        return total_other_community_members
-
-    def clean_country(self):
-        country = self.cleaned_data['country']
-
-        if any(char.isdigit() for char in country):
-            raise forms.ValidationError("Country name contain numbers")
-        return country
+    # def clean_total_k12_students(self):
+    #     total_k12_students = self.cleaned_data['total_k12_students']
+    #
+    #     if type(total_k12_students) != int:
+    #         raise forms.ValidationError("Number of K12 Students cannot be blank.If not sure at this time please insert 0")
+    #     return total_k12_students
+    #
+    # def clean_total_k12_hours(self):
+    #     total_k12_hours = self.cleaned_data['total_k12_hours']
+    #
+    #     if type(total_k12_hours) not in [int, float]:
+    #         raise forms.ValidationError("Number of K12 Hours cannot be blank.If not sure at this time please insert 0")
+    #     return total_k12_hours
+    #
+    # def clean_total_uno_faculty(self):
+    #     total_uno_faculty = self.cleaned_data['total_uno_faculty']
+    #
+    #     if type(total_uno_faculty) != int:
+    #         raise forms.ValidationError("Faculty cannot be blank.If not sure at this time please insert 0.")
+    #     return total_uno_faculty
+    #
+    # def clean_total_other_community_members(self):
+    #     total_other_community_members = self.cleaned_data['total_other_community_members']
+    #
+    #     if type(total_other_community_members) != int:
+    #         raise forms.ValidationError("Participantscannot be blank.If not sure at this time please insert 0")
+    #     return total_other_community_members
+    #
+    # def clean_country(self):
+    #     country = self.cleaned_data['country']
+    #
+    #     if any(char.isdigit() for char in country):
+    #         raise forms.ValidationError("Country name contain numbers")
+    #     return country
 
     # def clean_state(self):
     #     state = self.cleaned_data['state']

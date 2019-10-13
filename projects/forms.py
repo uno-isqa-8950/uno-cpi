@@ -10,11 +10,23 @@ from django.forms import ModelForm
 
 
 K12_CHOICES = [
-    ('All', 'All Projects'), ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
+    ('All', 'All'), ('Yes', 'Yes'), ('No', 'No')]
 
 
 class K12ChoiceForm(forms.Form):
     k12_choice = forms.ChoiceField(label="K-12 Choices", choices=K12_CHOICES, required=False)
+
+
+CEC_BLDG_PARTNER_CHOICES = [
+    ('Curr_Comm', 'Current Community Building Partners'),
+    ('Curr_Camp', 'Current Campus Building Partners'),
+    ('Former_Comm', 'Former Community Building Partners'),
+    ('Former_Camp', 'Former Campus Building Partners'),
+]
+
+
+class CecPartChoiceForm(forms.Form):
+    cec_part_choice = forms.ChoiceField(label="CEC Building Partner Choices", choices=CEC_BLDG_PARTNER_CHOICES, required=False)
 
 
 class ProjectForm(forms.ModelForm):

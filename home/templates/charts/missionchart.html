@@ -129,7 +129,7 @@
             <!--<form id="filters-form" method="get">-->
                 <form class="form-inline" id="filters-form" method="get">
                     <div class="col-lg-4 col-md-5 form-group">
-                        <label for="academicyear"> Academic Years
+                        <label for="academicyear">
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 32%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -137,6 +137,7 @@
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
+                             Academic Years
                         </label>
                             <select id="id_academicyear" name="academic_year" onchange="this.form.submit()">
                                 <option> All </option>
@@ -147,7 +148,7 @@
                     </div>
 
                     <div class="col-lg-4 col-md-5 form-group">
-                        <label for="engagement_type"> Engagement Types
+                        <label for="engagement_type">
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 31%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -155,6 +156,7 @@
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
+                            Engagement Types
                         </label>
  &emsp;                         <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                                 <option> All </option>
@@ -165,7 +167,7 @@
                     </div>
 
                     <div class="col-lg-4 col-md-5 form-group">
-                        <label for="community_type"> Community Partner Types
+                        <label for="community_type">
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 33%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -173,6 +175,7 @@
                                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
+                            Community Partner Types
                         </label>
                         <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                             <option> All </option>
@@ -183,25 +186,26 @@
                     </div>
 
                     <div class="col-lg-4 col-md-5 form-group ">
-                                <label for="college-name"> Colleges and Main Units
-                                     {% for data_definition in data_definition %}
+                        <label for="college-name">
+                            {% for data_definition in data_definition %}
                                 {% if data_definition.id == 43%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                          data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    data-content="{{ data_definition.description }}" class="float" >
+                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
-                                </label>
-                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
-                                        <option> All </option>
-                                            {% for college in college_filter.form.college_name %}
-                                                {{college}}
-                                            {% endfor %}
-                                    </select>
+                            Colleges and Main Units
+                        </label>
+                        <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for college in college_filter.form.college_name %}
+                                {{college}}
+                            {% endfor %}
+                        </select>
                     </div>
 
                     <div class="col-lg-4 col-md-5 form-group">
-                        <label for="campus_partner"> Campus Partners
+                        <label for="campus_partner">
                         {% for data_definition in data_definition %}
                                 {% if data_definition.id == 1%}
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -209,6 +213,7 @@
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
+                            Campus Partners
                         </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                 <option> All </option>
@@ -219,7 +224,7 @@
                             </select>
                     </div>
                     <div class="col-lg-4 col-md-5 form-group">
-                    <label for="weitz_cec_part"> CEC Community Building Partners
+                    <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -227,6 +232,7 @@
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
+                        CEC Community Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>

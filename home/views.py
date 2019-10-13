@@ -1040,7 +1040,7 @@ def trendreport(request):
         'title': {'text': ''},
         'xAxis': {'categories': year_names,
                   'title': {'text': 'Academic Years',
-                            'style': {'fontWeight': 'bold', 'color': 'black','fontSize': '13px'}}},
+                            'style': {'fontWeight': 'bold', 'color': 'black','fontSize': '15px'}}},
         'yAxis': {'title': {'text': 'Projects/Partners',
                             'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
         'plotOptions': {'series': {'dataLabels': {'style': {'fontSize': '8px'}}}},

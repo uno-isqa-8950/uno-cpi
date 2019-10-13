@@ -1038,16 +1038,30 @@ def trendreport(request):
         'color': 'blue'}
     chart = {
         'title': {'text': ''},
-        'yAxis': {'title': {'text': 'Projects/Partners'}},
-        'legend': {'layout': 'vertical','align': 'right','verticalAlign': 'middle'},
-        'plotOptions': {'series': {'label': {'connectorAllowed': 'false'},'pointStart': 2016}},
+        'xAxis': {'categories': year_names,
+                  'title': {'text': 'Academic Years',
+                            'style': {'fontWeight': 'bold', 'color': 'black','fontSize': '13px'}}},
+        'yAxis': {'title': {'text': 'Projects/Partners',
+                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
+        'plotOptions': {'series': {'dataLabels': {'style': {'fontSize': '8px'}}}},
         'series': [project_count_series, community_partner_count_series, campus_partner_count_series],
+        'legend': {
+            'layout': 'horizontal',
+            'align': 'right',
+            'verticalAlign': 'top',
+            'x': -10,
+            'y': 50,
+            'borderWidth': 1,
+            'backgroundColor': '#FFFFFF',
+            'shadow': 'true'
+        },
         'responsive': {'rules': [{
             'condition': {'maxWidth': 500},
             'chartOptions': {'legend': {
                 'layout': 'horizontal',
                 'align': 'center',
-                'verticalAlign': 'bottom'}}}]}}
+                'verticalAlign': 'bottom'}}}]}
+    }
 
     college_value = request.GET.get('college_name', None)
     if college_value is None or college_value == "All" or college_value == '':

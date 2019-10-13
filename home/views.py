@@ -1,7 +1,6 @@
 import json
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
-from django.db import connection
 from django.forms import modelformset_factory
 from django.utils.decorators import method_decorator
 from django.shortcuts import render
@@ -53,8 +52,11 @@ import sys
 import psycopg2
 import json
 import datetime
+# The imports below are for running sql queries for Charts
+from django.db import connection
+from UnoCPI import sqlfiles
 
-
+sql=sqlfiles
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -388,7 +390,7 @@ def project_partner_info(request):
     hours_total = 0
 
     legislative_choices = []
-    legislative_search = '';
+    legislative_search = ''
    
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -445,10 +447,14 @@ def project_partner_info(request):
     proj_comm_ids = [community.community_partner_id for community in proj_comm]
 
     for m in missions:
+        project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
+        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
+        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
+        
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
@@ -460,6 +466,8 @@ def project_partner_info(request):
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
                         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids).count()
+                        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=community_filtered_ids)
+                        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
 
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
@@ -474,12 +482,27 @@ def project_partner_info(request):
         total_uno_hours = 0
 
         for pm in p_mission:
+            project_id_list.append(pm.project_name_id)
             uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
+
         mission_dict['total_uno_hours'] = total_uno_hours
         mission_dict['total_uno_students'] = total_uno_students
+        mission_dict['project_id_list'] = project_id_list
+        mission_dict['comm_id_list'] = comm_id_list
+        comm_ids = ''
+        name_count=0
+        
+        for i in comm_id_list:
+            comm_ids = comm_ids+str(i)
+
+            if name_count < len(comm_id_list)-1:
+                comm_ids = comm_ids + str(",")
+                name_count = name_count + 1
+
+        mission_dict['comm_ids'] = comm_ids
         mission_list.append(mission_dict.copy())
         proj_total += project_count
         comm_total += community_count
@@ -769,7 +792,7 @@ def missionchart(request):
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
-# Chart for projects with isssue address analysis
+# Chart for projects with issues addressed analysis  ~Naresh
 
 def issueaddress(request):
     missions = MissionArea.objects.all()
@@ -777,22 +800,41 @@ def issueaddress(request):
     data_definition = DataDefinition.objects.all()
     project_count_data = list()
     partner_count_data = list()
+    cursor = connection.cursor()
+    cursor.execute(sql.missionareas_sql)
+    acend=cursor.execute(sql.academic_sql)
+    acstart=0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
     for m in missions:
         mission_area1.append(m.mission_name)
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         start = request.GET.get('academic_year')
         end = request.GET.get('end_academic_year')
-        if start == '' or start == None:
-                start = 0
-        if end == '' or end == None:
-            end = 5
-        if start==end and not None:
-            start=0
-            end=end
+        # print("start", start)
+        # print("end", end)
+        if start=='' and end=='':
+            # print("strt ==end==blank")
+            start=acstart
+            end=acend
+        elif start=='' and end!='':
+            # print("bank vaue")
+            start=acstart
+        elif end=='' and start!='' :
+            # print("value blank")
+            end=acend
+        if start==None and end==None:
+            # print("strt ==end==none")
+            start=acstart
+            end=acend
+
+      #  print("start year from req ",start)
+     #   print("end yaer from req",end)
+    #print("start year from req ", start)
+    #print("end yaer from req", end)
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
@@ -800,26 +842,14 @@ def issueaddress(request):
     else:
         a_year = str(year - 1) + "-" + str(year)[-2:]
 
+
+    #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
     start_yr_id = start
     end_yr_id = end
-    cursor = connection.cursor()
-    missions_sql = "SELECT MA.id, COALESCE(count,0) " \
-                   "FROM home_missionarea MA " \
-                   "LEFT JOIN " \
-                   "(SELECT mission_id, count(*) as count " \
-                   "FROM projects_projectmission PM " \
-                   "INNER JOIN projects_project P " \
-                   "   ON PM.project_name_id = P.id " \
-                   "WHERE P.academic_year_id <= %(yr_id)s " \
-                   "   AND P.end_academic_year_id is null OR P.end_academic_year_id >= %(yr_id)s " \
-                   "GROUP BY PM.mission_id) as TB " \
-                   "ON MA.id = TB.mission_id; "
-    missionareas_sql = "SELECT MA.id  FROM home_missionarea MA"
-    cursor.execute(missionareas_sql)
     ma = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': start_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': start_yr_id})
     start = cursor.fetchall()
-    cursor.execute(missions_sql, {'yr_id': end_yr_id})
+    cursor.execute(sql.missions_sql, {'yr_id': end_yr_id})
     end = cursor.fetchall()
     json_data = []
     start_json_data = []
@@ -856,12 +886,12 @@ def issueaddress(request):
     Min = min(maxend)
 
     Academic_Year = {
-        'name': 'From Academic_Year',
+        'name': 'From Academic Year',
         'data': start_json_data,
         'color': 'turquoise',
         'type':'scatter'}
     End_Academic_Year = {
-        'name': 'To Academic_Year',
+        'name': 'To Academic Year',
         'data': end_json_data,
         'color': 'teal',
         'type': 'scatter'}
@@ -888,16 +918,17 @@ def issueaddress(request):
             },
         'plotOptions': {
             'xrange': {
+                'pointWidth': 10,
                 'dataLabels': {
                     'enabled': 'true',
                     'style': {
-                        'fontSize': '9px'
+                        'fontSize': '6px'
                     }
                 }
             },
             'scatter': {
                 'marker': {
-                    'radius': 15,
+                    'radius': 10,
                     'symbol':'circle'
                     }
                 }
@@ -914,6 +945,8 @@ def issueaddress(request):
         },
         'series': [project_over_academic_years,Academic_Year,End_Academic_Year]
     }
+
+
 
     dump = json.dumps(dumbellchart)
     return render(request, 'charts/issueaddressanalysis.html',

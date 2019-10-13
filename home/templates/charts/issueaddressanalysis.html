@@ -266,5 +266,34 @@ $(document).ready(function(){
             $('[data-toggle="popover"]').popover()
         })
     </script>
+
+
+
+    <script>
+    $("#id_endacademicyear").change(function () {
+        var fromacademicyear=$("#id_academicyear").val();
+        var toacademicyear=$("#id_endacademicyear").val();
+        if (fromacademicyear>toacademicyear ){
+            alert("Hello User! Please Select To Academic Year Greater Than From AcademicYear");
+            $("#id_endacademicyear").val('')
+            $("#id_academicyear").val('')
+        }
+
+
+
+    })
+    $("#id_academicyear").change(function () {
+        var fromacademicyear=$("#id_academicyear").val();
+        var toacademicyear=$("#id_endacademicyear").val();
+        if (toacademicyear>fromacademicyear){
+            alert("Hello User! Please Select To Academic Year Greater Than From AcademicYear");
+            $("#id_endacademicyear").val('')
+            $("#id_academicyear").val('')
+        }
+
+
+
+    })
+    </script>
 {% endblock %}
 

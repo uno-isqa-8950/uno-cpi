@@ -798,43 +798,28 @@ def issueaddress(request):
     missions = MissionArea.objects.all()
     mission_area1 = list()
     data_definition = DataDefinition.objects.all()
-    project_count_data = list()
-    partner_count_data = list()
     cursor = connection.cursor()
     cursor.execute(sql.missionareas_sql)
     acend=cursor.execute(sql.academic_sql)
     acstart=0
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     for m in missions:
         mission_area1.append(m.mission_name)
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
         start = request.GET.get('academic_year')
         end = request.GET.get('end_academic_year')
-        # print("start", start)
-        # print("end", end)
         if start=='' and end=='':
-            # print("strt ==end==blank")
             start=acstart
             end=acend
         elif start=='' and end!='':
-            # print("bank vaue")
             start=acstart
         elif end=='' and start!='' :
-            # print("value blank")
             end=acend
         if start==None and end==None:
-            # print("strt ==end==none")
             start=acstart
             end=acend
 
-      #  print("start year from req ",start)
-     #   print("end yaer from req",end)
-    #print("start year from req ", start)
-    #print("end yaer from req", end)
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
@@ -842,8 +827,6 @@ def issueaddress(request):
     else:
         a_year = str(year - 1) + "-" + str(year)[-2:]
 
-
-    #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
     start_yr_id = start
     end_yr_id = end
     ma = cursor.fetchall()
@@ -905,7 +888,7 @@ def issueaddress(request):
             'type': 'xrange'
         },
         'title': {
-            'text': 'Project Missions Over Years'
+            'text': ''
         },
         'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
                                                     'style': {'fontWeight': 'bold', 'color': 'black',
@@ -945,8 +928,6 @@ def issueaddress(request):
         },
         'series': [project_over_academic_years,Academic_Year,End_Academic_Year]
     }
-
-
 
     dump = json.dumps(dumbellchart)
     return render(request, 'charts/issueaddressanalysis.html',

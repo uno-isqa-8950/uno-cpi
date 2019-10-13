@@ -8,7 +8,7 @@ class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['engagement_type','academic_year', ]
+        fields = ['engagement_type','academic_year','end_academic_year'  ]
 
 
 class legislativeFilter(django_filters.FilterSet):
@@ -53,7 +53,7 @@ class communityPartnerFilter(django_filters.FilterSet):
 
     class Meta:
         model = CommunityPartner
-        fields = ["weitz_cec_part", "community_type"]
+        fields = ["weitz_cec_part", "community_type", "id"]
 
 
 class CampusFilter(django_filters.FilterSet):

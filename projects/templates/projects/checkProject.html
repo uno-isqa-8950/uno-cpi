@@ -1,137 +1,113 @@
-{% extends 'home/base_home.html' %}
-{% load bootstrap %}
+{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
 {% load wagtailcore_tags register_tags %}
-{% block content %}
-  <style>
-
-  @media screen and (max-width: 768px) {
-    .select2 {
-        width: 95% !important;
-    }
-}
 
 
-.select2-container--default .select2-selection--single
-{
-    {#border: 2px solid #aaa;#}
-    height:35px;
-    margin-left:3%;
-    margin-right: -2%;
-    max-width: 100%;
-}
-    label
-    {
-        margin-left: 25px;
-        font-weight: bold;
-    }
-
-    {
-        content:"*" ;
-        color:red
-    }
-
-    h4
-    {
-        line-height: 2.7;
-        font-size: 1.3em;
-    }
-
-    .h9{
-        font-size:0.8em;
-        font-style: italic;
-    }
-
-    .btn-link{
-
-        font-size: small;
-        font-style: italic;
-    }
-
-    .panel {
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
+<style>
+  A.class1 {color:red;}
+A.class1:link  {text-decoration: underline; color: red;}
+</style>
 
 
-  select[id=id_form-0-campus_partner]
-   {
-       width:93%;
-   }
-
-
-   .btn-link, .btn-link:hover
-
-   {
-   color: #d71920
-   }
-
-
-    </style>
-    <div class = "container">
-        <div class="row justify-content-md-center">
-            <div class="col-lg-10 col-md-10">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4>Create Project</h4></div>
-                      <div class="panel-body">
-                            <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% create_projects %}
-                                </div>
-                             </div>
-                      </div>
-                    <div class="panel-body">&emsp;
-                        <div class="dropdown" style="margin-bottom: 2%">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 7%">
-                                Search Type
-                            </button>
-                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                <a class="dropdown-item" href="#">Keyword</a>
-                                <a class="dropdown-item" href="#">Project Name</a>
-                            </div>
-                        </div>
-
-                        <form method="POST" onsubmit="return false">{% csrf_token %}
-                            <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" class="form-control clearable" >
-                            <span id="searchclear" class="glyphicon glyphicon-remove-circle"></span>
-                            <!--added for search by naresh --->
-                        </form>
-                        <div class="justify-content-md-center" style="margin-left: 40%; margin-top: 2%; margin-bottom: 2%">
-                        <a id="next" class="btn btn btn-secondary btn-md" href="#" role="button"><i class="fa fa-angle-double-right"></i>
-                            Next</a>
-                            </div>
-                    </div>
-                </div>
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <div class = "panel-default" style="width:100%">
+               <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>
+               </div>
             </div>
+            <div class="card" style="padding: 10px;">
+                <div class="container">
+                    {% priv_projs %}
+                </div>
+           </div>
         </div>
     </div>
 
-
-    <div class = "container">
-        <div class="row justify-content-md-center">
-            <div class="col-lg-10 col-md-10">
-                    <div class="panel-body">&emsp;
-                        <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
-                        <div class="justify-content-md-center" id="node1-id" style="margin-left: 20%"></div>
-                        <div class="justify-content-md-center" id="button-id" style="margin-left: 20%"></div>
-                    </div>
+   <div class="card" style="padding: auto ">
+     <div class="container" style="padding:10px;position: relative">
+      <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class="collapse show" id="collapseExample">
+            <div class="form-inline" id="filters-form" method="get">
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="academic_year"> Academic Years
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select id="id_academic_year" name="academic_year" YearValue="{{sem}}">
+                        {% for sem in projects.form.academic_year %}
+                           <option selected="selected"> {{sem}} </option>
+                        {% endfor %}
+                    </select>
                 </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="campus_partner"> Campus Partners
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 1%}
+                        {% endif %}
+                    {% endfor %}
+                    </label>
+                    <select id="id_campus_partner" name="campus_partner" CampValue=" ">
+                        {% for campus in campus_filter.form.campus_partner %}
+                        <option selected="selected"> {{campus}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="community_type"> Community Partner Types
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 33%}
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select id="id_community_type" name="community_type" CompValue="">
+                        {% for name in community_filter.form.community_partner %}
+                        <option selected="selected"> {{name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                   <form class="form-inline" method="POST" onsubmit="return false">{% csrf_token %}
+                        <label for="project_name"> Project Name
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                            {% endif %}
+                        {% endfor %}
+                       </label>
+                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" required>
+                   </form>
+                 </div>
+                 <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
+                        <a id="Search" class="btn btn btn-secondary btn-md" href="#" role="button" data-toggle="tooltip" title="Search for an existing Project" ><i class="fa fa-angle-double-right"></i>Search</a>
+                 </div>
             </div>
         </div>
+      </div>
+         <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
+         <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
+         <div>
+            <div class="panel-body">&emsp;
+                <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
+            </div>
+     </div>
+   </div>
+</div>
+
+                {{ projectNames | json_script:"project-data"}}
+
+                <div style="margin-bottom: 300px"></div>
+     </div>
     </div>
 
+</div>
 
-     {{ projectNames | json_script:"project-data"}}
-
-<div style="margin-bottom: 300px"></div>
-
-<script>
-
+    </div>
+                <script>
 var valueFilter = document.getElementById("project_name");
-
+var valueAceYear = document.getElementById("id_academic_year");
+var valueCamPart = document.getElementById("id_campus_partner");
+var valueComPart = document.getElementById("id_community_type");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     if (e.keyCode == 8) {
@@ -140,39 +116,48 @@ valueFilter.addEventListener("keydown", function (e) {
         document.getElementById('button-id'). innerHTML = "";
     }
 });
-
 // the listening button off
 valueFilter.addEventListener("keyup", function (e) {
     project_db = JSON.parse(document.getElementById('project-data').textContent);
     //get the input value
     var value = e.target.value.trim().toLowerCase();
+    var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
+    var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
+    var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
     var projectlist = []
     var partnerlist = []
+    // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table and added a displayAddprojectFlag
     var campuspartnerlist = [];
+    var academicyearlist = [];
     var displayAddProjectFlag =2;
-    if (value == "")
+    if ((value == "") && (YearValue == ""))
     {
         document.getElementById('node-id'). innerHTML = "";
         document.getElementById('node1-id'). innerHTML = "";
         document.getElementById('button-id'). innerHTML = "";
     }
-    else if(!(value == ""))
+    else if(!((value == "") && (YearValue == "")))
     {
         projectlist = [];
         {#if (e.keyCode == 32 || e.keyCode == 13) {#}
-        document.getElementById('next').onclick= function myfunction() {
-            document.getElementById('next').onclick= null;
+        document.getElementById('Search').onclick= function myfunction() {
+            var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
+            var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
+            var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
+            document.getElementById('Search').onclick= null;
             for (var i = 0; i < project_db.length; i++)
+                             // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
+                            //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
             {
-                if (project_db[i][0].toLowerCase().includes(value.toLowerCase()))
+                if ((project_db[i][0].toLowerCase().includes(value.toLowerCase())) && (project_db[i][0].toLowerCase().includes(YearValue.toLowerCase())) && (project_db[i][2].toLowerCase().trim().includes(CampValue.toLowerCase().trim())) && (project_db[i][1].toLowerCase().trim().includes(CompValue.toLowerCase().trim())))
                 {
-                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist)) {
+                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist && project_db[i][3] in academicyearlist)) {
                         projectlist.push(project_db[i][0]);
                         partnerlist.push(project_db[i][1]);
-                         // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table
                         campuspartnerlist.push(project_db[i][2]);
+                        academicyearlist.push(project_db[i][3]);
                         var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
-                            '<tr><th>Project Name and the Academic Year</th>' +
+                            '<tr><th>Academic Year</th>' + '<th>Project Name</th>' +
                             '<th>Community Partner</th>' + '<th>Campus Partner</th></tr>';
                         for (let j =0; j<projectlist.length;j++ ){
                              // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
@@ -186,7 +171,7 @@ valueFilter.addEventListener("keyup", function (e) {
                                 displayAddProjectFlag = 0;
                             }
                             mylist +='<tr>' +
-                                '<td>' + projectlist[j] + '</td>' +
+                                '<td>'  + academicyearlist[j] + '</td>' + '<td><a href="/allProjects?p_name='+ projectlist[j].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + projectlist[j].split(':').slice(0,-1).join(':') + '</a></td>' +
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
                                     '<td>'  + partnerlist[j] + '</td>' + '<td>' + campuspartnerlist[j] + '</td>' +
                                     '</tr>'
@@ -194,21 +179,33 @@ valueFilter.addEventListener("keyup", function (e) {
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
-                                '<tr><td>The following projects closely match your search and already exist in the database. Please ensure that the project you are trying to enter is not listed before proceeding.</td></tr><br><br>' +
+                                '<br><br>' +
                                  mylist
-                        document.getElementById('node1-id').innerHTML =
+                       /* document.getElementById('node1-id').innerHTML =
                             '<br>' +
                             '<tr><td>Click on ‘All Projects’ to access a list of all community engagement projects in the database. </td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'*/
+                       document.getElementById('node1-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
-
-                     if(displayAddProjectFlag == 0){
+                    /* if(displayAddProjectFlag == 0){
                        var projectName = document.getElementById('project_name').value;
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
                             '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             ' Create Project</a></td></tr>'
+                        document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+                     }*/
+                    if(displayAddProjectFlag == 0){
+                       var projectName = document.getElementById('project_name').value;
+                        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                      }
                     }
@@ -221,17 +218,13 @@ valueFilter.addEventListener("keyup", function (e) {
                          document.getElementById('node1-id'). innerHTML = "";
                          document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button" data-toggle="tooltip" title="Click on this button to create a new project" ><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             ' Create Project</a></td></tr>'
                          document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                 }
         }
     };
 });
-
-
-
 $("#dropdownMenuButton").on("click", function() {
   $('.dropdown-menu').toggleClass('open');
 });
@@ -239,14 +232,46 @@ $(".dropdown-menu a").on("click", function() {
   $('#dropdownMenuButton').text($(this).text());
   $('.dropdown-menu').removeClass('open');
 });
-
 $("#button-id").on("click",function () {
     valueFilter.value ="";
 })
-
 $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
+</script>
+            </div>
+    </div>
+        <br> <br> <br>
+    {% endblock %}
+        {% block selectizeForm %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+        <script>
+$(document).ready(function(){
+    $('#project_name').attr({placeholder: 'Project Name',width: '225px'});
+    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '225px'});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '225px',
+                                        sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+    });
+// submit when enter-Parimita
+$("#project_name").keyup(function(event){
+      if(event.keyCode== 13){
+        $("#Search").click();
+        }
+    });
 // added for search by Naresh
 $('#project_name').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
@@ -257,10 +282,41 @@ $(document).on('input', '.clearable', function(){
 }).on('touchstart click', '.onX', function( ev ){
     ev.preventDefault();
     $(this).removeClass('x onX').val('').change();
-
 });
+</script>
+        {% endblock %}
+        {% block js %}
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+        <script type="text/javascript">
+   $(document).ready(function() {
+   $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
+   } );
+</script>
+        <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
 
-
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
 </script>
 
 {% endblock %}

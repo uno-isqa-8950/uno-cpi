@@ -238,8 +238,8 @@ display: flex;
     </style>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
                              {% create_project_forms %}
-        <form method="POST" onsubmit="checking()">{% csrf_token %}
-<!--                           <form method="POST">{% csrf_token %}-->
+<!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
+                           <form method="POST">{% csrf_token %}
                                 {{formset.management_form}}
                                 {{categoryformset.management_form}}
                                 {{formset2.management_form}}
@@ -268,13 +268,14 @@ display: flex;
                     <label for="id_project_name" class="col-sm-4">Project Name</label>
                     <div class="col-sm-7">
                     {{ project.project_name }}
-                    </div>
+
                     {% if  project.project_name.errors %}
                     {% for error in  project.project_name.errors %}
-                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                        <div class="alert alert-danger"><h6 class="alerttxt">{{ error|escape }}</h6></div>
                     {% endfor %}
                     {% endif %}
                 </div>
+                    </div>
                     <div class="row">
                         <label class="col-sm-4">
 <!--                    <label for="id_engagement_type" class="col-sm-3">Engagement Type</label>-->
@@ -866,7 +867,7 @@ $(document).ready(function(){
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        //  showStepURLhash:false,
+         showStepURLhash:false,
         // contentCache:true,
         toolbarSettings: {
             // toolbarPosition:'top',
@@ -891,24 +892,37 @@ $(document).ready(function(){
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 var elmForm = $("#form-step-"+stepNumber);
 if(stepDirection === 'forward') {
-    if (stepNumber == 0) {
-        if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_semester").val() == '')||($("#id_academic_year").val() == '')) {
-            alert("Please provide all required fields before proceeding to step 2.");
-            return false;
+    if (stepNumber === 0) {
+
+        if(($("#id_project_name").val() === '')){
+            alert("Please provide Project name to proceed.");
+            return false
+        }
+        if( ($("#id_engagement_type").val() === '') ){
+            alert("Please enter Engagement type.");
+            return false
+        }
+        if(($("#id_semester").val() === '')){
+            alert("Please provide Project start semester.");
+            return false
+        }
+        if($("#id_academic_year").val() === ''){
+            alert("Please provide Project start academic year.");
+            return false
         }
             $('#submit').hide();
 
     }
-    if (stepNumber == 1) {
-        if ($("#id_campus-0-campus_partner").val() == '') {
-            alert("Please provide all required fields before proceeding.");
+    if (stepNumber === 1) {
+        if ($("#id_campus-0-campus_partner").val() === '') {
+            alert("Please provide Campu partner before proceeding.");
             return false;
         }
             $('#submit').hide();
     }
-    if (stepNumber == 2) {
+    if (stepNumber === 2) {
         if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide all required fields before proceeding.");
+            alert("Please provide Mission area before proceeding.");
             return false;
         }
         else {
@@ -966,220 +980,221 @@ $(".nospecial").keypress(function (e) {
 {% block custom_js %}
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
-    $("#submitname").click(function () {
-var str = "";
-var name =  $('.concat > h6.finalname').length;
+ $(document).ready(function(){
+        $("#submitname").click(function () {
+            var str = "";
+            var name = $('.concat > h6.finalname').length;
 //alert(name);
-if(name === 10) {
-            alert("Only Upto 10 staff members are allowed");
+            if (name === 10) {
+                alert("Only Upto 10 staff members are allowed");
                 $('#firstname').val('');
-    $('#lastname').val('');
+                $('#lastname').val('');
+                return false;
+            } else {
+                var disp = $('#firstname').val() + ' ' + $('#lastname').val();
+                var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+                $("#display").append(html);
+                $('.concat > h6.finalname').each(function () {
+                    str += $(this).text() + ",";
+                });
+                var str2 = str.substring(0, str.length - 1);
+                $('#id_campus_lead_staff').val(str2);
+                $('#firstname').val('');
+                $('#lastname').val('');
+            }
+        });
+        $(document).on('click', '.remove-staff', function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            var str = "";
+            $('.concat > h6.finalname').each(function () {
+                str += $(this).text() + ",";
+            });
+            var str2 = str.substring(0, str.length - 1);
+            $('#id_campus_lead_staff').val(str2);
+            // $('#id_campus_lead_staff').val(str);
+            return false;
+        });
+        // $('.remove-staff').click(function () {
+        //     $(this).closest('.concat').remove();
+        // });
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
+        }
+
+        var community_ids = [];
+        var campus_ids = [];
+        var subcategory_ids = [];
+
+
+        function cloneMore(selector, prefix) {
+            // $(this).parent().fadeout();
+            var selected = $(selector).find(':selected').val();
+            if (selected === ' ') {
+                alert('you cannot add empty value');
+                $(selector).val(' ');
+                return;
+            }
+            if (prefix == 'community') {
+                if (community_ids.includes(selected)) {
+                    alert('community already added');
+                    $(selector).val(' ');
+                    return;
+                }
+                community_ids.push(selected);
+            } else if (prefix == 'campus') {
+                if (campus_ids.includes(selected)) {
+                    alert('campus already added');
+                    return;
+                }
+                campus_ids.push(selected);
+            } else if (prefix == 'sub_category') {
+                if (subcategory_ids.includes(selected)) {
+                    alert('Subcategory already added');
+                    return;
+                }
+                subcategory_ids.push(selected);
+            }
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input').each(function () {
+                var name = $(this).attr('name');
+                if (name) {
+                    var selectedcommunity = $('#id_' + name + ' option:selected').text();
+                    var value = $('#id_' + name + ' option:selected').val();
+                    if (selectedcommunity != '') {
+                        console.log(selectedcommunity);
+                        var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
+                        $("#" + prefix + "-fields").append(html);
+                    }
+                    name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+                    $('#' + id).find('[value=' + value + ']').remove();
+                    // $(this).find(value).remove();
+                    // var namenext = name.replace('-' + total + '-', '-' + (total+1) + '-');
+                    // var idnext = 'id_' + name;
+                    // $(idnext).find(value).remove();
+                }
+            });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            var conditionRow = $('.' + prefix + '-row:not(:last)');
+            conditionRow.hide();
+            // var selectedcommunity = $('#id_'+name+' option:selected').text();
+            //     console.log(selectedcommunity);
+            //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
+            //   $("#copy-fields").append(html);
+            conditionRow.find('.fa.add-' + prefix + '-row')
+                .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
+                .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+                .html(' ');
             return false;
         }
-else {
-    var disp = $('#firstname').val() +' '+ $('#lastname').val();
-        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">'+disp+'<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
-                 $("#display").append(html);
-    $('.concat > h6.finalname').each(function () {
-        str += $(this).text() + ",";
-    });
-    var str2 = str.substring(0, str.length - 1);
-    $('#id_campus_lead_staff').val(str2);
-    $('#firstname').val('');
-    $('#lastname').val('');
-}
-    });
-    $(document).on('click', '.remove-staff', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    var str = "";
-                $('.concat > h6.finalname').each(function(){
-                     str += $(this).text()+ ",";
-                });
- var str2 = str.substring(0,str.length-1);
-                $('#id_campus_lead_staff').val(str2);
-                // $('#id_campus_lead_staff').val(str);
-    return false;
-});
-    // $('.remove-staff').click(function () {
-    //     $(this).closest('.concat').remove();
-    // });
-function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
-}
 
-var community_ids = [];
-var campus_ids = [];
-var subcategory_ids=[];
+        function deleteForm(prefix, elem) {
+            var btn = elem.attr('name');
+            //console.log("delete happening");
+            var selected = elem.attr('data-id');
+            //var selected = btn.parent().parent().find(':selected').val();
+            if (prefix == 'community') {
+                var index = community_ids.indexOf(selected);
+                if (index != -1) community_ids.splice(index, 1);
+            } else if (prefix == 'campus') {
+                var index = campus_ids.indexOf(selected);
+                if (index != -1) campus_ids.splice(index, 1);
+            } else if (prefix == 'sub_category') {
+                var index = subcategory_ids.indexOf(selected);
+                if (index != -1) subcategory_ids.splice(index, 1);
+            }
+            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            console.log('In deleteForm - total', total);
+            if (total > 1) {
+                $('#id_' + btn).closest('.' + prefix + '-row').remove();
+                // $('#id_'+btn).closest('.community_partner').remove();
+                // btn.closest('.' + prefix + '-row').remove();
+                var forms = $('.' + prefix + '-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i = 0, formCount = forms.length; i < formCount; i++) {
+                    $(forms.get(i))
+                        .find(':input')
+                        .each(function () {
+                            updateElementIndex(this, prefix, i);
+                        });
+                }
+            }
+            return false;
+        }
 
-
-function cloneMore(selector, prefix) {
-    // $(this).parent().fadeout();
-       var selected = $(selector).find(':selected').val();
-    if (selected == ' ') {
-        alert('you cannot add empty value');
-        $(selector).val(' ');
-        return;
-    }
-    if (prefix == 'community') {
-        if (community_ids.includes(selected)) {
-            alert('community already added');
-            $(selector).val(' ');
-            return;
-        }
-        community_ids.push(selected);
-    } else if (prefix == 'campus') {
-        if (campus_ids.includes(selected)) {
-            alert('campus already added');
-            return;
-        }
-        campus_ids.push(selected);
-    }
-    else if (prefix=='sub_category'){
-        if (subcategory_ids.includes(selected)){
-            alert('Subcategory already added');
-            return;
-        }
-        subcategory_ids.push(selected);
-    }
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name');
-        if(name) {
-             var selectedcommunity = $('#id_'+name+' option:selected').text();
-             var value = $('#id_'+name+' option:selected').val();
-             if(selectedcommunity != '') {
-                 console.log(selectedcommunity);
-                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
-                 $("#"+prefix+"-fields").append(html);
-             }
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-            var id = 'id_' + name;
-            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-            $('#'+id).find('[value='+value+']').remove();
-            // $(this).find(value).remove();
-            // var namenext = name.replace('-' + total + '-', '-' + (total+1) + '-');
-            // var idnext = 'id_' + name;
-            // $(idnext).find(value).remove();
-        }
-    });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.'+ prefix + '-row:not(:last)');
-    conditionRow.hide() ;
-      // var selectedcommunity = $('#id_'+name+' option:selected').text();
-      //     console.log(selectedcommunity);
-      //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
-      //   $("#copy-fields").append(html);
-    conditionRow.find('.fa.add-' + prefix +'-row')
-    .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
-    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
-    .html(' ');
-    return false;
-}
-function deleteForm(prefix, elem) {
-    var btn = elem.attr('name');
-    //console.log("delete happening");
-    var selected = elem.attr('data-id');
-       //var selected = btn.parent().parent().find(':selected').val();
-    if (prefix == 'community') {
-        var index = community_ids.indexOf(selected);
-        if (index != -1) community_ids.splice(index, 1);
-    } else if (prefix == 'campus') {
-        var index = campus_ids.indexOf(selected);
-        if (index != -1) campus_ids.splice(index, 1);
-    }
-    else if(prefix=='sub_category'){
-        var index = subcategory_ids.indexOf(selected);
-        if (index !=-1) subcategory_ids.splice(index,1);
-    }
-  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-  console.log('In deleteForm - total', total);
-  if (total > 1) {
-    $('#id_'+btn).closest('.' + prefix + '-row').remove();
-    // $('#id_'+btn).closest('.community_partner').remove();
-    // btn.closest('.' + prefix + '-row').remove();
-    var forms = $('.' + prefix + '-row');
-    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-    for (var i = 0, formCount = forms.length; i < formCount; i++) {
-      $(forms.get(i))
-        .find(':input')
-        .each(function() {
-          updateElementIndex(this, prefix, i);
+        $(document).on('click', '.add-mission-row', function (e) {
+            e.preventDefault();
+            cloneMore('.mission-row:last', 'mission');
+            return false;
         });
-    }
-  }
-  return false;
-}
-$(document).on('click', '.add-mission-row', function(e){
-    e.preventDefault();
-    cloneMore('.mission-row:last', 'mission');
-    return false;
-});
-$(document).on('click', '.add-sub_category-row', function(e){
-    e.preventDefault();
-    cloneMore('.sub_category-row:last', 'sub_category');
-    return false;
-});
-$(document).on('click', '.add-secondary_mission-row', function(e){
-    e.preventDefault();
-    cloneMore('.secondary_mission-row:last', 'secondary_mission');
-    return false;
-});
-$(document).on('click', '.add-community-row', function(e){
-    e.preventDefault();
-    cloneMore('.community-row:last', 'community');
-    // $('.community-row:not(:last)').hide();
-    // var name = $(this).attr('name');
-          // var selectedcommunity = $('#id_'+name+' option:selected').text();
-          // console.log(selectedcommunity);
-        // var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-community-row fa fa-trash"></i> </div>';
-  // '</div>'+
-  // '<div class="form-group">'+
-  // '<button class="btn blackbutton remove" type="button">x</button>'+
-  // '</div>';
-  //       $("#copy-fields").append(html);
-    return false;
-});
-$(document).on('click', '.add-campus-row', function(e){
-    e.preventDefault();
-    cloneMore('.campus-row:last', 'campus');
-    return false;
-});
-$(document).on('click', '.remove-mission-row', function(e){
-    e.preventDefault();
-    deleteForm('mission', $(this));
-    return false;
-});
-$(document).on('click', '.remove-secondary_mission-row', function(e){
-    e.preventDefault();
-    deleteForm('secondary_mission', $(this));
-    return false;
-});
-$(document).on('click', '.remove-community-row', function(e){
-    e.preventDefault();
-   $(this).parent().remove();
-    deleteForm('community', $(this));
-    return false;
-});
-$(document).on('click', '.remove-campus-row', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    deleteForm('campus', $(this));
-    return false;
-});
-$(document).on('click', '.remove-sub_category-row', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    deleteForm('sub_category', $(this));
-    return false;
-});
+        $(document).on('click', '.add-sub_category-row', function (e) {
+            e.preventDefault();
+            cloneMore('.sub_category-row:last', 'sub_category');
+            return false;
+        });
+        $(document).on('click', '.add-secondary_mission-row', function (e) {
+            e.preventDefault();
+            cloneMore('.secondary_mission-row:last', 'secondary_mission');
+            return false;
+        });
+        $(document).on('click', '.add-community-row', function (e) {
+            e.preventDefault();
+            cloneMore('.community-row:last', 'community');
+            // $('.community-row:not(:last)').hide();
+            // var name = $(this).attr('name');
+            // var selectedcommunity = $('#id_'+name+' option:selected').text();
+            // console.log(selectedcommunity);
+            // var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-community-row fa fa-trash"></i> </div>';
+            // '</div>'+
+            // '<div class="form-group">'+
+            // '<button class="btn blackbutton remove" type="button">x</button>'+
+            // '</div>';
+            //       $("#copy-fields").append(html);
+            return false;
+        });
+        $(document).on('click', '.add-campus-row', function (e) {
+            e.preventDefault();
+            cloneMore('.campus-row:last', 'campus');
+            return false;
+        });
+        $(document).on('click', '.remove-mission-row', function (e) {
+            e.preventDefault();
+            deleteForm('mission', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-secondary_mission-row', function (e) {
+            e.preventDefault();
+            deleteForm('secondary_mission', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-community-row', function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('community', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-campus-row', function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('campus', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-sub_category-row', function (e) {
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('sub_category', $(this));
+            return false;
+        });
+    });
 </script>
 {#   Js to show the course form if some error happens after the form #}
 <script>
@@ -1326,63 +1341,61 @@ return true;
 <script>
 $(document).ready(function () {
     $('#id_status').hide();
-$('#draft').click(function(){
 
-    $('#id_status option[value=5]').attr('selected','selected');
-console.log('draft');
-    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
-        alert("Please provide Project Name and Academic Year to save as Draft");
-        return false;
-    }
-    else{
-        return true;
-    }
+    $('#draft').click(function () {
+        $('#id_status option[value=5]').attr('selected', 'selected');
+        console.log('draft');
+        if (($("#id_project_name").val() === '') || ($("#id_academic_year").val() === '')) {
+            alert("Please provide Project Name and Academic Year to save as Draft");
+            return false;
+        } else {
+            return true;
+        }
 
-});
 
-$('#submit').click(function () {
-     $('#id_status option[value=1]').attr('selected','selected');
-     document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
-     // if($('#terms'))
+    });
 
-});
-    // if($("#addresscheck").checked === true){
-    //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){
-    //         alert("Provide all location details");
-    //         return false
-    //     }
-    //     else{
-    //         return true
-    //     }
-    // }
+    $('#submit').click(function () {
+        $('#id_status option[value=1]').attr('selected', 'selected');
+        document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+        // $('.alert > h6').
+        // if($('#terms'))
         window.onsubmit = function checking() {
-        var id_name = document.getElementById('id_mission-0-mission');
-        var id_campus = document.getElementById('id_campus-0-campus_partner');
-        var val = id_name.options[id_name.selectedIndex].text;
-        var val1 = id_campus.options[id_campus.selectedIndex].text;
-        var location = document.getElementById("errorid").scrollTop;
-        if (val === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
-            document.getElementById("errorid").innerHTML = error;
-            document.documentElement.scrollTop = 900;
+            var id_name = document.getElementById('id_mission-0-mission');
+            var id_campus = document.getElementById('id_campus-0-campus_partner');
+            var val = id_name.options[id_name.selectedIndex].text;
+            var val1 = id_campus.options[id_campus.selectedIndex].text;
+            var location = document.getElementById("errorid").scrollTop;
+            if (val === '---------') {
+                error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
+                document.getElementById("errorid").innerHTML = error;
+                document.documentElement.scrollTop = 900;
+            }
+            if (val1 === '---------') {
+                error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
+                document.getElementById("errorid1").innerHTML = error;
+                document.documentElement.scrollTop = 900;
+                {
+                    #document.getElementById('id_community-0-community_partner').scrollIntoView();
+                    #
+                }
+                {
+                    #return
+                    false
+                    #
+                }
+            }
+            if (val === '---------' || val1 === '---------') {
+                return false
+            }
+            if (val !== '---------') {
+                document.getElementById("errorid").innerHTML = "";
+            }
+            if (val1 !== '---------') {
+                document.getElementById("errorid1").innerHTML = "";
+            }
         }
-        if (val1 === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
-            document.getElementById("errorid1").innerHTML = error;
-            document.documentElement.scrollTop = 900;
-            {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
-            {#return false#}
-        }
-        if (val === '---------' || val1 === '---------') {
-            return false
-        }
-        if (val !== '---------') {
-            document.getElementById("errorid").innerHTML = "";
-        }
-        if (val1 !== '---------') {
-            document.getElementById("errorid1").innerHTML = "";
-        }
-    }
+    });
 });
 </script>
 <script>

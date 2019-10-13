@@ -285,6 +285,7 @@ def createProject(request):
                         return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
 
             if(address==''):
+                proj.save()
                 mission_form = formset.save(commit=False)
                 #secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)

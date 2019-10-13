@@ -238,8 +238,8 @@ display: flex;
     </style>
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
                              {% create_project_forms %}
-        <form method="POST" onsubmit="checking()">{% csrf_token %}
-<!--                           <form method="POST">{% csrf_token %}-->
+<!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
+                           <form method="POST">{% csrf_token %}
                                 {{formset.management_form}}
                                 {{categoryformset.management_form}}
                                 {{formset2.management_form}}
@@ -866,7 +866,7 @@ $(document).ready(function(){
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-          showStepURLhash:false,
+        showStepURLhash:false,
         // contentCache:true,
         toolbarSettings: {
             // toolbarPosition:'top',
@@ -890,34 +890,7 @@ $(document).ready(function(){
         });
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 var elmForm = $("#form-step-"+stepNumber);
-// if(stepDirection === 'forward') {
-//     if (stepNumber == 0) {
-//         if (($("#id_project_name").val() == '') || ($("#id_engagement_type").val() == '') || ($("#id_semester").val() == '')||($("#id_academic_year").val() == '')) {
-//             alert("Please provide all required fields before proceeding to step 2.");
-//             return false;
-//         }
-//             $('#submit').hide();
-//
-//     }
-//     if (stepNumber == 1) {
-//         if ($("#id_campus-0-campus_partner").val() == '') {
-//             alert("Please provide a campus partner before proceeding.");
-//             return false;
-//         }
-//             $('#submit').hide();
-//     }
-//     if (stepNumber == 2) {
-//         if ($("#id_mission-0-mission").val() == '') {
-//             alert("Please provide a Primary Project Mission Area before proceeding.");
-//             return false;
-//         }
-//         else {
-//             $('#submit').show();
-//         }
-//     }
-// }
-
-     if(stepDirection === 'forward') {
+if(stepDirection === 'forward') {
     if (stepNumber === 0) {
         if(($("#id_project_name").val() === '')){
             alert("Please provide Project name to proceed.");
@@ -955,7 +928,6 @@ var elmForm = $("#form-step-"+stepNumber);
         }
     }
 }
-
 if (stepDirection === 'backward') {
             $('#submit').hide();
         }
@@ -1051,22 +1023,21 @@ function updateElementIndex(el, prefix, ndx) {
     if (el.id) el.id = el.id.replace(id_regex, replacement);
     if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
-
 var community_ids = [];
 var campus_ids = [];
 var subcategory_ids=[];
-
-
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();
     if (selected == ' ') {
         alert('you cannot add empty value');
+        $(selector).val(' ');
         return;
     }
     if (prefix == 'community') {
         if (community_ids.includes(selected)) {
             alert('community already added');
+            $(selector).val(' ');
             return;
         }
         community_ids.push(selected);
@@ -1287,6 +1258,7 @@ $(document).ready(function(){
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
 });
+ document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single
@@ -1365,7 +1337,6 @@ return true;
 $(document).ready(function () {
     $('#id_status').hide();
 $('#draft').click(function(){
-
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
     if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
@@ -1375,14 +1346,11 @@ console.log('draft');
     else{
         return true;
     }
-
 });
-
 $('#submit').click(function () {
      $('#id_status option[value=1]').attr('selected','selected');
-     document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
-     // if($('#terms'))
 
+     // if($('#terms'))
 });
     // if($("#addresscheck").checked === true){
     //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){

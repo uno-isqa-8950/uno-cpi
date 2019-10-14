@@ -276,7 +276,7 @@ display: flex;
                     {% endif %}
                 </div>
                     <div class="row">
-                        <label class="col-sm-4">
+                        <label class="col-sm-4" for="id_engagement_type">
 <!--                    <label for="id_engagement_type" class="col-sm-3">Engagement Type</label>-->
                     {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
@@ -346,7 +346,7 @@ display: flex;
                                         <div class="row">
                                             <div class="form-group col">
                                                 <div class="row">
-                                                    <label class="col-md-5">Start Semester</label>
+                                                    <label class="col-md-5" for="id_semester">Start Semester</label>
                                                 <div class="col-sm-6">
                                                     {{ project.semester}}
                                                 </div>
@@ -486,7 +486,9 @@ display: flex;
                     <div id="communityinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
+                                       
                                             <div class="row community-row">
+                                                    
                                             <div class="col">
                                                 {{form2|bootstrap}}
                                                 {% if  form2.errors %}
@@ -814,6 +816,11 @@ display: flex;
 <!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Draft</button></p>-->
 <!--                </div>-->
 <!--            </div>-->
+<div class="row centered">
+    <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+        I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+        of the Community Partnership Initiative.</p>
+</div>
 
                                 </div>
 
@@ -831,11 +838,11 @@ display: flex;
 </div>
     <div class="container-fluid">
 
-                 <div class="row centered">
+                 <!--<div class="row centered">
                 <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
-            </div>
+            </div>-->
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
                  <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>

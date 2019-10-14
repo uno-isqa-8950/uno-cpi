@@ -363,7 +363,7 @@ def createProject(request):
                                 'camp_part': list_camp_part_names
                                 }
                         projects_list.append(data)
-                return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
+                return render(request, 'projects/draftadd_done.html', {'project': projects_list})
     else:
         month=datetime.datetime.now() .month
         year=datetime.datetime.now() .year
@@ -1627,7 +1627,7 @@ def myDrafts(request):
     # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
-    proj_camp = ProjectCampusPartner.objects.filter(campus_partner_id__in=camp_part_id)
+    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
     project_ids = [project.project_name_id for project in proj_camp]
     if len(project_ids) == 0:
         project_ids = [project.id for project in Project.objects.all()]

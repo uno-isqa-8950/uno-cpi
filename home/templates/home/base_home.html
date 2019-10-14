@@ -201,6 +201,7 @@
                 veteran status, marital status, and/or political affiliation in its programs,
                 activities, or employment. Learn more about Equity, Access and Diversity.</p>
              </div>
+
           <!--<div class="footertext"></div>-->
 <!---->
           <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
@@ -215,7 +216,9 @@
         </div>
       </div>
 </footer>
+
 <!-- Footer Ends Here-->
+
     <!-- JavaScript -->
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
@@ -226,17 +229,24 @@
 <!--        interval: 5000 //changes the speed#}-->
 <!--    });-->
 <!--    </script>-->
+
+
 {% block additionalCSS %} {% endblock %}
 {% block js1 %} {% endblock %}
 {% block js %} {% endblock %}
 {% block custom_js %}
     <script>
     $(window).bind("load", function() {
+
        var footerTop = 0,
            $footer = $("#footer");
+
        positionFooter();
+
        function positionFooter() {
                 footerTop = ($(document).height()-$("body").height())+"px";
+
+
                if ( ($("body").height()) < $(document).height()) {
                    $footer.css({
                         position: "relative"
@@ -248,13 +258,19 @@
                         position: "static"
                    })
                }
+
        }
+
        $(window)
                .scroll(positionFooter)
                .resize(positionFooter)
+
     });
     </script>
+
 {% endblock %}
+
+
 {% block selectizeForm %}{% endblock %}
     </body>
 </html>

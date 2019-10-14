@@ -60,15 +60,13 @@
     }
     select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
    input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]
+    select[id=id_end_semester],select[id=id_end_academic_year]
     {
         width:96%;
         height: 35px;
         color: black;
         margin-top: 5px;
         margin-left: 10px;
-        font-family: Helvetica;
-        font-size: 16px;
     }
     input[id=id_project_name]{
         margin-bottom: 0px;
@@ -278,7 +276,7 @@ display: flex;
                     {% endif %}
                 </div>
                     <div class="row">
-                        <label for="id_engagement_type" class="col-sm-4">
+                        <label class="col-sm-4">
 <!--                    <label for="id_engagement_type" class="col-sm-3">Engagement Type</label>-->
                     {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
@@ -348,7 +346,7 @@ display: flex;
                                         <div class="row">
                                             <div class="form-group col">
                                                 <div class="row">
-                                                    <label for="id_semester" class="col-md-5">Start Semester</label>
+                                                    <label class="col-md-5">Start Semester</label>
                                                 <div class="col-sm-6">
                                                     {{ project.semester}}
                                                 </div>
@@ -489,10 +487,7 @@ display: flex;
                                     <div class="panel-body">
                                         <br>
                                             <div class="row community-row">
-                                                <div class="col-md-3">
-                                                <label style="padding-top:30px; ">Community Partner</label>
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="col">
                                                 {{form2|bootstrap}}
                                                 {% if  form2.errors %}
                                         {% for error in  form2.errors %}
@@ -501,8 +496,11 @@ display: flex;
                                         {% endif %}
                                             </div>
 
-                                        <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:30px; " aria-hidden="true"></i>
+                                        <div class="col">
+                                            <div class="input-group-append" >
+
+                                            </div>
+                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-top:30px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
 
@@ -519,6 +517,62 @@ display: flex;
              {% endfor %}
 
 
+<!--            {% for form2 in formset2 %}-->
+
+<!--            <div class="row"><br></div>-->
+<!--                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">-->
+<!--                    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
+<!--                                              {% for data_definition in data_definition %}-->
+<!--                                              {% if data_definition.id == 2%} Community Partner Information-->
+
+<!--                                          {% endif %}-->
+<!--                                          {% endfor %}-->
+<!--                                          </span>-->
+<!--                    </button>-->
+
+<!--                    <div id="communityinfo" class= "panel-collapse collapse">-->
+<!--                                    <div class="panel-body">-->
+<!--                                        <br>-->
+<!--                                            <div class="row">-->
+<!--                                            <div class="col-sm-10">-->
+<!--                                                <div class="row">-->
+<!--                                                <div class="col-sm-3">-->
+<!--                                                    <br>-->
+<!--                                                <label>Community Partner</label>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-sm-7 community-row">-->
+<!--                                                {{form2|bootstrap}}-->
+
+<!--                                                </div>-->
+<!--                                                    <div class="col-sm-2">-->
+<!--                                                        <i class="fa fa-plus-square fa-2x add-community-row icon" aria-hidden="true"></i>-->
+<!--                                                    </div>-->
+<!--                                                {% if  form2.errors %}-->
+<!--                                        {% for error in  form2.errors %}-->
+<!--                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>-->
+<!--                                        {% endfor %}-->
+<!--                                        {% endif %}-->
+<!--                                        </div>-->
+<!--                                            </div>-->
+<!--                                        <div class="col">-->
+<!--                                            <div class="input-group-append" >-->
+<!--&lt;!&ndash;                                                <i class="fa fa-plus-square fa-2x add-community-row icon" aria-hidden="true"></i>&ndash;&gt;-->
+<!--                                            </div>-->
+<!--&lt;!&ndash;                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-top:40px; " aria-hidden="true"></i>&ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="copy-fields hide" id="copy-fields"></div>-->
+<!--                                  </div>-->
+<!--                                      <div class="row centered">-->
+<!--                                               <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"-->
+<!--                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +-->
+<!--                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+-->
+<!--                                                                ' Are you sure you want to register a New Community Partner?')">Not in list? Register a New Community Partner</a>-->
+
+<!--                                        </div>-->
+<!--                                </div>-->
+<!--             {% endfor %}-->
+
             {% for form3 in formset3 %}
 
             <div class="row"><br></div>
@@ -533,12 +587,9 @@ display: flex;
 </button>
 <div id="campusinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
-                                        <br>
                                         <div class="row campus-row">
-                                            <div class="col-md-3">
-                                                <label for="id_academic_year" style="padding-top:30px; ">Campus Partner </label>
-                                            </div>
-                                            <div class="col-md-4">
+                                            <div class="col">
+                                                <br>
                                                 {{ form3.campus_partner|bootstrap }}
                                                 {% if  form2.errors %}
                                         {% for error in  form2.errors %}
@@ -546,9 +597,10 @@ display: flex;
                                         {% endfor %}
                                         {% endif %}
                                         </div>
-                                        <div class="col-md-1">
+                                        <div class="col">
+                                            <br>
                                             <div class="input-group-append" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:30px" aria-hidden="true"></i>
+                                                <i class="fa fa-plus-square fa-2x add-campus-row" style="padding-top:30px" aria-hidden="true"></i>
                                             </div>
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
@@ -689,7 +741,7 @@ display: flex;
 
                                             <div class="form-group col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">Address</label>
+                                              <label for="id_academic_year" class="col-sm-4">Address</label>
                                             <div class="col-sm-7">
                                               {{ project.address_line1}}
                                             </div>
@@ -702,7 +754,7 @@ display: flex;
                                         <div class="row">
                                             <div class="form-group col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">City</label>
+                                              <label for="id_academic_year" class="col-sm-4">City</label>
                                             <div class="col-sm-7">
                                             {{ project.city }}
                                             </div>
@@ -711,7 +763,7 @@ display: flex;
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Country</label>
+                                              <label for="id_academic_year" class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
                                             {{ project.country }}
                                             </div>
@@ -723,7 +775,7 @@ display: flex;
                                             </div>
                                             <div class="form-group col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">state</label>
+                                              <label for="id_academic_year" class="col-sm-4">state</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -732,7 +784,7 @@ display: flex;
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label for="id_academic_year" class="col-sm-4">Zipcode</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -746,7 +798,7 @@ display: flex;
 
                                 </div>
      <div class="form-group" style="display: none">
-                                            <label>Project Status</label>
+                                            <label for="id_status">Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
@@ -937,20 +989,16 @@ if(name === 10) {
             return false;
         }
 else {
-    var disp = $('#firstname').val() + ' ' + $('#lastname').val();
-    if (disp === " ") {
-        alert("Please enter the name of the Campus Lead Staff")
-    } else {
-        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
-        $("#display").append(html);
-        $('.concat > h6.finalname').each(function () {
-            str += $(this).text() + ",";
-        });
-        var str2 = str.substring(0, str.length - 1);
-        $('#id_campus_lead_staff').val(str2);
-        $('#firstname').val('');
-        $('#lastname').val('');
-    }
+    var disp = $('#firstname').val() +' '+ $('#lastname').val();
+        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">'+disp+'<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+                 $("#display").append(html);
+    $('.concat > h6.finalname').each(function () {
+        str += $(this).text() + ",";
+    });
+    var str2 = str.substring(0, str.length - 1);
+    $('#id_campus_lead_staff').val(str2);
+    $('#firstname').val('');
+    $('#lastname').val('');
 }
     });
     $(document).on('click', '.remove-staff', function(e){
@@ -981,8 +1029,7 @@ var subcategory_ids=[];
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();
-       var selectedtext = $(selector).find(':selected').text();
-    if (selectedtext == '---------') {
+    if (selected == ' ') {
         alert('you cannot add empty value');
         $(selector).val(' ');
         return;

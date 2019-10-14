@@ -3,7 +3,6 @@
 {% load wagtailcore_tags register_tags %}
 {% block content %}
   <style>
-
   @media screen and (max-width: 768px) {
     .select2 {
         width: 95% !important;
@@ -12,7 +11,6 @@
           text-align: center;
       }
 }
-
     .select2 {
         width:96%!important;
     }
@@ -20,20 +18,14 @@
   {
      display: none;
   }
-
 .select2-container--open .select2-dropdown--below
     {
        margin-left:25px;
-
     }
-
 .select2-container--open .select2-dropdown--above
     {
        margin-left:25px;
-
     }
-
-
 .select2-container--default .select2-selection--single
 {
     {#border: 2px solid #aaa;#}
@@ -47,7 +39,6 @@
         margin-left: 25px;
         font-weight: bold;
     }
-
     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
         label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
@@ -56,31 +47,30 @@
         content:"*" ;
         color:red
     }
-
     h4
     {
         line-height: 2.7;
         font-size: 1.3em;
     }
-
     .h9{
         font-size:0.8em;
     }
-
     .btn-link{
         font-size: small;
     }
-
-    select[id=id_engagement_type],input[id=id_project_name], select[id=id_activity_type],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+    select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
    input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
     select[id=id_end_semester],select[id=id_end_academic_year]
     {
-        width:95%;
-        height: 1%;
+        width:96%;
+        height: 35px;
         color: black;
+        margin-top: 5px;
+        margin-left: 10px;
     }
-
-
+    input[id=id_project_name]{
+        margin-bottom: 0px;
+    }
     .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -89,266 +79,898 @@
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-
-
   select[id=id_form-0-campus_partner]
    {
        width:93%;
    }
-
-
    .btn-link, .btn-link:hover
-
    {
    color: #d71920
    }
 /*K12 Checkbox-Parimita*/
-input[type="radio"]:checked ~ .reveal-if-active,
-input[type="checkbox"]:checked ~ .reveal-if-active {
-  opacity: 1;
-  max-height: 110px;
-  overflow: visible;
-    /*line-height: 2.7;*/
-    font-size: 1.00em;
-
+/*input[type="radio"]:checked ~ .reveal-if-active,*/
+/*input[type="checkbox"]:checked ~ .reveal-if-active {*/
+/*  opacity: 1;*/
+/*  max-height: 110px;*/
+/*  overflow: visible;*/
+/*    !*line-height: 2.7;*!*/
+/*    font-size: 1.00em;*/
+/*}*/
+  /*.reveal-if-active {*/
+  /*    opacity: 0;*/
+  /*    max-height: 0;*/
+  /*    overflow: hidden;*/
+  /*    !*transform: scale(0.8);*!*/
+  /*    transition: 0.5s;*/
+  /*    margin-left: 0px;*/
+  /*}*/
+  /*input[type="radio"]:checked ~ &,*/
+  /*input[type="checkbox"]:checked ~ & {*/
+  /*  opacity: 1;*/
+  /*  max-height: 100px;*/
+  /*  overflow: visible;*/
+  /*  padding: 10px 20px;*/
+  /*  transform: scale(1);*/
+  /*    margin-left: 0px;*/
+  /*}*/
+.colpanel-default > .colpanel-heading {
+        background-color: lightgrey;
+    height: 33px;
+    }
+    .formtabfont a,i,h2{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+    .formtabfont h2:hover{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        text-decoration: underline;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+.panel{
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
-
-  .reveal-if-active {
-  opacity: 0;
-  max-height: 0;
+.icon{
+    margin-top: 33px;
+}
+textarea[id=id_description]{
+    height:130px;
+}
+label[for=id_campus-0-campus_partner]:after{
+    display: none;
+    content: " ";
+}
+.delicon{
+    color: red;
+}
+      .form-control{
+          margin: 5px;
+          width:100%
+      }
+      .sw-btn-prev{
+          float: left;
+      }
+      .collapsible {
+  background-color: #C1C0C0;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.active, .collapsible:hover {
+  background-color: #E1E1E1;
+}
+.content {
+  padding: 0 18px;
+  display: none;
   overflow: hidden;
-  /*transform: scale(0.8);*/
-  transition: 0.5s;
-  margin-left: 0px;
-
-  input[type="radio"]:checked ~ &,
-  input[type="checkbox"]:checked ~ & {
-    opacity: 1;
-    max-height: 100px;
-    overflow: visible;
-    padding: 10px 20px;
-    transform: scale(1);
-      margin-left: 0px;
-  }
+  background-color: #f1f1f1;
 }
-
+ .redbutton{
+          background-color: crimson; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .redbutton:hover{
+          text-decoration: underline;
+      }
+      .blackbutton{
+          background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .blackbutton:hover{
+          text-decoration: underline;
+      }
+      .btn-red{
+          background-color: crimson; /* Green */
+  border: none;
+  color: white;
+  padding: 2px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+          height: 38px;
+  margin: 9px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+          border-radius: 5px;
+      }
+      .displaybox {
+  border: 1px black;
+  padding: 10px;
+display: flex;
+  border-top-right-radius: 10px 5px;
+}
+            .redborder {
+  border: 1px red;
+}
     </style>
-
-
-    <div class = "container">
-        <div class="row justify-content-md-center">
-            <div class="col-lg-10 col-md-10">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4>Create Project</h4></div>
-                       <div class="panel-body">
-                            <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% create_project_forms %}
-                                </div>
-                             </div>
-                       </div>
-                        <div class="panel-body">&emsp;
-                            <form method="POST" onsubmit="checking()">{% csrf_token %}
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                             {% create_project_forms %}
+<!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
+                           <form method="POST">{% csrf_token %}
                                 {{formset.management_form}}
+                                {{categoryformset.management_form}}
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
-                                <div class="form-group">
-                                    <label for="id_project_name">Project Name</label>
-                                    {{ project.project_name }}
-                                    {% if  project.project_name.errors %} {% for error in  project.project_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                </div>
+<div class="container-fluid">
 
-                                <div class="form-group">
-                                    <label for="id_engagement_type">Engagement Type</label>
-                                    {% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                    {{ project.engagement_type }}
-                                    {% if  project.engagement_type.errors %} {% for error in  project.engagement_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                </div>
+    <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Create Project</h4></div>
+                       <div class="panel-body">
 
-                                <div class="col-lg-18 form-group">
-                                    <label for="id_activity_type">Activity Type</label>
-                                    {% for data_definition in data_definition %}{% if data_definition.id == 42%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                    {{ project.activity_type }}
-                                    {% if  project.activity_type.errors %} {% for error in  project.activity_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                </div>
-                                {{ course|bootstrap }}
-                                {% if  course.errors %} {% for error in  course.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+<div id="smartwizard">
+    <ul>
+        <li><a href="#step-1">Project Information</a></li>
+        <li><a href="#step-2">Partner Information</a></li>
+        <li><a href="#step-3">Mission Areas</a></li>
+        <li><a href="#step-4">Other Information</a></li>
+    </ul>
+    <div>
+        <div id="step-1">
+            <div id="form-step-0">
+                <div class="row">
+                <div class="col">
+                    <div class="row">
+                    <label for="id_project_name" class="col-sm-4">Project Name</label>
+                    <div class="col-sm-7">
+                    {{ project.project_name }}
+                    </div>
+                    {% if  project.project_name.errors %}
+                    {% for error in  project.project_name.errors %}
+                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                    <div class="row">
+                        <label class="col-sm-4">
+<!--                    <label for="id_engagement_type" class="col-sm-3">Engagement Type</label>-->
+                    {% for data_definition in data_definition %}
+                    {% if data_definition.id == 31%}
+                    <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                        Engagement Type
+                        </span>
+                    {% endif %}
+                    {% endfor %}
+                            </label>
+                        <div class="col-sm-7">
+                    {{ project.engagement_type }}
+                        </div>
+                    {% if  project.engagement_type.errors %}
+                    {% for error in  project.engagement_type.errors %}
+                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                    <div class="row">
+                      <label class="col-sm-4">Activity Type</label>
+                      {% for data_definition in data_definition %}
+                      {% if data_definition.id == 42%}
+                      <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"></span>
+                      {% endif %}
+                      {% endfor %}
+                        <div class="col-sm-7">
+                      {{ project.activity_type }}
+                        </div>
+                      {% if  project.activity_type.errors %}
+                      {% for error in  project.activity_type.errors %}
+                      <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                      {% endfor %}
+                      {% endif %}
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <label class="col-sm-2">Description</label>
+<!--                    </div>-->
+<!--                    <div class="row">-->
+                    <div class="col-sm-8">
+                    {{ project.description }}
+                    </div>
+                    {% if  project.description.errors %}
+                    {% for error in  project.description.errors %}
+                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                </div>
+                <div class="row centered">
+                     {{ course|bootstrap }}
+            {% if  course.errors %}
+            {% for error in  course.errors %}
+            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+            {% endfor %}
+            {% endif %}
+            </div>
+                </div>
+                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                    <i class="fa fa-plus"></i> Academic Duration
+                    </button>
 
+                    <div id="academicinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <div class="row">
+                                                    <label class="col-md-5">Start Semester</label>
+                                                <div class="col-sm-6">
+                                                    {{ project.semester}}
+                                                </div>
+                                                    {% if  project.semester.errors %} {% for error in  project.semester.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+                                                </div>
+                                                    <div class="row">
+                                            <label class="col-md-5">End Semester</label>
+                                                <div class="col-sm-6">
+                                                {{ project.end_semester}}
+                                                </div>
+                                                {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
 
-                                {% for form2 in formset2 %}
-                                    <div class="community-row" id="contact1">
-                                        <div class="col-lg-12">
-                                            <h6>Community Partner Information{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}
-                                            </h6><br>
+                                            </div>
+                                                </div>
+                                                <div class="form-group col">
+                                                    <div class="row">
+                                                    <label for="id_academic_year" class="col-md-5">Start Academic Year</label>
+                                                    <div class="col-sm-6">
+                                                    {{ project.academic_year}}
+                                                    </div>
+                                                    {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+                                                    </div>
+                                                    <div class="row">
+                                                <label class="col-md-5">End Academic Year</label>
+                                                <div class="col-sm-6">
+                                                {{ project.end_academic_year}}
+                                                </div>
+                                                {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                                </div>
                                         </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
+
+
+                                        </div>
+
+
+                    </div>
+                <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                    <i class="fa fa-plus"></i> Student Information
+                    </button>
+
+                    <div id="studentinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                        <div class="row">
+                                            <div class="col">
+                                                 <div class="row">
+                                                <label for="id_uno_students" class="col-sm-5">Total UNO Students</label>
+                                                    <div class="col-sm-6">
+                                                {{ project.total_uno_students}}
+                                                    </div>
+                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                <label for="id_uno_hours" class="col-sm-5">UNO Student Hours</label>
+                                                <div class="col-sm-6">
+                                                {{ project.total_uno_hours}}
+                                                </div>
+                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                            <label for="id_k12_flag">Does this Project involve K-12 students?</label>
+                                            {{ project.k12_flag}}
+                                            </div>
+                                        </div>
+                                        <div class="row" id ="k12-students">
+                                            <div class="form-group-row col">
+                                                <div class="row">
+                                                <label for="id_k12_students" class="col-sm-5">Total number of K-12 Students:</label>
+                                                 <div class="col-sm-6">
+                                                {{ project.total_k12_students}}
+                                                 </div>
+                                                {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+<!--                                                </div>-->
+                                            </div>
+                                            </div>
+                                            <div class="form-group-row col">
+                                                <div class="row">
+                                                <label for="id_k12_hours" class="col-sm-5">Total number of K-12 Hours:</label>
+                                                 <div class="col-sm-6">
+                                                {{ project.total_k12_hours}}
+                                                 </div>
+                                                {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+<!--                                                </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+
+                    </div>
+            </div>
+ <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
+        </div>
+
+        <div id="step-2">
+<!--{{ communitypartner }}-->
+            {% for form2 in formset2 %}
+
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">
+                    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                                              {% for data_definition in data_definition %}
+                                              {% if data_definition.id == 2%} Community Partner Information
+
+                                          {% endif %}
+                                          {% endfor %}
+                                          </span>
+                    </button>
+
+                    <div id="communityinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                            <div class="row community-row">
+                                            <div class="col">
                                                 {{form2|bootstrap}}
-                                                {% if  form2.errors %} {% for error in  form2.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-
+                                                {% if  form2.errors %}
+                                        {% for error in  form2.errors %}
+                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                        {% endif %}
                                             </div>
-                                        </div>
+
+                                        <div class="col">
                                             <div class="input-group-append" >
-                                                <button class="btn btn-secondary add-community-row"><i class="fa fa-plus-square" aria-hidden="true"></i> Additional Community Partner</button>
-                                            </div>
-                                    </div>
-                                {%endfor%}
 
-                                {% for form3 in formset3 %}
-                                    <div class="campus-row" id="contact1" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                            <h6>Campus Partner Information {% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}
-                                            </h6><br>
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-                                            {{ form3.campus_partner|bootstrap }}
+                                            </div>
+                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-top:30px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
-                                        <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus-row"><i class="fa fa-plus-square" aria-hidden="true"></i> Additional Campus Partner</button>
+
+                                        <div class="community-fields displaybox row" id="community-fields"></div>
+                                      <div class="row centered">
+                                               <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Community Partner?')">Not in list? Register a New Community Partner</a>
+
                                         </div>
-                                    <p id="errorid1"></p>
                                     </div>
+                                </div>
+             {% endfor %}
+
+
+<!--            {% for form2 in formset2 %}-->
+
+<!--            <div class="row"><br></div>-->
+<!--                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">-->
+<!--                    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
+<!--                                              {% for data_definition in data_definition %}-->
+<!--                                              {% if data_definition.id == 2%} Community Partner Information-->
+
+<!--                                          {% endif %}-->
+<!--                                          {% endfor %}-->
+<!--                                          </span>-->
+<!--                    </button>-->
+
+<!--                    <div id="communityinfo" class= "panel-collapse collapse">-->
+<!--                                    <div class="panel-body">-->
+<!--                                        <br>-->
+<!--                                            <div class="row">-->
+<!--                                            <div class="col-sm-10">-->
+<!--                                                <div class="row">-->
+<!--                                                <div class="col-sm-3">-->
+<!--                                                    <br>-->
+<!--                                                <label>Community Partner</label>-->
+<!--                                                </div>-->
+<!--                                                <div class="col-sm-7 community-row">-->
+<!--                                                {{form2|bootstrap}}-->
+
+<!--                                                </div>-->
+<!--                                                    <div class="col-sm-2">-->
+<!--                                                        <i class="fa fa-plus-square fa-2x add-community-row icon" aria-hidden="true"></i>-->
+<!--                                                    </div>-->
+<!--                                                {% if  form2.errors %}-->
+<!--                                        {% for error in  form2.errors %}-->
+<!--                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>-->
+<!--                                        {% endfor %}-->
+<!--                                        {% endif %}-->
+<!--                                        </div>-->
+<!--                                            </div>-->
+<!--                                        <div class="col">-->
+<!--                                            <div class="input-group-append" >-->
+<!--&lt;!&ndash;                                                <i class="fa fa-plus-square fa-2x add-community-row icon" aria-hidden="true"></i>&ndash;&gt;-->
+<!--                                            </div>-->
+<!--&lt;!&ndash;                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-top:40px; " aria-hidden="true"></i>&ndash;&gt;-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="copy-fields hide" id="copy-fields"></div>-->
+<!--                                  </div>-->
+<!--                                      <div class="row centered">-->
+<!--                                               <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"-->
+<!--                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +-->
+<!--                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+-->
+<!--                                                                ' Are you sure you want to register a New Community Partner?')">Not in list? Register a New Community Partner</a>-->
+
+<!--                                        </div>-->
+<!--                                </div>-->
+<!--             {% endfor %}-->
+
+            {% for form3 in formset3 %}
+
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo">
+    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                                {% for data_definition in data_definition %}
+                                {% if data_definition.id == 1%}
+                                 Campus Partner Information
+                                {% endif %}
+                                {% endfor %}
+                                </span>
+</button>
+<div id="campusinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="row campus-row">
+                                            <div class="col">
+                                                <br>
+                                                {{ form3.campus_partner|bootstrap }}
+                                                {% if  form2.errors %}
+                                        {% for error in  form2.errors %}
+                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        </div>
+                                        <div class="col">
+                                            <br>
+                                            <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x add-campus-row" style="padding-top:30px" aria-hidden="true"></i>
+                                            </div>
+<!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
+                                            </div>
+                                        </div>
+                                        <div class="campus-fields displaybox row" id="campus-fields"></div>
+                                                      <div class="row"><br></div>
+                                          <div class="centered">
+                                             <a class="btn btn-link" href="/partners/registerCampusPartnerForProject" style="color: #d71920; background:none;"
+                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
+                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
+                                                                ' Are you sure you want to register a New Campus Partner?')">Not in list? Register a New Campus Partner</a>
+
+                                        </div>
+                                    </div>
+</div>
+                                        {% endfor %}
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
+    <i class="fa fa-plus"></i> Lead Campus Staff
+</button>
+<div id="leadstaffinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                       <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="row">
+<!--                                                    <div class="col-md-4">-->
+<!--                                                        <label style="padding-top: 10px">First Name</label>-->
+<!--                                                    </div>-->
+                                                    <div class="col-md-4">
+                                                        <label style="padding-top: 10px">First Name</label>
+                                                        <input id='firstname'  type='text' class = "inputbox">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label style="padding-top: 10px">Last Name</label>
+                                                        <input id='lastname'  type='text' class = "inputbox">
+                                                    </div>
+                                                    <div class="col-md-1 centered">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                       </div>
+                                            <div style="display: none">
+<!--                                                <div>-->
+                                            {{ project.campus_lead_staff}}
+                                            </div>
+                                        <div class="row displaybox" id='display'>
+                                        </div>
+
+                                </div>
+
+                                  </div>
+
+
+
+ <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
+        </div>
+
+        <div id="step-3">
+             {% for form in formset %}
+            <div class="row">
+                <div class="col-md-4">
+                    <br>
+                    <label><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}
+                                 Primary Project Mission Area <span style="color:red;">*</span>
+                                {% endif %}
+                                {% endfor %}
+                                </span></label>
+                </div>
+                <div class="col-md-6">
+                    {{ form.mission | bootstrap}}
+                                                {% if  form.mission.errors %}
+                                                {% for error in  form.mission.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                </div>
+            </div>
 
                                 {% endfor %}
 
 
 
-                                <div class="col-lg-12">
-                                    <p class = h9>If you cannot find your campus partners and/or community partners in the list, please register them before submitting a new project form.</p>
-                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
-                                    <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>
-                                </div>
 
-                                 {% for form in formset %}
-                                    <div class="mission-row" id="contact1" onsubmit="checking()">
-                                        <div class="col-lg-12">
-                                            <h6>Primary Project Mission Area <span style="color:red;">*</span>
-                                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}
-                                               </h6><br>
+              {% for catform in categoryformset %}
+            <div class="row">
+                <div class="col-md-4">
+                    <br>
+                    <label>
+                                 Sub Category
+
+                                </label>
+                </div>
+                <div class="col-md-8">
+                    <div class="row sub_category-row">
+                        <div class="col-md-9">
+                    {{ catform.sub_category | bootstrap}}
+                </div>
+                <div class="col-md-1">
+                    <div class="input-group-append" >
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:30px" aria-hidden="true"></i>
+                    </div>
+                </div>
+                    </div>
+                </div>
+            </div>
+<!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
+                                        <div class="sub_category-fields displaybox row" id="sub_category-fields"></div>
+
+                                {% endfor %}
+
+
+             <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
+        </div>
+        <div id="step-4">
+            <div class="row"><br></div>
+                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
+    <i class="fa fa-plus"></i> Address
+</button>
+<div id="contactinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+
+                                        <div class="row">
+
+                                            <div class="form-group col-md-6">
+                                                <div class="row">
+                                              <label for="id_academic_year" class="col-sm-4">Address</label>
+                                            <div class="col-sm-7">
+                                              {{ project.address_line1}}
+                                            </div>
+                                              {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %}
+                                              <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                              {% endfor %} {% endif %}
+                                          </div>
                                         </div>
-                                            <div class="input-group">
-                                                <div class="col-lg-6" id="id_mission-0-mission'">
-                                                    {{ form.mission|bootstrap }}
-                                                     {% if  form.mission.errors %} {% for error in  form.mission.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                <div class="row">
+                                              <label for="id_academic_year" class="col-sm-4">City</label>
+                                            <div class="col-sm-7">
+                                            {{ project.city }}
+                                            </div>
+                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+                                                <div class="row">
+                                              <label for="id_academic_year" class="col-sm-4">Country</label>
+                                            <div class="col-sm-7">
+                                            {{ project.country }}
+                                            </div>
+                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                        </div>
+
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <div class="row">
+                                              <label for="id_academic_year" class="col-sm-4">state</label>
+                                            <div class="col-sm-7">
+                                            {{ project.state }}
+                                            </div>
+                                            {% if  project.state.errors %} {% for error in  project.state.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+                                                <div class="row">
+                                              <label for="id_academic_year" class="col-sm-4">Zipcode</label>
+                                            <div class="col-sm-7">
+                                            {{ project.zip }}
+                                            </div>
+                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
                                                 </div>
 
                                             </div>
-                                    <p id="errorid"></p>
-                                    </div>
-                                {% endfor %}
+                                        </div>
 
-
-                                <div class = "row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12">
-
-                                        <div class="form-group">
+                                </div>
+     <div class="form-group" style="display: none">
                                             <label for="id_status">Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
                                         </div>
-                                        <div class="form-group">
-                                            <label for="id_semester">Start Semester</label>
-                                            {{ project.semester}}
-                                            {% if  project.semester.errors %} {% for error in  project.semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_academic_year">Start Academic Year</label>
-                                            {{ project.academic_year}}
-                                            {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_end_semester">End Semester</label>
-                                            {{ project.end_semester}}
-                                            {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_end_academic_year">End Academic Year</label>
-                                            {{ project.end_academic_year}}
-                                            {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_uno_students">Total UNO Students</label>
-                                            {{ project.total_uno_students}}
-                                            {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="id_uno_hours">UNO Student Hours</label>
-                                            {{ project.total_uno_hours}}
-                                            {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                        </div>
-<!--                                        K12 Flag-Parimita-->
-                                        <label for="id_k12_flag">Does this Project involve K-12 students?   </label>
-<!--                                            <input type="checkbox" name="k12_flag" id="id_k12_flag">-->
-                                                {{ project.k12_flag}}
-                                            <div class="reveal-if-active">
-                                               <label for="id_k12_students">Total number of K-12 Students:</label>
-                                                {{ project.total_k12_students}}
-                                                {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                            </div>
-                                             <div class="reveal-if-active">
-                                                <label for="id_k12_hours">Total number of K-12 Hours:</label>
-                                                {{ project.total_k12_hours}}
-                                                {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                             </div>
-                                    </div>
-                                        <div class="col-lg-12">
-                                            &nbsp;&nbsp;<h6 style="margin-left: 3%">  Primary Location of the Project: </h6><br>
-                                        </div>
+                              </div>
 
-                                        <div class="input-group">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
-                                                    <div class="form-group">
-                                                        <label for="id_academic_year">Address</label>
-                                                        {{ project.address_line1}}
-                                                         {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                    </div>
-                                                    {{ project.city|bootstrap }}
-                                                     {% if  project.city.errors %} {% for error in  project.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+<!--            <div class="row justify-content-md-center" style="margin-top:30px;">-->
+<!--                <div class="col-lg-2 col-md-5">-->
+<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Submit</button></p>-->
+<!--                </div>-->
 
-                                                    {{ project.state|bootstrap }}
-                                                 {% if  project.state.errors %} {% for error in  project.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+<!--                <div class="col-lg-2 col-md-5">-->
+<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Draft</button></p>-->
+<!--                </div>-->
+<!--            </div>-->
 
-                                                    {{ project.zip|bootstrap }}
-                                                  {% if  project.zip.errors %} {% for error in  project.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-
-                                                    {{ project.country|bootstrap }}
-                                                   {% if  project.country.errors %} {% for error in  project.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-
-                                                </div>
-                                        </div>
-                                    </div>
                                 </div>
 
-                                <div class="col-md-12 col-lg-12">
-                                    <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
-                                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
-                                </div>
-                                <div class="row justify-content-md-center" style="margin-top:30px;">
-                                    <div class="col-lg-2 col-md-5">
-                                        <p id="button-center"><button type="submit" class="save btn btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                            Submit</button></p>
-                                    </div>
-                                </div>
-                            </form><br><br>
-                        </div>
+
+
+        </div>
+
+    </div>
+
+
+                       </div>
                 </div>
             </div>
-        </div>
+</div>
+</div>
+    <div class="container-fluid">
+
+                 <div class="row centered">
+                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+                    of the Community Partnership Initiative.</p>
+            </div>
+                               <div class="row centered" style="margin-top:30px;">
+<!--<div class="col-md-3">-->
+                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>
+<!--            </div>-->
+
+                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton"> <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Submit</button>
+                <button name="cancel" id="cancel" class="redbutton"> <i class="fa fa-times-circle" style="color: white" aria-hidden="true"></i> Cancel</button>
+ </div>
     </div>
+
+</form>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>-->
+<!--<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
+<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#smartwizard').smartWizard({
+        theme:'arrows',
+        transitionEffect: 'fade',
+        transitionSpeed: '400',
+        // usehash: false,
+        showStepURLhash:false,
+        // contentCache:true,
+        toolbarSettings: {
+            // toolbarPosition:'top',
+            toolbarButtonPosition:'right',
+            showNextButton:'true',
+            showPreviousButton:'true',
+            // toolbarExtraButtons: [
+            //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
+            //         if (confirm("Are you sure?")){
+            //           window.location = '/checkProject';
+            //         }
+            //     }),
+            //
+            // ]
+        }
+    });
+        $('#cancel').on('click', function () {
+                    if (confirm("Are you sure?")){
+                      window.location = '/checkProject';
+                    }
+        });
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+var elmForm = $("#form-step-"+stepNumber);
+if(stepDirection === 'forward') {
+    if (stepNumber === 0) {
+        if(($("#id_project_name").val() === '')){
+            alert("Please provide Project name to proceed.");
+            return false
+        }
+        if( ($("#id_engagement_type").val() === '') ){
+            alert("Please enter Engagement type.");
+            return false
+        }
+        if(($("#id_semester").val() === '')){
+            alert("Please provide Project start semester.");
+            return false
+        }
+        if($("#id_academic_year").val() === ''){
+            alert("Please provide Project start academic year.");
+            return false
+        }
+            $('#submit').hide();
+
+    }
+    if (stepNumber === 1) {
+        if ($("#id_campus-0-campus_partner").val() === '') {
+            alert("Please provide Campus partner before proceeding.");
+            return false;
+        }
+            $('#submit').hide();
+    }
+    if (stepNumber === 2) {
+        if ($("#id_mission-0-mission").val() == '') {
+            alert("Please provide Mission area before proceeding.");
+            return false;
+        }
+        else {
+            $('#submit').show();
+        }
+    }
+}
+if (stepDirection === 'backward') {
+            $('#submit').hide();
+        }
+        return true;
+    });
+$('#id_k12_flag').change(function () {
+    if($('#id_k12_flag').prop('checked')==true){
+        $("#k12-students").show();
+    }
+});
+    $('#id_project_name').addClass('inputbox');
+    $('#submit').hide();
+    $("#k12-students").hide();
+    $('#step-2').hide();
+    $('#step-3').hide();
+    $("#step-4").hide();
+        $(".collapse.show").each(function(){
+        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+$('#id_total_uno_students').addClass('nospecial').attr('size','3');
+$('#id_total_uno_hours').addClass('nospecial');
+$('#id_total_k12_students').addClass('nospecial');
+$('#id_total_k12_hours').addClass('nospecial');
+$(".nospecial").keypress(function (e) {
+            var keyCode = e.keyCode || e.which;
+            $(this).addClass(' ');
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var regex = /^[0-9]+$/;
+            //Validate TextBox value against the Regex.
+            var isValid = regex.test(String.fromCharCode(keyCode));
+            if (!isValid) {
+                return false;
+            }
+            return isValid;
+        });
+});
+</script>
 <br><br><br>
 {% endblock %}
 
@@ -356,6 +978,44 @@ input[type="checkbox"]:checked ~ .reveal-if-active {
 {% block custom_js %}
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
+    $("#submitname").click(function () {
+var str = "";
+var name =  $('.concat > h6.finalname').length;
+//alert(name);
+if(name === 10) {
+            alert("Only Upto 10 staff members are allowed");
+                $('#firstname').val('');
+    $('#lastname').val('');
+            return false;
+        }
+else {
+    var disp = $('#firstname').val() +' '+ $('#lastname').val();
+        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">'+disp+'<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+                 $("#display").append(html);
+    $('.concat > h6.finalname').each(function () {
+        str += $(this).text() + ",";
+    });
+    var str2 = str.substring(0, str.length - 1);
+    $('#id_campus_lead_staff').val(str2);
+    $('#firstname').val('');
+    $('#lastname').val('');
+}
+    });
+    $(document).on('click', '.remove-staff', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    var str = "";
+                $('.concat > h6.finalname').each(function(){
+                     str += $(this).text()+ ",";
+                });
+ var str2 = str.substring(0,str.length-1);
+                $('#id_campus_lead_staff').val(str2);
+                // $('#id_campus_lead_staff').val(str);
+    return false;
+});
+    // $('.remove-staff').click(function () {
+    //     $(this).closest('.concat').remove();
+    // });
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
     var replacement = prefix + '-' + ndx;
@@ -363,32 +1023,97 @@ function updateElementIndex(el, prefix, ndx) {
     if (el.id) el.id = el.id.replace(id_regex, replacement);
     if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
+var community_ids = [];
+var campus_ids = [];
+var subcategory_ids=[];
 function cloneMore(selector, prefix) {
+    // $(this).parent().fadeout();
+       var selected = $(selector).find(':selected').val();
+    if (selected == ' ') {
+        alert('you cannot add empty value');
+        $(selector).val(' ');
+        return;
+    }
+    if (prefix == 'community') {
+        if (community_ids.includes(selected)) {
+            alert('community already added');
+            $(selector).val(' ');
+            return;
+        }
+        community_ids.push(selected);
+    } else if (prefix == 'campus') {
+        if (campus_ids.includes(selected)) {
+            alert('campus already added');
+            return;
+        }
+        campus_ids.push(selected);
+    }
+    else if (prefix=='sub_category'){
+        if (subcategory_ids.includes(selected)){
+            alert('Subcategory already added');
+            return;
+        }
+        subcategory_ids.push(selected);
+    }
     var newElement = $(selector).clone(true);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
     newElement.find(':input').each(function() {
-        var name = $(this).attr('name')
+        var name = $(this).attr('name');
         if(name) {
+             var selectedcommunity = $('#id_'+name+' option:selected').text();
+             var value = $('#id_'+name+' option:selected').val();
+             if(selectedcommunity != '') {
+                 console.log(selectedcommunity);
+                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
+                 $("#"+prefix+"-fields").append(html);
+             }
             name = name.replace('-' + (total-1) + '-', '-' + total + '-');
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            $('#'+id).find('[value='+value+']').remove();
+            // $(this).find(value).remove();
+            // var namenext = name.replace('-' + total + '-', '-' + (total+1) + '-');
+            // var idnext = 'id_' + name;
+            // $(idnext).find(value).remove();
         }
     });
     total++;
     $('#id_' + prefix + '-TOTAL_FORMS').val(total);
     $(selector).after(newElement);
     var conditionRow = $('.'+ prefix + '-row:not(:last)');
-    conditionRow.find('.btn.add-' + prefix +'-row')
-    .removeClass('btn-success').addClass('btn-danger')
+    conditionRow.hide() ;
+      // var selectedcommunity = $('#id_'+name+' option:selected').text();
+      //     console.log(selectedcommunity);
+      //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
+      //   $("#copy-fields").append(html);
+    conditionRow.find('.fa.add-' + prefix +'-row')
+    .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
     .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
-    .html('Remove This Entry');
+    .html(' ');
     return false;
 }
-function deleteForm(prefix, btn) {
+function deleteForm(prefix, elem) {
+    var btn = elem.attr('name');
+    //console.log("delete happening");
+    var selected = elem.attr('data-id');
+       //var selected = btn.parent().parent().find(':selected').val();
+    if (prefix == 'community') {
+        var index = community_ids.indexOf(selected);
+        if (index != -1) community_ids.splice(index, 1);
+    } else if (prefix == 'campus') {
+        var index = campus_ids.indexOf(selected);
+        if (index != -1) campus_ids.splice(index, 1);
+    }
+    else if(prefix=='sub_category'){
+        var index = subcategory_ids.indexOf(selected);
+        if (index !=-1) subcategory_ids.splice(index,1);
+    }
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
   console.log('In deleteForm - total', total);
   if (total > 1) {
-    btn.closest('.' + prefix + '-row').remove();
+    $('#id_'+btn).closest('.' + prefix + '-row').remove();
+    // $('#id_'+btn).closest('.community_partner').remove();
+    // btn.closest('.' + prefix + '-row').remove();
     var forms = $('.' + prefix + '-row');
     $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
     for (var i = 0, formCount = forms.length; i < formCount; i++) {
@@ -406,6 +1131,11 @@ $(document).on('click', '.add-mission-row', function(e){
     cloneMore('.mission-row:last', 'mission');
     return false;
 });
+$(document).on('click', '.add-sub_category-row', function(e){
+    e.preventDefault();
+    cloneMore('.sub_category-row:last', 'sub_category');
+    return false;
+});
 $(document).on('click', '.add-secondary_mission-row', function(e){
     e.preventDefault();
     cloneMore('.secondary_mission-row:last', 'secondary_mission');
@@ -414,6 +1144,16 @@ $(document).on('click', '.add-secondary_mission-row', function(e){
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
     cloneMore('.community-row:last', 'community');
+    // $('.community-row:not(:last)').hide();
+    // var name = $(this).attr('name');
+          // var selectedcommunity = $('#id_'+name+' option:selected').text();
+          // console.log(selectedcommunity);
+        // var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-community-row fa fa-trash"></i> </div>';
+  // '</div>'+
+  // '<div class="form-group">'+
+  // '<button class="btn blackbutton remove" type="button">x</button>'+
+  // '</div>';
+  //       $("#copy-fields").append(html);
     return false;
 });
 $(document).on('click', '.add-campus-row', function(e){
@@ -433,29 +1173,34 @@ $(document).on('click', '.remove-secondary_mission-row', function(e){
 });
 $(document).on('click', '.remove-community-row', function(e){
     e.preventDefault();
+   $(this).parent().remove();
     deleteForm('community', $(this));
     return false;
 });
 $(document).on('click', '.remove-campus-row', function(e){
     e.preventDefault();
+    $(this).parent().remove();
     deleteForm('campus', $(this));
+    return false;
+});
+$(document).on('click', '.remove-sub_category-row', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    deleteForm('sub_category', $(this));
     return false;
 });
 </script>
 {#   Js to show the course form if some error happens after the form #}
-<!--Populate project name Parimita-->
 <script>
 window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search);
+        const urlParams = new URLSearchParams(window.location.search);
     const projectName = urlParams.get('p_name');
     $("#id_project_name").val(projectName);
-
-
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
               $("#id_name").show();
               $("label.control-label[for=id_name], input#id_name").show();
-              $("label.control-label[for=id_prefix], input#id_prefix").show();
+              // $("label.control-label[for=id_prefix], input#id_prefix").show();
               $("label.control-label[for=id_section], input#id_section").show();
            $("#id_prefix").show();
            $("label.control-label[for=id_number], input#id_number").show();
@@ -505,7 +1250,6 @@ window.onload = function () {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
@@ -513,32 +1257,38 @@ $(document).ready(function(){
     $('#id_semester').select2({placeholder: 'Select Semester',});
     $('#id_end_semester').select2({placeholder: 'Select End Semester',});
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
+    $('#id_address_line1').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+    $(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+       }).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+      }).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+     });
 });
-document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+ document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
 .select2-container .select2-selection--single
 {
    height:32px;
 }
-
 .select2-container--default .select2-selection--single
 {
    border: 2px solid #aaa;
    margin-top:8px;
 }
-
 .select2-container--default .select2-selection--single .select2-selection__arrow
 {
    top:10px;
 }
-
 .select2-container--default .select2-selection--single:focus
 {
   border-color:grey;
   box-shadow:0 0 8px 0 grey;
 }
-
 </style>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
@@ -594,39 +1344,62 @@ return true;
 -->
 <!-- Adding script per ticket 723-->
 <script>
-window.onsubmit = function checking() {
-    var id_name = document.getElementById('id_mission-0-mission');
-    var id_campus = document.getElementById('id_campus-0-campus_partner');
-    var val = id_name.options[id_name.selectedIndex].text;
-    var val1 = id_campus.options[id_campus.selectedIndex].text;
-    var location = document.getElementById("errorid").scrollTop;
+$(document).ready(function () {
+    $('#id_status').hide();
+$('#draft').click(function(){
+    $('#id_status option[value=5]').attr('selected','selected');
+console.log('draft');
+    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
+        alert("Please provide Project Name and Academic Year to save as Draft");
+        return false;
+    }
+    else{
+        return true;
+    }
+});
+$('#submit').click(function () {
+     $('#id_status option[value=1]').attr('selected','selected');
 
-    if (val === '---------') {
-        error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
-        document.getElementById("errorid").innerHTML = error;
-        document.documentElement.scrollTop = 900;
-    }
-    if (val1 === '---------') {
-        error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
-        document.getElementById("errorid1").innerHTML = error;
-        document.documentElement.scrollTop = 900;
-        {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
-        {#return false#}
-    }
-    if (val === '---------' || val1 === '---------'){
-    return false
+     // if($('#terms'))
+});
+    // if($("#addresscheck").checked === true){
+    //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){
+    //         alert("Provide all location details");
+    //         return false
+    //     }
+    //     else{
+    //         return true
+    //     }
+    // }
+        window.onsubmit = function checking() {
+        var id_name = document.getElementById('id_mission-0-mission');
+        var id_campus = document.getElementById('id_campus-0-campus_partner');
+        var val = id_name.options[id_name.selectedIndex].text;
+        var val1 = id_campus.options[id_campus.selectedIndex].text;
+        var location = document.getElementById("errorid").scrollTop;
+        if (val === '---------') {
+            error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
+            document.getElementById("errorid").innerHTML = error;
+            document.documentElement.scrollTop = 900;
         }
-
-if (val !== '---------')  {
-  document.getElementById("errorid").innerHTML = "";
-}
-
-if (val1 !== '---------'){
-    document.getElementById("errorid1").innerHTML = "";
-}
-
-
-}
+        if (val1 === '---------') {
+            error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
+            document.getElementById("errorid1").innerHTML = error;
+            document.documentElement.scrollTop = 900;
+            {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
+            {#return false#}
+        }
+        if (val === '---------' || val1 === '---------') {
+            return false
+        }
+        if (val !== '---------') {
+            document.getElementById("errorid").innerHTML = "";
+        }
+        if (val1 !== '---------') {
+            document.getElementById("errorid1").innerHTML = "";
+        }
+    }
+});
 </script>
 <script>
 $(function () {

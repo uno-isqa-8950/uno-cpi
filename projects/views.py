@@ -1649,19 +1649,19 @@ def checkProject(request):
     # project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
 
     #Check Project actual table logic
-    for object in Project.objects.order_by('project_name'):
+    for object in Project.objects.order_by('academic_year'):
         project = object.project_name.split('(')[0]
         ay = object.academic_year
         for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
             compartner = part.community_partner
             # Sprint2-#1390- Added Capus Partner list- Search Improvements
-            for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
-                campartner = part.campus_partner
-                combinedList = [object.project_name.split('(')[0], str(compartner), str(campartner), str(ay)]
-        #Check Project actual table logic end
+        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
+            campartner = part.campus_partner
+            combinedList = [object.project_name.split('(')[0], str(compartner), str(campartner), str(ay)]
+    #Check Project actual table logic end
 
-                if combinedList not in projectNames:
-                    projectNames.append(combinedList)
+            if combinedList not in projectNames:
+                projectNames.append(combinedList)
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)

@@ -166,7 +166,7 @@ def createProject(request):
 
             address = proj.address_line1
             print(address)
-            if(address != ''):
+            if(address is not None and address != ''):
                 if (address != 'N/A'):  # check if a community partner's address is there
                     fulladdress = proj.address_line1 + ' ' + proj.city
                     geocode_result = gmaps.geocode(fulladdress)  # get the coordinates

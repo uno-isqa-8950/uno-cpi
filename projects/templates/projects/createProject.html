@@ -866,7 +866,7 @@ $(document).ready(function(){
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        //  showStepURLhash:false,
+        showStepURLhash:false,
         // contentCache:true,
         toolbarSettings: {
             // toolbarPosition:'top',
@@ -913,7 +913,7 @@ if(stepDirection === 'forward') {
     }
     if (stepNumber === 1) {
         if ($("#id_campus-0-campus_partner").val() === '') {
-            alert("Please provide Campu partner before proceeding.");
+            alert("Please provide Campus partner before proceeding.");
             return false;
         }
             $('#submit').hide();
@@ -1259,14 +1259,14 @@ $(document).ready(function(){
     $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
     $('#id_address_line1').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
-$(document).on('input', '.clearable', function(){
+    $(document).on('input', '.clearable', function(){
     $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
+       }).on('mousemove', '.x', function( e ){
     $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
+      }).on('touchstart click', '.onX', function( ev ){
     ev.preventDefault();
     $(this).removeClass('x onX').val('').change();
-});
+     });
 });
  document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
@@ -1360,6 +1360,7 @@ console.log('draft');
 $('#submit').click(function () {
      $('#id_status option[value=1]').attr('selected','selected');
 
+     // if($('#terms'))
 });
     // if($("#addresscheck").checked === true){
     //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){

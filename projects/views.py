@@ -1469,6 +1469,7 @@ def checkProject(request):
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
+    sub_category = modelformset_factory(ProjectSubCategory, extra=1, form=AddSubCategoryForm)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
@@ -1477,11 +1478,12 @@ def project_total_Add(request):
         project = ProjectFormAdd(request.POST)
         course = CourseForm(request.POST)
         formset = mission_details(request.POST or None, prefix='mission')
+        categoryformset = sub_category(request.POST or None, prefix='sub_category')
         formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         # print("validation ststus:",project.is_valid() , formset.is_valid() ,course.is_valid() , formset2.is_valid())
-        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and formset4.is_valid():
+        if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and formset4.is_valid() and categoryformset.is_valid():
             ##Convert address to cordinates and save the legislatve district and household income
             a = 0
             project.total_uno_hours = a
@@ -1528,6 +1530,7 @@ def project_total_Add(request):
             mission_form = formset.save(commit=False)
             secondary_mission_form = formset4.save(commit=False)
             proj_comm_form = formset2.save(commit=False)
+            sub_cat_form = categoryformset.save(commit=False)
             proj_campus_form = formset3.save(commit=False)
             for k in proj_comm_form:
                 k.project_name = proj
@@ -1535,6 +1538,12 @@ def project_total_Add(request):
                 print(k.project_name)
                 print(k.total_hours, k.total_people)
                 k.save()
+
+            for cat in sub_cat_form:
+                cat.project_name = proj
+                print("in add sub category")
+                print(cat.project_name)
+                cat.save()
 
             for form in mission_form:
                 form.project_name = proj
@@ -1576,6 +1585,7 @@ def project_total_Add(request):
                 k = list(Project.objects.filter(id=f.project_name_id))
                 for x in k:
                     projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                    sub = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
                     cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                     proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
                     for proj_camp_par in proj_camp_par:
@@ -1593,7 +1603,7 @@ def project_total_Add(request):
                             'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
                             'total_uno_faculty': x.total_uno_faculty,
                             'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                            'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'sub':sub,
                             'camp_part': list_camp_part_names
                             }
                     projects_list.append(data)
@@ -1608,3 +1618,29 @@ def project_total_Add(request):
     return render(request, 'projects/projectadd.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2, 'formset4': formset4})
+###my drafts
+@login_required()
+def myDrafts(request):
+    projects_list=[]
+    data_definition=DataDefinition.objects.all()
+
+    # Get the campus partner id's related to the user
+    camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+    camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
+    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
+    project_ids = [project.project_name_id for project in proj_camp]
+    if len(project_ids) == 0:
+        project_ids = [project.id for project in Project.objects.all()]
+    cursor = connection.cursor()
+    cursor.execute(sql.my_drafts, [project_ids])
+    for obj in cursor.fetchall():
+        projects_list.append(
+            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+             "engagementType": obj[4], "academic_year": obj[5],
+             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
+             "total_uno_students": obj[11],
+             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
+             "total_k12_hours": obj[15], "pk":obj[19],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+
+    return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})

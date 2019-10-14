@@ -252,3 +252,10 @@ def pass_dones(context):
         'pass_dones': Password_Reset_Done_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/my_drafts_snippet.html', takes_context=True)
+def my_drafts(context):
+    return {
+        'my_drafts': My_Projects_Snippet.objects.all(),
+        'request': context['request'],
+    }

@@ -79,26 +79,30 @@
 
 <div class="loader" id =loading></div>
 <div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Chart: Issues Addressed Analysis </h4></b></label>
-               </div>
+   <div class="row justify-content-md-center">
+      <div class="col-xl-12 col-md-12 col-sm-12">
+         <div class = "panel-default" style="width:100%">
+            <div class="card" style="padding: 5px;margin-top:50px;">
+               <label style="text-align:justify;">
+                  <b style="font-size:16px;text-align:center;color:White;">
+                     <h4 style="line-height:.8em;padding-top:10px;">Chart: Issues Addressed Analysis </h4>
+                  </b>
+               </label>
             </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
-                    {% iss_charts %}
-                </div>
+         </div>
+         <div class="card" style="border: none; padding: 10px;">
+            <div class="center">
+                {% iss_charts %}
             </div>
-        </div>
-    </div>
+         </div>
+      </div>
+   </div>
 </div>
 
 
 
 <div class="container">
-    <div class="card" style="padding: 10px;">
+    <div class="card" style="border: none; padding: 10px;">
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -122,71 +126,62 @@
         </div>
     <!-- / Collapse buttons -->
 
-
         <div class="card" style="border: 2px solid #C3C3C3;">
             <div class="collapse show" id="collapseExample">
 
-            <!--<form id="filters-form" method="get">-->
-                <form class="form-inline" id="filters-form" method="get">
-                    <div class="col-lg-4 col-md-5 form-group">
-                        <label for="academicyear"> From Academic Years
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 32%}
-                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                          data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
+            <form class="form-inline" id="filters-form" method="get">
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="academicyear">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        From Academic Years
+                    </label>
+                    <select id="id_academicyear" name="academic_year" onchange="this.form.submit()">
+                        <option>
+                            {% for sem in project_filter.form.academic_year %}
+                                {{sem}}
                             {% endfor %}
-                        </label>
-                            <select id="id_academicyear" name="academic_year" onchange="this.form.submit()">
-{#                            <select id="id_academicyear" name="start_academic_year">#}
-                                <option>
-                                    {% for sem in project_filter.form.academic_year %}
-                                        {{sem}}
-                                    {% endfor %}
-                            </option>
-                            </select>
-                    </div>
-
+                        </option>
+                    </select>
+                </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                        <label for="end_academicyear"> To Academic Years
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 32%}
-                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                          data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
+                    <label for="end_academicyear">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        To Academic Years
+                    </label>
+                    <select id="id_endacademicyear" name="end_academic_year" onchange="this.form.submit()">
+                        <option>
+                            {% for endsem in project_filter.form.end_academic_year %}
+                                {{endsem}}
                             {% endfor %}
-                        </label>
-                            <select id="id_endacademicyear" name="end_academic_year" onchange="this.form.submit()">
-{#                            <select id="id_endacademicyear" name="end_academic_year">#}
-                                <option>
-                                    {% for endsem in project_filter.form.end_academic_year %}
-                                        {{endsem}}
-                                    {% endfor %}</option>
-                            </select>
-                    </div>
-
-
-                </form>
-            </div>
+                        </option>
+                    </select>
+                </div>
+            </form>
         </div>
+    </div>
 
-
-
-  <div id="container"  style= "max-width: 1000px; height: 450px"></div>
-                    <script src="https://code.highcharts.com/highcharts.src.js"></script>
-                    <script src="https://code.highcharts.com/modules/xrange.js"></script>
-                    <script src="https://code.highcharts.com/modules/exporting.js"></script>
-                    <script>
-                        Highcharts.chart('container',{{ dumbellchart|safe }});
-                    </script>
-
-                <!--/div>
-            </div-->
-        </div>
-</div><br><br><br><br>
+    <div id="container"  style= "max-width: 1000px; height: 450px"></div>
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script src="https://code.highcharts.com/modules/xrange.js"></script>
+        <script>
+            Highcharts.chart('container',{{ dumbellchart|safe }});
+        </script>
+    </div>
+</div>
+<br><br><br><br>
 {% endblock %}
 
 {% block selectizeForm %}

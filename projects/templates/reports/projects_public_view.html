@@ -152,15 +152,10 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option value="All"> CEC/Non-CEC Partners </option>
-                        {% for weitz_cec_part in cec_part_choices.cec_part_choice %}
-                            {{ weitz_cec_part }}
-                        {% endfor %}
-                        {%  comment %}
+                        <option> All </option>
                         {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                             {{weitz_cec_part}}
                         {% endfor %}
-                        {%  endcomment %}
                     </select>
                 </div>
 
@@ -183,7 +178,7 @@
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="k12_flag"> K-12 Involvement
+                    <label for="k12_flag"> K12 Projects
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 12%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -406,8 +401,6 @@ $(document).ready(function(){
                                         }});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
-    $('#id_k12_flag').select2({placeholder: 'K-12 Involvement',width: '75%'});
-    $('#id_legislative_value').select2({placeholder: 'Legislative Districts',width: '75%'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
                                 sorter: function(data) {
                                             /* Sort data using lowercase comparison */

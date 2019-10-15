@@ -27,7 +27,7 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
                     'state', 'zip', 'latitude', 'longitude')
 
-    search_fields = ('project_name', 'engagement_type__name', 'status__name', 'activity_type__name', 'facilitator', 'semester', 'city',
+    search_fields = ('id','project_name', 'engagement_type__name', 'status__name', 'activity_type__name', 'facilitator', 'semester', 'city',
                      'start_date', 'end_date', 'country')
 
     resource_class = ProjectResource

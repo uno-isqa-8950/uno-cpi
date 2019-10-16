@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
+from projects.models import Status
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
@@ -14,16 +15,18 @@ class CommunityPartner(models.Model):
     website_url = models.URLField(max_length=300, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
     k12_level =  models.CharField(max_length=20,null=False, blank=True)
-    address_line1 = models.CharField(max_length=1024, blank=True)
-    address_line2 = models.CharField(max_length=1024, blank=True)
-    county = models.CharField(max_length=100, blank=True)
-    country = models.CharField(max_length=100, blank=True)
-    city = models.CharField(max_length=25, blank=True)
-    state = models.CharField(max_length=15, blank=True)
-    zip = models.CharField(max_length=10, blank=True)
+    online_only = models.BooleanField(default=False)
+    address_line1 = models.CharField(max_length=1024, blank=True, null=True)
+    address_line2 = models.CharField(max_length=1024, blank=True, null=True)
+    county = models.CharField(max_length=100, blank=True, null=True)
+    country = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=25, blank=True, null=True)
+    state = models.CharField(max_length=15, blank=True, null=True)
+    zip = models.CharField(max_length=10, blank=True, null=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     active = models.BooleanField(default=False)
+    partner_status = models.ForeignKey('projects.Status', on_delete=models.SET_NULL, null=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)

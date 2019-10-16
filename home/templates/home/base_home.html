@@ -19,6 +19,10 @@
     <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
@@ -29,7 +33,6 @@
  window.dataLayer = window.dataLayer || [];
  function gtag(){dataLayer.push(arguments);}
  gtag('js', new Date());
-
  gtag('config', 'UA-138745579-1');
 </script>
 
@@ -83,6 +86,8 @@
                         <ul class="dropdown-menu">
                             <a class="dropdown-item" href="/missionchart">Mission Areas</a>
                             <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+                            <a class="dropdown-item" href="/issueaddress">Issues Addressed Analysis</a>
+                            <a class="dropdown-item" href="/trendreport">Trend Report</a>
                         </ul>
                     </li>
                 </ul>
@@ -99,6 +104,7 @@
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
                         <a class="dropdown-item" href='/myProjects/'>My Project</a>
                         <a class="dropdown-item" href='/checkProject/'>Create Project</a>
+                        <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
 {#                <li class="nav-item">#}
@@ -216,7 +222,7 @@
     <!-- JavaScript -->
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
-
+<script type="text/javascript" src='{% static "js/jquery.smartWizard.min.js" %}'></script>
 {#    <!-- Script to Activate the Carousel -->#}
 <!--    <script>-->
 <!--         $('.carousel').carousel({-->

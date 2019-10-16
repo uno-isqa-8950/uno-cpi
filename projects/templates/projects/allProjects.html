@@ -27,39 +27,27 @@
         0% { -webkit-transform: rotate(0deg); }
         100% { -webkit-transform: rotate(360deg); }
     }
-
     @keyframes spin
     {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
 label, .btn-default
 {
     margin-left:100px;
 }
-
-
-
 /* Datatable Css */
-
     .btn-group{float:left;, labels:"Export"}
     #example_length{float:left; margin:0 0 0 0px;}
     #example_length select{width:50%;}
-
-
     div.dataTables_wrapper div.dataTables_length label
     {
         margin-left:0px;
     }
-
-
     div.dataTables_wrapper div.dataTables_filter label
     {
         float:right;
     }
-
-
     @media (max-width: 900px)
     {
         div.dataTables_wrapper div.dataTables_length label
@@ -69,7 +57,6 @@ label, .btn-default
         }
         #example_length select{width:35%;}
     }
-
     div.dataTables_wrapper div.dataTables_paginate
     {
         float:right;
@@ -82,25 +69,19 @@ label, .btn-default
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-
-
  .page-item.active .page-link
     {
     background-color: #333333;
     border-color: #333333;
     }
-
     .page-link
     {
     color:#333333;
     }
-
     .page-link:hover
     {
     color:grey;
     }
-
-
 </style>
 
 <div class="loader" id =loading></div>
@@ -227,7 +208,6 @@ label, .btn-default
        },
        columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
    });
-
  $('#example_filter').find('input').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
 $(document).on('input', '.clearable', function(){
@@ -241,20 +221,28 @@ $(document).on('input', '.clearable', function(){
     $('#example').DataTable().draw();
     $('#example_filter').find('input').addClass('clearable');
 });
+// Link to Specific Project - Parimita
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectName = urlParams.get('p_name');
+    if (projectName === null){
+        $('#example').DataTable().columns(0).search('').draw();
+    }
+    else {
+        $('#example').DataTable().columns(0).search(projectName).draw();
+    }
    } );
+
+
 </script>
 <script language="javascript" type="text/javascript">
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
 <style>
-
     div.dataTables_wrapper div.dataTables_length label
     {
     margin-left:30px;
     }
-
-
     @media (max-width: 900px)
     {
     div.dataTables_wrapper div.dataTables_length label
@@ -263,12 +251,10 @@ $(document).on('input', '.clearable', function(){
         margin-left:50px;
     }
     }
-
     div.dataTables_wrapper div.dataTables_paginate
     {
         float:right;
     }
-
 </style>
      <script>
          $(function () {

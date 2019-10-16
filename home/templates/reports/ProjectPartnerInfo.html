@@ -258,7 +258,7 @@
                                 <td>
                                     {% if  m.project_count  < 1 %}
                                     {{m.project_count}}
-                                    {% else %}<a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1">{{m.project_count}}</a>
+                                    {% else %}<a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_name_ids }}" target="_blank" class="class1">{{m.project_count}}</a>
                                     {% endif %}</td>
                                 <td>{{m.total_uno_students}}</td>
                                 <td>{{m.total_uno_hours}}</td>

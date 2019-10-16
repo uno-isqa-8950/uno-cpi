@@ -10,8 +10,11 @@ class CommunityPartnerResource(resources.ModelResource):
 
     class Meta:
         model = CommunityPartner
-        fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part')
-        fields = ('name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district')
+# <<<<<<< HEAD
+#         fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part')
+#         fields = ('name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district')
+# =======
+        fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district')
 
 
 class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):

@@ -268,22 +268,22 @@ var mcOptions = {
     },
         {
             height: 56,
-            url: m2_url,
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: m2_url,
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: m2_url,
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: m2_url,
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };

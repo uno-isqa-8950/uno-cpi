@@ -183,7 +183,6 @@ MESSAGE_TAGS = {
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'js-marker-clusterer/images'),
     os.path.join(PROJECT_ROOT, 'static'),
 )
 

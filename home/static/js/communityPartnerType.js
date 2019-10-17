@@ -263,27 +263,27 @@ var mcOptions = {
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: "/static/m2.png",
+        url: m2_url,
         width: 53
     },
         {
             height: 56,
-            url: "/static/m2.png",
+            url: m2_url,
             width: 56
         },
         {
             height: 60,
-            url: "/static/m2.png",
+            url: m2_url,
             width: 60
         },
         {
             height: 80,
-            url: "/static/m2.png",
+            url: m2_url,
             width: 80
         },
         {
             height: 100,
-            url: "/satic/m2.png",
+            url: m2_url,
             width: 100
         }]
 };

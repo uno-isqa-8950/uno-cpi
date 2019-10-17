@@ -13,10 +13,13 @@ urlpatterns = [
     path('allProjects/', views.showAllProjects, name='showAllProjects'),
     url(r'^projectSearchAdd/(?P<pk>\d+)/', views.SearchForProjectAdd, name='projectSearchAdd'),
     path('projectspublicreport/', views.projectsPublicReport, name='projectspublicreport'),
-    path('projectsspecificpublicreport/<int:pk>/<str:type>', views.projectsspecificPublicReport, name='projectsspecificpublicreport'),
+    url(r'^projectsfromMissionReport/(?P<pk>\d+)/', views.projectsfromMissionReport, name='projectsfromMissionReport'),
+    url(r'^communityfromMissionReport/(?P<pk>\d+)/', views.communityfromMissionReport, name='communityfromMissionReport'),
     path('communitypublicreport/', views.communityPublicReport, name='communitypublicreport'),
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
     path('checkProject/', views.checkProject, name='checkProject'),
+    path('myDrafts/', views.myDrafts, name='myDrafts'),
+
 
 ]

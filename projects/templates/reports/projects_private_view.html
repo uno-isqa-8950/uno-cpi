@@ -197,6 +197,25 @@
                         {% endfor %}
                     </select>
                 </div>
+                <div class="col-lg-3 col-md-5 form-group ">
+
+                    <label >Legislative Districts
+    
+                        {% for data_definition in data_definition %}
+                        {% if data_definition.id == 52%}
+                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                            data-content="{{ data_definition.description }}" class="float">
+                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        {% for item in legislative_choices %}
+                        <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
+                       <!-- <option> {{legislative_value}} </option>-->
+                        {% endfor %}
+                    </select>
+                </div>
                 {% comment %}
                 <div class="col-lg-3 col-md-5 form-group">
                     <label for="id_legislative_district"> Legislative District : </label>
@@ -287,8 +306,6 @@ $(document).ready(function(){
 
 <script>
 $(document).ready(function(){
-
-
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '225px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '225px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '200px'});
@@ -323,7 +340,6 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-
 });
 </script>
 
@@ -338,7 +354,6 @@ $(".show-more a").on("click", function(e) {
   var $this = $(this);
   var $content = $this.parent().prev("div.content");
   var linkText = $this.text().toUpperCase();
-
   if (linkText === "SHOW MORE") {
     linkText = "Show less";
     $content.switchClass("hideContent", "showContent", 400);
@@ -346,7 +361,6 @@ $(".show-more a").on("click", function(e) {
     linkText = "Show more";
     $content.switchClass("showContent", "hideContent", 400);
   };
-
   $this.text(linkText);
 });
 </script>

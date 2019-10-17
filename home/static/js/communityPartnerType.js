@@ -194,7 +194,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var campus_partner = communityData.features
     var academic_year = communityData.features
     var website = communityData.features
-    console.log('website in pageload---'+website);
     var city = communityData.features
     var projects = communityData.features
     // var markers =[];
@@ -264,27 +263,27 @@ var mcOptions = {
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+        url: "/static/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "/static/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "/static/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "/static/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "/satic/m2.png",
             width: 100
         }]
 };
@@ -296,9 +295,7 @@ var rightclickwindow = null;
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects) {
     var infowindow = new google.maps.InfoWindow();
-    console.log('infowindow---'+infowindow);
     google.maps.event.addListener(marker, 'click', function () {
-        console.log('infowindow---'+infowindow);
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
         infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +

@@ -75,7 +75,7 @@ A.class1:link  {text-decoration: underline; color: red;}
                             {% endif %}
                         {% endfor %}
                        </label>
-                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="">
+                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" required>
                    </form>
                  </div>
                  <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
@@ -84,7 +84,7 @@ A.class1:link  {text-decoration: underline; color: red;}
             </div>
         </div>
       </div>
-         <div style="float: left;" id="node1-id" style="margin-left: 20% "></div>
+         <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
          <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
          <div>
             <div class="panel-body">&emsp;
@@ -93,7 +93,6 @@ A.class1:link  {text-decoration: underline; color: red;}
      </div>
    </div>
 </div>
-
 
                 {{ projectNames | json_script:"project-data"}}
 
@@ -109,10 +108,6 @@ var valueFilter = document.getElementById("project_name");
 var valueAceYear = document.getElementById("id_academic_year");
 var valueCamPart = document.getElementById("id_campus_partner");
 var valueComPart = document.getElementById("id_community_type");
-
-
-
-
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     if (e.keyCode == 8) {
@@ -124,15 +119,11 @@ valueFilter.addEventListener("keydown", function (e) {
 // the listening button off
 valueFilter.addEventListener("keyup", function (e) {
     project_db = JSON.parse(document.getElementById('project-data').textContent);
-
-
     //get the input value
-
     var value = e.target.value.trim().toLowerCase();
     var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
     var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
     var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
-
     var projectlist = []
     var partnerlist = []
     // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table and added a displayAddprojectFlag
@@ -154,14 +145,11 @@ valueFilter.addEventListener("keyup", function (e) {
             var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
             var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
             document.getElementById('Search').onclick= null;
-
             for (var i = 0; i < project_db.length; i++)
                              // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
                             //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
             {
-
                 if ((project_db[i][0].toLowerCase().includes(value.toLowerCase())) && (project_db[i][0].toLowerCase().includes(YearValue.toLowerCase())) && (project_db[i][2].toLowerCase().trim().includes(CampValue.toLowerCase().trim())) && (project_db[i][1].toLowerCase().trim().includes(CompValue.toLowerCase().trim())))
-
                 {
                     if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist && project_db[i][3] in academicyearlist)) {
                         projectlist.push(project_db[i][0]);
@@ -182,8 +170,6 @@ valueFilter.addEventListener("keyup", function (e) {
                             {
                                 displayAddProjectFlag = 0;
                             }
-
-                        document.getElementById('node1-id').innerHTML =
                             mylist +='<tr>' +
                                 '<td>'  + academicyearlist[j] + '</td>' + '<td><a href="/allProjects?p_name='+ projectlist[j].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + projectlist[j].split(':').slice(0,-1).join(':') + '</a></td>' +
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
@@ -192,8 +178,8 @@ valueFilter.addEventListener("keyup", function (e) {
                         }
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
-                            '<br><br>' +
-                                '<br><br>'
+                            '<br>' +
+                                '<br><br>' +
                                  mylist
                        /* document.getElementById('node1-id').innerHTML =
                             '<br>' +
@@ -228,7 +214,6 @@ valueFilter.addEventListener("keyup", function (e) {
             if (displayAddProjectFlag == 2)
                     {
                         var projectName = document.getElementById('project_name').value;
-
                          document.getElementById('node-id'). innerHTML = "";
                          document.getElementById('node1-id'). innerHTML = "";
                          document.getElementById('button-id').innerHTML =
@@ -240,7 +225,6 @@ valueFilter.addEventListener("keyup", function (e) {
         }
     };
 });
-
 $("#dropdownMenuButton").on("click", function() {
   $('.dropdown-menu').toggleClass('open');
 });
@@ -255,17 +239,13 @@ $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
 </script>
-
             </div>
     </div>
-
         <br> <br> <br>
     {% endblock %}
         {% block selectizeForm %}
-
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-
         <script>
 $(document).ready(function(){
     $('#project_name').attr({placeholder: 'Project Name',width: '225px'});
@@ -286,7 +266,6 @@ $(document).ready(function(){
                                             });
                                         }});
     });
-
 // submit when enter-Parimita
 $("#project_name").keyup(function(event){
       if(event.keyCode== 13){
@@ -305,16 +284,12 @@ $(document).on('input', '.clearable', function(){
     $(this).removeClass('x onX').val('').change();
 });
 </script>
-
         {% endblock %}
         {% block js %}
-
         <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-
         <script type="text/javascript">
    $(document).ready(function() {
    $('#example_filter').find('input').addClass('clearable');
@@ -332,10 +307,10 @@ $(document).on('input', '.clearable', function(){
 });
    } );
 </script>
-<script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
+        <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
     </script>
 
 <script>

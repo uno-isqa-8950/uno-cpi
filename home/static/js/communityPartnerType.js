@@ -263,7 +263,7 @@ var mcOptions = {
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: m2_url,
+        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {

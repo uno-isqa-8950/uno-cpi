@@ -274,27 +274,27 @@ var mcOptions = {
     averageCenter: true,
     styles: [{
         height: 53,
-        url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://googlemaps.github.io/js-marker-clusterer/images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };

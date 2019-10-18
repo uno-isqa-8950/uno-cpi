@@ -11,7 +11,6 @@ from django.contrib.postgres.fields import ArrayField
 #     facilitator = models.CharField(max_length=255, blank=True)
 #     description = models.TextField(blank=True, null=True)
 #     semester = models.CharField(max_length=20, blank=False)
-#     semester = models.CharField(max_length=20, blank=False)
 #     end_semester = models.CharField(max_length=20, blank=True)
 #     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
 #     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
@@ -106,7 +105,6 @@ class Project (models.Model):
     def _str_(self):
         return str(self.project_name)
 
-
 class SubCategory (models.Model):
     sub_category = models.CharField(max_length=30, blank=True, null=False)
     sub_category_descr = models.CharField(max_length=250, blank=True, null=True)
@@ -126,11 +124,6 @@ class SubCategory (models.Model):
     def __str__(self):
         return str(self.sub_category)
 
-    class Meta:
-        verbose_name = "Subcategory"
-        verbose_name_plural = "Subcategories"
-
-
 class MissionSubCategory (models.Model):
     sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE)
     secondary_mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
@@ -148,10 +141,6 @@ class MissionSubCategory (models.Model):
 
     def _str_(self):
         return str(self.sub_category)
-
-    class Meta:
-        verbose_name = "Mission Subcategory"
-        verbose_name_plural = "Mission Subcategories"
 
 
 class ProjectSubCategory (models.Model):
@@ -171,10 +160,6 @@ class ProjectSubCategory (models.Model):
 
     def _str_(self):
         return str(self.project_name)
-
-    class Meta:
-        verbose_name = "Project Subcategory"
-        verbose_name_plural = "Project Subcategories"
 
 
 class ProjectRelatedLink (models.Model):

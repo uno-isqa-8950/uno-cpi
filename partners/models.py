@@ -1,7 +1,6 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
-from projects.models import Status
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
@@ -12,6 +11,7 @@ class CommunityPartner(models.Model):
         ('No', 'No'),
     )
     name = models.CharField(max_length=255, unique=True)
+    acronym = models.CharField(max_length=255, unique=True, blank=True, null=True)
     website_url = models.URLField(max_length=300, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
     k12_level =  models.CharField(max_length=20,null=False, blank=True)
@@ -26,7 +26,8 @@ class CommunityPartner(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     active = models.BooleanField(default=False)
-    partner_status = models.ForeignKey('projects.Status', on_delete=models.SET_NULL, null=True)
+    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
+                                       verbose_name="Community Partner Status")
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
@@ -71,6 +72,8 @@ class CampusPartner(models.Model):
     education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True,blank=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
     active = models.BooleanField(default=False)
+    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
+                                       verbose_name="Campus Partner Status")
     history = HistoricalRecords()
 
     class Meta:
@@ -93,3 +96,17 @@ class CommunityPartnerUser(models.Model):
     history = HistoricalRecords()
 
 
+# Models below are Partner lookup tables, must have values to insert project data
+
+
+class PartnerStatus(models.Model):
+    name = models.CharField(max_length=80, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = "Partner Status"
+        verbose_name_plural = "Partner Statuses"

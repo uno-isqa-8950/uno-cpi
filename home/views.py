@@ -611,14 +611,17 @@ def engagement_info(request):
         proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
         # sets the non distinct array to a distinct set of community partner ids
         unique_comm_ids = set(proj_comm_ids)
+        comm_id_list = list(unique_comm_ids)
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
 
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
         projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        proj_ids_list = []
         proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
         proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
         unique_camp_ids = set(proj_camp_ids)
+
         unique_camp_ids_count = len(unique_camp_ids)
 
         a = request.GET.get('weitz_cec_part', None)
@@ -630,23 +633,45 @@ def engagement_info(request):
                 proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
                 proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
                 proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
+                #comm_id_list = list(campus.campus_partner_id for campus in proj_camp)
                 unique_camp_ids = set(proj_camp_ids)
+
                 unique_camp_ids_count = len(unique_camp_ids)
 
         engagement_Dict['engagement_name'] = e.name
         engagement_Dict['project_count'] = project_count
         engagement_Dict['community_count'] = unique_comm_ids_count
         engagement_Dict['campus_count'] = unique_camp_ids_count
+        comm_ids = ''
+        name_count = 0
+
+        for i in comm_id_list:
+            comm_ids = comm_ids + str(i)
+
+            if name_count < len(comm_id_list) - 1:
+                comm_ids = comm_ids + str(",")
+            name_count = name_count + 1
+        engagement_Dict['comm_id_list'] = comm_ids
         total_uno_students = 0
         total_uno_hours = 0
 
         for p in projects:
+            proj_ids_list.append(p.id)
             uno_students = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_students'))
             uno_hours = Project.objects.filter(id=p.id).aggregate(Sum('total_uno_hours'))
             total_uno_students += uno_students['total_uno_students__sum']
             total_uno_hours += uno_hours['total_uno_hours__sum']
+        proj_ids = ''
+        project_count = 0
+        for i in proj_ids_list:
+            proj_ids = proj_ids + str(i)
+
+            if project_count < len(proj_ids_list) - 1:
+                proj_ids = proj_ids + str(",")
+                project_count = project_count + 1
         engagement_Dict['total_uno_hours'] = total_uno_hours
         engagement_Dict['total_uno_students'] = total_uno_students
+        engagement_Dict['project_id_list'] = proj_ids
         engagement_List.append(engagement_Dict.copy())
         # proj_total += project_count
         # comm_total += unique_comm_ids_count

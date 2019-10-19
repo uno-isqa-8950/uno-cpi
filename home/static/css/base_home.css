@@ -362,16 +362,16 @@ figcaption {
 .hero {
   background-size: cover;
   background-position: center;
-  padding: 200px 0 30px 0;
-  position: relative;
-  margin: 0 0 30px;
+  /*padding: 200px 0 30px 0;*/
+  /*position: relative;*/
+  /*margin: 0 0 30px;*/
 }
-@media screen and (min-width: 768px) {
-  .hero {
-    padding: 400px 0 60px 0;
-    margin: 0 0 40px;
-  }
-}
+/*@media screen and (min-width: 768px) {*/
+  /*.hero {*/
+    /*padding: 400px 0 60px 0;*/
+    /*margin: 0 0 40px;*/
+  /*}*/
+/*}*/
 hr.new1 {
   border-top: 4.0px dotted darkgray;
   width: 80%;
@@ -532,7 +532,7 @@ span.outline {
 }
 .homepage .hero {
   margin: 0;
-  padding: 170px 0 0px 0;
+  padding: 15%
 }
 
 .homepage .hero h1 {
@@ -550,50 +550,50 @@ span.outline {
   width: 250px;
 }
 
-.homepage .home-hero {
-  margin-bottom: 0;
-  padding-bottom: 60px;
-  text-align: center;
-  color: transparent;
-}
-.homepage .home-hero .lead {
-  color: transparent;
-  font-size: 1.6em;
-  margin: 40px auto;
-}
+/*.homepage .home-hero {*/
+  /*margin-bottom: 0;*/
+  /*padding-bottom: 60px;*/
+  /*text-align: center;*/
+  /*color: transparent;*/
+/*}*/
+/*.homepage .home-hero .lead {*/
+  /*color: transparent;*/
+  /*font-size: 1.6em;*/
+  /*margin: 40px auto;*/
+/*}*/
 
-.homepage .home-hero .hero-cta-link {
-  color: #fff;
-  border: 1px solid #aaa;
-  border-radius: 4px;
-  padding: 10px 34px 10px 10px;
-  display: inline-block;
-  vertical-align: middle;
-  transform: perspective(1px) translateZ(0);
-  box-shadow: 0 0 1px transparent;
-  position: relative;
-  transition-duration: 0.1s;
-}
-.homepage .home-hero .hero-cta-link:before {
-  content: "\f18e";
-  font-family: FontAwesome;
-  font-size: 1.2em;
-  font-weight: 200;
-  opacity: 0.8;
-  padding: 0 1px;
-  position: absolute;
-  right: 0.2em;
-  top: 0.2em;
-  transform: translateZ(0);
-  transition-duration: 0.1s;
-  transition-property: transform;
-  transition-timing-function: ease-out;
-}
-.homepage .home-hero .hero-cta-link:hover:before,
-.homepage .home-hero .hero-cta-link:focus:before,
-.homepage .home-hero .hero-cta-link:active:before {
-  transform: translateX(4px);
-}
+/*.homepage .home-hero .hero-cta-link {*/
+  /*color: #fff;*/
+  /*border: 1px solid #aaa;*/
+  /*border-radius: 4px;*/
+  /*padding: 10px 34px 10px 10px;*/
+  /*display: inline-block;*/
+  /*vertical-align: middle;*/
+  /*transform: perspective(1px) translateZ(0);*/
+  /*box-shadow: 0 0 1px transparent;*/
+  /*position: relative;*/
+  /*transition-duration: 0.1s;*/
+/*}*/
+/*.homepage .home-hero .hero-cta-link:before {*/
+  /*content: "\f18e";*/
+  /*font-family: FontAwesome;*/
+  /*font-size: 1.2em;*/
+  /*font-weight: 200;*/
+  /*opacity: 0.8;*/
+  /*padding: 0 1px;*/
+  /*position: absolute;*/
+  /*right: 0.2em;*/
+  /*top: 0.2em;*/
+  /*transform: translateZ(0);*/
+  /*transition-duration: 0.1s;*/
+  /*transition-property: transform;*/
+  /*transition-timing-function: ease-out;*/
+/*}*/
+/*.homepage .home-hero .hero-cta-link:hover:before,*/
+/*.homepage .home-hero .hero-cta-link:focus:before,*/
+/*.homepage .home-hero .hero-cta-link:active:before {*/
+  /*transform: translateX(4px);*/
+/*}*/
 /*.homepage .streamfield {*/
   /*background: linear-gradient(45deg, rgba(170,170,170,1) 0%,rgba(238,238,238,1) 44%);*/
 /*}*/

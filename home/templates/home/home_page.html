@@ -175,30 +175,24 @@
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 
 {% image page.image fill-1920x600 as image %}
-    <div class="hero" style="background-image:url('{{ image.url }}');background-size: contain;background-repeat: no-repeat">
-         <div class="col-md-8 col-md-offset-2 ">
-
-         </div>
-     </div>
-
-{#<div class="container-fluid hero homepage-banner" style="background-image:url('{{ image.url }}')">#}
-{#    <div class="hero-gradient-mask"></div>#}
-{#    <div class="container">#}
-{#        <div class="row">#}
-{#            <div class="col-md-8 col-md-offset-2 home-hero">#}
-{#                <h1>{{ page.title }}</h1>#}
-{#                <p class="lead">{{ page.hero_text }}</p>#}
-{#                {% if page.hero_cta_link %}#}
-{#                    <a href="{% pageurl page.hero_cta_link %}" class="hero-cta-link hvr-icon-forward">#}
-{#                        {{ page.hero_cta }}#}
-{#                    </a>#}
-{#                {% else %}#}
-{#                    {{ page.hero_cta }}#}
-{#                {% endif %}#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
+<div class="container-fluid hero homepage-banner" style="background-image:url('{{ image.url }}')">
+    <div class="hero-gradient-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 home-hero">
+                <h1>{{ page.title }}</h1>
+                <p class="lead">{{ page.hero_text }}</p>
+                {% if page.hero_cta_link %}
+                    <a href="{% pageurl page.hero_cta_link %}" class="hero-cta-link hvr-icon-forward">
+                        {{ page.hero_cta }}
+                    </a>
+                {% else %}
+                    {{ page.hero_cta }}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 <!--{##}-->
 <!--{#<div class="container">#}-->
 <!--{#    <div class="row promo-row">#}-->

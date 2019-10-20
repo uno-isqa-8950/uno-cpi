@@ -360,9 +360,8 @@ figcaption {
 
 /* Hero image area */
 .hero {
-  background-size: contain;
-  background-position: center;
-    background-repeat: no-repeat
+  object-fit: contain;
+
 
 }
 /*@media screen and (min-width: 768px) {*/

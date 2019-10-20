@@ -174,11 +174,12 @@
 <div class="homepage col-md-12" style="width: 100vw;
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
 {% image page.image fill-1920x600 as image %}
-     <div class="hero" style="background-image:url('{{ image.url }}');background-size: contain;background-repeat: no-repeat">
-         <div class="col-md-8 col-md-offset-2 ">
+    <div>
 
-         </div>
-     </div>
+        <img src="{{image.url}}" class="hero"/>
+
+    </div>
+
 <!--{% image page.image fill-1920x600 as image %}-->
 <!--<div class="container-fluid hero homepage-banner" style="background-image:url('{{ image.url }}')">-->
     <!--<div class="hero-gradient-mask"></div>-->

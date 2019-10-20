@@ -360,16 +360,16 @@ figcaption {
 
 /* Hero image area */
 .hero {
-  background-size: cover;
-  background-position: center;
+  object-fit: contain;
+
 
 }
-@media screen and (min-width: 768px) {
-  .hero {
-    padding: 400px 0 60px 0;
-    margin: 0 0 40px;
-  }
-}
+/*@media screen and (min-width: 768px) {*/
+  /*.hero {*/
+    /*padding: 400px 0 60px 0;*/
+    /*margin: 0 0 40px;*/
+  /*}*/
+/*}*/
 hr.new1 {
   border-top: 4.0px dotted darkgray;
   width: 80%;
@@ -528,10 +528,10 @@ span.outline {
   display: block;
   width: 100%;
 }
-.homepage .hero {
-  margin: 0;
-  padding: 15%;
-}
+/*.homepage .hero {*/
+  /*margin: 0;*/
+  /*padding: 15%;*/
+/*}*/
 
 .homepage .hero h1 {
   font-size: 2.2em;

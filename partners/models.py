@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.db import models
+from projects.models import AcademicYear
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
 
@@ -29,6 +30,8 @@ class CommunityPartner(models.Model):
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
                                        verbose_name="Community Partner Status")
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
+    cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
+                                           verbose_name="Community CEC Partner Status")
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
     history = HistoricalRecords()
@@ -71,6 +74,8 @@ class CampusPartner(models.Model):
     university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True,blank=True)
     education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True,blank=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
+    cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
+                                           verbose_name="Campus CEC Partner Status")
     active = models.BooleanField(default=False)
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
                                        verbose_name="Campus Partner Status")
@@ -96,6 +101,23 @@ class CommunityPartnerUser(models.Model):
     history = HistoricalRecords()
 
 
+class CecPartActiveYrs(models.Model):
+    SEMESTER = [
+        ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
+    start_semester = models.CharField(max_length=20, choices=SEMESTER, blank=True)
+    start_acad_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=False,
+                                        related_name="cec_academic_year1")
+    end_semester = models.CharField(max_length=20, choices=SEMESTER, blank=True)
+    end_acad_year = models.ForeignKey(AcademicYear, on_delete=models.CASCADE, null=True, blank=True,
+                                      related_name="cec_academic_year2")
+    comm_partner = models.ForeignKey(CommunityPartner, on_delete=models.CASCADE, null=True, blank=True)
+    camp_partner = models.ForeignKey(CampusPartner, on_delete=models.CASCADE, null=True, blank=True)
+    history = HistoricalRecords()
+
+    class Meta:
+        verbose_name = "CEC Building Partner Active Year"
+        verbose_name_plural = "CEC Building Partner Active Year"
+
 # Models below are Partner lookup tables, must have values to insert project data
 
 
@@ -110,3 +132,16 @@ class PartnerStatus(models.Model):
     class Meta:
         verbose_name = "Partner Status"
         verbose_name_plural = "Partner Statuses"
+            
+    
+class CecPartnerStatus(models.Model):
+    name = models.CharField(max_length=80, unique=True)
+    description = models.CharField(max_length=255, null=True, blank=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.name)
+
+    class Meta:
+        verbose_name = "CEC Partner Status"
+        verbose_name_plural = "CEC Partner Statuses"

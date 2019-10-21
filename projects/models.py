@@ -243,6 +243,25 @@ class ActivityType(models.Model):
         return str(self.name)
 
 
+class EngagementActivityType(models.Model):
+    EngagementTypeName = models.ForeignKey('EngagementType', on_delete=models.CASCADE)
+    ActivityTypeName = models.ForeignKey('ActivityType', on_delete=models.CASCADE)
+    history = HistoricalRecords()
+
+    def __str__(self):
+         return str(self.EngagementTypeName)
+
+
+class ProjectEngagementActivity(models.Model):
+    ProjectName = models.ForeignKey('Project',  on_delete=models.CASCADE)
+    ProjectEngagementActivityName = models.ForeignKey('EngagementActivityType', on_delete=models.CASCADE)
+    #ProjectEngagementActivityName =  OneToMany(to=EngagementActivityType)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.ProjectName)
+
+
 class AcademicYear(models.Model):
     academic_year = models.CharField(max_length=20, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)

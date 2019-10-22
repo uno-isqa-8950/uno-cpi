@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission
+from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission, CecPartActiveYrs, CecPartnerStatus
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
@@ -86,6 +86,42 @@ class CommunityPartnerMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = CommunityPartnerMissionResource
 
 
+class CecPartnerStatusResource(resources.ModelResource):
+    name = fields.Field(attribute='name', column_name="CEC Status")
+    description = fields.Field(attribute='description', column_name="CEC Status Description")
+
+    class Meta:
+        model = CecPartnerStatus
+        fields = ('name', 'description')
+
+
+class CecPartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('name', 'description')
+
+    search_fields = ('name', 'description')
+
+    resource_class = CecPartnerStatusResource
+
+
+class CecPartActiveYrsResource(resources.ModelResource):
+    start_semester = fields.Field(attribute='start_semester', column_name="CEC Partner Start Semester")
+    start_acad_year = fields.Field(attribute='start_acad_year', column_name="CEC Partner Start AY")
+    end_semester = fields.Field(attribute='end_semester', column_name="CEC Partner End Semester")
+    end_acad_year = fields.Field(attribute='end_acad_year', column_name="CEC Partner End AY")
+    comm_partner = fields.Field(attribute='comm_partner', column_name="Community Partner")
+    camp_partner = fields.Field(attribute='camp_partner', column_name="Campus Partner")
+
+    class Meta:
+        model = CecPartActiveYrs
+        fields = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+
+
+class CecPartActiveYrsList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+
+    search_fields = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+
+    resource_class = CecPartActiveYrsResource
 
 
 # class CommunityTypeList(admin.ModelAdmin):
@@ -99,6 +135,5 @@ admin.site.register(CommunityType, SimpleHistoryAdmin)
 admin.site.register(CommunityPartnerMission,CommunityPartnerMissionList)
 admin.site.register(CampusPartner,CampusPartnerList)
 admin.site.register(CampusPartnerUser,CampusPartnerUserList)
-
-
-
+admin.site.register(CecPartnerStatus,CecPartnerStatusList)
+admin.site.register(CecPartActiveYrs,CecPartActiveYrsList)

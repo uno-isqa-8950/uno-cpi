@@ -1,6 +1,7 @@
 from django.contrib import admin
 from .models import Project, ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, EngagementType, \
-    ActivityType, Status, AcademicYear,ProjectRelatedLink, ProjectSubCategory,SubCategory,MissionSubCategory
+    ActivityType, Status, AcademicYear,ProjectRelatedLink, ProjectSubCategory,SubCategory,MissionSubCategory,\
+    EngagementActivityType, ProjectEngagementActivity
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
@@ -109,6 +110,45 @@ class ActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = ActivityType
 
 
+class EngagementActivityTypeResource(resources.ModelResource):
+     class Meta:
+         model = EngagementActivityType
+
+
+class EngagementActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
+
+    list_display = ('EngagementTypeName', 'ActivityTypeName')
+
+    search_fields = ('EngagementTypeNamw', 'ActivityTypeName')
+
+    resource_class = EngagementActivityTypeResource
+
+
+class ProjectEngagementActivityResource(resources.ModelResource):
+    class Meta:
+        model = ProjectEngagementActivity
+
+
+
+class ProjectEngagementActivityList(admin.ModelAdmin):
+
+
+
+
+
+    list_display = ('ProjectName', )
+
+    search_fields = ('Project Name', 'ProjectEngagement Activity Name')
+
+
+           # return self.ProjectEngagementActivity.ProjectEngagementActivityName.EngagementTypeName
+
+    resource_class = ProjectEngagementActivityResource
+
+
+
+
+
 class StatusList(admin.ModelAdmin):
 
     list_display = ('name', 'description')
@@ -193,3 +233,6 @@ admin.site.register(ProjectRelatedLink, ProjectRelatedLinksList)
 admin.site.register(SubCategory, SubCategoryList)
 admin.site.register(ProjectSubCategory, ProjectSubCategoryList)
 admin.site.register(MissionSubCategory, MissionSubCategoryList)
+admin.site.register(EngagementActivityType, EngagementActivityTypeList)
+admin.site.register(ProjectEngagementActivity, ProjectEngagementActivityList)
+#admin.site.register(engagement_type_inline)

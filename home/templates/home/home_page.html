@@ -47,10 +47,10 @@
 <!-- Navbar Begins -->
 
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <!--<a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>-->
-    <!--<a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>-->
+    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
+    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>
     <!--<a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/uno-cpi-header.png' %}" style = "height : 50px; width: 500px " alt="UNO Logo"></a>-->
-    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/uno-cpi-header.png' %}" style = "height:50px;width:330px;max-height :auto; max-width: auto " alt="UNO Logo"></a>
+    <!-- <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/uno-cpi-header.png' %}" style = "height:50px;width:330px;max-height :auto; max-width: auto " alt="UNO Logo"></a> -->
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
     <div class="collapse navbar-collapse" id="target">
         <ul class="navbar-nav ml-auto">
@@ -173,26 +173,14 @@
 {#<div class="homepage">#}
 <div class="homepage col-md-12" style="width: 100vw;
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
-
 {% image page.image fill-1920x600 as image %}
-<div class="container-fluid hero homepage-banner" style="background-image:url('{{ image.url }}')">
-    <div class="hero-gradient-mask"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 home-hero">
-                <h1>{{ page.title }}</h1>
-                <p class="lead">{{ page.hero_text }}</p>
-                {% if page.hero_cta_link %}
-                    <a href="{% pageurl page.hero_cta_link %}" class="hero-cta-link hvr-icon-forward">
-                        {{ page.hero_cta }}
-                    </a>
-                {% else %}
-                    {{ page.hero_cta }}
-                {% endif %}
-            </div>
-        </div>
+    <div>
+
+        <img src="{{image.url}}" class="hero"/>
+
     </div>
-</div>
+
+
 <!--{##}-->
 <!--{#<div class="container">#}-->
 <!--{#    <div class="row promo-row">#}-->

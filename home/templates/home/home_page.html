@@ -171,8 +171,7 @@
 <!-- Navbar ends-->
 
 {#<div class="homepage">#}
-<div class="homepage col-md-12" style="width: 100vw;
-  position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
+<div class="homepage col-md-12" >
 {% image page.image fill-1920x600 as image %}
     <div>
 
@@ -276,9 +275,9 @@
         <div class="col-md-12 feature-3">
 
             {% if page.featured_section_3 %}
-                <div class="featured-children row">
+                <div class="featured-children row centered">
                     {% for childpage in page.featured_section_3.specific.children|slice:"12" %}
-                    <div class="cardhomepage">
+                    <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
                         <a href="{{childpage.url}}" >

@@ -2011,9 +2011,9 @@ def checkProject(request):
         for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
             compartner = part.community_partner
             # Sprint2-#1390- Added Capus Partner list- Search Improvements
-        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
-            campartner = part.campus_partner
-            combinedList = [object.project_name.split('(')[0], str(compartner), str(campartner), str(ay)]
+            for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
+                campartner = part.campus_partner
+                combinedList = [object.project_name.split('(')[0], str(compartner), str(campartner), str(ay)]
     #Check Project actual table logic end
 
             if combinedList not in projectNames:

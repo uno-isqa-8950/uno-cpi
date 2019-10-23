@@ -770,7 +770,7 @@ div.feature-3{
   flex-wrap: wrap;
 }
 
-@media (min-width: 1200px){.container {
+@media (min-width: 1200px){.containerhomepage {
     max-width: 100em;
 }}
 

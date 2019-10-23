@@ -242,39 +242,43 @@
     <!--<br>-->
 
 
-<div class="container-fluid centered">
-    <div class="row">
-        <div class="col-md-12 feature-3">
-            {% if page.featured_section_2 %}
-                <div class="featured-children row" >
-                    {% for childpage in page.featured_section_2.specific.children|slice:"4" %}
-                    <div class="col-md-3" style="padding-bottom: 15px">
-                        <li class="z-depth" >
-                            <a href="{{childpage.url}}" >
-                                <div class="cardheading">
-                                <h3 >{{childpage.title}}</h3>
-                                </div>
-                                <blog.img>
-                                    {% image childpage.image fill-300x230-c100 %}
-                                </blog.img>
-                            </a>
-                        </li>
-                    </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
-    </div>
-</div>
+<!--<div class="container-fluid centered">-->
+    <!--<div class="row">-->
+        <!--<div class="col-md-12 feature-3">-->
+            <!--<section class="cards">-->
+            <!--{% if page.featured_section_2 %}-->
+                <!--<div class="featured-children row" >-->
+                    <!--{% for childpage in page.featured_section_2.specific.children|slice:"4" %}-->
+                    <!--<div class="col-md-3">-->
+                        <!--<li class="z-depth" >-->
+                            <!--<a href="{{childpage.url}}" >-->
+                                <!--<div class="cardheading">-->
+                                <!--<h3 >{{childpage.title}}</h3>-->
+                                <!--</div>-->
+                                <!--<blog.img>-->
+                                    <!--{% image childpage.image fill-300x230-c100 %}-->
+                                <!--</blog.img>-->
+                            <!--</a>-->
+                        <!--</li>-->
+                    <!--</div>-->
+                    <!--{% endfor %}-->
+                <!--</div>-->
+            <!--{% endif %}-->
+                <!--</section>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
 
 <!--<br>-->
 <div class="container-fluid centered">
-    <div class="row">
+    <!--<div class="row">-->
+    <section class="cardshomepage">
         <div class="col-md-12 feature-3">
+
             {% if page.featured_section_3 %}
                 <div class="featured-children row">
-                    {% for childpage in page.featured_section_3.specific.children|slice:"4" %}
-                    <div class="col" style="padding-bottom: 15px">
+                    {% for childpage in page.featured_section_3.specific.children|slice:"12" %}
+                    <div class="cardhomepage">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
                         <a href="{{childpage.url}}" >
@@ -290,9 +294,14 @@
                     {% endfor %}
                 </div>
             {% endif %}
+
         </div>
-    </div>
+         </section>
+    <!--</div>-->
 </div>
+
+
+
 <HR class="new1">
 
 {% if page.bottom %}
@@ -362,6 +371,7 @@
 
 
 {% endblock %}
+</div>
 </div>
     </body>
 </html>

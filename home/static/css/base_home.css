@@ -508,12 +508,33 @@ span.outline {
 }
 
 /* Homepage */
+.cardshomepage{
+    display:flex;
+    flex-wrap: wrap;
 
+
+}
+.cardhomepage{
+    flex: 1 0 300px;
+    box-sizing: border-box;
+    margin: 1rem .25em;
+}
 .homepage img {
   display: block;
   width: 100%;
 }
 
+@media screen and (min-width: 40em) {
+    .cardhomepage {
+       max-width: calc(50% -  1em);
+    }
+}
+
+@media screen and (min-width: 60em) {
+    .cardhomepage {
+        max-width: calc(25% - 1em);
+    }
+}
 
 .homepage .hero h1 {
   font-size: 2.2em;

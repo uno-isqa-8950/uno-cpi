@@ -536,7 +536,7 @@ span.outline {
 
 @media screen and (min-width: 60em) {
     .cardhomepage {
-        max-width: calc(25% - 1em);
+        max-width: calc(26% - 1em);
     }
 }
 

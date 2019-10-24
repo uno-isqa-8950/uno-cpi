@@ -32,8 +32,8 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'])
-                              #sslmode="require")
+                              database=settings.DATABASES['default']['NAME'],
+                              sslmode="require")
 
 if (conn):
     print("connection sucess",conn)
@@ -90,11 +90,10 @@ def feature_from_row(Community, Address):
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
-        
-        print('community name--' + str(Community) + str(latitude) + str(longitude))
-        logger.info("Update community partner records with longitude:" + str(longitude) +" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
-        cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(longitude,latitude,legi_district,str(Community)))
-        conn.commit()
+
+                logger.info("Update community partner records with longitude:" + str(round(longitude,7))+" ,latitude:" +str(round(latitude, 7)) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
+                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
+                conn.commit()
 
 
 dfCommunity.apply(

@@ -367,13 +367,13 @@ figcaption {
 hr.new1 {
   border-top: 4.0px dotted darkgray;
   width: 80%;
-    margin-top: 0px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 40px;
 }
 hr.new2 {
   border-top: 4.0px dotted darkgray;
   width: 80%;
-    margin-top: 20px;
+    margin-top: 40px;
     margin-bottom: 20px;
 }
 

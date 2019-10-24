@@ -18,8 +18,10 @@ sql = sqlfiles
 def scheduled_job():
     print('This job is ran every Sunday at 4 AM GMT/ 11 PM CDT.')
     project = 'python Project_GEOJSON.py'
+    updatePartner = 'python Update_Partner.py'
     partner = 'python Partner_GEOJSON.py'
     os.system(project)
+    os.system(updatePartner)
     os.system(partner)
     global connection
     global cursor

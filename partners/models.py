@@ -24,8 +24,8 @@ class CommunityPartner(models.Model):
     city = models.CharField(max_length=25, blank=True, null=True)
     state = models.CharField(max_length=15, blank=True, null=True)
     zip = models.CharField(max_length=10, blank=True, null=True)
-    latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
-    longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=10, decimal_places=20, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=10, decimal_places=20, blank=True, null=True)
     active = models.BooleanField(default=False)
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
                                        verbose_name="Community Partner Status")

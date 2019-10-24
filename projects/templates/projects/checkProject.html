@@ -29,7 +29,7 @@ A.class1:link  {text-decoration: underline; color: red;}
         <div class="collapse show" id="collapseExample">
             <div class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year"> Academic Years
+                    <label for="academic_year"> From Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
                             {% endif %}
@@ -125,10 +125,12 @@ valueFilter.addEventListener("keyup", function (e) {
     var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
     var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
     var projectlist = []
+    var combinedList =[];
     var partnerlist = []
     // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table and added a displayAddprojectFlag
     var campuspartnerlist = [];
     var academicyearlist = [];
+    var output = [];
     var displayAddProjectFlag =2;
     if ((value == "") && (YearValue == ""))
     {
@@ -144,25 +146,30 @@ valueFilter.addEventListener("keyup", function (e) {
             var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
             var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
             var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
+
             document.getElementById('Search').onclick= null;
-            for (var i = 0; i < project_db.length; i++)
+
+            for (var i = 0; i < project_db.length-1; i++)
                              // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
                             //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
             {
-                if ((project_db[i][0].toLowerCase().includes(value.toLowerCase())) && (project_db[i][0].toLowerCase().includes(YearValue.toLowerCase())) && (project_db[i][2].toLowerCase().trim().includes(CampValue.toLowerCase().trim())) && (project_db[i][1].toLowerCase().trim().includes(CompValue.toLowerCase().trim())))
-                {
+
+                partlist=[]
+                if ((project_db[i][0].toLowerCase().includes(value.toLowerCase())))              {
                     if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist && project_db[i][3] in academicyearlist)) {
-                        projectlist.push(project_db[i][0]);
-                        partnerlist.push(project_db[i][1]);
-                        campuspartnerlist.push(project_db[i][2]);
-                        academicyearlist.push(project_db[i][3]);
+                        combinedList.push(project_db[i][0]);
+                        combinedList.push(project_db[i][1]);
+                        combinedList.push(project_db[i][2]);
+                        combinedList.push(project_db[i][3]);
+
                         var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
                             '<tr><th>Academic Year</th>' + '<th>Project Name</th>' +
                             '<th>Community Partner</th>' + '<th>Campus Partner</th></tr>';
-                        for (let j =0; j<projectlist.length;j++ ){
+
+                         for (let j =0; j<combinedList.length;j++ ){
                              // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
                             //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
-                            if(projectlist[j].toLowerCase().trim() == value.toLowerCase().trim())
+                            if(combinedList[j].toLowerCase().trim() == value.toLowerCase().trim())
                             {
                                 displayAddProjectFlag = 1;
                             }
@@ -170,12 +177,14 @@ valueFilter.addEventListener("keyup", function (e) {
                             {
                                 displayAddProjectFlag = 0;
                             }
+                            if (j==0){
                             mylist +='<tr>' +
-                                '<td>'  + academicyearlist[j] + '</td>' + '<td><a href="/allProjects?p_name='+ projectlist[j].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + projectlist[j].split(':').slice(0,-1).join(':') + '</a></td>' +
+                                '<td>'  + combinedList[3] + '</td>' + '<td><a href="/allProjects?p_name='+ combinedList[0].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + combinedList[0].split(':').slice(0,-1).join(':') + '</a></td>' +
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
-                                    '<td>'  + partnerlist[j] + '</td>' + '<td>' + campuspartnerlist[j] + '</td>' +
+                                    '<td>'  + combinedList[1] + '</td>' + '<td>' + combinedList[2] + '</td>' +
                                     '</tr>'
-                        }
+                        }}
+
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
                             '<br>' +
@@ -251,6 +260,7 @@ $(document).ready(function(){
     $('#project_name').attr({placeholder: 'Project Name',width: '225px'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '225px'});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#id_endacademicyear').select2({placeholder: 'All Academic Years',width: '225px'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '225px',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */

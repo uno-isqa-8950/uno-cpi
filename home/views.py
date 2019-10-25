@@ -1410,18 +1410,19 @@ def googleDistrictdata(request):
 
 def googlepartnerdata(request):
     data_definition = DataDefinition.objects.all()
-    Campuspartner = GEOJSON()[3]
-    College = GEOJSON()[6]
-    data = GEOJSON()[0]
+    map_json_data = GEOJSON()
+    Campuspartner = map_json_data[3]
+    College = map_json_data[6]
+    data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
-                   'Missionlist': sorted(GEOJSON()[1]),
-                   'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
+                   'Missionlist': sorted(map_json_data[1]),
+                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4],'data_definition':data_definition,
+                   'year': map_json_data[4],'data_definition':data_definition,
                    'College': (College) #k sorted
                    }
                   )

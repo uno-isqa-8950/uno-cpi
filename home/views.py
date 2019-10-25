@@ -450,11 +450,11 @@ def project_partner_info(request):
         project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
-        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
         b = request.GET.get('academic_year', None)
@@ -472,8 +472,8 @@ def project_partner_info(request):
         f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
-                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary')
-                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary').count()
+                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
+                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
 
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count

@@ -1,6 +1,6 @@
 from decimal import *
 from django.db import connection
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from numpy import shape
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
@@ -131,6 +131,13 @@ def communitypartnerproject(request):
 #              projects_list.append(data)
 #     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
+
+def ajax_load_project(request):
+    project_name = request.GET.get('name', None)
+    data = {
+        'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
+    }
+    return JsonResponse(data)
 
 @login_required()
 def createProject(request):

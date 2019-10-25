@@ -66,7 +66,7 @@ select[id=id_college_name]
 
 
 
-input[type=text],[type=password],[type=email]
+input[type=text],[type=password],[type=email],[type=url]
 {
     width:70%;
     color:#444;
@@ -80,23 +80,40 @@ input[type=text],[type=password],[type=email]
     margin:10px 0 8px 4px;
     padding-left:8px;
     padding-right:20px;
-    font-size:small;
+    font-size: 16px;
+    font-family: "Arial Narrow", sans-serif;
     box-sizing:border-box;
     margin-left: 22px;
 }
-
-
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
+::-webkit-input-placeholder {
+  color: gray;
+  font-size: 13px;
 }
+::-moz-placeholder {
+  color: gray;
+  font-size: 13px;
+}
+:-ms-input-placeholder {
+  color: gray;
+  font-size: 13px;
+}
+::placeholder {
+  color: gray;
+  font-size: 13px;
+}
+
+
+/*input[type=text]:focus, input[type=password]:focus, input[type=email]:focus*/
+/*{*/
+/*  border-color:grey;*/
+/*  box-shadow:0 0 8px 0 grey;*/
+/*}*/
 
 
 input[id=id_start_date],input[id=id_end_date],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
 {
     width:85%;
-    border:2px solid #aaa;
+    border:1px solid #aaa;
     border-radius:4px;
     margin:10px 0 8px 4px;
     outline:none;
@@ -132,7 +149,7 @@ input[id=id_start_date]:focus,input[id=id_end_date]:focus,select[id=id_engagemen
     box-shadow: 5px 10px 10px 5px grey;
     height:relative;
     margin-top: 100px;
-    font-family:Helvetica;
+    font-family:"Arial Narrow",sans-serif;
 }
 
 

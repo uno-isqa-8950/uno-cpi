@@ -1,6 +1,6 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.schedulers.background import BackgroundScheduler
-
+import logging
 import psycopg2
 from UnoCPI import sqlfiles,settings
 import os
@@ -11,18 +11,29 @@ sched = BlockingScheduler()
 sched1 = BackgroundScheduler()
 # Initializing the sql files
 sql = sqlfiles
+logger=logging.getLogger("UNO CPI Application Batch job")
 
 #
 @sched.scheduled_job('cron', day_of_week='mon-sun', hour=4)
 
 def scheduled_job():
     print('This job is ran every Sunday at 4 AM GMT/ 11 PM CDT.')
+    updateProject = 'python Update_Project.py'
     project = 'python Project_GEOJSON.py'
     updatePartner = 'python Update_Partner.py'
     partner = 'python Partner_GEOJSON.py'
+    logger.info("Start update project script") 
+    os.system(updateProject)
+    logger.info("End update project script")
+    logger.info("Start create project geo json script") 
     os.system(project)
+    logger.info("End create project geo json script") 
+    logger.info("Start update partner script") 
     os.system(updatePartner)
+    logger.info("End update partner script") 
+    logger.info("Start create partner geo json script") 
     os.system(partner)
+    logger.info("End create partner geo json script") 
     global connection
     global cursor
 

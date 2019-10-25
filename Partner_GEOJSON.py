@@ -175,6 +175,6 @@ if len(dfCommunity) == 0:
     print("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
 else:
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner_local_2.geojson').put(Body=format(jsonstring))
+    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner_local.geojson').put(Body=format(jsonstring))
     print("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

@@ -469,7 +469,7 @@ $(document).ready(function() {
 
     $('#cancel').on('click', function () {
                     if (confirm("Are you sure?")){
-                      window.location = '/checkProject';
+                      window.location = '/partners';
                     }
         });
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
@@ -593,11 +593,7 @@ $(document).ready(function(){
 
       $('#id_state').select2();
   $('#id_community_type').select2(
-      {
-
-              placeholder: 'Select a Community Type',
-
-      }
+      {placeholder: 'Select a Community Type'}
   );
     $('#id_name').attr('placeholder', 'Community Partner Name');
     $('#id_website_url').attr('placeholder', 'Type Your URL Here');

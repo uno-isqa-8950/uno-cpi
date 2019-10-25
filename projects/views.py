@@ -1975,17 +1975,20 @@ def communityfromEngagementReport(request):
                                                                  # 'missions': missions,
                                                                    'campus_filter': campus_project_filter, 'campus_id':campus_id})
 
-#project duplication check
+
+# project duplication check
 def checkProject(request):
     project = ProjectForm()
     projectNames = []
-    combinedList =[]
+    combinedList = []
+    community_dict = {};
+    community_list = [];
+    com_list = ()
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 
-    print(communityPartners)
     community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
     # community_filtered_ids = [community.id for community in communityPartners.qs]
     community_project_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
@@ -2004,27 +2007,43 @@ def checkProject(request):
     # proj_ids2 = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
     # project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
 
-    #Check Project actual table logic
-    for object in Project.objects.order_by('academic_year'):
+    # Check Project actual table logic
+    compartnerlist = []
+    for object in Project.objects.order_by('-academic_year'):
+
         project = object.project_name.split('(')[0]
         ay = object.academic_year
+        compartnerlists = []
+
         for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
             compartner = part.community_partner
-            # Sprint2-#1390- Added Capus Partner list- Search Improvements
-        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
-            campartner = part.campus_partner
-            combinedList = [object.project_name.split('(')[0], str(compartner), str(campartner), str(ay)]
-    #Check Project actual table logic end
+            compartnerlist.append(compartner.id)
+        compartlist = CommunityPartner.objects.filter(id__in=compartnerlist)
 
-            if combinedList not in projectNames:
-                projectNames.append(combinedList)
+        for c in compartlist:
+            compartnerlists.append(c.name)
+            com_list = (', '.join(compartnerlists))
+
+            # Sprint2-#1390- Added Capus Partner list- Search Improvements
+
+        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
+            print(" project campus partner ", part)
+            campartner = part.campus_partner
+        combinedList = [object.project_name.split('(')[0], str(com_list), str(campartner), str(ay)]
+
+        # Check Project actual table logic end
+
+        if combinedList not in projectNames:
+            projectNames.append(combinedList)
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)
 
     return render(request, 'projects/checkProject.html',
-                  {'project': project, 'projectNames':projectNames, 'projects': project_filter, 'data_definition': data_definition,
-                "communityPartners": communityPartners,"campus_filter": campus_project_filter,"community_filter": community_project_filter})
+                  {'project': project, 'projectNames': projectNames, 'projects': project_filter,
+                   'data_definition': data_definition,
+                   "communityPartners": communityPartners, 'community_list': community_list,
+                   "campus_filter": campus_project_filter, "community_filter": community_project_filter})
 
 
 @login_required()

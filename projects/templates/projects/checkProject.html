@@ -3,8 +3,27 @@
 
 
 <style>
-  A.class1 {color:red;}
-A.class1:link  {text-decoration: underline; color: red;}
+    A.class1 {color:#b60000;}
+A.class1:link  {text-decoration: underline; color: #b60000;}
+
+   .blackbutton{
+          background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .blackbutton:hover{
+          text-decoration: underline;
+          color: white;
+      }
 </style>
 
 
@@ -23,13 +42,41 @@ A.class1:link  {text-decoration: underline; color: red;}
         </div>
     </div>
 
-   <div class="card" style="padding: auto ">
+
+
+<!--   <div class="card" style="padding: auto ">-->
+           <!--Reset Filters Button -->
+<!--     <div class="container">-->
+          <div class="card" style="border: none; padding: 10px;">
+               <!-- Collapse buttons -->
+             <div>
+                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="blackbutton" data-toggle="collapse" data-target="#collapseExample"
+                 aria-expanded="false" aria-controls="collapseExample" />
+                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="blackbutton" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+
+                 <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
+                "click",
+                function(event) {
+                if (event.target.value === "Hide Filters") {
+                    event.target.value = "Show Filters";
+                } else {
+                        event.target.value = "Hide Filters";
+                        }
+                },
+                false
+                );
+                </script>
+
+                </div>
+          </div>
+<!--     </div>-->
      <div class="container" style="padding:10px;position: relative">
       <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
             <div class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year"> Academic Years
+                    <label for="academic_year" > Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
                             {% endif %}
@@ -48,7 +95,7 @@ A.class1:link  {text-decoration: underline; color: red;}
                         {% endif %}
                     {% endfor %}
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" CampValue=" ">
+                    <select id="id_campus_partner" name="campus_partner" CampValue=" " >
                         {% for campus in campus_filter.form.campus_partner %}
                         <option selected="selected"> {{campus}}</option>
                         {% endfor %}
@@ -61,7 +108,7 @@ A.class1:link  {text-decoration: underline; color: red;}
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select id="id_community_type" name="community_type" CompValue="">
+                    <select id="id_community_type" name="community_type" CompValue="" >
                         {% for name in community_filter.form.community_partner %}
                         <option selected="selected"> {{name}}</option>
                         {% endfor %}
@@ -75,24 +122,24 @@ A.class1:link  {text-decoration: underline; color: red;}
                             {% endif %}
                         {% endfor %}
                        </label>
-                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" required>
+                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" >
                    </form>
                  </div>
                  <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                        <a id="Search" class="btn btn btn-secondary btn-md" href="#" role="button" data-toggle="tooltip" title="Search for an existing Project" ><i class="fa fa-angle-double-right"></i>Search</a>
+                        <a class="blackbutton" id="Search"  href="#"  role="button" > Search</a>
                  </div>
             </div>
         </div>
       </div>
-         <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
-         <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
+         <div style="float: left;"  id="node1-id" style="display: none"></div>
+         <div style="float: left;"  id="button-id" style="display: none"></div>
          <div>
             <div class="panel-body">&emsp;
                 <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
             </div>
      </div>
    </div>
-</div>
+<!--</div>-->
 
                 {{ projectNames | json_script:"project-data"}}
 
@@ -116,11 +163,21 @@ valueFilter.addEventListener("keydown", function (e) {
         document.getElementById('button-id'). innerHTML = "";
     }
 });
+
 // the listening button off
-valueFilter.addEventListener("keyup", function (e) {
+// valueFilter.addEventListener("keyup", function (e) {
+    document.getElementById("Search").addEventListener("click", function (e) {
+    // alert('in search');
+
+// $('#Search').onclick = function myfunction() {
+//
+// alert('in search');
     project_db = JSON.parse(document.getElementById('project-data').textContent);
     //get the input value
-    var value = e.target.value.trim().toLowerCase();
+        var value = document.getElementById("project_name").value;
+    //var value = e.target.value.trim().toLowerCase();
+    // alert('value--'+value);
+    // alert('valueFilter--'+valueFilter);
     var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
     var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
     var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
@@ -139,8 +196,8 @@ valueFilter.addEventListener("keyup", function (e) {
     else if(!((value == "") && (YearValue == "")))
     {
         projectlist = [];
-        {#if (e.keyCode == 32 || e.keyCode == 13) {#}
-        document.getElementById('Search').onclick= function myfunction() {
+        // {#if (e.keyCode == 32 || e.keyCode == 13) {#}
+        // document.getElementById('Search').onclick= function myfunction() {
             var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
             var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
             var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
@@ -175,6 +232,7 @@ valueFilter.addEventListener("keyup", function (e) {
                                     {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
                                     '<td>'  + partnerlist[j] + '</td>' + '<td>' + campuspartnerlist[j] + '</td>' +
                                     '</tr>'
+
                         }
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
@@ -188,8 +246,8 @@ valueFilter.addEventListener("keyup", function (e) {
                             ' All Projects</a></td></tr>'*/
                        document.getElementById('node1-id').innerHTML =
                             '<br>' +
-                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
-                            ' All Projects</a></td></tr>'
+                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
+                            '   All Projects</a></td></tr>'
                     /* if(displayAddProjectFlag == 0){
                        var projectName = document.getElementById('project_name').value;
                         document.getElementById('button-id').innerHTML =
@@ -204,8 +262,8 @@ valueFilter.addEventListener("keyup", function (e) {
                         document.getElementById('button-id').innerHTML =
                             '<br>' +
 
-                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
-                            'Create Project</a></td></tr>'
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  target="_blank" role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
+                            '   Create Project</a></td></tr>'
                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                      }
                     }
@@ -218,11 +276,11 @@ valueFilter.addEventListener("keyup", function (e) {
                          document.getElementById('node1-id'). innerHTML = "";
                          document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button" data-toggle="tooltip" title="Click on this button to create a new project" ><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
-                            ' Create Project</a></td></tr>'
+                            '<tr><td><label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:black;">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the button below.</label><br><a class="blackbutton" id="lnk-create_project" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to create a new project" >' +
+                            '  Create Project</a><br><br></td></tr>'
                          document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
                 }
-        }
+
     };
 });
 $("#dropdownMenuButton").on("click", function() {
@@ -238,7 +296,10 @@ $("#button-id").on("click",function () {
 $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
+
+
 </script>
+
             </div>
     </div>
         <br> <br> <br>
@@ -265,13 +326,33 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    });
-// submit when enter-Parimita
+
+
+
+ // submit when enter-Parimita
+
 $("#project_name").keyup(function(event){
       if(event.keyCode== 13){
         $("#Search").click();
         }
     });
+
+
+
+// $("#id_academic_year").on('change',function(){
+// var name = $("#project_name").val();
+// $('#project_name').val(name);
+// $("#Search").click();
+// // alert("clicked");
+// });
+    });
+
+
+// $("#id_academic_year").on('change',function(){
+// $("#Search").click();
+// alert("clicked");
+// });
+
 // added for search by Naresh
 $('#project_name').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
@@ -283,6 +364,14 @@ $(document).on('input', '.clearable', function(){
     ev.preventDefault();
     $(this).removeClass('x onX').val('').change();
 });
+
+function CheckValidation(){
+    var valueFilter = document.getElementById("project_name").text;
+    if (valueFilter = "undefined"){
+        alert("Project name required");
+     }
+}
+
 </script>
         {% endblock %}
         {% block js %}
@@ -318,5 +407,6 @@ $(document).ready(function(){
   $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
+
 
 {% endblock %}

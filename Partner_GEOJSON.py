@@ -86,7 +86,7 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 
 
 # Function that generates GEOJSON
-def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, lon,lat, Website):
+def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, lon,lat, Website,legislative_district):
     feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
                                                  'College Name': '', 'Mission Type': '', 'Project Name': '',
                                                  'Legislative District Number': '', 'Number of projects': '',
@@ -103,8 +103,8 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            feature['properties']['Legislative District Number'] = property["properties"][
-                "id"]  # assign the district number to a partner
+            print('property["properties"]--',property["properties"])
+            feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
     for m in range(len(county)):  # iterate through the County Geojson
         properties2 = county[m]
         polygon = shape(properties2['geometry'])  # get the polygon
@@ -153,7 +153,7 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
 geojson_series = dfCommunity.apply(
     lambda x: feature_from_row(x['community_partner'], x['fulladdress'], x['mission_name'],\
      x['mission_type'], x['city'], x['community_type'], \
-      x['longitude'], x['latitude'], x['website_url']), axis=1)
+      x['longitude'], x['latitude'], x['website_url'], x['legislative_district']), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 

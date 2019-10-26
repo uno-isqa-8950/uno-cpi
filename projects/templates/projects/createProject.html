@@ -2,242 +2,8 @@
 {% load bootstrap %}
 {% load wagtailcore_tags register_tags %}
 {% block content %}
-  <style>
-  @media screen and (max-width: 768px) {
-    .select2 {
-        width: 95% !important;
-    }
-      #button-center{
-          text-align: center;
-      }
-}
-    .select2 {
-        width:96%!important;
-    }
-  .help-block
-  {
-     display: none;
-  }
-.select2-container--open .select2-dropdown--below
-    {
-       margin-left:25px;
-    }
-.select2-container--open .select2-dropdown--above
-    {
-       margin-left:25px;
-    }
-.select2-container--default .select2-selection--single
-{
-    {#border: 2px solid #aaa;#}
-    height:35px;
-    margin-left:3%;
-    margin-right: -2%;
-    max-width: 100%;
-}
-    label
-    {
-        margin-left: 25px;
-        font-weight: bold;
-    }
-    label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
-        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
-        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
-        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
-    {
-        content:"*" ;
-        color:red
-    }
-    h4
-    {
-        line-height: 2.7;
-        font-size: 1.3em;
-    }
-    .h9{
-        font-size:0.8em;
-    }
-    .btn-link{
-        font-size: small;
-    }
-    select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]
-    {
-        width:96%;
-        height: 35px;
-        color: black;
-        margin-top: 5px;
-        margin-left: 10px;
-        font-family: Helvetica;
-        font-size: 16px;
-    }
-    input[id=id_project_name]{
-        margin-bottom: 0px;
-    }
-    .panel {
-  margin-bottom: 20px;
-  background-color: #ffffff;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
-  select[id=id_form-0-campus_partner]
-   {
-       width:93%;
-   }
-   .btn-link, .btn-link:hover
-   {
-   color: #d71920
-   }
-/*K12 Checkbox-Parimita*/
-/*input[type="radio"]:checked ~ .reveal-if-active,*/
-/*input[type="checkbox"]:checked ~ .reveal-if-active {*/
-/*  opacity: 1;*/
-/*  max-height: 110px;*/
-/*  overflow: visible;*/
-/*    !*line-height: 2.7;*!*/
-/*    font-size: 1.00em;*/
-/*}*/
-  /*.reveal-if-active {*/
-  /*    opacity: 0;*/
-  /*    max-height: 0;*/
-  /*    overflow: hidden;*/
-  /*    !*transform: scale(0.8);*!*/
-  /*    transition: 0.5s;*/
-  /*    margin-left: 0px;*/
-  /*}*/
-  /*input[type="radio"]:checked ~ &,*/
-  /*input[type="checkbox"]:checked ~ & {*/
-  /*  opacity: 1;*/
-  /*  max-height: 100px;*/
-  /*  overflow: visible;*/
-  /*  padding: 10px 20px;*/
-  /*  transform: scale(1);*/
-  /*    margin-left: 0px;*/
-  /*}*/
-.colpanel-default > .colpanel-heading {
-        background-color: lightgrey;
-    height: 33px;
-    }
-    .formtabfont a,i,h2{
-        font-family: "Arial Narrow", sans-serif;
-        color: black;
-        padding: 0;
-        align-content: center;
-        /*background-color: lightgrey;*/
-    }
-    .formtabfont h2:hover{
-        font-family: "Arial Narrow", sans-serif;
-        color: black;
-        text-decoration: underline;
-        padding: 0;
-        align-content: center;
-        /*background-color: lightgrey;*/
-    }
-.panel{
-    margin-bottom: 10px;
-    margin-top: 10px;
-}
-.icon{
-    margin-top: 33px;
-}
-textarea[id=id_description]{
-    height:130px;
-}
-label[for=id_campus-0-campus_partner]:after{
-    display: none;
-    content: " ";
-}
-.delicon{
-    color: red;
-}
-      .form-control{
-          margin: 5px;
-          width:100%
-      }
-      .sw-btn-prev{
-          float: left;
-      }
-      .collapsible {
-  background-color: #C1C0C0;
-  color: black;
-  cursor: pointer;
-  padding: 18px;
-  width: 100%;
-  border: none;
-  text-align: left;
-  outline: none;
-  font-size: 15px;
-}
-.active, .collapsible:hover {
-  background-color: #E1E1E1;
-}
-.content {
-  padding: 0 18px;
-  display: none;
-  overflow: hidden;
-  background-color: #f1f1f1;
-}
- .redbutton{
-          background-color: crimson; /* Green */
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-      }
-      .redbutton:hover{
-          text-decoration: underline;
-      }
-      .blackbutton{
-          background-color: black; /* Green */
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-      }
-      .blackbutton:hover{
-          text-decoration: underline;
-      }
-      .btn-red{
-          background-color: crimson; /* Green */
-  border: none;
-  color: white;
-  padding: 2px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-          height: 38px;
-  margin: 9px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-          border-radius: 5px;
-      }
-      .displaybox {
-  border: 1px black;
-  padding: 10px;
-display: flex;
-  border-top-right-radius: 10px 5px;
-}
-            .redborder {
-  border: 1px red;
-}
-    </style>
+
+
  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
                              {% create_project_forms %}
 <!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
@@ -259,7 +25,7 @@ display: flex;
         <li><a href="#step-1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Mission Areas</a></li>
-        <li><a href="#step-4">Other Information</a></li>
+        <li><a href="#step-4" id="step4">Other Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -316,7 +82,7 @@ display: flex;
                 </div>
                 <div class="col">
                     <div class="row">
-                    <label class="col-sm-2">Description</label>
+                    <label class="col-sm-2" for="id_engagement_type">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
                     <div class="col-sm-8">
@@ -329,6 +95,7 @@ display: flex;
                     {% endif %}
                 </div>
                 </div>
+                </div>
                 <div class="row centered">
                      {{ course|bootstrap }}
             {% if  course.errors %}
@@ -337,9 +104,8 @@ display: flex;
             {% endfor %}
             {% endif %}
             </div>
-                </div>
                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
-                    <i class="fa fa-plus"></i> Academic Duration
+                    <i class="fa fa-plus"></i> Project Duration
                     </button>
 
                     <div id="academicinfo" class= "panel-collapse collapse">
@@ -475,22 +241,22 @@ display: flex;
             {% for form2 in formset2 %}
 
             <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">
-                    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
-                                              {% for data_definition in data_definition %}
-                                              {% if data_definition.id == 2%} Community Partner Information
+<!--                <button type="button" class="collapsible card-header" id="communitybutton" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">-->
+<!--                    <i class="fa fa-minus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
+<!--                                              {% for data_definition in data_definition %}-->
+<!--                                              {% if data_definition.id == 2%} Community Partner Information-->
 
-                                          {% endif %}
-                                          {% endfor %}
-                                          </span>
-                    </button>
+<!--                                          {% endif %}-->
+<!--                                          {% endfor %}-->
+<!--                                          </span>-->
+<!--                    </button>-->
 
                     <div id="communityinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
                                             <div class="row community-row">
-                                                <div class="col-md-3">
-                                                <label style="padding-top:30px; ">Community Partner</label>
+                                                <div class="col-md-2">
+                                                <label style="padding-top:8px">Community Partner</label>
                                             </div>
                                             <div class="col-md-4">
                                                 {{form2|bootstrap}}
@@ -502,7 +268,7 @@ display: flex;
                                             </div>
 
                                         <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:30px; " aria-hidden="true"></i>
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
 
@@ -535,8 +301,8 @@ display: flex;
                                     <div class="panel-body">
                                         <br>
                                         <div class="row campus-row">
-                                            <div class="col-md-3">
-                                                <label for="id_academic_year" style="padding-top:30px; ">Campus Partner </label>
+                                            <div class="col-md-2">
+                                                <label for="id_academic_year" style="padding-top:8px">Campus Partner </label>
                                             </div>
                                             <div class="col-md-4">
                                                 {{ form3.campus_partner|bootstrap }}
@@ -548,7 +314,7 @@ display: flex;
                                         </div>
                                         <div class="col-md-1">
                                             <div class="input-group-append" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:30px" aria-hidden="true"></i>
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
                                             </div>
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
@@ -618,10 +384,10 @@ display: flex;
 
         <div id="step-3">
              {% for form in formset %}
+            <div class="row"><br></div>
             <div class="row">
-                <div class="col-md-4">
-                    <br>
-                    <label><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                <div class="col-md-3">
+                    <label style="padding-top:8px"><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
                                 {% for data_definition in data_definition %}{% if data_definition.id == 39%}
                                  Primary Project Mission Area <span style="color:red;">*</span>
                                 {% endif %}
@@ -644,26 +410,22 @@ display: flex;
 
               {% for catform in categoryformset %}
             <div class="row">
-                <div class="col-md-4">
-                    <br>
-                    <label>
-                                 Sub Category
-
-                                </label>
+                <div class="col-md-3">
+                    <label style="padding-top:8px">Sub Category</label>
                 </div>
-                <div class="col-md-8">
-                    <div class="row sub_category-row">
-                        <div class="col-md-9">
+                <div class="col-md-6 sub_category-row">
+                    <!--<div class="row ">-->
+                        <!--<div class="col-md-9">-->
                     {{ catform.sub_category | bootstrap}}
-                </div>
+                <!--</div>-->
+                    </div>
                 <div class="col-md-1">
                     <div class="input-group-append" >
-                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:30px" aria-hidden="true"></i>
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
                     </div>
                 </div>
-                    </div>
                 </div>
-            </div>
+
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                         <div class="sub_category-fields displaybox row" id="sub_category-fields"></div>
 
@@ -678,16 +440,16 @@ display: flex;
         </div>
         <div id="step-4">
             <div class="row"><br></div>
-                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
-    <i class="fa fa-plus"></i> Address
-</button>
-<div id="contactinfo" class= "panel-collapse collapse">
+                             <!--<button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
+    <!--<i class="fa fa-plus"></i> Address-->
+<!--</button>-->
+<div id="contactinfo" class= "panel-collapse collapse show">
                                     <div class="panel-body">
                                         <br>
 
                                         <div class="row">
 
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Address</label>
                                             <div class="col-sm-7">
@@ -700,16 +462,7 @@ display: flex;
                                         </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">City</label>
-                                            <div class="col-sm-7">
-                                            {{ project.city }}
-                                            </div>
-                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
@@ -719,11 +472,20 @@ display: flex;
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                         </div>
+                                        <div class="row">
+                                              <label class="col-sm-4">City</label>
+                                            <div class="col-sm-7">
+                                            {{ project.city }}
+                                            </div>
+                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
 
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">state</label>
+                                              <label class="col-sm-4">State</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -779,23 +541,27 @@ display: flex;
 </div>
     <div class="container-fluid">
 
-                 <div class="row centered">
-                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+                 <div class="row centered" id="termsdiv">
+                <p><input type="checkbox" id="terms">
                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>
+                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > Save as Draft</button>
 <!--            </div>-->
 
-                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton"> <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Submit</button>
-                <button name="cancel" id="cancel" class="redbutton"> <i class="fa fa-times-circle" style="color: white" aria-hidden="true"></i> Cancel</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
+                <button name="cancel" id="cancel" class="redbutton">Cancel</button>
  </div>
     </div>
 
 </form>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
@@ -814,8 +580,8 @@ $(document).ready(function(){
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        showStepURLhash:false,
-        // contentCache:true,
+        showStepURLhash:true,
+        contentCache:true,
         toolbarSettings: {
             // toolbarPosition:'top',
             toolbarButtonPosition:'right',
@@ -848,6 +614,10 @@ if(stepDirection === 'forward') {
             alert("Please enter Engagement type.");
             return false
         }
+        if( ($("#id_description").val() === '') ){
+            alert("Please Provide Description for the project.");
+            return false
+        }
         if(($("#id_semester").val() === '')){
             alert("Please provide Project start semester.");
             return false
@@ -857,6 +627,7 @@ if(stepDirection === 'forward') {
             return false
         }
             $('#submit').hide();
+        $('#termsdiv').hide();
 
     }
     if (stepNumber === 1) {
@@ -865,6 +636,7 @@ if(stepDirection === 'forward') {
             return false;
         }
             $('#submit').hide();
+        $('#termsdiv').hide();
     }
     if (stepNumber === 2) {
         if ($("#id_mission-0-mission").val() == '') {
@@ -873,11 +645,18 @@ if(stepDirection === 'forward') {
         }
         else {
             $('#submit').show();
+            $('#termsdiv').show();
         }
     }
+    if (stepNumber === 3) {
+    $('#submit').show();
+    $('#termsdiv').show();
+    }
+
 }
 if (stepDirection === 'backward') {
             $('#submit').hide();
+            $('#termsdiv').hide();
         }
         return true;
     });
@@ -886,8 +665,13 @@ $('#id_k12_flag').change(function () {
         $("#k12-students").show();
     }
 });
+$('#step4').click(function () {
+    $('#submit').show();
+    $('#termsdiv').show();
+});
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
+    $('#termsdiv').hide();
     $("#k12-students").hide();
     $('#step-2').hide();
     $('#step-3').hide();
@@ -905,6 +689,7 @@ $('#id_total_uno_students').addClass('nospecial').attr('size','3');
 $('#id_total_uno_hours').addClass('nospecial');
 $('#id_total_k12_students').addClass('nospecial');
 $('#id_total_k12_hours').addClass('nospecial');
+$('#communityinfo').addClass('show');
 $(".nospecial").keypress(function (e) {
             var keyCode = e.keyCode || e.which;
             $(this).addClass(' ');
@@ -917,6 +702,26 @@ $(".nospecial").keypress(function (e) {
             }
             return isValid;
         });
+
+
+$("#id_project_name").change(function () {
+    var name = $(this).val();
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': name
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                alert("A project with this name already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+            }
+        }
+    });
+});
+
 });
 </script>
 <br><br><br>
@@ -1203,7 +1008,9 @@ window.onload = function () {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
+    $('.control-label').hide();
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_description').attr('placeholder','Project Description, Outcomes and Related Links');
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
@@ -1221,16 +1028,44 @@ $(document).ready(function(){
     $(this).removeClass('x onX').val('').change();
      });
 });
- document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+ // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
+
 <style>
+     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
+        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
+    {
+        content:"*" ;
+        color:red
+    }
+     select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]
+    {
+        width:96%;
+        height: 35px;
+        color: black;
+        margin-top: 5px;
+        margin-left: 10px;
+        font-family: "Arial Narrow", sans-serif;
+        font-size: 16px;
+    }
+    input[id=id_project_name]{
+        margin-bottom: 0px;
+    }
+     select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
 .select2-container .select2-selection--single
 {
    height:32px;
 }
 .select2-container--default .select2-selection--single
 {
-   border: 2px solid #aaa;
+   /*border: 2px solid #aaa;*/
    margin-top:8px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow
@@ -1239,8 +1074,8 @@ $(document).ready(function(){
 }
 .select2-container--default .select2-selection--single:focus
 {
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
+  /*border-color:grey;*/
+  /*box-shadow:0 0 8px 0 grey;*/
 }
 </style>
 <!--    Commenting out script per ticket #551
@@ -1311,19 +1146,16 @@ console.log('draft');
     }
 });
 $('#submit').click(function () {
-     $('#id_status option[value=1]').attr('selected','selected');
-
-     // if($('#terms'))
+    if($('#terms').is(":checked")){
+        $('#id_status option[value=1]').attr('selected','selected');
+        return true;
+    }
+    else {
+        alert("Please Accept the terms and conditions before submitting");
+        return false;
+    }
 });
-    // if($("#addresscheck").checked === true){
-    //     if(($('#id_address_line1') ===  '' )|| ($('#id_city') ===  '' )|| ($('#id_country') ===  '' ) || ($('#id_state') ===  '' )|| ($('#id_zip') ===  '' )){
-    //         alert("Provide all location details");
-    //         return false
-    //     }
-    //     else{
-    //         return true
-    //     }
-    // }
+
         window.onsubmit = function checking() {
         var id_name = document.getElementById('id_mission-0-mission');
         var id_campus = document.getElementById('id_campus-0-campus_partner');

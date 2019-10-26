@@ -4,14 +4,11 @@
 {% load wagtailcore_tags register_tags %}
 
     <style>
-
         @media screen and (max-width: 768px) {
             .select2 {
                 width: 95% !important;
             }
         }
-
-
         .select2-container--default .select2-selection--single
         {
         {#border: 2px solid #aaa;#}
@@ -25,29 +22,23 @@
         /*    margin-left: 25px;*/
         /*    font-weight: bold;*/
         /*}*/
-
         {
             content:"*" ;
             color:red
         }
-
         h4
         {
             line-height: 2.7;
             font-size: 1.3em;
         }
-
         .h9{
             font-size:0.8em;
             font-style: italic;
         }
-
         .btn-link{
-
             font-size: small;
             font-style: italic;
         }
-
         .panel {
             margin-bottom: 20px;
             background-color: #ffffff;
@@ -56,21 +47,14 @@
             -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
             box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
         }
-
-
         select[id=id_form-0-campus_partner]
         {
             width:93%;
         }
-
-
         .btn-link, .btn-link:hover
-
         {
             color: #b60000;
         }
-
-
    .blackbutton{
           background-color: black; /* Green */
   border: none;
@@ -89,7 +73,6 @@
           text-decoration: underline;
           color: white;
       }
-
     </style>
 <!--    <div class = "container">-->
         <div class="row justify-content-md-center">
@@ -153,17 +136,15 @@
     <div style="margin-bottom: 300px"></div>
 
     <script>
-        var valueFilter = document.getElementById("partner_name");
-
+var valueFilter = document.getElementById("partner_name");
         //Press the listening button
-        valueFilter.addEventListener("keydown", function (e) {
-            if (e.keyCode == 8) {
-                document.getElementById('node-id'). innerHTML = "";
-                document.getElementById('node1-id'). innerHTML = "";
-                document.getElementById('button-id'). innerHTML = "";
-            }
-        });
-
+valueFilter.addEventListener("keydown", function (e) {
+     if (e.keyCode == 8) {
+         document.getElementById('node-id'). innerHTML = "";
+         document.getElementById('node1-id'). innerHTML = "";
+         document.getElementById('button-id'). innerHTML = "";
+       }
+      });
         // the listening button off
         // document.getElementById("next").addEventListener("click", function (e) {
         valueFilter.addEventListener("keyup", function (e) {
@@ -173,7 +154,6 @@
             // var value = document.getElementById("partner_name").value;
             var partnerlist = [];
             var displayPartnersFlag = 2;
-
             if (value == "")
             {
                 document.getElementById('node-id'). innerHTML = "";
@@ -184,17 +164,15 @@
             {
                 partnerlist = [];
                 document.getElementById('next').onclick = function myfunction() {
-                    // document.getElementById('next').onclick= null;
+                    document.getElementById('next').onclick= null;
                     for (var i = 0; i < partners.length; i++) {
                         if (partners[i].toLowerCase().includes(value)) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i]);
                                 <!--alert(partnerlist);-->
-
                                 var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
                                     '<tr><th>Community Partner</th></tr>';
                                 for (let j =0; j<partnerlist.length;j++ ){
-
                                     if(partnerlist[j].toLowerCase().trim() == value.toLowerCase().trim())
                                     {
                                         displayPartnersFlag = 1;
@@ -207,14 +185,11 @@
                                         <!--alert("I am inside flag 0");-->
                                         <!--break;-->
                                     }
-
                                     mylist +='<tr>' +
                                         '<td>' + partnerlist[j] + '</td>' +
                                             '</tr>'
-
                         }
                         mylist += '<table>';
-
                         document.getElementById('node-id').innerHTML =
                                     '<br>' +
                                     '<tr><td><br><br><label style="text-align:justify;"><b style="font-size:16px;text-align:left;color:black;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</b><label</td></tr><br><br>' +
@@ -224,14 +199,10 @@
                                     {#'<tr><td>' + partnerlist.join("<br>") + '</td></tr>' +#}
                                     {#'<table>'#}
                                     mylist
-
-
                         document.getElementById('node1-id').innerHTML =
                                     '<br>' +
                                     '<tr></tr>' +
-
                                     '<tr><td><a class="blackbutton" href={% url 'communitypublicreport' %} role="button" data-toggle="tooltip" title="Click on this button to access Community Partners already registered"> Community Partner Report</a><br><br></td></tr>'
-
                         if(displayPartnersFlag == 0){
                                     var PartnerName = document.getElementById('partner_name').value;
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
@@ -241,13 +212,12 @@
                                         '<tr><td><a class="blackbutton" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register a new Community Partner"> Register the Community Partner</a><br><br></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                         }
-
                             }
                         }
                         }
                         if(displayPartnersFlag == 2)
                                 {
-                                    alert("hi i am in 2");
+                                    // alert("hi i am in 2");
                                     var PartnerName = document.getElementById('partner_name').value;
                                     <!--document.getElementById('node-id'). innerHTML = "";-->
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
@@ -257,27 +227,17 @@
                                         '<tr><td><a class="blackbutton" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                                 }
-
-
-
-
                     }
-
             };
-
     });
 // Submit when enter
-
-
 function checking() {
     // var id_campus = document.getElementById('partner_name');
     if(($("#partner_name").val() === '')){
             caches.delete()
-
             alert("Please enter what you are searching for to proceed.");
             return false
         }
-
 }
 var input = document.getElementById("partner_name");
 input.addEventListener("keyup", function(event) {
@@ -286,9 +246,6 @@ input.addEventListener("keyup", function(event) {
    document.getElementById("next").click();
   }
 });
-
-
-
 $("#dropdownMenuButton").on("click", function() {
 $('.dropdown-menu').toggleClass('open');
 });
@@ -296,18 +253,32 @@ $(".dropdown-menu a").on("click", function() {
   $('#dropdownMenuButton').text($(this).text());
   $('.dropdown-menu').removeClass('open');
 });
-
 $("#button-id").on("click",function () {
     valueFilter.value ="";
 })
-
 $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
-
-
-
 </script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
+   } );
+</script>
+
 <script>
     $('#partner_name').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
@@ -325,4 +296,3 @@ $(document).on('input', '.clearable', function(){
 
 
 {% endblock %}
-

@@ -54,7 +54,7 @@ join projects_projectmission  mis on pro.id = mis.project_name_id \
 where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
-and pro.longitude is null or pro.longitude is null or pro.legislative_district is null) \
+and (pro.longitude is null or pro.longitude is null or pro.legislative_district is null) \
 and lower(mis.mission_type)='primary'",con=conn)
 print('before checking query')
 if len(df_projects) == 0:

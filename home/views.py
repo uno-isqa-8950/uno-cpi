@@ -395,6 +395,9 @@ def project_partner_info(request):
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
 
+    status_draft = Status.objects.filter(name='Drafts')
+    #status_draft_ids = status_draft.qs.value_list('id', flat=True)
+
     if legislative_selection is None:
         legislative_selection = 'All'
 
@@ -408,10 +411,10 @@ def project_partner_info(request):
 
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status=5))
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
     else:
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status=5))
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status__in=status_draft))
     # legislative district end -- Manu
 
 
@@ -554,6 +557,7 @@ def engagement_info(request):
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
+    status_draft = Status.objects.filter(name='Drafts')
     #set legislative_selection on template choices field -- by Manu
     legislative_choices = []
     legislative_search = '';
@@ -587,10 +591,10 @@ def engagement_info(request):
 
     
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status=5))
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     else:
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status=5))
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status__in=status_draft))
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
     
     project_year_ids = [project.id for project in year_filter.qs]

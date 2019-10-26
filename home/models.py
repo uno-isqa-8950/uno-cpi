@@ -887,3 +887,34 @@ class TrendReport_Chart_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Trend Report Chart Snippet"
+
+
+
+@register_snippet
+class Network_Analysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def str(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Network Analysis Charts Snippet"
+
+
+@register_snippet
+class PartnershipIntensityAnalysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partnership Intensity Analysis Chart Snippet"

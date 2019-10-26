@@ -18,6 +18,7 @@ urlpatterns = [
     path('communitypublicreport/', views.communityPublicReport, name='communitypublicreport'),
     url(r'^communityfromMissionReport/', views.communityfromEngagementReport, name='communityfromEngagementReport'),
     url(r'^projectsfromEngagementReport/', views.projectsfromEngagementReport, name='projectsfromEngagementReport'),
+    url(r'^projectsfromCommunityPartnerReport/', views.projectsfromCommunityPartnerReport, name='projectsfromCommunityPartnerReport'),
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
     path('checkProject/', views.checkProject, name='checkProject'),

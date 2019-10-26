@@ -5,16 +5,51 @@ from django.forms import ModelForm, ModelChoiceField
 from django.db.models import Max
 from university.models import Course
 from .models import Project,ProjectMission ,ProjectCommunityPartner ,ProjectCampusPartner ,Status ,EngagementType,ActivityType,AcademicYear, ProjectSubCategory
+from partners.models import CecPartnerStatus
 from django import forms
 from django.forms import ModelForm
 
 
 K12_CHOICES = [
-    ('All', 'All Projects'), ('Yes', 'K12 Project'), ('No', 'Not a K12 Project')]
+    ('All', 'All'),
+    ('Yes', 'Yes'),
+    ('No', 'No')]
 
 
 class K12ChoiceForm(forms.Form):
     k12_choice = forms.ChoiceField(label="K-12 Choices", choices=K12_CHOICES, required=False)
+
+
+CEC_CHOICES = [
+    ('All', 'All (CEC/Non-CEC Partners)'),
+    ('CURR_COMM', 'Current Community Building Partners'),
+    ('CURR_CAMP', 'Current Campus Building Partners'),
+    ('FORMER_COMM', 'Former Community Building Partners'),
+    ('FORMER_CAMP', 'Former Campus Building Partners')]
+'''
+    ('FORMER_CAMP', 'Former Campus Building Partners'),
+    ('NEVER', 'Never CEC Building Partner')]
+'''
+
+
+class CecPartChoiceForm(forms.Form):
+    cec_choice = forms.ChoiceField(label="CEC Partner Choices", choices=CEC_CHOICES, required=False)
+
+
+'''
+class CecPartChoiceForm(forms.ModelForm):
+
+    class Meta:
+        model = CecPartnerStatus
+        fields = ('name','description')
+        labels = {
+            'name': ('CEC Building Partner',)
+        }
+        widgets = {
+            'name': forms.Textarea(attrs={'readonly': True,'rows':1, 'cols':80}),
+
+        }
+'''
 
 
 class ProjectForm(forms.ModelForm):

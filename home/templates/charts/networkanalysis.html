@@ -85,7 +85,7 @@
             <div class="card" style="padding: 5px;margin-top:50px;">
                <label style="text-align:justify;">
                   <b style="font-size:16px;text-align:center;color:White;">
-                     <h4 style="line-height:.8em;padding-top:10px;">Chart: Issues Addressed Analysis </h4>
+                     <h4 style="line-height:.8em;padding-top:10px;">Chart: Network Analysis Chart </h4>
                   </b>
                </label>
             </div>
@@ -139,37 +139,16 @@
                                     <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
-                        From Academic Years
+                         Academic Years
                     </label>
                     <select id="id_academicyear" name="academic_year" onchange="this.form.submit()">
                         <option>
-                            {% for sem in from_project_filter.form.academic_year %}
+                            {% for sem in project_filter.form.academic_year %}
                                 {{sem}}
                             {% endfor %}
                         </option>
                     </select>
                 </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="end_academicyear">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                        To Academic Years
-                    </label>
-                    <select id="id_endacademicyear" name="end_academic_year" onchange="this.form.submit()">
-                        <option>
-                            {% for endsem in to_project_filter.form.end_academic_year %}
-                                {{endsem}}
-                            {% endfor %}
-                        </option>
-                    </select>
-                </div>
-
                     <div class="col-lg-4 col-md-5 form-group">
                         <label for="engagement_type">
                             {% for data_definition in data_definition %}
@@ -269,14 +248,55 @@
         </div>
     </div>
 
-    <div id="container"  style= "max-width: 1000px; height: 450px"></div>
+    <div id="container"  style= "max-width: 1058px; height: 550px"></div>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
-        <script src="https://code.highcharts.com/modules/xrange.js"></script>
-        <script src="https://code.highcharts.com/modules/data.js"></script>
-        <script src="https://code.highcharts.com/modules/drilldown.js"></script>
+        <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
         <script>
-            Highcharts.chart('container', {{ dumbellchart|safe }})
+            Highcharts.addEvent(
+    Highcharts.Series,
+    'afterSetOptions',
+    function (e) {
+        var colors = Highcharts.getOptions().colors,
+            i = 1,
+            nodes = {};
 
+        if (
+            this instanceof Highcharts.seriesTypes.networkgraph &&
+            e.options.id === 'lang-tree'
+        ) {
+            e.options.data.forEach(function (link) {
+
+                if (link[0] === 'CPI') {
+                    nodes['CPI'] = {
+                        id: 'CPI',
+                        marker: {
+                            radius: 25,
+                        }
+                    };
+                    nodes[link[1]] = {
+                        id: link[1],
+                        marker: {
+                            radius: 10,
+
+                        },
+                        color: colors[i++]
+                    };
+                }
+                else if (nodes[link[0]] && nodes[link[0]].color) {
+                    nodes[link[1]] = {
+                        id: link[1],
+                        color: nodes[link[0]].color
+                    };
+                }
+            });
+
+            e.options.nodes = Object.keys(nodes).map(function (id) {
+                return nodes[id];
+            });
+        }
+    }
+)
+ Highcharts.chart('container', {{ graph|safe }})
         </script>
     </div>
 </div>
@@ -331,7 +351,7 @@ $(document).ready(function(){
                                             });
                                         }});
     $('#id_academicyear').select2({placeholder: 'Select From Academic Years',width: '75%'});
-    $('#id_endacademicyear').select2({placeholder: 'Select To Academic Years',width: '75%'});
+
 
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
@@ -375,36 +395,5 @@ $(document).ready(function(){
         })
     </script>
 
-
-
-    <script>
-
-
-    $("#id_endacademicyear").change(function () {
-        var fromacademicyear=$("#id_academicyear").val();
-        var toacademicyear=$("#id_endacademicyear").val();
-        if (toacademicyear<fromacademicyear ){
-            alert("Please Select To Academic Year Greater Than From AcademicYear");
-            $("#id_endacademicyear").val('')
-            $("#id_academicyear").val('')
-        }
-        if(fromacademicyear=''){}
-
-
-
-    })
-    $("#id_academicyear").change(function () {
-        var fromacademicyear=$("#id_academicyear").val();
-        var toacademicyear=$("#id_endacademicyear").val();
-        if (toacademicyear!='') {
-            if (fromacademicyear > toacademicyear || toacademicyear<fromacademicyear) {
-                alert("Please Select From Academic Year Lower Than To AcademicYear");
-                $("#id_endacademicyear").val('')
-                $("#id_academicyear").val('')
-            }
-        }
-
-    })
-    </script>
 {% endblock %}
 

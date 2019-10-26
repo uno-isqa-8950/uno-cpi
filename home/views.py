@@ -602,6 +602,7 @@ def engagement_info(request):
     filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
     filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
     filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+
     for e in engagements:
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
@@ -729,6 +730,7 @@ def missionchart(request):
             if b is None or b == "All" or b == '':
                 if c is None or c == "All" or c == '':
                     if d is None or d == "All" or d == '':
+                        print("bbbbbb",b)
                         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(
                             community_partner_id__in=community_filtered_ids).count()
 
@@ -805,175 +807,6 @@ def missionchart(request):
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
 
-# Chart for projects with issues addressed analysis  ~Naresh
-
-def issueaddress(request):
-    missions = MissionArea.objects.all()
-    mission_area1 = list()
-    data_definition = DataDefinition.objects.all()
-    project_count_data = list()
-    partner_count_data = list()
-    cursor = connection.cursor()
-    # cursor.execute(sql.missionareas_sql)
-    range=[]
-    cursor.execute(sql.academic_sql)
-    range =cursor.fetchall()
-    # print("range list ----",range)
-    acstart=range[0][0]
-    # print("start min ",acstart)
-    acend=range[0][1]
-    # print("end max",acend)
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-
-    for m in missions:
-        mission_area1.append(m.mission_name)
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        start = request.GET.get('academic_year')
-        end = request.GET.get('end_academic_year')
-        # print("start", start)
-        # print("end", end)
-        if start=='' and end=='':
-            # print("strt ==end==blank")
-            start=acstart
-            end=acend
-        elif start=='' and end!='':
-            # print("bank vaue")
-            start=acstart
-        elif end=='' and start!='' :
-            # print("value blank")
-            end=acend
-        if start==None and end==None:
-            # print("strt ==end==none")
-            start=acstart
-            end=acend
-
-      #  print("start year from req ",start)
-     #   print("end yaer from req",end)
-    #print("start year from req ", start)
-    #print("end yaer from req", end)
-    month = datetime.datetime.now().month
-    year = datetime.datetime.now().year
-    if month > 7:
-        a_year = str(year) + "-" + str(year + 1)[-2:]
-    else:
-        a_year = str(year - 1) + "-" + str(year)[-2:]
-
-
-    #project_data =  [{"x": 19, "x2": 21, "y": 1}, {"x": 8, "x2": 12, "y": 2}, {"x": 0, "x2": 10, "y": 3}, {"x": 4, "x2": 18, "y": 4}, {"x": 2, "x2": 9, "y": 5}, {"x": 6, "x2": 9, "y": 6}]
-    start_yr_id = start
-    end_yr_id = end
-    cursor = connection.cursor()
-    cursor.execute(sql.missionareas_sql)
-    ma = cursor.fetchall()
-    cursor.execute(sql.missions_sql, {'yr_id': start_yr_id})
-    start = cursor.fetchall()
-    cursor.execute(sql.missions_sql, {'yr_id': end_yr_id})
-    end = cursor.fetchall()
-    json_data = []
-    start_json_data = []
-    end_json_data=[]
-    for e in end:
-        for s in start:
-            if (s[0] == e[0]):
-                res = {'x': s[1], 'x2': e[1], 'y': s[0]-1}
-                startres = {'x': s[1], 'y': s[0] - 1}
-                endres = {'x': e[1], 'y': s[0]-1}
-                json_data.append(res)
-                start_json_data.append(startres)
-                end_json_data.append(endres)
-
-    pm = []
-    for s in start:
-        pm.append(s[0])
-    for mission in ma:
-        for m in mission:
-            if m not in pm:
-                res = {'x': 0, 'x2': 0, 'y': m}
-                json_data.append(res)
-    json_data_req = json.dumps(json_data)
-
-    maxend = []
-    for e in end:
-        for s in start:
-            if s[1] not in maxend:
-                maxend.append(s[1])
-        if e[1] not in maxend:
-            maxend.append(e[1])
-
-    Max = max(maxend)
-    Min = min(maxend)
-
-    Academic_Year = {
-        'name': 'From Academic Year',
-        'data': start_json_data,
-        'color': 'turquoise',
-        'type':'scatter'}
-    End_Academic_Year = {
-        'name': 'To Academic Year',
-        'data': end_json_data,
-        'color': 'teal',
-        'type': 'scatter'}
-    project_over_academic_years = {
-        'name': 'Issues Addressed Over Selected Academic Years',
-        'data': json_data,
-        'color': 'teal'}
-
-    dumbellchart = {
-        'chart': {
-            'type': 'xrange'
-        },
-        'title': {
-            'text': 'Project Missions Over Years'
-        },
-        'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
-                                                    'style': {'fontWeight': 'bold', 'color': 'black',
-                                                              'fontSize': '15px'}}, 'min': Min, 'max': Max+2},
-        'yAxis':
-            {
-                'title': {'text': 'Primary Mission Areas',
-                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-                'categories': mission_area1, 'labels': {'style': {'color': 'black', 'fontSize': '13px','min': 0, 'max': len(pm)}}
-            },
-        'plotOptions': {
-            'xrange': {
-                'pointWidth': 10,
-                'dataLabels': {
-                    'enabled': 'true',
-                    'style': {
-                        'fontSize': '6px'
-                    }
-                }
-            },
-            'scatter': {
-                'marker': {
-                    'radius': 10,
-                    'symbol':'circle'
-                    }
-                }
-        },
-        'legend': {
-            'layout': 'horizontal',
-            'align': 'right',
-            'verticalAlign': 'top',
-            'x': -10,
-            'y': 50,
-            'borderWidth': 1,
-            'backgroundColor': '#FFFFFF',
-            'shadow': 'true'
-        },
-        'series': [project_over_academic_years,Academic_Year,End_Academic_Year]
-    }
-
-
-
-    dump = json.dumps(dumbellchart)
-    return render(request, 'charts/issueaddressanalysis.html',
-                  {'dumbellchart': dump, 'project_filter': project_filter, 'data_definition': data_definition,'a_year':a_year})
-
-
 # Trend Report Chart
 
 def trendreport(request):
@@ -1011,6 +844,10 @@ def trendreport(request):
     filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
     filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
     filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
+    print("filtered_project_ids",filtered_project_ids)
+    print("filtered_project_ids2", filtered_project_ids2)
+    print("filtered_project_ids", filtered_project_ids1)
+    print("filtered_project_ids", filtered_project_list)
 
     yrs = []
     for e in acad_years:
@@ -1019,7 +856,9 @@ def trendreport(request):
 
     for e in acad_years:
         start = list(range(e.id+1))
+        print("start value ",start)
         end = list(range(e.id, (max_yr_id+1)))
+        print("end value",end)
         proj_comm = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list)
         proj_comme = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list)
         proj_comm = proj_comm | proj_comme
@@ -1482,3 +1321,528 @@ def commPartnerResetPassword(request,pk):
     else:
         form = SetPasswordForm(request.user)
     return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })
+
+
+#Issue Address Analysis Chart
+
+def issueaddress(request):
+    missions = MissionArea.objects.all()
+    mission_area1 = list()
+    subcategory=SubCategory.objects.all()
+    subcats=list()
+    data_definition = DataDefinition.objects.all()
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    json_data=[]
+    from_json_data=[]
+    to_json_data=[]
+    for sc in subcategory:
+        subcats.append(sc.sub_category)
+    yrs = []
+    acad_years = AcademicYear.objects.all()
+    for e in acad_years:
+        yrs.append(e.id)
+    max_yr_id = max(yrs)
+    min_yr_id = min(yrs)
+
+    b = request.GET.get('academic_year', None)
+    ba = request.GET.get('end_academic_year', None)
+
+    if b == '' or b == None and ba == '' or ba == None:
+        b = max_yr_id - 1
+        ba = max_yr_id
+    if b == '' or b == None and ba != '':
+        b = min_yr_id
+    elif ba == '' or ba == None and b != '':
+        ba = max_yr_id
+    b = int(b)
+    ba = int(ba)
+
+    from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
+    from_start = list(range(min_yr_id, (b + 1)))
+    from_end = list(range(b, (max_yr_id + 1)))
+
+    to_project_filter = ToProjectFilter(request.GET, queryset=Project.objects.all())
+    to_start = list(range(min_yr_id, (ba + 1)))
+    to_end = list(range(ba, (max_yr_id + 1)))
+
+    from_project_count_data = list()
+    to_project_count_data = list()
+    from_subcat_count=list()
+    to_subcat_count=list()
+    sub=list()
+    scategory=list()
+    subres=[]
+    subdrill=[]
+    drilldata=[]
+    for m in missions:
+        from_subcat_counts=[]
+        to_subcat_counts=[]
+        college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+        college_filtered_ids = [campus.id for campus in college_filter.qs]
+
+        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+            campus_partner_id__in=college_filtered_ids))
+        campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
+
+        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        projects = Project.objects.all()
+        project_filtered_ids = [project.id for project in projects]
+
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        community_filtered_ids = [community.id for community in communityPartners.qs]
+
+        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+            community_partner_id__in=community_filtered_ids))
+        comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+        proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
+        project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
+
+        mission_area1.append(m.mission_name)
+        e = request.GET.get('community_type', None)
+        f = request.GET.get('weitz_cec_part', None)
+        if f is None or f == "All" or f == '':
+            if e is None or e == "All" or e == '':
+                project_ids = proj2_ids
+
+        project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
+        project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
+        project_count3 = project_count1 | project_count2
+        from_project_ids = []
+        for c in project_count3:
+            from_project_ids.append (c.id)
+        from_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids)
+        from_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(
+            project_name_id__in=from_project_ids).count()
+
+
+        project_count4 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None).filter(id__in=project_ids)
+        project_count5 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end).filter(id__in=project_ids)
+        project_count6 = project_count4 | project_count5
+        to_project_ids = []
+        for c in project_count6:
+            to_project_ids.append (c.id)
+        to_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids)
+        to_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(
+            project_name_id__in=to_project_ids).count()
+        x=[pm.project_name_id for pm in from_project_count_ids]
+        y = [pm.project_name_id for pm in to_project_count_ids]
+
+
+        for sc in subcategory:
+            # from_mission_sub=MissionSubCategory.objects.filter(sub_category_id=sc.id).filter(secondary_mission_area_id=m.id)
+            from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc.id).count()
+            to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
+                sub_category_id=sc.id).count()
+            from_subcat_counts.append(from_project_mission_sub_ids)
+            to_subcat_counts.append(to_project_mission_sub_ids)
+            drill = {"x": from_project_mission_sub_ids,
+                     "x2": to_project_mission_sub_ids, "y": sc.id - 1}
+            drilldata.append(drill)
+            drilled = {"name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
+            if (m.id == sc.id):
+                subcname = sc.sub_category
+        subdrill.append(drilled)
+        a = request.GET.get('engagement_type', None)
+        c = request.GET.get('campus_partner', None)
+        d = request.GET.get('college_name', None)
+        b = request.GET.get('academic_year', None)
+        ba = request.GET.get('end_academic_year', None)
+
+        if a is None or a == "All" or a == '':
+            if c is None or c == "All" or c == '':
+                if d is None or d == "All" or d == '':
+                    if f is None or f == "All" or f == '':
+                        if e is None or e == "All" or e == '':
+                            project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
+                            project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
+                            project_count3 = project_count1 | project_count2
+                            from_project_ids = []
+                            for c in project_count3:
+                                from_project_ids.append(c.id)
+                            from_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids).count()
+                            from_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(
+                                mission_type='Primary').filter(project_name_id__in=from_project_ids)
+
+                            project_count1 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None)
+                            project_count2 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end)
+                            project_count3 = project_count1 | project_count2
+                            to_project_ids = []
+                            for c in project_count3:
+                                to_project_ids.append(c.id)
+                            to_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids).count()
+                            to_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(
+                                mission_type='Primary').filter(project_name_id__in=to_project_ids)
+                            # print("inide loop for " , m.id, "mission name: ",m.mission_name,from_project_count,"to:" ,to_project_count)
+
+                            x = [pm.project_name_id for pm in from_project_count_ids]
+                            y = [pm.project_name_id for pm in to_project_count_ids]
+                            subres=[]
+                            drilldata=[]
+                            drill=[]
+                            for sc in subcategory:
+                                # from_mission_sub=MissionSubCategory.objects.filter(sub_category_id=sc.id).filter(secondary_mission_area_id=m.id)
+                                from_project_mission_sub_ids = ProjectSubCategory.objects.filter(
+                                    project_name_id__in=x).filter(sub_category_id=sc.id).count()
+                                to_project_mission_sub_ids = ProjectSubCategory.objects.filter(
+                                    project_name_id__in=y).filter(
+                                    sub_category_id=sc.id).count()
+                                from_subcat_counts.append(from_project_mission_sub_ids)
+                                to_subcat_counts.append(to_project_mission_sub_ids)
+                                drill={"x": from_project_mission_sub_ids,
+                                          "x2": to_project_mission_sub_ids,"y":sc.id-1}
+                                drilldata.append(drill)
+                                drilled={"name":m.mission_name ,"id":m.mission_name,"yAxis":1,"data":drilldata}
+                            subdrill.append(drilled)
+        subres.append(subdrill)
+        from_project_count_data.append(from_project_count)
+        to_project_count_data.append(to_project_count)
+        from_subcat_count.append(from_subcat_counts)
+        to_subcat_count.append(from_subcat_counts)
+        res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name}
+        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.mission_name}
+        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.mission_name}
+
+        json_data.append(res)
+        from_json_data.append(resfrom)
+        to_json_data.append(resto)
+
+    # print("***********************",subdrill)
+    Max = max(list(set(from_project_count_data) | set(to_project_count_data)))
+    Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
+    # print(" json data ", json_data)
+    #print("drilll down data ----------------------------------------------------- ", subdrill)
+    dj=[{"name": "Educational Support", "id": "Educational Support","yAxis":1, "data": [{"x": 1, "x2": 2, "y": 0}, {"x": 2, "x2": 2, "y": 1}, {"x": 1, "x2": 2, "y": 2}, {"x":
+        0, "x2": 1, "y": 3}, {"x": 0, "x1": 0, "y": 4}]}, {"name": "Health and Wellness", "id": "Health and Wellness","yAxis":1, "data": [{"x": 1, "x2": 2, "y": 0}, {"x": 0, "x2": 5, "y": 1}, {"x": 0,
+         "x2": 4, "y": 2}, {"x": 0, "x2": 1, "y": 3}, {"x": 0, "x2": 5, "y": 4}]}, {"name": "Economic Sufficiency", "id": "Economic Sufficiency","yAxis":1, "data": [{"x": 0, "x2": 4, "y": 0}, {"x": 0,
+         "x2": 5, "y": 1}, {"x": 0, "x2": 5, "y": 2}, {"x": 0, "x2": 2, "y": 3}, {"x": 0, "x2": 2, "y": 4}]}, {"name": "Social Justice", "id": "Social Justice", "yAxis":1,"data": [{"x": 0, "x2": 0, "y": 0}, {"x": 0, "x2": 0, "y": 1}, {"x": 1, "x2": 1, "y": 2}, {"x": 0, "x2": 0, "y": 3}, {"x": 0, "x2": 0, "y": 4}]}, {"name": "International Service", "id": "International Service",
+        "yAxis":1,"data": [{"x": 1, "x2": 4, "y": 0}, {"x": 2, "x2": 4, "y": 1}, {"x": 0, "x2": 1, "y": 2}, {"x": 0, "x2": 3, "y": 3}, {"x": 0, "x2": 1, "y": 4}]}, {"name": "Environmental Stewardship"
+        , "id": "Environmental Stewardship","yAxis":1, "data": [{"x": 0, "x2": 1, "y": 0}, {"x": 0, "x2": 5, "y": 1}, {"x": 0, "x2": 2, "y": 2}, {"x": 0, "x2": 3, "y": 3}, {"x": 0, "x2": 4, "y": 4}]},
+        #
+        # {"name": "Educational Support", "id": "Educational Support", "yAxis": 1,
+        #   "data": [{"x": 1, "y": 0}, {"x": 2, "y": 1}, {"x": 1, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
+        #  {"name": "Health and Wellness", "id": "Health and Wellness", "yAxis": 1,
+        #   "data": [{"x": 1, "y": 0}, {"x": 0, "y": 1}, {"x": 0,
+        #                                                 "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
+        #  {"name": "Economic Sufficiency", "id": "Economic Sufficiency", "yAxis": 1,
+        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
+        #  {"name": "Social Justice", "id": "Social Justice", "yAxis": 1,
+        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 1, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
+        #  {"name": "International Service", "id": "International Service",
+        #   "yAxis": 1,
+        #   "data": [{"x": 1, "y": 0}, {"x": 2, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
+        #  {"name": "Environmental Stewardship", "id": "Environmental Stewardship", "yAxis": 1,
+        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]}
+        ]
+    Academic_Year = {
+        'name': 'From Academic Year',
+        'data': from_json_data,
+        'color': 'teal',
+        'type': 'scatter'}
+    End_Academic_Year = {
+        'name': 'To Academic Year',
+        'data': to_json_data,
+        'color': 'blue',
+        'type': 'scatter'}
+    project_over_academic_years = {
+        'name': 'Mission Areas',
+        'data': json_data,
+        'color': 'turquoise'
+                }
+
+    dumbellchart = {
+        'chart': {
+            'type': 'xrange'
+        },
+
+       'title': '',
+        'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
+                                                    'style': {'fontWeight': 'bold', 'color': 'black',
+                                                              'fontSize': '15px'}}},
+        'yAxis':[
+            {  # Primary Axis for Mission Areas
+                'id':0,
+                'title': {'text': '',
+                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+                'categories': mission_area1,
+
+            },
+        {  # Secondary  Axis for  Subcategory
+            'id':1,
+            'type': 'category',
+            'title': {'text': 'Missions Areas/ SubCategories',
+                      'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+            'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+            'categories': subcats,
+
+
+        }],
+        'plotOptions': {
+            'xrange': {
+                'pointWidth': 4,
+                'dataLabels': {
+                    'enabled': True,
+                    'inside':True,
+                    'style': {
+                        'fontSize': '6px'
+                    }
+                },'colorByPoint': False
+            },
+
+            'scatter': {
+                'marker': {
+                    'radius': 6,
+                    'symbol': 'circle'
+                }
+            }
+        },
+        'tooltip': {
+            'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+            'pointFormat': '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
+        },
+        'legend': {
+            'layout': 'horizontal',
+            'align': 'right',
+            'verticalAlign': 'top',
+            'x': -10,
+            'y': 50,
+            'borderWidth': 1,
+            'backgroundColor': '#FFFFFF',
+            'shadow': 'true'
+        },
+
+
+        'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
+        'drilldown':{
+            'series': subres[0]
+                     # dj]
+        }
+
+    }
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+    engagement_type=request.GET.get('engagement_type',None)
+    if engagement_type is None or engagement_type == "All" or engagement_type == '':
+        projects = Project.objects.all()
+    else:
+        projects = Project.objects.filter(engagement_type=engagement_type)
+
+    dump = json.dumps(dumbellchart)
+    return render(request, 'charts/issueaddressanalysis.html',
+                      {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
+                       'to_project_filter': to_project_filter,
+                       'data_definition': data_definition,
+                       'campus_filter': campus_filter, 'communityPartners': communityPartners,
+                       'college_filter': college_filter, 'campus_id': campus_id})
+
+
+
+
+
+# Network Analysis Chart
+def networkanalysis(request):
+    communitytype=CommunityType.objects.all()
+    comm_type=list()
+    missions = MissionArea.objects.all()
+    data=[]
+    comm_list=[]
+    data_definition = DataDefinition.objects.all()
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    yrs = []
+    acad_years = AcademicYear.objects.all()
+    for e in acad_years:
+        yrs.append(e.id)
+    max_yr_id = int(max(yrs))
+    min_yr_id = int(min(yrs))
+
+    b = request.GET.get('academic_year', max_yr_id-1)
+
+    print(" b value ",b)
+    if b==None:
+        from_start = list(range(min_yr_id, (max_yr_id)))
+        from_end = list(range(max_yr_id-1, (max_yr_id + 1)))
+    elif  b=='':
+        from_start = list(range(min_yr_id, (max_yr_id)))
+        from_end = list(range(max_yr_id-1, (max_yr_id + 1)))
+    else:
+        b=int(b)
+        from_start = list(range(min_yr_id, b))
+        from_end = list(range(b, (max_yr_id + 1)))
+
+    print("  start and end ",from_start, "end ",from_end)
+
+    # for m in missions:
+        # restype = ["CPI", m.mission_name]
+        # data.append(restype)
+    for c in communitytype:
+        restype=["CPI",c.community_type,20]
+        data.append(restype)
+
+    print("Min Data ******************",data)
+
+    project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
+    project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
+    project_count3 = project_count1 | project_count2
+    from_project_ids = []
+    for c in project_count3:
+        from_project_ids.append(c.id)
+
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    college_filtered_ids = [campus.id for campus in college_filter.qs]
+
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+        campus_partner_id__in=college_filtered_ids))
+    campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
+
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    projects = Project.objects.all()
+    project_filtered_ids = [project.id for project in projects]
+
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filtered_ids = [community.id for community in communityPartners.qs]
+
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+        community_partner_id__in=community_filtered_ids))
+    comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
+    project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
+
+    for m in missions:
+        color=['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']
+        for c in communitytype:
+            # if m.id==1 and c.id==1:
+            project_m=ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=project_ids)
+            project_m_ids=[p.id for p in project_m ]
+            print("projects in mission 1 ",project_m_ids)
+            comm_partners=[p.community_partner_id for p in (ProjectCommunityPartner.objects.filter(id__in=project_m))]
+            # project_ids_camp_partners = Project.objects.filter(id__in=(ProjectCommunityPartner.objects.filter(id__in=project_m)))
+            project_m_c_partner=CommunityPartner.objects.filter(community_type_id=c.id).filter(id__in=comm_partners)
+            project_m_c_partners=[p.name for p in project_m_c_partner ]
+            project_m_c_partners_ids = [p.id for p in project_m_c_partner]
+
+            projects_with_commity=ProjectCommunityPartner.objects.filter(community_partner_id__in=project_m_c_partners_ids)
+            proj_ids_comm=[p.project_name_id for p in projects_with_commity]
+            # projects_community_mission=Project.objects.filter(id__in=proj_ids_comm)
+            print("partnrs with m1 and c1 ",project_m_c_partners)
+            for comm in project_m_c_partners:
+                comm_list.append(comm)
+                # comm=len(project_m_c_partner)
+                res=[c.community_type,comm,10]
+                data.append(res)
+                community_id= [p.id for p in (CommunityPartner.objects.filter(name=comm))]
+                Proj_comm_part=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_id).filter(project_name_id__in=proj_ids_comm)
+                project_comm=[p.project_name_id for p in Proj_comm_part]
+                # projects_community_mission = Project.objects.filter(id__in=Proj_comm_part)
+                camp_partner_objs=ProjectCampusPartner.objects.filter(project_name_id__in=project_comm)
+                camps_partners=[p.campus_partner_id for p in camp_partner_objs]
+                camp_part=[p.name for p in(CampusPartner.objects.filter(id__in=camps_partners))]
+                for p in camp_part:
+                    res=[comm,p,15]
+                    data.append(res)
+                    print("campus partners for ",comm," is : ",p)
+
+        college_value = request.GET.get('college_name', None)
+        if college_value is None or college_value == "All" or college_value == '':
+            campus_filter_qs = CampusPartner.objects.all()
+        else:
+            campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+        campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+        campus_id = request.GET.get('campus_partner')
+        if campus_id == "All":
+            campus_id = -1
+        if (campus_id is None or campus_id == ''):
+            campus_id = 0
+        else:
+            campus_id = int(campus_id)
+        engagement_type = request.GET.get('engagement_type', None)
+        if engagement_type is None or engagement_type == "All" or engagement_type == '':
+            projects = Project.objects.all()
+        else:
+            projects = Project.objects.filter(engagement_type=engagement_type)
+
+    # print("final ________________________",data)
+
+    networkchart= {
+        'chart': {
+            'type': 'networkgraph',
+             # 'borderWidth': 1,
+             #  'plotBorderWidth': 1,
+        },
+        'title': '',
+
+        'plotOptions': {
+            'networkgraph': {
+                'turboThreshold': 0,
+                'linklength': 100,
+                'initialPositions': 'top',
+                'keys': ['from', 'to','radius'],
+                'layoutAlgorithm': {
+                    'enableSimulation': False,
+                    # 'friction': 0.9,
+                    'integration': 'verlet',
+
+
+
+                }
+            }
+        },
+        'legend': {
+            # 'layout': 'horizontal',
+            'align': 'right',
+            'verticalAlign': 'top',
+            # 'borderWidth': 1,
+            # 'backgroundColor': '#FFFFFF',
+            'shadow': False
+        },
+        'series': [{
+            'dataLabels': {
+                'enabled': True,
+                'linkFormat': ''
+            },
+            'id': 'lang-tree',
+            'data': data
+
+        }]
+    }
+
+
+    graph = json.dumps(networkchart)
+
+    return render(request, 'charts/networkanalysis.html',
+                  {'project_filter':project_filter,'graph':graph,
+                       'data_definition': data_definition,
+                       'campus_filter': campus_filter, 'communityPartners': communityPartners,
+                       'college_filter': college_filter, 'campus_id': campus_id})
+
+
+

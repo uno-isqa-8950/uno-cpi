@@ -1,4 +1,5 @@
 import json
+import logging
 from django.db.models import Count, Q
 from django.contrib.auth.decorators import login_required
 from django.forms import modelformset_factory
@@ -57,6 +58,7 @@ from django.db import connection
 from UnoCPI import sqlfiles
 
 sql=sqlfiles
+logger = logging.getLogger(__name__)
 #writing into amazon s3 bucket
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
@@ -548,7 +550,7 @@ def project_partner_info(request):
 
 
 def engagement_info(request):
-
+    logger.info('Start engagement_info')
     engagements = EngagementType.objects.all()
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
@@ -693,7 +695,7 @@ def engagement_info(request):
         campus_id = 0
     else:
         campus_id = int(campus_id)
-
+    logger.info('End engagement_info')
     return render(request, 'reports/EngagementTypeReport.html',
                   {'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
                       'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
@@ -1408,18 +1410,19 @@ def googleDistrictdata(request):
 
 def googlepartnerdata(request):
     data_definition = DataDefinition.objects.all()
-    Campuspartner = GEOJSON()[3]
-    College = GEOJSON()[6]
-    data = GEOJSON()[0]
+    map_json_data = GEOJSON()
+    Campuspartner = map_json_data[3]
+    College = map_json_data[6]
+    data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
-                   'Missionlist': sorted(GEOJSON()[1]),
-                   'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
+                   'Missionlist': sorted(map_json_data[1]),
+                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4],'data_definition':data_definition,
+                   'year': map_json_data[4],'data_definition':data_definition,
                    'College': (College) #k sorted
                    }
                   )

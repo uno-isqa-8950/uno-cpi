@@ -192,7 +192,7 @@ valueFilter.addEventListener("keydown", function (e) {
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
                                     '<br>' +
-                                    '<tr><td><br><br><label style="text-align:justify;"><b style="font-size:16px;text-align:left;color:black;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</b><label</td></tr><br><br>' +
+                                    '<tr><td><br><br><label style="text-align:justify;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</b><label</td></tr><br><br>' +
                                     {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
                                     {#'<table class="table table-hover table-sm table-bordered">' +#}
                                     {#'<tr><th>Community Partner</th></tr>' +#}
@@ -223,7 +223,7 @@ valueFilter.addEventListener("keydown", function (e) {
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
-                                        '<tr><td><label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:black;">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
+                                        '<tr><td><label style="text-align:justify;">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
                                         '<tr><td><a class="blackbutton" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                                 }

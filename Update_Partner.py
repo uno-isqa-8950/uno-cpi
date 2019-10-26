@@ -54,16 +54,14 @@ dfCommunity = pd.read_sql_query(
     join partners_communitytype pc2 on PC.community_type_id = pc2.id \
     where  \
     (pc.address_line1 not in ('','NA','N/A') or pc.city not in ('','NA','N/A') or pc.state not in ('','NA','N/A')) \
-    and pc.longitude is null \
-    and pc.longitude is null \
-    and pc.legislative_district is null \
+    and (pc.latitude is null or pc.longitude is null or pc.legislative_district is null ) \
     and lower(p.mission_type) = 'primary'",con=conn)
 
 if len(dfCommunity) == 0:
-    logger.critical("No Community Partners fetched from the Database on " + str(currentDT))
+    logger.critical("No Community Partners fetched from the Database while updating lang and lng on " + str(currentDT))
 else:
     cursor = conn.cursor()
-    logger.info(repr(len(dfCommunity)) + "Community Partners are in the Database on " + str(currentDT))
+    logger.info(repr(len(dfCommunity)) + "Community Partners are in the Database while updating lang and lng on " + str(currentDT))
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -82,24 +80,29 @@ def feature_from_row(Community, Address):
     if (geocode_result[0]):
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
-        coord = Point([longitude, latitude])
+        print(latitude,longitude,)
+        lng_round = round(longitude,7)
+        lat_round = round(latitude,7)
+        print(lat_round,lng_round,'again')
+        coord = Point([lng_round, lat_round])
         legi_district = ''
         for i in range(len(district)):  # iterate through a list of district polygons
             property = district[i]
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
-
-                logger.info("Update community partner records with longitude:" + str(round(longitude,7))+" ,latitude:" +str(round(latitude, 7)) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
+                print(lat_round,lng_round, 'again--')
+                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
                 cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
+                #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
                 conn.commit()
 
 if len(dfCommunity) != 0:
     logger.info("Call update Community Partners in database") 
-    dfCommunity.apply(
-        lambda x: feature_from_row(x['community_partner'], x['fulladdress']), axis=1)
+    dfCommunity.apply(lambda x: feature_from_row(x['community_partner'], x['fulladdress']), axis=1)
     cursor.close()
-    conn.close()
+
+conn.close()
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))

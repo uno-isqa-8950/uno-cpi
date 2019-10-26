@@ -23,17 +23,18 @@ def scheduled_job():
     updatePartner = 'python Update_Partner.py'
     partner = 'python Partner_GEOJSON.py'
     logger.info("Start update project script") 
+    print("Start update project script") 
     os.system(updateProject)
-    logger.info("End update project script")
-    logger.info("Start create project geo json script") 
+    print("End update project script")
+    print("Start create project geo json script") 
     os.system(project)
-    logger.info("End create project geo json script") 
-    logger.info("Start update partner script") 
+    print("End create project geo json script") 
+    print("Start update partner script") 
     os.system(updatePartner)
-    logger.info("End update partner script") 
-    logger.info("Start create partner geo json script") 
+    print("End update partner script") 
+    print("Start create partner geo json script") 
     os.system(partner)
-    logger.info("End create partner geo json script") 
+    print("End create partner geo json script") 
     global connection
     global cursor
 

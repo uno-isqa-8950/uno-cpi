@@ -62,7 +62,7 @@ with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
 
-def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, lng,lat, Zip):
+def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, lng,lat, Zip,legislative_district):
     feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
@@ -81,8 +81,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            feature['properties']['Legislative District Number'] = property["properties"][
-                "id"]  # assign the district number to a partner
+            feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
     
     yearlist = []
     campusPartnersList = []
@@ -139,7 +138,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     collection['features'].append(feature)
     return feature
 
-geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'], str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']),  x['longitude'], x['latitude'], str(x['zip'])), axis=1)
+geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'], str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']),  x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 if len(df_projects) != 0:

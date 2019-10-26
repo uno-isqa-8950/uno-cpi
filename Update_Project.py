@@ -54,11 +54,9 @@ join projects_projectmission  mis on pro.id = mis.project_name_id \
 where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
-and pro.longitude is null \
-and pro.longitude is null \
-and pro.legislative_district is null \
+and pro.longitude is null or pro.longitude is null or pro.legislative_district is null) \
 and lower(mis.mission_type)='primary'",con=conn)
-
+print('before checking query')
 if len(df_projects) == 0:
     logger.info("No Projects fetched from the Database on " + str(currentDT))
     print("No Projects fetched from the Database on " + str(currentDT))
@@ -102,9 +100,9 @@ if len(df_projects) != 0:
     logger.info("Call update project function for each row") 
     df_projects.apply(lambda x: feature_from_row(x['project_name'], str(x['fulladdress'])), axis=1)
     cursor.close()
-    conn.close()
 else:
     logger.info("Do not Call update project function for each row") 
-
+    
+conn.close()
 # Log when the Script ran
 logger.info("Projects of  " + repr(len(df_projects)) + " records are generated at " + str(currentDT))

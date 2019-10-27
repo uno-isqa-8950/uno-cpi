@@ -24,6 +24,7 @@ urlpatterns = [
    path('uploadIncome/', views.upload_income, name='upload_income'),
    path('missionchart/', views.missionchart, name='missionchart'),
    path('issueaddress/', views.issueaddress, name='issueaddress'),
+   path('networkanalysis/', views.networkanalysis, name='networkanalysis'),
    path('trendreport/', views.trendreport, name='trendreport'),
    path('partnershipintensity/', views.trendreport, name='partnershipintensity'),
    path('projectInfo/', views.project_partner_info, name='project_partner_info'),

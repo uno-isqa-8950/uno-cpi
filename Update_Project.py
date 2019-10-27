@@ -90,7 +90,7 @@ def feature_from_row(Projectname, FullAddress):
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
-                print('legi_district--',legi_district)
+                print(latitude,longitude, legi_district,'save')
                 logger.info("Update projects records with longitude:" + str(round(longitude,7))+" ,latitude:" +str(round(latitude, 7)) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Projectname))
                 cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(legi_district),str(Projectname)))
                 conn.commit()

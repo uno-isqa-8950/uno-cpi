@@ -1,6 +1,6 @@
 import django_filters
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
-    ProjectCommunityPartner, ProjectMission
+    ProjectCommunityPartner, ProjectMission, ProjectSubCategory
 from partners.models import CommunityPartner, CommunityPartnerMission, CampusPartner
 from home.models import MissionArea
 from django.db.models import Max, Min
@@ -42,6 +42,12 @@ class ProjectFilter(django_filters.FilterSet):
             return proj_part
         else:
             return Project.objects.all()
+
+class ProjectSubCategoryFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = ProjectSubCategory
+        fields = ['sub_category', ]
 
 class FromProjectFilter(django_filters.FilterSet):
     # start=django_filters.filterset(queryset=Project.objects.filter(academic_year='academic_year').filter(end_academic_year=None))

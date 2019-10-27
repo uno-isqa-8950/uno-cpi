@@ -1,0 +1,65 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+@media (min-width: 700px)
+{
+
+    .panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:150px;
+
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+
+</style>
+<div class="container">
+ <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Thank You</h4></div>
+			<div class="panel-body">
+
+              <p>Your organization is successfully registered as a UNO community partner.</p>
+                <div class="row centered">
+                    <br>
+                <button value="back" name="back" id="back" class="save blackbutton">Back to Create Project</button>
+                <!--<button name="cancel" id="cancel" class="redbutton">Cancel</button> -->
+            </div>
+            </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#back').click(function () {
+       window.history.go(-2);
+    });
+});
+
+</script>
+{% endblock %}
+

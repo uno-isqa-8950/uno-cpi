@@ -41,31 +41,36 @@ class CampusPartnerContactForm(forms.ModelForm):
             'contact_type':('Contact Type'),
         }
         widgets = {
-                   'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
-                   }
-    def clean_first_name(self):
-        firstname = self.cleaned_data['first_name']
-        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-        if any(char.isdigit() for char in firstname):
-            raise forms.ValidationError("First name cannot have digits")
-        if any(char in special_characters for char in firstname):
-            raise forms.ValidationError("First name should not have special characters")
-        return firstname
+            'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
+            'first_name': forms.TextInput(attrs={'class': 'nonumbers'}),
+            'last_name': forms.TextInput(attrs={'class': 'nonumbers'}),
+            'work_phone': forms.TextInput(attrs={'class': 'noalpha'}),
+            'cell_phone': forms.TextInput(attrs={'class': 'noalpha'}),
 
-    def clean_last_name(self):
-        lastname = self.cleaned_data['last_name']
-        special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
-        if any(char.isdigit() for char in lastname):
-            raise forms.ValidationError("Last name cannot have digits")
-        if any(char in special_characters for char in lastname):
-            raise forms.ValidationError("Last name should not have special characters")
-        return lastname
-
-    def clean_work_phone(self):
-        workphone = self.cleaned_data['work_phone']
-        if any(char.isalpha() for char in workphone):
-            raise forms.ValidationError("Work Phone cannot have alphabets")
-        return workphone
+        }
+    # def clean_first_name(self):
+    #     firstname = self.cleaned_data['first_name']
+    #     special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+    #     if any(char.isdigit() for char in firstname):
+    #         raise forms.ValidationError("First name cannot have digits")
+    #     if any(char in special_characters for char in firstname):
+    #         raise forms.ValidationError("First name should not have special characters")
+    #     return firstname
+    #
+    # def clean_last_name(self):
+    #     lastname = self.cleaned_data['last_name']
+    #     special_characters = "[~\!@#\$%\^&\*\(\)_\+{}\":;'\[\]]"
+    #     if any(char.isdigit() for char in lastname):
+    #         raise forms.ValidationError("Last name cannot have digits")
+    #     if any(char in special_characters for char in lastname):
+    #         raise forms.ValidationError("Last name should not have special characters")
+    #     return lastname
+    #
+    # def clean_work_phone(self):
+    #     workphone = self.cleaned_data['work_phone']
+    #     if any(char.isalpha() for char in workphone):
+    #         raise forms.ValidationError("Work Phone cannot have alphabets")
+    #     return workphone
 
   #  def clean_cell_phone(self):
    #     cellphone = self.cleaned_data['cell_phone']
@@ -73,13 +78,13 @@ class CampusPartnerContactForm(forms.ModelForm):
      #       raise forms.ValidationError("Cell Phone cannot have alphabets")
       #  return cellphone
 
-    def clean_email_id(self):
-        email = self.cleaned_data['email_id']
-        sufix = ".edu"
-        if not email.endswith(sufix):
-            raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
-        return email
-
+    # def clean_email_id(self):
+    #     email = self.cleaned_data['email_id']
+    #     sufix = ".edu"
+    #     if not email.endswith(sufix):
+    #         raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
+    #     return email
+COUNTRY_CHOICES = [(' ','------'),('US','United States of America')]
 STATE_CHOICES = [(' ','------'),
      ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
      ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
@@ -101,6 +106,7 @@ class CommunityPartnerForm(forms.ModelForm):
     address_line1 = forms.CharField(max_length=200,label='Address', required=False)
     acronym = forms.CharField(max_length=4, label='Acronym', required=False)
     online_only = forms.BooleanField(required=False)
+    country = forms.ChoiceField(choices=COUNTRY_CHOICES, required=False)
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
     class Meta:
         model = CommunityPartner

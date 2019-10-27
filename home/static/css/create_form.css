@@ -195,7 +195,7 @@ label[for=id_campus-0-campus_partner]:after{
   display: inline-block;
   font-size: 16px;
           height: 38px;
-  margin: 9px 2px;
+  margin: 9px 10px;
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;

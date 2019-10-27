@@ -13,7 +13,7 @@ from university.models import Course
 from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType, ProjectSubCategory
-from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
+from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm, CecPartChoiceForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
@@ -886,6 +886,15 @@ def projectsPublicReport(request):
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    #print('CEC Partner set in view ' + cec_part_selection)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
     if k12_selection == 'Yes':
         if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
             project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True))
@@ -949,13 +958,21 @@ def projectsPublicReport(request):
                           "engagementType": obj[3]})
 
     b = request.GET.get('community_type', None)
-    c = request.GET.get('weitz_cec_part', None)
+    # c = request.GET.get('weitz_cec_part', None)
     k12_selection = request.GET.get('k12_flag', None)
     if k12_selection is None:
         k12_selection = k12_init_selection
+    # print('K12 flag selected in page ' + k12_selection)
+
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    #print('CEC Partner selected in page ' + cec_part_selection)
+
     if b is None or b == "All" or b == '':
-        if c is None or c == "All" or c == '':
-            cursor.execute(sql.projects_report, [projects_comm_ids])
+        if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':  # if c is None or c == "All" or c == '':
+            if k12_selection is None or k12_selection == 'All' or k12_selection == '':
+                cursor.execute(sql.projects_report, [projects_comm_ids])
 
             for obj in cursor.fetchall():
                 data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
@@ -1004,9 +1021,9 @@ def projectsPublicReport(request):
                   {'projects': project_filter, 'data_definition': data_definition,
                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
-                   "campus_filter": campus_filter, 'college_filter': campusPartners, 'campus_id':campus_id,
-                   "k12_choices": k12_choices,
-                   "k12_selection": k12_selection})
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'k12_choices': k12_choices, 'k12_selection': k12_selection,
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection})
 
 # Trying to speed up the project reports (Vineeth)
 # List Projects for Private View
@@ -1042,6 +1059,15 @@ def projectsPrivateReport(request):
         k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    #print('CEC Partner set in view ' + cec_part_selection)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     if k12_selection == 'Yes':
         if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
@@ -1105,18 +1131,25 @@ def projectsPrivateReport(request):
                           "engagementType": obj[3]})
 
     b = request.GET.get('community_type', None)
-    c = request.GET.get('weitz_cec_part', None)
+    # c = request.GET.get('weitz_cec_part', None)
     k12_selection = request.GET.get('k12_flag', None)
     if k12_selection is None:
         k12_selection = k12_init_selection
-    #print('K12 flag selected in page ' + k12_selection)
+    # print('K12 flag selected in page ' + k12_selection)
+
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    #print('CEC Partner selected in page ' + cec_part_selection)
+
     if b is None or b == "All" or b == '':
-        if c is None or c == "All" or c == '':
+        if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':  # if c is None or c == "All" or c == '':
             if k12_selection is None or k12_selection == 'All' or k12_selection == '':
                 cursor.execute(sql.projects_report, [projects_comm_ids])
 
                 for obj in cursor.fetchall():
-                    data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
+                    data_list.append(
+                        {"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[2],
                          "engagementType": obj[3]})
 
     # for project in projects:
@@ -1151,11 +1184,11 @@ def projectsPrivateReport(request):
 
     return render(request, 'reports/projects_private_view.html',
                   {'projects': project_filter, 'data_definition': data_definition,
-                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
+                   'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
                    'projectsData': data_list, "missions": missions, "communityPartners": communityPartners,
-                   "campus_filter": campus_project_filter, 'college_filter': campusPartners,
-                   "k12_choices": k12_choices,
-                   "k12_selection": k12_selection})
+                   'campus_filter': campus_project_filter, 'college_filter': campusPartners,
+                   'k12_choices': k12_choices, 'k12_selection': k12_selection,
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection})
 
 
 def projectsfromMissionReport(request, pk):

@@ -8,8 +8,26 @@ class ProjectFilter(django_filters.FilterSet):
 
     class Meta:
         model = Project
-        fields = ['engagement_type','academic_year','end_academic_year'  ]
+        fields = ['engagement_type','academic_year' ,'end_academic_year' ]
 
+
+class FromProjectFilter(django_filters.FilterSet):
+    # start=django_filters.filterset(queryset=Project.objects.filter(academic_year='academic_year').filter(end_academic_year=None))
+    # end=django_filters.filterset(queryset=Project.objects.filter(academic_year='academic_year').filter(end_academic_year__gte='academic_year'))
+    # fromProjects=list(set(start).intersection.set(end))
+    class Meta:
+        model = Project
+        fields = ['engagement_type','academic_year','end_academic_year' ]
+
+
+class ToProjectFilter(django_filters.FilterSet):
+    # start = django_filters.filterset(queryset=Project.objects.filter(academic_year='academic_year').filter(end_academic_year=None))
+    # end = django_filters.filterset(queryset=Project.objects.filter(academic_year='academic_year').filter(end_academic_year__gte='academic_year'))
+    # toProjects = list(set(start).intersection.set(end))
+
+    class Meta:
+        model = Project
+        fields = ['engagement_type','academic_year','end_academic_year' ]
 
 class legislativeFilter(django_filters.FilterSet):
 

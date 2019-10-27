@@ -861,6 +861,7 @@ def projectsPublicReport(request):
     legislative_choices = []
     legislative_search = ''
     data_definition = DataDefinition.objects.all()
+    status_draft = Status.objects.filter(name='Drafts')
 
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -907,7 +908,7 @@ def projectsPublicReport(request):
             project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False).filter(legislative_district=legislative_search))
     else:
         if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-            project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+            project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
         else:
             project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
 
@@ -1035,6 +1036,7 @@ def projectsPrivateReport(request):
     legislative_choices = []
     legislative_search = ''
     data_definition = DataDefinition.objects.all()
+    status_draft = Status.objects.filter(name='Drafts')
 
      #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -1081,7 +1083,7 @@ def projectsPrivateReport(request):
             project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False).filter(legislative_district=legislative_search))
     else:
         if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-            project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+            project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
         else:
             project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
 
@@ -1702,6 +1704,7 @@ def communityPublicReport(request):
     legislative_choices = []
     legislative_search = ''
     data_definition=DataDefinition.objects.all()
+    status_draft = Status.objects.filter(name='Drafts')
 
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -1722,7 +1725,7 @@ def communityPublicReport(request):
 
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
     else:
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))

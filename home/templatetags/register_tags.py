@@ -9,7 +9,8 @@ from home.models import Community_Partner_Snippet, Community_Partner_User_Snippe
     Partners_Organizatiion_Profile_Contacts_Snippet, Partners_Organizatiion_Profile_Partners_Add_Snippet, \
     Partners_Organizatiion_Profile_Partners_Update_Snippet, Partners_Organizatiion_Profile_Snippet, \
     Partners_User_Profile_Snippet, Partners_User_Profile_Update_Snippet, Password_Reset_Done_Snippet, \
-    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet, TrendReport_Chart_Snippet,Issue_Address_Chart_Snippet
+    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet, TrendReport_Chart_Snippet,Issue_Address_Chart_Snippet, \
+    PartnershipIntensityAnalysis_Chart_Snippet
 
 register = template.Library()
 
@@ -95,6 +96,13 @@ def eng_charts(context):
 def trend_charts(context):
     return {
         'trend_charts': TrendReport_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/partnershipintensityanalysis_chart_snippet.html', takes_context=True)
+def partnershipintensityanalysis_charts(context):
+    return {
+        'partnershipintensityanalysis_charts': PartnershipIntensityAnalysis_Chart_Snippet.objects.all(),
         'request': context['request'],
     }
 

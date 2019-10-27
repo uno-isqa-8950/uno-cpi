@@ -1028,6 +1028,8 @@ def partnershipintensity(request):
         project_ids = community_filtered_ids
 
     chart_data = []
+    proj = []
+    score = []
     for m in missions:
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=project_ids)
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
@@ -1043,20 +1045,37 @@ def partnershipintensity(request):
             partner_subcat_filter = ProjectSubCategoryFilter(request.GET, queryset=ProjectSubCategory.objects.filter(
                 project_name_id__in=partner_proj_ids))
             partner_subcat_ids = [project.sub_category_id for project in partner_subcat_filter.qs]
-
+            proj.append(len(partner_proj_ids))
+            score.append(len(partner_subcat_ids))
             res = {'name': community.name, 'x': len(partner_proj_ids), 'y': len(partner_subcat_ids)}
             partner_proj_score.append(res)
         chart_missions = {'name': m.mission_name, 'data': partner_proj_score}
         chart_data.append(chart_missions)
 
+    x = (min(proj)+ max(proj))/2
+    y = (min(score) + max(score))/2
     chart = {
         'chart': {'type': 'scatter','zoomType': 'xy'},
         'title': {'text': ''},
         'xAxis': {'allowDecimals': False,
             'title': {'text': 'Projects',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
+                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                  'plotLines': [{
+                      'value': x,
+                      'dashStyle': 'dash',
+                      'width': 1,
+                      'color': '#d33'
+                  }]
+                  },
         'yAxis': {'title': {'text': 'Interdisciplinary Score',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
+                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                  'plotLines': [{
+                      'value': y,
+                      'dashStyle': 'dash',
+                      'width': 1,
+                      'color': '#d33'
+                  }]
+                  },
         'legend': {
             'layout': 'horizontal',
             'align': 'right',

@@ -1,5 +1,11 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
     {% load wagtailcore_tags register_tags %}
+
+<style>
+  A.class1 {color:#b60000;}
+A.class1:link  {text-decoration: underline; color: #b60000;}
+</style>
+
   <script>
     $(function () {
   $('[data-toggle="popover"]').popover()
@@ -229,7 +235,14 @@
                 <td>{{community.community_name}}</td>
                 <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
 {#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
-                <td>{{community.project_count}}</td>
+                <td>
+                     {% if  community.project_count  < 1 %}
+                        {{community.project_count}}
+                     {% else %}
+                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.project_count }}</a>
+                {% endif %}
+{#                    {{community.project_count}}#}
+                </td>
                 <td>{{community.total_uno_students}}</td>
                 <td>{{community.total_uno_hours}}</td>
 {#                <td>{{community.total_economic_impact}}</td>#}

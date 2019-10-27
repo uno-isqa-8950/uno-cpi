@@ -15,7 +15,7 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
     ProjectCommunityPartner, ProjectMission, AcademicYear
 
 STATE_CHOICES = [
-    (('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
+    ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
      ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
      ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'), ('ID', 'Idaho'),
      ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
@@ -27,7 +27,7 @@ STATE_CHOICES = [
      ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'),
      ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'),
      ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
-     ('WI', 'Wisconsin'), ('WY', 'Wyoming'))]
+     ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
 
 
 class StateChoiceForm(forms.Form):

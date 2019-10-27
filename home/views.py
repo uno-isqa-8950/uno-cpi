@@ -1518,30 +1518,7 @@ def issueaddress(request):
     # print("***********************",subdrill)
     Max = max(list(set(from_project_count_data) | set(to_project_count_data)))
     Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
-    # print(" json data ", json_data)
-    #print("drilll down data ----------------------------------------------------- ", subdrill)
-    dj=[{"name": "Educational Support", "id": "Educational Support","yAxis":1, "data": [{"x": 1, "x2": 2, "y": 0}, {"x": 2, "x2": 2, "y": 1}, {"x": 1, "x2": 2, "y": 2}, {"x":
-        0, "x2": 1, "y": 3}, {"x": 0, "x1": 0, "y": 4}]}, {"name": "Health and Wellness", "id": "Health and Wellness","yAxis":1, "data": [{"x": 1, "x2": 2, "y": 0}, {"x": 0, "x2": 5, "y": 1}, {"x": 0,
-         "x2": 4, "y": 2}, {"x": 0, "x2": 1, "y": 3}, {"x": 0, "x2": 5, "y": 4}]}, {"name": "Economic Sufficiency", "id": "Economic Sufficiency","yAxis":1, "data": [{"x": 0, "x2": 4, "y": 0}, {"x": 0,
-         "x2": 5, "y": 1}, {"x": 0, "x2": 5, "y": 2}, {"x": 0, "x2": 2, "y": 3}, {"x": 0, "x2": 2, "y": 4}]}, {"name": "Social Justice", "id": "Social Justice", "yAxis":1,"data": [{"x": 0, "x2": 0, "y": 0}, {"x": 0, "x2": 0, "y": 1}, {"x": 1, "x2": 1, "y": 2}, {"x": 0, "x2": 0, "y": 3}, {"x": 0, "x2": 0, "y": 4}]}, {"name": "International Service", "id": "International Service",
-        "yAxis":1,"data": [{"x": 1, "x2": 4, "y": 0}, {"x": 2, "x2": 4, "y": 1}, {"x": 0, "x2": 1, "y": 2}, {"x": 0, "x2": 3, "y": 3}, {"x": 0, "x2": 1, "y": 4}]}, {"name": "Environmental Stewardship"
-        , "id": "Environmental Stewardship","yAxis":1, "data": [{"x": 0, "x2": 1, "y": 0}, {"x": 0, "x2": 5, "y": 1}, {"x": 0, "x2": 2, "y": 2}, {"x": 0, "x2": 3, "y": 3}, {"x": 0, "x2": 4, "y": 4}]},
-        #
-        # {"name": "Educational Support", "id": "Educational Support", "yAxis": 1,
-        #   "data": [{"x": 1, "y": 0}, {"x": 2, "y": 1}, {"x": 1, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
-        #  {"name": "Health and Wellness", "id": "Health and Wellness", "yAxis": 1,
-        #   "data": [{"x": 1, "y": 0}, {"x": 0, "y": 1}, {"x": 0,
-        #                                                 "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
-        #  {"name": "Economic Sufficiency", "id": "Economic Sufficiency", "yAxis": 1,
-        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
-        #  {"name": "Social Justice", "id": "Social Justice", "yAxis": 1,
-        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 1, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
-        #  {"name": "International Service", "id": "International Service",
-        #   "yAxis": 1,
-        #   "data": [{"x": 1, "y": 0}, {"x": 2, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]},
-        #  {"name": "Environmental Stewardship", "id": "Environmental Stewardship", "yAxis": 1,
-        #   "data": [{"x": 0, "y": 0}, {"x": 0, "y": 1}, {"x": 0, "y": 2}, {"x": 0, "y": 3}, {"x": 0, "y": 4}]}
-        ]
+
     Academic_Year = {
         'name': 'From Academic Year',
         'data': from_json_data,
@@ -1667,6 +1644,7 @@ def networkanalysis(request):
     missions = MissionArea.objects.all()
     data=[]
     comm_list=[]
+    colors=[]
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
@@ -1681,28 +1659,28 @@ def networkanalysis(request):
 
     b = request.GET.get('academic_year', max_yr_id-1)
 
-    print(" b value ",b)
+    # print(" b value ",b)
     if b==None:
-        from_start = list(range(min_yr_id, (max_yr_id)))
-        from_end = list(range(max_yr_id-1, (max_yr_id + 1)))
+        from_start = list(range(max_yr_id-1, (max_yr_id)))
+        from_end = list(range(max_yr_id, (max_yr_id + 1)))
     elif  b=='':
-        from_start = list(range(min_yr_id, (max_yr_id)))
-        from_end = list(range(max_yr_id-1, (max_yr_id + 1)))
+        from_start = list(range(max_yr_id-1, (max_yr_id)))
+        from_end = list(range(max_yr_id, (max_yr_id + 1)))
     else:
         b=int(b)
         from_start = list(range(min_yr_id, b))
         from_end = list(range(b, (max_yr_id + 1)))
 
-    print("  start and end ",from_start, "end ",from_end)
+    # print("  start and end ",from_start, "end ",from_end)
 
     # for m in missions:
         # restype = ["CPI", m.mission_name]
         # data.append(restype)
     for c in communitytype:
-        restype=["CPI",c.community_type,20]
+        restype=["CPI",c.community_type]
         data.append(restype)
 
-    print("Min Data ******************",data)
+    # print("Min Data ******************",data)
 
     project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
     project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
@@ -1738,25 +1716,28 @@ def networkanalysis(request):
 
     for m in missions:
         color=['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']
+        # r = { m.mission_name, color[m.id]}
+        # colors.append(r)
         for c in communitytype:
             # if m.id==1 and c.id==1:
             project_m=ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=project_ids)
-            project_m_ids=[p.id for p in project_m ]
-            print("projects in mission 1 ",project_m_ids)
-            comm_partners=[p.community_partner_id for p in (ProjectCommunityPartner.objects.filter(id__in=project_m))]
+            project_m_ids=[p.project_name_id for p in project_m ]
+            # print("projects in mission 1 :",m.mission_name,"are : ",project_m_ids)
+            comm_partners=[p.community_partner_id for p in (ProjectCommunityPartner.objects.filter(project_name_id__in=project_m_ids))]
             # project_ids_camp_partners = Project.objects.filter(id__in=(ProjectCommunityPartner.objects.filter(id__in=project_m)))
             project_m_c_partner=CommunityPartner.objects.filter(community_type_id=c.id).filter(id__in=comm_partners)
             project_m_c_partners=[p.name for p in project_m_c_partner ]
             project_m_c_partners_ids = [p.id for p in project_m_c_partner]
 
+
             projects_with_commity=ProjectCommunityPartner.objects.filter(community_partner_id__in=project_m_c_partners_ids)
             proj_ids_comm=[p.project_name_id for p in projects_with_commity]
             # projects_community_mission=Project.objects.filter(id__in=proj_ids_comm)
-            print("partnrs with m1 and c1 ",project_m_c_partners)
             for comm in project_m_c_partners:
+                # print(" cummunuty partners in ", c.community_type, "are -----------",comm )
                 comm_list.append(comm)
                 # comm=len(project_m_c_partner)
-                res=[c.community_type,comm,10]
+                res=[c.community_type,comm,color[m.id]]
                 data.append(res)
                 community_id= [p.id for p in (CommunityPartner.objects.filter(name=comm))]
                 Proj_comm_part=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_id).filter(project_name_id__in=proj_ids_comm)
@@ -1766,9 +1747,10 @@ def networkanalysis(request):
                 camps_partners=[p.campus_partner_id for p in camp_partner_objs]
                 camp_part=[p.name for p in(CampusPartner.objects.filter(id__in=camps_partners))]
                 for p in camp_part:
-                    res=[comm,p,15]
+                    res=[comm,p,color[m.id]]
                     data.append(res)
-                    print("campus partners for ",comm," is : ",p)
+                    # print("campus partners for ",comm," is : ",p)
+
 
         college_value = request.GET.get('college_name', None)
         if college_value is None or college_value == "All" or college_value == '':
@@ -1798,21 +1780,22 @@ def networkanalysis(request):
              # 'borderWidth': 1,
              #  'plotBorderWidth': 1,
         },
-        'title': '',
+        'title': {
+            'text':'.','<br>'
+            'style':{'size':100},
+            'align':'right'
+        },
 
         'plotOptions': {
             'networkgraph': {
                 'turboThreshold': 0,
                 'linklength': 100,
                 'initialPositions': 'top',
-                'keys': ['from', 'to','radius'],
+                'keys': ['from', 'to','color'],
                 'layoutAlgorithm': {
                     'enableSimulation': False,
                     # 'friction': 0.9,
                     'integration': 'verlet',
-
-
-
                 }
             }
         },

@@ -379,6 +379,16 @@ class DataDefinition(models.Model):
     def __str__(self):
         return str(self.title)
 
+
+class Resource (models.Model):
+    resource_descr = models.CharField(max_length=250, blank=True, null=False)
+    resource_link = models.CharField(max_length=250, blank=True, null=False)
+    isAccessible = models.BooleanField(default=True)
+    history = HistoricalRecords()
+
+    def __str__(self):
+        return str(self.resource_descr)
+
 @register_snippet
 class Campus_Partner_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -877,3 +887,34 @@ class TrendReport_Chart_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Trend Report Chart Snippet"
+
+
+
+@register_snippet
+class Network_Analysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def str(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Network Analysis Charts Snippet"
+
+
+@register_snippet
+class PartnershipIntensityAnalysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partnership Intensity Analysis Chart Snippet"

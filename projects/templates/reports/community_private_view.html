@@ -5,7 +5,10 @@
   $('[data-toggle="popover"]').popover()
 })
   </script>
-
+<style>
+    A.class1 {color:red;}
+    A.class1:link  {text-decoration: underline; color: red;}
+</style>
 <div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
@@ -229,7 +232,14 @@
                 <td>{{community.community_name}}</td>
                 <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
 {#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
-                <td>{{community.project_count}}</td>
+                <td>
+                     {% if  community.project_count  < 1 %}
+                        {{community.project_count}}
+                     {% else %}
+                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.project_count }}</a>
+                {% endif %}
+{#                    {{community.project_count}}#}
+                </td>
                 <td>{{community.total_uno_students}}</td>
                 <td>{{community.total_uno_hours}}</td>
 {#                <td>{{community.total_economic_impact}}</td>#}

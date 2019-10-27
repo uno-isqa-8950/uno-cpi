@@ -14,8 +14,9 @@ class CommunityPartner(models.Model):
     name = models.CharField(max_length=255, unique=True)
     acronym = models.CharField(max_length=255, unique=True, blank=True, null=True)
     website_url = models.URLField(max_length=300, blank=True)
-    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
-    k12_level =  models.CharField(max_length=20,null=False, blank=True)
+    community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,
+                                       verbose_name="Community Type")
+    k12_level = models.CharField(max_length=20, null=False, blank=True)
     online_only = models.BooleanField(default=False)
     address_line1 = models.CharField(max_length=1024, blank=True, null=True)
     address_line2 = models.CharField(max_length=1024, blank=True, null=True)
@@ -30,7 +31,7 @@ class CommunityPartner(models.Model):
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
                                        verbose_name="Community Partner Status")
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
-    cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
+    cec_partner_status = models.ForeignKey('CecPartnerStatus', on_delete=models.CASCADE, null=True, blank=True,
                                            verbose_name="Community CEC Partner Status")
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
@@ -49,14 +50,15 @@ class CommunityPartnerMission(models.Model):
         ('Other', 'Other'),
     )
     mission_type = models.CharField(max_length=20, choices=mission_choices, default=False)
-    mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area', null=True)
+    mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, related_name='mission_area',
+                                     null=True)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,
                                           related_name='communitypartnermission', null=True)
     history = HistoricalRecords()
 
 
 class CommunityType(models.Model):
-    community_type = models.CharField(max_length=50,verbose_name="Community Type")
+    community_type = models.CharField(max_length=50, verbose_name="Community Type")
     history = HistoricalRecords()
 
     def __str__(self):
@@ -68,13 +70,13 @@ class CampusPartner(models.Model):
         ('Yes', 'Yes'),
         ('No', 'No'),
     )
-    name = models.CharField(max_length=255,unique=True)
+    name = models.CharField(max_length=255, unique=True)
     college_name = models.ForeignKey('university.College', on_delete=models.SET_NULL, null=True)
     department = models.ForeignKey('university.Department', on_delete=models.SET_NULL, null=True, blank=True)
-    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True,blank=True)
-    education_system = models.ForeignKey('university.EducationSystem',on_delete=models.CASCADE, null=True,blank=True)
+    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True, blank=True)
+    education_system = models.ForeignKey('university.EducationSystem', on_delete=models.CASCADE, null=True, blank=True)
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default=False)
-    cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
+    cec_partner_status = models.ForeignKey('CecPartnerStatus', on_delete=models.CASCADE, null=True, blank=True,
                                            verbose_name="Campus CEC Partner Status")
     active = models.BooleanField(default=False)
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
@@ -89,14 +91,14 @@ class CampusPartner(models.Model):
 
 
 class CampusPartnerUser(models.Model):
-    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE, null=False,unique=False)
+    campus_partner = models.ForeignKey('CampusPartner', on_delete=models.CASCADE, null=False, unique=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     history = HistoricalRecords()
 
 
 class CommunityPartnerUser(models.Model):
     community_partner = models.ForeignKey('CommunityPartner', on_delete=models.CASCADE,
-                                           related_name='communitypartner', null=True)
+                                          related_name='communitypartner', null=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
     history = HistoricalRecords()
 
@@ -132,8 +134,8 @@ class PartnerStatus(models.Model):
     class Meta:
         verbose_name = "Partner Status"
         verbose_name_plural = "Partner Statuses"
-            
-    
+
+
 class CecPartnerStatus(models.Model):
     name = models.CharField(max_length=80, unique=True)
     description = models.CharField(max_length=255, null=True, blank=True)

@@ -109,7 +109,6 @@ class ResourceList(SimpleHistoryAdmin, ImportExportModelAdmin):
         resource_class = ResourceLinkAdmin
 
 
-
 # admin.site.register(User)
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(MissionArea, MissionAreaList)

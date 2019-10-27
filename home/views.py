@@ -397,6 +397,9 @@ def project_partner_info(request):
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
 
+    status_draft = Status.objects.filter(name='Drafts')
+    #status_draft_ids = status_draft.qs.value_list('id', flat=True)
+
     if legislative_selection is None:
         legislative_selection = 'All'
 
@@ -410,10 +413,10 @@ def project_partner_info(request):
 
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
     else:
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status__in=status_draft))
     # legislative district end -- Manu
 
 
@@ -434,6 +437,8 @@ def project_partner_info(request):
 
     # project_filtered_ids = [project.id for project in project_filter.qs]
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    print ('project_filtered_ids :', project_filtered_ids)
+    #project_filtered_ids = list(set(project_filtered_ids1).difference(project_drafted_ids))
 
     # community_filtered_ids = [community.id for community in communityPartners.qs]
     community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
@@ -452,12 +457,11 @@ def project_partner_info(request):
         project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
-        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary').count()
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
-        
-        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_ids).filter(mission_type='Primary')
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
 
         a = request.GET.get('engagement_type', None)
         b = request.GET.get('academic_year', None)
@@ -475,8 +479,8 @@ def project_partner_info(request):
         f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
-                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary')
-                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=proj2_ids).filter(mission_type='Primary').count()
+                p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
+                project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
 
         mission_dict['project_count'] = project_count
         mission_dict['community_count'] = community_count
@@ -496,7 +500,7 @@ def project_partner_info(request):
         mission_dict['comm_id_list'] = comm_id_list
         comm_ids = ''
         name_count=0
-        
+
         for i in comm_id_list:
             comm_ids = comm_ids+str(i)
 
@@ -517,7 +521,7 @@ def project_partner_info(request):
                 project_name_count = project_name_count + 1
 
         mission_dict['project_name_ids'] =project_name_id
-       
+
         mission_list.append(mission_dict.copy())
         proj_total += project_count
         comm_total += community_count
@@ -555,6 +559,7 @@ def engagement_info(request):
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
+    status_draft = Status.objects.filter(name='Drafts')
     #set legislative_selection on template choices field -- by Manu
     legislative_choices = []
     legislative_search = '';
@@ -588,10 +593,10 @@ def engagement_info(request):
 
     
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     else:
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
+        year_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status__in=status_draft))
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
     
     project_year_ids = [project.id for project in year_filter.qs]
@@ -617,8 +622,8 @@ def engagement_info(request):
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
 
-        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list).count()
-        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
+        project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=project_year_ids).count()
+        projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=project_year_ids)
         proj_ids_list = []
         proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
         proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]

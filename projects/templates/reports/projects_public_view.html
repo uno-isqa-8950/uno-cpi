@@ -151,11 +151,17 @@
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
+                    </select>
+                    {%  comment %}
                         <option> All </option>
                         {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
                             {{weitz_cec_part}}
                         {% endfor %}
+                        {% endcomment %}
                     </select>
                 </div>
 
@@ -178,7 +184,7 @@
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="k12_flag"> K12 Projects
+                    <label for="k12_flag"> K12 Involvement
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 12%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -385,7 +391,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '75%',
+    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '80%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -400,7 +406,7 @@ $(document).ready(function(){
                                             });
                                         }});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '80%'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
                                 sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -429,6 +435,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
+    $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
+    $('#id_legislative_value').select2({placeholder: 'Legislative Districts',width: '110%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {
                                             /* Sort data using lowercase comparison */

@@ -77,21 +77,19 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 # Function that generates GEOJSON
 def feature_from_row(Community, Address):
     geocode_result = gmaps.geocode(Address)  # get the coordinates
-    if (geocode_result[0]):
+    if (geocode_result and geocode_result[0]):
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
-        print(latitude,longitude,)
-        lng_round = round(longitude,7)
-        lat_round = round(latitude,7)
-        print(lat_round,lng_round,'again')
-        coord = Point([lng_round, lat_round])
+        print('latitude--',latitude)
+        print('longitude--',longitude)
+        coord = Point([longitude, latitude])
         legi_district = ''
         for i in range(len(district)):  # iterate through a list of district polygons
             property = district[i]
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
-                print(lat_round,lng_round, 'again--')
+                print(str(longitude)+" ,latitude:" +str(latitude), legi_district,'save')
                 logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
                 cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
                 #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
@@ -99,8 +97,10 @@ def feature_from_row(Community, Address):
 
 if len(dfCommunity) != 0:
     logger.info("Call update Community Partners in database") 
-    dfCommunity.apply(lambda x: feature_from_row(x['community_partner'], x['fulladdress']), axis=1)
+    dfCommunity.apply(lambda x: feature_from_row(x['community_partner'], str(x['fulladdress'])), axis=1)
     cursor.close()
+else:
+    logger.info("Do not Call update partner function for each row") 
 
 conn.close()
 

@@ -60,6 +60,7 @@ select[id=id_community_type]
 .form-control
     {
     width: 93%;
+    border:1px solid #aaa;
     }
 /*input[id=id_k12_level],input[id=id_zip]{*/
      /*margin-left: 20px;*/
@@ -103,6 +104,9 @@ width:93%!important;
     padding: 0px;
     margin: 0px;
 }
+    .btn-secondary{
+        margin-left: 10px;
+    }
 
 </style>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -121,7 +125,7 @@ width:93%!important;
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Register: A New Community Partner</h4></div>
                        <div class="panel-body">
-
+<div class="row"><br></div>
 <div id="smartwizard">
     <ul>
         <li><a href="#step-1">Partner Information</a></li>
@@ -134,7 +138,7 @@ width:93%!important;
                 <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                    <label for="id_name" class="col-sm-4">Community Partner Organisation</label>
+                    <label for="id_name" class="col-sm-4">Community Partner Organization</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.name}}
                             {% if community_partner_form.name.errors %} {% for error in community_partner_form.name.errors %}
@@ -172,21 +176,7 @@ width:93%!important;
                     </div>
                 </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                    <div class="row">
-                         <div class="col-md-4" style="padding-top: 5px">
-                    <label style="padding-right: 5px">Online Only   </label>
-                            {{ community_partner_form.online_only}}
-                    </div>
-                        <div class="col-md-5" style="padding-top: 5px">
-                    <label style="padding-right: 5px">Physically Located   </label>
-                            <input type="checkbox" class="chb" name="physically_located" id="physically_located">
-                    </div>
-                </div>
-                </div>
-                </div>
-                    <div class="row">
+                 <div class="row">
                 <div class="col">
                     <div class="row">
                     <label class="col-sm-2">Your Website URL:</label>
@@ -199,7 +189,24 @@ width:93%!important;
                     </div>
                 </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                    <div class="row">
+                         <div class="col" style="padding-top: 5px">
+                    <label style="padding-right: 5px">Are you Online Only?  </label>
+                            {{ community_partner_form.online_only}}
+                    </div>
+<!--                        <div class="col-md-5" style="padding-top: 5px">-->
+<!--                    <label style="padding-right: 5px">Physically Located   </label>-->
+<!--                            <input type="checkbox" class="chb" name="physically_located" id="physically_located">-->
+<!--                    </div>-->
+                </div>
+                </div>
+                </div>
+
                 <br>
+                <div id = "showaddress">
                              <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#addressinfo">
     <i class="fa fa-plus"></i> Address
 </button>
@@ -227,7 +234,7 @@ width:93%!important;
                                             <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Country</label>
-                                            <div class="col-sm-7">
+                                            <div class="col">
                                             {{ community_partner_form.country |bootstrap }}
                                             </div>
                                            {% if community_partner_form.country.errors %}
@@ -262,7 +269,7 @@ width:93%!important;
 
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label class="col-sm-4">Zip Code</label>
                                             <div class="col-sm-7">
                                             {{ community_partner_form.zip |bootstrap }}
                                             </div>
@@ -278,6 +285,7 @@ width:93%!important;
 
                                 </div>
 </div>
+                </div>
             </div>
         </div>
                 <div id="step-2">
@@ -339,17 +347,17 @@ width:93%!important;
                 <div id="step-3">
 
 <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
-    <i class="fa fa-plus"></i> {% for data_definition in data_definition %}
-                                {% if data_definition.id == 35%}
-                    <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
-                                 Point of Contact Information
-                                </span>
-                    {% endif %}
-                                {% endfor %}
-</button>
+<!--                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
+<!--    <i class="fa fa-plus"></i> {% for data_definition in data_definition %}-->
+<!--                                {% if data_definition.id == 35%}-->
+<!--                    <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
+<!--                                 Point of Contact Information-->
+<!--                                </span>-->
+<!--                    {% endif %}-->
+<!--                                {% endfor %}-->
+<!--</button>-->
         {% for form in formset %}
-<div id="contactinfo" class= "panel-collapse collapse">
+<div id="contactinfo" class= "panel-collapse collapse show">
                                     <div class="panel-body">
                                         <br>
                                         <div class="row contact-row">
@@ -414,7 +422,8 @@ width:93%!important;
                             <button class="addbutton add-contact-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>
                         </div>
                         </div>
-<div id="contact-fields">
+                                        <div class="row"><br></div>
+                                            <div id="contact-fields">
     <table class="table table-bordered table-striped">
         <thead><th>Contact Type</th><th>Name</th><th>Number</th><th>Email Address</th><th>Delete Entry</th>
         </thead>
@@ -425,33 +434,35 @@ width:93%!important;
                         {% endfor %}
         </div>
     </div>
-</div>
-                       </div>
-                </div>
-            </div>
-    </div>
-            </div>
-    </div>
-</div>
-
-        <div class="container-fluid">
+                            <div class="container-fluid">
 
                  <div class="row centered" id="termsdiv">
                 <p><input type="checkbox" id="terms">
                     I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
-                               <div class="row centered" style="margin-top:30px;">
+                               <div class="row centered" style="margin-top:10px;">
 
                  <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
-                <button name="cancel" id="cancel" class="redbutton">Cancel</button>
  </div>
     </div>
+</div>
+                       </div>
+                </div>
+            </div>
+    </div>
+            </div>
+
+    </div>
+</div>
+
+
 
 
 
 </form>
 
+<!--<br><br><br>-->
 <script type="text/javascript">
 $(document).ready(function() {
     $('#smartwizard').smartWizard({
@@ -463,96 +474,117 @@ $(document).ready(function() {
             toolbarButtonPosition: 'right',
             showNextButton: 'true',
             showPreviousButton: 'true',
-        }
-    });
-
-
-    $('#cancel').on('click', function () {
+             toolbarExtraButtons: [
+                $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
                     if (confirm("Are you sure?")){
                       window.location = '/partners';
                     }
-        });
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber === 0) {
-        if(($("#id_name").val() === '')){
-            alert("Please provide Partner Name to proceed.");
-            return false
-        }
-        if( ($("#id_community_type").val() === '') ){
-            alert("Please Select Community Partner Type.");
-            return false
-        }
-        if($('.chb').is(':checked')===false){
-            alert("Please Check Whether you are physically located or online only.")
-            return false
-        }
-        if ($("#id_online_only").is(':checked')) {
-            if ($('#id_website_url').val() === '') {
-                alert("Please Provide Your Website URL.");
-                return false
-            }
-        }
-        if($('#physically_located').is(':checked')) {
+                })
 
-            if (($('#id_adddress_line1').val() === '') ||
-                ($('#id_country').val() === '') ||
-                ($('#id_state').val() === '') ||
-                ($('#id_city').val() === '') ||
-                ($('#id_zip').val() === '')) {
-                alert("Please Provide Address.");
-                return false
-            }
+            ]
         }
 
-        if(($("#id_semester").val() === '')){
-            alert("Please provide Project start semester.");
-            return false
-        }
-        if($("#id_academic_year").val() === ''){
-            alert("Please provide Project start academic year.");
-            return false
-        }
-            $('#submit').hide();
-        $('#termsdiv').hide();
-
-    }
-    if (stepNumber === 1) {
-           if ($("#id_primary_mission-0-mission_area").val() === '') {
-            alert("Please provide Mission area before proceeding.");
-            return false;
-        }
-        else {
-            $('#submit').show();
-            $('#termsdiv').show();
-        }
-    }
-
-}
-if (stepDirection === 'backward') {
-            $('#submit').hide();
-            $('#termsdiv').hide();
-        }
-        return true;
     });
-$('#step2').click(function () {
-    $('#submit').show();
-    $('#termsdiv').show();
-});
 
-$('#submit').hide();
-$('#termsdiv').hide();
 
-     $(".collapse.show").each(function(){
-        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+    // $('#cancel').on('click', function () {
+    //     if (confirm("Are you sure?")) {
+    //         window.location = '/partners';
+    //     }
+    // });
+    $("#smartwizard").on("leaveStep", function (e, anchorObject, stepNumber, stepDirection) {
+        var elmForm = $("#form-step-" + stepNumber);
+        if (stepDirection === 'forward') {
+            if (stepNumber === 0) {
+                if ($('#id_acronym').val() !== '') {
+                    var acronym = $('#id_acronym').val();
+                    var uppercase = acronym.toUpperCase();
+                    $('#id_acronym').val(uppercase)
+                }
+                if (($("#id_name").val() === '')) {
+                    alert("Please provide Partner Name to proceed.");
+                    return false
+                }
+                if (($("#id_community_type").val() === '')) {
+                    alert("Please Select Community Partner Type.");
+                    return false
+                }
+                // if($('.chb').is(':checked')===false){
+                //     alert("Please Check Whether you are physically located or online only.")
+                //     return false
+                // }
+                if ($("#id_online_only").is(':checked')) {
+                    if ($('#id_website_url').val() === '') {
+                        alert("Please Provide Your Website URL.");
+                        return false
+                    }
+                    // else {
+                    //     var maxl = $('#id_website_url').val().length;
+                    //     if (($('#id_website_url').val().substr(maxl - 4, maxl) != '.com')) {
+                    //         $('#id_website_url').val($('#id_website_url').val() + '.com');
+                    //     }
+                    // }
+                }
+                // if($('#physically_located').is(':checked')) {
+
+                if ((($('#id_adddress_line1').val() === '') ||
+                    ($('#id_country').val() === '') ||
+                    ($('#id_state').val() === '') ||
+                    ($('#id_city').val() === '') ||
+                    ($('#id_zip').val() === '')) && ($("#id_online_only").is(':checked') === false)) {
+                    alert("Please Provide Address or Check Online Only.");
+                    return false
+                }
+                // }
+
+                if (($("#id_semester").val() === '')) {
+                    alert("Please provide Project start semester.");
+                    return false
+                }
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please provide Project start academic year.");
+                    return false
+                }
+                // $('#submit').hide();
+                // $('#termsdiv').hide();
+
+            }
+            if (stepNumber === 1) {
+                if ($("#id_primary_mission-0-mission_area").val() === '') {
+                    alert("Please provide Mission area before proceeding.");
+                    return false;
+                }
+                // else {
+                //     $('#submit').show();
+                //     $('#termsdiv').show();
+                // }
+            }
+
+        }
+// if (stepDirection === 'backward') {
+//             $('#submit').hide();
+//             $('#termsdiv').hide();
+//         }
+//         return true;
+//     });
+// $('#step2').click(function () {
+//     $('#submit').show();
+//     $('#termsdiv').show();
+// });
+
+// $('#submit').hide();
+// $('#termsdiv').hide();
+
+        $(".collapse.show").each(function () {
+            $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
         });
         // Toggle plus minus icon on show hide of collapse element
-        $(".collapse").on('show.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-        }).on('hide.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        $(".collapse").on('show.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function () {
+            $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
         });
+    });
 });
     </script>
 
@@ -568,46 +600,84 @@ $('#termsdiv').hide();
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <script>
-
-$(document).ready(function(){
+window.onload = function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const partnerName = urlParams.get('name');
+    $("#id_name").val(partnerName);
+}
+ function RestrictCommaSemicolon(e) {
+        var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+        var regex = /[^,;]+$/;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) {
+                theEvent.preventDefault();
+            }
+        }
+    }
+$(document).ready(function() {
     $('.control-label').hide();
     $('#contact-fields').hide();
     $('#k12input').hide();
+    $('#id_country').addClass('select2-hidden-accessible');
     $('#id_state').addClass('select2-hidden-accessible');
+    $('#id_website_url').keypress(function( e ) {
+    if(e.which === 32)
+        return false;
+});
     $('#id_community_type').change(function () {
         var value = $('#id_community_type').val();
-        if(value === "2"){
+        if (value === "2") {
             $('#k12input').show();
-        }
-        else{
+        } else {
             $('#k12input').hide();
         }
     });
-    $('.noalpha').attr('data-format','+1 (ddd) ddd-dddd');
+    $('.noalpha').attr('data-format', '+1 (ddd) ddd-dddd');
     $('.noalpha').keyup(function () {
-    this.value = this.value.replace(/[^0-9\.]/g,'');
-});
+        this.value = this.value.replace(/[^0-9\.]/g, '');
+    });
     $('.nonumbers').keyup(function () {
-    this.value = this.value.replace(/[^A-Za-z\.]/g,'');
-});
-
-      $('#id_state').select2();
-  $('#id_community_type').select2(
-      {placeholder: 'Select a Community Type'}
-  );
+        this.value = this.value.replace(/[^A-Za-z\.]/g, '');
+    });
+    $('#id_country').select2();
+    $('#id_state').select2();
+    $('#id_community_type').select2(
+        {placeholder: 'Select a Community Type'}
+    );
     $('#id_name').attr('placeholder', 'Community Partner Name');
     $('#id_website_url').attr('placeholder', 'Type Your URL Here');
+    $('#id_website_url').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
     $('#id_acronym').attr('placeholder', 'Ex: "OPS" for Omaha Public Schools');
+    // $('#showaddress').hide();
     $('#id_online_only').addClass('chb');
-    $(".chb").change(function() {
-          $(".chb").prop('checked',false);
-          $(this).prop('checked',true);
-      });
+    $(".chb").change(function () {
+        if ($("#id_online_only").is(':checked') === false) {
+            $('#showaddress').show();
+        } else {
+            $('#showaddress').hide();
+        }
+
+
+        //       $(this).prop('checked',true);
+        //   });
+    });
 });
 // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 document.getElementById("id_primary_mission-0-mission_area").required=true;
 </script>
 <style>
+    /*.container{*/
+    /*    position: relative;*/
+  /*min-height: 100vh;*/
+  /*  }*/
+    #footer{
+        margin-top: 200px;
+       /*padding-top: 300px;*/
+        /*height: 2.5rem;*/
+    }
 .select2-container .select2-selection--single
 {
    height:38px;
@@ -875,6 +945,48 @@ function validatecontact(){
     return valid;
 }
 
+
+function contactsubmit(){
+    var valid = true;
+    $('.contact-row').find(':input').each(function () {
+        var name = $(this).attr('name');
+        if (name !== undefined) {
+              if (name.includes("contact_type")){
+                if ($(this).val() === null) {
+
+                    valid = false;
+                    return false;
+                }
+            }
+            if (name.includes("first_name")){
+                if ($(this).val() === '') {
+                    valid = false;
+                    return false;
+                }
+            }
+            if(name.includes("last_name")){
+                if ($(this).val() === '') {
+                    valid = false;
+                    return false;
+                }
+            }
+            if(name.includes("email_id")){
+                if ($(this).val() === '') {
+                    valid = false;
+                    return false;
+                }
+            }
+            if(name.includes("work_phone")) {
+                if ($(this).val() === '') {
+                    valid = false;
+                    return false;
+                }
+            }
+        }
+    });
+
+    return valid;
+}
 $(document).on('click', '.add-contact-row', function(e){
     e.preventDefault();
     // var validinput = validateForm();
@@ -882,7 +994,7 @@ $(document).on('click', '.add-contact-row', function(e){
    if((initialcheck === true)) {
        $('.error').remove();
        cloneMore('.contact-row:last', 'contact');
-       return false;
+       return ;
    }
 
 });
@@ -912,6 +1024,24 @@ $(document).on('click', '.remove-mission-row', function(e){
 });
 </script>
 <script>
+    $('#submit').click(function () {
+    // e.preventDefault();
+   var submitcheck = contactsubmit();
+   if((submitcheck === true)) {
+       if($('#terms').is(":checked")){
+        return true;
+    }
+    else {
+        alert("Please Accept the terms and conditions before submitting");
+        return false;
+    }
+   }
+   else{
+       // alert("Add Contact Details");
+       return false;
+   }
+
+});
     $(function(){
         function hideInputs() {
             $("label.control-label[for=id_k12_level], input#id_k12_level").hide();
@@ -938,15 +1068,15 @@ $(document).on('click', '.remove-mission-row', function(e){
 
 <script>
 
-$('#submit').click(function () {
-    if($('#terms').is(":checked")){
-        return true;
-    }
-    else {
-        alert("Please Accept the terms and conditions before submitting");
-        return false;
-    }
-});
+// $('#submit').click(function () {
+//     if($('#terms').is(":checked")){
+//         return true;
+//     }
+//     else {
+//         alert("Please Accept the terms and conditions before submitting");
+//         return false;
+//     }
+// });
 
     function validateForm() {
         var valid = true;
@@ -968,7 +1098,9 @@ $('#submit').click(function () {
         const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
         const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
         const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
-        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+        if(event.target.value) {
+            event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+        }
     }
 }
             if(id.includes("country")||id.includes("city")|| id.includes("state") || id.includes("county")

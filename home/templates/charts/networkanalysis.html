@@ -255,6 +255,8 @@
             Highcharts.addEvent(
     Highcharts.Series,
     'afterSetOptions',
+
+
     function (e) {
         var colors = Highcharts.getOptions().colors,
             i = 1,
@@ -264,6 +266,8 @@
             this instanceof Highcharts.seriesTypes.networkgraph &&
             e.options.id === 'lang-tree'
         ) {
+
+
             e.options.data.forEach(function (link) {
 
                 if (link[0] === 'CPI') {
@@ -293,10 +297,68 @@
             e.options.nodes = Object.keys(nodes).map(function (id) {
                 return nodes[id];
             });
-        }
+        }})
+
+ Highcharts.chart('container', {{ graph|safe }},
+ function(chart) { // on complete
+        chart.renderer.text('Educational Support', chart.plotSizeX-200,20)
+            .attr({
+
+            })
+            .css({
+                color: '#0d233a',
+                fontSize: '16px'
+            })
+            .add();
+        chart.renderer.text('Health and Wellness', chart.plotSizeX-200,40)
+            .attr({
+
+            })
+            .css({
+                color: '#8bbc21',
+                fontSize: '16px'
+            })
+            .add();
+        chart.renderer.text('Economic Sufficiency', chart.plotSizeX-200,60)
+            .attr({
+
+            })
+            .css({
+                color: '#910000',
+                fontSize: '16px'
+            })
+            .add();
+        chart.renderer.text('Social Justice', chart.plotSizeX-200,80)
+            .attr({
+
+            })
+            .css({
+                color: '#1aadce',
+                fontSize: '16px'
+            })
+            .add();
+        chart.renderer.text('International Service', chart.plotSizeX-200,100)
+            .attr({
+
+            })
+            .css({
+                color: '#492970',
+                fontSize: '16px'
+            })
+            .add();
+        chart.renderer.text('Environmental Stewardship', chart.plotSizeX-200,120)
+            .attr({
+
+            })
+            .css({
+                color: '#f28f43',
+                fontSize: '16px'
+            })
+            .add();
+
     }
-)
- Highcharts.chart('container', {{ graph|safe }})
+ )
+
         </script>
     </div>
 </div>

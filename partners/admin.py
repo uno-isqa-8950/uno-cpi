@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission, CecPartActiveYrs, CecPartnerStatus
+from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission, CecPartActiveYrs, CecPartnerStatus, PartnerStatus
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
@@ -124,6 +124,22 @@ class CecPartActiveYrsList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = CecPartActiveYrsResource
 
 
+class PartnerStatusResource(resources.ModelResource):
+    name = fields.Field(attribute='name', column_name="Partner Status")
+    description = fields.Field(attribute='description', column_name="Partner Status Description")
+
+    class Meta:
+        model = PartnerStatus
+        fields = ('name', 'description')
+
+
+class PartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('name', 'description')
+
+    search_fields = ('name', 'description')
+
+    resource_class = PartnerStatusResource
+
 # class CommunityTypeList(admin.ModelAdmin):
 #     list_display = ('community_type')
 #     search_fields = ('community_type')
@@ -137,3 +153,4 @@ admin.site.register(CampusPartner,CampusPartnerList)
 admin.site.register(CampusPartnerUser,CampusPartnerUserList)
 admin.site.register(CecPartnerStatus,CecPartnerStatusList)
 admin.site.register(CecPartActiveYrs,CecPartActiveYrsList)
+admin.site.register(PartnerStatus,PartnerStatusList)

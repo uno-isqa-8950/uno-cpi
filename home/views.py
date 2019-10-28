@@ -836,7 +836,6 @@ def missionchart(request):
                   {'chart': dump, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter, 'campus_id':campus_id})
 
-
 def partnershipintensity(request):
     missions = MissionArea.objects.all()
     data_definition = DataDefinition.objects.all()
@@ -885,10 +884,10 @@ def partnershipintensity(request):
     u = (a not in [None, "All", '']) or (b not in [None, "All", ''])
     v = (c not in [None, "All", '']) or (d not in [None, "All", ''])
     if (u):
-        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id__in=project_filtered_ids).filter(community_partner_id__in=community_filtered_ids)
+        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id_in=project_filtered_ids).filter(community_partner_id_in=community_filtered_ids)
         [x.append(community.community_partner_id) for community in proj_partner if community.community_partner_id not in x]
     if (v):
-        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id__in=campus_project_filter_ids).filter(community_partner_id__in=community_filtered_ids)
+        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id_in=campus_project_filter_ids).filter(community_partner_id_in=community_filtered_ids)
         [y.append(community.community_partner_id) for community in proj_partner if community.community_partner_id not in y]
     if (u and v):
         project_ids = list(set(x).intersection(y))
@@ -898,6 +897,8 @@ def partnershipintensity(request):
         project_ids = community_filtered_ids
 
     chart_data = []
+    proj = []
+    score = []
     for m in missions:
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=project_ids)
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
@@ -913,20 +914,37 @@ def partnershipintensity(request):
             partner_subcat_filter = ProjectSubCategoryFilter(request.GET, queryset=ProjectSubCategory.objects.filter(
                 project_name_id__in=partner_proj_ids))
             partner_subcat_ids = [project.sub_category_id for project in partner_subcat_filter.qs]
-
+            proj.append(len(partner_proj_ids))
+            score.append(len(partner_subcat_ids))
             res = {'name': community.name, 'x': len(partner_proj_ids), 'y': len(partner_subcat_ids)}
             partner_proj_score.append(res)
         chart_missions = {'name': m.mission_name, 'data': partner_proj_score}
         chart_data.append(chart_missions)
 
+    x = (min(proj)+ max(proj))/2
+    y = (min(score) + max(score))/2
     chart = {
         'chart': {'type': 'scatter','zoomType': 'xy'},
         'title': {'text': ''},
         'xAxis': {'allowDecimals': False,
             'title': {'text': 'Projects',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
+                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                  'plotLines': [{
+                      'value': x,
+                      'dashStyle': 'dash',
+                      'width': 1,
+                      'color': '#d33'
+                  }]
+                  },
         'yAxis': {'title': {'text': 'Interdisciplinary Score',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
+                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                  'plotLines': [{
+                      'value': y,
+                      'dashStyle': 'dash',
+                      'width': 1,
+                      'color': '#d33'
+                  }]
+                  },
         'legend': {
             'layout': 'horizontal',
             'align': 'right',
@@ -968,7 +986,6 @@ def partnershipintensity(request):
                    'college_filter': college_filter})
 
 # Trend Report Chart
-
 def trendreport(request):
     data_definition = DataDefinition.objects.all()
     communityPartners = []
@@ -1012,7 +1029,7 @@ def trendreport(request):
     e = request.GET.get('mission', None)
     if (e not in [None, "All", '']):
         comm_mission = CommunityPartnerMission.objects.filter(mission_area_id=e).filter(mission_type='Primary').filter(community_partner_id__in=project_filtered_ids)
-        comm_mission_ids = [p.community_partner_id for p in comm_mission.qs]
+        comm_mission_ids = [p.community_partner_id for p in comm_mission]
         community_filtered_ids = list(set(community_filtered_ids).intersection(comm_mission_ids))
 
     filtered_project_list = []
@@ -1047,7 +1064,6 @@ def trendreport(request):
     else:
         filtered_project_list = project_filtered_mission_ids
 
-    print(len(filtered_project_list))
 
     acad_years = AcademicYear.objects.all()
     project_year_count = []
@@ -1067,7 +1083,6 @@ def trendreport(request):
         proj_comme = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list)
         proj_comm = proj_comm | proj_comme
         project_count = proj_comm.count()
-        print('project',project_count)
 
         # gets the distinct ids from projectcommunity partner table for all the above projects
         proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()

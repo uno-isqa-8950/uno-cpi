@@ -2247,7 +2247,7 @@ def checkProject(request):
 
         for c in compartlist:
             compartnerlists.append(c.name)
-            com_list = (', '.join(compartnerlists))
+        com_list = (', '.join(compartnerlists))
 
             # Sprint2-#1390- Added Capus Partner list- Search Improvements
         campartner=''

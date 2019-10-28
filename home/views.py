@@ -884,10 +884,10 @@ def partnershipintensity(request):
     u = (a not in [None, "All", '']) or (b not in [None, "All", ''])
     v = (c not in [None, "All", '']) or (d not in [None, "All", ''])
     if (u):
-        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id_in=project_filtered_ids).filter(community_partner_id_in=community_filtered_ids)
+        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id__in=project_filtered_ids).filter(community_partner_id__in=community_filtered_ids)
         [x.append(community.community_partner_id) for community in proj_partner if community.community_partner_id not in x]
     if (v):
-        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id_in=campus_project_filter_ids).filter(community_partner_id_in=community_filtered_ids)
+        proj_partner = ProjectCommunityPartner.objects.filter(project_name_id__in=campus_project_filter_ids).filter(community_partner_id__in=community_filtered_ids)
         [y.append(community.community_partner_id) for community in proj_partner if community.community_partner_id not in y]
     if (u and v):
         project_ids = list(set(x).intersection(y))

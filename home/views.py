@@ -1119,45 +1119,92 @@ def partnershipintensity(request):
 
 # Trend Report Chart
 
+
 def trendreport(request):
-    acad_years = AcademicYear.objects.all()
     data_definition = DataDefinition.objects.all()
+    communityPartners = []
+    legislative_choices = []
+    legislative_search = ''
+    legislative_selection = request.GET.get('legislative_value', None)
+
+    if legislative_selection is None:
+        legislative_selection = 'All'
+
+    legislative_choices.append('All')
+    for i in range(1, 50):
+        legistalive_val = 'Legislative District ' + str(i)
+        legislative_choices.append(legistalive_val)
+
+    if legislative_selection is not None and legislative_selection != 'All':
+        legislative_search = legislative_selection.split(" ")[2]
+
+    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    else:
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
+
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = campus_filter.qs.values_list('id', flat=True)
+
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    college_filtered_ids = college_filter.qs.values_list('id', flat=True)
+
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=college_filtered_ids))
+    campus_project_filter_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
+
+    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
+    project_filtered_mission_ids = list(set(project_filtered_ids).intersection(project_mission_ids))
+    e = request.GET.get('mission', None)
+    if (e not in [None, "All", '']):
+        comm_mission = CommunityPartnerMission.objects.filter(mission_area_id=e).filter(mission_type='Primary').filter(community_partner_id__in=project_filtered_ids)
+        comm_mission_ids = [p.community_partner_id for p in comm_mission.qs]
+        community_filtered_ids = list(set(community_filtered_ids).intersection(comm_mission_ids))
+
+    filtered_project_list = []
+    a = request.GET.get('academic_year', None)
+    b = request.GET.get('engagement_type', None)
+    c = request.GET.get('campus_partner', None)
+    d = request.GET.get('college_name', None)
+    e = request.GET.get('weitz_cec_part', None)
+    f = request.GET.get('community_type', None)
+    x = []
+    y = []
+    z = []
+    u = (a not in [None, "All", '']) or (b not in [None, "All", ''])
+    v = (c not in [None, "All", '']) or (d not in [None, "All", ''])
+    w = (e not in [None, "All", '']) or (f not in [None, "All", ''])
+    sets = []
+    if (u):
+        x = project_filtered_mission_ids
+        sets.append(x)
+    if (v):
+        y = campus_project_filter_ids
+        sets.append(y)
+    if (w):
+        z = community_filtered_ids
+        sets.append(z)
+    if (len(sets) == 3):
+        filtered_project_list = list(set(x).intersection(y, z))
+    elif (len(sets) == 2):
+        filtered_project_list = list(set(sets[0]).intersection(sets[1]))
+    elif (len(sets) == 1):
+        filtered_project_list = sets[0]
+    else:
+        filtered_project_list = project_filtered_mission_ids
+
+    print(len(filtered_project_list))
+
+    acad_years = AcademicYear.objects.all()
     project_year_count = []
     year_community_counts = []
     year_campus_counts = []
     year_names = []
-
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-
-    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
-    campus_campus_filtered_ids = [campus.campus_partner_id for campus in campus_project_filter.qs]
-
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-
-    missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
-
-    year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    project_year_ids = [project.id for project in year_filter.qs]
-
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    community_filtered_ids = [community.id for community in communityPartners.qs]
-    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
-    comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
-    filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
-    filtered_project_ids2 = list(set(campus_project_filtered_ids).intersection(filtered_project_ids))
-    filtered_project_ids1 = list(set(campus_filtered_ids).intersection(filtered_project_ids2))
-    filtered_project_list = list(set(comm_filtered_ids).intersection(filtered_project_ids1))
-    print("filtered_project_ids",filtered_project_ids)
-    print("filtered_project_ids2", filtered_project_ids2)
-    print("filtered_project_ids", filtered_project_ids1)
-    print("filtered_project_ids", filtered_project_list)
 
     yrs = []
     for e in acad_years:
@@ -1170,6 +1217,8 @@ def trendreport(request):
         proj_comm = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list)
         proj_comme = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list)
         proj_comm = proj_comm | proj_comme
+        project_count = proj_comm.count()
+        print('project',project_count)
 
         # gets the distinct ids from projectcommunity partner table for all the above projects
         proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
@@ -1180,31 +1229,10 @@ def trendreport(request):
         # counts within the set of unique community partner ids
         unique_comm_ids_count = len(unique_comm_ids)
 
-        project_count = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list).count()
-        project_counte = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list).count()
-        project_count = project_count + project_counte
-
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
         proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
         unique_camp_ids = set(proj_camp_ids)
         unique_camp_ids_count = len(unique_camp_ids)
-
-        a = request.GET.get('weitz_cec_part', None)
-        b = request.GET.get('community_type', None)
-        if a is None or a == "All" or a == '':
-            if b is None or b == "All" or b == '':
-                project_count = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_ids1).count()
-                project_counte = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_ids1).count()
-                project_count = project_count + project_counte
-
-                proj_camp1 = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_ids1)
-                proj_camp1e = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_ids1)
-                proj_camp1 = proj_camp1 | proj_camp1e
-
-                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
-                proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-                unique_camp_ids = set(proj_camp_ids)
-                unique_camp_ids_count = len(unique_camp_ids)
 
         project_year_count.append(project_count)
         year_community_counts.append(unique_comm_ids_count)
@@ -1260,7 +1288,8 @@ def trendreport(request):
     dump = json.dumps(chart)
     return render(request, 'charts/trendreport.html',
                   {'chart': dump, 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners})
+                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
+                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,'campus_filter': campus_filter})
 
 
 def EngagementType_Chart(request):

@@ -200,6 +200,7 @@ label[for=id_campus-0-campus_partner]:after{
   transition-duration: 0.4s;
   cursor: pointer;
           border-radius: 5px;
+          margin-left:25px;
       }
       .displaybox {
   border: 1px black;

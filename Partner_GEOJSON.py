@@ -53,7 +53,6 @@ dfCommunity = pd.read_sql_query(
     (pc.address_line1 not in ('','NA','N/A') or pc.city not in ('','NA','N/A') or pc.state not in ('','NA','N/A')) \
     and pc.longitude is not null \
     and pc.latitude is not null \
-    and pc.legislative_district is not null \
     and lower(p.mission_type) = 'primary'",con=conn)
 
 if len(dfCommunity) == 0:
@@ -86,7 +85,7 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 
 
 # Function that generates GEOJSON
-def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, lon,lat, Website,legislative_district):
+def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, longitude,latitude, Website,legislative_district):
     feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
                                                  'College Name': '', 'Mission Type': '', 'Project Name': '',
                                                  'Legislative District Number': '', 'Number of projects': '',
@@ -95,8 +94,6 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                                                  'Academic Year': '', 'Website': ''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
-    longitude = int(lon)  
-    latitude = int(lat)
     feature['geometry']['coordinates'] = [longitude, latitude]
     coord = Point([longitude, latitude])
     for i in range(len(district)):  # iterate through a list of district polygons

@@ -74,10 +74,13 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
   
     feature['geometry']['coordinates'] = [longitude, latitude]
     coord = Point([longitude, latitude])
+    print('latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
     for i in range(len(district)):  # iterate through a list of district polygons
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
+            print('property["properties"]--',property["properties"]["id"])
+            print('legislative_district--from database,',legislative_district)
             feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
     
     yearlist = []

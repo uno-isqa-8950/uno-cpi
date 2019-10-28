@@ -81,8 +81,8 @@ def feature_from_row(Projectname, FullAddress):
     if (geocode_result[0]):
         latitude = geocode_result[0]['geometry']['location']['lat']
         longitude = geocode_result[0]['geometry']['location']['lng']
-        print('latitude--',latitude)
-        print('longitude--',longitude)
+        
+        print('latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
         coord = Point([longitude, latitude])
         legi_district = ''
         for i in range(len(district)):  # iterate through a list of district polygons
@@ -90,7 +90,7 @@ def feature_from_row(Projectname, FullAddress):
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
-                print(latitude,longitude, legi_district,'save')
+                print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
                 logger.info("Update projects records with longitude:" + str(round(longitude,7))+" ,latitude:" +str(round(latitude, 7)) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Projectname))
                 cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(legi_district),str(Projectname)))
                 conn.commit()

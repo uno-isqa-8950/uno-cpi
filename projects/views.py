@@ -2201,8 +2201,15 @@ def checkProject(request):
     community_dict = {};
     community_list = [];
     com_list = ()
+    
+    year=datetime.datetime.now() .year
+    a_year =str(year-1)+"-"+str(year) [-2:]
+    print('a_year', a_year)
+    academic_year_search = AcademicYear.objects.filter(academic_year=a_year)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    #project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(academic_year=academic_year_search))
+    
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 
@@ -2220,14 +2227,15 @@ def checkProject(request):
     # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
     campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-
+    print('project_filtered_ids--',project_filtered_ids)
     # proj_ids2 = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
     # project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
 
     # Check Project actual table logic
     compartnerlist = []
-    for object in Project.objects.order_by('-academic_year'):
-
+    #for object in Project.objects.order_by('-academic_year'):
+    projObjs = Project.objects.filter(academic_year__in=academic_year_search)
+    for object in projObjs:
         project = object.project_name.split('(')[0]
         ay = object.academic_year
         compartnerlists = []
@@ -2242,7 +2250,7 @@ def checkProject(request):
             com_list = (', '.join(compartnerlists))
 
             # Sprint2-#1390- Added Capus Partner list- Search Improvements
-
+        campartner=''
         for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
             print(" project campus partner ", part)
             campartner = part.campus_partner
@@ -2255,7 +2263,7 @@ def checkProject(request):
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)
-
+    print('projectNames--',len(projectNames))
     return render(request, 'projects/checkProject.html',
                   {'project': project, 'projectNames': projectNames, 'projects': project_filter,
                    'data_definition': data_definition,

@@ -35,7 +35,8 @@ logger.info("Get all the Community Partners from the Database")
 ##Get Projects from the database
 df_projects = pd.read_sql_query("select  project_name, pro.address_line1 as Address_Line1,\
 mis.mission_type, pro.description,pro.city as City, \
-pro.state as State, pro.zip as Zip ,pro.longitude, pro.latitude \
+pro.state as State, pro.zip as Zip ,pro.longitude as longitude, pro.latitude as latitude, \
+pro.legislative_district as legislative_district \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
 where \
@@ -43,7 +44,6 @@ where \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
 and pro.longitude is not null \
 and pro.longitude is not null \
-and pro.legislative_district is not null \
 and lower(mis.mission_type)='primary'",con=conn)
 
 ##Get all the Campus Partners and College Names
@@ -62,7 +62,7 @@ with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
 
-def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, lng,lat, Zip,legislative_district):
+def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, State, longitude,latitude, Zip,legislative_district):
     feature = {'type': 'Feature', 'properties': {'Project Name': '', 'Engagement Type': '', 'Activity Type': '',
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
@@ -72,9 +72,6 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                }
 
   
-    longitude = int(lng)  
-    latitude = int(lat)
-        
     feature['geometry']['coordinates'] = [longitude, latitude]
     coord = Point([longitude, latitude])
     for i in range(len(district)):  # iterate through a list of district polygons
@@ -138,7 +135,9 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     collection['features'].append(feature)
     return feature
 
-geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'], str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']),  x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
+geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'],\
+     str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']), \
+          x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 if len(df_projects) != 0:

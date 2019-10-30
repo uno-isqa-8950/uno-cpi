@@ -18,7 +18,8 @@ class ProjectResource(resources.ModelResource):
                     'semester', 'end_semester', 'academic_year', 'end_academic_year', 'campus_lead_staff', 'total_uno_students', 'total_uno_hours',
                     'total_k12_students','total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 
                     'end_date', 'other_details', 'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 
-                    'country', 'city', 'state', 'zip', 'latitude', 'longitude')
+                    'country', 'city', 'state', 'zip', 'latitude', 'longitude', 'created_by', 'updated_by', 'project_type', 'other_sub_category',
+                  'recursive_project')
 
 class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
@@ -26,10 +27,12 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
                     'total_uno_students', 'end_semester', 'academic_year', 'end_academic_year', 'campus_lead_staff','total_uno_hours', 'total_k12_students',
                     'total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date', 'end_date', 'other_details',
                     'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 'country', 'city',
-                    'state', 'zip', 'latitude', 'longitude')
+                    'state', 'zip', 'latitude', 'longitude','created_by', 'updated_by', 'project_type', 'other_sub_category',
+                  'recursive_project')
 
     search_fields = ('id','project_name', 'engagement_type__name', 'status__name', 'activity_type__name', 'facilitator', 'semester', 'city',
-                     'start_date', 'end_date', 'country')
+                     'start_date', 'end_date', 'country', 'created_by', 'updated_by', 'project_type', 'other_sub_category',
+                  'recursive_project')
 
     resource_class = ProjectResource
 

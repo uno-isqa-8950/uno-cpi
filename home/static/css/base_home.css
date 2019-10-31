@@ -395,8 +395,12 @@ figcaption {
 /* Hero image area */
 
 .hero {
-    object-fit: contain;
-    padding-bottom: 3em;
+  background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    /*object-fit: contain;*/
+    /*padding-bottom: 3em;*/
+    height:400px;
 }
 
 hr.new1 {

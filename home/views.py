@@ -1520,17 +1520,17 @@ def issueaddress(request):
     Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
 
     Academic_Year = {
-        'name': 'From Academic Year',
+        'name': 'Analysis Start Year',
         'data': from_json_data,
         'color': 'teal',
         'type': 'scatter'}
     End_Academic_Year = {
-        'name': 'To Academic Year',
+        'name': 'Analysis Comparison (End) Year',
         'data': to_json_data,
         'color': 'blue',
         'type': 'scatter'}
     project_over_academic_years = {
-        'name': 'Mission Areas',
+        'name': 'No of Projects ',
         'data': json_data,
         'color': 'turquoise'
                 }
@@ -1555,11 +1555,11 @@ def issueaddress(request):
             },
         {  # Secondary  Axis for  Subcategory
             'id':1,
-            # 'type': 'category',
+            'type': 'category',
             'title': {'text': 'Missions Areas/ SubCategories',
                       'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
             'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-            # 'categories': subcats,
+            'categories': subcats,
 
 
         }],
@@ -1585,15 +1585,15 @@ def issueaddress(request):
                     'symbol': 'circle'
                 }
             },
-            'tooltip': {
-                'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> projectcount:{point.x}'
-            }
+        #     'tooltip': {
+        #         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+        #         'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> projectcount:{point.x}'
+        #     }
         },
         'tooltip': {
-            'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-            'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}'
-        },
+        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+        'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
+                 },
         'legend': {
             'layout': 'horizontal',
             'align': 'right',

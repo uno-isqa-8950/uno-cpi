@@ -611,6 +611,7 @@ span.outline {
     /*padding: 60px;*/
     margin: 0 auto;
     float: none;
+    padding-top:3em;
 }
 
 .homepage .streamfield-column h1,

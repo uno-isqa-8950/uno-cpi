@@ -2,6 +2,7 @@ from django.utils import timezone
 from django.db import models
 from simple_history.models import HistoricalRecords
 from django.contrib.postgres.fields import ArrayField
+from UnoCPI import  settings
 
 
 # class Project (models.Model):
@@ -56,6 +57,10 @@ from django.contrib.postgres.fields import ArrayField
 
 
 class Project (models.Model):
+    project_choices = (
+        ('Event', 'Event'),
+        ('Project', 'Project'),
+    )
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True,blank=True)
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
@@ -89,9 +94,14 @@ class Project (models.Model):
     median_household_income = models.IntegerField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='Projects_created_by')
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='Projects_updated_by')
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
+    project_type = models.CharField(max_length=20, choices=project_choices, default='Project')
+    other_sub_category = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
+    recursive_project = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def created(self):
@@ -102,7 +112,7 @@ class Project (models.Model):
         self.updated_date = timezone.now()
         self.save()
 
-    def _str_(self):
+    def __str__(self):
         return str(self.project_name)
 
 class SubCategory (models.Model):

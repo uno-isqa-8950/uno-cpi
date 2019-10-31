@@ -102,7 +102,7 @@ class Project (models.Model):
         self.updated_date = timezone.now()
         self.save()
 
-    def _str_(self):
+    def __str__(self):
         return str(self.project_name)
 
 class SubCategory (models.Model):

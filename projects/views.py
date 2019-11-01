@@ -147,10 +147,6 @@ def createProject(request):
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
-    #created_by = request.user.id
-    #print(created_by)
-    #tld = Project(created_by=request.user)
-    #form = createProject(data=request.POST or None, instance=tld)
     #Populate project name-Parimita
     request.POST.get('id_project_name')
     # if request.method == 'POST' and 'submit' in request.POST:
@@ -163,23 +159,21 @@ def createProject(request):
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and categoryformset.is_valid():
-                ##Convert address to cordinates and save the legislatve district and household income
-                # a = 0
-                # project.total_uno_hours = a
-                # print (project.status)
+
 
             if request.POST.get('k12_flag'):
                 project.k12_flag = True
             else:
                 project.k12_flag = False
+            #project.created_by = created_by
             proj = project.save()
             proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
             address = proj.address_line1
             stat = str(proj.status)
-            print (stat)
+
             if stat == 'Drafts':
-                print(address)
+
                 if (address != ''):
                     if (address != 'N/A'):  # check if a community partner's address is there
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -293,7 +287,6 @@ def createProject(request):
                                             'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
                                             'camp_part': list_camp_part_names,
-                                            'created_by': created_by
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -379,7 +372,6 @@ def createProject(request):
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
                                     'camp_part': list_camp_part_names,
-                                    'created_by': x.created_by
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -497,7 +489,6 @@ def createProject(request):
                                             'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
                                             'camp_part': list_camp_part_names,
-                                            'created_by': x.created_by
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -583,7 +574,6 @@ def createProject(request):
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
                                     'camp_part': list_camp_part_names,
-                                    'created_by': x.created_by
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -616,7 +606,7 @@ def createProject(request):
 
     return render(request, 'projects/createProject.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
-                   'formset2': formset2,'categoryformset':categoryformset,'created_by':created_by})
+                   'formset2': formset2,'categoryformset':categoryformset})
 @login_required()
 def editProject(request,pk):
 
@@ -2213,7 +2203,7 @@ def checkProject(request):
     
     year=datetime.datetime.now() .year
     a_year =str(year-1)+"-"+str(year) [-2:]
-    print('a_year', a_year)
+    #print('a_year', a_year)
     academic_year_search = AcademicYear.objects.filter(academic_year=a_year)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -2236,7 +2226,7 @@ def checkProject(request):
     # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
     campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-    print('project_filtered_ids--',project_filtered_ids)
+    #print('project_filtered_ids--',project_filtered_ids)
     # proj_ids2 = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
     # project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
 
@@ -2261,7 +2251,6 @@ def checkProject(request):
             # Sprint2-#1390- Added Capus Partner list- Search Improvements
         campartner=''
         for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
-            print(" project campus partner ", part)
             campartner = part.campus_partner
         combinedList = [object.project_name.split('(')[0], str(com_list), str(campartner), str(ay)]
 
@@ -2272,7 +2261,6 @@ def checkProject(request):
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)
-    print('projectNames--',len(projectNames))
     return render(request, 'projects/checkProject.html',
                   {'project': project, 'projectNames': projectNames, 'projects': project_filter,
                    'data_definition': data_definition,
@@ -2439,9 +2427,10 @@ def project_total_Add(request):
 def myDrafts(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-
     # Get the campus partner id's related to the user
+
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+    
     camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
     proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
     project_ids = [project.project_name_id for project in proj_camp]

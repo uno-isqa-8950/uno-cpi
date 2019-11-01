@@ -82,6 +82,7 @@ MIDDLEWARE = [
     'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    'crum.CurrentRequestUserMiddleware',
 ]
 
 

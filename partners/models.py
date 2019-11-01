@@ -27,7 +27,7 @@ class CommunityPartner(models.Model):
     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     active = models.BooleanField(default=False)
-    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
+    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True, blank=True,
                                        verbose_name="Community Partner Status")
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
@@ -77,7 +77,7 @@ class CampusPartner(models.Model):
     cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
                                            verbose_name="Campus CEC Partner Status")
     active = models.BooleanField(default=False)
-    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True,
+    partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True, blank=True,
                                        verbose_name="Campus Partner Status")
     history = HistoricalRecords()
 

@@ -395,8 +395,11 @@ figcaption {
 /* Hero image area */
 
 .hero {
+  background-size: cover;
+    background-repeat: no-repeat;
     object-fit: contain;
-    padding-bottom: 3em;
+
+
 }
 
 hr.new1 {
@@ -607,6 +610,10 @@ span.outline {
     /*padding: 60px;*/
     margin: 0 auto;
     float: none;
+}
+
+.initialcontent{
+    padding-top: 2.6em;
 }
 
 .homepage .streamfield-column h1,

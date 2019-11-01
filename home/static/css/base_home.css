@@ -397,10 +397,9 @@ figcaption {
 .hero {
   background-size: cover;
     background-repeat: no-repeat;
-    position: relative;
-    /*object-fit: contain;*/
-    /*padding-bottom: 3em;*/
-    height:400px;
+    object-fit: contain;
+
+
 }
 
 hr.new1 {
@@ -611,7 +610,10 @@ span.outline {
     /*padding: 60px;*/
     margin: 0 auto;
     float: none;
-    padding-top:3em;
+}
+
+.initialcontent{
+    padding-top: 2.6em;
 }
 
 .homepage .streamfield-column h1,

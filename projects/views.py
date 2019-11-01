@@ -147,6 +147,10 @@ def createProject(request):
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
     data_definition=DataDefinition.objects.all()
+    #created_by = request.user.id
+    #print(created_by)
+    #tld = Project(created_by=request.user)
+    #form = createProject(data=request.POST or None, instance=tld)
     #Populate project name-Parimita
     request.POST.get('id_project_name')
     # if request.method == 'POST' and 'submit' in request.POST:
@@ -163,6 +167,7 @@ def createProject(request):
                 # a = 0
                 # project.total_uno_hours = a
                 # print (project.status)
+
             if request.POST.get('k12_flag'):
                 project.k12_flag = True
             else:
@@ -287,7 +292,8 @@ def createProject(request):
                                             'total_economic_impact': x.total_economic_impact,
                                             'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
-                                            'camp_part': list_camp_part_names
+                                            'camp_part': list_camp_part_names,
+                                            'created_by': created_by
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -372,7 +378,8 @@ def createProject(request):
                                     'total_economic_impact': x.total_economic_impact,
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
-                                    'camp_part': list_camp_part_names
+                                    'camp_part': list_camp_part_names,
+                                    'created_by': x.created_by
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -489,7 +496,8 @@ def createProject(request):
                                             'total_economic_impact': x.total_economic_impact,
                                             'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
-                                            'camp_part': list_camp_part_names
+                                            'camp_part': list_camp_part_names,
+                                            'created_by': x.created_by
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -574,7 +582,8 @@ def createProject(request):
                                     'total_economic_impact': x.total_economic_impact,
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
-                                    'camp_part': list_camp_part_names
+                                    'camp_part': list_camp_part_names,
+                                    'created_by': x.created_by
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -607,7 +616,7 @@ def createProject(request):
 
     return render(request, 'projects/createProject.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
-                   'formset2': formset2,'categoryformset':categoryformset})
+                   'formset2': formset2,'categoryformset':categoryformset,'created_by':created_by})
 @login_required()
 def editProject(request,pk):
 

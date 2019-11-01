@@ -1579,6 +1579,7 @@ def issueaddress(request):
     scategory=list()
     subres=[]
     subdrill=[]
+    drilled=()
     drilldata=[]
     for m in missions:
         from_subcat_counts=[]

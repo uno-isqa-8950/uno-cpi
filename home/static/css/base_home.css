@@ -395,8 +395,11 @@ figcaption {
 /* Hero image area */
 
 .hero {
+  background-size: cover;
+    background-repeat: no-repeat;
     object-fit: contain;
-    padding-bottom: 3em;
+
+
 }
 
 hr.new1 {
@@ -565,7 +568,10 @@ span.outline {
 .cardhomepage {
     flex: 1 0 300px;
     box-sizing: border-box;
-    margin: 1rem .25em;
+    margin-top:0.6em;
+    margin-bottom:0.6em;
+    margin-left:0.6em;
+    margin-right:0.6em;
 }
 
 .homepage img {
@@ -604,6 +610,10 @@ span.outline {
     /*padding: 60px;*/
     margin: 0 auto;
     float: none;
+}
+
+.initialcontent{
+    padding-top: 2.6em;
 }
 
 .homepage .streamfield-column h1,
@@ -768,7 +778,6 @@ span.outline {
     font-size: 1em;
     position: relative;
     text-align: center;
-    opacity: 10%;
     /*text-shadow: 0px 0px 30px rgba(0, 0, 0, 1);*/
     z-index: 1;
     padding: 0 20px;

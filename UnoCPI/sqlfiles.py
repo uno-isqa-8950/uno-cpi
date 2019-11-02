@@ -5,6 +5,8 @@ tables_sql = "SELECT table_schema || '.' || table_name "\
 
 # Please dont make changes to this query, it directly affects AllProjects Page
 all_projects_sql = """select distinct p.project_name
+                          ,p.id
+                        
                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
@@ -12,6 +14,8 @@ all_projects_sql = """select distinct p.project_name
                             ,pa.academic_year
                             ,p.semester
                             ,ps.name status
+                            
+                            
                           ,case when p.start_date is null then 'None' end start_date
                             ,case when p.end_date is null then 'None' end end_date
                             ,p.outcomes
@@ -38,6 +42,7 @@ all_projects_sql = """select distinct p.project_name
                             inner join projects_status ps on p.status_id = ps.id
                             inner join projects_activitytype a on p.activity_type_id = a.id
                         group by p.project_name
+                            ,p.id
                             ,pa.academic_year
                             ,p.semester
                             ,ps.name

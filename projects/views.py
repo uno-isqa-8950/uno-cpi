@@ -1625,6 +1625,7 @@ def checkProject(request):
     projectNames = []
     combinedList =[]
     community_dict = {};
+    data_list=[];
     community_list = [];
     com_list = ()
     data_definition = DataDefinition.objects.all()
@@ -1648,47 +1649,84 @@ def checkProject(request):
     campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
 
-    # proj_ids2 = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
-    # project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
+    proj_ids2 = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
+    project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
+
+    # To get the projects which does not have community partners
+    projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
+    projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+
+    # List of all Projects with Campus, Community Partners
+    projects = list(Project.objects.filter(id__in=project_ids))
+
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, [project_ids])
+
+    for obj in cursor.fetchall():
+        data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[3], "campusPartner": obj[4],
+                          "projectId":obj[1],"Academic_year":obj[6]})
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@", data_list)
+
+    b = request.GET.get('Community_type', None)
+    c = request.GET.get('academic_year', None)
+    if b is None or b == "All" or b == '':
+        if c is None or c == "All" or c == '':
+            cursor.execute(sql.all_projects_sql, [projects_comm_ids])
+
+            for obj in cursor.fetchall():
+                data_list.append(
+                    {"projectName": obj[0].split("(")[0], "communityPartner": obj[3], "campusPartner": obj[4],
+                     "projectId": obj[1], "Academic_year": obj[6]})
+
+    # campus_filter = [{'name': m.name, 'id':m.id} for m in campusPartners]
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if(campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+
 
     #Check Project actual table logic
-    compartnerlist = []
-    for object in Project.objects.order_by('end_academic_year'):
-        print("-----------------step 1")
-        project = object.project_name.split('(')[0]
-        ay = object.academic_year
-        compartnerlists=[]
-
-        for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
-              compartner = part.community_partner
-              compartnerlist.append(compartner.id)
-        compartlist=CommunityPartner.objects.filter(id__in=compartnerlist)
-
-        for c in compartlist:
-            compartnerlists.append(c.name)
-            com_list=(', '.join(compartnerlists))
-
-            print("compartner :  "+', '.join(compartnerlists))
-        print(" community partner list  ",com_list)
-            # Sprint2-#1390- Added Capus Partner list- Search Improvements
-
-        for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
-            print(" project campus partner ", part)
-            campartner = part.campus_partner
-        combinedList = [object.project_name.split('(')[0], str(com_list), str(campartner), str(ay)]
-
-
-            #Check Project actual table logic end
-
-        if combinedList not in projectNames:
-                projectNames.append(combinedList)
+    # compartnerlist = []
+    # for object in Project.objects.order_by('end_academic_year'):
+    #     print("-----------------step 1")
+    #     project = object.project_name.split('(')[0]
+    #     ay = object.academic_year
+    #     compartnerlists=[]
+    #
+    #     for part in ProjectCommunityPartner.objects.filter(project_name__project_name__exact=object.project_name):
+    #           compartner = part.community_partner
+    #           compartnerlist.append(compartner.id)
+    #     compartlist=CommunityPartner.objects.filter(id__in=compartnerlist)
+    #
+    #     for c in compartlist:
+    #         compartnerlists.append(c.name)
+    #         com_list=(', '.join(compartnerlists))
+    #
+    #         print("compartner :  "+', '.join(compartnerlists))
+    #     print(" community partner list  ",com_list)
+    #         # Sprint2-#1390- Added Capus Partner list- Search Improvements
+    #
+    #     for part in ProjectCampusPartner.objects.filter(project_name__project_name__exact=object.project_name):
+    #         print(" project campus partner ", part)
+    #         campartner = part.campus_partner
+    #     combinedList = [object.project_name.split('(')[0], str(com_list), str(campartner), str(ay)]
+    #
+    #
+    #         #Check Project actual table logic end
+    #
+    #     if combinedList not in projectNames:
+    #             projectNames.append(combinedList)
 
     if request.method == 'POST':
         project = ProjectForm(request.POST)
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!",project)
 
     return render(request, 'projects/checkProject.html',
-                  {'project': project, 'projectNames':projectNames, 'projects': project_filter, 'data_definition': data_definition,
-                "communityPartners": communityPartners, 'community_list': community_list ,"campus_filter": campus_project_filter,"community_filter": community_project_filter})
+                  {'ProjectsData': data_list, 'projects': project_filter, 'data_definition': data_definition,
+                "communityPartners": communityPartners, 'community_list': community_list ,"campus_filter": campus_project_filter, "communityPartners": communityPartners, 'campus_id': campus_id,"community_filter": community_project_filter})
 
 
 @login_required()

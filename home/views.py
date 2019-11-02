@@ -1617,20 +1617,24 @@ def issueaddress(request):
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
                        'college_filter': college_filter, 'campus_id': campus_id,'max_year':max_year,'min_year':min_year})
 
+
 # Network Analysis Chart
 def networkanalysis(request):
+    university=University.objects.all()
+    college=College.objects.all()
     communitytype=CommunityType.objects.all()
-    comm_type=list()
     missions = MissionArea.objects.all()
-    data=[]
-    comm_list=[]
-    colors=[]
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filter = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    data = []
+    comm_list = []
+    colors = []
     yrs = []
+    nodedata=[]
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
         yrs.append(e.id)
@@ -1656,12 +1660,13 @@ def networkanalysis(request):
     # for m in missions:
         # restype = ["CPI", m.mission_name]
         # data.append(restype)
-    for c in communitytype:
-        restype=["CPI",c.community_type]
-        data.append(restype)
+    #
+    # for c in university:
+    #     for col in college:
+    #         res=[c.name,col.college_name]
+    #         data.append(res)
 
-    # print("Min Data ******************",data)
-
+    # print(" univ and college ",data)
     project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
     project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
     project_count3 = project_count1 | project_count2
@@ -1694,67 +1699,66 @@ def networkanalysis(request):
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
-    for m in missions:
-        color=['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']
-        # r = { m.mission_name, color[m.id]}
-        # colors.append(r)
-        for c in communitytype:
-            # if m.id==1 and c.id==1:
-            project_m=ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=project_ids)
-            project_m_ids=[p.project_name_id for p in project_m ]
-            # print("projects in mission 1 :",m.mission_name,"are : ",project_m_ids)
-            comm_partners=[p.community_partner_id for p in (ProjectCommunityPartner.objects.filter(project_name_id__in=project_m_ids))]
-            # project_ids_camp_partners = Project.objects.filter(id__in=(ProjectCommunityPartner.objects.filter(id__in=project_m)))
-            project_m_c_partner=CommunityPartner.objects.filter(community_type_id=c.id).filter(id__in=comm_partners)
-            project_m_c_partners=[p.name for p in project_m_c_partner ]
-            project_m_c_partners_ids = [p.id for p in project_m_c_partner]
 
 
-            projects_with_commity=ProjectCommunityPartner.objects.filter(community_partner_id__in=project_m_c_partners_ids)
-            proj_ids_comm=[p.project_name_id for p in projects_with_commity]
-            # projects_community_mission=Project.objects.filter(id__in=proj_ids_comm)
-            for comm in project_m_c_partners:
-                # print(" cummunuty partners in ", c.community_type, "are -----------",comm )
-                comm_list.append(comm)
-                # comm=len(project_m_c_partner)
-                res=[c.community_type,comm]
-                data.append(res)
-                community_id= [p.id for p in (CommunityPartner.objects.filter(name=comm))]
-                Proj_comm_part=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_id).filter(project_name_id__in=proj_ids_comm)
-                project_comm=[p.project_name_id for p in Proj_comm_part]
-                # projects_community_mission = Project.objects.filter(id__in=Proj_comm_part)
-                camp_partner_objs=ProjectCampusPartner.objects.filter(project_name_id__in=project_comm)
-                camps_partners=[p.campus_partner_id for p in camp_partner_objs]
-                camp_part=[p.name for p in(CampusPartner.objects.filter(id__in=camps_partners))]
-                for p in camp_part:
-                    res=[comm,p]
-                    data.append(res)
-                    # print("campus partners for ",comm," is : ",p)
 
+    color=["#01B8AA","#374649","#FD625E", "#8AD4EB","#FE9666","#A66999", "#3599B8","#DFBFBF","#1743f3"]
+    # r = { m.mission_name, color[m.id]}
+    # colors.append(r)
+    for c in college:
+            campus_partner=CampusPartner.objects.filter(college_name_id=c.id)
+            camp_partner_ids=[p.id for p in campus_partner]
+            camp_partner_names = [p.name for p in campus_partner]
+            for cp in campus_partner:
+                res2={'from':c.college_name,'to':cp.name}
+                data.append(res2)
+                node = {'id': c.college_name, 'color': 'red', 'marker': { 'symbol': 'triangle'}}
+                node2= {'id': cp.name, 'color': 'black', 'marker': { 'symbol': 'triangle'}}
+                nodedata.append(node)
+                nodedata.append(node2)
+                # print("##########res2#######",res2)
+                for m in missions:
+                    Project_with_camp_partners=ProjectCampusPartner.objects.filter(campus_partner_id=cp.id)
+                    proj_ids_camp_partners=[p.project_name_id for p in Project_with_camp_partners ]
+                    projcets_camp=Project.objects.filter(id__in=proj_ids_camp_partners)
+                    proj_idss=[p.id for p in projcets_camp ]
+                    proj_ids=list(set(proj_idss).intersection(project_ids))
+                    proj_in_mission=ProjectMission.objects.filter(project_name_id__in=proj_idss).filter(mission_id=m.id)
+                    proj_mission_ids=[p.project_name_id for p in proj_in_mission]
+                    commPartnerProj=[p.community_partner_id for p in ( ProjectCommunityPartner.objects.filter(project_name_id__in=proj_mission_ids))]
+                    comm=CommunityPartner.objects.filter(id__in=commPartnerProj)
+                    comm_partner_ids=[p.id for p in comm]
+                    comm_partner_names = [p.name for p in comm]
+                    radi=Project_with_camp_partners.count()
+                    for comm in comm_partner_names:
+                        res3 = {'from': cp.name, 'to': comm}
+                        node = { 'id': comm,'color': color[m.id-1], 'marker':{'radius':5}}
+                        nodedata.append(node)
+                        data.append(res3)
 
-        college_value = request.GET.get('college_name', None)
-        if college_value is None or college_value == "All" or college_value == '':
-            campus_filter_qs = CampusPartner.objects.all()
-        else:
-            campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-        campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+                # print("##########res3###########",res3)
 
-        campus_id = request.GET.get('campus_partner')
-        if campus_id == "All":
-            campus_id = -1
-        if (campus_id is None or campus_id == ''):
-            campus_id = 0
-        else:
-            campus_id = int(campus_id)
-        engagement_type = request.GET.get('engagement_type', None)
-        if engagement_type is None or engagement_type == "All" or engagement_type == '':
-            projects = Project.objects.all()
-        else:
-            projects = Project.objects.filter(engagement_type=engagement_type)
+            college_value = request.GET.get('college_name', None)
+            if college_value is None or college_value == "All" or college_value == '':
+                campus_filter_qs = CampusPartner.objects.all()
+            else:
+                campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+            campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    print("final ________________________",data)
-    json_data=json.dumps(data)
-    print(" json data########################### ",json_data)
+            campus_id = request.GET.get('campus_partner')
+            if campus_id == "All":
+                campus_id = -1
+            if (campus_id is None or campus_id == ''):
+                campus_id = 0
+            else:
+                campus_id = int(campus_id)
+            engagement_type = request.GET.get('engagement_type', None)
+            if engagement_type is None or engagement_type == "All" or engagement_type == '':
+                projects = Project.objects.all()
+            else:
+                projects = Project.objects.filter(engagement_type=engagement_type)
+
+    # print(" final ~~~~~~~~~~~~~~~~~~~~~``",)
     networkchart= {
         'chart': {
             'type': 'networkgraph',
@@ -1772,7 +1776,7 @@ def networkanalysis(request):
                 'turboThreshold': 0,
                 'linklength': 100,
                 'initialPositions': 'top',
-                'keys': ['from', 'to'],
+                # 'keys': ['from', 'to','color'],
                 'layoutAlgorithm': {
                     'enableSimulation': False,
                     # 'friction': 0.9,
@@ -1793,8 +1797,11 @@ def networkanalysis(request):
                 'enabled': True,
                 'linkFormat': ''
             },
-            'id': 'lang-tree',
-            'data': data
+            'data': data,
+            'nodes': nodedata
+                # [{'id': 'Landscape Services', 'color': 'black', 'marker': { 'symbol': 'triangle'}},
+                # {'id': 'University', 'color': 'red', 'marker': { 'symbol': 'triangle'}},
+                # {'id': 'Staff AdvisoryCouncil', 'color': 'black', 'marker': { 'symbol': 'triangle'}}]
 
         }]
     }

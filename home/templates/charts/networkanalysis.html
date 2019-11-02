@@ -248,116 +248,82 @@
         </div>
     </div>
 
-    <div id="container"  style= "max-width: 1058px; height: 550px"></div>
+    <div id="container"  style= "max-width: 1058px; height: 750px"></div>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
         <script>
-            Highcharts.addEvent(
-    Highcharts.Series,
-    'afterSetOptions',
+    {#        Highcharts.addEvent(#}
+    {#function (e) {#}
+    {#     let series = this.series[0];#}
+    {#    series.data.forEach(function(point, i) {#}
+    {#    	if (point.color) {#}
+    {#      	series.nodes[i + 1].color = point.color;#}
+    {#      }#}
+    {##}
+          {#if(point.radius){#}
+          {#    series.update({marker:{radius:point.radius}})}#}
+    {##}
+    {#    })})#}
 
-
-    function (e) {
-        var colors = Highcharts.getOptions().colors,
-            i = 1,
-            nodes = {};
-
-        if (
-            this instanceof Highcharts.seriesTypes.networkgraph &&
-            e.options.id === 'lang-tree'
-        ) {
-
-
-            e.options.data.forEach(function (link) {
-
-                if (link[0] === 'CPI') {
-                    nodes['CPI'] = {
-                        id: 'CPI',
-                        marker: {
-                            radius: 25,
-                        }
-                    };
-                    nodes[link[1]] = {
-                        id: link[1],
-                        marker: {
-                            radius: 10,
-
-                        },
-                        color: colors[i++]
-                    };
-                }
-                else if (nodes[link[0]] && nodes[link[0]].color) {
-                    nodes[link[1]] = {
-                        id: link[1],
-                        color: nodes[link[0]].color
-                    };
-                }
-            });
-
-            e.options.nodes = Object.keys(nodes).map(function (id) {
-                return nodes[id];
-            });
-        }})
-
- Highcharts.chart('container', {{ graph|safe }},
- function(chart) { // on complete
-        chart.renderer.text('Educational Support', chart.plotSizeX-200,20)
-            .attr({
-
-            })
-            .css({
-                color: '#0d233a',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Health and Wellness', chart.plotSizeX-200,40)
-            .attr({
-
-            })
-            .css({
-                color: '#8bbc21',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Economic Sufficiency', chart.plotSizeX-200,60)
-            .attr({
-
-            })
-            .css({
-                color: '#910000',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Social Justice', chart.plotSizeX-200,80)
-            .attr({
-
-            })
-            .css({
-                color: '#1aadce',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('International Service', chart.plotSizeX-200,100)
-            .attr({
-
-            })
-            .css({
-                color: '#492970',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Environmental Stewardship', chart.plotSizeX-200,120)
-            .attr({
-
-            })
-            .css({
-                color: '#f28f43',
-                fontSize: '16px'
-            })
-            .add();
-
-    }
- )
+ Highcharts.chart('container', {{ graph|safe }})
+ {#function(chart) { // on complete#}
+ {#       chart.renderer.text('Educational Support', chart.plotSizeX-200,20)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#0d233a',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Health and Wellness', chart.plotSizeX-200,40)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#8bbc21',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Economic Sufficiency', chart.plotSizeX-200,60)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#910000',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Social Justice', chart.plotSizeX-200,80)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#1aadce',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('International Service', chart.plotSizeX-200,100)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#492970',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Environmental Stewardship', chart.plotSizeX-200,120)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#f28f43',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {##}
+ {#   }#}
+ {#)#}
 
         </script>
     </div>

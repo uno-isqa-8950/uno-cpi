@@ -33,6 +33,7 @@ urllib3==1.24.2
 wagtail==2.6
 whitenoise==3.3.1
 APScheduler==3.5.3
+django-crum
 
 
 pylibmc==1.5.1

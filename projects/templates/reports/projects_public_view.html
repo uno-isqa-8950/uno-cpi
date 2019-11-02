@@ -270,9 +270,9 @@
             <tr>
                 <td>{{project.projectName}}</td>
                 <td>
-                    <div class="content hideContent">
+{#                    <div class="content hideContent">#}
                     {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
-                    </div>
+{#                    </div>#}
                     <div class="show-more">
                         {% if project.communityPartner|length > 1 %}
                         <a href="#" style="color:#d71920">Show more</a>
@@ -280,9 +280,9 @@
                     </div>
                 </td>
                 <td>
-                    <div class="content hideContent">
+{#                    <div class="content hideContent">#}
                         {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
-                    </div>
+{#                    </div>#}
                     <div class="show-more">
                         {% if project.campusPartner|length > 1 %}
                         <a href="#" style="color:#d71920">Show more</a>

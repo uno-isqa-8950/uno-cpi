@@ -75,7 +75,7 @@ def registerCampusPartner(request):
 
 
 def registerCommunityPartner(request):
-    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
+    # ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
     comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = CommunityMissionFormset)
     prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form = PrimaryCommunityMissionFormset)
     data_definition = DataDefinition.objects.all()
@@ -88,11 +88,11 @@ def registerCommunityPartner(request):
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
-        formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
+        # formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
+        if community_partner_form.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
             community_partner = community_partner_form.save()
-            contacts = formset.save(commit=False)
+            # contacts = formset.save(commit=False)
             primary_missions = formset_primary_mission.save(commit=False)
             missions = formset_mission.save(commit=False)
 
@@ -106,9 +106,9 @@ def registerCommunityPartner(request):
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
                 mission.save()
-            for contact in contacts:
-                contact.community_partner = community_partner
-                contact.save()
+            # for contact in contacts:
+            #     contact.community_partner = community_partner
+            #     contact.save()
 
 ######## Minh's code to add coordinates, household income and district ######################
             address = community_partner.address_line1
@@ -174,14 +174,14 @@ def registerCommunityPartner(request):
 
     else:
         community_partner_form = CommunityPartnerForm()
-        formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
+        # formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
         formset_mission= comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
         formset_primary_mission= prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='primary_mission')
 
     return render(request,
                   'registration/community_partner_register.html',
                   {'community_partner_form': community_partner_form,
-                   'formset': formset,'data_definition': data_definition,
+                   'data_definition': data_definition,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
 
 #validation for community name in register community partner form

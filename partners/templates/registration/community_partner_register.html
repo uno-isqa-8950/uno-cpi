@@ -130,7 +130,6 @@ width:93%!important;
     <ul>
         <li><a href="#step-1">Partner Information</a></li>
         <li><a href="#step-2">Mission Areas</a></li>
-        <li><a href="#step-3">Contact Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -344,9 +343,9 @@ width:93%!important;
             </div>
  </div>
         </div>
-                <div id="step-3">
+<!--                <div id="step-3">-->
 
-<div class="row"><br></div>
+<!--<div class="row"><br></div>-->
 <!--                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
 <!--    <i class="fa fa-plus"></i> {% for data_definition in data_definition %}-->
 <!--                                {% if data_definition.id == 35%}-->
@@ -356,82 +355,82 @@ width:93%!important;
 <!--                    {% endif %}-->
 <!--                                {% endfor %}-->
 <!--</button>-->
-        {% for form in formset %}
-<div id="contactinfo" class= "panel-collapse collapse show">
-                                    <div class="panel-body">
-                                        <br>
-                                        <div class="row contact-row">
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                            <div class="col-md-4">
+<!--        {% for form in formset %}-->
+<!--<div id="contactinfo" class= "panel-collapse collapse show">-->
+<!--                                    <div class="panel-body">-->
+<!--                                        <br>-->
+<!--                                        <div class="row contact-row">-->
+<!--                                            <div class="col-md-6">-->
+<!--                                                <div class="row">-->
+<!--                                            <div class="col-md-4">-->
 
-                                                <label>Contact Type <span style="color:red;">*</span></label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                    {{ form.contact_type|bootstrap}}
-                                                </div>
-                                            </div>
-                                                <div class="row">
-                                            <div class="col-md-4">
-                                                <label>First Name <span style="color:red;">*</span></label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                    {{ form.first_name|bootstrap }}
-                                                </div>
-                                            </div>
-                                                <div class="row">
-                                            <div class="col-md-4">
+<!--                                                <label>Contact Type <span style="color:red;">*</span></label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                    {{ form.contact_type|bootstrap}}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                                <div class="row">-->
+<!--                                            <div class="col-md-4">-->
+<!--                                                <label>First Name <span style="color:red;">*</span></label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                    {{ form.first_name|bootstrap }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                                <div class="row">-->
+<!--                                            <div class="col-md-4">-->
 
-                                                <label>Work Phone <span style="color:red;">*</span></label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                    {{ form.work_phone|bootstrap }}
-                                                </div>
-                                            </div>
-                                            </div>
-                            <div class="col-md-6">
-                                      <div class="row">
-                                            <div class="col-md-4">
-                                                <label>Email <span style="color:red;">*</span></label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                   {{ form.email_id|bootstrap }}
-                                                </div>
-                                            </div>
-                                <div class="row">
-                                            <div class="col-md-4">
+<!--                                                <label>Work Phone <span style="color:red;">*</span></label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                    {{ form.work_phone|bootstrap }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            </div>-->
+<!--                            <div class="col-md-6">-->
+<!--                                      <div class="row">-->
+<!--                                            <div class="col-md-4">-->
+<!--                                                <label>Email <span style="color:red;">*</span></label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                   {{ form.email_id|bootstrap }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                <div class="row">-->
+<!--                                            <div class="col-md-4">-->
 
-                                                <label>Last Name <span style="color:red;">*</span></label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                    {{ form.last_name|bootstrap }}
-                                                </div>
-                                            </div>
-                                <div class="row">
-                                            <div class="col-md-4">
+<!--                                                <label>Last Name <span style="color:red;">*</span></label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                    {{ form.last_name|bootstrap }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                <div class="row">-->
+<!--                                            <div class="col-md-4">-->
 
-                                                <label>Cell Phone</label>
-                                            </div>
-                                                <div class="col-md-7">
-                                                    {{ form.cell_phone|bootstrap }}
-                                                </div>
-                                            </div>
+<!--                                                <label>Cell Phone</label>-->
+<!--                                            </div>-->
+<!--                                                <div class="col-md-7">-->
+<!--                                                    {{ form.cell_phone|bootstrap }}-->
+<!--                                                </div>-->
+<!--                                            </div>-->
 
-                                  </div>
-                        <div class="col centered">
-                            <button class="addbutton add-contact-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>
-                        </div>
-                        </div>
-                                        <div class="row"><br></div>
-                                            <div id="contact-fields">
-    <table class="table table-bordered table-striped">
-        <thead><th>Contact Type</th><th>Name</th><th>Number</th><th>Email Address</th><th>Delete Entry</th>
-        </thead>
-        <tbody id = "contact-body">
-        </tbody>
-    </table>
-</div>
-                        {% endfor %}
+<!--                                  </div>-->
+<!--                        <div class="col centered">-->
+<!--                            <button class="addbutton add-contact-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>-->
+<!--                        </div>-->
+<!--                        </div>-->
+<!--                                        <div class="row"><br></div>-->
+<!--                                            <div id="contact-fields">-->
+<!--    <table class="table table-bordered table-striped">-->
+<!--        <thead><th>Contact Type</th><th>Name</th><th>Number</th><th>Email Address</th><th>Delete Entry</th>-->
+<!--        </thead>-->
+<!--        <tbody id = "contact-body">-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+<!--                        {% endfor %}-->
         </div>
     </div>
                             <div class="container-fluid">
@@ -451,10 +450,7 @@ width:93%!important;
                 </div>
             </div>
     </div>
-            </div>
 
-    </div>
-</div>
 
 
 
@@ -946,47 +942,47 @@ function validatecontact(){
 }
 
 
-function contactsubmit(){
-    var valid = true;
-    $('.contact-row').find(':input').each(function () {
-        var name = $(this).attr('name');
-        if (name !== undefined) {
-              if (name.includes("contact_type")){
-                if ($(this).val() === null) {
-
-                    valid = false;
-                    return false;
-                }
-            }
-            if (name.includes("first_name")){
-                if ($(this).val() === '') {
-                    valid = false;
-                    return false;
-                }
-            }
-            if(name.includes("last_name")){
-                if ($(this).val() === '') {
-                    valid = false;
-                    return false;
-                }
-            }
-            if(name.includes("email_id")){
-                if ($(this).val() === '') {
-                    valid = false;
-                    return false;
-                }
-            }
-            if(name.includes("work_phone")) {
-                if ($(this).val() === '') {
-                    valid = false;
-                    return false;
-                }
-            }
-        }
-    });
-
-    return valid;
-}
+// function contactsubmit(){
+//     var valid = true;
+//     $('.contact-row').find(':input').each(function () {
+//         var name = $(this).attr('name');
+//         if (name !== undefined) {
+//               if (name.includes("contact_type")){
+//                 if ($(this).val() === null) {
+//
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if (name.includes("first_name")){
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if(name.includes("last_name")){
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if(name.includes("email_id")){
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if(name.includes("work_phone")) {
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//         }
+//     });
+//
+//     return valid;
+// }
 $(document).on('click', '.add-contact-row', function(e){
     e.preventDefault();
     // var validinput = validateForm();
@@ -1026,8 +1022,8 @@ $(document).on('click', '.remove-mission-row', function(e){
 <script>
     $('#submit').click(function () {
     // e.preventDefault();
-   var submitcheck = contactsubmit();
-   if((submitcheck === true)) {
+   // var submitcheck = contactsubmit();
+   // if((submitcheck === true)) {
        if($('#terms').is(":checked")){
         return true;
     }
@@ -1035,11 +1031,11 @@ $(document).on('click', '.remove-mission-row', function(e){
         alert("Please Accept the terms and conditions before submitting");
         return false;
     }
-   }
-   else{
+   // }
+   // else{
        // alert("Add Contact Details");
-       return false;
-   }
+       // return false;
+   // }
 
 });
     $(function(){

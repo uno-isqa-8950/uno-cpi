@@ -141,6 +141,7 @@ def ajax_load_project(request):
 
 @login_required()
 def createProject(request):
+
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     #secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     sub_category = modelformset_factory(ProjectSubCategory, extra=1, form=AddSubCategoryForm)
@@ -273,7 +274,7 @@ def createProject(request):
                                     list_camp_part_names = camp_part_names
                                     camp_part_names = []
                                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                            'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                            'activityType': x.activity_type, 'projectType':x.project_type,'academic_year': x.academic_year,
                                             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                             'description': x.description,
                                             'startDate': x.start_date,
@@ -359,7 +360,7 @@ def createProject(request):
                             list_camp_part_names = camp_part_names
                             camp_part_names = []
                             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'activityType': x.activity_type,'projectType':x.project_type, 'academic_year': x.academic_year,
                                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                     'description': x.description,
                                     'startDate': x.start_date,
@@ -475,7 +476,7 @@ def createProject(request):
                                     list_camp_part_names = camp_part_names
                                     camp_part_names = []
                                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                            'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                            'activityType': x.activity_type,'projectType':x.project_type, 'academic_year': x.academic_year,
                                             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                             'description': x.description,
                                             'startDate': x.start_date,
@@ -560,7 +561,7 @@ def createProject(request):
                             list_camp_part_names = camp_part_names
                             camp_part_names = []
                             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'activityType': x.activity_type, 'projectType':x.project_type,'academic_year': x.academic_year,
                                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                     'description': x.description,
                                     'startDate': x.start_date,

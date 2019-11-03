@@ -55,6 +55,7 @@ import datetime
 # The imports below are for running sql queries for Charts
 from django.db import connection
 from UnoCPI import sqlfiles
+from projects.forms import K12ChoiceForm
 
 sql=sqlfiles
 #writing into amazon s3 bucket
@@ -1674,6 +1675,9 @@ def networkanalysis(request):
     for c in project_count3:
         from_project_ids.append(c.id)
 
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    projects = Project.objects.all()
+
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_filtered_ids = [campus.id for campus in college_filter.qs]
 
@@ -1684,9 +1688,11 @@ def networkanalysis(request):
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    projects = Project.objects.all()
-    project_filtered_ids = [project.id for project in projects]
+
+
+    mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    mission_filtered_ids = mission.qs.values_list('project_name', flat=True)
+
 
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     community_filtered_ids = [community.id for community in communityPartners.qs]
@@ -1695,7 +1701,26 @@ def networkanalysis(request):
         community_partner_id__in=community_filtered_ids))
     comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
 
-    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    k12_selection = request.GET.get('k12_flag', None)
+    k12_init_selection = "All"
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+
+    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
+    if k12_selection == 'Yes':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True))
+
+    elif k12_selection == 'No':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
+
+    else:
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+
+        # project_filtered_ids = [project.id for project in projects]
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids).intersection(mission_filtered_ids))
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
@@ -1793,6 +1818,7 @@ def networkanalysis(request):
             'shadow': False
         },
         'series': [{
+            'linklength':20,
             'dataLabels': {
                 'enabled': True,
                 'linkFormat': ''
@@ -1813,7 +1839,7 @@ def networkanalysis(request):
                   {'project_filter':project_filter,'graph':graph,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id})
+                       'college_filter': college_filter, 'campus_id': campus_id,'k12_choices':k12_choices,'missions':mission})
 
 
 

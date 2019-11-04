@@ -186,7 +186,7 @@ class ProjectRelatedLinksList (SimpleHistoryAdmin, ImportExportModelAdmin):
 class SubCategoryResource (resources.ModelResource):
     class Meta:
         model = SubCategory
-        fields = ('sub_category', 'sub_category_descr')
+        fields = ('id','sub_category', 'sub_category_descr')
         import_id_fields = ['id','sub_category','sub_category_descr']
 
 

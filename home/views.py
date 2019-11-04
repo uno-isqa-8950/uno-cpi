@@ -1457,8 +1457,12 @@ def issueaddress(request):
                 sub_category_id=sc.id).count()
             from_subcat_counts.append(from_project_mission_sub_ids)
             to_subcat_counts.append(to_project_mission_sub_ids)
-            drill = {"x": from_project_mission_sub_ids,
-                     "x2": to_project_mission_sub_ids, "y": sc.id - 1}
+            if(from_project_mission_sub_ids>to_project_mission_sub_ids):
+                drill = {"x": from_project_mission_sub_ids,
+                     "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"red"}
+            else:
+                drill = {"x": from_project_mission_sub_ids,
+                         "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"turquoise"}
             drill_satrt = {"x": from_project_mission_sub_ids, "y": sc.id - 1}
             drill_end = {"x": to_project_mission_sub_ids, "y": sc.id - 1}
             drilldata.append(drill)
@@ -1480,7 +1484,11 @@ def issueaddress(request):
         to_project_count_data.append(to_project_count)
         from_subcat_count.append(from_subcat_counts)
         to_subcat_count.append(from_subcat_counts)
-        res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name}
+        if(from_project_count > to_project_count):
+         res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name,"color":"red"}
+        else:
+            res = {"name": m.mission_name, "x": from_project_count, "x2": to_project_count, "y": m.id - 1,
+                   "drilldown": m.mission_name, "color": "turquoise"}
         resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.id+10}
         resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.id+20}
 
@@ -1504,8 +1512,8 @@ def issueaddress(request):
         'type': 'scatter'}
     project_over_academic_years = {
         'name': 'No of Projects ',
-        'data': json_data,
-        'color': 'turquoise'
+        'data': json_data
+        # 'color': 'turquoise'
                 }
     drill_down_start=subresstart
     drill_down_over = subdrill

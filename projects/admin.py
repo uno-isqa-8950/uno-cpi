@@ -187,7 +187,7 @@ class SubCategoryResource (resources.ModelResource):
     class Meta:
         model = SubCategory
         fields = ('sub_category', 'sub_category_descr')
-        import_id_fields = ['sub_category']
+        import_id_fields = ['id','sub_category','sub_category_descr']
 
 
 class SubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -216,7 +216,7 @@ class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
 class MissionSubCategoryResource(resources.ModelResource):
     class Meta:
         model = MissionSubCategory
-        import_id_fields = ['sub_category','secondary_mission_area']
+        import_id_fields = ['id','sub_category','secondary_mission_area']
 
 
 class MissionSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):

@@ -275,6 +275,18 @@
         <script src="https://code.highcharts.com/modules/data.js"></script>
         <script src="https://code.highcharts.com/modules/drilldown.js"></script>
         <script>
+            Highcharts.addEvent(
+    function (e) {
+         let series = this.series[0];
+        series.data[0].forEach(function(point,i) {
+            if (point.x >= point.x2) {
+          	  series.color = 'red';
+          }
+        })
+    }
+        )
+
+
             $(function () {
                 Highcharts.Tick.prototype.drillable = function () {};
 

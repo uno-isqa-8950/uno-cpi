@@ -169,6 +169,25 @@
                     </div>
 
                     <div class="col-lg-4 col-md-5 form-group">
+
+                    <label for="mission"> Mission Areas
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 3%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for mission in missions.form.mission %}
+                            {{mission}}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-5 form-group">
                         <label for="community_type">
                             {% for data_definition in data_definition %}
                                 {% if data_definition.id == 33%}
@@ -177,7 +196,7 @@
                                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
-                            Community Partner Types
+                            Community Organization Type
                         </label>
                         <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                             <option> All </option>
@@ -234,7 +253,7 @@
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
-                        CEC Community Building Partners
+                        CEC  Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>
@@ -244,120 +263,105 @@
                     </select>
                     </div>
 
+                    <div class="col-lg-4 col-md-5 form-group">
+
+                    <label for="k12_flag"> K12 Projects
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 12%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                        <option>
+                        {% for k12_flag in k12_choices.k12_choice %}
+                            {{ k12_flag }}
+                        {% endfor %}
+                    </option>
+                    </select>
+                </div>
             </form>
         </div>
     </div>
 
-    <div id="container"  style= "max-width: 1058px; height: 550px"></div>
+    <div id="container"  style= "max-width: 1058px; height: 900px"></div>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
         <script>
-            Highcharts.addEvent(
-    Highcharts.Series,
-    'afterSetOptions',
+    {#        Highcharts.addEvent(#}
+    {#function (e) {#}
+    {#     let series = this.series[0];#}
+    {#    series.data.forEach(function(point, i) {#}
+    {#    	if (point.color) {#}
+    {#      	series.nodes[i + 1].color = point.color;#}
+    {#      }#}
+    {##}
+          {#if(point.radius){#}
+          {#    series.update({marker:{radius:point.radius}})}#}
+    {##}
+    {#    })})#}
 
-
-    function (e) {
-        var colors = Highcharts.getOptions().colors,
-            i = 1,
-            nodes = {};
-
-        if (
-            this instanceof Highcharts.seriesTypes.networkgraph &&
-            e.options.id === 'lang-tree'
-        ) {
-
-
-            e.options.data.forEach(function (link) {
-
-                if (link[0] === 'CPI') {
-                    nodes['CPI'] = {
-                        id: 'CPI',
-                        marker: {
-                            radius: 25,
-                        }
-                    };
-                    nodes[link[1]] = {
-                        id: link[1],
-                        marker: {
-                            radius: 10,
-
-                        },
-                        color: colors[i++]
-                    };
-                }
-                else if (nodes[link[0]] && nodes[link[0]].color) {
-                    nodes[link[1]] = {
-                        id: link[1],
-                        color: nodes[link[0]].color
-                    };
-                }
-            });
-
-            e.options.nodes = Object.keys(nodes).map(function (id) {
-                return nodes[id];
-            });
-        }})
-
- Highcharts.chart('container', {{ graph|safe }},
- function(chart) { // on complete
-        chart.renderer.text('Educational Support', chart.plotSizeX-200,20)
-            .attr({
-
-            })
-            .css({
-                color: '#0d233a',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Health and Wellness', chart.plotSizeX-200,40)
-            .attr({
-
-            })
-            .css({
-                color: '#8bbc21',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Economic Sufficiency', chart.plotSizeX-200,60)
-            .attr({
-
-            })
-            .css({
-                color: '#910000',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Social Justice', chart.plotSizeX-200,80)
-            .attr({
-
-            })
-            .css({
-                color: '#1aadce',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('International Service', chart.plotSizeX-200,100)
-            .attr({
-
-            })
-            .css({
-                color: '#492970',
-                fontSize: '16px'
-            })
-            .add();
-        chart.renderer.text('Environmental Stewardship', chart.plotSizeX-200,120)
-            .attr({
-
-            })
-            .css({
-                color: '#f28f43',
-                fontSize: '16px'
-            })
-            .add();
-
-    }
- )
+ Highcharts.chart('container', {{ graph|safe }})
+ {#function(chart) { // on complete#}
+ {#       chart.renderer.text('Educational Support', chart.plotSizeX-200,20)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#0d233a',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Health and Wellness', chart.plotSizeX-200,40)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#8bbc21',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Economic Sufficiency', chart.plotSizeX-200,60)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#910000',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Social Justice', chart.plotSizeX-200,80)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#1aadce',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('International Service', chart.plotSizeX-200,100)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#492970',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {#       chart.renderer.text('Environmental Stewardship', chart.plotSizeX-200,120)#}
+ {#           .attr({#}
+ {##}
+ {#           })#}
+ {#           .css({#}
+ {#               color: '#f28f43',#}
+ {#               fontSize: '16px'#}
+ {#           })#}
+ {#           .add();#}
+ {##}
+ {#   }#}
+ {#)#}
 
         </script>
     </div>

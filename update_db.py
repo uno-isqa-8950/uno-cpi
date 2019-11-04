@@ -103,7 +103,7 @@ try:
     # UPDATE Community partner to show status 'Active' from newly added Partner Status Table
     update_comm_partner_cec_status_to_former_from_table = """Update partners_communitypartner
                                                               Set cec_partner_status_id =(select id from partners_cecpartnerstatus
-                                                              where name = 'Former')
+                                                              where name = 'Never')
                                                               Where id in (select id
                                                               from partners_communitypartner
                                                               where weitz_cec_part='No');"""
@@ -132,7 +132,7 @@ try:
     # UPDATE Community partner to show status 'Active' from newly added Partner Status Table
     update_comm_partner_cec_status_to_former_from_table = """Update partners_campuspartner
                                                               Set cec_partner_status_id =(select id from partners_cecpartnerstatus
-                                                              where name = 'Former')
+                                                              where name = 'Never')
                                                               Where id in (select id
                                                               from partners_campuspartner
                                                               where weitz_cec_part='No');"""
@@ -152,6 +152,6 @@ except (psycopg2.Error) as error:
 #         connection.commit()
 #         # drop all_projects_start_and_end_date temp table
 #         cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
-#         cursor.close()
-#         connection.close()
+cursor.close()
+connection.close()
 print("Postgres SQL connection is closed")

@@ -30,22 +30,19 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
         model= Contact
-        fields =('first_name','last_name','work_phone','cell_phone','email_id','contact_type',)
+        fields =('first_name','last_name','email_id',)
 
         labels = {
             'first_name': ('Contact First Name'),
             'last_name': ('Contact Last Name'),
-            'work_phone': ('Work Phone'),
-            'cell_phone': ('Cell Phone'),
             'email_id': ('Contact Email'),
-            'contact_type':('Contact Type'),
+
         }
         widgets = {
             'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
             'first_name': forms.TextInput(attrs={'class': 'nonumbers'}),
             'last_name': forms.TextInput(attrs={'class': 'nonumbers'}),
-            'work_phone': forms.TextInput(attrs={'class': 'noalpha'}),
-            'cell_phone': forms.TextInput(attrs={'class': 'noalpha'}),
+
 
         }
     # def clean_first_name(self):

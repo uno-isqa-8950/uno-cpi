@@ -381,63 +381,32 @@
                                         <div class="panel-body">
                                             <br>
                                             <div class="row form-row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Contact Type <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.contact_type|bootstrap}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
                                                             <label>First Name <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
+
+
                                                             {{ form.first_name|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Work Phone <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.work_phone|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label>Email <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.email_id|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Last Name <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
+
+                                                           <label>Last Name <span style="color:red;">*</span></label>
+
                                                             {{ form.last_name|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Cell Phone</label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.cell_phone|bootstrap }}
-                                                        </div>
-                                                    </div>
 
-                                                </div>
+
+
+                                                            <label>Email <span style="color:red;">*</span></label>
+
+                                                            {{ form.email_id|bootstrap }}
+
+
+
+
+
+
+
+
                                                 <div class="col centered">
                                                     <button class="addbutton add-form-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>
                                                 </div>
@@ -445,7 +414,7 @@
                                             <div id="contact-fields">
                                                 <br>
                                                 <table class="table table-bordered table-striped">
-                                                    <thead><th>Contact Type</th><th>Name</th><th>Number</th><th>Email Address</th><th>Delete Entry</th>
+                                                    <thead><th>Name</th><th>Email Address</th><th>Delete Entry</th>
                                                     </thead>
                                                     <tbody id = "form-body">
                                                     </tbody>
@@ -596,10 +565,11 @@
                 return;
             }
             var deletename= "form-"+(total-1);
-        var table = '<tr><td>'+dataarray[0]+'</td><td>'+dataarray[1]+' ' +dataarray[4]+'</td><td>'+dataarray[2]+'<br>'+dataarray[5]+'</td><td>'+dataarray[3]+'</td>' +
+        var table = '<tr><td>'+dataarray[0]+' ' +dataarray[1]+'</td><td>'+dataarray[2] +
             '<td align="center"><i name="'+deletename+'" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
             $('#contact-fields').show();
             $("#" + prefix + "-body").append(table);
+
         });
         total++;
         $('#id_' + prefix + '-TOTAL_FORMS').val(total);
@@ -610,7 +580,12 @@
             .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
             .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
             .html(' ');
-
+console.log(dataarray[0]);
+console.log(dataarray[1]);
+console.log(dataarray[2]);
+console.log(dataarray[4]);
+console.log(dataarray[5]);
+console.log(dataarray[3]);
 }
 
     function deleteForm(prefix, elem) {
@@ -904,11 +879,11 @@ $(document).ready(function() {
         }
     });
 
-    $('#cancel').on('click', function () {
-        if (confirm("Are you sure?")){
-            window.location = '/partners';
-        }
-    });
+    // $('#cancel').on('click', function () {
+    //     if (confirm("Are you sure?")){
+    //         window.location = '/partners';
+    //     }
+    // });
 
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
         var elmForm = $("#form-step-"+stepNumber);

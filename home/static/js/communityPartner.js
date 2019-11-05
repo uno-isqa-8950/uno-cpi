@@ -392,7 +392,6 @@ function returnKeepValue(setFilters, marker) {
 
 function filterMarkers() {
     const setFilters = getSetFilterOptions();
-    console.log("Set filters: ", setFilters);
 
     for (var i = 0; i < markers.length; i++) {
         let marker = markers[i];
@@ -475,12 +474,14 @@ valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
 
+    markerCluster.clearMarkers();
     if (value == "") {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(true);
             markerCluster.addMarker(markers[i]);
         }
         markerCluster.redraw();
+        $('#totalnumber').html(getClusterSize());
     } else {
 
         for (var i = 0; i < markers.length; i++) {
@@ -494,6 +495,7 @@ valueFilter.addEventListener("keyup", function (e) {
             }
         }
         markerCluster.redraw();
+        $('#totalnumber').html(getClusterSize());
     }
 });
 

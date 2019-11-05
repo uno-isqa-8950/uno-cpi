@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from simple_history.models import HistoricalRecords
+from crum import get_current_user
 from django.contrib.postgres.fields import ArrayField
 from UnoCPI import  settings
 
@@ -63,7 +64,7 @@ class Project (models.Model):
     )
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True,blank=True)
-    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
+    activity_type = models.ForeignKey('EngagementActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True,  null=True)
     semester = models.CharField(max_length=20, null=True, blank=True)
@@ -111,6 +112,15 @@ class Project (models.Model):
     def updated(self):
         self.updated_date = timezone.now()
         self.save()
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+        if not self.pk:
+            self.created_by = user
+        self.updated_by = user
+        super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.project_name)
@@ -259,7 +269,7 @@ class EngagementActivityType(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-         return str(self.EngagementTypeName)
+         return str(self.ActivityTypeName)
 
 
 class ProjectEngagementActivity(models.Model):

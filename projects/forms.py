@@ -221,6 +221,7 @@ class ProjectForm2(ModelForm):
     #     return zip
 
 class ProjectFormAdd(ModelForm):
+
     SEMESTER = [
     ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     address_line1= forms.CharField(required=False)
@@ -233,9 +234,10 @@ class ProjectFormAdd(ModelForm):
     k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','description','semester',
+        fields = ('project_name','engagement_type','activity_type','project_type','description','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year','campus_lead_staff')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year',
+                  'other_sub_category','campus_lead_staff')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -261,6 +263,19 @@ class ProjectFormAdd(ModelForm):
             'academic_year': 'Academic Year',
             'end_academic_year': 'End Academic Year',
         }
+
+        # def __init__(self, *args, **kwargs):
+        #     super().__init__(*args, **kwargs)
+        #     self.fields['activity_type'].queryset = ActivityType.objects.none()
+        #
+        #     if 'engagement_type' in self.data:
+        #         try:
+        #             engagement_type = int(self.data.get('engagement_type'))
+        #             self.fields['activity_type'].queryset = ActivityType.objects.filter(engagement_type=engagement_type).order_by('engagement_type')
+        #         except (ValueError, TypeError):
+        #             pass  # invalid input from the client; ignore and fallback to empty City queryset
+        #     elif self.instance.pk:
+        #         self.fields['activity_type'].queryset = self.instance.engagement_type.activity_type_set.order_by('activity_type')
 
     # def clean_engagement_type(self):
     #     engagement_type = self.cleaned_data['engagement_type']

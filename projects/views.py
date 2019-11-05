@@ -2,6 +2,8 @@ from decimal import *
 from django.db import connection
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from numpy import shape
+
+import home
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
 from partners.views import district, countyData
@@ -141,6 +143,7 @@ def ajax_load_project(request):
 
 @login_required()
 def createProject(request):
+
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     #secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     sub_category = modelformset_factory(ProjectSubCategory, extra=1, form=AddSubCategoryForm)
@@ -159,22 +162,21 @@ def createProject(request):
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and categoryformset.is_valid():
-                ##Convert address to cordinates and save the legislatve district and household income
-                # a = 0
-                # project.total_uno_hours = a
-                # print (project.status)
+
+
             if request.POST.get('k12_flag'):
                 project.k12_flag = True
             else:
                 project.k12_flag = False
+            #project.created_by = created_by
             proj = project.save()
             proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
             address = proj.address_line1
             stat = str(proj.status)
-            print (stat)
+
             if stat == 'Drafts':
-                print(address)
+
                 if (address != ''):
                     if (address != 'N/A'):  # check if a community partner's address is there
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -273,7 +275,7 @@ def createProject(request):
                                     list_camp_part_names = camp_part_names
                                     camp_part_names = []
                                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                            'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                            'activityType': x.activity_type, 'projectType':x.project_type,'academic_year': x.academic_year,
                                             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                             'description': x.description,
                                             'startDate': x.start_date,
@@ -285,9 +287,10 @@ def createProject(request):
                                             'total_other_community_members': x.total_other_community_members,
                                             'outcomes': x.outcomes,
                                             'total_economic_impact': x.total_economic_impact,
-                                            'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                            'campus_lead_staff': x.campus_lead_staff, 'other_sub_category':x.other_sub_category,
+                                            'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
-                                            'camp_part': list_camp_part_names
+                                            'camp_part': list_camp_part_names,
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -359,7 +362,7 @@ def createProject(request):
                             list_camp_part_names = camp_part_names
                             camp_part_names = []
                             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'activityType': x.activity_type,'projectType':x.project_type, 'academic_year': x.academic_year,
                                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                     'description': x.description,
                                     'startDate': x.start_date,
@@ -370,9 +373,11 @@ def createProject(request):
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
                                     'total_economic_impact': x.total_economic_impact,
-                                    'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                    'campus_lead_staff': x.campus_lead_staff,
+                                    'other_sub_category':x.other_sub_category,
+                                    'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
-                                    'camp_part': list_camp_part_names
+                                    'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/draftadd_done.html', {'project': projects_list})
@@ -475,7 +480,7 @@ def createProject(request):
                                     list_camp_part_names = camp_part_names
                                     camp_part_names = []
                                     data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                            'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                            'activityType': x.activity_type,'projectType':x.project_type, 'academic_year': x.academic_year,
                                             'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                             'description': x.description,
                                             'startDate': x.start_date,
@@ -487,9 +492,9 @@ def createProject(request):
                                             'total_other_community_members': x.total_other_community_members,
                                             'outcomes': x.outcomes,
                                             'total_economic_impact': x.total_economic_impact,
-                                            'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                            'campus_lead_staff': x.campus_lead_staff,'other_sub_category':x.other_sub_category, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
-                                            'camp_part': list_camp_part_names
+                                            'camp_part': list_camp_part_names,
                                             }
                                     projects_list.append(data)
                             return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -560,7 +565,7 @@ def createProject(request):
                             list_camp_part_names = camp_part_names
                             camp_part_names = []
                             data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'activityType': x.activity_type, 'projectType':x.project_type,'academic_year': x.academic_year,
                                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
                                     'description': x.description,
                                     'startDate': x.start_date,
@@ -572,9 +577,10 @@ def createProject(request):
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
                                     'total_economic_impact': x.total_economic_impact,
-                                    'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                    'campus_lead_staff': x.campus_lead_staff,
+                                    'other_sub_category': x.other_sub_category,'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
-                                    'camp_part': list_camp_part_names
+                                    'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
                     return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
@@ -2430,16 +2436,21 @@ def project_total_Add(request):
 def myDrafts(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-
-    # Get the campus partner id's related to the user
+    created_by_user= request.user.email
+    created_by= home.models.User.objects.filter(email=created_by_user)
+    project_created = Project.objects.filter(created_by__in= created_by)
+    project_created_by = [p.id for p in project_created]
+    project_updated = Project.objects.filter(updated_by__in=created_by)
+    project_updated_by = [p.id for p in project_updated]
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
     proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
     project_ids = [project.project_name_id for project in proj_camp]
-    if len(project_ids) == 0:
-        project_ids = [project.id for project in Project.objects.all()]
+    ids = list(set(project_ids).union(project_created_by).union(project_updated_by))
+    if request.user.is_superuser == True:
+        ids = [project.id for project in Project.objects.all()]
     cursor = connection.cursor()
-    cursor.execute(sql.my_drafts, [project_ids])
+    cursor.execute(sql.my_drafts, [ids])
     for obj in cursor.fetchall():
         projects_list.append(
             {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],

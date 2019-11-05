@@ -31,8 +31,7 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
                   'recursive_project')
 
     search_fields = ('id','project_name', 'engagement_type__name', 'status__name', 'activity_type__name', 'facilitator', 'semester', 'city',
-                     'start_date', 'end_date', 'country', 'created_by', 'updated_by', 'project_type', 'other_sub_category',
-                  'recursive_project')
+                     'start_date', 'end_date', 'country', 'project_type', 'other_sub_category', 'recursive_project')
 
     resource_class = ProjectResource
 
@@ -188,6 +187,7 @@ class SubCategoryResource (resources.ModelResource):
     class Meta:
         model = SubCategory
         fields = ('sub_category', 'sub_category_descr')
+        import_id_fields = ['sub_category']
 
 
 class SubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -202,6 +202,8 @@ class ProjectSubCategoryResource(resources.ModelResource):
     class Meta:
         model = ProjectSubCategory
         fields = ('project_name', 'sub_category')
+        import_id_fields = ['project_name', 'sub_category']
+
 
 
 class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -214,6 +216,7 @@ class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
 class MissionSubCategoryResource(resources.ModelResource):
     class Meta:
         model = MissionSubCategory
+        import_id_fields = ['sub_category','secondary_mission_area']
 
 
 class MissionSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):

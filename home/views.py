@@ -1697,8 +1697,8 @@ def issueaddress(request):
         json_data.append(res)
         from_json_data.append(resfrom)
         to_json_data.append(resto)
-    print("##############", resfrom)
-    print("***********************",subdrill)
+    # print("##############", resfrom)
+    # print("***********************",subdrill)
     Max = max(list(set(from_project_count_data) | set(to_project_count_data)))
     Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
 
@@ -2028,7 +2028,7 @@ def networkanalysis(request):
             'shadow': False
         },
         'series': [{
-            'linklength':20,
+            'linklength':100,
             'dataLabels': {
                 'enabled': True,
                 'linkFormat': ''

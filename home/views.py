@@ -56,6 +56,7 @@ import datetime
 # The imports below are for running sql queries for Charts
 from django.db import connection
 from UnoCPI import sqlfiles
+from projects.forms import K12ChoiceForm
 
 sql=sqlfiles
 logger = logging.getLogger(__name__)
@@ -1549,6 +1550,11 @@ def issueaddress(request):
         yrs.append(e.id)
     max_yr_id = max(yrs)
     min_yr_id = min(yrs)
+    max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    max_year=max_yr[0]
+    min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
+    min_year = min_yr[0]
+
 
     b = request.GET.get('academic_year', None)
     ba = request.GET.get('end_academic_year', None)
@@ -1575,39 +1581,39 @@ def issueaddress(request):
     to_project_count_data = list()
     from_subcat_count=list()
     to_subcat_count=list()
-    sub=list()
-    scategory=list()
-    subres=[]
-    subdrill=[]
-    drilldata=[]
+    drillstartdata=[]
+    drillenddata=[]
+    subdrill = []
+
+
+    from_subcat_counts=[]
+    to_subcat_counts=[]
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    college_filtered_ids = [campus.id for campus in college_filter.qs]
+
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+        campus_partner_id__in=college_filtered_ids))
+    campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
+
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    projects = Project.objects.all()
+    project_filtered_ids = [project.id for project in projects]
+
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filtered_ids = [community.id for community in communityPartners.qs]
+
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+        community_partner_id__in=community_filtered_ids))
+    comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
+    project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
+
     for m in missions:
-        from_subcat_counts=[]
-        to_subcat_counts=[]
-        college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-        college_filtered_ids = [campus.id for campus in college_filter.qs]
-
-        campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-            campus_partner_id__in=college_filtered_ids))
-        campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
-
-        campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-        campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-        projects = Project.objects.all()
-        project_filtered_ids = [project.id for project in projects]
-
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        community_filtered_ids = [community.id for community in communityPartners.qs]
-
-        comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
-            community_partner_id__in=community_filtered_ids))
-        comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
-        proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-        proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
-        project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
-
         mission_area1.append(m.mission_name)
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
@@ -1638,78 +1644,31 @@ def issueaddress(request):
         x=[pm.project_name_id for pm in from_project_count_ids]
         y = [pm.project_name_id for pm in to_project_count_ids]
 
-
+        drilldata=[]
         for sc in subcategory:
-            # from_mission_sub=MissionSubCategory.objects.filter(sub_category_id=sc.id).filter(secondary_mission_area_id=m.id)
             from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc.id).count()
             to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
                 sub_category_id=sc.id).count()
             from_subcat_counts.append(from_project_mission_sub_ids)
             to_subcat_counts.append(to_project_mission_sub_ids)
-            drill = {"x": from_project_mission_sub_ids,
-                     "x2": to_project_mission_sub_ids, "y": sc.id - 1}
+            if(from_project_mission_sub_ids>to_project_mission_sub_ids):
+                drill = {"x": from_project_mission_sub_ids,
+                     "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"red"}
+            else:
+                drill = {"x": from_project_mission_sub_ids,
+                         "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"turquoise"}
             drilldata.append(drill)
-            drilled = {"name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
-            if (m.id == sc.id):
-                subcname = sc.sub_category
+        drilled = {"name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
         subdrill.append(drilled)
-        a = request.GET.get('engagement_type', None)
-        c = request.GET.get('campus_partner', None)
-        d = request.GET.get('college_name', None)
-        b = request.GET.get('academic_year', None)
-        ba = request.GET.get('end_academic_year', None)
-
-        if a is None or a == "All" or a == '':
-            if c is None or c == "All" or c == '':
-                if d is None or d == "All" or d == '':
-                    if f is None or f == "All" or f == '':
-                        if e is None or e == "All" or e == '':
-                            project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
-                            project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
-                            project_count3 = project_count1 | project_count2
-                            from_project_ids = []
-                            for c in project_count3:
-                                from_project_ids.append(c.id)
-                            from_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids).count()
-                            from_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(
-                                mission_type='Primary').filter(project_name_id__in=from_project_ids)
-
-                            project_count1 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None)
-                            project_count2 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end)
-                            project_count3 = project_count1 | project_count2
-                            to_project_ids = []
-                            for c in project_count3:
-                                to_project_ids.append(c.id)
-                            to_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids).count()
-                            to_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(
-                                mission_type='Primary').filter(project_name_id__in=to_project_ids)
-                            # print("inide loop for " , m.id, "mission name: ",m.mission_name,from_project_count,"to:" ,to_project_count)
-
-                            x = [pm.project_name_id for pm in from_project_count_ids]
-                            y = [pm.project_name_id for pm in to_project_count_ids]
-                            subres=[]
-                            drilldata=[]
-                            drill=[]
-                            for sc in subcategory:
-                                # from_mission_sub=MissionSubCategory.objects.filter(sub_category_id=sc.id).filter(secondary_mission_area_id=m.id)
-                                from_project_mission_sub_ids = ProjectSubCategory.objects.filter(
-                                    project_name_id__in=x).filter(sub_category_id=sc.id).count()
-                                to_project_mission_sub_ids = ProjectSubCategory.objects.filter(
-                                    project_name_id__in=y).filter(
-                                    sub_category_id=sc.id).count()
-                                from_subcat_counts.append(from_project_mission_sub_ids)
-                                to_subcat_counts.append(to_project_mission_sub_ids)
-                                drill={"x": from_project_mission_sub_ids,
-                                          "x2": to_project_mission_sub_ids,"y":sc.id-1}
-                                drilldata.append(drill)
-                                drilled={"name":m.mission_name ,"id":m.mission_name,"yAxis":1,"data":drilldata}
-                            subdrill.append(drilled)
-        subres.append(subdrill)
         from_project_count_data.append(from_project_count)
         to_project_count_data.append(to_project_count)
         from_subcat_count.append(from_subcat_counts)
         to_subcat_count.append(from_subcat_counts)
-        res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name}
+        if(from_project_count > to_project_count):
+         res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name,"color":"red"}
+        else:
+            res = {"name": m.mission_name, "x": from_project_count, "x2": to_project_count, "y": m.id - 1,
+                   "drilldown": m.mission_name, "color": "turquoise"}
         resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.mission_name}
         resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.mission_name}
 
@@ -1717,25 +1676,23 @@ def issueaddress(request):
         from_json_data.append(resfrom)
         to_json_data.append(resto)
 
-    # print("***********************",subdrill)
-    Max = max(list(set(from_project_count_data) | set(to_project_count_data)))
-    Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
-
     Academic_Year = {
-        'name': 'From Academic Year',
+        'name': 'Analysis Start Year',
         'data': from_json_data,
         'color': 'teal',
         'type': 'scatter'}
     End_Academic_Year = {
-        'name': 'To Academic Year',
+        'name': 'Analysis Comparison (End) Year',
         'data': to_json_data,
         'color': 'blue',
         'type': 'scatter'}
     project_over_academic_years = {
-        'name': 'Mission Areas',
-        'data': json_data,
-        'color': 'turquoise'
+        'name': 'No of Projects ',
+        'data': json_data
                 }
+    drill_down_over = subdrill
+
+
 
     dumbellchart = {
         'chart': {
@@ -1774,7 +1731,11 @@ def issueaddress(request):
                     'style': {
                         'fontSize': '6px'
                     }
-                },'colorByPoint': False
+                },'colorByPoint': False,
+                'tooltip': {
+                    'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}'
+                }
             },
 
             'scatter': {
@@ -1785,9 +1746,9 @@ def issueaddress(request):
             }
         },
         'tooltip': {
-            'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-            'pointFormat': '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.2f}%</b> of total<br/>'
-        },
+        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+        'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
+                 },
         'legend': {
             'layout': 'horizontal',
             'align': 'right',
@@ -1802,8 +1763,7 @@ def issueaddress(request):
 
         'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
         'drilldown':{
-            'series': subres[0]
-                     # dj]
+            'series': subdrill
         }
 
     }
@@ -1833,26 +1793,26 @@ def issueaddress(request):
                        'to_project_filter': to_project_filter,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id})
-
-
-
+                       'college_filter': college_filter, 'campus_id': campus_id,'max_year':max_year,'min_year':min_year})
 
 
 # Network Analysis Chart
 def networkanalysis(request):
+    university=University.objects.all()
+    college=College.objects.all()
     communitytype=CommunityType.objects.all()
-    comm_type=list()
     missions = MissionArea.objects.all()
-    data=[]
-    comm_list=[]
-    colors=[]
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    community_filter = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    data = []
+    comm_list = []
+    colors = []
     yrs = []
+    nodedata=[]
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
         yrs.append(e.id)
@@ -1878,18 +1838,22 @@ def networkanalysis(request):
     # for m in missions:
         # restype = ["CPI", m.mission_name]
         # data.append(restype)
-    for c in communitytype:
-        restype=["CPI",c.community_type]
-        data.append(restype)
+    #
+    # for c in university:
+    #     for col in college:
+    #         res=[c.name,col.college_name]
+    #         data.append(res)
 
-    # print("Min Data ******************",data)
-
+    # print(" univ and college ",data)
     project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
     project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
     project_count3 = project_count1 | project_count2
     from_project_ids = []
     for c in project_count3:
         from_project_ids.append(c.id)
+
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    projects = Project.objects.all()
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_filtered_ids = [campus.id for campus in college_filter.qs]
@@ -1901,9 +1865,11 @@ def networkanalysis(request):
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    projects = Project.objects.all()
-    project_filtered_ids = [project.id for project in projects]
+
+
+    mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    mission_filtered_ids = mission.qs.values_list('project_name', flat=True)
+
 
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     community_filtered_ids = [community.id for community in communityPartners.qs]
@@ -1912,70 +1878,89 @@ def networkanalysis(request):
         community_partner_id__in=community_filtered_ids))
     comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
 
-    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    k12_selection = request.GET.get('k12_flag', None)
+    k12_init_selection = "All"
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+
+    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
+    if k12_selection == 'Yes':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True))
+
+    elif k12_selection == 'No':
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
+
+    else:
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+
+        # project_filtered_ids = [project.id for project in projects]
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids).intersection(mission_filtered_ids))
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
-    for m in missions:
-        color=['#2f7ed8', '#0d233a', '#8bbc21', '#910000', '#1aadce','#492970', '#f28f43', '#77a1e5', '#c42525', '#a6c96a']
-        # r = { m.mission_name, color[m.id]}
-        # colors.append(r)
-        for c in communitytype:
-            # if m.id==1 and c.id==1:
-            project_m=ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=project_ids)
-            project_m_ids=[p.project_name_id for p in project_m ]
-            # print("projects in mission 1 :",m.mission_name,"are : ",project_m_ids)
-            comm_partners=[p.community_partner_id for p in (ProjectCommunityPartner.objects.filter(project_name_id__in=project_m_ids))]
-            # project_ids_camp_partners = Project.objects.filter(id__in=(ProjectCommunityPartner.objects.filter(id__in=project_m)))
-            project_m_c_partner=CommunityPartner.objects.filter(community_type_id=c.id).filter(id__in=comm_partners)
-            project_m_c_partners=[p.name for p in project_m_c_partner ]
-            project_m_c_partners_ids = [p.id for p in project_m_c_partner]
 
 
-            projects_with_commity=ProjectCommunityPartner.objects.filter(community_partner_id__in=project_m_c_partners_ids)
-            proj_ids_comm=[p.project_name_id for p in projects_with_commity]
-            # projects_community_mission=Project.objects.filter(id__in=proj_ids_comm)
-            for comm in project_m_c_partners:
-                # print(" cummunuty partners in ", c.community_type, "are -----------",comm )
-                comm_list.append(comm)
-                # comm=len(project_m_c_partner)
-                res=[c.community_type,comm,color[m.id]]
-                data.append(res)
-                community_id= [p.id for p in (CommunityPartner.objects.filter(name=comm))]
-                Proj_comm_part=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_id).filter(project_name_id__in=proj_ids_comm)
-                project_comm=[p.project_name_id for p in Proj_comm_part]
-                # projects_community_mission = Project.objects.filter(id__in=Proj_comm_part)
-                camp_partner_objs=ProjectCampusPartner.objects.filter(project_name_id__in=project_comm)
-                camps_partners=[p.campus_partner_id for p in camp_partner_objs]
-                camp_part=[p.name for p in(CampusPartner.objects.filter(id__in=camps_partners))]
-                for p in camp_part:
-                    res=[comm,p,color[m.id]]
-                    data.append(res)
-                    # print("campus partners for ",comm," is : ",p)
 
+    color=["#01B8AA","#374649","#FD625E", "#8AD4EB","#FE9666","#A66999", "#3599B8","#DFBFBF","#1743f3"]
+    # r = { m.mission_name, color[m.id]}
+    # colors.append(r)
+    for c in college:
+            campus_partner=CampusPartner.objects.filter(college_name_id=c.id)
+            camp_partner_ids=[p.id for p in campus_partner]
+            camp_partner_names = [p.name for p in campus_partner]
+            for cp in campus_partner:
+                res2={'from':c.college_name,'to':cp.name}
+                data.append(res2)
+                node = {'id': c.college_name, 'color': 'red', 'marker': { 'symbol': 'triangle'}}
+                node2= {'id': cp.name, 'color': 'black', 'marker': { 'symbol': 'triangle'}}
+                nodedata.append(node)
+                nodedata.append(node2)
+                # print("##########res2#######",res2)
+                for m in missions:
+                    Project_with_camp_partners=ProjectCampusPartner.objects.filter(campus_partner_id=cp.id)
+                    proj_ids_camp_partners=[p.project_name_id for p in Project_with_camp_partners ]
+                    projcets_camp=Project.objects.filter(id__in=proj_ids_camp_partners)
+                    proj_idss=[p.id for p in projcets_camp ]
+                    proj_ids=list(set(proj_idss).intersection(project_ids))
+                    proj_in_mission=ProjectMission.objects.filter(project_name_id__in=proj_idss).filter(mission_id=m.id)
+                    proj_mission_ids=[p.project_name_id for p in proj_in_mission]
+                    commPartnerProj=[p.community_partner_id for p in ( ProjectCommunityPartner.objects.filter(project_name_id__in=proj_mission_ids))]
+                    comm=CommunityPartner.objects.filter(id__in=commPartnerProj)
+                    comm_partner_ids=[p.id for p in comm]
+                    comm_partner_names = [p.name for p in comm]
+                    radi=Project_with_camp_partners.count()
+                    for comm in comm_partner_names:
+                        res3 = {'from': cp.name, 'to': comm}
+                        node = { 'id': comm,'color': color[m.id-1], 'marker':{'radius':5}}
+                        nodedata.append(node)
+                        data.append(res3)
 
-        college_value = request.GET.get('college_name', None)
-        if college_value is None or college_value == "All" or college_value == '':
-            campus_filter_qs = CampusPartner.objects.all()
-        else:
-            campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-        campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+                # print("##########res3###########",res3)
 
-        campus_id = request.GET.get('campus_partner')
-        if campus_id == "All":
-            campus_id = -1
-        if (campus_id is None or campus_id == ''):
-            campus_id = 0
-        else:
-            campus_id = int(campus_id)
-        engagement_type = request.GET.get('engagement_type', None)
-        if engagement_type is None or engagement_type == "All" or engagement_type == '':
-            projects = Project.objects.all()
-        else:
-            projects = Project.objects.filter(engagement_type=engagement_type)
+            college_value = request.GET.get('college_name', None)
+            if college_value is None or college_value == "All" or college_value == '':
+                campus_filter_qs = CampusPartner.objects.all()
+            else:
+                campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+            campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    # print("final ________________________",data)
+            campus_id = request.GET.get('campus_partner')
+            if campus_id == "All":
+                campus_id = -1
+            if (campus_id is None or campus_id == ''):
+                campus_id = 0
+            else:
+                campus_id = int(campus_id)
+            engagement_type = request.GET.get('engagement_type', None)
+            if engagement_type is None or engagement_type == "All" or engagement_type == '':
+                projects = Project.objects.all()
+            else:
+                projects = Project.objects.filter(engagement_type=engagement_type)
 
+    # print(" final ~~~~~~~~~~~~~~~~~~~~~``",)
     networkchart= {
         'chart': {
             'type': 'networkgraph',
@@ -1993,7 +1978,7 @@ def networkanalysis(request):
                 'turboThreshold': 0,
                 'linklength': 100,
                 'initialPositions': 'top',
-                'keys': ['from', 'to','color'],
+                # 'keys': ['from', 'to','color'],
                 'layoutAlgorithm': {
                     'enableSimulation': False,
                     # 'friction': 0.9,
@@ -2010,12 +1995,16 @@ def networkanalysis(request):
             'shadow': False
         },
         'series': [{
+            'linklength':100,
             'dataLabels': {
                 'enabled': True,
                 'linkFormat': ''
             },
-            'id': 'lang-tree',
-            'data': data
+            'data': data,
+            'nodes': nodedata
+                # [{'id': 'Landscape Services', 'color': 'black', 'marker': { 'symbol': 'triangle'}},
+                # {'id': 'University', 'color': 'red', 'marker': { 'symbol': 'triangle'}},
+                # {'id': 'Staff AdvisoryCouncil', 'color': 'black', 'marker': { 'symbol': 'triangle'}}]
 
         }]
     }
@@ -2027,7 +2016,7 @@ def networkanalysis(request):
                   {'project_filter':project_filter,'graph':graph,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id})
+                       'college_filter': college_filter, 'campus_id': campus_id,'k12_choices':k12_choices,'missions':mission})
 
 
 

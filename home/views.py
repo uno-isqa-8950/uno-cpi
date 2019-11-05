@@ -1581,17 +1581,10 @@ def issueaddress(request):
     to_project_count_data = list()
     from_subcat_count=list()
     to_subcat_count=list()
-    sub=list()
-    scategory=list()
-    drilldata=[]
     drillstartdata=[]
     drillenddata=[]
     subdrill = []
-    subdrillsatrt=[]
-    subdrillend=[]
-    subres = []
-    subresstart = []
-    subresend = []
+
 
     from_subcat_counts=[]
     to_subcat_counts=[]
@@ -1653,7 +1646,6 @@ def issueaddress(request):
 
         drilldata=[]
         for sc in subcategory:
-            # from_mission_sub=MissionSubCategory.objects.filter(sub_category_id=sc.id).filter(secondary_mission_area_id=m.id)
             from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc.id).count()
             to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
                 sub_category_id=sc.id).count()
@@ -1665,23 +1657,9 @@ def issueaddress(request):
             else:
                 drill = {"x": from_project_mission_sub_ids,
                          "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"turquoise"}
-            drill_satrt = {"x": from_project_mission_sub_ids, "y": sc.id - 1}
-            drill_end = {"x": to_project_mission_sub_ids, "y": sc.id - 1}
             drilldata.append(drill)
-            drillstartdata.append(drill_satrt)
-            drillenddata.append(drill_end)
         drilled = {"name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
-        drilled_start = {"name": m.mission_name, "id": m.id+10, "yAxis": 1, "data": drillstartdata}
-        drilled_end = {"name": m.mission_name, "id": m.id+20, "yAxis": 1, "data": drillenddata}
-        if (m.id == sc.id):
-                subcname = sc.sub_category
         subdrill.append(drilled)
-        subdrill.append(drilled_start)
-        subdrill.append(drilled_end)
-
-        # subres.append(subdrill)
-        # subresstart.append(subdrillsatrt)
-        # subresend.append(subdrillend)
         from_project_count_data.append(from_project_count)
         to_project_count_data.append(to_project_count)
         from_subcat_count.append(from_subcat_counts)
@@ -1691,16 +1669,12 @@ def issueaddress(request):
         else:
             res = {"name": m.mission_name, "x": from_project_count, "x2": to_project_count, "y": m.id - 1,
                    "drilldown": m.mission_name, "color": "turquoise"}
-        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.id+10}
-        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.id+20}
+        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.mission_name}
+        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.mission_name}
 
         json_data.append(res)
         from_json_data.append(resfrom)
         to_json_data.append(resto)
-    # print("##############", resfrom)
-    # print("***********************",subdrill)
-    Max = max(list(set(from_project_count_data) | set(to_project_count_data)))
-    Min = min(list(set(from_project_count_data) | set(to_project_count_data)))
 
     Academic_Year = {
         'name': 'Analysis Start Year',
@@ -1715,11 +1689,9 @@ def issueaddress(request):
     project_over_academic_years = {
         'name': 'No of Projects ',
         'data': json_data
-        # 'color': 'turquoise'
                 }
-    drill_down_start=subresstart
     drill_down_over = subdrill
-    drill_down_end = subresend
+
 
 
     dumbellchart = {
@@ -1771,11 +1743,7 @@ def issueaddress(request):
                     'radius': 6,
                     'symbol': 'circle'
                 }
-            },
-        #     'tooltip': {
-        #         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-        #         'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> projectcount:{point.x}'
-        #     }
+            }
         },
         'tooltip': {
         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
@@ -1795,8 +1763,7 @@ def issueaddress(request):
 
         'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
         'drilldown':{
-            'series': drill_down_over
-                     # dj]
+            'series': subdrill
         }
 
     }

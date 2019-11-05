@@ -10,7 +10,7 @@ from home.models import *
 from home.filters import *
 from partners.models import *
 from university.models import Course
-from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm
+from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm, CheckForm
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType, ProjectSubCategory
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
@@ -1660,12 +1660,13 @@ def checkProject(request):
     projects = list(Project.objects.filter(id__in=project_ids))
 
     cursor = connection.cursor()
+
     cursor.execute(sql.all_projects_sql, [project_ids])
 
     for obj in cursor.fetchall():
         data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[3], "campusPartner": obj[4],
                           "projectId":obj[1],"Academic_year":obj[6]})
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@", data_list)
+        # print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@", data_list)
 
     b = request.GET.get('Community_type', None)
     c = request.GET.get('academic_year', None)
@@ -1727,6 +1728,50 @@ def checkProject(request):
     return render(request, 'projects/checkProject.html',
                   {'ProjectsData': data_list, 'projects': project_filter, 'data_definition': data_definition,
                 "communityPartners": communityPartners, 'community_list': community_list ,"campus_filter": campus_project_filter, "communityPartners": communityPartners, 'campus_id': campus_id,"community_filter": community_project_filter})
+
+def stream_response(request):
+    data_list = [];
+    compartnerlist = [];
+    compartnerlists = [];
+    form = CheckForm()
+    if request.method == 'POST':
+        form = CheckForm(data=request.POST)
+        request.GET.get('Check')
+    projectName = request.POST['projectName'].strip()
+    communityPartner = request.POST['communityPartner'].replace('-','')
+    campusPartner = request.POST['campusPartner'].replace('-','')
+    academicYear = request.POST['academicYear'].replace('-','')
+    print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+    print(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear))
+    print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+    cursor = connection.cursor()
+    cursor.execute(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear),params=None)
+    rows = cursor.fetchall()
+
+
+    for obj in rows:
+        print('obj--',obj)
+        compartnerlist.append(obj[5])
+        compartlist = CommunityPartner.objects.filter(id__in=compartnerlist)
+
+        # if len(compartlist)  :
+        print("================================",compartlist)
+
+        print("#############################",len(compartnerlist))
+        compartnerlists = []
+        for c in compartlist:
+
+            compartnerlists.append(c.name)
+
+        com_list = (', '.join(compartnerlists))
+
+        print("+++++++++++++++++++++++++++++++++++++",compartnerlists)
+    data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": com_list, "campusPartner": obj[3],
+                          "projectId": obj[4], "academicYear": obj[2], "CommunityPartnerId": obj[5]})
+    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list)
+    return render(request, 'projects/checkProject.html',{'data_list': data_list, 'projectName': projectName, 'communityPartner': communityPartner,'campusPartner':campusPartner,'academicYear': academicYear })
+
+
 
 
 @login_required()

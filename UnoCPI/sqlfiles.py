@@ -533,3 +533,41 @@ missions_sql = """SELECT MA.id, COALESCE(count,0)
 missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
+
+
+def checkProjectsql(projectName, comPartner, campPartner, acadYear):
+    return ( """select distinct p.project_name
+                          ,pc.name
+                            ,pa.academic_year
+                            ,c.name
+                            ,p.id
+                            ,pp.community_partner_id
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                         
+                            where p.project_name LIKE '%""" + projectName + """%'
+                            AND pc.name LIKE '%""" + comPartner + """%'
+                            AND c.name LIKE '%""" + campPartner + """%'
+                            AND pa.academic_year LIKE '%""" + acadYear + """%'
+                          group by p.project_name
+                            
+                            ,pa.academic_year
+                           
+                            ,pc.name
+                            ,c.name
+                            ,p.id
+                            ,pp.community_partner_id
+                            
+                         order by p.project_name
+                        
+                        ,pc.name
+                        ,c.name
+                        ,p.id
+                        ,pp.community_partner_id
+                        ;""")

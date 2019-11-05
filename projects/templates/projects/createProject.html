@@ -93,7 +93,7 @@
                     <label class="col-sm-2" for="id_engagement_type">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
-                    <div class="col-sm-8">
+                    <div class="col">
                     {{ project.description }}
                     </div>
                     {% if  project.description.errors %}
@@ -439,6 +439,28 @@
 
                                 {% endfor %}
 
+                                                <div class="row" id="othersubinput">
+                                                    <div class="col-md-3">
+                                                        <label style="padding-top: 10px">Other Sub Category</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input id='othersubcat' type="text" class="inputbox">
+                                                    </div>
+
+                                                    <div class="col-md-1">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
+                                                </div>
+                                            <div style="display: none">
+<!--                                                <div>-->
+                                            {{ project.other_sub_category}}
+                                            </div>
+                                        <div class="row displaybox" id='displaysub'>
+                                        </div>
+
 
              <div class="row justify-content-end" style="margin-top:30px;">
 <div class="col-md-3" style="float: right">
@@ -739,6 +761,7 @@ $("#id_project_name").change(function () {
 {% block custom_js %}
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
+
     $("#submitname").click(function () {
 var str = "";
 var name =  $('.concat > h6.finalname').length;
@@ -766,6 +789,45 @@ else {
     }
 }
     });
+        $("#addsubcat").click(function () {
+var str = "";
+var name =  $('.subcat > h6.finalcat').length;
+//alert(name);
+if(name === 10) {
+            alert("Only Upto 10 Sub Categories are allowed");
+                $('#othersubcat').val('');
+            return false;
+        }
+else {
+    var disp = $('#othersubcat').val();
+    if (disp === "") {
+        alert("Please enter the Sub Category")
+    } else {
+        var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
+        $("#displaysub").append(html);
+        $('.subcat > h6.finalcat').each(function () {
+            str += $(this).text() + ",";
+        });
+        var str2 = str.substring(0, str.length - 1);
+        $('#id_other_sub_category').val(str2);
+        $('#othersubcat').val('');
+    }
+}
+    });
+
+            $(document).on('click', '.remove-subcat', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    var str = "";
+                $('.subcat > h6.finalcat').each(function(){
+                     str += $(this).text()+ ",";
+                });
+ var str2 = str.substring(0,str.length-1);
+                $('#id_other_sub_category').val(str2);
+                // $('#id_campus_lead_staff').val(str);
+    return false;
+});
+
     $(document).on('click', '.remove-staff', function(e){
     e.preventDefault();
     $(this).parent().remove();
@@ -832,6 +894,9 @@ function cloneMore(selector, prefix) {
                  console.log(selectedcommunity);
                  var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
                  $("#"+prefix+"-fields").append(html);
+             }
+             if(selectedcommunity === 'Others'){
+                 $('#othersubinput').show();
              }
             name = name.replace('-' + (total-1) + '-', '-' + total + '-');
             var id = 'id_' + name;
@@ -1016,6 +1081,7 @@ window.onload = function () {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
+    $('#othersubinput').hide();
     $('.control-label').hide();
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
     $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
@@ -1058,6 +1124,21 @@ label:hover .tooltip{
         content:"*" ;
         color:red
     }
+     .form-control{
+         border: 1px solid #aaaaaa;
+     }
+input[id=othersubcat]{
+
+        width:98%;
+        height: 35px;
+        color: black;
+        margin-top: 5px;
+        margin-left: 8px;
+        font-family: "Arial Narrow", sans-serif;
+        font-size: 16px;
+    }
+
+
      select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
    input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
     select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]

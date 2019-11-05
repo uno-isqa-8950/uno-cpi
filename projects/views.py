@@ -287,7 +287,8 @@ def createProject(request):
                                             'total_other_community_members': x.total_other_community_members,
                                             'outcomes': x.outcomes,
                                             'total_economic_impact': x.total_economic_impact,
-                                            'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                            'campus_lead_staff': x.campus_lead_staff, 'other_sub_category':x.other_sub_category,
+                                            'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
                                             'camp_part': list_camp_part_names,
                                             }
@@ -372,7 +373,9 @@ def createProject(request):
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
                                     'total_economic_impact': x.total_economic_impact,
-                                    'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                    'campus_lead_staff': x.campus_lead_staff,
+                                    'other_sub_category':x.other_sub_category,
+                                    'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
                                     'camp_part': list_camp_part_names,
                                     }
@@ -489,7 +492,7 @@ def createProject(request):
                                             'total_other_community_members': x.total_other_community_members,
                                             'outcomes': x.outcomes,
                                             'total_economic_impact': x.total_economic_impact,
-                                            'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                            'campus_lead_staff': x.campus_lead_staff,'other_sub_category':x.other_sub_category, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
                                             'camp_part': list_camp_part_names,
                                             }
@@ -574,7 +577,8 @@ def createProject(request):
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
                                     'total_economic_impact': x.total_economic_impact,
-                                    'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                    'campus_lead_staff': x.campus_lead_staff,
+                                    'other_sub_category': x.other_sub_category,'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
                                     'camp_part': list_camp_part_names,
                                     }

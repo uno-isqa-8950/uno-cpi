@@ -1733,44 +1733,57 @@ def stream_response(request):
     data_list = [];
     compartnerlist = [];
     compartnerlists = [];
-    form = CheckForm()
+
     if request.method == 'POST':
-        form = CheckForm(data=request.POST)
         request.GET.get('Check')
-    projectName = request.POST['projectName'].strip()
-    communityPartner = request.POST['communityPartner'].replace('-','')
-    campusPartner = request.POST['campusPartner'].replace('-','')
-    academicYear = request.POST['academicYear'].replace('-','')
-    print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-    print(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear))
-    print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-    cursor = connection.cursor()
-    cursor.execute(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear),params=None)
-    rows = cursor.fetchall()
+        projectName = request.POST['projectName'].strip()
+        communityPartner = request.POST.get('communityPartner').replace('-','')
+        campusPartner = request.POST['campusPartner'].replace('-','')
+        academicYear = request.POST['academicYear'].replace('---','')
+        print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+        print(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear))
+        print('%55%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+        cursor = connection.cursor()
+        cursor.execute(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear),params=None)
+        rows = cursor.fetchall()
+        # print(rows[0][0])
+        flag = 0;
+        if(rows != []):
+            print("why am i here")
+            for obj in rows:
+            #     print('obj--',obj)
+            #     compartnerlist.append(obj[5])
+            #     compartlist = CommunityPartner.objects.filter(id__in=compartnerlist)
+            #     print("================================",compartlist)
+            #
+            #     print("#############################",len(compartnerlist))
+            #     compartnerlists = [];
+            #
+            #     for c in compartlist:
+            #
+            #         compartnerlists.append(c.name)
+            #
+            #     com_list = (', '.join(compartnerlists))
+            #
 
+                if (projectName.strip().lower() in obj[0].split("(")[0].strip().lower()):
+                    flag =2
+                    print("I am in flag 2")
+                else:
+                    flag=3
+                if(projectName.strip().lower() == obj[0].split("(")[0].strip().lower()):
+                    flag=1
 
-    for obj in rows:
-        print('obj--',obj)
-        compartnerlist.append(obj[5])
-        compartlist = CommunityPartner.objects.filter(id__in=compartnerlist)
+                data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[3],
+                                   "academicYear": obj[2], "Flagbit": flag})
+            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list)
+            return render(request, 'projects/checkProject.html',{'data_list': data_list, 'projectName': projectName, 'communityPartner': communityPartner,'campusPartner':campusPartner,'academicYear': academicYear, 'flagBit': flag  })
 
-        # if len(compartlist)  :
-        print("================================",compartlist)
-
-        print("#############################",len(compartnerlist))
-        compartnerlists = []
-        for c in compartlist:
-
-            compartnerlists.append(c.name)
-
-        com_list = (', '.join(compartnerlists))
-
-        print("+++++++++++++++++++++++++++++++++++++",compartnerlists)
-    data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": com_list, "campusPartner": obj[3],
-                          "projectId": obj[4], "academicYear": obj[2], "CommunityPartnerId": obj[5]})
-    print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list)
-    return render(request, 'projects/checkProject.html',{'data_list': data_list, 'projectName': projectName, 'communityPartner': communityPartner,'campusPartner':campusPartner,'academicYear': academicYear })
-
+        else:
+            print("In else")
+            flag = 3
+            return render(request, 'projects/checkProject.html',
+                          {'flagBit': flag})
 
 
 

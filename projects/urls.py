@@ -20,6 +20,5 @@ urlpatterns = [
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
     path('checkProject/', views.checkProject, name='checkProject'),
     path('myDrafts/', views.myDrafts, name='myDrafts'),
-
-
+    path('stream_response/', views.stream_response, name='stream_response'),
 ]

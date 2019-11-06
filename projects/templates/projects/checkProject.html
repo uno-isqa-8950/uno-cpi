@@ -74,13 +74,14 @@ A.class1:link  {text-decoration: underline; color: red;}
                 </div>
 
 
-                  <input type="submit"  value="search" id="streambutton" />
+                  <input class="btn btn btn-secondary btn-md" type="submit"  value="search" id="streambutton" />
                 </form>
             </div>
 
         </div>
       </div>
          <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
+
          <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
          <div>
             <div class="panel-body">&emsp;
@@ -92,7 +93,7 @@ A.class1:link  {text-decoration: underline; color: red;}
              <div style="margin-top:15px;">
                   <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
                    <thead>
-                         <tr>
+                         <tr id="tablerow">
                           <th>Academic Year
                            {% for data_definition in data_definition %}
                              {% if data_definition.id == 30%}
@@ -137,21 +138,155 @@ A.class1:link  {text-decoration: underline; color: red;}
 <div container>
 <tbody>
 {% for project in data_list %}
-                      <tr>
+                      <tr id="tablerows">
                        <td>{{project.academicYear}}</td>
                        <td>{{project.projectName}}</td>
-
                           <td>{{ project.communityPartner }} </td>
                           <td>{{ project.campusPartner }}</td>
                           </tr>
-
 {% endfor %}
 </tbody>
 </div>
-                  </table>
+ </table>
                  </div>
+<!--{% for project in data_list %}-->
+{% if flagBit == 1 %}
+<script>document.getElementById('node1-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+</script>
+{% endif %}
+
+{% if flagBit == 2 %}
+        <script>
+        document.getElementById('node1-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
+
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+        </script>
+{% endif %}
+
+{% if flagBit == 3 %}
+        <script>
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+        </script>
+{% endif %}
 
 
+
+
+
+<!--{% endfor %}-->
+
+   <!--<script>-->
+
+    <!--var valueFilter = document.getElementById("projectName");-->
+    <!--//Press the listening button-->
+    <!--valueFilter.addEventListener("keydown", function (e) {-->
+    <!--if (e.keyCode == 8) {-->
+        <!--document.getElementById('node-id'). innerHTML = "";-->
+        <!--document.getElementById('node1-id'). innerHTML = "";-->
+        <!--document.getElementById('button-id'). innerHTML = "";-->
+    <!--}-->
+<!--});-->
+
+  <!--document.getElementById("streambutton").addEventListener("click", function (e)-->
+  <!--{-->
+    <!--var value = document.getElementById("projectName").value;-->
+    <!--if ((value == ""))-->
+    <!--{-->
+        <!--document.getElementById('node-id'). innerHTML = "";-->
+        <!--document.getElementById('node1-id'). innerHTML = "";-->
+        <!--document.getElementById('button-id'). innerHTML = "";-->
+    <!--}-->
+    <!--alert(bit);-->
+    <!--if(bit == 1)-->
+    <!--{-->
+        <!--alert("I will not print the button");-->
+    <!--}-->
+    <!--else if(!((value == "")))-->
+    <!--{-->
+       <!--var table = document.getElementById("example");-->
+       <!--&lt;!&ndash;alert(table);&ndash;&gt;-->
+
+       <!--&lt;!&ndash;alert(document.getElementById("example").rows[0].cells.item(2).innerHTML);&ndash;&gt;-->
+       <!--var tablerows = document.getElementById("tablerows");-->
+       <!--&lt;!&ndash;alert(tablerows);&ndash;&gt;-->
+       <!--displayAddProjectFlag = 2;-->
+
+       <!--var rowLength = table.rows.length;-->
+
+       <!--for(var i=1; i< rowLength; i++)-->
+       <!--{-->
+         <!--var oCells = table.rows.item(i).cells;-->
+
+         <!--var cellLength = oCells.length;-->
+
+           <!--for(var j = 1; j< cellLength; j++)-->
+           <!--{-->
+                <!--var cellVal = oCells.item(j).innerHTML;-->
+
+           <!--}-->
+           <!--alert(oCells.item(1).innerHTML);-->
+
+           <!--if(oCells.item(1).innerHTML == value)-->
+           <!--{-->
+            <!--&lt;!&ndash;alert("Ochina");&ndash;&gt;-->
+            <!--displayAddProjectFlag = 1;-->
+           <!--}-->
+           <!--else-->
+           <!--{-->
+            <!--&lt;!&ndash;alert("raleeee");&ndash;&gt;-->
+            <!--displayAddProjectFlag = 0;-->
+           <!--}-->
+           <!--if(displayAddProjectFlag == 1)-->
+           <!--{-->
+             <!--&lt;!&ndash;alert("jjjjjjjj");&ndash;&gt;-->
+             <!--document.getElementById('node1-id').innerHTML =-->
+                            <!--'<br>' +-->
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +-->
+                            <!--' All Projects</a></td></tr>'-->
+            <!--}-->
+
+            <!--if(displayAddProjectFlag == 0)-->
+            <!--{-->
+               <!--&lt;!&ndash;alert("I am here")&ndash;&gt;-->
+
+                        <!--document.getElementById('button-id').innerHTML =-->
+                            <!--'<br>' +-->
+
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +-->
+                            <!--'Create Project</a></td></tr>'-->
+
+            <!--}-->
+       <!--if(displayAddProjectFlag == 2)-->
+         <!--{-->
+             <!--&lt;!&ndash;alert("I am here tooooo")&ndash;&gt;-->
+
+                        <!--document.getElementById('button-id').innerHTML =-->
+                            <!--'<br>' +-->
+
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +-->
+                            <!--'Create Project</a></td></tr>'-->
+         <!--}-->
+
+       <!--}-->
+    <!--}-->
+
+  <!--});-->
+<!--</script>-->
 <script>
  function checking()
     {

@@ -382,33 +382,35 @@
                                             <br>
                                             <div class="row form-row">
 
-                                                            <label>First Name <span style="color:red;">*</span></label>
+                                                            <label style="padding-top: 13px">First Name <span style="color:red;">*</span></label>
 
 
-                                                            {{ form.first_name|bootstrap }}
-
-
-
-                                                           <label>Last Name <span style="color:red;">*</span></label>
-
-                                                            {{ form.last_name|bootstrap }}
+                                                <span style="padding-left: 25px">{{ form.first_name|bootstrap }}</span>
 
 
 
+                                                           <label style="padding-top: 13px">Last Name <span style="color:red;">*</span></label>
 
-                                                            <label>Email <span style="color:red;">*</span></label>
-
-                                                            {{ form.email_id|bootstrap }}
-
+                                                <span style="padding-left: 25px">{{ form.last_name|bootstrap }}</span>
 
 
+
+
+                                                            <label style="padding-top: 13px">Email <span style="color:red;">*</span></label>
+
+                                                <span style="padding-left: 25px">{{ form.email_id|bootstrap }}</span>
 
 
 
 
 
-                                                <div class="col centered">
-                                                    <button class="addbutton add-form-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>
+
+
+
+                                                <div class="col" style="padding-left: 30px">
+                                                    <!--<button class="add-form-row" style="background-color: white; border:none;border-color: white"><i class=" centered fa fa-plus-square fa-2x"></i> </button>-->
+
+                                                    <button class="add-form-row  centered fa fa-plus-square fa-2x" style="background-color: white; border:none;border-color: white"> </button>
                                                 </div>
                                             </div>
                                             <div id="contact-fields">
@@ -425,7 +427,7 @@
                                     </div>
                                     {% endfor %}
 
-                                        <div class="container-fluid">
+
 <br>
         <div class="row centered" id="termsdiv">
             <p><input type="checkbox" id="terms">
@@ -446,6 +448,7 @@
             </div>
         </div>
     </div>
+<div class="container-fluid">
 
 
 
@@ -901,7 +904,8 @@ $(document).ready(function() {
             showNextButton: 'true',
             showPreviousButton: 'true',
             toolbarExtraButtons: [
-                $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
+                $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function (e) {
+                    e.preventDefault()
                     if (confirm("Are you sure?")){
                       window.location = '/partners';
                     }

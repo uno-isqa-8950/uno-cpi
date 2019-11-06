@@ -2018,13 +2018,13 @@ def networkanalysis(request):
         'plotOptions': {
             'networkgraph': {
                 'turboThreshold': 0,
-                'linklength': 100,
                 'initialPositions': 'top',
                 # 'keys': ['from', 'to','color'],
                 'layoutAlgorithm': {
                     'enableSimulation': False,
                     # 'friction': 0.9,
                     'integration': 'verlet',
+                    'linkLength':100
                 }
             }
         },

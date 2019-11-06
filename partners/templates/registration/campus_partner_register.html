@@ -580,12 +580,7 @@
             .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
             .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
             .html(' ');
-console.log(dataarray[0]);
-console.log(dataarray[1]);
-console.log(dataarray[2]);
-console.log(dataarray[4]);
-console.log(dataarray[5]);
-console.log(dataarray[3]);
+
 }
 
     function deleteForm(prefix, elem) {
@@ -613,65 +608,65 @@ console.log(dataarray[3]);
         return false;
     }
 
-    function validatecontact(){
-        var valid = true;
-        $('.form-row').find(':input').each(function () {
-            var name = $(this).attr('name');
-            if (name !== undefined) {
-                if (name.includes("contact_type")){
-                    if ($(this).val() === null) {
-                        alert("Select Contact Type");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                }
-                if (name.includes("first_name")){
-                    if ($(this).val() === '') {
-                        alert("Provide First Name");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                }
-                if(name.includes("last_name")){
-                    if ($(this).val() === '') {
-                        alert("Provide Last Name");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                }
-                if(name.includes("email_id")){
-                    if ($(this).val() === '') {
-                        alert("Provide Email Address");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                    else{
-                        var maxl = $(this).val().length;
-                        if (($(this).val().substr(maxl - 4, maxl) != '.edu')){
-                        alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                    }
-                }
-                if(name.includes("work_phone")) {
-                    if ($(this).val() === '') {
-                        alert("Provide Work Phone Number");
-                        $(this).css("border-color", "red");
-                        valid = false;
-                        return false;
-                    }
-                }
-            }
-        });
-
-        return valid;
-    }
+    // function validatecontact(){
+    //     var valid = true;
+    //     $('.form-row').find(':input').each(function () {
+    //         var name = $(this).attr('name');
+    //         if (name !== undefined) {
+    //             if (name.includes("contact_type")){
+    //                 if ($(this).val() === null) {
+    //                     alert("Select Contact Type");
+    //                     $(this).css("border-color","red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //             }
+    //             if (name.includes("first_name")){
+    //                 if ($(this).val() === '') {
+    //                     alert("Provide First Name");
+    //                     $(this).css("border-color","red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //             }
+    //             if(name.includes("last_name")){
+    //                 if ($(this).val() === '') {
+    //                     alert("Provide Last Name");
+    //                     $(this).css("border-color","red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //             }
+    //             if(name.includes("email_id")){
+    //                 if ($(this).val() === '') {
+    //                     alert("Provide Email Address");
+    //                     $(this).css("border-color","red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //                 else{
+    //                     var maxl = $(this).val().length;
+    //                     if (($(this).val().substr(maxl - 4, maxl) != '.edu')){
+    //                     alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
+    //                     $(this).css("border-color","red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //                 }
+    //             }
+    //             if(name.includes("work_phone")) {
+    //                 if ($(this).val() === '') {
+    //                     alert("Provide Work Phone Number");
+    //                     $(this).css("border-color", "red");
+    //                     valid = false;
+    //                     return false;
+    //                 }
+    //             }
+    //         }
+    //     });
+    //
+    //     return valid;
+    // }
 //     function contactsubmit(){
 //     var valid = true;
 //     $('.contact-row').find(':input').each(function () {
@@ -721,10 +716,47 @@ console.log(dataarray[3]);
 //     return valid;
 // }
 
+    function firstcontact()
+    {
+        var valid = true;
+
+        if ($('#id_form-0-first_name').val() === '') {
+            alert("Provide First Name");
+            $(this).css("border-color","red");
+            valid = false;
+            return false;
+        }
+
+        if ($('#id_form-0-last_name').val() === '') {
+            alert("Provide Last Name");
+            $(this).css("border-color","red");
+            valid = false;
+            return false;
+        }
+
+
+        if ($('#id_form-0-email_id').val() === '') {
+            alert("Provide Email");
+            $(this).css("border-color","red");
+            valid = false;
+            return false;
+        }
+        else {
+            var maxl = $('#id_form-0-email_id').val().length;
+            if (($('#id_form-0-email_id').val().substr(maxl - 4, maxl) != '.edu')) {
+                alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
+                valid = false;
+                return false;
+            }
+        }
+        return valid;
+    }
+
+
     $(document).on('click', '.add-form-row', function(e){
         e.preventDefault();
-        // var validinput = validateForm();
-        var initialcheck = validatecontact();
+        //var validinput = validateForm();
+        var initialcheck = firstcontact();
         if((initialcheck === true)) {
             $('.error').remove();
             cloneMore('.form-row:last', 'form');
@@ -750,8 +782,8 @@ console.log(dataarray[3]);
 <script>
     $('#submit').click(function () {
     // e.preventDefault();
-   var submitcheck = validatecontact();
-   if((submitcheck === true)) {
+   // var submitcheck = validatecontact();
+   // if((submitcheck === true)) {
        if($('#terms').is(":checked")){
         return true;
     }
@@ -759,11 +791,11 @@ console.log(dataarray[3]);
         alert("Please Accept the terms and conditions before submitting");
         return false;
     }
-   }
-   else{
+   // }
+   // else{
        // alert("Add Contact Details");
-       return false;
-   }
+       // return false;
+   // }
 
 });
 

@@ -615,7 +615,8 @@ def editProject(request,pk):
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0,min_num=1, can_delete=True,  form=AddProjectCampusPartnerForm)
-    #print('print input to edit')
+    sub_category_edit = inlineformset_factory(Project, ProjectSubCategory, extra=0, min_num=1, can_delete=True, form=AddSubCategoryForm)
+    print('print input to edit')
 
     if request.method == 'POST':
         # cache.clear()
@@ -627,13 +628,14 @@ def editProject(request,pk):
         formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
+        formset_subcatdetails = sub_category_edit(request.POST, request.FILES, instance=x, prefix='sub_category_edit')
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
 
                 instances = project.save()
                 pm = formset_missiondetails.save()
                 compar= formset_comm_details.save()
                 campar= formset_camp_details.save()
-
+                subcat = formset_subcatdetails.save()
                 for k in pm:
                     k.project_name = instances
                     k.save()
@@ -643,6 +645,9 @@ def editProject(request,pk):
                 for l in campar:
                     l.project_name= instances
                     l.save()
+                for sc in subcat:
+                    sc.project_name = instances
+                    sc.save()
                 projects_list = []
                 camp_part_names = []
                 course_list = []
@@ -662,6 +667,7 @@ def editProject(request,pk):
                         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
                         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                         proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                        subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
                         for proj_camp_par in proj_camp_par:
                             camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
                             #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
@@ -682,7 +688,7 @@ def editProject(request,pk):
                                 'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
                                 'total_uno_faculty': x.total_uno_faculty,
                                 'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                                'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                                'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'subc':subc,
                                 'camp_part': list_camp_part_names,
                                 }
 
@@ -697,7 +703,7 @@ def editProject(request,pk):
 
             for x in proj_edit:
                 project = ProjectForm2(request.POST or None, instance=x)
-            course = CourseForm(instance = x)
+                course = CourseForm(instance = x)
 
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
@@ -706,10 +712,12 @@ def editProject(request,pk):
             formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
+            formset_subcat_details = sub_category_edit(instance=x, prefix='sub_category_edit')
             return render(request, 'projects/editProject.html', {'project': project, 'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
-                                                   'formset_camp_details':formset_camp_details})
+                                                   'formset_camp_details':formset_camp_details,
+                                                    'formset_subcat_details':formset_subcat_details})
 
 
 # @login_required()

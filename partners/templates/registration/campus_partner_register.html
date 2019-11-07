@@ -129,44 +129,44 @@
         overflow: hidden;
         background-color: #f1f1f1;
     }
-    .redbutton{
-        background-color: white; /* Green */
-        border: 2px solid #b60000;
-        color: black;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .redbutton:hover{
-        text-decoration: underline;
-        color: white;
-        background-color: #b60000;
-    }
-    .blackbutton{
-        background-color: white; /* Green */
-        border: 2px solid black;
-        color: black;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .blackbutton:hover{
-        text-decoration: underline;
-        color: white;
-        background-color: black;
-    }
+    /*.redbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid #b60000;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.redbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: #b60000;*/
+    /*}*/
+    /*.blackbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid black;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.blackbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: black;*/
+    /*}*/
 
 
     .addbutton{
@@ -548,6 +548,7 @@
 {% block custom_js %}
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script type="text/javascript" >
+     var contactdataarray=[];
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
         var replacement = prefix + '-' + ndx;
@@ -572,18 +573,34 @@
 
                 var type = $('#id_' + name).val();
                 dataarray.push(type);
-                 name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
-                var id = 'id_' + name;
+                contactdataarray.push(type);
+                // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
+                // {
+                //   console.log("success");
+                //   alert("Cannot add empty contact");
+                //
+                // }
 
-                $(this).attr({'name': name, 'id': id}).val('');
-                $(this).css('border-color','gray');
-                return;
+
+                    name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+
+                    $(this).attr({'name': name, 'id': id}).val('');
+                    $(this).css('border-color', 'gray');
+                    return;
             }
             var deletename= "form-"+(total-1);
-        var table = '<tr><td>'+dataarray[0]+' ' +dataarray[1]+'</td><td>'+dataarray[2] +
-            '<td align="center"><i name="'+deletename+'" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
-            $('#contact-fields').show();
-            $("#" + prefix + "-body").append(table);
+            if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
+                {
+                  console.log("success");
+                  alert("Cannot add empty contact");
+
+                }else {
+                var table = '<tr><td>' + dataarray[0] + ' ' + dataarray[1] + '</td><td>' + dataarray[2] +
+                    '<td align="center"><i name="' + deletename + '" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
+                $('#contact-fields').show();
+                $("#" + prefix + "-body").append(table);
+            }
 
         });
         total++;
@@ -771,6 +788,20 @@
     $(document).on('click', '.add-form-row', function(e){
         e.preventDefault();
         //var validinput = validateForm();
+        console.log("entering clonemore add button");
+        console.log(contactdataarray);
+
+        // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
+        //  {
+        //      console.log("success");
+        //    alert("Cannot add empty contact");
+        //
+        // }
+        // else{
+        //     console.log("entered the addition condition");
+        //      cloneMore('.form-row:last', 'form');
+        //     return true;
+        // }
         var initialcheck = firstcontact();
         if((initialcheck === true)) {
             $('.error').remove();
@@ -796,6 +827,7 @@
 
 <script>
     $('#submit').click(function () {
+        // alert("contactdataarray--"+contactdataarray.length)
     // e.preventDefault();
    // var submitcheck = validatecontact();
    // if((submitcheck === true)) {
@@ -938,6 +970,7 @@ $(document).ready(function() {
         var elmForm = $("#form-step-"+stepNumber);
         if(stepDirection === 'forward') {
             if (stepNumber === 0) {
+
                 if(($("#id_name").val() === '')){
                     alert("Please provide Partner Name to proceed.");
                     return false
@@ -945,13 +978,22 @@ $(document).ready(function() {
                 if( ($("#id_college_name").val() === '') ){
                     alert("Please Select a College.");
                     return false
-                };
+                }
+
+
             }
+         $('#submit').show();
+            $('#termsdiv').show();
 
         }
-
+if (stepDirection === 'backward') {
+            $('#submit').hide();
+            $('#termsdiv').hide();
+        }
         return true;
     });
+        $('#submit').hide();
+        $('#termsdiv').hide();
 
     $(".collapse.show").each(function(){
         $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");

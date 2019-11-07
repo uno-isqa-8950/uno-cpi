@@ -29,8 +29,8 @@ A.class1:link  {text-decoration: underline; color: red;}
         <div class="collapse show" id="collapseExample">
             <form id="streamform" action="{% url 'stream_response' %}" method="POST">
                   {% csrf_token %}
-                  <input type="text" name="projectName" id="projectName" class="form-control" value =" " onclick="checking();"
-                                      placeholder="Desired projectName" />
+                  <input type="text" name="projectName" id="projectName" class="form-control" value ="{{projectName}}" onclick="checking(); "
+                                      placeholder="Desired projectName" >
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type"> Community Partner Types
@@ -74,7 +74,7 @@ A.class1:link  {text-decoration: underline; color: red;}
                 </div>
 
 
-                  <input class="btn btn btn-secondary btn-md" type="submit"  value="search" id="streambutton" />
+                  <input class="btn btn btn-secondary btn-md" type="submit"  value="search" id="streambutton"  />
                 </form>
             </div>
 
@@ -151,31 +151,46 @@ A.class1:link  {text-decoration: underline; color: red;}
                  </div>
 <!--{% for project in data_list %}-->
 {% if flagBit == 1 %}
-<script>document.getElementById('node1-id').innerHTML =
+<script>
+
+
+document.getElementById('node1-id').innerHTML =
+
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
-                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+
+
 </script>
 {% endif %}
 
 {% if flagBit == 2 %}
         <script>
+
         document.getElementById('node1-id').innerHTML =
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
 
+        <!--var projectName = document.getElementById('projectName').value;-->
+
+
+
+        var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+
         </script>
 {% endif %}
 
-{% if flagBit == 3 %}
+{% if flagBit == 0 %}
         <script>
+
+        <!--var projectName = document.getElementById('projectName').value;-->
+        var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
@@ -376,7 +391,7 @@ A.class1:link  {text-decoration: underline; color: red;}
                                <!--&lt;!&ndash;{% if data_definition.id == 2%}&ndash;&gt;-->
                                 <!--&lt;!&ndash;<span tabindex="-1" data-toggle="popover" data-trigger="focus"&ndash;&gt;-->
                                       <!--&lt;!&ndash;data-content="{{ data_definition.description }}" class="float" >&ndash;&gt;-->
-                                        <!--&lt;!&ndash;<i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>&ndash;&gt;-->
+                                         <!--&lt;!&ndash;<i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>&ndash;&gt;-->
                                <!--&lt;!&ndash;{% endif %}&ndash;&gt;-->
                             <!--&lt;!&ndash;{% endfor %}&ndash;&gt;-->
 
@@ -453,11 +468,11 @@ A.class1:link  {text-decoration: underline; color: red;}
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#project_name').attr({placeholder: 'Project Name',width: '225px'});
-    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '225px'});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#projectName').attr({placeholder: 'Project Name',width: '225px'});
+    $('#communityPartner').select2({placeholder: 'All Community Partner Types',width: '225px'});
+    $('#academicYear').select2({placeholder: 'All Academic Years',width: '225px'});
     $('#id_endacademicyear').select2({placeholder: 'All Academic Years',width: '225px'});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '225px',
+    $('#campusPartner').select2({placeholder: 'All Campus Partners',width: '225px',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.soProjectsDatart(function (a, b) {
@@ -473,13 +488,13 @@ $(document).ready(function(){
                                         }});
     });
 // submit when enter-Parimita
-$("#project_name").keyup(function(event){
+$("#projectName").keyup(function(event){
       if(event.keyCode== 13){
         $("#Search").click();
         }
     });
 // added for submit by Naresh
-$('#project_name').addClass('clearable');
+$('#projectName').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
 $(document).on('input', '.clearable', function(){
     $(this)[tog(this.value)]('x');
@@ -512,7 +527,16 @@ $(document).on('input', '.clearable', function(){
                 $('#example_filter').find('input').addClass('clearable');
             });
                } );
+        $('#lnk-create_project').click(function(){
 
+
+        var projectName = $('#projectName').val();
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+       });
                     $(function () {
                         $('[data-toggle="popover"]').popover()
                     })

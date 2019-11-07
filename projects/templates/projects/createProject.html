@@ -1146,7 +1146,7 @@ $(document).on('click', '.remove-sub_category-row', function(e){
 {#   Js to show the course form if some error happens after the form #}
 <script>
 window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
+    const urlParams = new URLSearchParams(window.location.search);
     const projectName = urlParams.get('p_name');
     $("#id_project_name").val(projectName);
   var val = $("#id_activity_type").find("option:selected").text();

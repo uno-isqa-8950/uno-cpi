@@ -25,7 +25,10 @@ q = "SELECT p.id, project_name, legislative_district, k12_flag, pm.mission_id, m
     "   where project_name_id = p.id), ', ') as community_partner_ids), " \
     "(select array_to_string (array (select campus_partner_id from projects_projectcampuspartner " \
     "	where project_name_id = p.id), ', ') as campus_partner_ids), " \
-    "academic_year_id, end_academic_year_id " \
+    "(select array_to_string (array (select sub_category_id from projects_projectsubcategory " \
+    "	where project_name_id = p.id), ', ') as subcategory_ids), " \
+    "(select array_to_string (array (select id from projects_academicyear " \
+    "	where id >= academic_year_id and (id <= end_academic_year_id or end_academic_year_id is null)), ', ') as yr_ids) " \
     "FROM projects_project p " \
     "LEFT JOIN projects_projectmission pm " \
     "	ON p.id = pm.project_name_id " \
@@ -38,25 +41,6 @@ projects = cursor.fetchall()
 records = len(projects)
 projs = []
 for p in projects:
-    q = "SELECT sub_category_id, sub_category " \
-        "FROM projects_projectsubcategory " \
-        "LEFT JOIN projects_subcategory sub " \
-        "	ON sub_category_id = sub.id " \
-        "WHERE project_name_id = %(x)s ;"
-    cursor.execute(q, {'x':p[0]})
-    subcats = cursor.fetchall()
-    subs = []
-    for s in subcats:
-        res = {'subcategory_id': s[0], 'subcategory_name':s[1]}
-        subs.append(res)
-    q = "select id, academic_year from projects_academicyear " \
-        "   where id >= %(x1)s and (id <= %(x2)s or %(x2)s is null) ;"
-    cursor.execute(q, {'x1': p[10], 'x2': p[11]})
-    years = cursor.fetchall()
-    yrs = []
-    for y in years:
-        res = {'year_id': y[0], 'acad_yr_name': y[1]}
-        yrs.append(res)
     mission = {'mission_id': p[4], 'mission_name': p[5]}
     engagement = {'engagement_type_id': p[6], 'engagement_type_name': p[7]}
     if (p[8]):
@@ -64,6 +48,11 @@ for p in projects:
     else:
         community_partner_ids = []
     campus_partner_ids = [int(e) for e in p[9].split(', ')]
+    if (p[10]):
+        subcats = [int(e) for e in p[10].split(', ')]
+    else:
+        subcats = []
+    yrs = [int(e) for e in p[11].split(', ')]
     res = {'project_id': p[0], 'project_name': p[1], 'primary_mission_area':mission, 'engagement_type':engagement,'legislative_district': p[2], 'k12_flag': p[3], 'community_partner_ids': community_partner_ids, 'campus_partner_ids': campus_partner_ids, 'subcategories': subcats, 'years':yrs}
     projs.append(res)
 jsonstring = pd.io.json.dumps(projs)

@@ -98,7 +98,6 @@ for (m in missionList) {
       var y_items = new Set();
       projs.forEach(function(feature) {
          if (y_axis === "years") {
-            // y_label.concat("Years of Engagement");
             y_label = "Years of Engagement";
             feature["years"].forEach(item => y_items.add(item));
          } else if (y_axis === "engagement") {

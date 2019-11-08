@@ -92,7 +92,8 @@ class CecPartnerStatusResource(resources.ModelResource):
 
     class Meta:
         model = CecPartnerStatus
-        fields = ('name', 'description')
+        fields = ('id','name', 'description')
+        import_id_fields = ['id','name','description']
 
 
 class CecPartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -130,7 +131,9 @@ class PartnerStatusResource(resources.ModelResource):
 
     class Meta:
         model = PartnerStatus
-        fields = ('name', 'description')
+        fields = ('id','name', 'description')
+        import_id_fields = ['id','name','description']
+
 
 
 class PartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):

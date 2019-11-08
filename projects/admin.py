@@ -102,6 +102,9 @@ class ActivityTypeResource(resources.ModelResource):
 
     class Meta:
         model = ActivityType
+        fields = ('id','name','description')
+        import_id_fields = ['id','name','description']
+
 
 class ActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
@@ -109,12 +112,13 @@ class ActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     search_fields = ('name',)
 
-    resource_class = ActivityType
+    resource_class = ActivityTypeResource
 
 
 class EngagementActivityTypeResource(resources.ModelResource):
      class Meta:
          model = EngagementActivityType
+         import_id_fields = ['id','EngagementTypeName','ActivityTypeName']
 
 
 class EngagementActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -134,21 +138,9 @@ class ProjectEngagementActivityResource(resources.ModelResource):
 
 class ProjectEngagementActivityList(admin.ModelAdmin):
 
-
-
-
-
     list_display = ('ProjectName', )
-
     search_fields = ('Project Name', 'ProjectEngagement Activity Name')
-
-
-           # return self.ProjectEngagementActivity.ProjectEngagementActivityName.EngagementTypeName
-
     resource_class = ProjectEngagementActivityResource
-
-
-
 
 
 class StatusList(admin.ModelAdmin):
@@ -186,8 +178,8 @@ class ProjectRelatedLinksList (SimpleHistoryAdmin, ImportExportModelAdmin):
 class SubCategoryResource (resources.ModelResource):
     class Meta:
         model = SubCategory
-        fields = ('sub_category', 'sub_category_descr')
-        import_id_fields = ['sub_category']
+        fields = ('id','sub_category', 'sub_category_descr')
+        import_id_fields = ['id','sub_category','sub_category_descr']
 
 
 class SubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
@@ -216,7 +208,7 @@ class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
 class MissionSubCategoryResource(resources.ModelResource):
     class Meta:
         model = MissionSubCategory
-        import_id_fields = ['sub_category','secondary_mission_area']
+        import_id_fields = ['id','sub_category','secondary_mission_area']
 
 
 class MissionSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):

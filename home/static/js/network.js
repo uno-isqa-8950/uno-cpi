@@ -209,30 +209,35 @@ Highcharts.chart('container', {
 },function(chart) { // on complete
 
 
-var titletext='Mission Areas: '
-var i;
-for (i=0;i<Missionarea.length;i++){
-    var missionname=Missionarea[i]
-    var selectedcolor = colorCodeObject[Missionarea[i]]
-    titletext += "<br><span></span></span><span style='color:"+selectedcolor+"'>"+ missionname+"</span>";
-}
+        var titletext = "<span style='color:red'> ▲College and Main Units</span><br>"+
+               "<span style=color: 'black'> ▲Campus Partners</span> <br> "+"    Mission Areas:"
+        var i;
+        for (i = 0; i < Missionarea.length; i++) {
+            var missionname = Missionarea[i]
+            var selectedcolor = colorCodeObject[Missionarea[i]]
+            titletext += "<br><span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>";
+        }
 
-chart.update({
-    legend: {
-        // enabled:true,
-        title: {
-            text: titletext,
-            style: {
-                fontStyle: 'Bold'
-            }
-        },
-        layout: 'vertical',
-        align: 'right',
-        verticalAlign: 'top',
-        x: -10,
-        y: 100
-                }
-                 })
+        chart.update({
+            legend: {
+                // enabled:true,
+                title: {
+                    text: titletext,
+                    style: {
+                        fontStyle: 'Bold'
+                    }
+                },
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100
+            },
+
+        })
+
+
+
     }
 );
 

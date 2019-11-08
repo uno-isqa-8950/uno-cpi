@@ -104,7 +104,7 @@ STATE_CHOICES = [(' ','------'),
 class CommunityPartnerForm(forms.ModelForm):
     website_url = forms.URLField(max_length=200,label='Your Website', required=False)
     address_line1 = forms.CharField(max_length=200,label='Address', required=False)
-    acronym = forms.CharField(max_length=4, label='Acronym', required=False)
+    acronym = forms.CharField(max_length=15, label='Acronym', required=False)
     online_only = forms.BooleanField(required=False)
     country = forms.ChoiceField(choices=COUNTRY_CHOICES, required=False)
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)

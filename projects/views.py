@@ -4,6 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from numpy import shape
 
 import home
+from django.views.decorators.csrf import csrf_exempt
 from home.decorators import communitypartner_required, campuspartner_required, admin_required
 from home.views import gmaps
 from partners.views import district, countyData
@@ -140,6 +141,103 @@ def ajax_load_project(request):
         'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
     }
     return JsonResponse(data)
+
+@login_required
+@csrf_exempt
+def saveProjectAndRegister(request):
+    print('in th ajax save')
+    name = request.GET.get('name')
+    description = request.GET.get('description')
+    engagement_type = request.GET.get('engagement_type')
+    activity_type = request.GET.get('activity_type')
+    start_semester = request.GET.get('start_semester')
+    start_academic_yr = request.GET.get('start_academic_yr')
+    end_semester = request.GET.get('end_semester')
+    end_academic_yr = request.GET.get('end_academic_yr')
+    uno_students = request.GET.get('uno_students')
+    uno_students_hrs = request.GET.get('uno_students_hrs')
+    k12_students = request.GET.get('k12_students')
+    k12_students_hrs = request.GET.get('k12_students_hrs')
+    k12_involvment_flag = request.GET.get('k12_involvment_flag')
+    comm_list = request.GET.get('selectedCommIds')
+    campus_list = request.GET.get('selectedCampusIds')
+    k12_flag_value = False
+
+    print('campus_list--',campus_list)
+    print('comm_list--',comm_list)
+    print('name--',name)
+    print('description--',description)
+    print('engagement_type--',engagement_type)
+    print('activity_type--',activity_type)
+    print('start_semester--',start_semester)
+    print('start_academic_yr--',start_academic_yr)
+    print('end_semester--',end_semester)
+    print('end_academic_yr--',end_academic_yr)
+    print('uno_students--',uno_students)
+    print('uno_students_hrs--',uno_students_hrs)
+    print('k12_students--',k12_students)
+    print('k12_students_hrs--',k12_students_hrs)
+    print('k12_involvment_flag--',k12_involvment_flag)
+    if k12_involvment_flag == 'on':
+        k12_flag_value = True
+    
+
+    project = Project(project_name=name,description=description,semester=start_semester,\
+        end_semester=end_semester,\
+        total_uno_students=uno_students,total_uno_hours=uno_students_hrs,k12_flag=k12_flag_value,\
+        total_k12_students=k12_students,total_k12_hours=k12_students_hrs)
+    if start_academic_yr != '' and start_academic_yr is not None:
+        print('test--',AcademicYear.objects.get(id=start_academic_yr))
+        project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
+
+    project.save()
+    projectId = project.pk
+    print(projectId)
+
+    if comm_list != '' or comm_list is not None:
+        print('comm_list--in if cond-',comm_list)
+        if comm_list.find(",") != -1:
+            comm_Id_list =comm_list.split(",")
+        else:
+            comm_Id_list = comm_list
+
+        print('comm_Id_list--',comm_Id_list)
+        for commId in comm_Id_list:
+           print('commId--',commId)
+           comm_obj =  CommunityPartner.objects.get(id=commId)
+           print('comm_obj--',comm_obj)
+           proj_obj =  Project.objects.get(id=projectId)
+           print('proj_obj--',proj_obj)
+           projComm = ProjectCommunityPartner(project_name=proj_obj,community_partner=comm_obj)
+           print('projComm---',projComm)
+           projComm.save()
+
+    if campus_list != '' or campus_list is not None:
+        print('campus_list--in if cond-',campus_list)
+        if campus_list.find(",") != -1:
+            camp_id_list =campus_list.split(",")
+        else:
+            camp_id_list = campus_list
+
+        print('camp_id_list--',camp_id_list)
+        for campId in camp_id_list:
+           print('campId--',campId)
+           camp_obj =  CampusPartner.objects.get(id=campId)
+           print('camp_obj--',camp_obj)
+           proj_obj =  Project.objects.get(id=projectId)
+           print('proj_obj--',proj_obj)
+           projCamp_obj = ProjectCampusPartner(project_name=proj_obj,campus_partner=camp_obj)
+           print('projCamp_obj---',projCamp_obj)
+           projCamp_obj.save()
+          
+    data = {
+        'save_projectId' : projectId
+    }
+    return JsonResponse(data)
+
+    
+
+
 
 @login_required()
 def createProject(request):
@@ -615,7 +713,8 @@ def editProject(request,pk):
     mission_edit_details = inlineformset_factory(Project,ProjectMission, extra=0,min_num=1,can_delete=True, form=ProjectMissionEditFormset)
     proj_comm_part_edit = inlineformset_factory(Project,ProjectCommunityPartner, extra=0,min_num=1, can_delete=True, form=AddProjectCommunityPartnerForm)
     proj_campus_part_edit = inlineformset_factory(Project,ProjectCampusPartner, extra=0,min_num=1, can_delete=True,  form=AddProjectCampusPartnerForm)
-    #print('print input to edit')
+    sub_category_edit = inlineformset_factory(Project, ProjectSubCategory, extra=0, min_num=1, can_delete=True, form=AddSubCategoryForm)
+    print('print input to edit')
 
     if request.method == 'POST':
         # cache.clear()
@@ -627,13 +726,14 @@ def editProject(request,pk):
         formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
         formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
         formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
+        formset_subcatdetails = sub_category_edit(request.POST, request.FILES, instance=x, prefix='sub_category_edit')
         if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
 
                 instances = project.save()
                 pm = formset_missiondetails.save()
                 compar= formset_comm_details.save()
                 campar= formset_camp_details.save()
-
+                subcat = formset_subcatdetails.save()
                 for k in pm:
                     k.project_name = instances
                     k.save()
@@ -643,6 +743,9 @@ def editProject(request,pk):
                 for l in campar:
                     l.project_name= instances
                     l.save()
+                for sc in subcat:
+                    sc.project_name = instances
+                    sc.save()
                 projects_list = []
                 camp_part_names = []
                 course_list = []
@@ -662,6 +765,7 @@ def editProject(request,pk):
                         projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
                         cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                         proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                        subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
                         for proj_camp_par in proj_camp_par:
                             camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
                             #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
@@ -682,7 +786,7 @@ def editProject(request,pk):
                                 'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
                                 'total_uno_faculty': x.total_uno_faculty,
                                 'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                                'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                                'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'subc':subc,
                                 'camp_part': list_camp_part_names,
                                 }
 
@@ -697,7 +801,7 @@ def editProject(request,pk):
 
             for x in proj_edit:
                 project = ProjectForm2(request.POST or None, instance=x)
-            course = CourseForm(instance = x)
+                course = CourseForm(instance = x)
 
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
@@ -706,10 +810,12 @@ def editProject(request,pk):
             formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
+            formset_subcat_details = sub_category_edit(instance=x, prefix='sub_category_edit')
             return render(request, 'projects/editProject.html', {'project': project, 'course': course,
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
-                                                   'formset_camp_details':formset_camp_details})
+                                                   'formset_camp_details':formset_camp_details,
+                                                    'formset_subcat_details':formset_subcat_details})
 
 
 # @login_required()
@@ -2457,3 +2563,9 @@ def myDrafts(request):
              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
+
+@login_required()
+def drafts_delete(request,pk):
+    draft_delete = get_object_or_404(Project, pk=pk)
+    draft_delete.delete()
+    return HttpResponseRedirect("/myDrafts")

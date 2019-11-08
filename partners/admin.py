@@ -18,9 +18,9 @@ class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('name', 'website_url', 'community_type', 'k12_level',
 
                      'address_line1', 'address_line2', 'country', 'county','city', 'state', 'zip', 'latitude', 'longitude',
-                    'active', 'weitz_cec_part','legislative_district')
+                    'active', 'weitz_cec_part','legislative_district', 'partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'county','city', 'website_url', 'active')
+    search_fields = ('name', 'county','city', 'website_url', 'active','partner_status', 'cec_partner_status')
 
     resource_class = CommunityPartnerResource
 
@@ -32,13 +32,15 @@ class CampusPartnerResource(resources.ModelResource):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system')
+        fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system',
+                  'cec_partner_status', 'partner_status')
 
 class CampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
-    list_display = ('name', 'college_name','department','weitz_cec_part','active')
+    list_display = ('name', 'college_name','department','weitz_cec_part','active','partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active')
+    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active',
+                     'partner_status', 'cec_partner_status')
 
     resource_class = CampusPartnerResource
 

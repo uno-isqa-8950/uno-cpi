@@ -428,7 +428,6 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    document.getElementById("valueFilter").value = "";
     if (event.target == valueFilter){
         return
     }
@@ -444,7 +443,6 @@ selectFilters.addEventListener("change", function(event) {
         filterMarkers();
         $('#totalnumber').html(getClusterSize());
     }
-     $('#totalnumber').html(getClusterSize());
 });
 
 var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));
@@ -462,9 +460,7 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-      resetFiltersOnSearchComm();
     if (e.keyCode == 8 || e.keyCode == 46) {
-     
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
             markerCluster.clearMarkers(markers[i]);
@@ -474,7 +470,7 @@ valueFilter.addEventListener("keydown", function (e) {
 });
 
 // the listening button off
-valueFilter.addEventListener("keyup", function (e) { 
+valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
 
@@ -502,32 +498,6 @@ valueFilter.addEventListener("keyup", function (e) {
         $('#totalnumber').html(getClusterSize());
     }
 });
-
-function resetFiltersOnSearchComm (){
-
-    const defaultFilterObject = {
-        "selectMission":        "All Mission Areas",
-        "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
-        "selectDistrict":       "All Legislative Districts",
-        "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
-    };
-    Object.assign(filters, defaultFilterObject);
-    for (const filter in filters) {
-        $('#' + filter).val(`${filters[filter]}`);
-    }
-
-    var select3 = '';
-    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
-    for (i = 0; i < CampusPartnerlist.length; i++) {
-        select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
-    }
-    $('#selectCampus').html(select3);
-
-    filterMarkers();
-    $('#totalnumber').html(getClusterSize()); 
-}
 
 $("#reset").click(function () {
     const defaultFilterObject = {

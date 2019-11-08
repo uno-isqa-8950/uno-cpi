@@ -129,44 +129,44 @@
         overflow: hidden;
         background-color: #f1f1f1;
     }
-    .redbutton{
-        background-color: white; /* Green */
-        border: 2px solid #b60000;
-        color: black;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .redbutton:hover{
-        text-decoration: underline;
-        color: white;
-        background-color: #b60000;
-    }
-    .blackbutton{
-        background-color: white; /* Green */
-        border: 2px solid black;
-        color: black;
-        padding: 8px 16px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 4px 2px;
-        -webkit-transition-duration: 0.4s; /* Safari */
-        transition-duration: 0.4s;
-        cursor: pointer;
-    }
-    .blackbutton:hover{
-        text-decoration: underline;
-        color: white;
-        background-color: black;
-    }
+    /*.redbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid #b60000;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.redbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: #b60000;*/
+    /*}*/
+    /*.blackbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid black;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.blackbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: black;*/
+    /*}*/
 
 
     .addbutton{
@@ -314,7 +314,7 @@
 </style>
 
 
-
+<form action="." onfocusout="return validateForm()" method ="post">
     <div class = "container-fluid">
 
         <div class="row justify-content-md-center">
@@ -330,7 +330,7 @@
                                     {% cam_part_regs %}
                                 </div>
                              </div>
-                        <form action="." onfocusout="return validateForm()" method ="post">
+
                         {% csrf_token %}
                         <div id="smartwizard">
                             <ul>
@@ -364,7 +364,6 @@
                                         </div>
                                     </div>
                                 </div>
-
                                 <div id="step-2">
                                     <div class="row"><br></div>
 <!--                                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
@@ -381,71 +380,42 @@
                                         <div class="panel-body">
                                             <br>
                                             <div class="row form-row">
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Contact Type <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.contact_type|bootstrap}}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label>First Name <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.first_name|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
+                                                            <label style="padding-top: 13px">First Name <span style="color:red;">*</span></label>
 
-                                                            <label>Work Phone <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.work_phone|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                        <div class="col-md-4">
-                                                            <label>Email <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.email_id|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
 
-                                                            <label>Last Name <span style="color:red;">*</span></label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.last_name|bootstrap }}
-                                                        </div>
-                                                    </div>
-                                                    <div class="row">
-                                                        <div class="col-md-4">
+                                                <span style="padding-left: 25px">{{ form.first_name|bootstrap }}</span>
 
-                                                            <label>Cell Phone</label>
-                                                        </div>
-                                                        <div class="col-md-7">
-                                                            {{ form.cell_phone|bootstrap }}
-                                                        </div>
-                                                    </div>
 
-                                                </div>
-                                                <div class="col centered">
-                                                    <button class="addbutton add-form-row"><i class="fa fa-plus-square" style="color: white"></i> Add an Additional Contact </button>
+
+                                                           <label style="padding-top: 13px">Last Name <span style="color:red;">*</span></label>
+
+                                                <span style="padding-left: 25px">{{ form.last_name|bootstrap }}</span>
+
+
+
+
+                                                            <label style="padding-top: 13px">Email <span style="color:red;">*</span></label>
+
+                                                <span style="padding-left: 25px">{{ form.email_id|bootstrap }}</span>
+
+
+
+
+
+
+
+
+                                                <div class="col" style="padding-left: 30px">
+                                                    <!--<button class="add-form-row" style="background-color: white; border:none;border-color: white"><i class=" centered fa fa-plus-square fa-2x"></i> </button>-->
+
+                                                    <button class="add-form-row  centered fa fa-plus-square fa-2x" style="background-color: white; border:none;border-color: white;padding-top: 13px;"> </button>
                                                 </div>
                                             </div>
                                             <div id="contact-fields">
                                                 <br>
                                                 <table class="table table-bordered table-striped">
-                                                    <thead><th>Contact Type</th><th>Name</th><th>Number</th><th>Email Address</th><th>Delete Entry</th>
+                                                    <thead><th>Name</th><th>Email Address</th><th>Delete Entry</th>
                                                     </thead>
                                                     <tbody id = "form-body">
                                                     </tbody>
@@ -456,27 +426,41 @@
                                     </div>
                                     {% endfor %}
 
-                                        <div class="container-fluid">
-<br>
-        <div class="row centered" id="termsdiv">
-            <p><input type="checkbox" id="terms">
-                I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
-                of the Community Partnership Initiative.</p>
-        </div>
-        <div class="row centered" style="margin-top:30px;">
 
-            <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
-        </div>
+<br>
+
     </div>
+
                                 </div>
                             </div>
+
+
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
+    <div class ="container-fluid">
+        <div class="row centered" id="termsdiv">
+                                    <p><input type="checkbox" id="terms">
+                                        I agree to the <a style="color: #d71920"
+                                                          href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf"
+                                                          target="_blank">Terms & Conditions</a>
+                                        of the Community Partnership Initiative.</p>
+                                </div>
+        <div class="row centered" style="margin-top:30px;">
+
+                                    <button type="submit" value="submit" name="submit" id="submit"
+                                            class="save blackbutton">Submit
+                                    </button>
+                                    <button name="cancel" id="cancel" class="redbutton">Cancel</button>
+
+                                </div>
+
+
     </div>
+
+</form>
 
 
 
@@ -564,6 +548,8 @@
 {% block custom_js %}
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script type="text/javascript" >
+     var contactdataarray=[];
+     var cnt = 0;
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
         var replacement = prefix + '-' + ndx;
@@ -579,7 +565,12 @@
     }
 
     function cloneMore(selector, prefix) {
+
         var newElement = $(selector).clone(true);
+
+        cnt++;
+        $(selector).attr('data-id', cnt);
+
         var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
         var dataarray=[];
         newElement.find(':input').each(function () {
@@ -588,21 +579,30 @@
 
                 var type = $('#id_' + name).val();
                 dataarray.push(type);
-                 name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
-                var id = 'id_' + name;
+                contactdataarray.push(type);
 
-                $(this).attr({'name': name, 'id': id}).val('');
-                $(this).css('border-color','gray');
-                return;
+
+
+                    name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+
+                    $(this).attr({'name': name, 'id': id}).val('');
+                    $(this).css('border-color', 'gray');
+                    return;
             }
             var deletename= "form-"+(total-1);
-        var table = '<tr><td>'+dataarray[0]+'</td><td>'+dataarray[1]+' ' +dataarray[4]+'</td><td>'+dataarray[2]+'<br>'+dataarray[5]+'</td><td>'+dataarray[3]+'</td>' +
-            '<td align="center"><i name="'+deletename+'" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
-            $('#contact-fields').show();
-            $("#" + prefix + "-body").append(table);
+
+                var table = '<tr><td>' + dataarray[0] + ' ' + dataarray[1] + '</td><td>' + dataarray[2] +
+                    '<td align="center"><i data-id = "' + cnt + '" name="' + deletename + '" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
+                $('#contact-fields').show();
+                $("#" + prefix + "-body").append(table);
+
+
         });
         total++;
+
         $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+
         $(selector).after(newElement);
         var conditionRow = $('.' + prefix + '-row:not(:last)');
         conditionRow.hide();
@@ -638,19 +638,39 @@
         return false;
     }
 
+    function validateall() {
+        var valid = true;
+        var total = $( "div.form-row[data-id]" ).length;
+        if (total == 0) {
+            alert('You need to add at least one contact');
+            valid = false;
+        }
+
+        //console.log('filled forms: ' + total);
+        $('.form-row:last').find(':input').each(function () {
+            if ($(this).val() != '') {
+                alert('Please enter all the data and press + button to add contact');
+                valid = false;
+                return false;
+            }
+
+        });
+
+        return valid;
+    }
     function validatecontact(){
         var valid = true;
         $('.form-row').find(':input').each(function () {
             var name = $(this).attr('name');
             if (name !== undefined) {
-                if (name.includes("contact_type")){
-                    if ($(this).val() === null) {
-                        alert("Select Contact Type");
-                        $(this).css("border-color","red");
-                        valid = false;
-                        return false;
-                    }
-                }
+                // if (name.includes("contact_type")){
+                //     if ($(this).val() === null) {
+                //         alert("Select Contact Type");
+                //         $(this).css("border-color","red");
+                //         valid = false;
+                //         return false;
+                //     }
+                // }
                 if (name.includes("first_name")){
                     if ($(this).val() === '') {
                         alert("Provide First Name");
@@ -684,14 +704,7 @@
                     }
                     }
                 }
-                if(name.includes("work_phone")) {
-                    if ($(this).val() === '') {
-                        alert("Provide Work Phone Number");
-                        $(this).css("border-color", "red");
-                        valid = false;
-                        return false;
-                    }
-                }
+
             }
         });
 
@@ -746,9 +759,26 @@
 //     return valid;
 // }
 
+
+
+
     $(document).on('click', '.add-form-row', function(e){
         e.preventDefault();
-        // var validinput = validateForm();
+        //var validinput = validateForm();
+        console.log("entering clonemore add button");
+        console.log(contactdataarray);
+
+        // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
+        //  {
+        //      console.log("success");
+        //    alert("Cannot add empty contact");
+        //
+        // }
+        // else{
+        //     console.log("entered the addition condition");
+        //      cloneMore('.form-row:last', 'form');
+        //     return true;
+        // }
         var initialcheck = validatecontact();
         if((initialcheck === true)) {
             $('.error').remove();
@@ -759,9 +789,12 @@
     });
 
     $(document).on('click', '.remove-form-row', function(e){
+        // alert('del');
         e.preventDefault();
         $(this).closest('tr').remove();
-        deleteForm('form', $(this));
+        //deleteForm('form', $(this));
+        var data_id = $(this).attr('data-id');
+        $( "div.form-row[data-id='" + data_id + "']" ).remove();
         return false;
     });
 
@@ -774,21 +807,24 @@
 
 <script>
     $('#submit').click(function () {
+        // alert('submit');
+        // alert("contactdataarray--"+contactdataarray.length)
     // e.preventDefault();
-   var submitcheck = validatecontact();
-   if((submitcheck === true)) {
-       if($('#terms').is(":checked")){
-        return true;
-    }
-    else {
-        alert("Please Accept the terms and conditions before submitting");
-        return false;
-    }
-   }
-   else{
-       // alert("Add Contact Details");
-       return false;
-   }
+        var submitcheck = validateall();
+        if (submitcheck == true) {
+
+            if ($('#terms').is(":checked")) {
+                return true;
+            }
+            else {
+                alert("Please Accept the terms and conditions before submitting");
+                return false;
+            }
+        }
+        else {
+            // alert("Add Contact Details");
+            return false;
+        }
 
 });
 
@@ -893,18 +929,20 @@ $(document).ready(function() {
             toolbarButtonPosition: 'right',
             showNextButton: 'true',
             showPreviousButton: 'true',
-            toolbarExtraButtons: [
-                $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
-                    if (confirm("Are you sure?")){
-                      window.location = '/partners';
-                    }
-                })
-
-            ]
+            // toolbarExtraButtons: [
+            //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function (e) {
+            //         e.preventDefault()
+            //         if (confirm("Are you sure?")){
+            //           window.location = '/partners';
+            //         }
+            //     })
+            //
+            // ]
         }
     });
 
-    $('#cancel').on('click', function () {
+    $('#cancel').on('click', function (e) {
+        e.preventDefault()
         if (confirm("Are you sure?")){
             window.location = '/partners';
         }
@@ -914,6 +952,7 @@ $(document).ready(function() {
         var elmForm = $("#form-step-"+stepNumber);
         if(stepDirection === 'forward') {
             if (stepNumber === 0) {
+
                 if(($("#id_name").val() === '')){
                     alert("Please provide Partner Name to proceed.");
                     return false
@@ -921,14 +960,22 @@ $(document).ready(function() {
                 if( ($("#id_college_name").val() === '') ){
                     alert("Please Select a College.");
                     return false
-                };
+                }
+
 
             }
+         $('#submit').show();
+            $('#termsdiv').show();
 
         }
-
+if (stepDirection === 'backward') {
+            $('#submit').hide();
+            $('#termsdiv').hide();
+        }
         return true;
     });
+        $('#submit').hide();
+        $('#termsdiv').hide();
 
     $(".collapse.show").each(function(){
         $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");

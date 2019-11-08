@@ -488,6 +488,7 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
+     document.getElementById("valueFilter").value = "";
     if (event.target == valueFilter){
         return
     }
@@ -503,6 +504,7 @@ selectFilters.addEventListener("change", function(event) {
         filterMarkers();
         $('#totalnumber').html(getClusterSize());
     }
+     $('#totalnumber').html(getClusterSize());
 });
 
 
@@ -523,6 +525,7 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
+    resetFiltersOnSearchComm();
     if (e.keyCode == 8 || e.keyCode == 46) {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
@@ -536,13 +539,14 @@ valueFilter.addEventListener("keydown", function (e) {
 valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
-
+    markerCluster.clearMarkers();
     if (value == "") {
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(true);
             markerCluster.addMarker(markers[i]);
         }
         markerCluster.redraw();
+         $('#totalnumber').html(getClusterSize());
     } else {
 
         for (var i = 0; i < markers.length; i++) {
@@ -557,8 +561,39 @@ valueFilter.addEventListener("keyup", function (e) {
             }
         }
         markerCluster.redraw();
+        $('#totalnumber').html(getClusterSize());
     }
 });
+function resetFiltersOnSearchComm (){
+
+    const defaultFilterObject = {
+        "selectEngagement":     "All Engagement Types",
+        "selectMission":        "All Mission Areas",
+        "selectCollege":        "All Colleges and Main Units",
+        "selectCampus":         "All Campus Partners",
+        "selectCommunity":      "All Community Partners",
+        "selectCommunityType":  "All Community Partner Types",
+        "selectDistrict":       "All Legislative Districts",
+        "selectYear":           "All Academic Years"
+    };
+    Object.assign(filters, defaultFilterObject);
+    for (const filter in filters) {
+        console.log(`${filters[filter]}`)
+        $('#' + filter).val(`${filters[filter]}`);
+    }
+    for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
+    var select3 = '';
+    select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
+    for (i = 0; i < CampusPartnerlist.length; i++) {
+        select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
+    }
+    $('#selectCampus').html(select3);
+
+    filterMarkers();
+    $('#totalnumber').html(getClusterSize());
+}
 
 $("#reset").click(function () {
     const defaultFilterObject = {

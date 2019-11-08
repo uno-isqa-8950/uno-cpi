@@ -209,8 +209,8 @@ Highcharts.chart('container', {
 },function(chart) { // on complete
 
 
-        var titletext = "<span style='color:red'> ▲College and Main Units</span><br>"+
-               "<span style=color: 'black'> ▲Campus Partners</span> <br> "+"    Mission Areas:"
+        var titletext = "<span style='color:red'>▲College and Main Units</span><br>"+
+               "<span style='color: black'>▲Campus Partners</span> <br> "+" ● Community Partner  Mission Areas:"
         var i;
         for (i = 0; i < Missionarea.length; i++) {
             var missionname = Missionarea[i]
@@ -235,7 +235,7 @@ Highcharts.chart('container', {
             },
 
         })
-    
+
     }
 );
 

@@ -691,12 +691,12 @@ display: flex;
     <i class="fa fa-plus"></i> Address
 </button>
 <div id="contactinfo" class= "panel-collapse collapse">
-                                    <div class="panel-body">
+                                <div class="panel-body">
                                         <br>
 
                                         <div class="row">
 
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Address</label>
                                             <div class="col-sm-7">
@@ -709,16 +709,7 @@ display: flex;
                                         </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">City</label>
-                                            <div class="col-sm-7">
-                                            {{ project.city }}
-                                            </div>
-                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
@@ -728,11 +719,20 @@ display: flex;
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                         </div>
+                                        <div class="row">
+                                              <label class="col-sm-4">City</label>
+                                            <div class="col-sm-7">
+                                            {{ project.city }}
+                                            </div>
+                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
 
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">state</label>
+                                              <label class="col-sm-4">State</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>

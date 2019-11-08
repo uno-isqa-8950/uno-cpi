@@ -193,7 +193,7 @@ width:93%!important;
                     <div class="col-md-6">
                     <div class="row">
                          <div class="col" style="padding-top: 5px">
-                    <label style="padding-right: 5px">Are you Online Only?  </label>
+                    <label style="padding-right: 5px">Is This Community Partner Virtual Only, With No Physical Address?  </label>
                             {{ community_partner_form.online_only}}
                     </div>
 <!--                        <div class="col-md-5" style="padding-top: 5px">-->
@@ -443,6 +443,7 @@ width:93%!important;
                                <div class="row centered" style="margin-top:10px;">
 
                  <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
+                                   <button value="cancel" name="cancel" id="cancel" class="save redbutton">Cancel</button>
  </div>
     </div>
 </div>
@@ -531,7 +532,7 @@ $(document).ready(function() {
                     ($('#id_state').val() === '') ||
                     ($('#id_city').val() === '') ||
                     ($('#id_zip').val() === '')) && ($("#id_online_only").is(':checked') === false)) {
-                    alert("Please Provide Address or Check Online Only.");
+                    alert("Please Provide Address or Check Virtual Only.");
                     return false
                 }
                 // }
@@ -596,7 +597,23 @@ window.onload = function () {
     const urlParams = new URLSearchParams(window.location.search);
     const partnerName = urlParams.get('name');
     $("#id_name").val(partnerName);
+            var name = $('#id_name').val();
+        $.ajax({
+            url: "{% url 'partners:ajax_load_community' %}",
+            data: {
+                'name': name
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    alert("A Community Partner with this name already exists");
+                    document.getElementById("id_name").value = ("");
+                    document.getElementById("id_name").style.borderColor = "red";
+                }
+            }
+        });
 }
+
  function RestrictCommaSemicolon(e) {
         var theEvent = e || window.event;
         var key = theEvent.keyCode || theEvent.which;
@@ -1175,7 +1192,13 @@ $(document).on('click', '.remove-mission-row', function(e){
     $('#id_name').focus(function() {
         $('#id_name').css('border','1px solid #aaa');
     });
+    // $("#id_name").keyup(function () {
+    // window.onload = function () {
 
+
+
+    // }
+    // });
     $("#id_name").change(function () {
       var name = $(this).val();
       $.ajax({

@@ -673,6 +673,11 @@ if(stepDirection === 'forward') {
             alert('Please make sure to add the selected value');
             return false;
         }
+
+         if($('#firstname').val() !="" && $('#lastname') != ""){
+            alert('Please make sure to add the Lead Staff Name');
+            return false;
+        }
         if ($("#id_campus-0-campus_partner").val() === '') {
             alert("Please provide Campus partner before proceeding.");
             return false;
@@ -682,7 +687,10 @@ if(stepDirection === 'forward') {
     }
     if (stepNumber === 2) {
         var subcatlast = $('.sub_category-row:last').find(':selected').text();
-        if($(".sub_category-row:last"))
+        if(subcatlast !='---------' && subcatlast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
         if ($("#id_mission-0-mission").val() == '') {
             alert("Please provide Mission area before proceeding.");
             return false;

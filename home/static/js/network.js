@@ -235,9 +235,7 @@ Highcharts.chart('container', {
             },
 
         })
-
-
-
+    
     }
 );
 

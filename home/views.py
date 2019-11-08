@@ -1608,12 +1608,22 @@ def issueaddress(request):
 
     for m in missions:
         mission_area1.append(m.mission_name)
+        a = request.GET.get('engagement_type', None)
+        c = request.GET.get('campus_partner', None)
+        d = request.GET.get('college_name', None)
+        b = request.GET.get('academic_year', None)
+        ba = request.GET.get('end_academic_year', None)
         e = request.GET.get('community_type', None)
         f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
                 project_ids = proj2_ids
-
+        if a is None or a == "All" or a == '':
+            if c is None or c == "All" or c == '':
+                if d is None or d == "All" or d == '':
+                    if f is None or f == "All" or f == '':
+                        if e is None or e == "All" or e == '':
+                            project_ids=project_filtered_ids
         project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
         project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
         project_count3 = project_count1 | project_count2
@@ -1648,22 +1658,22 @@ def issueaddress(request):
                 from_subcat_counts.append(from_project_mission_sub_ids)
                 to_subcat_counts.append(to_project_mission_sub_ids)
                 if(from_project_mission_sub_ids>to_project_mission_sub_ids):
-                    drill = {"x": from_project_mission_sub_ids,
+                    drill = {"name":sc.sub_category,"x": from_project_mission_sub_ids,
                          "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"red"}
                 else:
-                    drill = {"x": from_project_mission_sub_ids,
+                    drill = {"name":sc.sub_category,"x": from_project_mission_sub_ids,
                              "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"turquoise"}
-                drill_satrt = {"x": from_project_mission_sub_ids, "y": sc.id - 1}
-                drill_end = {"x": to_project_mission_sub_ids, "y": sc.id - 1}
+                drill_satrt = {"name":sc.sub_category,"x": from_project_mission_sub_ids, "y": sc.id - 1}
+                drill_end = {"name":sc.sub_category,"x": to_project_mission_sub_ids, "y": sc.id - 1}
                 drilldata.append(drill)
                 drillstartdata.append(drill_satrt)
                 drillenddata.append(drill_end)
             drilled = {"type":"xrange","name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
-            drilled_start = {"type":"scatter","name": m.mission_name, "id": m.id+10, "yAxis": 1, "data": drillstartdata}
-            drilled_end = {"type":"scatter","name": m.mission_name, "id": m.id+20, "yAxis": 1, "data": drillenddata}
+            # drilled_start = {"type":"scatter","name": m.mission_name+'StartYaer', "id": m.mission_name, "yAxis": 1, "data": drillstartdata}
+            # drilled_end = {"type":"scatter","name": m.mission_name+'EndYear', "id": m.mission_name, "yAxis": 1, "data": drillenddata}
             subdrill.append(drilled)
-            subdrill.append(drilled_start)
-            subdrill.append(drilled_end)
+            # subdrill.append(drilled_start)
+            # subdrill.append(drilled_end)
         from_project_count_data.append(from_project_count)
         to_project_count_data.append(to_project_count)
         from_subcat_count.append(from_subcat_counts)
@@ -1673,8 +1683,8 @@ def issueaddress(request):
         else:
             res = {"name": m.mission_name, "x": from_project_count, "x2": to_project_count, "y": m.id - 1,
                    "drilldown": m.mission_name, "color": "turquoise"}
-        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.id+10}
-        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.id+20}
+        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.mission_name}
+        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.mission_name}
 
         json_data.append(res)
         from_json_data.append(resfrom)
@@ -1695,6 +1705,7 @@ def issueaddress(request):
         'data': json_data
         # 'color': 'turquoise'
                 }
+
 
     dumbellchart = {
         'chart': {
@@ -1765,7 +1776,34 @@ def issueaddress(request):
 
         'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
         'drilldown':{
-            'series': subdrill
+            'series': subdrill,
+            'plotOptions': {
+                'xrange': {
+                    'pointWidth': 4,
+                    'dataLabels': {
+                        'enabled': True,
+                        'inside': True,
+                        'style': {
+                            'fontSize': '6px'
+                        }
+                    }, 'colorByPoint': False,
+                    'tooltip': {
+                        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+                        'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}'
+                    }
+                },
+
+                'scatter': {
+                    'marker': {
+                        'radius': 6,
+                        'symbol': 'circle'
+                    }
+                }
+            },
+            'tooltip': {
+                'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+                'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
+            }
 
         }
 
@@ -1980,13 +2018,13 @@ def networkanalysis(request):
         'plotOptions': {
             'networkgraph': {
                 'turboThreshold': 0,
-                'linklength': 100,
                 'initialPositions': 'top',
                 # 'keys': ['from', 'to','color'],
                 'layoutAlgorithm': {
                     'enableSimulation': False,
                     # 'friction': 0.9,
                     'integration': 'verlet',
+                    'linkLength':100
                 }
             }
         },

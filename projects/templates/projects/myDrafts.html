@@ -147,8 +147,9 @@
                                                 <td>{{ project.activityType }}</td>
 {#                                                <td>{{ project.facilitator }}</td>#}
                                                 <td>{{ project.description }}</td>
-                                                <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> </td>
-                                           </tr>
+                                                <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
+                                            </tr>
+
                                             {% endfor %}
                                         </tbody>
                                     </table>
@@ -181,8 +182,16 @@
     $('#example').DataTable();
     } );
  </script>
-
-
+    <script type="text/javascript">
+function myConfirm() {
+  var result = confirm("Are you sure you want to delete this Draft?");
+  if (result==true) {
+   return true;
+  } else {
+   return false;
+  }
+}
+</script>
 <script language="javascript" type="text/javascript">
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }

@@ -2547,3 +2547,9 @@ def myDrafts(request):
              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
+
+@login_required()
+def drafts_delete(request,pk):
+    draft_delete = get_object_or_404(Project, pk=pk)
+    draft_delete.delete()
+    return HttpResponseRedirect("/myDrafts")

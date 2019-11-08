@@ -270,7 +270,7 @@ display: flex;
         <li><a href="#step-1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Mission Areas</a></li>
-        <li><a href="#step-4">Other Information</a></li>
+        <li><a href="#step-4" id="click4">Other Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -614,7 +614,7 @@ display: flex;
         </div>
 
         <div id="step-3">
-             {% for form in formset_missiondetails %}
+             {% for missform in formset_missiondetails %}
             <div class="row">
                 <div class="col-md-3">
                     <label>
@@ -623,7 +623,7 @@ display: flex;
                     </label>
                 </div>
                 <div class="col-md-6">
-                    {{ form.mission | bootstrap}}
+                    {{ missform | bootstrap}}
 
                 </div>
             </div>
@@ -754,7 +754,7 @@ display: flex;
                                         </div>
 
                                 </div>
-     <div class="form-group" style="display: block">
+     <div class="form-group" style="display: none">
                                             <label>Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
@@ -835,98 +835,99 @@ $(document).ready(function(){
             // ]
         }
     });
+    //------------------hide and show buttons-----------------------
 $('#termsdiv').hide();
 $('#draft').hide();
 $('#submit').hide();
 $('#update').hide();
-    // var status = $('#id_status option:selected').text();
-    // if(status === 'Drafts'){
-// $('#draft').show();
-// $('#submit').show();
-//     }
-//     else{
-// $('#draft').hide();
-// $('#submit').hide();
-// $('#update').show;
-//     }
+    var status = $('#id_status option:selected').text();
+    if(status === 'Drafts'){
+$('#draft').show();
+$('#submit').show();
+    }
+    else{
+$('#draft').hide();
+$('#submit').hide();
+$('#update').show;
+    }
+    //--------------------cancel button function------------------------
         $('#cancel').on('click', function () {
                     if (confirm("Are you sure?")){
                       window.location = '/checkProject';
                     }
         });
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber === 0) {
-        if(($("#id_project_name").val() === '')){
-            alert("Please provide Project name to proceed.");
-            return false
-        }
-        if( ($("#id_engagement_type").val() === '') ){
-            alert("Please enter Engagement type.");
-            return false
-        }
-        if(($("#id_semester").val() === '')){
-            alert("Please provide Project start semester.");
-            return false
-        }
-        if($("#id_academic_year").val() === ''){
-            alert("Please provide Project start academic year.");
-            return false
-        }
-        if(status === 'Drafts') {
-            $('#termsdiv').hide();
-            $('#draft').show();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-        else{
-            $('#termsdiv').hide();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-    }
 
-    }
-    if (stepNumber === 1) {
-        if ($("#id_campus-0-campus_partner").val() === '') {
-            alert("Please provide Campus partner before proceeding.");
-            return false;
+    //----------------------form wizard each step validation---------------------------
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+        var elmForm = $("#form-step-" + stepNumber);
+        if (stepDirection === 'forward') {
+            if (stepNumber === 0) {
+                if (($("#id_project_name").val() === '')) {
+                    alert("Please provide Project name to proceed.");
+                    return false
+                }
+                if (($("#id_engagement_type").val() === '')) {
+                    alert("Please enter Engagement type.");
+                    return false
+                }
+                if (($("#id_semester").val() === '')) {
+                    alert("Please provide Project start semester.");
+                    return false
+                }
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please provide Project start academic year.");
+                    return false
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+
+            if (stepNumber === 1) {
+                if ($("#id_campus-0-campus_partner").val() === '') {
+                    alert("Please provide Campus partner before proceeding.");
+                    return false;
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+            if (stepNumber === 2) {
+                if ($("#id_mission-0-mission").val() == '') {
+                    alert("Please provide Mission area before proceeding.");
+                    return false;
+                } else {
+                    if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+                }
+            }
         }
-       if(status === 'Drafts') {
-           $('#termsdiv').hide();
-            $('#draft').show();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-        else{
-            $('#termsdiv').hide();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-    }
-    if (stepNumber === 2) {
-        if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide Mission area before proceeding.");
-            return false;
-        }
-        else {
-            if(status === 'Drafts') {
-                $('#termsdiv').show();
-            $('#draft').show();
-            $('#submit').show();
-            $('#update').hide();
-        }
-        else{
-            $('#termsdiv').show();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').show();
-        }
-    }
-}
+    //------------------------wizard step backward buttons function-----------------
 if (stepDirection === 'backward') {
             if(status === 'Drafts') {
            $('#termsdiv').hide();
@@ -944,6 +945,21 @@ if (stepDirection === 'backward') {
         }
         return true;
     });
+    //-------------------buttons function if directly click on step 4-----------------
+    $('#click4').click(function () {
+        if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+    });
+
 $('#id_k12_flag').change(function () {
     if($('#id_k12_flag').prop('checked')==true){
         $("#k12-students").show();
@@ -1467,6 +1483,7 @@ $('#update').click(function () {
 });
 $('#submit').click(function () {
     if($('#terms').is(":checked")){
+        $('#id_status option[value=1]').attr('selected','selected');
         return true;
     }
     else {

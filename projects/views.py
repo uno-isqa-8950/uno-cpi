@@ -609,6 +609,7 @@ def createProject(request):
     return render(request, 'projects/createProject.html',
                   {'project': project, 'formset': formset, 'formset3': formset3, 'course': course,'data_definition':data_definition,
                    'formset2': formset2,'categoryformset':categoryformset})
+
 @login_required()
 def editProject(request,pk):
 
@@ -622,79 +623,161 @@ def editProject(request,pk):
         # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
         for x in proj_edit:
-            project = ProjectForm2(request.POST or None, instance=x)
+            project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
 
-        formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
-        formset_comm_details = proj_comm_part_edit(request.POST, request.FILES, instance=x, prefix='community_edit')
-        formset_camp_details = proj_campus_part_edit(request.POST, request.FILES, instance=x, prefix='campus_edit')
-        formset_subcatdetails = sub_category_edit(request.POST, request.FILES, instance=x, prefix='sub_category_edit')
-        if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_missiondetails.is_valid():
-
+            formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
+            formset_comm_details = proj_comm_part_edit(request.POST or None, request.FILES, instance=x, prefix='community_edit')
+            formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x, prefix='campus_edit')
+            formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x, prefix='sub_category_edit')
+            print("in post")
+            # print(project.is_valid())
+            # print(formset_camp_details.is_valid())
+            # print(formset_comm_details.is_valid())
+            # print(formset_missiondetails.is_valid())
+            # print(formset_subcatdetails.is_valid())
+            if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
+                print('in valid')
                 instances = project.save()
-                pm = formset_missiondetails.save()
-                compar= formset_comm_details.save()
-                campar= formset_camp_details.save()
-                subcat = formset_subcatdetails.save()
-                for k in pm:
-                    k.project_name = instances
-                    k.save()
-                for p in compar:
-                    p.project_name= instances
-                    p.save()
-                for l in campar:
-                    l.project_name= instances
-                    l.save()
-                for sc in subcat:
-                    sc.project_name = instances
-                    sc.save()
-                projects_list = []
-                camp_part_names = []
-                course_list = []
-                # Get the campus partner id related to the user
-                camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-                for c in camp_part_user:
-                    p = c.campus_partner_id
+                instances.project_name = instances.project_name.split(":")[0] + ": " + str(instances.academic_year) + " (" +pk + ")"
+                print (instances.project_name)
+                stat = str(instances.status)
+                print(stat)
+                if stat == 'Drafts':
+                    instances.save()
+                    pm = formset_missiondetails.save()
+                    compar= formset_comm_details.save()
+                    campar= formset_camp_details.save()
+                    subcat = formset_subcatdetails.save()
+                    for k in pm:
+                        k.project_name = instances
+                        k.save()
+                    for p in compar:
+                        p.project_name= instances
+                        p.save()
+                    for l in campar:
+                        l.project_name= instances
+                        l.save()
+                    for sc in subcat:
+                        sc.project_name = instances
+                        sc.save()
+                    projects_list = []
+                    camp_part_names = []
+                    course_list = []
+                    # Get the campus partner id related to the user
+                    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+                    for c in camp_part_user:
+                        p = c.campus_partner_id
 
-                # get all the project names base on the campus partner id
-                proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-                for f in proj_camp:
-                    k = list(Project.objects.filter(id=f.project_name_id))
+                    # get all the project names base on the campus partner id
+                        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+                        for f in proj_camp:
+                            k = list(Project.objects.filter(id=f.project_name_id))
 
-                    tot_hours = 0
-                    for x in k:
+                            tot_hours = 0
+                            for x in k:
 
-                        projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                        cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                        proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-                        subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
-                        for proj_camp_par in proj_camp_par:
-                            camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                            #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
-                            # total_project_hours += proj_camp_par.total_hours
-                            #x.total_uno_hours = tot_hours
-                            #x.total_uno_students += proj_camp_par.total_people
-                            x.save()
-                            camp_part_names.append(camp_part)
-                        list_camp_part_names = camp_part_names
-                        camp_part_names = []
+                                projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                                proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                                subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
+                                for proj_camp_par in proj_camp_par:
+                                    camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+                                    #tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
+                                    # total_project_hours += proj_camp_par.total_hours
+                                    #x.total_uno_hours = tot_hours
+                                    #x.total_uno_students += proj_camp_par.total_people
+                                    x.save()
+                                    camp_part_names.append(camp_part)
+                            list_camp_part_names = camp_part_names
+                            camp_part_names = []
 
-                        data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
-                                'activityType': x.activity_type, 'academic_year': x.academic_year,
-                                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
-                                'startDate': x.start_date,
-                                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                                'total_uno_hours': x.total_uno_hours,
-                                'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                                'total_uno_faculty': x.total_uno_faculty,
-                                'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-                                'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'subc':subc,
-                                'camp_part': list_camp_part_names,
-                                }
+                            data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
+                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
+                                    'startDate': x.start_date,
+                                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                                    'total_uno_hours': x.total_uno_hours,
+                                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                                    'total_uno_faculty': x.total_uno_faculty,
+                                    'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
+                                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'subc':subc,
+                                    'camp_part': list_camp_part_names,
+                                    }
 
-                        projects_list.append(data)
+                            projects_list.append(data)
 
-                return HttpResponseRedirect("/myProjects")
+                    return HttpResponseRedirect("/myDrafts")
+                else:
+                    instances.save()
+                    pm = formset_missiondetails.save()
+                    compar = formset_comm_details.save()
+                    campar = formset_camp_details.save()
+                    subcat = formset_subcatdetails.save()
+                    for k in pm:
+                        k.project_name = instances
+                        k.save()
+                    for p in compar:
+                        p.project_name = instances
+                        p.save()
+                    for l in campar:
+                        l.project_name = instances
+                        l.save()
+                    for sc in subcat:
+                        sc.project_name = instances
+                        sc.save()
+                    projects_list = []
+                    camp_part_names = []
+                    course_list = []
+                    # Get the campus partner id related to the user
+                    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
+                    for c in camp_part_user:
+                        p = c.campus_partner_id
+
+                        # get all the project names base on the campus partner id
+                        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
+                        for f in proj_camp:
+                            k = list(Project.objects.filter(id=f.project_name_id))
+
+                            tot_hours = 0
+                            for x in k:
+
+                                projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
+                                proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
+                                subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
+                                for proj_camp_par in proj_camp_par:
+                                    camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
+                                    # tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
+                                    # total_project_hours += proj_camp_par.total_hours
+                                    # x.total_uno_hours = tot_hours
+                                    # x.total_uno_students += proj_camp_par.total_people
+                                    x.save()
+                                    camp_part_names.append(camp_part)
+                            list_camp_part_names = camp_part_names
+                            camp_part_names = []
+
+                            data = {'pk': x.pk, 'name': x.project_name.split(":")[0],
+                                    'engagementType': x.engagement_type,
+                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
+                                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
+                                    'description': x.description,
+                                    'startDate': x.start_date,
+                                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
+                                    'total_uno_hours': x.total_uno_hours,
+                                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
+                                    'total_uno_faculty': x.total_uno_faculty,
+                                    'total_other_community_members': x.total_other_community_members,
+                                    'outcomes': x.outcomes,
+                                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                                    'subc': subc,
+                                    'camp_part': list_camp_part_names,
+                                    }
+
+                            projects_list.append(data)
+
+                    return HttpResponseRedirect("/myProjects")
+
                 #return render(request, 'projects/myProjects.html', {'project': projects_list})
 
     else:
@@ -718,7 +801,6 @@ def editProject(request,pk):
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details,
                                                     'formset_subcat_details':formset_subcat_details})
-
 
 # @login_required()
 # def showAllProjects(request):

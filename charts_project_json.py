@@ -9,13 +9,13 @@ from UnoCPI import settings
 
 currentDT = datetime.datetime.now()
 logger=logging.getLogger("UNO CPI Application")
-conn = psycopg2.connect("dbname = 'master' user = 'postgres' host = 'localhost' password = 'naresh@004'")
-# conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
-#                               password=settings.DATABASES['default']['PASSWORD'],
-#                               host=settings.DATABASES['default']['HOST'],
-#                               port=settings.DATABASES['default']['PORT'],
-#                               database=settings.DATABASES['default']['NAME'],
-#                               sslmode="require")
+
+conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
+                              password=settings.DATABASES['default']['PASSWORD'],
+                              host=settings.DATABASES['default']['HOST'],
+                              port=settings.DATABASES['default']['PORT'],
+                              database=settings.DATABASES['default']['NAME'],
+                              sslmode="require")
 if (conn):
     logger.info("Connection Successful!")
 else:

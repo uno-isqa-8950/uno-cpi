@@ -10,7 +10,7 @@ from home.models import *
 from home.filters import *
 from partners.models import *
 from university.models import Course
-from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm, CheckForm
+from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType, ProjectSubCategory
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
@@ -1734,8 +1734,10 @@ def stream_response(request):
     compartnerlist = [];
     compartnerlists = [];
 
+
     if request.method == 'POST':
         request.GET.get('Check')
+        flag = 0;
         projectName = request.POST['projectName'].strip()
         communityPartner = request.POST.get('communityPartner').replace('-','')
         campusPartner = request.POST['campusPartner'].replace('-','')
@@ -1747,43 +1749,30 @@ def stream_response(request):
         cursor.execute(sqlfiles.checkProjectsql(projectName,communityPartner,campusPartner,academicYear),params=None)
         rows = cursor.fetchall()
         # print(rows[0][0])
-        flag = 0;
         if(rows != []):
-            print("why am i here")
+
             for obj in rows:
-            #     print('obj--',obj)
-            #     compartnerlist.append(obj[5])
-            #     compartlist = CommunityPartner.objects.filter(id__in=compartnerlist)
-            #     print("================================",compartlist)
-            #
-            #     print("#############################",len(compartnerlist))
-            #     compartnerlists = [];
-            #
-            #     for c in compartlist:
-            #
-            #         compartnerlists.append(c.name)
-            #
-            #     com_list = (', '.join(compartnerlists))
-            #
 
                 if (projectName.strip().lower() in obj[0].split("(")[0].strip().lower()):
                     flag =2
                     print("I am in flag 2")
-                else:
-                    flag=3
+
                 if(projectName.strip().lower() == obj[0].split("(")[0].strip().lower()):
                     flag=1
 
+
                 data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[3],
-                                   "academicYear": obj[2], "Flagbit": flag})
-            print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list)
-            return render(request, 'projects/checkProject.html',{'data_list': data_list, 'projectName': projectName, 'communityPartner': communityPartner,'campusPartner':campusPartner,'academicYear': academicYear, 'flagBit': flag  })
+                                   "academicYear": obj[2], 'flagBit': flag })
+                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list, flag)
+            return render(request, 'projects/checkProject.html', {'data_list': data_list, 'flagBit': flag})
+
 
         else:
-            print("In else")
-            flag = 3
-            return render(request, 'projects/checkProject.html',
-                          {'flagBit': flag})
+            print(flag)
+        return render(request, 'projects/checkProject.html',
+                      {"flagBit" : flag})
+
+
 
 
 

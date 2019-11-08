@@ -29,8 +29,7 @@ A.class1:link  {text-decoration: underline; color: red;}
         <div class="collapse show" id="collapseExample">
             <form id="streamform" action="{% url 'stream_response' %}" method="POST">
                   {% csrf_token %}
-                  <input type="text" name="projectName" id="projectName" class="form-control" value ="{{projectName}}" onclick="checking(); "
-                                      placeholder="Desired projectName" >
+                  <input type="text" name="projectName" id="projectName" class="form-control" value = "{{projectName}}" placeholder="Desired projectName" >
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type"> Community Partner Types
@@ -150,29 +149,34 @@ A.class1:link  {text-decoration: underline; color: red;}
  </table>
                  </div>
 <!--{% for project in data_list %}-->
-{% if flagBit == 1 %}
-<script>
 
 
-document.getElementById('node1-id').innerHTML =
+
+
+  {% if flagBit == 1 %}
+
+  <script>
+
+               document.getElementById('node1-id').innerHTML =
 
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
 
 
-</script>
-{% endif %}
 
-{% if flagBit == 2 %}
-        <script>
+   </script>
+  {% endif %}
+
+  {% if flagBit == 2 %}
+<script>
 
         document.getElementById('node1-id').innerHTML =
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
                             ' All Projects</a></td></tr>'
 
-        <!--var projectName = document.getElementById('projectName').value;-->
+
 
 
 
@@ -182,22 +186,27 @@ document.getElementById('node1-id').innerHTML =
                             '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+  </script>
+  {% endif %}
 
-        </script>
-{% endif %}
 
-{% if flagBit == 0 %}
-        <script>
+{% if flag is 0 %}
+   <script>
 
-        <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<br>' +
                             '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-        </script>
-{% endif %}
+
+
+
+   </script>
+  {% endif %}
+
+
+
 
 
 

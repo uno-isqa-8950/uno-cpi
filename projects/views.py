@@ -10,7 +10,7 @@ from home.models import *
 from home.filters import *
 from partners.models import *
 from university.models import Course
-from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm
+from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm, CheckForm
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType, ProjectSubCategory
 from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm
@@ -1733,7 +1733,7 @@ def stream_response(request):
     data_list = [];
     compartnerlist = [];
     compartnerlists = [];
-
+    flag = 0;
 
     if request.method == 'POST':
         request.GET.get('Check')
@@ -1751,11 +1751,13 @@ def stream_response(request):
         # print(rows[0][0])
         if(rows != []):
 
+            print("why am i here")
             for obj in rows:
+            
 
                 if (projectName.strip().lower() in obj[0].split("(")[0].strip().lower()):
                     flag =2
-                    print("I am in flag 2")
+
 
                 if(projectName.strip().lower() == obj[0].split("(")[0].strip().lower()):
                     flag=1
@@ -1763,16 +1765,14 @@ def stream_response(request):
 
                 data_list.append({"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[3],
                                    "academicYear": obj[2], 'flagBit': flag })
-                print("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$4",data_list, flag)
-            return render(request, 'projects/checkProject.html', {'data_list': data_list, 'flagBit': flag})
 
+            return render(request, 'projects/checkProject.html', {'data_list': data_list, "projectName": projectName, 'flagBit': flag})
 
         else:
-            print(flag)
-        return render(request, 'projects/checkProject.html',
-                      {"flagBit" : flag})
 
-
+            data_list.append({"projectName": "", "communityPartner": "", "campusPartner": "",
+                              "academicYear": "", 'flagBit': flag})
+            return render(request, 'projects/checkProject.html', {'data_list': data_list, "projectName": projectName, 'flagBit': flag})
 
 
 

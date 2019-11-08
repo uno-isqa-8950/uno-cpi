@@ -549,6 +549,7 @@
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script type="text/javascript" >
      var contactdataarray=[];
+     var cnt = 0;
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
         var replacement = prefix + '-' + ndx;
@@ -564,7 +565,12 @@
     }
 
     function cloneMore(selector, prefix) {
+
         var newElement = $(selector).clone(true);
+
+        cnt++;
+        $(selector).attr('data-id', cnt);
+
         var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
         var dataarray=[];
         newElement.find(':input').each(function () {
@@ -574,12 +580,7 @@
                 var type = $('#id_' + name).val();
                 dataarray.push(type);
                 contactdataarray.push(type);
-                // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
-                // {
-                //   console.log("success");
-                //   alert("Cannot add empty contact");
-                //
-                // }
+
 
 
                     name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
@@ -590,21 +591,18 @@
                     return;
             }
             var deletename= "form-"+(total-1);
-            if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
-                {
-                  console.log("success");
-                  alert("Cannot add empty contact");
 
-                }else {
                 var table = '<tr><td>' + dataarray[0] + ' ' + dataarray[1] + '</td><td>' + dataarray[2] +
-                    '<td align="center"><i name="' + deletename + '" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
+                    '<td align="center"><i data-id = "' + cnt + '" name="' + deletename + '" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
                 $('#contact-fields').show();
                 $("#" + prefix + "-body").append(table);
-            }
+
 
         });
         total++;
+
         $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+
         $(selector).after(newElement);
         var conditionRow = $('.' + prefix + '-row:not(:last)');
         conditionRow.hide();
@@ -640,65 +638,78 @@
         return false;
     }
 
-    // function validatecontact(){
-    //     var valid = true;
-    //     $('.form-row').find(':input').each(function () {
-    //         var name = $(this).attr('name');
-    //         if (name !== undefined) {
-    //             if (name.includes("contact_type")){
-    //                 if ($(this).val() === null) {
-    //                     alert("Select Contact Type");
-    //                     $(this).css("border-color","red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //             }
-    //             if (name.includes("first_name")){
-    //                 if ($(this).val() === '') {
-    //                     alert("Provide First Name");
-    //                     $(this).css("border-color","red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //             }
-    //             if(name.includes("last_name")){
-    //                 if ($(this).val() === '') {
-    //                     alert("Provide Last Name");
-    //                     $(this).css("border-color","red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //             }
-    //             if(name.includes("email_id")){
-    //                 if ($(this).val() === '') {
-    //                     alert("Provide Email Address");
-    //                     $(this).css("border-color","red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //                 else{
-    //                     var maxl = $(this).val().length;
-    //                     if (($(this).val().substr(maxl - 4, maxl) != '.edu')){
-    //                     alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
-    //                     $(this).css("border-color","red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //                 }
-    //             }
-    //             if(name.includes("work_phone")) {
-    //                 if ($(this).val() === '') {
-    //                     alert("Provide Work Phone Number");
-    //                     $(this).css("border-color", "red");
-    //                     valid = false;
-    //                     return false;
-    //                 }
-    //             }
-    //         }
-    //     });
-    //
-    //     return valid;
-    // }
+    function validateall() {
+        var valid = true;
+        var total = $( "div.form-row[data-id]" ).length;
+        if (total == 0) {
+            alert('You need to add at least one contact');
+            valid = false;
+        }
+
+        //console.log('filled forms: ' + total);
+        $('.form-row:last').find(':input').each(function () {
+            if ($(this).val() != '') {
+                alert('Please enter all the data and press + button to add contact');
+                valid = false;
+                return false;
+            }
+
+        });
+
+        return valid;
+    }
+    function validatecontact(){
+        var valid = true;
+        $('.form-row').find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name !== undefined) {
+                // if (name.includes("contact_type")){
+                //     if ($(this).val() === null) {
+                //         alert("Select Contact Type");
+                //         $(this).css("border-color","red");
+                //         valid = false;
+                //         return false;
+                //     }
+                // }
+                if (name.includes("first_name")){
+                    if ($(this).val() === '') {
+                        alert("Provide First Name");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                }
+                if(name.includes("last_name")){
+                    if ($(this).val() === '') {
+                        alert("Provide Last Name");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                }
+                if(name.includes("email_id")){
+                    if ($(this).val() === '') {
+                        alert("Provide Email Address");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                    else{
+                        var maxl = $(this).val().length;
+                        if (($(this).val().substr(maxl - 4, maxl) != '.edu')){
+                        alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                    }
+                }
+
+            }
+        });
+
+        return valid;
+    }
 //     function contactsubmit(){
 //     var valid = true;
 //     $('.contact-row').find(':input').each(function () {
@@ -748,41 +759,7 @@
 //     return valid;
 // }
 
-    function firstcontact()
-    {
-        var valid = true;
 
-        if ($('#id_form-0-first_name').val() === '') {
-            alert("Provide First Name");
-            $(this).css("border-color","red");
-            valid = false;
-            return false;
-        }
-
-        if ($('#id_form-0-last_name').val() === '') {
-            alert("Provide Last Name");
-            $(this).css("border-color","red");
-            valid = false;
-            return false;
-        }
-
-
-        if ($('#id_form-0-email_id').val() === '') {
-            alert("Provide Email");
-            $(this).css("border-color","red");
-            valid = false;
-            return false;
-        }
-        else {
-            var maxl = $('#id_form-0-email_id').val().length;
-            if (($('#id_form-0-email_id').val().substr(maxl - 4, maxl) != '.edu')) {
-                alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
-                valid = false;
-                return false;
-            }
-        }
-        return valid;
-    }
 
 
     $(document).on('click', '.add-form-row', function(e){
@@ -802,7 +779,7 @@
         //      cloneMore('.form-row:last', 'form');
         //     return true;
         // }
-        var initialcheck = firstcontact();
+        var initialcheck = validatecontact();
         if((initialcheck === true)) {
             $('.error').remove();
             cloneMore('.form-row:last', 'form');
@@ -812,9 +789,12 @@
     });
 
     $(document).on('click', '.remove-form-row', function(e){
+        // alert('del');
         e.preventDefault();
         $(this).closest('tr').remove();
-        deleteForm('form', $(this));
+        //deleteForm('form', $(this));
+        var data_id = $(this).attr('data-id');
+        $( "div.form-row[data-id='" + data_id + "']" ).remove();
         return false;
     });
 
@@ -827,22 +807,24 @@
 
 <script>
     $('#submit').click(function () {
+        // alert('submit');
         // alert("contactdataarray--"+contactdataarray.length)
     // e.preventDefault();
-   // var submitcheck = validatecontact();
-   // if((submitcheck === true)) {
-       if($('#terms').is(":checked")){
-        return true;
-    }
-    else {
-        alert("Please Accept the terms and conditions before submitting");
-        return false;
-    }
-   // }
-   // else{
-       // alert("Add Contact Details");
-       // return false;
-   // }
+        var submitcheck = validateall();
+        if (submitcheck == true) {
+
+            if ($('#terms').is(":checked")) {
+                return true;
+            }
+            else {
+                alert("Please Accept the terms and conditions before submitting");
+                return false;
+            }
+        }
+        else {
+            // alert("Add Contact Details");
+            return false;
+        }
 
 });
 

@@ -392,6 +392,7 @@ def registerCampusPartner_forprojects(request):
 
     if request.method == 'POST':
         # cache.clear()
+        projectId = request.POST.get('projectId')
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -402,13 +403,14 @@ def registerCampusPartner_forprojects(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return HttpResponseRedirect("/createProject/")
+                return redirect('editProject', pk=projectId)
 
     else:
+        projectId = request.GET.get('projectId')
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-    return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form,
-                                                                       'formset': formset,'colleges':colleges})
+        return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form,
+                                                                       'formset': formset,'colleges':colleges,'projectId':projectId})
 
 #register function for a user to register a new community partner during filling the project create form
 def registerCommunityPartner_forprojects(request):
@@ -424,7 +426,6 @@ def registerCommunityPartner_forprojects(request):
 
     if request.method == 'POST':
         # cache.clear()
-        print('project id in post--',request.POST.get('projectId'))
         projectId = request.POST.get('projectId')
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
@@ -516,7 +517,6 @@ def registerCommunityPartner_forprojects(request):
 
     else:
         projectId = request.GET.get('projectId')
-        print('projectId--in get--',projectId)
         community_partner_form = CommunityPartnerForm()
         # formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
         formset_mission = comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')

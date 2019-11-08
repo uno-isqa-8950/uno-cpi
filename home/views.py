@@ -1555,23 +1555,29 @@ def issueaddress(request):
     b = request.GET.get('academic_year', None)
     ba = request.GET.get('end_academic_year', None)
 
-    if b == '' or b == None and ba == '' or ba == None:
-        b = max_yr_id - 1
-        ba = max_yr_id
-    if b == '' or b == None and ba != '':
-        b = min_yr_id
-    elif ba == '' or ba == None and b != '':
-        ba = max_yr_id
-    b = int(b)
-    ba = int(ba)
+    if ((b == '' or b == None) and (ba == '' or ba == None)):
+        start = max_yr_id - 1
+        end = max_yr_id
+    elif ((b == '' or b == None) and (ba != '')):
+        start = min_yr_id
+        end = ba
+    elif ((ba == '' or ba == None) and (b != '')):
+        end = max_yr_id
+        start = b
+    else:
+        start = b
+        end = ba
+    start = int(start)
+    end = int(end)
 
+    # print(" b  value ",start,"  ba value ",end)
     from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
-    from_start = list(range(min_yr_id, (b + 1)))
-    from_end = list(range(b, (max_yr_id + 1)))
+    from_start = list(range(min_yr_id, (start + 1)))
+    from_end = list(range(start, (max_yr_id + 1)))
 
     to_project_filter = ToProjectFilter(request.GET, queryset=Project.objects.all())
-    to_start = list(range(min_yr_id, (ba + 1)))
-    to_end = list(range(ba, (max_yr_id + 1)))
+    to_start = list(range(min_yr_id, (end + 1)))
+    to_end = list(range(end, (max_yr_id + 1)))
 
     from_project_count_data = list()
     to_project_count_data = list()
@@ -1618,11 +1624,13 @@ def issueaddress(request):
             if e is None or e == "All" or e == '':
                 project_ids = proj2_ids
         if a is None or a == "All" or a == '':
-            if c is None or c == "All" or c == '':
-                if d is None or d == "All" or d == '':
-                    if f is None or f == "All" or f == '':
-                        if e is None or e == "All" or e == '':
-                            project_ids=project_filtered_ids
+            if b is None or b == "All" or b == '':
+                if ba is None or ba == "All" or ba == '':
+                    if c is None or c == "All" or c == '':
+                        if d is None or d == "All" or d == '':
+                            if f is None or f == "All" or f == '':
+                                if e is None or e == "All" or e == '':
+                                    project_ids=project_filtered_ids
         project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
         project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
         project_count3 = project_count1 | project_count2
@@ -1746,7 +1754,7 @@ def issueaddress(request):
                 },'colorByPoint': False,
                 'tooltip': {
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}'
+                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>'
                 }
             },
 
@@ -1843,13 +1851,13 @@ def chartjsons():
     #     geojson = json.load(f)
     #
     # district = geojson["features"]
-    campus_partner=open('home/static/chartjsons/campus_partners.json')
+    campus_partner=open('home/static/charts_json/campus_partners.json')
     campus_partner_json=json.load(campus_partner)
-    community_partner = open('home/static/chartjsons/community_partners.json')
+    community_partner = open('home/static/charts_json/community_partners.json')
     community_partner_json = json.load(community_partner)
-    mission_subcategories = open('home/static/chartjsons/mission_subcategories.json')
+    mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
     mission_subcategories_json = json.load(mission_subcategories)
-    projects =open ('home/static/chartjsons/projects.json')
+    projects =open ('home/static/charts_json/projects.json')
     projects_json = json.load(projects)
     return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
 

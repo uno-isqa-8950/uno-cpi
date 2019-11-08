@@ -145,7 +145,6 @@ def ajax_load_project(request):
 @login_required
 @csrf_exempt
 def saveProjectAndRegister(request):
-    print('in th ajax save')
     name = request.GET.get('name')
     description = request.GET.get('description')
     engagement_type = request.GET.get('engagement_type')
@@ -161,82 +160,70 @@ def saveProjectAndRegister(request):
     k12_involvment_flag = request.GET.get('k12_involvment_flag')
     comm_list = request.GET.get('selectedCommIds')
     campus_list = request.GET.get('selectedCampusIds')
+    project_type = request.GET.get('project_type')
+    lead_staff_list = request.GET.get('lead_staff_list')
     k12_flag_value = False
 
-    print('campus_list--',campus_list)
-    print('comm_list--',comm_list)
-    print('name--',name)
-    print('description--',description)
-    print('engagement_type--',engagement_type)
-    print('activity_type--',activity_type)
-    print('start_semester--',start_semester)
-    print('start_academic_yr--',start_academic_yr)
-    print('end_semester--',end_semester)
-    print('end_academic_yr--',end_academic_yr)
-    print('uno_students--',uno_students)
-    print('uno_students_hrs--',uno_students_hrs)
-    print('k12_students--',k12_students)
-    print('k12_students_hrs--',k12_students_hrs)
-    print('k12_involvment_flag--',k12_involvment_flag)
     if k12_involvment_flag == 'on':
         k12_flag_value = True
-    
 
     project = Project(project_name=name,description=description,semester=start_semester,\
         end_semester=end_semester,\
         total_uno_students=uno_students,total_uno_hours=uno_students_hrs,k12_flag=k12_flag_value,\
-        total_k12_students=k12_students,total_k12_hours=k12_students_hrs)
+        total_k12_students=k12_students,total_k12_hours=k12_students_hrs,project_type=project_type)
+
     if start_academic_yr != '' and start_academic_yr is not None:
-        print('test--',AcademicYear.objects.get(id=start_academic_yr))
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
+
+    if end_academic_yr != '' and end_academic_yr is not None:
+        project.end_academic_year = AcademicYear.objects.get(id=end_academic_yr)
+
+    if engagement_type != '' and engagement_type is not None:
+        project.engagement_type = EngagementType.objects.get(id=engagement_type)
+
+    if activity_type != '' and activity_type is not None:
+        project.activity_type = ActivityType.objects.get(id=activity_type)
 
     project.save()
     projectId = project.pk
-    print(projectId)
+
+    if lead_staff_list != '' and lead_staff_list is not None:        
+        lead_name_list = []
+        if lead_staff_list.find(",") != -1:
+            leadName_list =lead_staff_list.split(",")
+            for leadName in leadName_list:
+                lead_name_list.append(leadName)
+        else:
+            lead_name_list.append(lead_staff_list)
+
+        project.campus_lead_staff = lead_name_list
 
     if comm_list != '' or comm_list is not None:
-        print('comm_list--in if cond-',comm_list)
         if comm_list.find(",") != -1:
             comm_Id_list =comm_list.split(",")
         else:
             comm_Id_list = comm_list
 
-        print('comm_Id_list--',comm_Id_list)
         for commId in comm_Id_list:
-           print('commId--',commId)
            comm_obj =  CommunityPartner.objects.get(id=commId)
-           print('comm_obj--',comm_obj)
            proj_obj =  Project.objects.get(id=projectId)
-           print('proj_obj--',proj_obj)
            projComm = ProjectCommunityPartner(project_name=proj_obj,community_partner=comm_obj)
-           print('projComm---',projComm)
            projComm.save()
 
     if campus_list != '' or campus_list is not None:
-        print('campus_list--in if cond-',campus_list)
         if campus_list.find(",") != -1:
             camp_id_list =campus_list.split(",")
         else:
             camp_id_list = campus_list
 
-        print('camp_id_list--',camp_id_list)
         for campId in camp_id_list:
-           print('campId--',campId)
            camp_obj =  CampusPartner.objects.get(id=campId)
-           print('camp_obj--',camp_obj)
            proj_obj =  Project.objects.get(id=projectId)
-           print('proj_obj--',proj_obj)
            projCamp_obj = ProjectCampusPartner(project_name=proj_obj,campus_partner=camp_obj)
-           print('projCamp_obj---',projCamp_obj)
            projCamp_obj.save()
           
-    data = {
-        'save_projectId' : projectId
-    }
+    data = {'save_projectId' : projectId}
     return JsonResponse(data)
-
-    
-
 
 
 @login_required()

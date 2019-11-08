@@ -1829,6 +1829,15 @@ def issueaddress(request):
         projects = Project.objects.filter(engagement_type=engagement_type)
 
     dump = json.dumps(dumbellchart)
+    print('dumbellchart---',dump)
+    print('from_project_filter', from_project_filter)
+    print('project_filter',project_filter)
+    print( 'to_project_filter', to_project_filter)
+    print('data_definition', data_definition)
+    print('campus_filter', campus_filter)
+    print('communityPartners', communityPartners)
+    print('college_filter', college_filter)
+    print('campus_id', campus_id,'max_year',max_year,'min_year',min_year)
     return render(request, 'charts/issueaddressanalysis.html',
                       {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
                        'to_project_filter': to_project_filter,

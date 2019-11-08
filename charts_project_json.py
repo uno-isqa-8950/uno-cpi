@@ -41,7 +41,7 @@ q = "SELECT p.id, project_name, legislative_district, k12_flag, pm.mission_id, m
     "	AND mission_type = 'Primary' " \
     "LEFT JOIN home_missionarea ma " \
     "   ON pm.mission_id = ma.id " \
-    # "WHERE status_id <> (SELECT id FROM projects_status WHERE name = 'Drafts') ;"
+    "WHERE status_id <> (SELECT id FROM projects_status WHERE name = 'Drafts') ;"
 cursor.execute(q)
 projects = cursor.fetchall()
 records = len(projects)

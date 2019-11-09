@@ -855,7 +855,8 @@ $('#submit').hide();
 $('#update').show;
     }
     //--------------------cancel button function------------------------
-        $('#cancel').on('click', function () {
+        $('#cancel').on('click', function (e) {
+            e.preventDefault();
                     if (confirm("Are you sure?")){
                       window.location = '/checkProject';
                     }
@@ -888,10 +889,11 @@ $('#update').show;
                 }
                  var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();
-                    if (toacademicyear<fromacademicyear ){
-                    alert("Please Check Start and End Academic Years");
-
-                    return false;
+                if (toacademicyear != '') {
+                    if (toacademicyear < fromacademicyear) {
+                        alert("Please Check Start and End Academic Years");
+                        return false;
+                    }
                 }
                 if (status === 'Drafts') {
                     $('#termsdiv').hide();

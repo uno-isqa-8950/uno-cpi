@@ -718,7 +718,7 @@ def editProject(request,pk):
             formset_comm_details = proj_comm_part_edit(request.POST or None, request.FILES, instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x, prefix='campus_edit')
             formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x, prefix='sub_category_edit')
-            print("in post")
+            # print("in post")
             # print(project.is_valid())
             # print(formset_camp_details.is_valid())
             # print(formset_comm_details.is_valid())

@@ -165,7 +165,7 @@ class MissionSubCategory (models.Model):
 
 class ProjectSubCategory (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE)
+    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
     history = HistoricalRecords()
@@ -208,7 +208,7 @@ class ProjectMission (models.Model):
 
 class ProjectCommunityPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE, blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True)
     total_people = models.IntegerField(blank=True, null=True)
     wages = models.IntegerField(default=22)
@@ -220,7 +220,7 @@ class ProjectCommunityPartner (models.Model):
 
 class ProjectCampusPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True, default=0)
     total_people = models.IntegerField(blank=True, null=True, default=0)
     wages = models.IntegerField(blank=True, null=True)
@@ -246,7 +246,7 @@ class Status(models.Model):
 
 
 class EngagementType(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     history = HistoricalRecords()
 
@@ -255,7 +255,7 @@ class EngagementType(models.Model):
 
 
 class ActivityType(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    name = models.CharField(max_length=100, unique=True, null=True, blank=True)
     description = models.CharField(max_length=255, null=True, blank=True)
     history = HistoricalRecords()
 

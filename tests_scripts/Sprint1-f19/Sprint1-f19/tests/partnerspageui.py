@@ -10,6 +10,9 @@ class PartnersPageUi:
     Partners_Homepagelink = (By.XPATH, '//*[@id="target"]/ul/li[3]/a')
     Partners_Registercommunitypartnerlink = (By.XPATH, '//*[@id="myButton"]')
     Partners_Registercampuspartnerlink = (By.XPATH, '//*[@id="myButton1"]')
+    searchfield_checkcommunitypartner = (By.XPATH, '//*[@id="partner_name"]')
+    searchbutton_checkcommunitypartner = (By.XPATH, '//*[@id="next"]')
+    registercommunitypartner_checkcommunitypartner = (By.XPATH, '//*[@id="lnk-register_partner"]')
 
     ### Initializer
 
@@ -34,4 +37,10 @@ class PartnersPageUi:
     def partners_campuspartnerregister(self):
         Partners_Legislativedistrict = self.browser.find_element(*self.Partners_Registercampuspartnerlink)
         Partners_Legislativedistrict.click()
+
+    def search_checkcommunitypartner(self):
+        searchfield_checkcommunitypartner = self.browser.find_element(*self.searchfield_checkcommunitypartner)
+        searchfield_checkcommunitypartner.click()
+
+
 

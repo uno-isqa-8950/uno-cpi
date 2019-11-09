@@ -59,19 +59,19 @@ if records != 0:
     logger.info("Write Community Partner JSON for charts  in output directory")
     with open(community_file, 'w') as output_file:
         output_file.write(format(jsonstring))
-#
-# #writing into amazon aws s3
-# ACCESS_ID=settings.AWS_ACCESS_KEY_ID
-# ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
-# s3 = boto3.resource('s3',
-#          aws_access_key_id=ACCESS_ID,
-#          aws_secret_access_key= ACCESS_KEY)
-#
-# if records == 0:
-#     print("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-#     logger.info("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-# else:
-#     s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json').put(Body=format(jsonstring))
-#     print("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-#     logger.info("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-#
+
+#writing into amazon aws s3
+ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+s3 = boto3.resource('s3',
+         aws_access_key_id=ACCESS_ID,
+         aws_secret_access_key= ACCESS_KEY)
+
+if records == 0:
+    print("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    logger.info("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+else:
+    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json').put(Body=format(jsonstring))
+    print("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    logger.info("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+

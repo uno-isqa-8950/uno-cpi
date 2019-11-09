@@ -93,17 +93,22 @@ class DateInput(forms.DateInput):
 class ProjectForm2(ModelForm):
     SEMESTER = [
         ("", "----------"), ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
+    address_line1 = forms.CharField(required=False)
+    country = forms.CharField(required=False)
+    city = forms.CharField(required=False)
+    state = forms.CharField(required=False, label="State or Province")
+    zip = forms.CharField(required=False, label="Zip or Postal Code")
     semester = forms.ChoiceField(required=False, choices=SEMESTER)
     end_semester = forms.ChoiceField(required=False, choices=SEMESTER)
+    k12_flag = forms.BooleanField(required=False)
 
-    """class MyForm(forms.Form):
-        k12_flag = forms.BooleanField(required=False)"""
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students','total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students',
+                  'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
                     'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
                     'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
-                    'longitude','academic_year', 'end_academic_year', 'end_semester')
+                    'longitude','academic_year', 'end_academic_year', 'end_semester','other_sub_category','campus_lead_staff','project_type')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
@@ -233,9 +238,10 @@ class ProjectFormAdd(ModelForm):
     k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','description','semester',
+        fields = ('project_name','engagement_type','activity_type','project_type','description','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours','end_semester', 'end_academic_year','campus_lead_staff')
+                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
+                  'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -271,13 +277,13 @@ class ProjectFormAdd(ModelForm):
     #     else:
     #         return engagement_type
 
-    def clean_facilitator(self):
-        facilitator = self.cleaned_data['facilitator']
-
-        if any(char.isdigit() for char in facilitator):
-            raise forms.ValidationError("Facilitator cannot have numbers")
-
-        return facilitator
+    # def clean_facilitator(self):
+    #     facilitator = self.cleaned_data['facilitator']
+    #
+    #     if any(char.isdigit() for char in facilitator):
+    #         raise forms.ValidationError("Facilitator cannot have numbers")
+    #
+    #     return facilitator
 
     # def clean_semester(self):
     #     semester = self.cleaned_data['semester']
@@ -345,12 +351,12 @@ class ProjectFormAdd(ModelForm):
     #         raise forms.ValidationError("Invalid State Name")
     #     return state
 
-    def clean_city(self):
-        city = self.cleaned_data['city']
-
-        if any(char.isdigit() for char in city):
-            raise forms.ValidationError("Invalid City Name")
-        return city
+    # def clean_city(self):
+    #     city = self.cleaned_data['city']
+    #
+    #     if any(char.isdigit() for char in city):
+    #         raise forms.ValidationError("Invalid City Name")
+    #     return city
 
     # def clean_zip(self):
     #     zip = self.cleaned_data['zip']

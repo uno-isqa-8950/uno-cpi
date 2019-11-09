@@ -1,465 +1,1618 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
 {% block content %}
+  <style>
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+      #button-center{
+          text-align: center;
+      }
+}
+    .select2 {
+        width:96%!important;
+    }
+  .help-block
+  {
+     display: none;
+  }
+.select2-container--open .select2-dropdown--below
+    {
+       margin-left:25px;
+    }
+.select2-container--open .select2-dropdown--above
+    {
+       margin-left:25px;
+    }
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+    label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
+        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
+        label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
+        label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
+    {
+        content:"*" ;
+        color:red
+    }
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+    .h9{
+        font-size:0.8em;
+    }
+    .btn-link{
+        font-size: small;
+    }
+    select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]
+    {
+        width:96%;
+        height: 35px;
+        color: black;
+        margin-top: 5px;
+        margin-left: 10px;
+         font-family: "Arial Narrow", sans-serif;
+        font-size: 16px;
+    }
+    input[id=id_project_name]{
+        margin-bottom: 0px;
+    }
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
+   .btn-link, .btn-link:hover
+   {
+   color: #d71920
+   }
+/*K12 Checkbox-Parimita*/
+/*input[type="radio"]:checked ~ .reveal-if-active,*/
+/*input[type="checkbox"]:checked ~ .reveal-if-active {*/
+/*  opacity: 1;*/
+/*  max-height: 110px;*/
+/*  overflow: visible;*/
+/*    !*line-height: 2.7;*!*/
+/*    font-size: 1.00em;*/
+/*}*/
+  /*.reveal-if-active {*/
+  /*    opacity: 0;*/
+  /*    max-height: 0;*/
+  /*    overflow: hidden;*/
+  /*    !*transform: scale(0.8);*!*/
+  /*    transition: 0.5s;*/
+  /*    margin-left: 0px;*/
+  /*}*/
+  /*input[type="radio"]:checked ~ &,*/
+  /*input[type="checkbox"]:checked ~ & {*/
+  /*  opacity: 1;*/
+  /*  max-height: 100px;*/
+  /*  overflow: visible;*/
+  /*  padding: 10px 20px;*/
+  /*  transform: scale(1);*/
+  /*    margin-left: 0px;*/
+  /*}*/
+.colpanel-default > .colpanel-heading {
+        background-color: lightgrey;
+    height: 33px;
+    }
+    .formtabfont a,i,h2{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+    .formtabfont h2:hover{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        text-decoration: underline;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+.panel{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.icon{
+    margin-top: 33px;
+}
+textarea[id=id_description]{
+    height:140px;
+}
+label[for=id_campus-0-campus_partner]:after{
+    display: none;
+    content: " ";
+}
+.delicon{
+    color: red;
+}
+      .form-control{
+          margin: 5px;
+          width:100%
+      }
+      .sw-btn-prev{
+          float: left;
+      }
+      .collapsible {
+  background-color: #C1C0C0;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.active, .collapsible:hover {
+  background-color: #E1E1E1;
+}
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+ .redbutton{
+          background-color: crimson; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .redbutton:hover{
+          text-decoration: underline;
+      }
+      .blackbutton{
+          background-color: black; /* Green */
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .blackbutton:hover{
+          text-decoration: underline;
+      }
+      .btn-red{
+          background-color: crimson; /* Green */
+  border: none;
+  color: white;
+  padding: 2px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+          height: 38px;
+  margin: 9px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+          border-radius: 5px;
+      }
+      .displaybox {
+  border: 1px black;
+  padding: 10px;
+display: flex;
+  border-top-right-radius: 10px 5px;
+}
+            .redborder {
+  border: 1px red;
+}
+      input[id=othersubcat]{
 
-    <style>
-
-        label
-        {
-            margin-left: 22px;
-            font-weight: bold;
-        }
-
-
-        input[type=number],textarea[name=project_name],.form-control,input[type=text],select[id=id_status],textarea[id=id_description],textarea[id=id_total_uno_hours],
-        input[id=id_start_date],input[id=id_end_date],select[id=id_semester]
-        {
-            width: 95%;
-            height: 10%;
-
-        }
-
-        label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,
-        label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after
-        {
-            content:"*" ;
-            color:red
-        }
-
-
-        .select2-container--default .select2-selection--single
-        {
-            margin-left:22px;
-            width:100%
-        }
-        #button-center{
-            text-align: center;
-        }
-        .help-block
-        {
-            display: none;
-        }
-
-        .select2-container--open .select2-dropdown--below
-        {
-            margin-left:22px
-        }
-        .panel {
-            margin-bottom: 1%;
-            background-color: #ffffff;
-            border: 1px solid transparent;
-            border-radius: 4px;
-            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-        }
-
-
-        .page-item.active .page-link
-        {
-            background-color: #333333;
-            border-color: #333333;
-        }
-
-        .page-link
-        {
-            color:#333333;
-        }
-
-        .page-link:hover
-        {
-            color:grey;
-        }
-
+        width:98%;
+        height: 35px;
+        color: black;
+        margin-top: 5px;
+        margin-left: 8px;
+        font-family: "Arial Narrow", sans-serif;
+        font-size: 16px;
+    }
     </style>
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+                            <!-- {% create_project_forms %}-->
+<!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
+                           <form method="POST">{% csrf_token %}
+                                {{formset_missiondetails.management_form}}
 
+                                {{formset_comm_details.management_form}}
+                                {{formset_camp_details.management_form}}
+                               {{formset_subcat_details.management_form}}
+<div class="container-fluid">
 
-
-    <div class = "container" id="main12">
-        <div class="row justify-content-md-center">
-            <div class="col-lg-10 col-md-10">
+    <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12">
                 <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4>Edit Project</h4></div>
-                    <div class="panel-body" style="margin-top:10px;">
-                        <form method="POST" name = "myForm" onfocusout="return validateFormsets()" class="project-form" >{% csrf_token %}
-                            {{formset_missiondetails.management_form}}
-                            {{formset_comm_details.management_form}}
-                            {{formset_camp_details.management_form}}
+                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Edit Project</h4></div>
+                       <div class="panel-body">
 
-
-                            {{project.project_name|bootstrap}}
-                            {% if  project.project_name.errors %} {% for error in  project.project_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.status|bootstrap}}
-                            {{project.engagement_type|bootstrap}}
-                            {#                            {{ course.name|bootstrap }}#}
-                            {#                            {{ course.prefix|bootstrap }}#}
-                            {#                            {{ course.number|bootstrap }}#}
-                            {{project.activity_type|bootstrap}}
-                            {#                            {{ project.facilitator|bootstrap }}#}
-                            {{ project.description|bootstrap }}
-                            {% if  project.description.errors %} {% for error in  project.description.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            <div class="form-group">
-                                <label for="id_semester">Start Semester</label>
-                                {{ project.semester}}
-                                {% if  project.semester.errors %} {% for error in  project.semester.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            </div>
-                            {{ project.academic_year|bootstrap }}
-                            {{ project.end_semester|bootstrap }}
-                            {{ project.end_academic_year|bootstrap }}
-                            {{ project.total_uno_students|bootstrap }}
-                             {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.total_uno_hours|bootstrap }}
-                             {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.total_k12_students|bootstrap }}
-                             {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.total_k12_hours|bootstrap }}
-                             {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.total_uno_faculty|bootstrap }}
-                            {% if  project.total_uno_faculty.errors %} {% for error in  project.total_uno_faculty.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.total_other_community_members|bootstrap }}
-                            {% if  project.total_other_community_members.errors %} {% for error in  project.total_other_community_members.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.start_date|bootstrap }}
-                            {% if  project.start_date.errors %} {% for error in  project.start_date.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.end_date|bootstrap }}
-                            {% if  project.end_date.errors %} {% for error in  project.end_date.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.other_details|bootstrap }}
-                             {% if  project.other_details.errors %} {% for error in  project.other_details.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.outcomes|bootstrap }}
-                             {% if  project.outcomes.errors %} {% for error in  project.outcomes.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.address_line1|bootstrap }}
-                             {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.city|bootstrap }}
-                             {% if  project.city.errors %} {% for error in  project.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.state|bootstrap }}
-                             {% if  project.state.errors %} {% for error in  project.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.zip|bootstrap }}
-                              {% if  project.zip.errors %} {% for error in  project.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            {{ project.country|bootstrap }}
-                             {% if  project.country.errors %} {% for error in  project.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                            <div class="mission" id="contact1" style="margin-top:20px;">
-                                <div class="col-lg-12">
-                                    <h6>Mission Areas
-                                    </h6>
-                                </div>
-                                {% for missform in formset_missiondetails %}
-                                    <div class="mission_edit-row" id="contact1" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-
-                                                {{ missform|bootstrap }}
-                                            </div>
-                                        </div>
-                                        <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-mission_edit-row"><i class="fa fa-plus" aria-hidden="true"></i> Additional Mission Areas</button><span></span>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="community" id="contact1" style="margin-top:20px;">
-                                <div class="col-lg-12">
-                                    <h6>Community Partners
-                                    </h6>
-                                </div>
-                                {% for commform in formset_comm_details %}
-                                    <div class="community_edit-row" id="contact1" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-                                                {{ commform|bootstrap }}
-                                            </div>
-                                        </div>
-                                        <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-community_edit-row"><i class="fa fa-plus" aria-hidden="true"></i>  Additional Community Partner</button><span></span>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="campus" id="contact1" style="margin-top:20px;">
-                                <div class="col-lg-12">
-                                    <h6>Campus Partners
-                                    </h6>
-                                </div>
-                                {% for campform in formset_camp_details %}
-                                    <div class="campus_edit-row" id="contact1" style="margin-top:20px;">
-                                        <div class="col-lg-12">
-                                        </div>
-                                        <div class="input-group">
-                                            <div class="col-lg-6">
-                                                {{ campform|bootstrap }}
-                                            </div>
-                                        </div>
-                                        <div class="input-group-append" >
-                                            <button class="btn btn-secondary add-campus_edit-row"><i class="fa fa-plus" aria-hidden="true"></i>  Additional Campus Partner</button><span></span>
-                                        </div>
-
-                                    </div>
-                                {% endfor %}
-                            </div>
-
-                            <div class="row justify-content-md-center" style="margin-top:30px;">
-                                <div class="col-lg-2 col-md-5">
-                                    <p id="button-center"><button type="submit" class="save btn btn-custom"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button></p>
-                                </div>
-                            </div>
-                        </form><br><br>
+<div id="smartwizard">
+    <ul>
+        <li><a href="#step-1">Project Information</a></li>
+        <li><a href="#step-2">Partner Information</a></li>
+        <li><a href="#step-3">Mission Areas</a></li>
+        <li><a href="#step-4" id="click4">Other Information</a></li>
+    </ul>
+    <div>
+        <div id="step-1">
+            <div id="form-step-0">
+                <div class="row">
+                <div class="col">
+                    <div class="row">
+                    <label for="id_project_name" class="col-sm-4">Project Name</label>
+                    <div class="col-sm-7">
+                    {{ project.project_name }}
                     </div>
+<!--                    {% if  project.project_name.errors %}-->
+<!--                    {% for error in  project.project_name.errors %}-->
+<!--                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>-->
+<!--                    {% endfor %}-->
+<!--                    {% endif %}-->
+                </div>
+                    <div class="row">
+                        <label for="id_engagement_type" class="col-sm-4">Engagement Type
+                            </label>
+                        <div class="col-sm-7">
+                    {{ project.engagement_type }}
+                        </div>
+                    {% if  project.engagement_type.errors %}
+                    {% for error in  project.engagement_type.errors %}
+                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                    <div class="row">
+                      <label class="col-sm-4">Activity Type</label>
+                      {% for data_definition in data_definition %}
+                      {% if data_definition.id == 42%}
+                      <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"></span>
+                      {% endif %}
+                      {% endfor %}
+                        <div class="col-sm-7">
+                      {{ project.activity_type }}
+                        </div>
+                      {% if  project.activity_type.errors %}
+                      {% for error in  project.activity_type.errors %}
+                      <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                      {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="row">
+                      <label class="col-sm-4">Project Type</label>
+                        <div class="col-sm-7">
+                      {{ project.project_type }}
+                        </div>
+                    </div>
+                    <div class="row"><br></div>
+                </div>
+                <div class="col">
+                    <div class="row">
+                    <label  for="id_semester"  class="col-sm-2">Description</label>
+<!--                    </div>-->
+<!--                    <div class="row">-->
+                    <div class="col">
+                    {{ project.description }}
+                    </div>
+                    {% if  project.description.errors %}
+                    {% for error in  project.description.errors %}
+                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                    {% endfor %}
+                    {% endif %}
+                </div>
+                </div>
+                </div>
+
+<!--                <div class="row centered">-->
+<!--                     {{ course|bootstrap }}-->
+<!--            {% if  course.errors %}-->
+<!--            {% for error in  course.errors %}-->
+<!--            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>-->
+<!--            {% endfor %}-->
+<!--            {% endif %}-->
+<!--            </div>-->
+
+                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                    <i class="fa fa-plus"></i> Academic Duration
+                    </button>
+
+                    <div id="academicinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                        <div class="row">
+                                            <div class="form-group col">
+                                                <div class="row">
+                                                    <label for="id_semester" class="col-md-5">Start Semester</label>
+                                                <div class="col-sm-6">
+                                                    {{ project.semester}}
+                                                </div>
+                                                    {% if  project.semester.errors %} {% for error in  project.semester.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+                                                </div>
+                                                    <div class="row">
+                                            <label class="col-md-5">End Semester</label>
+                                                <div class="col-sm-6">
+                                                {{ project.end_semester}}
+                                                </div>
+                                                {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+
+                                            </div>
+                                                </div>
+                                                <div class="form-group col">
+                                                    <div class="row">
+                                                    <label for="id_academic_year" class="col-md-5">Start Academic Year</label>
+                                                    <div class="col-sm-6">
+                                                    {{ project.academic_year}}
+                                                    </div>
+                                                    {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+                                                    </div>
+                                                    <div class="row">
+                                                <label class="col-md-5">End Academic Year</label>
+                                                <div class="col-sm-6">
+                                                {{ project.end_academic_year}}
+                                                </div>
+                                                {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                                </div>
+                                        </div>
+
+
+                                        </div>
+
+
+                    </div>
+                <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                    <i class="fa fa-plus"></i> Student Information
+                    </button>
+
+                    <div id="studentinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                        <div class="row">
+                                            <div class="col">
+                                                 <div class="row">
+                                                <label for="id_uno_students" class="col-sm-5">Total UNO Students</label>
+                                                    <div class="col-sm-6">
+                                                {{ project.total_uno_students}}
+                                                    </div>
+                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                <label for="id_uno_hours" class="col-sm-5">UNO Student Hours</label>
+                                                <div class="col-sm-6">
+                                                {{ project.total_uno_hours}}
+                                                </div>
+                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                            <label for="id_k12_flag">Does this Project involve K-12 students?</label>
+                                            {{ project.k12_flag}}
+                                            </div>
+                                        </div>
+                                        <div class="row" id ="k12-students">
+                                            <div class="form-group-row col">
+                                                <div class="row">
+                                                <label for="id_k12_students" class="col-sm-5">Total number of K-12 Students:</label>
+                                                 <div class="col-sm-6">
+                                                {{ project.total_k12_students}}
+                                                 </div>
+                                                {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+<!--                                                </div>-->
+                                            </div>
+                                            </div>
+                                            <div class="form-group-row col">
+                                                <div class="row">
+                                                <label for="id_k12_hours" class="col-sm-5">Total number of K-12 Hours:</label>
+                                                 <div class="col-sm-6">
+                                                {{ project.total_k12_hours}}
+                                                 </div>
+                                                {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+<!--                                                </div>-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                        </div>
+                    </div>
+ <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
+        </div>
+
+        <div id="step-2">
+<!--{{ communitypartner }}-->
+
+            <div class="row"><br></div>
+
+<!--                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">-->
+<!--                    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
+<!--                    {% for data_definition in data_definition %}-->
+<!--                                              {% if data_definition.id == 2%} Community Partner Information-->
+
+<!--                                          {% endif %}-->
+<!--                                          {% endfor %}-->
+<!--                                          </span>-->
+<!--                    </button>-->
+            <div id="communityinfo" class= "panel-collapse collapse show">
+                {% for commform in formset_comm_details %}
+                                    <div class="panel-body community_edit-row">
+                                        <br>
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                <label style="padding-top:8px; ">Community Partner</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                {{ commform|bootstrap }}
+                                                {% if  commform.errors %}
+                                        {% for error in  commform.errors %}
+                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                        {% endif %}
+                                            </div>
+                                                <div class="col-md-1">
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                {% endfor %}
+                <div class="community_edit-fields displaybox row" id="community_edit-fields"></div>
+            </div>
+
+
+
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo">
+    <i class="fa fa-plus"></i>
+                                 Campus Partner Information
+
+</button>
+<div id="campusinfo" class= "panel-collapse collapse">
+{% for campform in formset_camp_details %}
+                                    <div class="panel-body campus_edit-row">
+
+                                        <br>
+                                        <div class="row ">
+                                            <div class="col-md-3">
+                                                <label for="id_academic_year" style="padding-top:8px; ">Campus Partner </label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                 {{ campform|bootstrap }}
+                                                {% if  commform.errors %}
+                                        {% for error in  commform.errors %}
+                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                        {% endfor %}
+                                        {% endif %}
+                                        </div>
+                                        <div class="col-md-1">
+                                            <div class="input-group-append" >
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
+                                            </div>
+<!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
+                                            </div>
+                                        </div>
+
+                                    </div>
+    {% endfor %}
+    <div class="campus_edit-fields displaybox row" id="campus_edit-fields"></div>
+                                                      <div class="row"><br></div>
+
+</div>
+
+            <div class="row"><br></div>
+                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
+    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
+</button>
+<div id="leadstaffinfo" class= "panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <br>
+                                       <div class="row">
+
+                                            <div class="col-md-12">
+                                                <div class="row">
+<!--                                                    <div class="col-md-4">-->
+<!--                                                        <label style="padding-top: 10px">First Name</label>-->
+<!--                                                    </div>-->
+                                                    <div class="col-md-4">
+                                                        <label style="padding-top: 10px">First Name</label>
+                                                        <input id='firstname'  type='text' class = "inputbox">
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <label style="padding-top: 10px">Last Name</label>
+                                                        <input id='lastname'  type='text' class = "inputbox">
+                                                    </div>
+                                                    <div class="col-md-1 centered">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
+                                                </div>
+                                            </div>
+                                       </div>
+                                            <div style="display: none">
+<!--                                                <div>-->
+                                            {{ project.campus_lead_staff}}
+                                            </div>
+                                        <div class="row displaybox" id='display'>
+                                        </div>
+
+                                </div>
+
+                                  </div>
+
+
+
+ <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
+        </div>
+
+        <div id="step-3">
+             {% for missform in formset_missiondetails %}
+            <div class="row">
+                <div class="col-md-3">
+                    <label>
+<!--                                 Primary Project Mission Area -->
+                        Primary Focus Area
+                        <span style="color:red;">*</span>
+
+                    </label>
+                </div>
+                <div class="col-md-6">
+                    {{ missform | bootstrap}}
+
                 </div>
             </div>
+
+                                {% endfor %}
+
+
+
+
+              {% for catform in formset_subcat_details %}
+            <div class="row sub_category_edit-row">
+                <div class="col-md-3">
+                    <label>
+<!--                                 Sub Category-->
+                        Topics
+
+                                </label>
+                </div>
+                <div class="col-md-6">
+                    {{ catform | bootstrap}}
+                </div>
+                <div class="col-md-1">
+                    <div class="input-group-append" >
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
+                    </div>
+                </div>
+                    </div>
+
+
+                                {% endfor %}
+ <div class="sub_category_edit-fields displaybox row" id="sub_category_edit-fields"></div>
+  <div class="row"><br><br></div>
+                                                            <div class="row" id="othersubinput">
+                                                    <div class="col-md-3">
+                                                        <label style="padding-top: 10px">Other Sub Category</label>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Sub Categories">
+                                                    </div>
+
+                                                    <div class="col-md-1">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
+                                                </div>
+                                            <div style="display: none">
+<!--                                                <div>-->
+                                            {{ project.other_sub_category}}
+                                            </div>
+                                        <div class="row displaybox" id='displaysub'>
+
+                                        </div>
+
+
+
+             <div class="row justify-content-end" style="margin-top:30px;">
+<div class="col-md-3" style="float: right">
+<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+            </div>
+ </div>
         </div>
-    </div> <br><br>
+        <div id="step-4">
+            <div class="row"><br></div>
+<!--                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
+<!--    <i class="fa fa-plus"></i> Address-->
+<!--</button>-->
+<div id="contactinfo" class= "panel-collapse collapse show">
+                                <div class="panel-body">
+                                        <br>
+
+                                        <div class="row">
+
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                              <label class="col-sm-4">Address</label>
+                                            <div class="col-sm-7">
+                                              {{ project.address_line1}}
+                                            </div>
+                                              {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %}
+                                              <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                              {% endfor %} {% endif %}
+                                          </div>
+                                        </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                              <label class="col-sm-4">Country</label>
+                                            <div class="col-sm-7">
+                                            {{ project.country }}
+                                            </div>
+                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                        </div>
+                                        <div class="row">
+                                              <label class="col-sm-4">City</label>
+                                            <div class="col-sm-7">
+                                            {{ project.city }}
+                                            </div>
+                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                              <label class="col-sm-4">State or Province</label>
+                                            <div class="col-sm-7">
+                                            {{ project.state }}
+                                            </div>
+                                            {% if  project.state.errors %} {% for error in  project.state.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+                                                <div class="row">
+                                              <label class="col-sm-4">Zip or Postal Code</label>
+                                            <div class="col-sm-7">
+                                            {{ project.zip }}
+                                            </div>
+                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                </div>
+     <div class="form-group" style="display: none">
+                                            <label>Project Status</label>
+                                            {{ project.status}}
+                                            {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+
+                                        </div>
+                              </div>
+
+<!--            <div class="row justify-content-md-center" style="margin-top:30px;">-->
+<!--                <div class="col-lg-2 col-md-5">-->
+<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Submit</button></p>-->
+<!--                </div>-->
+
+<!--                <div class="col-lg-2 col-md-5">-->
+<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Draft</button></p>-->
+<!--                </div>-->
+<!--            </div>-->
+
+                                </div>
 
 
+
+        </div>
+
+    </div>
+
+
+                       </div>
+                </div>
+            </div>
+</div>
+</div>
+    <div class="container-fluid">
+
+                 <div class="row centered" id="termsdiv">
+                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+                    of the Community Partnership Initiative.</p>
+            </div>
+                               <div class="row centered" style="margin-top:30px;">
+<!--<div class="col-md-3">-->
+                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>
+<!--            </div>-->
+<button type="submit" value="update" name="update" id="update" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Update</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton"> <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Submit</button>
+                <button name="cancel" id="cancel" class="redbutton"> <i class="fa fa-times-circle" style="color: white" aria-hidden="true"></i> Cancel</button>
+ </div>
+    </div>
+
+</form>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#smartwizard').smartWizard({
+        theme:'arrows',
+        transitionEffect: 'fade',
+        transitionSpeed: '400',
+        // usehash: false,
+        showStepURLhash:false,
+        // contentCache:true,
+        toolbarSettings: {
+            // toolbarPosition:'top',
+            toolbarButtonPosition:'right',
+            showNextButton:'true',
+            showPreviousButton:'true',
+            // toolbarExtraButtons: [
+            //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
+            //         if (confirm("Are you sure?")){
+            //           window.location = '/checkProject';
+            //         }
+            //     }),
+            //
+            // ]
+        }
+    });
+    //------------------hide and show buttons-----------------------
+$('#termsdiv').hide();
+$('#draft').hide();
+$('#submit').hide();
+$('#update').hide();
+    var status = $('#id_status option:selected').text();
+    if(status === 'Drafts'){
+$('#draft').show();
+$('#submit').show();
+    }
+    else{
+$('#draft').hide();
+$('#submit').hide();
+$('#update').show;
+    }
+    //--------------------cancel button function------------------------
+        $('#cancel').on('click', function () {
+                    if (confirm("Are you sure?")){
+                      window.location = '/checkProject';
+                    }
+        });
+
+    //----------------------form wizard each step validation---------------------------
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+        var elmForm = $("#form-step-" + stepNumber);
+        if (stepDirection === 'forward') {
+            if (stepNumber === 0) {
+                if (($("#id_project_name").val() === '')) {
+                    alert("Please provide Project name to proceed.");
+                    return false
+                }
+                if (($("#id_engagement_type").val() === '')) {
+                    alert("Please enter Engagement type.");
+                    return false
+                }
+                if (($("#id_semester").val() === '')) {
+                    alert("Please provide Project start semester.");
+                    return false
+                }
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please provide Project start academic year.");
+                    return false
+                }
+                if( ($("#id_description").val() === '') ){
+                    alert("Please Provide Description for the project.");
+                    return false
+                }
+                 var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                    if (toacademicyear<fromacademicyear ){
+                    alert("Please Check Start and End Academic Years");
+
+                    return false;
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+
+            if (stepNumber === 1) {
+                        var communitylast = $('.community_edit-row:last').find(':selected').text();
+        var campuslast = $('.campus_edit-row:last').find(':selected').text();
+
+        if(communitylast !='---------' && communitylast != ""){
+            alert('Please make sure to add the selected value');
+            // $('.community-row:last').find('select').val(' ');
+            return false;
+        }
+        if(campuslast !='---------' && campuslast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
+
+         if($('#firstname').val() !="" && $('#lastname') != ""){
+            alert('Please make sure to add the Lead Staff Name');
+            return false;
+        }
+                if ($("#id_campus-0-campus_partner").val() === '') {
+                    alert("Please provide Campus partner before proceeding.");
+                    return false;
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+            if (stepNumber === 2) {
+                var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
+        if(subcatlast !='---------' && subcatlast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
+                if ($("#id_mission-0-mission").val() == '') {
+                    alert("Please provide Mission area before proceeding.");
+                    return false;
+                } else {
+                    if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+                }
+            }
+        }
+    //------------------------wizard step backward buttons function-----------------
+if (stepDirection === 'backward') {
+            if(status === 'Drafts') {
+           $('#termsdiv').hide();
+            $('#draft').show();
+            $('#submit').hide();
+            $('#update').hide();
+        }
+        else{
+            $('#termsdiv').hide();
+             $('#draft').hide();
+            $('#submit').hide();
+            $('#update').hide();
+        }
+
+        }
+        return true;
+    });
+    //-------------------buttons function if directly click on step 4-----------------
+    $('#click4').click(function () {
+        if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+    });
+
+    $('#id_project_name').addClass('inputbox');
+    $('#submit').hide();
+    $('#othersubinput').hide();
+    $("#k12-students").hide();
+    $('#step-2').hide();
+    $('#step-3').hide();
+    $("#step-4").hide();
+        $(".collapse.show").each(function(){
+        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+        });
+        // Toggle plus minus icon on show hide of collapse element
+        $(".collapse").on('show.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+        }).on('hide.bs.collapse', function(){
+        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+        });
+$('#id_total_uno_students').addClass('nospecial').attr('size','3');
+$('#id_total_uno_hours').addClass('nospecial');
+$('#id_total_k12_students').addClass('nospecial');
+$('#id_total_k12_hours').addClass('nospecial');
+$(".nospecial").keypress(function (e) {
+            var keyCode = e.keyCode || e.which;
+            $(this).addClass(' ');
+            //Regex for Valid Characters i.e. Alphabets and Numbers.
+            var regex = /^[0-9]+$/;
+            //Validate TextBox value against the Regex.
+            var isValid = regex.test(String.fromCharCode(keyCode));
+            if (!isValid) {
+                return false;
+            }
+            return isValid;
+        });
+});
+</script>
+<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
 {% block custom_js %}
-    <script type="text/javascript">
-        window.onsubmit = function formset_delete() {
-            var id_comm = document.getElementById('id_community_edit-0-community_partner');
-            var val_comm = id_comm.options[id_comm.selectedIndex].text;
-            if (val_comm === '---------') {
-                document.getElementById('id_community_edit-0-DELETE').click()
-            }
-            var id_camp = document.getElementById('id_campus_edit-0-campus_partner');
-            var val_camp = id_camp.options[id_camp.selectedIndex].text;
-            if (val_camp === '---------') {
-                document.getElementById('id_campus_edit-0-DELETE').click()
-            }
-            var id_miss = document.getElementById('id_mission_edit-0-mission');
-            var val_miss = id_miss.options[id_miss.selectedIndex].text;
-            var id_misstype = document.getElementById('id_mission_edit-0-mission_type');
-            var val_misstype = id_misstype.options[id_misstype.selectedIndex].text;
-            if (val_miss === '---------' || val_misstype === '---------') {
-                document.getElementById('id_mission_edit-0-DELETE').click()
-            }
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+<script type="text/javascript">
+    var leadstaff = $('#id_campus_lead_staff').val();
+    if(leadstaff != '') {
+        var splitleadstaff = leadstaff.split(',');
+        for (var i = 0; i < splitleadstaff.length; i++) {
+            var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + splitleadstaff[i] + '<i  onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+            $("#display").append(html);
         }
-    </script>
-    <script type="text/javascript">
-        function updateElementIndex(el, prefix, ndx) {
-            var id_regex = new RegExp('(' + prefix + '-\\d+)');
-            var replacement = prefix + '-' + ndx;
-            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-            if (el.id) el.id = el.id.replace(id_regex, replacement);
-            if (el.name) el.name = el.name.replace(id_regex, replacement);
-        }
-        function cloneMore(selector, prefix) {
-            var newElement = $(selector).clone(true);
-            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-            newElement.find(':input').each(function() {
-                var name = $(this).attr('name')
-                if(name) {
-                    name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-                    var id = 'id_' + name;
-                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-                }
-            });
-            total++;
-            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-            $(selector).after(newElement);
-            var conditionRow = $('.'+ prefix + '-row:not(:last)');
-            conditionRow.find('.btn.add-' + prefix +'-row')
-                .removeClass('btn-success')
-                .removeClass('add-' + prefix + '-row')
-            return false;
-        }
-        function deleteForm(prefix, btn) {
-            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-            if (total > 1) {
-                btn.closest('.' + prefix + '-row').remove();
-                var forms = $('.' + prefix + '-row');
-                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-                for (var i = 0, formCount = forms.length; i < formCount; i++) {
-                    $(forms.get(i))
-                        .find(':input')
-                        .each(function() {
-                            updateElementIndex(this, prefix, i);
-                        });
-                }
-            }
-            return false;
-        }
-        $(document).on('click', '.add-mission_edit-row', function(e){
-            e.preventDefault();
-            cloneMore('.mission_edit-row:last', 'mission_edit');
-            return false;
-        });
-        $(document).on('click', '.add-community_edit-row', function(e){
-            e.preventDefault();
-            cloneMore('.community_edit-row:last', 'community_edit');
-            return false;
-        });
-        $(document).on('click', '.add-campus_edit-row', function(e){
-            e.preventDefault();
-            cloneMore('.campus_edit-row:last', 'campus_edit');
-            return false;
-        });
-        $(document).on('click', '.remove-mission_edit-row', function(e){
-            e.preventDefault();
-            deleteForm('mission_edit', $(this));
-            return false;
-        });
-
-        $(document).on('click', '.remove-community_edit-row', function(e){
-            e.preventDefault();
-            deleteForm('community_edit', $(this));
-            return false;
-        });
-        $(document).on('click', '.remove-campus_edit-row', function(e){
-            e.preventDefault();
-            deleteForm('campus_edit', $(this));
-            return false;
-        });
-    </script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script>
-        $(".add-mission_edit-row").slice(0, -1).hide();
-        $(".add-community_edit-row").slice(0, -1).hide();
-        $(".add-campus_edit-row").slice(0, -1).hide();
-
-
-    </script>
-    <!--    Commenting out script per ticket #551
-            Removing HTML validations as Validation Messages are coded in forms.py file
-            -Joseph Nabity
-        <script type="text/javascript">
-
-
-    function validateFormsets(){
-
-         var id =event.target.id;
-         var name = event.target.name;
-         console.log(id);
-         console.log(name);
-         console.log(document.getElementById(id).value);
-        { console.log("helloooo");
-            if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
-            || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
-                if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
-                    $('#'+id+'-error').remove();
-                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-
-                    document.getElementById(id).style.borderColor = "red";
-                    return false;
-                }
-                else {
-                    document.getElementById(id).style.borderColor = "gray";
-                    $('#'+id+'-error').remove();
-                    return true;
-                }
-
-
-            }
-
-            if(id.includes("country")||id.includes("city")){
-                if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
-                    $('#'+id+'-error').remove();
-                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
-                    document.getElementById(id).style.borderColor = "red";
-                    return false;
-
-                }
-                else {
-                    document.getElementById(id).style.borderColor = "gray";
-                    $('#'+id+'-error').remove();
-                    return true;
-                }
-
-            }
-            if(id.includes("total_economic_impact")){
-
-                if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
-                {
-                    $('#'+id+'-error').remove();
-                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
-                    document.getElementById(id).style.borderColor = "red";
-                    return false;
-
-
-                }
-            }
-        }
-    return true;
-
     }
 
-    </script>
-    -->
+    var othersubcat = $('#id_other_sub_category').val();
+    if (othersubcat != '') {
+        var splitothersubcat = othersubcat.split(',');
+        for (var j = 0; j < splitothersubcat.length; j++) {
+            var htmlother = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + splitothersubcat[j] + '<i  onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
+            $("#displaysub").append(htmlother);
+        }
+    }
 
-{% endblock %}
-{% block selectizeForm %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-    <script>
-        $(document).ready(function(){
-            $('#id_engagement_type').select2(
-                {
-                    placeholder: 'Select an Engagement Type',
-                }
-            );
-            $('#id_activity_type').select2(
-                {
-                    placeholder: 'Select an Activity Type',
-                }
-            );
-            $('#id_status').select2(
-                {
-                    placeholder: 'Select a Status',
-                }
-            );
-            {#$('#id_projectmission_set-0-mission_type').select2(#}
-            {#    {#}
-            {#            placeholder: 'Select a Mission Type',#}
-            {#    }#}
-            {#);#}
-            {#$('#id_projectmission_set-0-mission').select2(#}
-            {#    {#}
-            {#            placeholder: 'Select a Mission',#}
-            {#    }#}
-            {#);#}
-            {#$('#id_projectcommunitypartner_set-0-community_partner').select2(#}
-            {#    {#}
-            {#            placeholder: 'Select a Community Partner',#}
-            {#    }#}
-            {#);#}
-            {# $('#id_projectcampuspartner_set-0-campus_partner').select2(#}
-            {#    {#}
-            {#            placeholder: 'Select a Campus Partner',#}
-            {#    }#}
-            {#);#}
-            {# $('#id_projectcampuspartner_set-1-campus_partner').select2(#}
-            {#    {#}
-            {#            placeholder: 'Select a Campus Partner',#}
-            {#    }#}
-            {#);#}
+        $("#addsubcat").click(function () {
+var str = "";
+var name =  $('.subcat > h6.finalcat').length;
+//alert(name);
+if(name === 10) {
+            alert("Only Upto 10 Sub Categories are allowed");
+                $('#othersubcat').val('');
+            return false;
+        }
+else {
+    var disp = $('#othersubcat').val();
+    if (disp === "") {
+        alert("Please enter the Sub Category")
+    } else {
+        var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
+        $("#displaysub").append(html);
+        $('.subcat > h6.finalcat').each(function () {
+            str += $(this).text() + ",";
         });
-    </script>
-    <style>
-        .select2-container .select2-selection--single
-        {
-            height:35px;
+        var str2 = str.substring(0, str.length - 1);
+        $('#id_other_sub_category').val(str2);
+        $('#othersubcat').val('');
+    }
+}
+    });
+    $("#submitname").click(function () {
+var str = "";
+var name =  $('.concat > h6.finalname').length;
+//alert(name);
+if(name === 10) {
+            alert("Only Upto 10 staff members are allowed");
+                $('#firstname').val('');
+    $('#lastname').val('');
+            return false;
+        }
+else {
+    var disp = $('#firstname').val() + ' ' + $('#lastname').val();
+    if (disp === " ") {
+        alert("Please enter the name of the Campus Lead Staff")
+    } else {
+        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+        $("#display").append(html);
+        $('.concat > h6.finalname').each(function () {
+            str += $(this).text() + ",";
+        });
+        var str2 = str.substring(0, str.length - 1);
+        $('#id_campus_lead_staff').val(str2);
+        $('#firstname').val('');
+        $('#lastname').val('');
+    }
+}
+    });
+    $(document).on('click', '.remove-staff', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    var str = "";
+                $('.concat > h6.finalname').each(function(){
+                     str += $(this).text()+ ",";
+                });
+ var str2 = str.substring(0,str.length-1);
+                $('#id_campus_lead_staff').val(str2);
+                // $('#id_campus_lead_staff').val(str);
+    return false;
+});
+                $(document).on('click', '.remove-subcat', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    var str = "";
+                $('.subcat > h6.finalcat').each(function(){
+                     str += $(this).text()+ ",";
+                });
+ var str2 = str.substring(0,str.length-1);
+                $('#id_other_sub_category').val(str2);
+                // $('#id_campus_lead_staff').val(str);
+    return false;
+});
+    function updateElementIndex(el, prefix, ndx) {
+    var id_regex = new RegExp('(' + prefix + '-\\d+)');
+    var replacement = prefix + '-' + ndx;
+    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+    if (el.id) el.id = el.id.replace(id_regex, replacement);
+    if (el.name) el.name = el.name.replace(id_regex, replacement);
+}
+var community_ids = [];
+var campus_ids = [];
+var subcategory_ids=[];
+function cloneMore(selector, prefix) {
+    // $(this).parent().fadeout();
+       var selected = $(selector).find(':selected').val();
+       var selectedtext = $(selector).find(':selected').text();
+    if (selectedtext == '---------') {
+        alert('you cannot add empty value');
+        $(selector).find('select').val(' ');
+        return;
+    }
+    if (prefix == 'community_edit') {
+        if (community_ids.includes(selected)) {
+            alert('community already added');
+            $(selector).find('select').val(' ');
+            return;
+        }
+        community_ids.push(selected);
+    } else if (prefix == 'campus_edit') {
+        if (campus_ids.includes(selected)) {
+            alert('campus already added');
+            $(selector).find('select').val(' ');
+            return;
+        }
+        campus_ids.push(selected);
+    }
+    else if (prefix=='sub_category_edit'){
+        if (subcategory_ids.includes(selected)){
+            alert('Subcategory already added');
+            $(selector).find('select').val(' ');
+            return;
+        }
+        subcategory_ids.push(selected);
+    }
+    var newElement = $(selector).clone(true);
+    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+    newElement.find(':input').each(function() {
+        var name = $(this).attr('name');
+        if(name) {
+             var selectedcommunity = $('#id_'+name+' option:selected').text();
+             var value = $('#id_'+name+' option:selected').val();
+             if(selectedcommunity != '') {
+                 console.log(selectedcommunity);
+                 // selectedcommunity.each(function(){
+                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
+                 $("#" + prefix + "-fields").append(html);
+                 // });
+             }
+
+             if(selectedcommunity === 'Others'){
+                 $('#othersubinput').show();
+             }
+        }
+        // if(name.includes("DELETE")){
+        //     $(this).hide();
+        // }
+            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            var id = 'id_' + name;
+            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+            // $('#'+id).find('[value='+value+']').remove();
+    });
+    total++;
+    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+    $(selector).after(newElement);
+    var conditionRow = $('.'+ prefix + '-row:not(:last)');
+    conditionRow.hide() ;
+    // var selectedcommunity = $('#id_'+name+' option:selected').text();
+      //     console.log(selectedcommunity);
+      //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
+      //   $("#copy-fields").append(html);
+    // var conditionlast = $('.'+prefix+'-row:last');
+    // conditionlast.show();
+    conditionRow.find('.fa.add-' + prefix +'-row')
+    .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
+    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+    .html(' ');
+    return false;
+}
+
+
+//$('.community-row:not(:last)').hide();
+//$('.community-row:last').show();
+// function existingselectedvalues(prefix, elem){
+//     if(prefix == 'community'){
+//         var index = community_ids.indexOf(selected);
+//         if (index > 0){
+//             prefix.forEach(
+//             var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
+//                  $("#"+prefix+"-fields").show().append()
+//         )}
+//
+//
+//     }
+//
+// }
+function deleteForm(prefix, elem) {
+    var name = elem.attr('name');
+    var splitname = name.split('-');
+    var btn = splitname[0]+'-'+splitname[1];
+    $('#id_'+btn+'-DELETE').prop('checked',true);
+    //console.log("delete happening");
+    var selected = elem.attr('data-id');
+        if (prefix == 'community_edit') {
+        var index = community_ids.indexOf(selected);
+        if (index != -1) community_ids.splice(index, 1);
+    } else if (prefix == 'campus_edit') {
+        var index = campus_ids.indexOf(selected);
+        if (index != -1) campus_ids.splice(index, 1);
+    }
+    else if(prefix=='sub_category_edit'){
+        var index = subcategory_ids.indexOf(selected);
+        if (index !=-1) subcategory_ids.splice(index,1);
+    }
+  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+  console.log('In deleteForm - total', total);
+  if (total > 1) {
+
+    // $('#id_'+btn).closest('.community_partner').remove();
+    // btn.closest('.' + prefix + '-row').remove();
+    var forms = $('.' + prefix + '-row');
+    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+    for (var i = 0, formCount = forms.length; i < formCount; i++) {
+      $(forms.get(i))
+        .find(':input')
+        .each(function() {
+          updateElementIndex(this, prefix, i);
+        });
+    }
+  }
+  return false;
+}
+$(document).on('click', '.add-mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.mission-row:last', 'mission');
+    return false;
+});
+$(document).on('click', '.add-sub_category-row', function(e){
+    e.preventDefault();
+    cloneMore('.sub_category_edit-row:last', 'sub_category_edit');
+    return false;
+});
+$(document).on('click', '.add-secondary_mission-row', function(e){
+    e.preventDefault();
+    cloneMore('.secondary_mission-row:last', 'secondary_mission');
+    return false;
+});
+$(document).on('click', '.add-community-row', function(e){
+    e.preventDefault();
+    cloneMore('.community_edit-row:last', 'community_edit');
+    // $('.community-row:not(:last)').hide();
+    // var name = $(this).attr('name');
+          // var selectedcommunity = $('#id_'+name+' option:selected').text();
+          // console.log(selectedcommunity);
+        // var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-community-row fa fa-trash"></i> </div>';
+  // '</div>'+
+  // '<div class="form-group">'+
+  // '<button class="btn blackbutton remove" type="button">x</button>'+
+  // '</div>';
+  //       $("#copy-fields").append(html);
+    return false;
+});
+$(document).on('click', '.add-campus-row', function(e){
+    e.preventDefault();
+    cloneMore('.campus_edit-row:last', 'campus_edit');
+    return false;
+});
+$(document).on('click', '.remove-mission-row', function(e){
+    e.preventDefault();
+    deleteForm('mission', $(this));
+    return false;
+});
+$(document).on('click', '.remove-secondary_mission-row', function(e){
+    e.preventDefault();
+    deleteForm('secondary_mission', $(this));
+    return false;
+});
+$(document).on('click', '.remove-community_edit-row', function(e){
+    e.preventDefault();
+   $(this).parent().remove();
+    deleteForm('community', $(this));
+    return false;
+});
+$(document).on('click', '.remove-campus_edit-row', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    deleteForm('campus_edit', $(this));
+    return false;
+});
+$(document).on('click', '.remove-sub_category_edit-row', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    deleteForm('sub_category_edit', $(this));
+    return false;
+});
+</script>
+{#   Js to show the course form if some error happens after the form #}
+<script>
+window.onload = function () {
+    $('.community_edit-row:not(:last)').find(':input').not(':last').each(function() {
+        var name = $(this).attr('name');
+        if(name) {
+             var selectedcommunity = $('#id_'+name+' option:selected').text();
+             var selectedcommunityval = $('#id_'+name+' option:selected').val();
+             if(selectedcommunity != '') {
+                 console.log(selectedcommunity);
+                 // selectedcommunity.each(function(){
+                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-community_edit-row fa fa-close"></i> </h6>';
+                 $("#community_edit-fields").append(html);
+                 // });
+             }
+             community_ids.push(selectedcommunityval)
+        }
+    });
+        $('.campus_edit-row:not(:last)').find(':input').not(':last').each(function() {
+        var campname = $(this).attr('name');
+        if(campname) {
+             var selectedcampus = $('#id_'+campname+' option:selected').text();
+            var selectedcampusval = $('#id_'+campname+' option:selected').val();
+             if(selectedcampus != '') {
+                 console.log(selectedcampus);
+                 // selectedcommunity.each(function(){
+                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcampus + '  <i name="' + campname + '" class="remove-campus_edit-row fa fa-close"></i> </h6>';
+                 $("#campus_edit-fields").append(html);
+                 // });
+             }
+             campus_ids.push(selectedcampusval);
         }
 
-        .select2-container--default .select2-selection--single
-        {
-            border: 2px solid #aaa;
-            margin-top:8px;
+    });
+            $('.sub_category_edit-row:not(:last)').find(':input').not(':last').each(function() {
+        var subcat = $(this).attr('name');
+        if(subcat) {
+             var selectedcat = $('#id_'+subcat+' option:selected').text();
+             var selectedcatval = $('#id_'+subcat+' option:selected').val();
+             if(selectedcat != '') {
+                 console.log(selectedcat);
+                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcat + '  <i name="' + subcat + '" class="remove-sub_category_edit-row fa fa-close"></i> </h6>';
+                 $("#sub_category_edit-fields").append(html);
+
+             }
+             subcategory_ids.push(selectedcatval);
+             if(selectedcat === 'Others'){
+                 $('#othersubinput').show();
+             }
         }
 
-        .select2-container--default .select2-selection--single .select2-selection__arrow
-        {
-            top:10px;
+    });
+//------------hide and show k-12 flag ---------------------
+$('#id_k12_flag').change(function () {
+    if($('#id_k12_flag').prop('checked')==true){
+        $("#k12-students").show();
+    }
+    else{
+        $("#k12-students").hide();
+    }
+});
+//----------------page on load formset click function--------------------
+        var communitylast = $('.community_edit-row:last').find(':selected').text();
+        var campuslast = $('.campus_edit-row:last').find(':selected').text();
+         var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
+       if(communitylast != '---------') {
+           $('.add-community-row:last').click();
+       }
+       if( campuslast != '---------') {
+           $('.add-campus-row:last').click();
+       }
+       if(subcatlast != '---------') {
+           $('.add-sub_category-row:last').click();
+       }
+
+//---------------------------academic year validation ----------------------------
+
+        $("#id_end_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear<fromacademicyear ){
+            alert("Please Check Start and End Academic Years");
+            // $("#id_end_academic_year").val('-------- ');
+            // $("#id_academic_year").val(' ');
+            return false;
         }
 
-        .select2-container--default .select2-selection--single:focus
-        {
-            border-color:grey;
-            box-shadow:0 0 8px 0 grey;
+    });
+    $("#id_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear!='') {
+            if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
+                alert("Please Check Start and End Academic Years");
+                // $("#id_end_academic_year").val(' ');
+                // $("#id_academic_year").val(' ');
+                return false;
+            }
         }
-    </style>
+    });
+
+
+
+  var val = $("#id_activity_type").find("option:selected").text();
+           if (val === 'Course') {
+              $("#id_name").show();
+              $("label.control-label[for=id_name], input#id_name").show();
+              // $("label.control-label[for=id_prefix], input#id_prefix").show();
+              $("label.control-label[for=id_section], input#id_section").show();
+           $("#id_prefix").show();
+           $("label.control-label[for=id_number], input#id_number").show();
+           $("#id_number").show();
+           }
+}
+</script>
+{#  JS to Hide the#}
+<script>
+   $(function() {
+       function hideInputs() {
+           $("label.control-label[for=id_name], input#id_name").hide();
+           $("#id_id_name").hide();
+           $("label.control-label[for=id_prefix], input#id_prefix").hide();
+           $("#id_prefix").hide();
+           $("label.control-label[for=id_number], input#id_number").hide();
+           $("#id_number").hide();
+           $("label.control-label[for=id_section], input#id_section").hide();
+           $("#id_section").hide();
+           console.log('label.control-label[for=id_name], input#id_name');
+       }
+       $("#id_activity_type").on('change', function () {
+           var val = $("#id_activity_type").find("option:selected").text();
+           console.log(val)
+           if (val === 'Course') {
+               $("#id_name").show();
+               $("label.control-label[for=id_name], input#id_name").show();
+               $("label.control-label[for=id_prefix], input#id_prefix").show();
+               $("#id_prefix").show();
+               $("label.control-label[for=id_number], input#id_number").show();
+               $("#id_number").show();
+               $("label.control-label[for=id_section], input#id_section").show();
+               $("#id_section").show();
+           }
+           else {
+               hideInputs();
+           }
+       });
+       hideInputs();
+   });
+</script>
 
 {% endblock %}
 
+
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+    $('.control-label').hide();
+    $('.checkbox').hide();
+    $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
+    $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
+    $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
+    $('#id_status').select2({placeholder: 'Select Status',});
+    $('#id_semester').select2({placeholder: 'Select Semester',});
+    $('#id_end_semester').select2({placeholder: 'Select End Semester',});
+    $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
+    $('#id_address_line1').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+    $(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+       }).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+      }).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+     });
+});
+ // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+</script>
+<style>
+.select2-container .select2-selection--single
+{
+   height:32px;
+}
+.select2-container--default .select2-selection--single
+{
+   border: 1px solid #aaa;
+   margin-top:8px;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+</style>
+
+<!-- Adding script per ticket 723-->
+<script>
+$(document).ready(function () {
+    $('#id_status').hide();
+$('#draft').click(function(){
+    $('#id_status option[value=5]').attr('selected','selected');
+console.log('draft');
+    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
+        alert("Please provide Project Name and Academic Year to save as Draft");
+        return false;
+    }
+    else{
+        return true;
+    }
+});
+$('#update').click(function () {
+    if($('#terms').is(":checked")){
+        return true;
+    }
+    else {
+        alert("Please Accept the terms and conditions before submitting");
+        return false;
+    }
+});
+$('#submit').click(function () {
+    if($('#terms').is(":checked")){
+        $('#id_status option[value=1]').attr('selected','selected');
+        return true;
+    }
+    else {
+        alert("Please Accept the terms and conditions before submitting");
+        return false;
+    }
+});
+        window.onsubmit = function checking() {
+        var id_name = document.getElementById('id_mission-0-mission');
+        var id_campus = document.getElementById('id_campus-0-campus_partner');
+        var val = id_name.options[id_name.selectedIndex].text;
+        var val1 = id_campus.options[id_campus.selectedIndex].text;
+        var location = document.getElementById("errorid").scrollTop;
+        if (val === '---------') {
+            error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
+            document.getElementById("errorid").innerHTML = error;
+            document.documentElement.scrollTop = 900;
+
+        }
+
+
+        if (val1 === '---------') {
+            error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
+            document.getElementById("errorid1").innerHTML = error;
+            document.documentElement.scrollTop = 900;
+            {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
+            {#return false#}
+        }
+        if (val === '---------' || val1 === '---------') {
+            return false
+
+
+        }
+        if (val !== '---------') {
+            document.getElementById("errorid").innerHTML = "";
+
+
+
+        }
+        if (val1 !== '---------') {
+            document.getElementById("errorid1").innerHTML = "";
+        }
+    }
+});
+</script>
+<script>
+$(function () {
+         $('[data-toggle="popover"]').popover()
+     })
+</script>
+
+{% endblock %}

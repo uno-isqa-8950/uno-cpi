@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from simple_history.models import HistoricalRecords
+from crum import get_current_user
 from django.contrib.postgres.fields import ArrayField
 from UnoCPI import  settings
 
@@ -101,6 +102,7 @@ class Project (models.Model):
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     project_type = models.CharField(max_length=20, choices=project_choices, default='Project')
     other_sub_category = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
+    other_activity_type = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     recursive_project = models.BooleanField(default=False)
     history = HistoricalRecords()
 
@@ -111,6 +113,15 @@ class Project (models.Model):
     def updated(self):
         self.updated_date = timezone.now()
         self.save()
+
+    def save(self, *args, **kwargs):
+        user = get_current_user()
+        if user and not user.pk:
+            user = None
+        if not self.pk:
+            self.created_by = user
+        self.updated_by = user
+        super(Project, self).save(*args, **kwargs)
 
     def __str__(self):
         return str(self.project_name)

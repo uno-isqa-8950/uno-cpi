@@ -30,22 +30,19 @@ class CampusPartnerContactForm(forms.ModelForm):
 
     class Meta:
         model= Contact
-        fields =('first_name','last_name','work_phone','cell_phone','email_id','contact_type',)
+        fields =('first_name','last_name','email_id',)
 
         labels = {
             'first_name': ('Contact First Name'),
             'last_name': ('Contact Last Name'),
-            'work_phone': ('Work Phone'),
-            'cell_phone': ('Cell Phone'),
             'email_id': ('Contact Email'),
-            'contact_type':('Contact Type'),
+
         }
         widgets = {
             'email_id': forms.TextInput({'placeholder': '@abc.edu'}),
             'first_name': forms.TextInput(attrs={'class': 'nonumbers'}),
             'last_name': forms.TextInput(attrs={'class': 'nonumbers'}),
-            'work_phone': forms.TextInput(attrs={'class': 'noalpha'}),
-            'cell_phone': forms.TextInput(attrs={'class': 'noalpha'}),
+
 
         }
     # def clean_first_name(self):
@@ -104,7 +101,7 @@ STATE_CHOICES = [(' ','------'),
 class CommunityPartnerForm(forms.ModelForm):
     website_url = forms.URLField(max_length=200,label='Your Website', required=False)
     address_line1 = forms.CharField(max_length=200,label='Address', required=False)
-    acronym = forms.CharField(max_length=4, label='Acronym', required=False)
+    acronym = forms.CharField(max_length=15, label='Acronym', required=False)
     online_only = forms.BooleanField(required=False)
     country = forms.ChoiceField(choices=COUNTRY_CHOICES, required=False)
     state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
@@ -133,11 +130,11 @@ class CommunityPartnerForm(forms.ModelForm):
 
 
 
-    def clean_name(self):
-        name = self.cleaned_data['name']
-        if CommunityPartner.objects.filter(name__icontains=name).exists():
-            raise forms.ValidationError('Community partner with this Name already exists.')
-        return name
+    # def clean_name(self):
+    #     name = self.cleaned_data['name']
+    #     if CommunityPartner.objects.filter(name__icontains=name).exists():
+    #         raise forms.ValidationError('Community partner with this Name already exists.')
+    #     return name
 
     # def clean_country(self):
     #         name = self.cleaned_data['country']

@@ -95,6 +95,11 @@ def feature_from_row(Community, Address):
                 cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
                 #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
                 conn.commit()
+            else:
+                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,name" +str(Community))
+                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(Community)))
+                #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
+                conn.commit()
 
 if len(dfCommunity) != 0:
     logger.info("Call update Community Partners in database") 

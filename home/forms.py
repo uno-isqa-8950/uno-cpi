@@ -14,6 +14,14 @@ from home.models import Contact, MissionArea, HouseholdIncome
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
     ProjectCommunityPartner, ProjectMission, AcademicYear
 
+intensity_y_choices = [
+    ('years', 'Years of Engagement'),
+    ('engagement', 'Number of Engagement Types'),
+    ('score', 'Interdisciplinary Score'),
+    ('campus', 'Number of Campus Partners')]
+class YChoiceForm(forms.Form):
+    y_choice = forms.ChoiceField(label="Y Choices", choices=intensity_y_choices, required=False)
+
 STATE_CHOICES = [
     ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
      ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),

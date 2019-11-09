@@ -102,6 +102,7 @@ class Project (models.Model):
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     project_type = models.CharField(max_length=20, choices=project_choices, default='Project')
     other_sub_category = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
+    other_activity_type = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     recursive_project = models.BooleanField(default=False)
     history = HistoricalRecords()
 

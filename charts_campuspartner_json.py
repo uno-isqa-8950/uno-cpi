@@ -25,15 +25,15 @@ cursor = conn.cursor()
 dirname = os.path.dirname(__file__)
 campus_file = os.path.join(dirname,'home/static/charts_json/campus_partners.json')
 
-q = "SELECT camp.id, camp.name, college_name_id, college_name, uni.name as university, cec_partner_status_id, " \
-    "(select name from partners_cecpartnerstatus " \
-    "	where id = cec_partner_status_id) as cec_partner_status " \
+q = "SELECT camp.id, camp.name, college_name_id, college_name, uni.name as university, cec_partner_status_id, cec.name " \
     "FROM partners_campuspartner camp " \
     "LEFT JOIN university_college clg " \
     "	ON college_name_id = clg.id " \
     "LEFT JOIN university_university uni " \
     "	ON clg.university_id = uni.id " \
-    "WHERE partner_status_id <> (SELECT id FROM partners_partnerstatus WHERE name = 'Inactive') ;"
+    "LEFT JOIN partners_cecpartnerstatus cec " \
+    "	ON camp.cec_partner_status_id = cec.id " \
+    "	AND cec.name <> 'Inactive' ;"
 cursor.execute(q)
 campus = cursor.fetchall()
 records = len(campus)

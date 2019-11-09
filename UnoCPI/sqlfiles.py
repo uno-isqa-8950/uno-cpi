@@ -558,16 +558,18 @@ from projects_project p
     left join projects_projectmission pm on pm.project_name_id = p.id
     left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
     left join partners_communitypartner pc on pp.community_partner_id = pc.id
-    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
-    left join partners_cecpartnerstatus cps_comm on cps_comm.id = pc.cec_partner_status_id    
-    inner join partners_campuspartner c on pp2.campus_partner_id = c.id
-    left join partners_cecpartnerstatus cps_camp on cps_camp.id = c.cec_partner_status_id    
+    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id  
+    inner join partners_campuspartner c on pp2.campus_partner_id = c.id  
 where e.id::text like %s
   and pm.mission_id::text like %s
   and pc.community_type_id::text like %s
   and pp2.campus_partner_id::text like %s
   and c.college_name_id::text like %s
-  and p.legislative_district::text like %s
+  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s
+  and COALESCE (p.k12_flag::text, 'no') LIKE %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+
   
 group by p.project_name,e.name
 order by p.project_name;

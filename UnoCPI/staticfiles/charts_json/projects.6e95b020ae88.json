@@ -1,0 +1,2736 @@
+[
+   {
+      "project_id":149,
+      "project_name":"2031 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":150,
+      "project_name":"2032 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":151,
+      "project_name":"2033 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":152,
+      "project_name":"2034 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":153,
+      "project_name":"2035 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":164,
+      "project_name":"Alliance for a Better Omaha: 2018-19 (1021)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":165,
+      "project_name":"Alliance for a Better Omaha: 2018-19: 2018-19 (1011)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":166,
+      "project_name":"Ancient Mediterranean Studies Fall Lecture: \"Did the Sea Peoples Come from Atlantis?\": 2018-19 (841)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":167,
+      "project_name":"Ancient Mediterranean Studies Fall Lecture: \"Did the Sea Peoples Come from Atlantis?\": 2018-19 (847)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":168,
+      "project_name":"Autobiographical Reading & Writing: 2018-19 (1005)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":184,
+      "project_name":"2020 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":185,
+      "project_name":"2021 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":186,
+      "project_name":"2022 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":187,
+      "project_name":"2023 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":188,
+      "project_name":"Adapted PE: 2017-18 (784)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":189,
+      "project_name":"Admin Social Welfare Agencies: 2017-18",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":190,
+      "project_name":"Adopt a Classroom: 2017-18 (001)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":191,
+      "project_name":"Age Friendly City Initiative: 2017-18 (965)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":192,
+      "project_name":"Alliance for a Better Omaha: 2017-18 (002)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":193,
+      "project_name":"American Refugees: From the Holocaust to Today: 2017-18 (785)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":194,
+      "project_name":"AmeriCorps Member Support: 2017-18 (971)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":195,
+      "project_name":"Apostles of Empire: Jesuits and Social Charity in Colonial New France: 2017-18",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":196,
+      "project_name":"Applied Music Lab Recital: 2017-18",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":197,
+      "project_name":"Ash Tree at Risk: 2017-18 (948)",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2
+      ]
+   },
+   {
+      "project_id":198,
+      "project_name":"Worlds of Food: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1
+      ]
+   },
+   {
+      "project_id":199,
+      "project_name":"Young Professionals Survey: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1
+      ]
+   },
+   {
+      "project_id":200,
+      "project_name":"Zoo Project: 2016-17",
+      "primary_mission_area":{
+         "mission_id":1,
+         "mission_name":"Educational Support"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":3,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1
+      ]
+   },
+   {
+      "project_id":115,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (005)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         152
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+         6
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":116,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (006)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         153
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+         7
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":117,
+      "project_name":"9\/11 Remembrance Day of Service - 9\/11\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         154
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+         8
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":118,
+      "project_name":"9\/11 Remembrance Day of Service - 9\/12\/2016: 2016-17 (782)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         155
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+         9
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":119,
+      "project_name":"A Film Screening of \"This Is Home: A Refugee Story\": 2018-19 (866)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         156
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+         10
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":120,
+      "project_name":"A Q&A Session with Kathleen Fenton, EPA: 2017-18 (742)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":true,
+      "community_partner_ids":[
+         157
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+         11
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":121,
+      "project_name":"A Q&A Session with Kathleen Fenton: 2016-17",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         158
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+         12
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":122,
+      "project_name":"A Reading and Workshop: Featuring Graham Foust and Geoffrey Nutter: 2016-17",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         159
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+         13
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":123,
+      "project_name":"A Reading by Anand Prahlad",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         160
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+         14
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":124,
+      "project_name":"A Reading with Lisa Knopp and Anna Redsand: 2016-17",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         161
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+         15
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":125,
+      "project_name":"Adapted PE: 2016-17 (783)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         162
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+         16
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":126,
+      "project_name":"Culture Fest: 2018-19 (798)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         163
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":127,
+      "project_name":"Gender and Leadership I: 2018-19 (801)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         164
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":128,
+      "project_name":"Global Youth Service Day - 4\/21\/18: 2018-19 (804)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         165
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":129,
+      "project_name":"Methods & Materials in Health Education: 2018-19 (808)",
+      "primary_mission_area":{
+         "mission_id":2,
+         "mission_name":"Health and Wellness"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         166
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":130,
+      "project_name":"MIS Capstone: 2018-19 (811)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         167
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":131,
+      "project_name":"MLK Day of Service - 1\/15\/18: 2018-19 (757)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         168
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":132,
+      "project_name":"MLK Day of Service - 1\/15\/18: 2018-19 (770)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         169
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":133,
+      "project_name":"Working with Minority Elderly: 2017-18 (001)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         170
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":134,
+      "project_name":"Working with Minority Elderly: 2017-18 (002)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         171
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":135,
+      "project_name":"World AIDS Day of Service - 12\/2\/17: 2017-18 (001)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+         172
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":136,
+      "project_name":"World AIDS Day of Service - 12\/2\/17: 2017-18 (002)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":137,
+      "project_name":"World AIDS Day of Service - 12\/2\/17: 2017-18 (003)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":138,
+      "project_name":"World AIDS Day of Service - 12\/2\/17: 2017-18 (004)",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":139,
+      "project_name":"Writing in Social Work: 2017-18",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":140,
+      "project_name":"Young Black and Influential (YBI) Award consultation: 2017-18",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":141,
+      "project_name":"Zoo Project: 2017-18",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":142,
+      "project_name":"2024 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":143,
+      "project_name":"2025 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":144,
+      "project_name":"2026 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":145,
+      "project_name":"2027 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":146,
+      "project_name":"2028 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":147,
+      "project_name":"2029 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":148,
+      "project_name":"2030 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":3,
+         "mission_name":"Economic Sufficiency"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":154,
+      "project_name":"2036 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":155,
+      "project_name":"2037 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":156,
+      "project_name":"2038 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":157,
+      "project_name":"2039 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3
+      ]
+   },
+   {
+      "project_id":158,
+      "project_name":"Adapted PE: 2018-19 (1039)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":159,
+      "project_name":"Adapted PE: 2018-19 (1040)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":160,
+      "project_name":"Adopt a Classroom: 2018-19 (1024)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":161,
+      "project_name":"Adopt a Classroom: 2018-19 (1091)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":162,
+      "project_name":"Advanced Spanish Conversation: 2018-19 (1063)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":163,
+      "project_name":"Agile Software: 2018-19 (1055)",
+      "primary_mission_area":{
+         "mission_id":4,
+         "mission_name":"Social Justice"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         3
+      ]
+   },
+   {
+      "project_id":169,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (001)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":170,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (002)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":null,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":171,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (003)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":172,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (004)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":173,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (005)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":174,
+      "project_name":"2017 Seminar Lunch and Learn: 2016-17 (006)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":175,
+      "project_name":"2017 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         15
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":176,
+      "project_name":"2017 Seminar Service Site: 2016-17 (001)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":177,
+      "project_name":"2017 Seminar Service Site: 2016-17 (002)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":178,
+      "project_name":"2017 Seminar Service Site: 2016-17 (003)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":179,
+      "project_name":"2017 Seminar Service Site: 2016-17 (004)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":180,
+      "project_name":"2017 Seminar Service Site: 2016-17 (005)",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":181,
+      "project_name":"2017 Sustainability Launchpad: Transportation in the Next American City: 2016-17",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":1,
+         "engagement_type_name":"Knowledge\/Info Sharing"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":182,
+      "project_name":"2018 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":183,
+      "project_name":"2019 Seminar Nonprofit Fair: 2016-17",
+      "primary_mission_area":{
+         "mission_id":5,
+         "mission_name":"International Service"
+      },
+      "engagement_type":{
+         "engagement_type_id":5,
+         "engagement_type_name":"Service Learning"
+      },
+      "legislative_district":2,
+      "k12_flag":false,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2
+      ]
+   },
+   {
+      "project_id":101,
+      "project_name":"60 Minutes of Service - 3\/1\/2017: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         1
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         4
+      ]
+   },
+   {
+      "project_id":102,
+      "project_name":"60 Minutes of Service - 3\/7\/18: 2017-18",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         168
+      ],
+      "campus_partner_ids":[
+         2
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         4
+      ]
+   },
+   {
+      "project_id":103,
+      "project_name":"60 Minutes of Service - 4\/4\/18: 2017-18",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         169
+      ],
+      "campus_partner_ids":[
+         3
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":104,
+      "project_name":"60 Minutes of Service - 4\/5\/2017: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         170
+      ],
+      "campus_partner_ids":[
+         4
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":105,
+      "project_name":"60 Minutes of Service - 8\/31\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         171
+      ],
+      "campus_partner_ids":[
+         5
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":106,
+      "project_name":"60 Minutes of Service - 9\/14\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         172
+      ],
+      "campus_partner_ids":[
+         6
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":107,
+      "project_name":"60 Minutes of Service - 9\/21\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         7
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":108,
+      "project_name":"60 Minutes of Service - 9\/28\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         8
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":109,
+      "project_name":"60 Minutes of Service - 9\/6\/17: 2017-18",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         9
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":110,
+      "project_name":"60 Minutes of Service - 9\/7\/2016: 2016-17",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+
+      ],
+      "campus_partner_ids":[
+         10
+      ],
+      "subcategories":[
+
+      ],
+      "years":[
+         1,
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":111,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (001)",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         3
+      ],
+      "campus_partner_ids":[
+         11
+      ],
+      "subcategories":[
+         2
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":112,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (002)",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         149
+      ],
+      "campus_partner_ids":[
+         12
+      ],
+      "subcategories":[
+         3
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":113,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (003)",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         150
+      ],
+      "campus_partner_ids":[
+         13
+      ],
+      "subcategories":[
+         4
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   },
+   {
+      "project_id":114,
+      "project_name":"9\/11 Remembrance Day - 9\/9\/17: 2017-18 (004)",
+      "primary_mission_area":{
+         "mission_id":6,
+         "mission_name":"Environmental Stewardship"
+      },
+      "engagement_type":{
+         "engagement_type_id":2,
+         "engagement_type_name":"Volunteering"
+      },
+      "legislative_district":9,
+      "k12_flag":true,
+      "community_partner_ids":[
+         151
+      ],
+      "campus_partner_ids":[
+         14
+      ],
+      "subcategories":[
+         5
+      ],
+      "years":[
+         2,
+         3,
+         4
+      ]
+   }
+]

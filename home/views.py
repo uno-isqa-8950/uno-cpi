@@ -1337,7 +1337,6 @@ def commPartnerResetPassword(request,pk):
     return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })
 
 
-#Issue Address Analysis Chart
 
 #Issue Address Analysis Chart
 
@@ -1358,32 +1357,39 @@ def issueaddress(request):
         yrs.append(e.id)
     max_yr_id = max(yrs)
     min_yr_id = min(yrs)
-    max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
-    max_year=max_yr[0]
-    min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
-    min_year = min_yr[0]
+    # max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    # max_year=max_yr[0]
+    # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
+    # min_year=min_yr[0]
+    # print(" min yaer",min_yr," ma yaer ",max_yr)
 
 
     b = request.GET.get('academic_year', None)
     ba = request.GET.get('end_academic_year', None)
 
-    if b == '' or b == None and ba == '' or ba == None:
-        b = max_yr_id - 1
-        ba = max_yr_id
-    if b == '' or b == None and ba != '':
-        b = min_yr_id
-    elif ba == '' or ba == None and b != '':
-        ba = max_yr_id
-    b = int(b)
-    ba = int(ba)
+    if ((b == '' or b == None) and (ba == '' or ba == None)):
+        start = max_yr_id - 1
+        end = max_yr_id
+    elif ((b == '' or b == None) and (ba != '')):
+        start = min_yr_id
+        end = ba
+    elif ((ba == '' or ba == None) and (b != '')):
+        end = max_yr_id
+        start = b
+    else:
+        start = b
+        end = ba
+    start = int(start)
+    end = int(end)
+
 
     from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
-    from_start = list(range(min_yr_id, (b + 1)))
-    from_end = list(range(b, (max_yr_id + 1)))
+    from_start = list(range(min_yr_id, (start + 1)))
+    from_end = list(range(start, (max_yr_id + 1)))
 
     to_project_filter = ToProjectFilter(request.GET, queryset=Project.objects.all())
-    to_start = list(range(min_yr_id, (ba + 1)))
-    to_end = list(range(ba, (max_yr_id + 1)))
+    to_start = list(range(min_yr_id, (end + 1)))
+    to_end = list(range(end, (max_yr_id + 1)))
 
     from_project_count_data = list()
     to_project_count_data = list()
@@ -1417,24 +1423,28 @@ def issueaddress(request):
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
+    a = request.GET.get('engagement_type', None)
+    c = request.GET.get('campus_partner', None)
+    d = request.GET.get('college_name', None)
+    # b = request.GET.get('academic_year', None)
+    # ba = request.GET.get('end_academic_year', None)
+    e = request.GET.get('community_type', None)
+    f = request.GET.get('weitz_cec_part', None)
+
+    if a is None or a == "All" or a == '':
+        if b is None or b == "All" or b == '':
+            if ba is None or ba == "All" or ba == '':
+                if c is None or c == "All" or c == '':
+                    if d is None or d == "All" or d == '':
+                        if f is None or f == "All" or f == '':
+                            if e is None or e == "All" or e == '':
+                                project_ids = project_filtered_ids
+
     for m in missions:
         mission_area1.append(m.mission_name)
-        a = request.GET.get('engagement_type', None)
-        c = request.GET.get('campus_partner', None)
-        d = request.GET.get('college_name', None)
-        b = request.GET.get('academic_year', None)
-        ba = request.GET.get('end_academic_year', None)
-        e = request.GET.get('community_type', None)
-        f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
                 project_ids = proj2_ids
-        if a is None or a == "All" or a == '':
-            if c is None or c == "All" or c == '':
-                if d is None or d == "All" or d == '':
-                    if f is None or f == "All" or f == '':
-                        if e is None or e == "All" or e == '':
-                            project_ids=project_filtered_ids
         project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
         project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
         project_count3 = project_count1 | project_count2
@@ -1558,7 +1568,7 @@ def issueaddress(request):
                 },'colorByPoint': False,
                 'tooltip': {
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}'
+                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>'
                 }
             },
 
@@ -1640,7 +1650,7 @@ def issueaddress(request):
         projects = Project.objects.filter(engagement_type=engagement_type)
 
     dump = json.dumps(dumbellchart)
-    print('dumbellchart---',dump)
+    print('dumbellchart----',dump)
     print('from_project_filter', from_project_filter)
     print('project_filter',project_filter)
     print( 'to_project_filter', to_project_filter)
@@ -1648,98 +1658,62 @@ def issueaddress(request):
     print('campus_filter', campus_filter)
     print('communityPartners', communityPartners)
     print('college_filter', college_filter)
-    print('campus_id', campus_id,'max_year',max_year,'min_year',min_year)
+    print('campus_id', campus_id)
     return render(request, 'charts/issueaddressanalysis.html',
                       {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
                        'to_project_filter': to_project_filter,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id,'max_year':max_year,'min_year':min_year})
+                       'college_filter': college_filter, 'campus_id': campus_id})
+    # ,'max_year':max_year,'min_year':min_year})
 
 
 
-# Network Analysis Chart
+##### Get the Chart JSONS for network Analysis ##############
+def chartjsons():
+    # with open('home/static/GEOJSON/ID2.geojson') as f:
+    #     geojson = json.load(f)
+    #
+    # district = geojson["features"]
+    campus_partner=open('home/static/charts_json/campus_partners.json')
+    campus_partner_json=json.load(campus_partner)
+    community_partner = open('home/static/charts_json/community_partners.json')
+    community_partner_json = json.load(community_partner)
+    mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
+    mission_subcategories_json = json.load(mission_subcategories)
+    projects =open ('home/static/charts_json/projects.json')
+    projects_json = json.load(projects)
+    return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
+
+
+
+###Network Analysis Chart
 def networkanalysis(request):
-    university=University.objects.all()
-    college=College.objects.all()
-    communitytype=CommunityType.objects.all()
-    missions = MissionArea.objects.all()
     data_definition = DataDefinition.objects.all()
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    community_filter = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-
-    data = []
-    comm_list = []
-    colors = []
+    Campuspartner = GEOJSON2()[4]
+    Communitypartner = GEOJSON2()[3]
+    data = GEOJSON2()[0]
+    campus_partner_json=chartjsons()[0]
+    community_partner_json=chartjsons()[1]
+    mission_subcategories_json=chartjsons()[2]
+    projects_json=chartjsons()[3]
     yrs = []
-    nodedata=[]
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
         yrs.append(e.id)
-    max_yr_id = int(max(yrs))
-    min_yr_id = int(min(yrs))
+    max_yr_id = max(yrs)
+    max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    max_year = max_yr[0]
 
-    b = request.GET.get('academic_year', max_yr_id-1)
-
-    # print(" b value ",b)
-    if b==None:
-        from_start = list(range(max_yr_id-1, (max_yr_id)))
-        from_end = list(range(max_yr_id, (max_yr_id + 1)))
-    elif  b=='':
-        from_start = list(range(max_yr_id-1, (max_yr_id)))
-        from_end = list(range(max_yr_id, (max_yr_id + 1)))
-    else:
-        b=int(b)
-        from_start = list(range(min_yr_id, b))
-        from_end = list(range(b, (max_yr_id + 1)))
-
-    # print("  start and end ",from_start, "end ",from_end)
-
-    # for m in missions:
-        # restype = ["CPI", m.mission_name]
-        # data.append(restype)
-    #
-    # for c in university:
-    #     for col in college:
-    #         res=[c.name,col.college_name]
-    #         data.append(res)
-
-    # print(" univ and college ",data)
-    project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None)
-    project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end)
-    project_count3 = project_count1 | project_count2
-    from_project_ids = []
-    for c in project_count3:
-        from_project_ids.append(c.id)
-
+    mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    projects = Project.objects.all()
-
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    college_filtered_ids = [campus.id for campus in college_filter.qs]
-
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-        campus_partner_id__in=college_filtered_ids))
-    campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
-
+    # campus_partner_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-
-
-    mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    mission_filtered_ids = mission.qs.values_list('project_name', flat=True)
-
-
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-    community_filtered_ids = [community.id for community in communityPartners.qs]
-
-    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
-        community_partner_id__in=community_filtered_ids))
-    comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-
+    print("campus_partner_filter",campus_filter)
     k12_selection = request.GET.get('k12_flag', None)
     k12_init_selection = "All"
     if k12_selection is None:
@@ -1753,132 +1727,31 @@ def networkanalysis(request):
     elif k12_selection == 'No':
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
 
+    # else:
+    #     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
     else:
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-        # project_filtered_ids = [project.id for project in projects]
-    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-
-    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids).intersection(mission_filtered_ids))
-    proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
-    project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
-
-
-
-
-    color=["#01B8AA","#374649","#FD625E", "#8AD4EB","#FE9666","#A66999", "#3599B8","#DFBFBF","#1743f3"]
-    # r = { m.mission_name, color[m.id]}
-    # colors.append(r)
-    for c in college:
-            campus_partner=CampusPartner.objects.filter(college_name_id=c.id)
-            camp_partner_ids=[p.id for p in campus_partner]
-            camp_partner_names = [p.name for p in campus_partner]
-            for cp in campus_partner:
-                res2={'from':c.college_name,'to':cp.name}
-                data.append(res2)
-                node = {'id': c.college_name, 'color': 'red', 'marker': { 'symbol': 'triangle'}}
-                node2= {'id': cp.name, 'color': 'black', 'marker': { 'symbol': 'triangle'}}
-                nodedata.append(node)
-                nodedata.append(node2)
-                # print("##########res2#######",res2)
-                for m in missions:
-                    Project_with_camp_partners=ProjectCampusPartner.objects.filter(campus_partner_id=cp.id)
-                    proj_ids_camp_partners=[p.project_name_id for p in Project_with_camp_partners ]
-                    projcets_camp=Project.objects.filter(id__in=proj_ids_camp_partners)
-                    proj_idss=[p.id for p in projcets_camp ]
-                    proj_ids=list(set(proj_idss).intersection(project_ids))
-                    proj_in_mission=ProjectMission.objects.filter(project_name_id__in=proj_idss).filter(mission_id=m.id)
-                    proj_mission_ids=[p.project_name_id for p in proj_in_mission]
-                    commPartnerProj=[p.community_partner_id for p in ( ProjectCommunityPartner.objects.filter(project_name_id__in=proj_mission_ids))]
-                    comm=CommunityPartner.objects.filter(id__in=commPartnerProj)
-                    comm_partner_ids=[p.id for p in comm]
-                    comm_partner_names = [p.name for p in comm]
-                    radi=Project_with_camp_partners.count()
-                    for comm in comm_partner_names:
-                        res3 = {'from': cp.name, 'to': comm}
-                        node = { 'id': comm,'color': color[m.id-1], 'marker':{'radius':5}}
-                        nodedata.append(node)
-                        data.append(res3)
-
-                # print("##########res3###########",res3)
-
-            college_value = request.GET.get('college_name', None)
-            if college_value is None or college_value == "All" or college_value == '':
-                campus_filter_qs = CampusPartner.objects.all()
-            else:
-                campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-            campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-
-            campus_id = request.GET.get('campus_partner')
-            if campus_id == "All":
-                campus_id = -1
-            if (campus_id is None or campus_id == ''):
-                campus_id = 0
-            else:
-                campus_id = int(campus_id)
-            engagement_type = request.GET.get('engagement_type', None)
-            if engagement_type is None or engagement_type == "All" or engagement_type == '':
-                projects = Project.objects.all()
-            else:
-                projects = Project.objects.filter(engagement_type=engagement_type)
-
-    # print(" final ~~~~~~~~~~~~~~~~~~~~~``",)
-    networkchart= {
-        'chart': {
-            'type': 'networkgraph',
-             # 'borderWidth': 1,
-             #  'plotBorderWidth': 1,
-        },
-        'title': {
-            'text':'.','<br>'
-            'style':{'size':100},
-            'align':'right'
-        },
-
-        'plotOptions': {
-            'networkgraph': {
-                'turboThreshold': 0,
-                'initialPositions': 'top',
-                # 'keys': ['from', 'to','color'],
-                'layoutAlgorithm': {
-                    'enableSimulation': False,
-                    # 'friction': 0.9,
-                    'integration': 'verlet',
-                    'linkLength':100
-                }
-            }
-        },
-        'legend': {
-            # 'layout': 'horizontal',
-            'align': 'right',
-            'verticalAlign': 'top',
-            # 'borderWidth': 1,
-            # 'backgroundColor': '#FFFFFF',
-            'shadow': False
-        },
-        'series': [{
-            'linklength':100,
-            'dataLabels': {
-                'enabled': True,
-                'linkFormat': ''
-            },
-            'data': data,
-            'nodes': nodedata
-                # [{'id': 'Landscape Services', 'color': 'black', 'marker': { 'symbol': 'triangle'}},
-                # {'id': 'University', 'color': 'red', 'marker': { 'symbol': 'triangle'}},
-                # {'id': 'Staff AdvisoryCouncil', 'color': 'black', 'marker': { 'symbol': 'triangle'}}]
-
-        }]
-    }
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
 
 
-    graph = json.dumps(networkchart)
-
-    return render(request, 'charts/networkanalysis.html',
-                  {'project_filter':project_filter,'graph':graph,
-                       'data_definition': data_definition,
-                       'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id,'k12_choices':k12_choices,'missions':mission})
 
 
+    return render(request, 'charts/network.html',
+                  { 'Missionlist': sorted(GEOJSON2()[2]),'data_definition':data_definition,'Collegenames': (GEOJSON2()[7]),
+                   'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'max_year':max_year,
+                   'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
+                    'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
+                    'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id} )
 

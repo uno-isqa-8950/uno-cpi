@@ -1336,7 +1336,6 @@ def commPartnerResetPassword(request,pk):
     return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })
 
 
-#Issue Address Analysis Chart
 
 #Issue Address Analysis Chart
 
@@ -1381,7 +1380,7 @@ def issueaddress(request):
     start = int(start)
     end = int(end)
 
-    # print(" b  value ",start,"  ba value ",end)
+
     from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
     from_start = list(range(min_yr_id, (start + 1)))
     from_end = list(range(start, (max_yr_id + 1)))
@@ -1422,26 +1421,28 @@ def issueaddress(request):
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
+    a = request.GET.get('engagement_type', None)
+    c = request.GET.get('campus_partner', None)
+    d = request.GET.get('college_name', None)
+    # b = request.GET.get('academic_year', None)
+    # ba = request.GET.get('end_academic_year', None)
+    e = request.GET.get('community_type', None)
+    f = request.GET.get('weitz_cec_part', None)
+
+    if a is None or a == "All" or a == '':
+        if b is None or b == "All" or b == '':
+            if ba is None or ba == "All" or ba == '':
+                if c is None or c == "All" or c == '':
+                    if d is None or d == "All" or d == '':
+                        if f is None or f == "All" or f == '':
+                            if e is None or e == "All" or e == '':
+                                project_ids = project_filtered_ids
+
     for m in missions:
         mission_area1.append(m.mission_name)
-        a = request.GET.get('engagement_type', None)
-        c = request.GET.get('campus_partner', None)
-        d = request.GET.get('college_name', None)
-        # b = request.GET.get('academic_year', None)
-        # ba = request.GET.get('end_academic_year', None)
-        e = request.GET.get('community_type', None)
-        f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
                 project_ids = proj2_ids
-        if a is None or a == "All" or a == '':
-            if b is None or b == "All" or b == '':
-                if ba is None or ba == "All" or ba == '':
-                    if c is None or c == "All" or c == '':
-                        if d is None or d == "All" or d == '':
-                            if f is None or f == "All" or f == '':
-                                if e is None or e == "All" or e == '':
-                                    project_ids=project_filtered_ids
         project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
         project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
         project_count3 = project_count1 | project_count2
@@ -1647,7 +1648,7 @@ def issueaddress(request):
         projects = Project.objects.filter(engagement_type=engagement_type)
 
     dump = json.dumps(dumbellchart)
-    print('dumbellchart---',dump)
+    print('dumbellchart----',dump)
     print('from_project_filter', from_project_filter)
     print('project_filter',project_filter)
     print( 'to_project_filter', to_project_filter)

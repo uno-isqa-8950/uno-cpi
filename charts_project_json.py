@@ -53,12 +53,18 @@ for p in projects:
         community_partner_ids = [int(e) for e in p[8].split(', ')]
     else:
         community_partner_ids = []
-    campus_partner_ids = [int(e) for e in p[9].split(', ')]
+    if (p[9]):
+        campus_partner_ids = [int(e) for e in p[9].split(', ')]
+    else:
+        campus_partner_ids = []
     if (p[10]):
         subcats = [int(e) for e in p[10].split(', ')]
     else:
         subcats = []
-    yrs = [int(e) for e in p[11].split(', ')]
+    if (p[11]):
+        yrs = [int(e) for e in p[11].split(', ')]
+    else:
+        yrs = []
     res = {'project_id': p[0], 'project_name': p[1], 'primary_mission_area':mission, 'engagement_type':engagement,'legislative_district': p[2], 'k12_flag': p[3], 'community_partner_ids': community_partner_ids, 'campus_partner_ids': campus_partner_ids, 'subcategories': subcats, 'years':yrs}
     projs.append(res)
 jsonstring = pd.io.json.dumps(projs)

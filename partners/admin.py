@@ -34,13 +34,14 @@ class CampusPartnerResource(resources.ModelResource):
         model = CampusPartner
         fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system',
                   'cec_partner_status', 'partner_status')
+        import_id_fields = ['name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system','cec_partner_status', 'partner_status']
 
 class CampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'college_name','department','weitz_cec_part','active','partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active',
-                     'partner_status', 'cec_partner_status')
+    search_fields = ('name', 'college_name_college_name','department_department_name','weitz_cec_part','active',
+                     'partner_status_name', 'cec_partner_status_name')
 
     resource_class = CampusPartnerResource
 

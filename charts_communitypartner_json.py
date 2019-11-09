@@ -25,18 +25,19 @@ cursor = conn.cursor()
 dirname = os.path.dirname(__file__)
 community_file = os.path.join(dirname,'home/static/charts_json/community_partners.json')
 
-q = "SELECT id, name, legislative_district, community_type_id, " \
-    "(select community_type from partners_communitytype " \
-    "	where id = community_type_id) as community_type, " \
-    "cec_partner_status_id, " \
-    "(select name from partners_cecpartnerstatus " \
-    "	where id = cec_partner_status_id) as cec_partner_status, " \
-    "(select mission_area_id from partners_communitypartnermission " \
-    " 	where community_partner_id = comm.id and mission_type = 'Primary') as primary_mission_id, " \
+q = "SELECT comm.id, comm.name, legislative_district, community_type_id, type.community_type, " \
+    "	cec_partner_status_id, cec.name, miss.mission_area_id, " \
     "(select array_to_string (array (select mission_area_id from partners_communitypartnermission " \
     "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids) " \
     "FROM partners_communitypartner comm " \
-    "WHERE partner_status_id <> (SELECT id FROM partners_partnerstatus WHERE name = 'Inactive') ;"
+    "LEFT JOIN partners_communitytype type " \
+    "	ON comm.community_type_id = type.id " \
+    "LEFT JOIN partners_cecpartnerstatus cec " \
+    "	ON comm.cec_partner_status_id = cec.id " \
+    "   AND cec.name <> 'Inactive' " \
+    "LEFT JOIN partners_communitypartnermission miss " \
+    "	ON comm.id = miss.community_partner_id " \
+    "	AND mission_type = 'Primary' ;"
 cursor.execute(q)
 communities = cursor.fetchall()
 records = len(communities)
@@ -58,19 +59,19 @@ if records != 0:
     logger.info("Write Community Partner JSON for charts  in output directory")
     with open(community_file, 'w') as output_file:
         output_file.write(format(jsonstring))
-
-#writing into amazon aws s3
-ACCESS_ID=settings.AWS_ACCESS_KEY_ID
-ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
-s3 = boto3.resource('s3',
-         aws_access_key_id=ACCESS_ID,
-         aws_secret_access_key= ACCESS_KEY)
-
-if records == 0:
-    print("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-else:
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json').put(Body=format(jsonstring))
-    print("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-
+#
+# #writing into amazon aws s3
+# ACCESS_ID=settings.AWS_ACCESS_KEY_ID
+# ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+# s3 = boto3.resource('s3',
+#          aws_access_key_id=ACCESS_ID,
+#          aws_secret_access_key= ACCESS_KEY)
+#
+# if records == 0:
+#     print("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+#     logger.info("Community Partner JSON for charts NOT written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+# else:
+#     s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json').put(Body=format(jsonstring))
+#     print("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+#     logger.info("Community Partner JSON for charts written having total records of " +repr(records)+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+#

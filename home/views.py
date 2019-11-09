@@ -438,7 +438,7 @@ def project_partner_info(request):
 
     # project_filtered_ids = [project.id for project in project_filter.qs]
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-    print ('project_filtered_ids :', project_filtered_ids)
+    # print ('project_filtered_ids :', project_filtered_ids)
     #project_filtered_ids = list(set(project_filtered_ids1).difference(project_drafted_ids))
 
     # community_filtered_ids = [community.id for community in communityPartners.qs]
@@ -1570,7 +1570,7 @@ def issueaddress(request):
     start = int(start)
     end = int(end)
 
-    # print(" b  value ",start,"  ba value ",end)
+
     from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
     from_start = list(range(min_yr_id, (start + 1)))
     from_end = list(range(start, (max_yr_id + 1)))
@@ -1611,26 +1611,28 @@ def issueaddress(request):
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
 
+    a = request.GET.get('engagement_type', None)
+    c = request.GET.get('campus_partner', None)
+    d = request.GET.get('college_name', None)
+    # b = request.GET.get('academic_year', None)
+    # ba = request.GET.get('end_academic_year', None)
+    e = request.GET.get('community_type', None)
+    f = request.GET.get('weitz_cec_part', None)
+
+    if a is None or a == "All" or a == '':
+        if b is None or b == "All" or b == '':
+            if ba is None or ba == "All" or ba == '':
+                if c is None or c == "All" or c == '':
+                    if d is None or d == "All" or d == '':
+                        if f is None or f == "All" or f == '':
+                            if e is None or e == "All" or e == '':
+                                project_ids = project_filtered_ids
+
     for m in missions:
         mission_area1.append(m.mission_name)
-        a = request.GET.get('engagement_type', None)
-        c = request.GET.get('campus_partner', None)
-        d = request.GET.get('college_name', None)
-        # b = request.GET.get('academic_year', None)
-        # ba = request.GET.get('end_academic_year', None)
-        e = request.GET.get('community_type', None)
-        f = request.GET.get('weitz_cec_part', None)
         if f is None or f == "All" or f == '':
             if e is None or e == "All" or e == '':
                 project_ids = proj2_ids
-        if a is None or a == "All" or a == '':
-            if b is None or b == "All" or b == '':
-                if ba is None or ba == "All" or ba == '':
-                    if c is None or c == "All" or c == '':
-                        if d is None or d == "All" or d == '':
-                            if f is None or f == "All" or f == '':
-                                if e is None or e == "All" or e == '':
-                                    project_ids=project_filtered_ids
         project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
         project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
         project_count3 = project_count1 | project_count2
@@ -1889,7 +1891,7 @@ def networkanalysis(request):
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-    print("campus_partner_filter",campus_filter)
+    # print("campus_partner_filter",campus_filter)
     k12_selection = request.GET.get('k12_flag', None)
     k12_init_selection = "All"
     if k12_selection is None:

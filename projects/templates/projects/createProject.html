@@ -336,7 +336,7 @@
                                         {% endfor %}
             <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-    <i class="fa fa-plus"></i> Lead Campus Staff
+    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
 </button>
 <div id="leadstaffinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
@@ -392,7 +392,8 @@
                 <div class="col-md-3">
                     <label style="padding-top:8px"><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
                                 {% for data_definition in data_definition %}{% if data_definition.id == 39%}
-                                 Primary Project Mission Area <span style="color:red;">*</span>
+                                 Primary Focus Area
+                        <span style="color:red;">*</span>
                                 {% endif %}
                                 {% endfor %}
                                 </span></label>
@@ -414,7 +415,7 @@
               {% for catform in categoryformset %}
             <div class="row">
                 <div class="col-md-3">
-                    <label style="padding-top:8px">Sub Category</label>
+                    <label style="padding-top:8px">Topics</label>
                 </div>
                 <div class="col-md-6 sub_category-row">
                     <!--<div class="row ">-->
@@ -510,7 +511,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">State</label>
+                                              <label class="col-sm-4">State or Province</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -519,7 +520,7 @@
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label class="col-sm-4">Zip or Postal Code</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -668,6 +669,11 @@ if(stepDirection === 'forward') {
             alert('Please make sure to add the selected value');
             return false;
         }
+
+         if($('#firstname').val() !="" && $('#lastname') != ""){
+            alert('Please make sure to add the Lead Staff Name');
+            return false;
+        }
         if ($("#id_campus-0-campus_partner").val() === '') {
             alert("Please provide Campus partner before proceeding.");
             return false;
@@ -677,7 +683,10 @@ if(stepDirection === 'forward') {
     }
     if (stepNumber === 2) {
         var subcatlast = $('.sub_category-row:last').find(':selected').text();
-        if($(".sub_category-row:last"))
+        if(subcatlast !='---------' && subcatlast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
         if ($("#id_mission-0-mission").val() == '') {
             alert("Please provide Mission area before proceeding.");
             return false;
@@ -761,26 +770,9 @@ $("#id_project_name").change(function () {
     });
 });
 
-
-/*function saveAndRegister(){
-    alert('in the save and register');
-     $.ajax({
-        type: 'POST'
-        url: "/saveProjectAndRegister/",
-        data: {
-            'name': 'name_test',
-            'description':'description_test'
-        },
-        dataType: 'json',
-        success: function (data) {
-           
-        }
-    });
-}*/
-
 });
 </script>
-<br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 

@@ -1,0 +1,429 @@
+[
+   {
+      "community_partner_id":3,
+      "community_partner_name":"Eastern Nebraska 4-H Camp",
+      "legislative_district":2,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":149,
+      "community_partner_name":"Veterans Administration Nebraska-Western Iowa Healthcare System",
+      "legislative_district":9,
+      "community_type":{
+         "community_type_id":5,
+         "community_type_name":"Government Agency"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":150,
+      "community_partner_name":"Nebraska Interfaith Power & Lights",
+      "legislative_district":27,
+      "community_type":{
+         "community_type_id":5,
+         "community_type_name":"Government Agency"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":151,
+      "community_partner_name":"First National Bank of Omaha",
+      "legislative_district":7,
+      "community_type":{
+         "community_type_id":4,
+         "community_type_name":"Business"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":152,
+      "community_partner_name":"Hot Shops",
+      "legislative_district":11,
+      "community_type":{
+         "community_type_id":4,
+         "community_type_name":"Business"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":153,
+      "community_partner_name":"Nebraska Medicine",
+      "legislative_district":9,
+      "community_type":{
+         "community_type_id":4,
+         "community_type_name":"Business"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":154,
+      "community_partner_name":"Wells Fargo Foundation-Nebraska Region",
+      "legislative_district":6,
+      "community_type":{
+         "community_type_id":4,
+         "community_type_name":"Business"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":1,
+      "secondary_mission_ids":[
+         1,
+         2
+      ]
+   },
+   {
+      "community_partner_id":155,
+      "community_partner_name":"Nebraska Methodist College",
+      "legislative_district":6,
+      "community_type":{
+         "community_type_id":3,
+         "community_type_name":"Higher Education Institution"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":2,
+      "secondary_mission_ids":[
+         2,
+         1
+      ]
+   },
+   {
+      "community_partner_id":156,
+      "community_partner_name":"Midland University",
+      "legislative_district":15,
+      "community_type":{
+         "community_type_id":3,
+         "community_type_name":"Higher Education Institution"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":2,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":157,
+      "community_partner_name":"University of Nebraska Medical Center",
+      "legislative_district":9,
+      "community_type":{
+         "community_type_id":3,
+         "community_type_name":"Higher Education Institution"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":2,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":158,
+      "community_partner_name":"UNMC Munroe Meyer Institute",
+      "legislative_district":8,
+      "community_type":{
+         "community_type_id":3,
+         "community_type_name":"Higher Education Institution"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":2,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":159,
+      "community_partner_name":"Beveridge Magnet Middle School, Omaha Public Schools",
+      "legislative_district":20,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":2,
+      "secondary_mission_ids":[
+
+      ]
+   },
+   {
+      "community_partner_id":160,
+      "community_partner_name":"Black Elk",
+      "legislative_district":31,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":3,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":161,
+      "community_partner_name":"Burke High, Omaha Public Schools",
+      "legislative_district":6,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":3,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":162,
+      "community_partner_name":"Central Middle School, Millard Public Schools",
+      "legislative_district":20,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":3,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":163,
+      "community_partner_name":"Fontenelle Elementary School, Omaha Public Schools",
+      "legislative_district":13,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":3,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":164,
+      "community_partner_name":"Harvey Oaks Elementary",
+      "legislative_district":4,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":3,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":165,
+      "community_partner_name":"Holling Heights Elementary",
+      "legislative_district":12,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":5,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":166,
+      "community_partner_name":"Kiewit Middle School, Millard Public Schools",
+      "legislative_district":7,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":5,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":167,
+      "community_partner_name":"Lewis and Clark Middle School, Omaha Public Schools",
+      "legislative_district":6,
+      "community_type":{
+         "community_type_id":2,
+         "community_type_name":"K-12"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":5,
+      "secondary_mission_ids":[
+         4
+      ]
+   },
+   {
+      "community_partner_id":168,
+      "community_partner_name":"Aksarben Senior Center",
+      "legislative_district":9,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":5,
+      "secondary_mission_ids":[
+         3
+      ]
+   },
+   {
+      "community_partner_id":169,
+      "community_partner_name":"A Time to Heal",
+      "legislative_district":9,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":6,
+      "secondary_mission_ids":[
+         3
+      ]
+   },
+   {
+      "community_partner_id":170,
+      "community_partner_name":"Autism Society of NE",
+      "legislative_district":12,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":6,
+      "secondary_mission_ids":[
+         3
+      ]
+   },
+   {
+      "community_partner_id":171,
+      "community_partner_name":"South Omaha Boys and Girls Club",
+      "legislative_district":7,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":6,
+      "secondary_mission_ids":[
+         3
+      ]
+   },
+   {
+      "community_partner_id":172,
+      "community_partner_name":"Refugee Taskforce",
+      "legislative_district":8,
+      "community_type":{
+         "community_type_id":1,
+         "community_type_name":"Nonprofit"
+      },
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      },
+      "primary_mission_id":6,
+      "secondary_mission_ids":[
+         3
+      ]
+   }
+]

@@ -155,7 +155,7 @@
                             </span>
                         {% endif %}
                     {% endfor %}
-                    Project Mission Areas
+                    Focus Areas
                 </label> &emsp;
                 <select id="id_mission" name="mission" onchange="this.form.submit()">
                     <option> All </option>
@@ -175,7 +175,7 @@
                             </span>
                         {% endif %}
                     {% endfor %}
-                    Community Partner Types
+                    Community Organization Type
                 </label>
                 <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                     <option> All </option>
@@ -225,25 +225,25 @@
                 </select>
             </div>
 
-            <div class="col-lg-4 col-md-5 form-group">
-                <label for="weitz_cec_part">
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 27%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                data-content="{{ data_definition.description }}" class="float" >
-                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i>
-                            </span>
-                        {% endif %}
-                    {% endfor %}
-                    CEC Community Building Partners
-                </label>
-                <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                        {{weitz_cec_part}}
-                    {% endfor %}
-                </select>
-            </div>
+{#            <div class="col-lg-4 col-md-5 form-group">#}
+{#                <label for="weitz_cec_part">#}
+{#                    {% for data_definition in data_definition %}#}
+{#                        {% if data_definition.id == 27%}#}
+{#                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"#}
+{#                                data-content="{{ data_definition.description }}" class="float" >#}
+{#                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i>#}
+{#                            </span>#}
+{#                        {% endif %}#}
+{#                    {% endfor %}#}
+{#                    CEC Community Building Partners#}
+{#                </label>#}
+{#                <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">#}
+{#                    <option> All </option>#}
+{#                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}#}
+{#                        {{weitz_cec_part}}#}
+{#                    {% endfor %}#}
+{#                </select>#}
+{#            </div>#}
 
             <div class="col-lg-3 col-md-5 form-group ">
                 <label >
@@ -264,16 +264,37 @@
                 </select>
             </div>
 
+            <div class="col-lg-4 col-md-5 form-group">
+                <label for="k12_flag">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 12%}
+                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                            data-content="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}
+                    K12 Involvement
+                </label>
+                <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                    {% for k12_flag in k12_choices.k12_choice %}
+                        {{ k12_flag }}
+                    {% endfor %}
+                </select>
+            </div>
+
             </form>
         </div>
     </div>
 
     <div id="container"  style= "max-width: 1000px; height: 450px"></div>
+        {{ Projects | json_script:"Projects"}}
+        {{ CommunityPartners | json_script:"CommunityPartners"}}
+        {{ CampusPartners | json_script:"CampusPartners"}}
+        {{ yearList | json_script:"yearList"}}
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
-        <script>
-            Highcharts.chart('container',{{ chart|safe }});
-        </script>
+        <script type="text/javascript" src='{% static "js/trendchart.js" %}'></script>
     </div>
+
 </div><br><br><br><br>
 
 {% endblock %}
@@ -283,7 +304,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
+    $('#id_mission').select2({placeholder: 'All Focus Areas',width: '75%',
                                             sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -325,7 +346,9 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
+    $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
+    $('#id_legislative_value').select2({placeholder: 'All',width: '75%'});
+    {#$('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});#}
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */

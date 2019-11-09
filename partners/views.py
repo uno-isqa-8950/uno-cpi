@@ -535,11 +535,16 @@ def registerCommunityPartner_forprojects(request):
 def checkCommunityPartner(request):
     partnerForm = ProjectForm()
     communityParnterName = []
-    for object in CommunityPartner.objects.order_by('name'):
+
+    for object in CommunityPartner.objects.order_by('name','acronym'):
         partner = object.name
+        if (object.acronym is not None):
+            partner=partner+" ("+(object.acronym)+")"
+
 
         if partner not in communityParnterName:
             communityParnterName.append(partner)
+            print(partner)
 
     if request.method == 'POST':
         partnerForm = ProjectForm(request.POST)
@@ -548,4 +553,4 @@ def checkCommunityPartner(request):
 
     # print(projectNames)
     return render(request, 'partners/checkCommunityPartner.html',
-                  {'partnerForm': partnerForm, 'partnerNames':communityParnterName})
+                  {'partnerForm': partnerForm, 'partnerNames': communityParnterName})

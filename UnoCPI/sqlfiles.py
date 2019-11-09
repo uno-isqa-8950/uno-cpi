@@ -52,7 +52,7 @@ all_projects_sql = """select distinct p.project_name
                             ,p.total_other_community_members
                             ,a.name
                             ,p.description
-                        order by p.project_name;"""
+                        order by p.project_name limit 10;"""
 
 selected_projects_sql = """select distinct p.project_name
                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area

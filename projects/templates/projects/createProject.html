@@ -623,8 +623,9 @@ $(document).ready(function(){
             // ]
         }
     });
-        $('#cancel').on('click', function () {
-                    if (confirm("Are you sure?")){
+        $('#cancel').on('click', function (e) {
+                        e.preventDefault();
+                    if (confirm("You will be redirected back to check project page and data will be lost. Are you sure, you want to cancel creating project?")){
                       window.location = '/checkProject';
                     }
         });
@@ -648,10 +649,20 @@ if(stepDirection === 'forward') {
             alert("Please provide Project start semester.");
             return false
         }
-        if($("#id_academic_year").val() === ''){
+
+         var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                if(fromacademicyear === ''){
             alert("Please provide Project start academic year.");
             return false
         }
+                if (toacademicyear != '') {
+                    if (toacademicyear < fromacademicyear) {
+                        alert("Please Check Start and End Academic Years");
+                        return false;
+                    }
+                }
+
             $('#submit').hide();
         $('#termsdiv').hide();
 
@@ -1206,6 +1217,35 @@ $(document).ready(function(){
     ev.preventDefault();
     $(this).removeClass('x onX').val('').change();
      });
+
+
+               //---------------------------academic year validation ----------------------------
+
+        $("#id_end_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear<fromacademicyear ){
+            alert("Please Check Start and End Academic Years");
+            // $("#id_end_academic_year").val('-------- ');
+            // $("#id_academic_year").val(' ');
+            return false;
+        }
+
+    });
+    $("#id_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear!='') {
+            if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
+                alert("Please Check Start and End Academic Years");
+                // $("#id_end_academic_year").val(' ');
+                // $("#id_academic_year").val(' ');
+                return false;
+            }
+        }
+    });
+
+
 });
  // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>

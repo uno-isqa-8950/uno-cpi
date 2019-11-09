@@ -21,8 +21,17 @@ var CommunityPartners = JSON.parse(document.getElementById('CommunityPartners').
 var Projects = JSON.parse(document.getElementById('Projects').textContent);
 var CampusPartners = JSON.parse(document.getElementById('CampusPartners').textContent);
 
-var missionColorCodeObject = ["#01B8AA",  "#374649", "#FD625E",  "#8AD4EB",
-   "#FE9666", "#A66999",  "#3599B8",  "#DFBFBF",  "#1743f3" ];
+const colorCodeObject = {
+    [missionList[0].name]:  "#01B8AA",
+    [missionList[1].name]:  "#374649",
+    [missionList[2].name]:  "#FD625E",
+    [missionList[3].name]:  "#8AD4EB",
+    [missionList[4].name]:  "#FE9666",
+    [missionList[5].name]:  "#A66999",
+    [missionList[6].name]:  "#3599B8",
+    [missionList[7].name]:  "#DFBFBF",
+    [missionList[8].name]:  "#1743f3"
+}
 
 if (!not_set.includes(engagement_type)) {
     var Projects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagement_type));
@@ -84,7 +93,7 @@ var y_vars = [];
 var chart_data = [];
 var y_label = "";
 for (m in missionList) {
-   var color = missionColorCodeObject[(missionList[m].id-1)];
+   var color = colorCodeObject[(missionList[m].name)];
    var communities = CommunityPartners.filter(d => d.primary_mission_id === missionList[m].id);
    var data = []
    communities.forEach(function(feature) {

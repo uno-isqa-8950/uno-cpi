@@ -888,6 +888,7 @@ def partnershipintensity(request):
     for m in MissionArea.objects.all():
         res = {'id': m.id, 'name': m.mission_name}
         missionList.append(res)
+    missionList = sorted(missionList, key=lambda i: i['name'])
 
     community_json = open('home/static/charts_json/community_partners.json')
     CommunityPartners = json.load(community_json)

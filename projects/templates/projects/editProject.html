@@ -857,7 +857,7 @@ $('#update').show;
     //--------------------cancel button function------------------------
         $('#cancel').on('click', function (e) {
             e.preventDefault();
-                    if (confirm("Are you sure?")){
+                    if (confirm("You will be redirected back to check project page and the changes will be lost. Are you sure, you want to cancel editing project?")){
                       window.location = '/checkProject';
                     }
         });

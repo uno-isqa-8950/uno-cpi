@@ -630,7 +630,7 @@ $(document).ready(function(){
     });
         $('#cancel').on('click', function (e) {
                         e.preventDefault();
-                    if (confirm("Are you sure?")){
+                    if (confirm("You will be redirected back to check project page and data will be lost. Are you sure, you want to cancel creating project?")){
                       window.location = '/checkProject';
                     }
         });

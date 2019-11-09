@@ -326,7 +326,7 @@ display: flex;
                 </div>
                 <div class="col">
                     <div class="row">
-                    <label class="col-sm-2">Description</label>
+                    <label  for="id_semester"  class="col-sm-2">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
                     <div class="col">
@@ -564,7 +564,7 @@ display: flex;
 
             <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-    <i class="fa fa-plus"></i> Lead Campus Staff
+    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
 </button>
 <div id="leadstaffinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
@@ -618,7 +618,9 @@ display: flex;
             <div class="row">
                 <div class="col-md-3">
                     <label>
-                                 Primary Project Mission Area <span style="color:red;">*</span>
+<!--                                 Primary Project Mission Area -->
+                        Primary Focus Area
+                        <span style="color:red;">*</span>
 
                     </label>
                 </div>
@@ -637,7 +639,8 @@ display: flex;
             <div class="row sub_category_edit-row">
                 <div class="col-md-3">
                     <label>
-                                 Sub Category
+<!--                                 Sub Category-->
+                        Topics
 
                                 </label>
                 </div>
@@ -654,7 +657,7 @@ display: flex;
 
                                 {% endfor %}
  <div class="sub_category_edit-fields displaybox row" id="sub_category_edit-fields"></div>
-
+  <div class="row"><br><br></div>
                                                             <div class="row" id="othersubinput">
                                                     <div class="col-md-3">
                                                         <label style="padding-top: 10px">Other Sub Category</label>
@@ -675,6 +678,7 @@ display: flex;
                                             {{ project.other_sub_category}}
                                             </div>
                                         <div class="row displaybox" id='displaysub'>
+
                                         </div>
 
 
@@ -687,10 +691,10 @@ display: flex;
         </div>
         <div id="step-4">
             <div class="row"><br></div>
-                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
-    <i class="fa fa-plus"></i> Address
-</button>
-<div id="contactinfo" class= "panel-collapse collapse">
+<!--                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
+<!--    <i class="fa fa-plus"></i> Address-->
+<!--</button>-->
+<div id="contactinfo" class= "panel-collapse collapse show">
                                 <div class="panel-body">
                                         <br>
 
@@ -732,7 +736,7 @@ display: flex;
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">State</label>
+                                              <label class="col-sm-4">State or Province</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -741,7 +745,7 @@ display: flex;
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label class="col-sm-4">Zip or Postal Code</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -878,6 +882,17 @@ $('#update').show;
                     alert("Please provide Project start academic year.");
                     return false
                 }
+                if( ($("#id_description").val() === '') ){
+                    alert("Please Provide Description for the project.");
+                    return false
+                }
+                 var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                    if (toacademicyear<fromacademicyear ){
+                    alert("Please Check Start and End Academic Years");
+
+                    return false;
+                }
                 if (status === 'Drafts') {
                     $('#termsdiv').hide();
                     $('#draft').show();
@@ -982,11 +997,6 @@ if (stepDirection === 'backward') {
                     }
     });
 
-$('#id_k12_flag').change(function () {
-    if($('#id_k12_flag').prop('checked')==true){
-        $("#k12-students").show();
-    }
-});
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
     $('#othersubinput').hide();
@@ -1021,7 +1031,7 @@ $(".nospecial").keypress(function (e) {
         });
 });
 </script>
-<br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
@@ -1377,9 +1387,56 @@ window.onload = function () {
         }
 
     });
-     $('.add-community-row:last').click();
-        $('.add-campus-row:last').click();
-        $('.add-sub_category-row:last').click();
+//------------hide and show k-12 flag ---------------------
+$('#id_k12_flag').change(function () {
+    if($('#id_k12_flag').prop('checked')==true){
+        $("#k12-students").show();
+    }
+    else{
+        $("#k12-students").hide();
+    }
+});
+//----------------page on load formset click function--------------------
+        var communitylast = $('.community_edit-row:last').find(':selected').text();
+        var campuslast = $('.campus_edit-row:last').find(':selected').text();
+         var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
+       if(communitylast != '---------') {
+           $('.add-community-row:last').click();
+       }
+       if( campuslast != '---------') {
+           $('.add-campus-row:last').click();
+       }
+       if(subcatlast != '---------') {
+           $('.add-sub_category-row:last').click();
+       }
+
+//---------------------------academic year validation ----------------------------
+
+        $("#id_end_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear<fromacademicyear ){
+            alert("Please Check Start and End Academic Years");
+            // $("#id_end_academic_year").val('-------- ');
+            // $("#id_academic_year").val(' ');
+            return false;
+        }
+
+    });
+    $("#id_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear!='') {
+            if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
+                alert("Please Check Start and End Academic Years");
+                // $("#id_end_academic_year").val(' ');
+                // $("#id_academic_year").val(' ');
+                return false;
+            }
+        }
+    });
+
+
 
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
@@ -1427,6 +1484,7 @@ window.onload = function () {
        hideInputs();
    });
 </script>
+
 {% endblock %}
 
 
@@ -1465,7 +1523,7 @@ $(document).ready(function(){
 }
 .select2-container--default .select2-selection--single
 {
-   border: 2px solid #aaa;
+   border: 1px solid #aaa;
    margin-top:8px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow
@@ -1556,4 +1614,5 @@ $(function () {
          $('[data-toggle="popover"]').popover()
      })
 </script>
+
 {% endblock %}

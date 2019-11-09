@@ -270,7 +270,7 @@ display: flex;
         <li><a href="#step-1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Mission Areas</a></li>
-        <li><a href="#step-4">Other Information</a></li>
+        <li><a href="#step-4" id="click4">Other Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -326,7 +326,7 @@ display: flex;
                 </div>
                 <div class="col">
                     <div class="row">
-                    <label class="col-sm-2">Description</label>
+                    <label  for="id_semester"  class="col-sm-2">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
                     <div class="col">
@@ -564,7 +564,7 @@ display: flex;
 
             <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-    <i class="fa fa-plus"></i> Lead Campus Staff
+    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
 </button>
 <div id="leadstaffinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
@@ -614,16 +614,18 @@ display: flex;
         </div>
 
         <div id="step-3">
-             {% for form in formset_missiondetails %}
+             {% for missform in formset_missiondetails %}
             <div class="row">
                 <div class="col-md-3">
                     <label>
-                                 Primary Project Mission Area <span style="color:red;">*</span>
+<!--                                 Primary Project Mission Area -->
+                        Primary Focus Area
+                        <span style="color:red;">*</span>
 
                     </label>
                 </div>
                 <div class="col-md-6">
-                    {{ form.mission | bootstrap}}
+                    {{ missform | bootstrap}}
 
                 </div>
             </div>
@@ -637,7 +639,8 @@ display: flex;
             <div class="row sub_category_edit-row">
                 <div class="col-md-3">
                     <label>
-                                 Sub Category
+<!--                                 Sub Category-->
+                        Topics
 
                                 </label>
                 </div>
@@ -654,7 +657,7 @@ display: flex;
 
                                 {% endfor %}
  <div class="sub_category_edit-fields displaybox row" id="sub_category_edit-fields"></div>
-
+  <div class="row"><br><br></div>
                                                             <div class="row" id="othersubinput">
                                                     <div class="col-md-3">
                                                         <label style="padding-top: 10px">Other Sub Category</label>
@@ -675,6 +678,7 @@ display: flex;
                                             {{ project.other_sub_category}}
                                             </div>
                                         <div class="row displaybox" id='displaysub'>
+
                                         </div>
 
 
@@ -687,16 +691,16 @@ display: flex;
         </div>
         <div id="step-4">
             <div class="row"><br></div>
-                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">
-    <i class="fa fa-plus"></i> Address
-</button>
-<div id="contactinfo" class= "panel-collapse collapse">
-                                    <div class="panel-body">
+<!--                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
+<!--    <i class="fa fa-plus"></i> Address-->
+<!--</button>-->
+<div id="contactinfo" class= "panel-collapse collapse show">
+                                <div class="panel-body">
                                         <br>
 
                                         <div class="row">
 
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Address</label>
                                             <div class="col-sm-7">
@@ -709,16 +713,7 @@ display: flex;
                                         </div>
                                         </div>
                                         <div class="row">
-                                            <div class="form-group col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">City</label>
-                                            <div class="col-sm-7">
-                                            {{ project.city }}
-                                            </div>
-                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
+                                            <div class="col-md-6">
                                                 <div class="row">
                                               <label class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
@@ -728,11 +723,20 @@ display: flex;
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                         </div>
+                                        <div class="row">
+                                              <label class="col-sm-4">City</label>
+                                            <div class="col-sm-7">
+                                            {{ project.city }}
+                                            </div>
+                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
 
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">state</label>
+                                              <label class="col-sm-4">State or Province</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -741,7 +745,7 @@ display: flex;
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label class="col-sm-4">Zip or Postal Code</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -754,7 +758,7 @@ display: flex;
                                         </div>
 
                                 </div>
-     <div class="form-group" style="display: block">
+     <div class="form-group" style="display: none">
                                             <label>Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
@@ -835,98 +839,132 @@ $(document).ready(function(){
             // ]
         }
     });
+    //------------------hide and show buttons-----------------------
 $('#termsdiv').hide();
 $('#draft').hide();
 $('#submit').hide();
 $('#update').hide();
-    // var status = $('#id_status option:selected').text();
-    // if(status === 'Drafts'){
-// $('#draft').show();
-// $('#submit').show();
-//     }
-//     else{
-// $('#draft').hide();
-// $('#submit').hide();
-// $('#update').show;
-//     }
+    var status = $('#id_status option:selected').text();
+    if(status === 'Drafts'){
+$('#draft').show();
+$('#submit').show();
+    }
+    else{
+$('#draft').hide();
+$('#submit').hide();
+$('#update').show;
+    }
+    //--------------------cancel button function------------------------
         $('#cancel').on('click', function () {
                     if (confirm("Are you sure?")){
                       window.location = '/checkProject';
                     }
         });
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber === 0) {
-        if(($("#id_project_name").val() === '')){
-            alert("Please provide Project name to proceed.");
-            return false
-        }
-        if( ($("#id_engagement_type").val() === '') ){
-            alert("Please enter Engagement type.");
-            return false
-        }
-        if(($("#id_semester").val() === '')){
-            alert("Please provide Project start semester.");
-            return false
-        }
-        if($("#id_academic_year").val() === ''){
-            alert("Please provide Project start academic year.");
-            return false
-        }
-        if(status === 'Drafts') {
-            $('#termsdiv').hide();
-            $('#draft').show();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-        else{
-            $('#termsdiv').hide();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-    }
 
-    }
-    if (stepNumber === 1) {
-        if ($("#id_campus-0-campus_partner").val() === '') {
-            alert("Please provide Campus partner before proceeding.");
+    //----------------------form wizard each step validation---------------------------
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+        var elmForm = $("#form-step-" + stepNumber);
+        if (stepDirection === 'forward') {
+            if (stepNumber === 0) {
+                if (($("#id_project_name").val() === '')) {
+                    alert("Please provide Project name to proceed.");
+                    return false
+                }
+                if (($("#id_engagement_type").val() === '')) {
+                    alert("Please enter Engagement type.");
+                    return false
+                }
+                if (($("#id_semester").val() === '')) {
+                    alert("Please provide Project start semester.");
+                    return false
+                }
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please provide Project start academic year.");
+                    return false
+                }
+                if( ($("#id_description").val() === '') ){
+                    alert("Please Provide Description for the project.");
+                    return false
+                }
+                 var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                    if (toacademicyear<fromacademicyear ){
+                    alert("Please Check Start and End Academic Years");
+
+                    return false;
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+
+            if (stepNumber === 1) {
+                        var communitylast = $('.community_edit-row:last').find(':selected').text();
+        var campuslast = $('.campus_edit-row:last').find(':selected').text();
+
+        if(communitylast !='---------' && communitylast != ""){
+            alert('Please make sure to add the selected value');
+            // $('.community-row:last').find('select').val(' ');
             return false;
         }
-       if(status === 'Drafts') {
-           $('#termsdiv').hide();
-            $('#draft').show();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-        else{
-            $('#termsdiv').hide();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').hide();
-        }
-    }
-    if (stepNumber === 2) {
-        if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide Mission area before proceeding.");
+        if(campuslast !='---------' && campuslast != ""){
+            alert('Please make sure to add the selected value');
             return false;
         }
-        else {
-            if(status === 'Drafts') {
-                $('#termsdiv').show();
-            $('#draft').show();
-            $('#submit').show();
-            $('#update').hide();
+
+         if($('#firstname').val() !="" && $('#lastname') != ""){
+            alert('Please make sure to add the Lead Staff Name');
+            return false;
         }
-        else{
-            $('#termsdiv').show();
-             $('#draft').hide();
-            $('#submit').hide();
-            $('#update').show();
+                if ($("#id_campus-0-campus_partner").val() === '') {
+                    alert("Please provide Campus partner before proceeding.");
+                    return false;
+                }
+                if (status === 'Drafts') {
+                    $('#termsdiv').hide();
+                    $('#draft').show();
+                    $('#submit').hide();
+                    $('#update').hide();
+                } else {
+                    $('#termsdiv').hide();
+                    $('#draft').hide();
+                    $('#submit').hide();
+                    $('#update').hide();
+                }
+            }
+            if (stepNumber === 2) {
+                var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
+        if(subcatlast !='---------' && subcatlast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
         }
-    }
-}
+                if ($("#id_mission-0-mission").val() == '') {
+                    alert("Please provide Mission area before proceeding.");
+                    return false;
+                } else {
+                    if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+                }
+            }
+        }
+    //------------------------wizard step backward buttons function-----------------
 if (stepDirection === 'backward') {
             if(status === 'Drafts') {
            $('#termsdiv').hide();
@@ -944,11 +982,21 @@ if (stepDirection === 'backward') {
         }
         return true;
     });
-$('#id_k12_flag').change(function () {
-    if($('#id_k12_flag').prop('checked')==true){
-        $("#k12-students").show();
-    }
-});
+    //-------------------buttons function if directly click on step 4-----------------
+    $('#click4').click(function () {
+        if (status === 'Drafts') {
+                        $('#termsdiv').show();
+                        $('#draft').show();
+                        $('#submit').show();
+                        $('#update').hide();
+                    } else {
+                        $('#termsdiv').show();
+                        $('#draft').hide();
+                        $('#submit').hide();
+                        $('#update').show();
+                    }
+    });
+
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
     $('#othersubinput').hide();
@@ -983,7 +1031,7 @@ $(".nospecial").keypress(function (e) {
         });
 });
 </script>
-<br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
@@ -1339,9 +1387,56 @@ window.onload = function () {
         }
 
     });
-     $('.add-community-row:last').click();
-        $('.add-campus-row:last').click();
-        $('.add-sub_category-row:last').click();
+//------------hide and show k-12 flag ---------------------
+$('#id_k12_flag').change(function () {
+    if($('#id_k12_flag').prop('checked')==true){
+        $("#k12-students").show();
+    }
+    else{
+        $("#k12-students").hide();
+    }
+});
+//----------------page on load formset click function--------------------
+        var communitylast = $('.community_edit-row:last').find(':selected').text();
+        var campuslast = $('.campus_edit-row:last').find(':selected').text();
+         var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
+       if(communitylast != '---------') {
+           $('.add-community-row:last').click();
+       }
+       if( campuslast != '---------') {
+           $('.add-campus-row:last').click();
+       }
+       if(subcatlast != '---------') {
+           $('.add-sub_category-row:last').click();
+       }
+
+//---------------------------academic year validation ----------------------------
+
+        $("#id_end_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear<fromacademicyear ){
+            alert("Please Check Start and End Academic Years");
+            // $("#id_end_academic_year").val('-------- ');
+            // $("#id_academic_year").val(' ');
+            return false;
+        }
+
+    });
+    $("#id_academic_year").change(function () {
+        var fromacademicyear=$("#id_academic_year").val();
+        var toacademicyear=$("#id_end_academic_year").val();
+        if (toacademicyear!='') {
+            if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
+                alert("Please Check Start and End Academic Years");
+                // $("#id_end_academic_year").val(' ');
+                // $("#id_academic_year").val(' ');
+                return false;
+            }
+        }
+    });
+
+
 
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
@@ -1389,6 +1484,7 @@ window.onload = function () {
        hideInputs();
    });
 </script>
+
 {% endblock %}
 
 
@@ -1427,7 +1523,7 @@ $(document).ready(function(){
 }
 .select2-container--default .select2-selection--single
 {
-   border: 2px solid #aaa;
+   border: 1px solid #aaa;
    margin-top:8px;
 }
 .select2-container--default .select2-selection--single .select2-selection__arrow
@@ -1467,6 +1563,7 @@ $('#update').click(function () {
 });
 $('#submit').click(function () {
     if($('#terms').is(":checked")){
+        $('#id_status option[value=1]').attr('selected','selected');
         return true;
     }
     else {
@@ -1517,4 +1614,5 @@ $(function () {
          $('[data-toggle="popover"]').popover()
      })
 </script>
+
 {% endblock %}

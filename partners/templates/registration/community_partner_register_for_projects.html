@@ -194,7 +194,7 @@ width:93%!important;
                     <div class="col-md-6">
                     <div class="row">
                          <div class="col" style="padding-top: 5px">
-                    <label style="padding-right: 5px">Are you Online Only?  </label>
+                    <label style="padding-right: 5px">Is This Community Partner Virtual Only, With No Physical Address?  </label>
                             {{ community_partner_form.online_only}}
                     </div>
 <!--                        <div class="col-md-5" style="padding-top: 5px">-->
@@ -444,6 +444,7 @@ width:93%!important;
                                <div class="row centered" style="margin-top:10px;">
 
                  <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
+                                   <button value="cancel" name="cancel" id="cancel" class="save redbutton">Cancel</button>
  </div>
     </div>
 </div>
@@ -532,7 +533,7 @@ $(document).ready(function() {
                     ($('#id_state').val() === '') ||
                     ($('#id_city').val() === '') ||
                     ($('#id_zip').val() === '')) && ($("#id_online_only").is(':checked') === false)) {
-                    alert("Please Provide Address or Check Online Only.");
+                    alert("Please Provide Address or Check Virtual Only.");
                     return false
                 }
                 // }

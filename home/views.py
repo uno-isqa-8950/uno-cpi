@@ -931,136 +931,15 @@ def trendreport(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
 
+    k12_selection = request.GET.get('k12_flag', None)
+    k12_init_selection = "All"
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    campus_filtered_ids = campus_filter.qs.values_list('id', flat=True)
-
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    college_filtered_ids = college_filter.qs.values_list('id', flat=True)
-
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=college_filtered_ids))
-    campus_project_filter_ids = campus_project_filter.qs.values_list('project_name', flat=True)
-
-    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-    community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
-
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    project_mission_ids = [p.project_name_id for p in missions_filter.qs]
-    project_filtered_mission_ids = list(set(project_filtered_ids).intersection(project_mission_ids))
-    e = request.GET.get('mission', None)
-    if (e not in [None, "All", '']):
-        comm_mission = CommunityPartnerMission.objects.filter(mission_area_id=e).filter(mission_type='Primary').filter(community_partner_id__in=project_filtered_ids)
-        comm_mission_ids = [p.community_partner_id for p in comm_mission]
-        community_filtered_ids = list(set(community_filtered_ids).intersection(comm_mission_ids))
-
-    filtered_project_list = []
-    a = request.GET.get('academic_year', None)
-    b = request.GET.get('engagement_type', None)
-    c = request.GET.get('campus_partner', None)
-    d = request.GET.get('college_name', None)
-    e = request.GET.get('weitz_cec_part', None)
-    f = request.GET.get('community_type', None)
-    x = []
-    y = []
-    z = []
-    u = (a not in [None, "All", '']) or (b not in [None, "All", ''])
-    v = (c not in [None, "All", '']) or (d not in [None, "All", ''])
-    w = (e not in [None, "All", '']) or (f not in [None, "All", ''])
-    sets = []
-    if (u):
-        x = project_filtered_mission_ids
-        sets.append(x)
-    if (v):
-        y = campus_project_filter_ids
-        sets.append(y)
-    if (w):
-        z = community_filtered_ids
-        sets.append(z)
-    if (len(sets) == 3):
-        filtered_project_list = list(set(x).intersection(y, z))
-    elif (len(sets) == 2):
-        filtered_project_list = list(set(sets[0]).intersection(sets[1]))
-    elif (len(sets) == 1):
-        filtered_project_list = sets[0]
-    else:
-        filtered_project_list = project_filtered_mission_ids
-
-
-    acad_years = AcademicYear.objects.all()
-    project_year_count = []
-    year_community_counts = []
-    year_campus_counts = []
-    year_names = []
-
-    yrs = []
-    for e in acad_years:
-        yrs.append(e.id)
-    max_yr_id = max(yrs)
-
-    for e in acad_years:
-        start = list(range(e.id+1))
-        end = list(range(e.id, (max_yr_id+1)))
-        proj_comm = Project.objects.filter(academic_year__in=start).filter(end_academic_year=None).filter(id__in=filtered_project_list)
-        proj_comme = Project.objects.filter(academic_year__in=start).filter(end_academic_year__in=end).filter(id__in=filtered_project_list)
-        proj_comm = proj_comm | proj_comme
-        project_count = proj_comm.count()
-
-        # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
-        # gets all the community partner ids in a array. These are not distinct
-        proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
-        # sets the non distinct array to a distinct set of community partner ids
-        unique_comm_ids = set(proj_comm_ids)
-        # counts within the set of unique community partner ids
-        unique_comm_ids_count = len(unique_comm_ids)
-
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).distinct()
-        proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-        unique_camp_ids = set(proj_camp_ids)
-        unique_camp_ids_count = len(unique_camp_ids)
-
-        project_year_count.append(project_count)
-        year_community_counts.append(unique_comm_ids_count)
-        year_campus_counts.append(unique_camp_ids_count)
-        year_names.append(e.academic_year)
-
-    project_count_series = {
-        'name': 'Project Count',
-        'data': project_year_count,
-        'color': 'turquoise'}
-    community_partner_count_series = {
-        'name': 'Community Partner Count',
-        'data': year_community_counts,
-        'color': 'teal'}
-    campus_partner_count_series = {
-        'name': 'Campus Partner Count',
-        'data': year_campus_counts,
-        'color': 'blue'}
-    chart = {
-        'title': {'text': ''},
-        'xAxis': {'categories': year_names,
-                  'title': {'text': 'Academic Years',
-                            'style': {'fontWeight': 'bold', 'color': 'black','fontSize': '15px'}}},
-        'yAxis': {'title': {'text': 'Projects/Partners',
-                            'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}}},
-        'plotOptions': {'series': {'dataLabels': {'style': {'fontSize': '8px'}}}},
-        'series': [project_count_series, community_partner_count_series, campus_partner_count_series],
-        'legend': {
-            'layout': 'horizontal',
-            'align': 'right',
-            'verticalAlign': 'top',
-            'x': -10,
-            'y': 50,
-            'borderWidth': 1,
-            'backgroundColor': '#FFFFFF',
-            'shadow': 'true'
-        },
-        'responsive': {'rules': [{
-            'condition': {'maxWidth': 500},
-            'chartOptions': {'legend': {
-                'layout': 'horizontal',
-                'align': 'center',
-                'verticalAlign': 'bottom'}}}]}
-    }
 
     college_value = request.GET.get('college_name', None)
     if college_value is None or college_value == "All" or college_value == '':
@@ -1069,11 +948,23 @@ def trendreport(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    dump = json.dumps(chart)
+    yearList = []
+    for y in AcademicYear.objects.all():
+        res = {'id': y.id, 'name': y.academic_year}
+        yearList.append(res)
+
+    community_json = open('home/static/charts_json/community_partners.json')
+    CommunityPartners = json.load(community_json)
+    projects = open('home/static/charts_json/projects.json')
+    Projects = json.load(projects)
+    campus_json = open('home/static/charts_json/campus_partners.json')
+    CampusPartners = json.load(campus_json)
+
     return render(request, 'charts/trendreport.html',
-                  {'chart': dump, 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
+                  { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
-                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,'campus_filter': campus_filter})
+                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,'campus_filter': campus_filter, 'k12_choices': k12_choices,
+                    'CommunityPartners': CommunityPartners, 'Projects':Projects, 'CampusPartners':CampusPartners, 'yearList':yearList})
 
 
 def EngagementType_Chart(request):

@@ -58,8 +58,8 @@ if (!not_set.includes(comm_type)) {
     var Projects = Projects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
 }
 
-var projectCommunities = new Set()
-var projectCampus = new Set()
+var projectCommunities = new Set();
+var projectCampus = new Set();
  Projects.forEach(function(feature) {
     if (feature["community_partner_ids"].length != 0) {
        feature["community_partner_ids"].forEach(item => projectCommunities.add(item));

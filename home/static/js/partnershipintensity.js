@@ -158,7 +158,7 @@ Highcharts.chart('container', {
             "states":{"hover":{"enabled":true,"lineColor":"rgb(100,100,100)"}}},
          "states":{"hover":{"marker":{"enabled":false}}},
          "tooltip":{ "headerFormat": "",
-            "pointFormat":"<b>{point.name}</b><br>{series.name}<br>Projects: {point.x} <br>"+y_label+": {point.y}"}
+            "pointFormat":"<b>{point.name}</b><br>Primary Mission Area: {series.name}<br>Projects: {point.x} <br>"+y_label+": {point.y}"}
       }
    },
    "responsive":{"rules":[{"condition":{"maxWidth":500},

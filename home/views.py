@@ -1356,10 +1356,11 @@ def issueaddress(request):
         yrs.append(e.id)
     max_yr_id = max(yrs)
     min_yr_id = min(yrs)
-    max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
-    max_year=max_yr[0]
-    min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
-    min_year = min_yr[0]
+    # max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    # max_year=max_yr[0]
+    # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
+    # min_year=min_yr[0]
+    # print(" min yaer",min_yr," ma yaer ",max_yr)
 
 
     b = request.GET.get('academic_year', None)
@@ -1656,13 +1657,14 @@ def issueaddress(request):
     print('campus_filter', campus_filter)
     print('communityPartners', communityPartners)
     print('college_filter', college_filter)
-    print('campus_id', campus_id,'max_year',max_year,'min_year',min_year)
+    print('campus_id', campus_id)
     return render(request, 'charts/issueaddressanalysis.html',
                       {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
                        'to_project_filter': to_project_filter,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id,'max_year':max_year,'min_year':min_year})
+                       'college_filter': college_filter, 'campus_id': campus_id})
+    # ,'max_year':max_year,'min_year':min_year})
 
 
 

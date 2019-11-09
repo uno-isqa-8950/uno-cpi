@@ -16,6 +16,7 @@
                                 {{categoryformset.management_form}}
                                 {{formset2.management_form}}
                                 {{formset3.management_form}}
+                                
 <div class="container-fluid">
 
     <div class="row justify-content-md-center">
@@ -282,10 +283,7 @@
 
                                         <div class="community-fields displaybox row" id="community-fields"></div>
                                       <div class="row centered">
-                                               <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject"  style="color: #d71920;background:none;"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Community Partner?')">Not in list? Register a New Community Partner</a>
+                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
 
                                         </div>
                                     </div>
@@ -330,18 +328,15 @@
                                         <div class="campus-fields displaybox row" id="campus-fields"></div>
                                                       <div class="row"><br></div>
                                           <div class="centered">
-                                             <a class="btn btn-link" href="/partners/registerCampusPartnerForProject" style="color: #d71920; background:none;"
-                                       onclick="return confirm('You will be redirected to page where you can register your partner. ' +
-                                                                'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
-                                                                ' Are you sure you want to register a New Campus Partner?')">Not in list? Register a New Campus Partner</a>
 
+                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Community Partner</a>
                                         </div>
                                     </div>
 </div>
                                         {% endfor %}
             <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-    <i class="fa fa-plus"></i> Lead Campus Staff
+    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
 </button>
 <div id="leadstaffinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
@@ -397,7 +392,8 @@
                 <div class="col-md-3">
                     <label style="padding-top:8px"><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
                                 {% for data_definition in data_definition %}{% if data_definition.id == 39%}
-                                 Primary Project Mission Area <span style="color:red;">*</span>
+                                 Primary Focus Area
+                        <span style="color:red;">*</span>
                                 {% endif %}
                                 {% endfor %}
                                 </span></label>
@@ -419,7 +415,7 @@
               {% for catform in categoryformset %}
             <div class="row">
                 <div class="col-md-3">
-                    <label style="padding-top:8px">Sub Category</label>
+                    <label style="padding-top:8px">Topics</label>
                 </div>
                 <div class="col-md-6 sub_category-row">
                     <!--<div class="row ">-->
@@ -444,7 +440,7 @@
                                                         <label style="padding-top: 10px">Other Sub Category</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id='othersubcat' type="text" class="inputbox">
+                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Sub Categories">
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -515,7 +511,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">State</label>
+                                              <label class="col-sm-4">State or Province</label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -524,7 +520,7 @@
                                             {% endfor %} {% endif %}
                                                 </div>
                                                 <div class="row">
-                                              <label class="col-sm-4">Zipcode</label>
+                                              <label class="col-sm-4">Zip or Postal Code</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -661,6 +657,23 @@ if(stepDirection === 'forward') {
 
     }
     if (stepNumber === 1) {
+        var communitylast = $('.community-row:last').find(':selected').text();
+        var campuslast = $('.campus-row:last').find(':selected').text();
+
+        if(communitylast !='---------' && communitylast != ""){
+            alert('Please make sure to add the selected value');
+            // $('.community-row:last').find('select').val(' ');
+            return false;
+        }
+        if(campuslast !='---------' && campuslast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
+
+         if($('#firstname').val() !="" && $('#lastname') != ""){
+            alert('Please make sure to add the Lead Staff Name');
+            return false;
+        }
         if ($("#id_campus-0-campus_partner").val() === '') {
             alert("Please provide Campus partner before proceeding.");
             return false;
@@ -669,6 +682,11 @@ if(stepDirection === 'forward') {
         $('#termsdiv').hide();
     }
     if (stepNumber === 2) {
+        var subcatlast = $('.sub_category-row:last').find(':selected').text();
+        if(subcatlast !='---------' && subcatlast != ""){
+            alert('Please make sure to add the selected value');
+            return false;
+        }
         if ($("#id_mission-0-mission").val() == '') {
             alert("Please provide Mission area before proceeding.");
             return false;
@@ -754,14 +772,13 @@ $("#id_project_name").change(function () {
 
 });
 </script>
-<br><br><br>
+<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
 {% block custom_js %}
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
-
     $("#submitname").click(function () {
 var str = "";
 var name =  $('.concat > h6.finalname').length;
@@ -853,25 +870,111 @@ function updateElementIndex(el, prefix, ndx) {
 var community_ids = [];
 var campus_ids = [];
 var subcategory_ids=[];
+
+$("#id_registerCommAndSave").click(function (){
+    
+    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project.Are you sure you want to register a New Community Partner?");
+    if (result == true) { 
+    var commIdList = ''
+    if (community_ids.length >=1) {
+        commIdList  = String(community_ids);
+    }
+    var campIdList = ''
+    if (campus_ids.length >=1) {
+        campIdList  = String(campus_ids);
+    }
+     $.ajax({
+        url: "/saveProjectAndRegister/",
+        data: {
+            'name': document.getElementById("id_project_name").value,
+            'description':document.getElementById("id_description").value,
+            'engagement_type':document.getElementById("id_engagement_type").value,
+            'activity_type':document.getElementById("id_activity_type").value,
+            'start_semester':document.getElementById("id_semester").value,
+            'start_academic_yr':document.getElementById("id_academic_year").value,
+            'end_semester':document.getElementById("id_end_semester").value,
+            'end_academic_yr':document.getElementById("id_end_academic_year").value,
+            'uno_students':document.getElementById("id_total_uno_students").value,
+            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+            'k12_students':document.getElementById("id_total_k12_students").value,
+            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,  
+            'selectedCommIds':commIdList,
+            'selectedCampusIds':campIdList,
+            'project_type':document.getElementById("id_project_type").value,
+            'lead_staff_list':document.getElementById("id_campus_lead_staff").value
+        },
+        dataType: 'json',
+        success: function (data) {
+           window.location = '/partners/registerCommunityPartnerForProject/?projectId='+data.save_projectId
+        }
+    });
+ }
+});
+
+$("#id_registerCampusAndSave").click(function (){
+
+    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project. Are you sure you want to register a New Campus Partner?");
+    if (result == true) { 
+    var commIdList = ''
+    if (community_ids.length >=1) {
+        commIdList  = String(community_ids);
+    }
+    var campIdList = ''
+    if (campus_ids.length >=1) {
+        campIdList  = String(campus_ids);
+    }
+     $.ajax({
+        url: "/saveProjectAndRegister/",
+       //url:"/partners/registerCommunityPartnerForProject/",
+        data: {
+            'name': document.getElementById("id_project_name").value,
+            'description':document.getElementById("id_description").value,
+            'engagement_type':document.getElementById("id_engagement_type").value,
+            'activity_type':document.getElementById("id_activity_type").value,
+            'start_semester':document.getElementById("id_semester").value,
+            'start_academic_yr':document.getElementById("id_academic_year").value,
+            'end_semester':document.getElementById("id_end_semester").value,
+            'end_academic_yr':document.getElementById("id_end_academic_year").value,
+            'uno_students':document.getElementById("id_total_uno_students").value,
+            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+            'k12_students':document.getElementById("id_total_k12_students").value,
+            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,  
+            'selectedCommIds':commIdList,
+            'selectedCampusIds':campIdList,
+            'project_type':document.getElementById("id_project_type").value,
+            'lead_staff_list':document.getElementById("id_campus_lead_staff").value
+        },
+        dataType: 'json',
+        success: function (data) {
+           window.location = '/partners/registerCampusPartnerForProject/?projectId='+data.save_projectId
+        }
+    });
+ }
+});
+
+
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();
        var selectedtext = $(selector).find(':selected').text();
     if (selectedtext == '---------') {
         alert('you cannot add empty value');
-        $(selector).val(' ');
+       $(selector).find('select').val(' ');
         return;
     }
     if (prefix == 'community') {
         if (community_ids.includes(selected)) {
             alert('community already added');
-            $(selector).val(' ');
+           $(selector).find('select').val(' ');
             return;
         }
         community_ids.push(selected);
     } else if (prefix == 'campus') {
         if (campus_ids.includes(selected)) {
             alert('campus already added');
+           $(selector).find('select').val(' ');
             return;
         }
         campus_ids.push(selected);
@@ -879,6 +982,7 @@ function cloneMore(selector, prefix) {
     else if (prefix=='sub_category'){
         if (subcategory_ids.includes(selected)){
             alert('Subcategory already added');
+           $(selector).find('select').val(' ');
             return;
         }
         subcategory_ids.push(selected);

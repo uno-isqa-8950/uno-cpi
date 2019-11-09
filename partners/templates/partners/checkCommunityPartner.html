@@ -174,9 +174,20 @@ valueFilter.addEventListener("keydown", function (e) {
             else if(!((value == "")))
             {
                 partnerlist = [];
+                function removeArticle(str){
+                    words = str.split(" ");
+                    if(words.length <= 1) return str;
+                    if(words[0] == 'a' || words[0] == 'the' || words[0] == 'an'){
+                        return words.splice(1).join(" ");
+                    }
+                    return str;
+                }
+
                 document.getElementById('next').onclick = function myfunction() {
                     document.getElementById('next').onclick= null;
                     for (var i = 0; i < partners.length; i++) {
+
+                        value = removeArticle(value.toLowerCase());
                         if (partners[i].toLowerCase().includes(value)) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i]);

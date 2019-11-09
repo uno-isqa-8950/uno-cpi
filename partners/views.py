@@ -19,6 +19,8 @@ import googlemaps
 from shapely.geometry import shape, Point
 from django.conf import settings
 from googlemaps import Client
+from django.urls import reverse
+#from projects.views import editProject
 
 from django.core.cache import cache
 
@@ -72,7 +74,6 @@ def registerCampusPartner(request):
         formset = ContactFormset(queryset=Contact.objects.none())
     return render(request,'registration/campus_partner_register.html',{'campus_partner_form': campus_partner_form, 'data_definition': data_definition,
                                                                        'formset': formset,'colleges':colleges})
-
 
 def registerCommunityPartner(request):
     # ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
@@ -183,6 +184,7 @@ def registerCommunityPartner(request):
                   {'community_partner_form': community_partner_form,
                    'data_definition': data_definition,
                    'formset_mission' : formset_mission, 'commType':commType, 'formset_primary_mission':formset_primary_mission}, )
+
 
 #validation for community name in register community partner form
 def ajax_load_community(request):
@@ -390,6 +392,7 @@ def registerCampusPartner_forprojects(request):
 
     if request.method == 'POST':
         # cache.clear()
+        projectId = request.POST.get('projectId')
         campus_partner_form = CampusPartnerForm(request.POST)
 
         formset = ContactFormset(request.POST or None)
@@ -400,17 +403,19 @@ def registerCampusPartner_forprojects(request):
                 for contact in contacts:
                  contact.campus_partner = campus_partner
                  contact.save()
-                return HttpResponseRedirect("/createProject/")
+                return redirect('editProject', pk=projectId)
 
     else:
+        projectId = request.GET.get('projectId')
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-    return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form,
-                                                                       'formset': formset,'colleges':colleges})
+        return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form,
+                                                                       'formset': formset,'colleges':colleges,'projectId':projectId})
 
 #register function for a user to register a new community partner during filling the project create form
 def registerCommunityPartner_forprojects(request):
-    ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
+   
+    #ContactFormsetCommunity = modelformset_factory(Contact, extra=1, form=CommunityContactForm)
     comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1, form=CommunityMissionFormset)
     prim_comm_partner_mission = modelformset_factory(CommunityPartnerMission, extra=1,
                                                      form=PrimaryCommunityMissionFormset)
@@ -421,14 +426,15 @@ def registerCommunityPartner_forprojects(request):
 
     if request.method == 'POST':
         # cache.clear()
+        projectId = request.POST.get('projectId')
         community_partner_form = CommunityPartnerForm(request.POST)
         formset_primary_mission = prim_comm_partner_mission(request.POST or None, prefix='primary_mission')
         formset_mission = comm_partner_mission(request.POST or None, prefix='mission')
-        formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
+        # formset = ContactFormsetCommunity(request.POST or None, prefix='contact')
 
-        if community_partner_form.is_valid() and formset.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
+        if community_partner_form.is_valid() and formset_mission.is_valid() and formset_primary_mission.is_valid():
             community_partner = community_partner_form.save()
-            contacts = formset.save(commit=False)
+            # contacts = formset.save(commit=False)
             primary_missions = formset_primary_mission.save(commit=False)
             missions = formset_mission.save(commit=False)
             print('entered form')
@@ -442,9 +448,9 @@ def registerCommunityPartner_forprojects(request):
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
                 mission.save()
-            for contact in contacts:
-                contact.community_partner = community_partner
-                contact.save()
+            # for contact in contacts:
+            #     contact.community_partner = community_partner
+            #     contact.save()
 
             ######## Minh's code to add coordinates, household income and district ######################
             address = community_partner.address_line1
@@ -505,34 +511,40 @@ def registerCommunityPartner_forprojects(request):
                     with open(output_filename, 'w') as output_file:
                         output_file.write(format(jsonstring))  # write the file to the location
                     ######## Minh's code ends here ######################
-                return render(request, 'registration/community_partner_for_project_register_done.html', )
+                return redirect('editProject', pk=projectId)
             else:
-                return render(request, 'registration/community_partner_for_project_register_done.html', )
+                return redirect('editProject', pk=projectId)
 
     else:
+        projectId = request.GET.get('projectId')
         community_partner_form = CommunityPartnerForm()
-        formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
+        # formset = ContactFormsetCommunity(queryset=Contact.objects.none(), prefix='contact')
         formset_mission = comm_partner_mission(queryset=CommunityPartnerMission.objects.none(), prefix='mission')
         formset_primary_mission = prim_comm_partner_mission(queryset=CommunityPartnerMission.objects.none(),
                                                             prefix='primary_mission')
 
-    return render(request,
-                  'registration/community_partner_register_for_projects.html',
-                  {'community_partner_form': community_partner_form,
-                   'formset': formset, 'data_definition': data_definition,
-                   'formset_mission': formset_mission, 'commType': commType,
-                   'formset_primary_mission': formset_primary_mission}, )
+        return render(request,
+                      'registration/community_partner_register_for_projects.html',
+                      {'community_partner_form': community_partner_form,
+                       'data_definition': data_definition,
+                       'formset_mission': formset_mission, 'commType': commType,
+                       'formset_primary_mission': formset_primary_mission,'projectId':projectId}, )
 
 
 
 def checkCommunityPartner(request):
     partnerForm = ProjectForm()
     communityParnterName = []
-    for object in CommunityPartner.objects.order_by('name'):
+
+    for object in CommunityPartner.objects.order_by('name','acronym'):
         partner = object.name
+        if (object.acronym is not None):
+            partner=partner+" ("+(object.acronym)+")"
+
 
         if partner not in communityParnterName:
             communityParnterName.append(partner)
+            print(partner)
 
     if request.method == 'POST':
         partnerForm = ProjectForm(request.POST)
@@ -541,4 +553,4 @@ def checkCommunityPartner(request):
 
     # print(projectNames)
     return render(request, 'partners/checkCommunityPartner.html',
-                  {'partnerForm': partnerForm, 'partnerNames':communityParnterName})
+                  {'partnerForm': partnerForm, 'partnerNames': communityParnterName})

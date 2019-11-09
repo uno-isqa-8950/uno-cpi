@@ -2,106 +2,35 @@
 {% load wagtailcore_tags register_tags %}
 
 
-<style>
-    A.class1 {color:#b60000;}
-A.class1:link  {text-decoration: underline; color: #b60000;}
-
-   .blackbutton{
-          background-color: black; /* Green */
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-      }
-      .blackbutton:hover{
-          text-decoration: underline;
-          color: white;
-      }
-
+<style xmlns="http://www.w3.org/1999/html">
+  A.class1 {color:red;}
+A.class1:link  {text-decoration: underline; color: red;}
 </style>
-
-
-    <div class="row justify-content-md-center">
-        <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="container">
-                    {% priv_projs %}
+            <div class="row justify-content-md-center">
+                    <div class="col-xl-12 col-md-12 col-sm-12">
+                        <div class = "panel-default" style="width:100%">
+                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
+                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>
+                           </div>
+                        </div>
+                        <div class="card" style="padding: 10px;">
+                            <div class="container">
+                                {% priv_projs %}
+                            </div>
+                       </div>
+                    </div>
                 </div>
-           </div>
-        </div>
-    </div>
 
 
 
-<!--   <div class="card" style="padding: auto ">-->
-           <!--Reset Filters Button -->
-<!--     <div class="container">-->
-          <div class="card" style="border: none; padding: 10px;">
-               <!-- Collapse buttons -->
-             <div>
-                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="blackbutton" data-toggle="collapse" data-target="#collapseExample"
-                 aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="blackbutton" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
-
-                 <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
-                "click",
-                function(event) {
-                if (event.target.value === "Hide Filters") {
-                    event.target.value = "Show Filters";
-                } else {
-                        event.target.value = "Hide Filters";
-                        }
-                },
-                false
-                );
-                </script>
-
-                </div>
-          </div>
-<!--     </div>-->
+   <div class="card" style="padding: auto ">
      <div class="container" style="padding:10px;position: relative">
       <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">
-            <div class="form-inline" id="filters-form" method="get">
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year" > Academic Years
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_academic_year" name="academic_year" YearValue="{{sem}}">
-                        {% for sem in projects.form.academic_year %}
-                           <option selected="selected"> {{sem}} </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="campus_partner"> Campus Partners
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 1%}
-                        {% endif %}
-                    {% endfor %}
-                    </label>
-                    <select id="id_campus_partner" name="campus_partner" CampValue=" " >
-                        {% for campus in campus_filter.form.campus_partner %}
-                        <option selected="selected"> {{campus}}</option>
-                        {% endfor %}
-                    </select>
-                </div>
+            <form id="streamform" action="{% url 'stream_response' %}" method="POST">
+                  {% csrf_token %}
+                  <input type="text" name="projectName" id="projectName" class="form-control" value = "{{projectName}}" placeholder="Desired projectName" >
+
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type"> Community Partner Types
                         {% for data_definition in data_definition %}
@@ -109,241 +38,315 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select id="id_community_type" name="community_type" CompValue="" >
+                    <select id="communityPartner" name="communityPartner" CompValue=" ">
                         {% for name in community_filter.form.community_partner %}
-                        <option selected="selected"> {{name}}</option>
+                        <option id = "{{name}}"> </option>
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-5 form-group">
-                   <form class="form-inline" method="POST" onsubmit="return false">{% csrf_token %}
-                        <label for="project_name"> Project Name
+
+                 <div class="col-lg-4 col-md-5 form-group">
+                    <label for="campus_partner"> Campus Partners
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 1%}
+                        {% endif %}
+                    {% endfor %}
+                    </label>
+                    <select id="campuspartner" name="campusPartner" CampValue=" ">
+                        {% for campus in campus_filter.form.campus_partner %}
+                        <option  id = "{{campus}}"> </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                    <div class="col-lg-4 col-md-5 form-group">
+                    <label for="academic_year"> From Academic Years
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
                             {% endif %}
                         {% endfor %}
-                       </label>
-                       <input style="margin-left: 7%" id="project_name" type="text" name="name_field" value="" required >
-                   </form>
-                 </div>
-                 <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                        <a class="blackbutton" id="Search"  href="#"  role="button" onclick="checking();" > Search</a>
-                 </div>
+                    </label>
+                    <select id="academicYear" name="academicYear" YearValue=" ">
+                        {% for sem in projects.form.academic_year %}
+                        <option id = "{{sem}}"> </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+
+                  <input class="btn btn btn-secondary btn-md" type="submit"  value="search" id="streambutton"  />
+                </form>
             </div>
+
         </div>
       </div>
-         <div style="float: left;"  id="node1-id" style="display: none"></div>
-         <div style="float: left;"  id="button-id" style="display: none"></div>
+         <div style="float: left;" id="node1-id" style="margin-left: 20%"></div>
+
+         <div style="float: left;" id="button-id" style="margin-left: 0%"></div>
          <div>
             <div class="panel-body">&emsp;
-                <div class="justify-content-md-center" id="node-id" style="margin-left: 0%;"></div>
+                <div class="justify-content-md-center" id="node-id" style="margin-left: 2%; margin-right: 2%"></div>
             </div>
      </div>
    </div>
-<!--</div>-->
 
-                {{ projectNames | json_script:"project-data"}}
+             <div style="margin-top:15px;">
+                  <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
+                   <thead>
+                         <tr id="tablerow">
+                          <th>Academic Year
+                           {% for data_definition in data_definition %}
+                             {% if data_definition.id == 30%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                             {% endif %}
+                           {% endfor%}
+                          </th>
+                          <th>Projects
+                           {% for data_definition in data_definition %}
+                              {% if data_definition.id == 30%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                  data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                              {% endif %}
+                           {% endfor%}
+                           </th>
+                           <th>Community Partners
+                            {% for data_definition in data_definition %}
+                               {% if data_definition.id == 2%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                               {% endif %}
+                            {% endfor %}
 
-                <div style="margin-bottom: 300px"></div>
-     </div>
-    </div>
+                            </th>
+                            <th>Campus Partners
+                             {% for data_definition in data_definition %}
+                                {% if data_definition.id == 1%}
+                                  <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %}
+                             {% endfor %}
 
+                             </th>
+
+                          </tr>
+                     </thead>
+<div container>
+<tbody>
+{% for project in data_list %}
+                      <tr id="tablerows">
+                       <td>{{project.academicYear}}</td>
+                       <td>{{project.projectName}}</td>
+                          <td>{{ project.communityPartner }} </td>
+                          <td>{{ project.campusPartner }}</td>
+                          </tr>
+
+{% endfor %}
+</tbody>
 </div>
+ </table>
+                 </div>
+<!--{% for project in data_list %}-->
 
-    </div>
+
+
+
+  {% if flagBit == 1 %}
+
+  <script>
+
+               document.getElementById('node1-id').innerHTML =
+
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
+
+
+
+   </script>
+  {% endif %}
+
+  {% if flagBit == 2 %}
 <script>
 
-    function checking() {
-    if(($("#project_name").val() === '')){
+        document.getElementById('node1-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +
+                            ' All Projects</a></td></tr>'
+
+
+
+
+
+        var projectName = $('#projectName').val();
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+  </script>
+  {% endif %}
+
+
+{% if flagBit == 0 %}
+   <script>
+
+
+        var projectName = $('#projectName').val();
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project" role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+
+
+
+   </script>
+  {% endif %}
+
+
+
+
+
+
+
+
+<!--{% endfor %}-->
+
+   <!--<script>-->
+
+    <!--var valueFilter = document.getElementById("projectName");-->
+    <!--//Press the listening button-->
+    <!--valueFilter.addEventListener("keydown", function (e) {-->
+    <!--if (e.keyCode == 8) {-->
+        <!--document.getElementById('node-id'). innerHTML = "";-->
+        <!--document.getElementById('node1-id'). innerHTML = "";-->
+        <!--document.getElementById('button-id'). innerHTML = "";-->
+    <!--}-->
+<!--});-->
+
+  <!--document.getElementById("streambutton").addEventListener("click", function (e)-->
+  <!--{-->
+    <!--var value = document.getElementById("projectName").value;-->
+    <!--if ((value == ""))-->
+    <!--{-->
+        <!--document.getElementById('node-id'). innerHTML = "";-->
+        <!--document.getElementById('node1-id'). innerHTML = "";-->
+        <!--document.getElementById('button-id'). innerHTML = "";-->
+    <!--}-->
+    <!--alert(bit);-->
+    <!--if(bit == 1)-->
+    <!--{-->
+        <!--alert("I will not print the button");-->
+    <!--}-->
+    <!--else if(!((value == "")))-->
+    <!--{-->
+       <!--var table = document.getElementById("example");-->
+       <!--&lt;!&ndash;alert(table);&ndash;&gt;-->
+
+       <!--&lt;!&ndash;alert(document.getElementById("example").rows[0].cells.item(2).innerHTML);&ndash;&gt;-->
+       <!--var tablerows = document.getElementById("tablerows");-->
+       <!--&lt;!&ndash;alert(tablerows);&ndash;&gt;-->
+       <!--displayAddProjectFlag = 2;-->
+
+       <!--var rowLength = table.rows.length;-->
+
+       <!--for(var i=1; i< rowLength; i++)-->
+       <!--{-->
+         <!--var oCells = table.rows.item(i).cells;-->
+
+         <!--var cellLength = oCells.length;-->
+
+           <!--for(var j = 1; j< cellLength; j++)-->
+           <!--{-->
+                <!--var cellVal = oCells.item(j).innerHTML;-->
+
+           <!--}-->
+           <!--alert(oCells.item(1).innerHTML);-->
+
+           <!--if(oCells.item(1).innerHTML == value)-->
+           <!--{-->
+            <!--&lt;!&ndash;alert("Ochina");&ndash;&gt;-->
+            <!--displayAddProjectFlag = 1;-->
+           <!--}-->
+           <!--else-->
+           <!--{-->
+            <!--&lt;!&ndash;alert("raleeee");&ndash;&gt;-->
+            <!--displayAddProjectFlag = 0;-->
+           <!--}-->
+           <!--if(displayAddProjectFlag == 1)-->
+           <!--{-->
+             <!--&lt;!&ndash;alert("jjjjjjjj");&ndash;&gt;-->
+             <!--document.getElementById('node1-id').innerHTML =-->
+                            <!--'<br>' +-->
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects"><i class="fa fa-tasks" aria-hidden="true"></i>' +-->
+                            <!--' All Projects</a></td></tr>'-->
+            <!--}-->
+
+            <!--if(displayAddProjectFlag == 0)-->
+            <!--{-->
+               <!--&lt;!&ndash;alert("I am here")&ndash;&gt;-->
+
+                        <!--document.getElementById('button-id').innerHTML =-->
+                            <!--'<br>' +-->
+
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +-->
+                            <!--'Create Project</a></td></tr>'-->
+
+            <!--}-->
+       <!--if(displayAddProjectFlag == 2)-->
+         <!--{-->
+             <!--&lt;!&ndash;alert("I am here tooooo")&ndash;&gt;-->
+
+                        <!--document.getElementById('button-id').innerHTML =-->
+                            <!--'<br>' +-->
+
+                            <!--'<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +-->
+                            <!--'Create Project</a></td></tr>'-->
+         <!--}-->
+
+       <!--}-->
+    <!--}-->
+
+  <!--});-->
+<!--</script>-->
+<script>
+ function checking()
+    {
+        if(($("#projectName").val() === ''))
+        {
             alert("Please enter what you are searching for to proceed.");
             return false
         }
-
-}
-</script>
-                <script>
-var valueFilter = document.getElementById("project_name");
-var valueAceYear = document.getElementById("id_academic_year");
-var valueCamPart = document.getElementById("id_campus_partner");
-var valueComPart = document.getElementById("id_community_type");
-//Press the listening button
-valueFilter.addEventListener("keydown", function (e) {
-    if (e.keyCode == 8) {
-        document.getElementById('node-id'). innerHTML = "";
-        document.getElementById('node1-id'). innerHTML = "";
-        document.getElementById('button-id'). innerHTML = "";
     }
-});
-
-// the listening button off
-// valueFilter.addEventListener("keyup", function (e) {
-    document.getElementById("Search").addEventListener("click", function (e) {
-    // alert('in search');
-
-
-    project_db = JSON.parse(document.getElementById('project-data').textContent);
-    //get the input value
-        var value = document.getElementById("project_name").value;
-    //var value = e.target.value.trim().toLowerCase();
-    // alert('value--'+value);
-    // alert('valueFilter--'+valueFilter);
-    var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
-    var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
-    var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
-    var projectlist = []
-    var partnerlist = []
-    // Sprint 2- #1390- Search Functionality Improvment- Added Campus Partner to the table and added a displayAddprojectFlag
-    var campuspartnerlist = [];
-    var academicyearlist = [];
-    var displayAddProjectFlag =2;
-    if ((value == "") && (YearValue == ""))
-    {
-        document.getElementById('node-id'). innerHTML = "";
-        document.getElementById('node1-id'). innerHTML = "";
-        document.getElementById('button-id'). innerHTML = "";
-    }
-    else if(!((value == "") && (YearValue == "")))
-    {
-        projectlist = [];
-        // {#if (e.keyCode == 32 || e.keyCode == 13) {#}
-        // document.getElementById('Search').onclick= function myfunction() {
-            var YearValue = valueAceYear.options[valueAceYear.selectedIndex].text;
-            var CampValue = valueCamPart.options[valueCamPart.selectedIndex].text;
-            var CompValue = valueComPart.options[valueComPart.selectedIndex].text;
-            document.getElementById('Search').onclick= null;
-            for (var i = 0; i < project_db.length; i++)
-                             // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
-                            //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
-            {
-                if ((project_db[i][0].toLowerCase().includes(value.toLowerCase())) && (project_db[i][0].toLowerCase().includes(YearValue.toLowerCase())) && (project_db[i][2].toLowerCase().trim().includes(CampValue.toLowerCase().trim())) && (project_db[i][1].toLowerCase().trim().includes(CompValue.toLowerCase().trim())))
-                {
-                    if (!(project_db[i][0] in projectlist && project_db[i][1] in partnerlist && project_db[i][2] in campuspartnerlist && project_db[i][3] in academicyearlist)) {
-                        projectlist.push(project_db[i][0]);
-                        partnerlist.push(project_db[i][1]);
-                        campuspartnerlist.push(project_db[i][2]);
-                        academicyearlist.push(project_db[i][3]);
-                        var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
-                            '<tr><th>Academic Year</th>' + '<th>Project Name</th>' +
-                            '<th>Community Partner</th>' + '<th>Campus Partner</th></tr>';
-                        for (let j =0; j<projectlist.length;j++ ){
-                             // Sprint 2- #1390- Search Functionality Improvment- Added a displayAddProjectFlag
-                            //The variable displayAddProjectFlag will act as a flag for displaying Create Project button condition
-                            if(projectlist[j].toLowerCase().trim() == value.toLowerCase().trim())
-                            {
-                                displayAddProjectFlag = 1;
-                            }
-                            else
-                            {
-                                displayAddProjectFlag = 0;
-                            }
-                            mylist +='<tr>' +
-                                '<td>'  + academicyearlist[j] + '</td>' + '<td><a href="/allProjects?p_name='+ projectlist[j].split(':').slice(0,-1).join(':')  +'"  class="class1" target="_blank" > ' + projectlist[j].split(':').slice(0,-1).join(':') + '</a></td>' +
-                                    {#(projectlist[j] == projectlist[j-1] ? '<td>' + partnerlist[j-1] + '<br>' + partnerlist[j] + '</td>' :#}
-                                    '<td>'  + partnerlist[j] + '</td>' + '<td>' + campuspartnerlist[j] + '</td>' +
-                                    '</tr>'
-
-                        }
-                        mylist += '<table>';
-                        document.getElementById('node-id').innerHTML =
-                            '<br>' +
-                                '<br><br><label style="margin-left: 0px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label><br>' +
-                                 mylist
-                       /* document.getElementById('node1-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>Click on ‘All Projects’ to access a list of all community engagement projects in the database. </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" href="/allProjects/" role="button"><i class="fa fa-tasks" aria-hidden="true"></i>' +
-                            ' All Projects</a></td></tr>'*/
-                       document.getElementById('node1-id').innerHTML =
-                            '<br>' +
-                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
-                            '   All Projects</a></td></tr>'
-                    /* if(displayAddProjectFlag == 0){
-                       var projectName = document.getElementById('project_name').value;
-                        document.getElementById('button-id').innerHTML =
-                            '<br>' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;To proceed with the creation of a new project, click on the button below. </td></tr><br /><br />' +
-                            '<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
-                            ' Create Project</a></td></tr>'
-                        document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-                     }*/
-                    if(displayAddProjectFlag == 0){
-                       var projectName = document.getElementById('project_name').value;
-                        document.getElementById('button-id').innerHTML =
-                            '<br>' +
-
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  target="_blank" role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
-                            '   Create Project</a></td></tr>'
-                        document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-                     }
-                    }
-                }
-            }
-            if (displayAddProjectFlag == 2)
-                    {
-                        var projectName = document.getElementById('project_name').value;
-                         document.getElementById('node-id'). innerHTML = "";
-                         document.getElementById('node1-id'). innerHTML = "";
-                         document.getElementById('button-id').innerHTML =
-                            '<br>' +
-                            '<tr><td><label style="text-align:justify;">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the button below.</label><br><a class="blackbutton" id="lnk-create_project" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to create a new project" >' +
-                            '  Create Project</a><br><br></td></tr>'
-                         document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-                }
-
-    };
-});
-
-$("#dropdownMenuButton").on("click", function() {
-  $('.dropdown-menu').toggleClass('open');
-});
-$(".dropdown-menu a").on("click", function() {
-  $('#dropdownMenuButton').text($(this).text());
-  $('.dropdown-menu').removeClass('open');
-});
-$("#button-id").on("click",function () {
-    valueFilter.value ="";
-})
-$("#node1-id").on("click",function () {
-    valueFilter.value = "";
-})
-
-
 </script>
+{% endblock %}
 
-            </div>
-    </div>
-        <br> <br> <br>
-    {% endblock %}
+
+
+
         {% block selectizeForm %}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-        <script>
+<script>
 $(document).ready(function(){
-    $('#project_name').attr({placeholder: 'Project Name',width: '225px'});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '225px'});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '225px'});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '225px',
-                                        sorter: function(data) {
-                                            /* Sort data using lowercase comparison */
-                                            return data.sort(function (a, b) {
-                                                a = a.text.toLowerCase();
-                                                b = b.text.toLowerCase();
-                                                if (a > b) {
-                                                    return 1;
-                                                } else if (a < b) {
-                                                    return -1;
-                                                }
-                                                return 0;
-                                            });
-                                        }});
-
-
+    $('#projectName').attr({placeholder: 'Project Name',width: '225px'});
+    $('#communityPartner').select2({placeholder: 'All Community Partner Types',width: '225px'});
+    $('#academicYear').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#campuspartner').select2({placeholder: 'All Campus Partners',width: '225px'});
 
     });
-
-
-// added for search by Naresh
-$('#project_name').addClass('clearable');
+// submit when enter-Parimita
+$("#projectName").keyup(function(event){
+      if(event.keyCode== 13){
+        $("#Search").click();
+        }
+    });
+// added for submit by Naresh
+$('#projectName').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
 $(document).on('input', '.clearable', function(){
     $(this)[tog(this.value)]('x');
@@ -353,9 +356,6 @@ $(document).on('input', '.clearable', function(){
     ev.preventDefault();
     $(this).removeClass('x onX').val('').change();
 });
-
-
-
 </script>
         {% endblock %}
         {% block js %}
@@ -364,44 +364,37 @@ $(document).on('input', '.clearable', function(){
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
         <script type="text/javascript">
-   $(document).ready(function() {
-   $('#example_filter').find('input').addClass('clearable');
-               function tog(v){return v?'addClass':'removeClass';}
-$(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-    $('#example').DataTable().destroy();
-    $('#example').DataTable().draw();
-    $('#example_filter').find('input').addClass('clearable');
-});
-   } );
-</script>
-        <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
+               $(document).ready(function() {
+               $('#example_filter').find('input').addClass('clearable');
+                           function tog(v){return v?'addClass':'removeClass';}
+            $(document).on('input', '.clearable', function(){
+                $(this)[tog(this.value)]('x');
+            }).on('mousemove', '.x', function( e ){
+                $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+            }).on('touchstart click', '.onX', function( ev ){
+                ev.preventDefault();
+                $(this).removeClass('x onX').val('').change();
+                $('#example').DataTable().destroy();
+                $('#example').DataTable().draw();
+                $('#example_filter').find('input').addClass('clearable');
+            });
+               } );
+        $('#lnk-create_project').click(function(){
 
 
-    </script>
-
-<script>
+        var projectName = $('#projectName').val();
+        document.getElementById('button-id').innerHTML =
+                            '<br>' +
+                            '<tr><td><a class="btn btn btn-secondary btn-md" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project"><i class="fa fa-plus-circle" aria-hidden="true"></i>' +
+                            'Create Project</a></td></tr>'
+                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+       });
+                    $(function () {
+                        $('[data-toggle="popover"]').popover()
+                    })
 $(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
-
-<script>
-var input = document.getElementById("project_name");
-input.addEventListener("keyup", function(event) {
-  if (event.keyCode === 13) {
-   event.preventDefault();
-   document.getElementById("Search").click();
-  }
-});
+$('[data-toggle="tooltip"]').tooltip();
+            });
 </script>
 
 {% endblock %}

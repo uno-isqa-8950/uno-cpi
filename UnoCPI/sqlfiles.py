@@ -528,3 +528,47 @@ missions_sql = """SELECT MA.id, COALESCE(count,0)
 missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
+
+
+def checkProjectsql(projectName, comPartner, campPartner, acadYear):
+    return ( """SELECT (regexp_split_to_array(p.project_name, E'\\:+'))[1] as project_names, STRING_AGG(pc.name, ', ' ORDER BY pc.name) As pcnames,
+pa.academic_year, c.name
+FROM projects_project p
+left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                            left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            where lower(p.project_name) LIKE '%""" + projectName.lower() + """%'
+                            AND pc.name LIKE '%""" + comPartner + """%'
+                            AND c.name LIKE '%""" + campPartner + """%'
+                            AND pa.academic_year LIKE '%""" + acadYear + """%'
+GROUP BY project_names, pa.academic_year, c.name
+ORDER BY project_names;""")
+
+
+
+projects_report_filter = """
+select distinct p.project_name
+    ,array_agg(distinct pc.name) CommPartners
+    ,array_agg(distinct c.name) CampPartners
+    ,e.name engagement_type
+from projects_project p
+    left join projects_engagementtype e on e.id = p.engagement_type_id
+    left join projects_projectmission pm on pm.project_name_id = p.id
+    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+    left join partners_communitypartner pc on pp.community_partner_id = pc.id
+    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+    left join partners_cecpartnerstatus cps_comm on cps_comm.id = pc.cec_partner_status_id    
+    inner join partners_campuspartner c on pp2.campus_partner_id = c.id
+    left join partners_cecpartnerstatus cps_camp on cps_camp.id = c.cec_partner_status_id    
+where e.id::text like %s
+  and pm.mission_id::text like %s
+  and pc.community_type_id::text like %s
+  and pp2.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and p.legislative_district::text like %s
+  
+group by p.project_name,e.name
+order by p.project_name;
+"""

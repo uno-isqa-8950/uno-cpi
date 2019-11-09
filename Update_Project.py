@@ -91,10 +91,16 @@ def feature_from_row(Projectname, FullAddress):
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
                 print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
-                logger.info("Update projects records with longitude:" + str(round(longitude,7))+" ,latitude:" +str(round(latitude, 7)) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Projectname))
-                cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(legi_district),str(Projectname)))
+                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
+                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
+                #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
                 conn.commit()
-
+            else:
+                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,name" +str(Community))
+                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(Community)))
+                #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
+                conn.commit()
+        
 
 if len(df_projects) != 0:
     logger.info("Call update project function for each row") 

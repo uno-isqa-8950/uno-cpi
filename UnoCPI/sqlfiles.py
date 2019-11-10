@@ -573,3 +573,36 @@ where e.id::text like %s
 group by p.project_name,e.name
 order by p.project_name;
 """
+
+
+projects_public_report_filter = """
+select distinct p.project_name
+    ,array_agg(distinct pc.name) CommPartners
+    ,array_agg(distinct c.name) CampPartners
+    ,e.name engagement_type
+    , p.total_uno_students total_uno_students
+    , p.total_uno_hours total_uno_hours
+    , p.total_economic_impact total_economic_impact
+from projects_project p
+    left join projects_engagementtype e on e.id = p.engagement_type_id
+    left join projects_status s on s.id = p.status_id
+    left join projects_projectmission pm on pm.project_name_id = p.id
+    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+    left join partners_communitypartner pc on pp.community_partner_id = pc.id
+    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id  
+    inner join partners_campuspartner c on pp2.campus_partner_id = c.id  
+where s.name != 'Draft'
+  and  e.id::text like %s
+  and pm.mission_id::text like %s
+  and pc.community_type_id::text like %s
+  and pp2.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+  and COALESCE (p.k12_flag::text, 'no') LIKE %s     
+        
+  
+group by p.project_name,e.name, p.total_uno_students, p.total_uno_hours, p.total_economic_impact
+order by p.project_name;
+"""

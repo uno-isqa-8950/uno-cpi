@@ -27,6 +27,15 @@
         margin-top: 0 !important;
         margin-bottom: 8px;
     }
+    .heading{
+        color:white;
+    }
+
+    @media (min-width: 1200px) {
+        .container {
+            max-width: 1330px;
+        }
+    }
 
 </style>
 
@@ -36,7 +45,8 @@
 <br>
 
 
-<div class="container">
+<div class="container-fluid">
+    <div class="panel-heading text-center"><h4 class="heading">All Projects</h4></div>&emsp;
 
     <div id="accordion" class="accordion">
         {% for project in project %}
@@ -73,25 +83,41 @@
 
                 </a>
             </div>
+
+
+
             <div id="collapse-{{ forloop.counter }}" class="card-body collapse" data-parent="#accordion">
+                <p>
                 <table style="width: 100%">
+
+                <thead>
+                <th>
+                <b> Community Partner</b>
+                </th>
+                <th><b>Campus Partners</b></th>
+                </thead>
+                <tbody>
                     <tr>
                         <td>
-                            <b> Community Partner</b>
+
                             <br>
                             {% for comm_part in project.comm_part %} {{comm_part}} <br> {% endfor %}
                         </td>
                         <td>
-                            <b>Campus Partners</b>
+
                             <br>
                             {% for camp_part in project.camp_part %} {{camp_part}} <br> {% endfor %}
                         </td>
+
                     </tr>
+                </tbody>
                 </table>
+                </p>
 
 
                 <p>
                 <table style="width: 100% ">
+
                     <tr>
                         <td>
                             <b> Academic year: </b>{{ project.academic_year }}<br>
@@ -152,6 +178,13 @@
                 </p>
 
             </div>
+            <!---->
+
+
+
+
+
+
 
 
         </div>

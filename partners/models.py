@@ -12,7 +12,7 @@ class CommunityPartner(models.Model):
         ('No', 'No'),
     )
     name = models.CharField(max_length=255, unique=True)
-    acronym = models.CharField(max_length=255, unique=True, blank=True, null=True)
+    acronym = models.CharField(max_length=255, blank=True, null=True)
     website_url = models.URLField(max_length=300, blank=True)
     community_type = models.ForeignKey('CommunityType', max_length=50, on_delete=models.SET_NULL, null=True,verbose_name="Community Type")
     k12_level =  models.CharField(max_length=20,null=False, blank=True)

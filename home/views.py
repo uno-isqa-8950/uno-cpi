@@ -1554,15 +1554,17 @@ def issueaddress(request):
     for sc in subcategory:
         subcats.append(sc.sub_category)
     yrs = []
+    yrid=[]
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
-        yrs.append(e.id)
-    max_yr_id = max(yrs)
-    min_yr_id = min(yrs)
-    max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
-    max_year=max_yr[0]
-    min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=(max_yr_id-1)))]
-    min_year=min_yr[0]
+        yrs.append(e.academic_year)
+        yrid.append(e.id)
+    max_yr_id = max(yrid)
+    min_yr_id = min(yrid)
+    # max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    max_year=yrs[len(yrs)-1]
+    # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=(max_yr_id-1)))]
+    min_year=yrs[len(yrs)-2]
     print(" min yaer",min_year," ma yaer ",max_year)
 
 
@@ -1868,18 +1870,18 @@ def chartjsons():
     #     geojson = json.load(f)
     #
     # district = geojson["features"]
-    # campus_partner=open('home/static/charts_json/campus_partners.json')
-    campus_partner_json=json.load(charts_campuses)
-    # campus_partner_json = json.load(campus_partner)#local
-    # community_partner = open('home/static/charts_json/community_partners.json')
-    community_partner_json = json.load(charts_communities)
-    # community_partner_json = json.load(community_partner)#local
-    # mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
-    mission_subcategories_json = json.load(charts_missions)
-    # mission_subcategories_json = json.load(mission_subcategories)#local
-    # projects =open ('home/static/charts_json/projects.json')
-    projects_json = json.load(charts_projects)
-    # projects_json = json.load(projects)#local
+    campus_partner=open('home/static/charts_json/campus_partners.json')
+    # campus_partner_json=json.load(charts_campuses)
+    campus_partner_json = json.load(campus_partner)#local
+    community_partner = open('home/static/charts_json/community_partners.json')
+    # community_partner_json = json.load(charts_communities)
+    community_partner_json = json.load(community_partner)#local
+    mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
+    # mission_subcategories_json = json.load(charts_missions)
+    mission_subcategories_json = json.load(mission_subcategories)#local
+    projects =open ('home/static/charts_json/projects.json')
+    # projects_json = json.load(charts_projects)
+    projects_json = json.load(projects)#local
     return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
 
 

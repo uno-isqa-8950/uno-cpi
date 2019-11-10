@@ -213,6 +213,17 @@ if(chart_data.length===0){
     alert("Sorry, There are no Projects matching your selection criteria");
 }
 
+ var titletext = "<span style='color:red'>▲College and Main Units</span>"+
+               "<span style='color: black'>▲Campus Partners</span>  "+" ● CommunityPartners Focus Areas: <br>"
+        var i;
+        for (i = 0; i < Missionarea.length; i++) {
+            var missionname = Missionarea[i]
+            var selectedcolor = colorCodeObject[Missionarea[i]]
+            titletext +=""+"<span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>"
+            ;
+
+        }
+
 Highcharts.chart('container', {
 
     chart: {
@@ -220,19 +231,24 @@ Highcharts.chart('container', {
         zoomType: 'xy'
     },
 // renderTo: 'container',
-    title: {
-        text:'',
-        style: {
-            size: 100
-        },
-        align: 'right',
-        floating:'false'
+    title:{
+        text:'.',
+        // align:right
     },
+
+        legend: {
+                    title:{
+                        text: titletext,
+                    },
+
+
+
+        },
 
     plotOptions: {
         networkgraph: {
             turboThreshold: 0,
-            initialPositions: 'top',
+            initialPositions: 'bottom',
             cropThreshold:500,
             layoutAlgorithm: {
                 enableSimulation: false,
@@ -241,18 +257,7 @@ Highcharts.chart('container', {
             }
         },
     },
-    legend: {
-         layout: 'horizontal',
-        enabled: true,
-        align: 'right',
-            verticalAlign: 'bottom',
-            x: 10,
-            y: 50,
-            borderWidth: 1,
-            backgroundColor: '#FFFFFF',
-            shadow: 'true',
-        floating: true
-    },
+
     // responsive:{rules:[{condition:{maxWidth:500},
     // chartOptions:{ legend :{ layout:"horizontal",align:"center",verticalAlign:"bottom"}}}]},
 
@@ -266,47 +271,7 @@ Highcharts.chart('container', {
         },
         data: chart_data,
         nodes:nodedata,
-  visible:true
-        // showInLegend:'true'
+        visibility:true,
     },
     ]
-},function(chart) { // on complete
-
-
-        var titletext = "<span style='color:red'>▲College and Main Units</span>"+
-               "<br><span style='color: black'>▲Campus Partners</span>  "+"<br> ● Community Partner  Mission Areas:"
-        var i;
-        for (i = 0; i < Missionarea.length; i++) {
-            var missionname = Missionarea[i]
-            var selectedcolor = colorCodeObject[Missionarea[i]]
-            titletext += " "+"<span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>";
-        }
-// alert(titletext);
-        chart.update({
-            legend: {
-                title: {
-                    text: titletext,
-                },
-                visible: true,
-            },
-
-        })
-
-    // chart.renderer.rect(95, 95, 1200,46, 2)
-    //   .attr({
-    //     'stroke-width': 1,
-    //       x:0.5,
-    //       y:0.5,
-    //       width:862,
-    //       height:46,
-    //       // visibility:visible,
-    //     stroke: '#999999',
-    //     fill: '#FFFFFF',
-    //     zIndex: 4
-    //   })
-    //   .add();
-
-    }
-
-);
-
+})

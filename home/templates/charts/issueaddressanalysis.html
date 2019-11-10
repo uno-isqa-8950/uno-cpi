@@ -85,7 +85,7 @@
             <div class="card" style="padding: 5px;margin-top:50px;">
                <label style="text-align:justify;">
                   <b style="font-size:16px;text-align:center;color:White;">
-                     <h4 style="line-height:.8em;padding-top:10px;">Chart: Issues Addressed Analysis </h4>
+                     <h4 style="line-height:.8em;padding-top:10px;">Issues Addressed Analysis </h4>
                   </b>
                </label>
             </div>
@@ -334,10 +334,10 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academicyear').select2({placeholder: 'Select Analysis Start Year',width: '75%'});
-    $('#id_endacademicyear').select2({placeholder: 'Select Analysis End Year',width: '75%'});
+    $('#id_academicyear').select2({placeholder: '{{ min_year }}',width: '75%'});
+    $('#id_endacademicyear').select2({placeholder: '{{ max_year }}',width: '75%'});
 
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'CEC  Building Partner',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */

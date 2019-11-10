@@ -109,7 +109,7 @@ width:93%!important;
     }
 
 </style>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
  {% create_project_forms %}
 
@@ -124,7 +124,7 @@ width:93%!important;
     <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12">
                 <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Register: A New Community Partner</h4></div>
+                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Community Partner Registration</h4></div>
                        <div class="panel-body">
 <div class="row"><br></div>
 <div id="smartwizard">
@@ -164,6 +164,7 @@ width:93%!important;
                     <label class="col-sm-4">Acronym</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.acronym}}
+                        <span class="errormsg" style="color: red; font-size: 12px"></span>
                     </div>
                     </div>
                 </div>
@@ -179,7 +180,7 @@ width:93%!important;
                  <div class="row">
                 <div class="col">
                     <div class="row">
-                    <label class="col-sm-2">Your Website URL:</label>
+                    <label class="col-sm-2">Website URL <span class="req" style="color:red;">*</span></label>
                     <div class="col-sm-9">
                            {{ community_partner_form.website_url}}
                                     {% if community_partner_form.website_url.errors %} {% for error in community_partner_form.website_url.errors %}
@@ -205,20 +206,11 @@ width:93%!important;
                 </div>
                 </div>
 
-                <div id = "showaddress">
-<!--                             <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#addressinfo">-->
-<!--    <i class="fa fa-plus"></i> Address-->
-<!--</button>-->
-<!--                    <label style="text-decoration: underline">Address</label>-->
-<div id="addressinfo" class= "panel-collapse collapse show">
-                                    <div class="panel-body">
-                                        <br>
-
-                                        <div class="row">
+                <div class="row showaddress">
 
                                             <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">Address Line</label>
+                                              <label class="col-sm-4">Address Line <span style="color:red;">*</span> </label>
                                             <div class="col-sm-7">
                                               {{ community_partner_form.address_line1 |bootstrap }}
                                             </div>
@@ -230,21 +222,11 @@ width:93%!important;
                                           </div>
                                         </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row showaddress">
                                             <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">Country</label>
-                                            <div class="col">
-                                            {{ community_partner_form.country |bootstrap }}
-                                            </div>
-                                           {% if community_partner_form.country.errors %}
-                                                    {% for error in community_partner_form.country.errors %}
-                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                    {% endfor %} {% endif %}
 
-                                        </div>
                                         <div class="row">
-                                              <label class="col-sm-4">City</label>
+                                              <label class="col-sm-4">City <span style="color:red;">*</span></label>
                                             <div class="col-sm-7">
                                            {{ community_partner_form.city |bootstrap }}
                                             </div>
@@ -254,22 +236,8 @@ width:93%!important;
                                             {% endfor %} {% endif %}
 
                                                 </div>
-
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">State</label>
-                                            <div class="col">
-                                            {{ community_partner_form.state |bootstrap }}
-                                            </div>
-                                            {% if community_partner_form.state.errors %}
-                                                    {% for error in community_partner_form.state.errors %}
-                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                    {% endfor %} {% endif %}
-
-                                                </div>
-                                                <div class="row">
-                                              <label class="col-sm-4">Zip Code</label>
+                                                  <div class="row">
+                                              <label class="col-sm-4">Zip Code <span style="color:red;">*</span></label>
                                             <div class="col-sm-7">
                                             {{ community_partner_form.zip |bootstrap }}
                                             </div>
@@ -281,13 +249,36 @@ width:93%!important;
                                                 </div>
 
                                             </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                              <label class="col-sm-4">State <span style="color:red;">*</span></label>
+                                            <div class="col">
+                                            {{ community_partner_form.state |bootstrap }}
+                                            </div>
+                                            {% if community_partner_form.state.errors %}
+                                                    {% for error in community_partner_form.state.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+
+                                                </div>
+                                               <div class="row">
+                                              <label class="col-sm-4">Country <span style="color:red;">*</span></label>
+                                            <div class="col">
+                                            {{ community_partner_form.country |bootstrap }}
+                                            </div>
+                                           {% if community_partner_form.country.errors %}
+                                                    {% for error in community_partner_form.country.errors %}
+                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+
                                         </div>
 
-                                </div>
+                                            </div>
+
 </div>
                 </div>
             </div>
-        </div>
+
                 <div id="step-2">
                     {% for form in formset_primary_mission %}
                     <br>
@@ -519,6 +510,7 @@ $(document).ready(function() {
                         alert("Please Provide Your Website URL.");
                         return false
                     }
+
                     // else {
                     //     var maxl = $('#id_website_url').val().length;
                     //     if (($('#id_website_url').val().substr(maxl - 4, maxl) != '.com')) {
@@ -540,6 +532,8 @@ $(document).ready(function() {
 
                 $('#submit').show();
                 $('#termsdiv').show();
+                 $('.sw-btn-prev').show();
+    $('.sw-btn-next').hide();
 
             }
             if (stepNumber === 1) {
@@ -558,6 +552,8 @@ $(document).ready(function() {
 if (stepDirection === 'backward') {
             $('#submit').hide();
             $('#termsdiv').hide();
+             $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
         }
 //         return true;
 //     });
@@ -594,11 +590,7 @@ if (stepDirection === 'backward') {
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 
 <script>
-window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const partnerName = urlParams.get('name');
-    $("#id_name").val(partnerName);
-}
+
  function RestrictCommaSemicolon(e) {
         var theEvent = e || window.event;
         var key = theEvent.keyCode || theEvent.which;
@@ -612,6 +604,9 @@ window.onload = function () {
         }
     }
 $(document).ready(function() {
+     $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
+    $('.req').hide();
     $('.control-label').hide();
     $('#contact-fields').hide();
     $('#k12input').hide();
@@ -649,16 +644,48 @@ $(document).ready(function() {
     $('#id_online_only').addClass('chb');
     $(".chb").change(function () {
         if ($("#id_online_only").is(':checked') === false) {
-            $('#showaddress').show();
+            $('.showaddress').show();
+            $('.req').hide();
         } else {
-            $('#showaddress').hide();
-        }
+            $('.showaddress').hide();
+            $('.req').show();
+            $('#id_address_line1').val(' ');
+                $('#id_city').val(' ');
+                $('#id_country option[value= " "]').attr('selected','selected');
+                $('#id_state option[value= " "]').attr('selected','selected');
+                $('#id_zip').val(" ");
+            $('.sw-container').attr('style','min-height:0px;')
+                    }
+    });
+            $('#id_acronym').change(function (e) {
+            $('.errormsg').hide();
+            document.getElementById("id_acronym").style.borderColor = "grey";
+            // e.preventDefault();
+                var acronym = $(this).val();
+                if(acronym!=""){
+                $.ajax({
 
-
-        //       $(this).prop('checked',true);
-        //   });
+                    url: "/partners/SuggestAcronym/",
+                    data: {
+                        'acronym': acronym
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            msg = "Acronym " + acronym + " already exists";
+                            // $('.errormsg').remove();
+                            $('.errormsg').show();
+                            $('.errormsg').empty().append(msg);
+                            // alert("A Community Partner with Acronym " + acronym + " already exists");
+                            document.getElementById("id_acronym").value = ("");
+                            document.getElementById("id_acronym").style.borderColor = "red";
+                        }
+                    }
+                });
+            }
     });
 });
+
 // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 document.getElementById("id_primary_mission-0-mission_area").required=true;
 </script>

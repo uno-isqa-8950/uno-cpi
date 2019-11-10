@@ -60,7 +60,7 @@
     }
     select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
    input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname]
+    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype]
     {
         width:96%;
         height: 35px;
@@ -85,6 +85,9 @@
    {
        width:93%;
    }
+  .form-control{
+      border: 1px solid #aaaaaa ;
+  }
    .btn-link, .btn-link:hover
    {
    color: #d71920
@@ -178,65 +181,7 @@ label[for=id_campus-0-campus_partner]:after{
   overflow: hidden;
   background-color: #f1f1f1;
 }
- .redbutton{
-          background-color: crimson; /* Green */
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-      }
-      .redbutton:hover{
-          text-decoration: underline;
-      }
-      .blackbutton{
-          background-color: black; /* Green */
-  border: none;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-      }
-      .blackbutton:hover{
-          text-decoration: underline;
-      }
-      .btn-red{
-          background-color: crimson; /* Green */
-  border: none;
-  color: white;
-  padding: 2px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-          height: 38px;
-  margin: 9px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-          border-radius: 5px;
-      }
-      .displaybox {
-  border: 1px black;
-  padding: 10px;
-display: flex;
-  border-top-right-radius: 10px 5px;
-}
-            .redborder {
-  border: 1px red;
-}
+
       input[id=othersubcat]{
 
         width:98%;
@@ -248,7 +193,7 @@ display: flex;
         font-size: 16px;
     }
     </style>
- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
                             <!-- {% create_project_forms %}-->
 <!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
                            <form method="POST">{% csrf_token %}
@@ -267,9 +212,9 @@ display: flex;
 
 <div id="smartwizard">
     <ul>
-        <li><a href="#step-1">Project Information</a></li>
+        <li><a href="#step-1" id="click1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
-        <li><a href="#step-3">Mission Areas</a></li>
+        <li><a href="#step-3">Focus Areas</a></li>
         <li><a href="#step-4" id="click4">Other Information</a></li>
     </ul>
     <div>
@@ -301,7 +246,7 @@ display: flex;
                     {% endif %}
                 </div>
                     <div class="row">
-                      <label class="col-sm-4">Activity Type</label>
+                        <label class="col-sm-4">Activity Type <span style="color: red" >*</span></label>
                       {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
                       <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"></span>
@@ -340,15 +285,30 @@ display: flex;
                 </div>
                 </div>
                 </div>
+                                <div class="row">
+                    <div class="col-md-6">
+                <div class="row" id="otheractivity">
+                      <label class="col-sm-4">Other Activity Type</label>
+                             <div class="col-md-6">
+                                 <input id='otheracttype' type="text" class="inputbox" placeholder="Add Other Activity Types">
+                             <div class="row displaybox" id='displayact'>
+                                        </div>
+                             </div>
 
-<!--                <div class="row centered">-->
-<!--                     {{ course|bootstrap }}-->
-<!--            {% if  course.errors %}-->
-<!--            {% for error in  course.errors %}-->
-<!--            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>-->
-<!--            {% endfor %}-->
-<!--            {% endif %}-->
-<!--            </div>-->
+                                                    <div class="col-md-1">
+<!--                                                        <div><br></div>-->
+                                                <div class="input-group-append" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
+                                            </div>
+                                            </div>
+                                                </div>
+                                            <div style="display: none">
+<!--                                                <div>-->
+                                            {{ project.other_activity_type}}
+                                            </div>
+
+                    </div>
+                </div>
 
                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
                     <i class="fa fa-plus"></i> Academic Duration
@@ -520,6 +480,10 @@ display: flex;
                                     </div>
                 {% endfor %}
                 <div class="community_edit-fields displaybox row" id="community_edit-fields"></div>
+                    <div class="row centered">
+                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
+
+                                        </div>
             </div>
 
 
@@ -559,6 +523,10 @@ display: flex;
     {% endfor %}
     <div class="campus_edit-fields displaybox row" id="campus_edit-fields"></div>
                                                       <div class="row"><br></div>
+<div class="centered">
+
+                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Campus Partner</a>
+                                        </div>
 
 </div>
 
@@ -714,15 +682,7 @@ display: flex;
                                         </div>
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">Country</label>
-                                            <div class="col-sm-7">
-                                            {{ project.country }}
-                                            </div>
-                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                        </div>
+
                                         <div class="row">
                                               <label class="col-sm-4">City</label>
                                             <div class="col-sm-7">
@@ -732,20 +692,8 @@ display: flex;
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                                 </div>
-
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">State or Province</label>
-                                            <div class="col-sm-7">
-                                            {{ project.state }}
-                                            </div>
-                                            {% if  project.state.errors %} {% for error in  project.state.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
-                                                <div class="row">
-                                              <label class="col-sm-4">Zip or Postal Code</label>
+                                             <div class="row">
+                                              <label class="col-sm-4">Zip Code</label>
                                             <div class="col-sm-7">
                                             {{ project.zip }}
                                             </div>
@@ -753,6 +701,27 @@ display: flex;
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                                 </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                              <label class="col-sm-4">State </label>
+                                            <div class="col-sm-7">
+                                            {{ project.state }}
+                                            </div>
+                                            {% if  project.state.errors %} {% for error in  project.state.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                                </div>
+                                                   <div class="row">
+                                              <label class="col-sm-4">Country</label>
+                                            <div class="col-sm-7">
+                                            {{ project.country }}
+                                            </div>
+                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                            {% endfor %} {% endif %}
+                                        </div>
+
 
                                             </div>
                                         </div>
@@ -799,22 +768,22 @@ display: flex;
             </div>
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button>
+                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" >Save as Draft</button>
 <!--            </div>-->
-<button type="submit" value="update" name="update" id="update" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Update</button>
-                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton"> <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Submit</button>
-                <button name="cancel" id="cancel" class="redbutton"> <i class="fa fa-times-circle" style="color: white" aria-hidden="true"></i> Cancel</button>
+<button type="submit" value="update" name="update" id="update" class="save blackbutton" > Update</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">  Submit</button>
+                <button name="cancel" id="cancel" class="redbutton"> Cancel</button>
  </div>
     </div>
 
 </form>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />
-<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />-->
+<!--<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <script type="text/javascript">
 $(document).ready(function(){
     $('#smartwizard').smartWizard({
@@ -840,10 +809,40 @@ $(document).ready(function(){
         }
     });
     //------------------hide and show buttons-----------------------
+     $('.sw-btn-prev').hide();
+                $('.sw-btn-next').show();
 $('#termsdiv').hide();
 $('#draft').hide();
 $('#submit').hide();
 $('#update').hide();
+$('#otheractivity').hide();
+var activity = $('#id_activity_type option:selected').text();
+if(activity === 'Other'){
+   $('#otheractivity').show();
+}
+$('#id_activity_type').change(function () {
+    var activity = $('#id_activity_type option:selected').text();
+if(activity === 'Other'){
+   $('#otheractivity').show();
+}
+});
+
+//--------------order academic years--------------------
+    var sel = $('#id_academic_year');
+
+$(sel).html($("option", $(sel)).sort(function(a, b) {
+    var arel = parseInt($(a).attr('value'), 10) || 0;
+    var brel = parseInt($(b).attr('value'), 10)|| 0;
+    return arel == brel ? 0 : arel > brel ? -1 : 1
+}));
+        var sel1 = $('#id_end_academic_year');
+
+$(sel1).html($("option", $(sel1)).sort(function(a, b) {
+    var arel1 = parseInt($(a).attr('value'), 10) || 0;
+    var brel1 = parseInt($(b).attr('value'), 10)|| 0;
+    return arel1 == brel1 ? 0 : arel1 > brel1 ? -1 : 1
+}));
+
     var status = $('#id_status option:selected').text();
     if(status === 'Drafts'){
 $('#draft').show();
@@ -867,12 +866,18 @@ $('#update').show;
         var elmForm = $("#form-step-" + stepNumber);
         if (stepDirection === 'forward') {
             if (stepNumber === 0) {
+                $('.sw-btn-prev').show();
+                $('.sw-btn-next').show();
                 if (($("#id_project_name").val() === '')) {
                     alert("Please provide Project name to proceed.");
                     return false
                 }
                 if (($("#id_engagement_type").val() === '')) {
-                    alert("Please enter Engagement type.");
+                    alert("Please Select Engagement type.");
+                    return false
+                }
+                 if (($("#id_activity_type").val() === '')) {
+                    alert("Please Select Activity type.");
                     return false
                 }
                 if (($("#id_semester").val() === '')) {
@@ -909,6 +914,8 @@ $('#update').show;
             }
 
             if (stepNumber === 1) {
+                 $('.sw-btn-prev').show();
+                $('.sw-btn-next').show();
                         var communitylast = $('.community_edit-row:last').find(':selected').text();
         var campuslast = $('.campus_edit-row:last').find(':selected').text();
 
@@ -926,7 +933,7 @@ $('#update').show;
             alert('Please make sure to add the Lead Staff Name');
             return false;
         }
-                if ($("#id_campus-0-campus_partner").val() === '') {
+                if ($("#id_campus_edit-0-campus_partner").val() === '') {
                     alert("Please provide Campus partner before proceeding.");
                     return false;
                 }
@@ -943,15 +950,18 @@ $('#update').show;
                 }
             }
             if (stepNumber === 2) {
+
                 var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
         if(subcatlast !='---------' && subcatlast != ""){
             alert('Please make sure to add the selected value');
             return false;
         }
-                if ($("#id_mission-0-mission").val() == '') {
+                if ($("#id_mission_edit-0-mission").val() == '') {
                     alert("Please provide Mission area before proceeding.");
                     return false;
                 } else {
+                    $('.sw-btn-prev').show();
+                $('.sw-btn-next').hide();
                     if (status === 'Drafts') {
                         $('#termsdiv').show();
                         $('#draft').show();
@@ -968,6 +978,13 @@ $('#update').show;
         }
     //------------------------wizard step backward buttons function-----------------
 if (stepDirection === 'backward') {
+if (stepNumber === 1) {
+    $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
+}
+
+    // $('.sw-btn-prev').show();
+    $('.sw-btn-next').show();
             if(status === 'Drafts') {
            $('#termsdiv').hide();
             $('#draft').show();
@@ -984,8 +1001,15 @@ if (stepDirection === 'backward') {
         }
         return true;
     });
+        //-------------------buttons function if directly click on step 1-----------------
+    $('#click1').click(function () {
+        $('.sw-btn-prev').hide();
+        $('.sw-btn-next').show();
+    });
     //-------------------buttons function if directly click on step 4-----------------
     $('#click4').click(function () {
+         $('.sw-btn-prev').show();
+                $('.sw-btn-next').hide();
         if (status === 'Drafts') {
                         $('#termsdiv').show();
                         $('#draft').show();
@@ -998,6 +1022,8 @@ if (stepDirection === 'backward') {
                         $('#update').show();
                     }
     });
+
+
 
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
@@ -1058,6 +1084,16 @@ $(".nospecial").keypress(function (e) {
         }
     }
 
+       var otheract = $('#id_other_activity_type').val();
+    if (otheract != '') {
+        var splitotheract = otheract.split(',');
+        for (var k = 0; k < splitotheract.length; k++) {
+            var htmlotheract = '<div class="act"><h6 class="finalact" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + splitotheract[k] + '<i  onclick="myFunction()" class="remove-act fa fa-close"></i> </h6></div>';
+            $("#displayact").append(htmlotheract);
+        }
+    }
+
+
         $("#addsubcat").click(function () {
 var str = "";
 var name =  $('.subcat > h6.finalcat').length;
@@ -1110,6 +1146,47 @@ else {
     }
 }
     });
+      //------------------add additional other activity type--------------------
+            $("#addotheract").click(function () {
+var str = "";
+var name =  $('.act > h6.finalact').length;
+//alert(name);
+if(name === 10) {
+            alert("Only Upto 10 activity types are allowed");
+                $('#otheracttype').val('');
+            return false;
+        }
+else {
+    var disp = $('#otheracttype').val();
+    if (disp === "") {
+        alert("Please enter the activity type")
+    } else {
+        var html = '<div class="act"><h6 class="finalact" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-act fa fa-close"></i> </h6></div>';
+        $("#displayact").append(html);
+        $('.act > h6.finalact').each(function () {
+            str += $(this).text() + ",";
+        });
+        var str2 = str.substring(0, str.length - 1);
+        $('#id_other_activity_type').val(str2);
+        $('#otheracttype').val('');
+    }
+}
+    });
+
+
+
+            $(document).on('click', '.remove-act', function(e){
+    e.preventDefault();
+    $(this).parent().remove();
+    var str = "";
+                $('.act > h6.finalact').each(function(){
+                     str += $(this).text()+ ",";
+                });
+ var str2 = str.substring(0,str.length-1);
+                $('#id_other_activity_type').val(str2);
+                // $('#id_campus_lead_staff').val(str);
+    return false;
+});
     $(document).on('click', '.remove-staff', function(e){
     e.preventDefault();
     $(this).parent().remove();
@@ -1546,13 +1623,25 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
-        alert("Please provide Project Name and Academic Year to save as Draft");
-        return false;
-    }
-    else{
-        return true;
-    }
+
+     if (($("#id_project_name").val() === '')) {
+                    alert("Please Provide Project Name to Save.");
+                    return false
+                }
+                if (($("#id_engagement_type").val() === '')) {
+                    alert("Please Select Engagement type.");
+                    return false
+                }
+                 if (($("#id_activity_type").val() === '')) {
+                    alert("Please Select Activity type.");
+                    return false
+                }
+
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please Select Start Academic Year to Save.");
+                    return false
+                }
+
 });
 $('#update').click(function () {
     if($('#terms').is(":checked")){

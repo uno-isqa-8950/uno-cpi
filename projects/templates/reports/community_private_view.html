@@ -231,21 +231,44 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
             </tr>
         </thead>
             <tbody>
-            {% for community in community_list %}
+{#            {% for community in community_list %}#}
+{#            <tr>#}
+{#                <td>{{community.community_name}}</td>#}
+{#                <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>#}
+{#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
+{#                <td>#}
+{#                     {% if  community.project_count  < 1 %}#}
+{#                        {{community.project_count}}#}
+{#                     {% else %}#}
+{#                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.project_count }}</a>#}
+{#                {% endif %}#}
+{#                    {{community.project_count}}#}
+{#                </td>#}
+{#                <td>{{community.total_uno_students}}</td>#}
+{#                <td>{{community.total_uno_hours}}</td>#}
+{#                <td>{{community.total_economic_impact}}</td>#}
+{#                <td><a href="{{community.website}}"  class="class1" target="_blank">{{community.website}}</a></td>#}
+{#            </tr>#}
+{#            {% endfor %}#}
+                {% for community in communityData %}
             <tr>
-                <td>{{community.community_name}}</td>
-                <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
+                <td>{{community.CommunityName}}</td>
+                <td>{% for mission in community.mission %}
+                    {% if mission is not None %}{{ mission }}<br><br>
+                    {% endif %}
+                    {% endfor %}</td>
 {#                <td> {% for email in community.email %} <a href="mailto:{{email}}">{{email}}</a> <br><br> {% endfor %} </td>#}
                 <td>
-                     {% if  community.project_count  < 1 %}
-                        {{community.project_count}}
+                     {% if  community.Projects  < 1 %}
+                        {{community.Projects}}
                      {% else %}
-                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.project_count }}</a>
+                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.Projects }}</a>
                 {% endif %}
 {#                    {{community.project_count}}#}
                 </td>
-                <td>{{community.total_uno_students}}</td>
-                <td>{{community.total_uno_hours}}</td>
+                <td>{% if community.numberofunostudents is not None %}{{community.numberofunostudents}}{% endif %}</td>
+                <td>{% if community.unostudentshours is not None %}{{community.unostudentshours}}{% endif %}</td>
+{#                <td>{{community.unostudentshours}}</td>#}
 {#                <td>{{community.total_economic_impact}}</td>#}
                 <td><a href="{{community.website}}"  class="class1" target="_blank">{{community.website}}</a></td>
             </tr>
@@ -287,7 +310,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'Current Academic Year',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
     $('#id_legislative_value').select2({width: '75%'});
     $('#id_mission').select2({

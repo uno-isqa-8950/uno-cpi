@@ -66,26 +66,29 @@
 <div class="panel-heading text-center"><h4 class="heading">All Projects</h4></div>&emsp;
 
 <div class="container-fluid">
-<div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
+    <div>
 
-            <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" />
+        <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
+
+        <script type="text/javascript">
+            document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
-                if (event.target.value === "Hide Filters") {
-                    event.target.value = "Show Filters";
-                } else {
+                    if (event.target.value === "Hide Filters") {
+                        event.target.value = "Show Filters";
+                    } else {
                         event.target.value = "Hide Filters";
-                        }
+                    }
                 },
                 false
-                );
-            </script>
+            );
+        </script>
 
-        </div>
+        <span style="float: right"><input type="text" id="text" placeholder="Search..."></span>
+
+    </div>
 
     <div class="card" style="border: 2px solid #C3C3C3;">
         <div class="collapse show" id="collapseExample">

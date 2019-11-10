@@ -32,7 +32,6 @@ label {
         border-radius: .25rem;
 }
 
-
 </style>
             <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
@@ -77,7 +76,7 @@ label {
 <div class="container" style="padding:10px;position: relative">
    <div class="card" style="border: 2px solid #C3C3C3;">
        <div class="collapse show" id="collapseExample">
-            <form id="streamform" action="{% url 'stream_response' %}" method="POST" onSubmit = 'return checking();'>
+            <form method="POST" onSubmit = 'return checking();'>
                   {% csrf_token %}
                <div class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
@@ -88,8 +87,9 @@ label {
                         {% endfor %}
                     </label>
                     <select id="communityPartner" name="communityPartner" CompValue=" ">
-                        {% for name in community_filter.form.community_partner %}
-                        <option id = "{{name}}"> </option>
+                        <option> </option>
+                        {% for comm in Community_filter %}
+                        <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %}>{{comm.name}} </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -102,8 +102,9 @@ label {
                     {% endfor %}
                     </label>
                     <select id="campuspartner" name="campusPartner" CampValue=" ">
-                        {% for campus in campus_filter.form.campus_partner %}
-                        <option  id = "{{campus}}"> </option>
+                        <option> </option>
+                       {% for campus in campus_filter %}
+                        <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -114,9 +115,10 @@ label {
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select id="academicYear" name="academicYear" YearValue=" ">
-                        {% for sem in projects.form.academic_year %}
-                        <option id = "{{sem}}"> </option>
+                    <select id="academicYear" name="academicYear" >
+                        <option> </option>
+                        {% for sem in academic_yr_filter %}
+                        <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -126,8 +128,8 @@ label {
                  <input type="text" style="margin-left: 0px;height: 28px" name="projectName" id="projectName"  value = "{{projectName}}" >
                            </label>
                    </div>
-                 <div class="justify-content-md-center" style="margin-left: 40%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                   <input class="blackbutton" type="submit"  value="Search" id="streambutton"  onclick = 'this.form.submit();' >
+                 <div class="justify-content-md-center" style="margin-left: 45%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
+                     <button type="submit" value="submit" name="submit" class="save blackbutton" onclick="this.form.submit()">Search</button>
                  </div>
                 </form>
 
@@ -147,10 +149,11 @@ label {
 
 
              <div style="margin-top:15px;">
-                  <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
+
+                <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
                    <thead>
-                   <br>
                          <tr id="tablerow">
+                    {% if data_list is defined and data_list.length >= 1 %}
                           <th>Academic Year
                            {% for data_definition in data_definition %}
                              {% if data_definition.id == 30%}
@@ -161,6 +164,7 @@ label {
                            {% endfor%}
                           </th>
                           <th>Projects
+
                            {% for data_definition in data_definition %}
                               {% if data_definition.id == 30%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -189,9 +193,10 @@ label {
                              {% endfor %}
                              </th>
                           </tr>
-                     </thead>
-                      <br>
-<tbody>
+                   </thead>
+{% endif %}
+                    <tbody>
+<br>
 
 {% for project in data_list %}
                       <tr id="tablerows">
@@ -203,8 +208,11 @@ label {
 {% endfor %}
 
 </tbody>
-</div>
- </table>
+                </div>
+                </table>
+
+
+
                  </div>
 
 {% if flagBit == 1 %}
@@ -294,21 +302,8 @@ $(document).on('input', '.clearable', function(){
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
         <script type="text/javascript">
-   $(document).ready(function() {
-   $('#example_filter').find('input').addClass('clearable');
-               function tog(v){return v?'addClass':'removeClass';}
-$(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-    $('#example').DataTable().destroy();
-    $('#example').DataTable().draw();
-    $('#example_filter').find('input').addClass('clearable');
-});
-   } );
+
+
 </script>
 <script>
         $('#lnk-create_project').click(function(){

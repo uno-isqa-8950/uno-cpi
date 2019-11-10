@@ -1649,13 +1649,25 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
-        alert("Please provide Project Name and Academic Year to save as Draft");
-        return false;
-    }
-    else{
-        return true;
-    }
+
+     if (($("#id_project_name").val() === '')) {
+                    alert("Please Provide Project Name to Save.");
+                    return false
+                }
+                if (($("#id_engagement_type").val() === '')) {
+                    alert("Please Select Engagement type.");
+                    return false
+                }
+                 if (($("#id_activity_type").val() === '')) {
+                    alert("Please Select Activity type.");
+                    return false
+                }
+
+                if ($("#id_academic_year").val() === '') {
+                    alert("Please Select Start Academic Year to Save.");
+                    return false
+                }
+
 });
 $('#update').click(function () {
     if($('#terms').is(":checked")){

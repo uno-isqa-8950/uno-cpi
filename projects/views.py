@@ -375,7 +375,9 @@ def createProject(request):
                                             'total_other_community_members': x.total_other_community_members,
                                             'outcomes': x.outcomes,
                                             'total_economic_impact': x.total_economic_impact,
-                                            'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
+                                            'campus_lead_staff': x.campus_lead_staff,
+                                            'other_activity_type': x.other_activity_type,
+                                            'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
                                             'camp_part': list_camp_part_names,
                                             }
@@ -458,7 +460,7 @@ def createProject(request):
                                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
                                     'total_uno_faculty': x.total_uno_faculty,
                                     'total_other_community_members': x.total_other_community_members,
-                                    'outcomes': x.outcomes,
+                                    'outcomes': x.outcomes,'other_activity_type':x.other_activity_type,
                                     'total_economic_impact': x.total_economic_impact,
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
@@ -575,7 +577,7 @@ def createProject(request):
                                             'total_k12_hours': x.total_k12_hours,
                                             'total_uno_faculty': x.total_uno_faculty,
                                             'total_other_community_members': x.total_other_community_members,
-                                            'outcomes': x.outcomes,
+                                            'outcomes': x.outcomes,'other_activity_type':x.other_activity_type,
                                             'total_economic_impact': x.total_economic_impact,
                                             'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                             'sub': sub,
@@ -661,7 +663,7 @@ def createProject(request):
                                     'total_uno_faculty': x.total_uno_faculty,
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
-                                    'total_economic_impact': x.total_economic_impact,
+                                    'total_economic_impact': x.total_economic_impact,'other_activity_type':x.other_activity_type,
                                     'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
                                     'sub': sub,
                                     'camp_part': list_camp_part_names,
@@ -719,11 +721,11 @@ def editProject(request,pk):
             formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x, prefix='campus_edit')
             formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x, prefix='sub_category_edit')
             print("in post")
-            # print(project.is_valid())
-            # print(formset_camp_details.is_valid())
-            # print(formset_comm_details.is_valid())
-            # print(formset_missiondetails.is_valid())
-            # print(formset_subcatdetails.is_valid())
+            print(project.is_valid())
+            print(formset_camp_details.is_valid())
+            print(formset_comm_details.is_valid())
+            print(formset_missiondetails.is_valid())
+            print(formset_subcatdetails.is_valid())
             if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
                 print('in valid')
                 instances = project.save()
@@ -787,7 +789,7 @@ def editProject(request,pk):
                                     'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
                                     'total_uno_hours': x.total_uno_hours,
                                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                                    'total_uno_faculty': x.total_uno_faculty,
+                                    'total_uno_faculty': x.total_uno_faculty,'other_activity_type':x.other_activity_type,
                                     'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
                                     'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp, 'subc':subc,
                                     'camp_part': list_camp_part_names,
@@ -856,7 +858,7 @@ def editProject(request,pk):
                                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
                                     'total_uno_faculty': x.total_uno_faculty,
                                     'total_other_community_members': x.total_other_community_members,
-                                    'outcomes': x.outcomes,
+                                    'outcomes': x.outcomes, 'other_activity_type':x.other_activity_type,
                                     'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
                                     'subc': subc,
                                     'camp_part': list_camp_part_names,

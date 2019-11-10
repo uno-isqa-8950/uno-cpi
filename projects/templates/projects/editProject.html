@@ -1022,34 +1022,8 @@ if (stepNumber === 1) {
                         $('#update').show();
                     }
     });
-    // var options = $('.sub_category_edit-row').find('select option');
-    // var arr = options.map(function(_, o) {
-    //     return {
-    //         t: $(o).text(),
-    //         v: o.value
-    //     };
-    // }).get();
-    // arr.sort(function(o1, o2) {
-    //     return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
-    // });
-    // options.each(function(i, o) {
-    //     console.log(i);
-    //     if($(o).text(arr[i].t) != 'Others'){
-    //         o.value = arr[i].v;
-    //     $(o).text(arr[i].t);
-    //     }
-    //
-    // });
-    $(function() {
-  // choose target dropdown
-  var select =$('.sub_category_edit-row').find('select');
-  select.html(select.find('option').sort(function(x, y) {
-    // to change to descending order switch "<" for ">"
-    return $(x).text() > $(y).text() ? 1 : -1;
-  }));
-  // select default item after sorting (first item)
-  // $('select').get(0).selectedIndex = 0;
-});
+
+
 
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();

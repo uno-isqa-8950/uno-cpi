@@ -66,6 +66,18 @@ ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
 s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
+
+# Read JSON files for charts
+charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+
+
 #read Partner.geojson from s3
 content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
 partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
@@ -890,12 +902,9 @@ def partnershipintensity(request):
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
-    community_json = open('home/static/charts_json/community_partners.json')
-    CommunityPartners = json.load(community_json)
-    projects = open('home/static/charts_json/projects.json')
-    Projects = json.load(projects)
-    campus_json = open('home/static/charts_json/campus_partners.json')
-    CampusPartners = json.load(campus_json)
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/partnershipintensity.html',
                   {'data_definition': data_definition, 'project_filter': project_filter,
@@ -954,12 +963,9 @@ def trendreport(request):
         res = {'id': y.id, 'name': y.academic_year}
         yearList.append(res)
 
-    community_json = open('home/static/charts_json/community_partners.json')
-    CommunityPartners = json.load(community_json)
-    projects = open('home/static/charts_json/projects.json')
-    Projects = json.load(projects)
-    campus_json = open('home/static/charts_json/campus_partners.json')
-    CampusPartners = json.load(campus_json)
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/trendreport.html',
                   { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,

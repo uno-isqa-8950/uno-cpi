@@ -276,21 +276,6 @@
         <script src="https://code.highcharts.com/modules/drilldown.js"></script>
         <script>
 
-    {#Highcharts.chart.addEvent:{#}
-    {#    drilldown: function (e) {#}
-    {#        var chart = this,#}
-    {#            drilldowns = chart.userOptions.drilldown.series,#}
-    {#            series = [];#}
-    {#        e.preventDefault();#}
-    {#        Highcharts.each(drilldowns, function (p, i) {#}
-    {#            if (p.id.includes(e.point.name)) {#}
-    {#                chart.addSingleSeriesAsDrilldown(e.point, p);#}
-    {#            }#}
-    {#        });#}
-    {#        chart.applyDrilldown();#}
-    {#    }#}
-    {#}#}
-
             $(function () {
                 Highcharts.Tick.prototype.drillable = function () {};
 
@@ -349,8 +334,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academicyear').select2({placeholder: '{{ min_year }}',width: '75%'});
-    $('#id_endacademicyear').select2({placeholder: '{{ max_year }}',width: '75%'});
+    $('#id_academicyear').select2({placeholder: 'Select Analysis Start Year',width: '75%'});
+    $('#id_endacademicyear').select2({placeholder: 'Select Analysis End Year',width: '75%'});
 
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',

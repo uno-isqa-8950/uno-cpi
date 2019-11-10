@@ -52,7 +52,7 @@ all_projects_sql = """select distinct p.project_name
                             ,p.total_other_community_members
                             ,a.name
                             ,p.description
-                        order by p.project_name;"""
+                        order by p.project_name limit 10;"""
 
 selected_projects_sql = """select distinct p.project_name
                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
@@ -528,6 +528,24 @@ missions_sql = """SELECT MA.id, COALESCE(count,0)
 missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
+
+
+def checkProjectsql(projectName, comPartner, campPartner, acadYear):
+    return ( """SELECT (regexp_split_to_array(p.project_name, E'\\:+'))[1] as project_names, STRING_AGG(pc.name, ', ' ORDER BY pc.name) As pcnames,
+pa.academic_year, c.name
+FROM projects_project p
+left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                            left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            where lower(p.project_name) LIKE '%""" + projectName.lower() + """%'
+                            AND pc.name LIKE '%""" + comPartner + """%'
+                            AND c.name LIKE '%""" + campPartner + """%'
+                            AND pa.academic_year LIKE '%""" + acadYear + """%'
+GROUP BY project_names, pa.academic_year, c.name
+ORDER BY project_names;""")
+
 
 
 projects_report_filter = """

@@ -720,19 +720,13 @@ def editProject(request,pk):
             formset_comm_details = proj_comm_part_edit(request.POST or None, request.FILES, instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x, prefix='campus_edit')
             formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x, prefix='sub_category_edit')
-            print("in post")
-            print(project.is_valid())
-            print(formset_camp_details.is_valid())
-            print(formset_comm_details.is_valid())
-            print(formset_missiondetails.is_valid())
-            print(formset_subcatdetails.is_valid())
-            if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
+
+            if project.is_valid() and formset_missiondetails.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
                 print('in valid')
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(instances.academic_year) + " (" +pk + ")"
                 print (instances.project_name)
                 stat = str(instances.status)
-                print(stat)
                 if stat == 'Drafts':
                     instances.save()
                     pm = formset_missiondetails.save()

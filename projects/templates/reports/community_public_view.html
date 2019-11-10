@@ -11,7 +11,8 @@
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Community Partners</h4></b></label>
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
+                           style="line-height:.8em;padding-top:10px;">Community Partners Report</h4></b></label>
                </div>
             </div>
             <div class="card" style="padding: 10px;">
@@ -178,7 +179,7 @@
                         {% endif %}
                     {% endfor %}
                 </th>
-                <th>Community Partner Mission Area
+                <th>Community Partner Focus Area
                       {% for data_definition in data_definition %}
                         {% if data_definition.id == 51%}
                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -238,7 +239,9 @@ $(document).ready(function(){
                                         }});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
+    $('#id_legislative_value').select2({width: '75%'});
+    $('#id_mission').select2({
+        placeholder: 'All Focus Areas', width: '75%',
                                 sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

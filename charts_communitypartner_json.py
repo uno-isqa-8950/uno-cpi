@@ -25,18 +25,19 @@ cursor = conn.cursor()
 dirname = os.path.dirname(__file__)
 community_file = os.path.join(dirname,'home/static/charts_json/community_partners.json')
 
-q = "SELECT id, name, legislative_district, community_type_id, " \
-    "(select community_type from partners_communitytype " \
-    "	where id = community_type_id) as community_type, " \
-    "cec_partner_status_id, " \
-    "(select name from partners_cecpartnerstatus " \
-    "	where id = cec_partner_status_id) as cec_partner_status, " \
-    "(select mission_area_id from partners_communitypartnermission " \
-    " 	where community_partner_id = comm.id and mission_type = 'Primary') as primary_mission_id, " \
+q = "SELECT comm.id, comm.name, legislative_district, community_type_id, type.community_type, " \
+    "	cec_partner_status_id, cec.name, miss.mission_area_id, " \
     "(select array_to_string (array (select mission_area_id from partners_communitypartnermission " \
     "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids) " \
     "FROM partners_communitypartner comm " \
-    "WHERE partner_status_id <> (SELECT id FROM partners_partnerstatus WHERE name = 'Inactive') ;"
+    "LEFT JOIN partners_communitytype type " \
+    "	ON comm.community_type_id = type.id " \
+    "LEFT JOIN partners_cecpartnerstatus cec " \
+    "	ON comm.cec_partner_status_id = cec.id " \
+    "   AND cec.name <> 'Inactive' " \
+    "LEFT JOIN partners_communitypartnermission miss " \
+    "	ON comm.id = miss.community_partner_id " \
+    "	AND mission_type = 'Primary' ;"
 cursor.execute(q)
 communities = cursor.fetchall()
 records = len(communities)

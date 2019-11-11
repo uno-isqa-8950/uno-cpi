@@ -610,16 +610,16 @@ order by p.project_name;
 
 community_private_report = """
 select pc.name commpartners
-  ,array_agg(hm.mission_name) mission
-  ,count(distinct p.project_name) Projects
-  ,sum(p.total_uno_students) numberofunostudents
-  ,sum(p.total_uno_hours) unostudentshours
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
+  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
   , pc.website_url website
 from partners_communitypartner pc 
 left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
 left join projects_project p on p.id = pcp.project_name_id
 left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
-left join (select community_partner_id, mission_area_id from partners_communitypartnermission  where mission_type='Primary') as CommMission on CommMission.community_partner_id = pc.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 where pc.community_type_id::text like %s

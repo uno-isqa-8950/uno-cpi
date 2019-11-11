@@ -35,9 +35,6 @@ label {
         max-width: 1330px;
     }
 }
-    table table-bordered table-striped dt-responsive overflow-wrap:break-word{
-        column-width: 30px;
-    }
 
 </style>
             <div class="row justify-content-md-center">
@@ -208,7 +205,6 @@ label {
                    </thead>
 {% endif %}
                     <tbody>
-<br>
 
 {% for project in data_list %}
                       <tr id="tablerows" >
@@ -243,8 +239,6 @@ document.getElementById('node1-id').innerHTML =
 
         <script>
         document.getElementById('node1-id').innerHTML =
-                            // '<br>' +
-                            // '<tr></tr>' +
                             '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
 
         var projectName = $('#projectName').val();

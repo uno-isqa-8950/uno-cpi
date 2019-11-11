@@ -145,6 +145,7 @@ def ajax_load_project(request):
 @login_required
 @csrf_exempt
 def saveProjectAndRegister(request):
+    projectId = request.GET.get('projectId')
     name = request.GET.get('name')
     description = request.GET.get('description')
     engagement_type = request.GET.get('engagement_type')
@@ -166,11 +167,20 @@ def saveProjectAndRegister(request):
 
     if k12_involvment_flag == 'on':
         k12_flag_value = True
+    if projectId is not None:
+        project = Project.objects.get(id=projectId)
+    else:
+        project = Project(project_name=name)
 
-    project = Project(project_name=name,description=description,semester=start_semester,\
-        end_semester=end_semester,\
-        total_uno_students=uno_students,total_uno_hours=uno_students_hrs,k12_flag=k12_flag_value,\
-        total_k12_students=k12_students,total_k12_hours=k12_students_hrs,project_type=project_type)
+    project.description=description
+    project.semester=start_semester
+    project.end_semester=end_semester
+    project.total_uno_students=uno_students
+    project.total_uno_hours=uno_students_hrs
+    project.k12_flag=k12_flag_value
+    project.total_k12_students=k12_students
+    project.total_k12_hours=k12_students_hrs
+    project.project_type=project_type
 
     if start_academic_yr != '' and start_academic_yr is not None:
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
@@ -712,6 +722,7 @@ def editProject(request,pk):
     if request.method == 'POST':
         # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
+
         for x in proj_edit:
             project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
@@ -884,7 +895,8 @@ def editProject(request,pk):
                                                    'formset_missiondetails':formset_missiondetails,
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details,
-                                                    'formset_subcat_details':formset_subcat_details})
+                                                    'formset_subcat_details':formset_subcat_details,
+                                                    'projectId':pk})
 
 # @login_required()
 # def showAllProjects(request):
@@ -2274,6 +2286,9 @@ def communityPrivateReport(request):
     legislative_search = ''
     # comp_part_contact = []
     data_definition=DataDefinition.objects.all()
+    print('in community report')
+    comm_ids = request.GET.get('comm_ids', None)
+    print('in community report comm_ids--',comm_ids)
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -2433,7 +2448,18 @@ def communityPrivateReport(request):
     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
     print ("params", params)
     cursor = connection.cursor()
-    cursor.execute(sql.community_private_report, params)
+    if comm_ids is not None:
+        if comm_ids.find(",") != -1:
+            comm_list = comm_ids.split(",")
+            params.append(tuple(comm_list))
+            cursor.execute(sql.selected_community_private_report, params)
+        else:
+            
+            params.append(str(comm_ids))
+            print('params-222-',params)
+            cursor.execute(sql.selected_One_community_private_report, params)
+    else:
+        cursor.execute(sql.community_private_report, params)
     # cursor.execute(sql.projects_report, [project_ids])
 
     for obj in cursor.fetchall():

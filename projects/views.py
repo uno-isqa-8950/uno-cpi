@@ -2196,6 +2196,7 @@ def projectsfromCommunityPartnerReport(request):
 def communityPublicReport(request):
     community_dict = {}
     community_list = []
+    data_list=[]
     legislative_choices = []
     legislative_search = ''
     data_definition=DataDefinition.objects.all()
@@ -2227,28 +2228,28 @@ def communityPublicReport(request):
     # legislative district end -- Manu
 
     # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
-    campus_partner_filtered_ids = campus_partner_filter.qs.values_list('id',flat=True)
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name',flat=True)
+    # campus_partner_filtered_ids = college_partner_filter.qs.values_list('id',flat=True)
+    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    # campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name',flat=True)
 
     # mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
-    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    #project_filtered_ids = project_filter.qs.values_list('id', flat=True)
 
     # proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
-    project_ids = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
+    #project_ids = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
 
-    for m in communityPartners.qs:
-        proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
-        project_count = len(set(project_ids).intersection(proj_comm_par))
-        #if project_count == 0: # change by Manu
-         #   continue   # change by Manu
-        community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).filter(mission_type='Primary').values_list('mission_area__mission_name',flat=True)
-        community_dict['community_name'] = m.name
-        community_dict['community_mission'] = community_mission
-        community_dict['project_count'] = project_count
-        community_list.append(community_dict.copy())
+    # for m in communityPartners.qs:
+    #     proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
+    #     project_count = len(set(project_ids).intersection(proj_comm_par))
+    #     #if project_count == 0: # change by Manu
+    #      #   continue   # change by Manu
+    #     community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).filter(mission_type='Primary').values_list('mission_area__mission_name',flat=True)
+    #     community_dict['community_name'] = m.name
+    #     community_dict['community_mission'] = community_mission
+    #     community_dict['project_count'] = project_count
+    #     community_list.append(community_dict.copy())
 
     college_value = request.GET.get('college_name', None)
     if college_value is None or college_value == "All" or college_value == '':
@@ -2257,20 +2258,79 @@ def communityPublicReport(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    campus_id = request.GET.get('campus_partner')
-    if campus_id == "All":
-        campus_id = -1
-    if (campus_id is None or campus_id == ''):
-        campus_id = 0
+    # campus_id = request.GET.get('campus_partner')
+    # if campus_id == "All":
+    #     campus_id = -1
+    # if (campus_id is None or campus_id == ''):
+    #     campus_id = 0
+    # else:
+    #     campus_id = int(campus_id)
+
+    college_unit_filter = request.GET.get('college_name', None)
+    if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
+        college_unit_cond = '%'
+        campus_filter_qs = CampusPartner.objects.all()
+
     else:
-        campus_id = int(campus_id)
+        college_unit_cond = college_unit_filter
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_filter)
+    campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    print("campus_project: ", campus_project_filter)
+
+    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+        legislative_district_cond = '%'
+
+    else:
+        legislative_district_cond = legislative_search
 
 
-    return render(request, 'reports/community_public_view.html', { 'college_filter': campus_partner_filter, 'campus_filter': campus_project_filter,
+    community_type_filter = request.GET.get('community_type', None)
+    if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
+        community_type_cond = '%'
+    else:
+        community_type_cond = community_type_filter
+
+    academic_year_filter = request.GET.get('academic_year', None)
+    acad_years = AcademicYear.objects.all()
+    yrs = []
+    for e in acad_years:
+        yrs.append(e.id)
+    max_yr_id = max(yrs)
+    print("max_yr_id", max_yr_id)
+    if academic_year_filter is None or academic_year_filter == '':
+        academic_start_year_cond = int(max_yr_id)
+        academic_end_year_cond = int(max_yr_id)
+
+    elif academic_year_filter == "All":
+        academic_start_year_cond = int(max_yr_id)
+        academic_end_year_cond = 1
+    else:
+        academic_start_year_cond = int(academic_year_filter)
+        academic_end_year_cond = int(academic_year_filter)
+
+    campus_partner_filter = request.GET.get('campus_partner', None)
+    if campus_partner_filter is None or campus_partner_filter == "All" or campus_partner_filter == '':
+        campus_partner_cond = '%'
+        campus_id = -1
+    else:
+        campus_partner_cond = campus_partner_filter
+        campus_id = int(campus_partner_filter)
+
+    params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
+    print ("params", params)
+    cursor = connection.cursor()
+    cursor.execute(sql.community_public_report, params)
+
+    for obj in cursor.fetchall():
+        data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3]})
+
+    return render(request, 'reports/community_public_view.html', { 'college_filter': college_partner_filter, 'campus_filter': campus_project_filter,
                                                                 'project_filter': project_filter,
                                                                 'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
+                                                                 'communityData': data_list,
                                                                  # 'missions': missions,
                                                                  'data_definition':data_definition,
                                                                  'campus_id':campus_id})

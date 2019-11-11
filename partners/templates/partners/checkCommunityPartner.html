@@ -56,7 +56,8 @@
             color: #b60000;
         }
    .blackbutton{
-        border-radius: .25rem;
+        border-radius: 8px;
+
 }
 
         input[id=partner_name]{
@@ -64,6 +65,12 @@
             margin-left: 10px;
             height: 40px;
         }
+            @media (min-width:1200px)
+{
+    .container{
+        max-width: 1330px;
+    }
+}
     </style>
 <!--    <div class = "container">-->
         <div class="row justify-content-md-center">
@@ -87,7 +94,7 @@
                                 </div>
                                 <div class="col-md-3">
 <!--                            <div class="justify-content-md-center" >-->
-                            <a id="next"class="blackbutton" href="#" style="margin-left: 10%" role="button" onclick="checking();">Search</a>
+                                    <button type="submit" value="submit" id="next" name="submit" class="save blackbutton" onclick="this.form.submit();checking();">Search</button>
                             </div>
                             </div>
 <!--                        </div>-->
@@ -100,7 +107,7 @@
                     </div>
 
 <!--                </div>-->
-                                     <div style="float: left;"  id="node1-id" style="display: none"></div>
+                <div style="float: left;"  id="node1-id" style="display: none"></div>
          <div style="float: left;"  id="button-id" style="display: none"></div>
          <div>
             <div class="panel-body">&emsp;

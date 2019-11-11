@@ -60,6 +60,13 @@
         margin-left:22px;
     }
 
+    @media (min-width:1200px)
+{
+    .container{
+        max-width: 1330px;
+    }
+}
+
     .select2-selection__placeholder{
         font-size: small;
     }
@@ -285,7 +292,9 @@
         </div>
     </div>
 
-    <div id="container"  style= "max-width: 1058px; height: 900px"></div>
+
+
+    <div id="container"  style= "max-width: 1330px; height: 1020px">
     {{ Missionlist | json_script:"missionlist"}}
     {{ campus_partner_json | json_script:"campus_partner_json"}}
     {{ community_partner_json | json_script:"community_partner_json"}}

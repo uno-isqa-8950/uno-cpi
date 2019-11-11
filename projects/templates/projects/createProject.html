@@ -29,7 +29,7 @@
     <ul>
         <li><a href="#step-1" id="step1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
-        <li><a href="#step-3">Mission Areas</a></li>
+        <li><a href="#step-3">Focus Areas</a></li>
         <li><a href="#step-4" id="step4">Other Information</a></li>
     </ul>
     <div>
@@ -457,10 +457,10 @@
 
                                                 <div class="row" id="othersubinput">
                                                     <div class="col-md-3">
-                                                        <label style="padding-top: 10px">Other Sub Category</label>
+                                                        <label style="padding-top: 10px">Other Topics</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Sub Categories">
+                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics">
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -520,14 +520,14 @@
                                             {% endfor %} {% endif %}
                                                 </div>
                                             <div class="row">
-                                              <label class="col-sm-4">Zip Code</label>
+                                              <label class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
-                                            {{ project.zip }}
+                                            {{ project.country }}
                                             </div>
-                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
+                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
-                                                </div>
+                                        </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
@@ -539,15 +539,16 @@
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                                 </div>
-                                                  <div class="row">
-                                              <label class="col-sm-4">Country</label>
+                                                 <div class="row">
+                                              <label class="col-sm-4">Zip Code</label>
                                             <div class="col-sm-7">
-                                            {{ project.country }}
+                                            {{ project.zip }}
                                             </div>
-                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
-                                        </div>
+                                                </div>
+
 
                                             </div>
                                         </div>
@@ -673,6 +674,10 @@ if(stepDirection === 'forward') {
             alert("Please provide Project start semester.");
             return false
         }
+        if($('#otheracttype').val() !="" ){
+                    alert('Please Make Sure To Add The Other Activity Value');
+                    return false;
+        }
 
          var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();
@@ -727,7 +732,7 @@ if(stepDirection === 'forward') {
             return false;
         }
         if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide Mission area before proceeding.");
+            alert("Please provide Focus Area before proceeding.");
             return false;
         }
         else {
@@ -909,14 +914,14 @@ var str = "";
 var name =  $('.subcat > h6.finalcat').length;
 //alert(name);
 if(name === 10) {
-            alert("Only Upto 10 Sub Categories are allowed");
+            alert("Only Upto 10 Topics are allowed");
                 $('#othersubcat').val('');
             return false;
         }
 else {
     var disp = $('#othersubcat').val();
     if (disp === "") {
-        alert("Please enter the Sub Category")
+        alert("Please enter the Topic Name")
     } else {
         var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
         $("#displaysub").append(html);
@@ -1045,7 +1050,7 @@ $("#id_registerCommAndSave").click(function (){
             'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
             'k12_students':document.getElementById("id_total_k12_students").value,
             'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
-            'k12_involvment_flag':document.getElementById("id_k12_flag").value,  
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
             'selectedCommIds':commIdList,
             'selectedCampusIds':campIdList,
             'project_type':document.getElementById("id_project_type").value,
@@ -1062,7 +1067,7 @@ $("#id_registerCommAndSave").click(function (){
 $("#id_registerCampusAndSave").click(function (){
 
     var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project. Are you sure you want to register a New Campus Partner?");
-    if (result == true) { 
+    if (result == true) {
     var commIdList = ''
     if (community_ids.length >=1) {
         commIdList  = String(community_ids);
@@ -1087,7 +1092,7 @@ $("#id_registerCampusAndSave").click(function (){
             'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
             'k12_students':document.getElementById("id_total_k12_students").value,
             'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
-            'k12_involvment_flag':document.getElementById("id_k12_flag").value,  
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
             'selectedCommIds':commIdList,
             'selectedCampusIds':campIdList,
             'project_type':document.getElementById("id_project_type").value,
@@ -1416,6 +1421,7 @@ input[id=othersubcat]{
         margin-left: 8px;
         font-family: "Arial Narrow", sans-serif;
         font-size: 16px;
+        border-radius: 5px;
     }
 
 
@@ -1430,9 +1436,11 @@ input[id=othersubcat]{
         margin-left: 10px;
         font-family: "Arial Narrow", sans-serif;
         font-size: 16px;
+         border-radius: 5px;
     }
     input[id=id_project_name]{
         margin-bottom: 0px;
+        border-radius: 5px;
     }
      select[id=id_form-0-campus_partner]
    {
@@ -1516,10 +1524,14 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
-        alert("Please provide Project Name and Academic Year to save as Draft");
+    if(($("#id_project_name").val() === '') ){
+        alert("Please provide Project Name ");
         return false;
     }
+    if( ($("#id_academic_year").val() === '') ){
+            alert("Please Select Start Academic Year.");
+            return false
+        }
     if( ($("#id_engagement_type").val() === '') ){
             alert("Please Select Engagement type.");
             return false

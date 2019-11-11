@@ -584,8 +584,8 @@ def showSelectedProjects(project_name_list):
                         order by p.project_name;"""    )
 
 def checkProjectsql(projectName, comPartner, campPartner, acadYear):
-    return ( """SELECT (regexp_split_to_array(p.project_name, E'\\:+'))[1] as project_names, STRING_AGG(pc.name, ', ' ORDER BY pc.name) As pcnames,
-pa.academic_year, c.name
+    return ("""SELECT (regexp_split_to_array(p.project_name, E'\:+'))[1] as project_names, STRING_AGG(distinct pc.name, ', ' ORDER BY pc.name) As pcnames,
+pa.academic_year, STRING_AGG(distinct c.name, ', ' ORDER BY c.name) As cnames
 FROM projects_project p
 left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                             left join partners_communitypartner pc on pp.community_partner_id = pc.id
@@ -596,8 +596,9 @@ left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                             AND pc.name LIKE '%""" + comPartner + """%'
                             AND c.name LIKE '%""" + campPartner + """%'
                             AND pa.academic_year LIKE '%""" + acadYear + """%'
-GROUP BY project_names, pa.academic_year, c.name
-ORDER BY pa.academic_year DESC;""")
+GROUP BY project_names, pa.academic_year
+ORDER BY pa.academic_year DESC;
+""")
 
 
 

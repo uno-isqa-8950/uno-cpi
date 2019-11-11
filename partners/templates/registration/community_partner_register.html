@@ -129,7 +129,7 @@ width:93%!important;
 <div id="smartwizard">
     <ul>
         <li><a href="#step-1">Partner Information</a></li>
-        <li><a href="#step-2">Mission Areas</a></li>
+        <li><a href="#step-2">Focus Areas</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -244,17 +244,17 @@ width:93%!important;
                                             {% endfor %} {% endif %}
 
                                                 </div>
-                                                  <div class="row">
-                                              <label class="col-sm-4">Zip Code <span style="color:red;">*</span></label>
-                                            <div class="col-sm-7">
-                                            {{ community_partner_form.zip |bootstrap }}
+                                                <div class="row">
+                                              <label class="col-sm-4">Country <span style="color:red;">*</span></label>
+                                            <div class="col">
+                                            {{ community_partner_form.country |bootstrap }}
                                             </div>
-                                             {% if community_partner_form.zip.errors %}
-                                                    {% for error in community_partner_form.zip.errors %}
+                                           {% if community_partner_form.country.errors %}
+                                                    {% for error in community_partner_form.country.errors %}
                                                     <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                                     {% endfor %} {% endif %}
 
-                                                </div>
+                                        </div>
 
                                             </div>
                                             <div class="col-md-6">
@@ -269,17 +269,18 @@ width:93%!important;
                                                     {% endfor %} {% endif %}
 
                                                 </div>
-                                               <div class="row">
-                                              <label class="col-sm-4">Country <span style="color:red;">*</span></label>
-                                            <div class="col">
-                                            {{ community_partner_form.country |bootstrap }}
+                                                  <div class="row">
+                                              <label class="col-sm-4">Zip Code <span style="color:red;">*</span></label>
+                                            <div class="col-sm-7">
+                                            {{ community_partner_form.zip |bootstrap }}
                                             </div>
-                                           {% if community_partner_form.country.errors %}
-                                                    {% for error in community_partner_form.country.errors %}
+                                             {% if community_partner_form.zip.errors %}
+                                                    {% for error in community_partner_form.zip.errors %}
                                                     <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                                     {% endfor %} {% endif %}
 
-                                        </div>
+                                                </div>
+
 
                                             </div>
 
@@ -296,7 +297,7 @@ width:93%!important;
                                         {% if data_definition.id == 39%}
                     <label><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
 
-                                 Primary Mission Area <span style="color:red;">*</span>
+                                 Focus Area <span style="color:red;">*</span>
 
                                 </span></label>
                     {% endif %}
@@ -314,7 +315,7 @@ width:93%!important;
                     {% if data_definition.id == 40%}
                     <span id="test1" tabindex="-1" data-toggle="popover" data-trigger="focus"
                           data-content="{{ data_definition.description }}" class="float" >
-                        <label>Secondary Mission Area</label></span>
+                        <label>Other Focus Area</label></span>
                     {% endif %}
                     {% endfor %}
                 </div>
@@ -457,7 +458,7 @@ $(document).ready(function() {
             }
             if (stepNumber === 1) {
                 if ($("#id_primary_mission-0-mission_area").val() === '') {
-                    alert("Please provide Mission area before proceeding.");
+                    alert("Please Add Focus Area Before Proceeding.");
                     return false;
                 }
                  // $('.sw-btn-prev').hide();
@@ -707,7 +708,7 @@ function cloneMore(selector, prefix) {
         }
         if (prefix === 'mission') {
             if (mission_ids.includes(selected)) {
-                alert('Mission Area already added');
+                alert('Focus Area already added');
                 $(selector).find('select').val(' ');
                 return;
             }

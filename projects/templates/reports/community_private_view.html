@@ -240,7 +240,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 {#                     {% if  community.project_count  < 1 %}#}
 {#                        {{community.project_count}}#}
 {#                     {% else %}#}
-{#                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.project_count }}</a>#}
+{#                        <a href="#" class="class1">{{ community.project_count }}</a>#}
 {#                {% endif %}#}
 {#                    {{community.project_count}}#}
 {#                </td>#}
@@ -262,7 +262,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                      {% if  community.Projects  < 1 %}
                         {{community.Projects}}
                      {% else %}
-                        <a href="{% url 'projectsfromCommunityPartnerReport' %}?proj_ids={{ community.project_name_ids }}" target="_blank" class="class1">{{ community.Projects }}</a>
+                        <a href="#" target="_blank" class="class1">{{ community.Projects }}</a>
                 {% endif %}
 {#                    {{community.project_count}}#}
                 </td>

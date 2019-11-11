@@ -205,6 +205,8 @@ label[for=id_campus-0-campus_partner]:after{
                                 {{formset_comm_details.management_form}}
                                 {{formset_camp_details.management_form}}
                                {{formset_subcat_details.management_form}}
+                               <input type="hidden" id="id_projectId" value="{{projectId}}" />
+                              
 <div class="container-fluid">
 
     <div class="row justify-content-md-center">
@@ -484,7 +486,7 @@ label[for=id_campus-0-campus_partner]:after{
                 {% endfor %}
                 <div class="community_edit-fields displaybox row" id="community_edit-fields"></div>
                     <div class="row centered">
-                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
+                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCommAndSave" >Not in list? Register a New Community Partner</a>
 
                                         </div>
             </div>
@@ -1229,6 +1231,92 @@ else {
 var community_ids = [];
 var campus_ids = [];
 var subcategory_ids=[];
+$("#id_registerCommAndSave").click(function (){
+   var projecId = document.getElementById('id_projectId').value;
+
+    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project.Are you sure you want to register a New Community Partner?");
+    if (result == true) {
+    var commIdList = ''
+    if (community_ids.length >=1) {
+        commIdList  = String(community_ids);
+    }
+    var campIdList = ''
+    if (campus_ids.length >=1) {
+        campIdList  = String(campus_ids);
+    }
+     $.ajax({
+        url: "/saveProjectAndRegister/",
+        data: {
+            'name': document.getElementById("id_project_name").value,
+            'description':document.getElementById("id_description").value,
+            'engagement_type':document.getElementById("id_engagement_type").value,
+            'activity_type':document.getElementById("id_activity_type").value,
+            'start_semester':document.getElementById("id_semester").value,
+            'start_academic_yr':document.getElementById("id_academic_year").value,
+            'end_semester':document.getElementById("id_end_semester").value,
+            'end_academic_yr':document.getElementById("id_end_academic_year").value,
+            'uno_students':document.getElementById("id_total_uno_students").value,
+            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+            'k12_students':document.getElementById("id_total_k12_students").value,
+            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
+            'selectedCommIds':commIdList,
+            'selectedCampusIds':campIdList,
+            'project_type':document.getElementById("id_project_type").value,
+            'lead_staff_list':document.getElementById("id_campus_lead_staff").value,
+            'projectId':projecId
+        },
+        dataType: 'json',
+        success: function (data) {
+           window.location = '/partners/registerCommunityPartnerForProject/?projectId='+data.save_projectId
+        }
+    });
+ }
+});
+
+$("#id_registerCampusAndSave").click(function (){
+
+    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project. Are you sure you want to register a New Campus Partner?");
+    var projecId = document.getElementById('id_projectId').value;
+    if (result == true) {
+    var commIdList = ''
+    if (community_ids.length >=1) {
+        commIdList  = String(community_ids);
+    }
+    var campIdList = ''
+    if (campus_ids.length >=1) {
+        campIdList  = String(campus_ids);
+    }
+     $.ajax({
+        url: "/saveProjectAndRegister/",
+       //url:"/partners/registerCommunityPartnerForProject/",
+        data: {
+            'name': document.getElementById("id_project_name").value,
+            'description':document.getElementById("id_description").value,
+            'engagement_type':document.getElementById("id_engagement_type").value,
+            'activity_type':document.getElementById("id_activity_type").value,
+            'start_semester':document.getElementById("id_semester").value,
+            'start_academic_yr':document.getElementById("id_academic_year").value,
+            'end_semester':document.getElementById("id_end_semester").value,
+            'end_academic_yr':document.getElementById("id_end_academic_year").value,
+            'uno_students':document.getElementById("id_total_uno_students").value,
+            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+            'k12_students':document.getElementById("id_total_k12_students").value,
+            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
+            'selectedCommIds':commIdList,
+            'selectedCampusIds':campIdList,
+            'project_type':document.getElementById("id_project_type").value,
+            'lead_staff_list':document.getElementById("id_campus_lead_staff").value,
+            'projectId':projecId
+        },
+        dataType: 'json',
+        success: function (data) {
+           window.location = '/partners/registerCampusPartnerForProject/?projectId='+data.save_projectId
+        }
+    });
+ }
+});
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();

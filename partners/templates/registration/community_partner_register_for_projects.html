@@ -236,17 +236,17 @@ width:93%!important;
                                             {% endfor %} {% endif %}
 
                                                 </div>
-                                                  <div class="row">
-                                              <label class="col-sm-4">Zip Code <span style="color:red;">*</span></label>
-                                            <div class="col-sm-7">
-                                            {{ community_partner_form.zip |bootstrap }}
+                                                 <div class="row">
+                                              <label class="col-sm-4">Country <span style="color:red;">*</span></label>
+                                            <div class="col">
+                                            {{ community_partner_form.country |bootstrap }}
                                             </div>
-                                             {% if community_partner_form.zip.errors %}
-                                                    {% for error in community_partner_form.zip.errors %}
+                                           {% if community_partner_form.country.errors %}
+                                                    {% for error in community_partner_form.country.errors %}
                                                     <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                                     {% endfor %} {% endif %}
 
-                                                </div>
+                                        </div>
 
                                             </div>
                                             <div class="col-md-6">
@@ -261,17 +261,18 @@ width:93%!important;
                                                     {% endfor %} {% endif %}
 
                                                 </div>
-                                               <div class="row">
-                                              <label class="col-sm-4">Country <span style="color:red;">*</span></label>
-                                            <div class="col">
-                                            {{ community_partner_form.country |bootstrap }}
+                                                 <div class="row">
+                                              <label class="col-sm-4">Zip Code <span style="color:red;">*</span></label>
+                                            <div class="col-sm-7">
+                                            {{ community_partner_form.zip |bootstrap }}
                                             </div>
-                                           {% if community_partner_form.country.errors %}
-                                                    {% for error in community_partner_form.country.errors %}
+                                             {% if community_partner_form.zip.errors %}
+                                                    {% for error in community_partner_form.zip.errors %}
                                                     <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                                     {% endfor %} {% endif %}
 
-                                        </div>
+                                                </div>
+
 
                                             </div>
 

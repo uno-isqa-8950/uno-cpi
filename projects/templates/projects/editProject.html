@@ -69,9 +69,11 @@
         margin-left: 10px;
          font-family: "Arial Narrow", sans-serif;
         font-size: 16px;
+        border-radius: 5px;
     }
     input[id=id_project_name]{
         margin-bottom: 0px;
+        border-radius: 5px;
     }
     .panel {
   margin-bottom: 20px;
@@ -191,6 +193,7 @@ label[for=id_campus-0-campus_partner]:after{
         margin-left: 8px;
         font-family: "Arial Narrow", sans-serif;
         font-size: 16px;
+          border-radius: 5px;
     }
     </style>
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
@@ -693,14 +696,14 @@ label[for=id_campus-0-campus_partner]:after{
                                             {% endfor %} {% endif %}
                                                 </div>
                                              <div class="row">
-                                              <label class="col-sm-4">Zip Code</label>
+                                              <label class="col-sm-4">Country</label>
                                             <div class="col-sm-7">
-                                            {{ project.zip }}
+                                            {{ project.country }}
                                             </div>
-                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
+                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
-                                                </div>
+                                        </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
@@ -712,15 +715,16 @@ label[for=id_campus-0-campus_partner]:after{
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
                                                 </div>
-                                                   <div class="row">
-                                              <label class="col-sm-4">Country</label>
+                                                  <div class="row">
+                                              <label class="col-sm-4">Zip Code</label>
                                             <div class="col-sm-7">
-                                            {{ project.country }}
+                                            {{ project.zip }}
                                             </div>
-                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
                                             <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
                                             {% endfor %} {% endif %}
-                                        </div>
+                                                </div>
+
 
 
                                             </div>
@@ -891,6 +895,10 @@ $('#update').show;
                 if( ($("#id_description").val() === '') ){
                     alert("Please Provide Description for the project.");
                     return false
+                }
+                if($('#otheracttype').val() !="" ){
+                    alert('Please Make Sure To Add The Other Activity Value');
+                    return false;
                 }
                  var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();

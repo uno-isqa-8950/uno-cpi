@@ -190,14 +190,16 @@ for (coll in Collegenames) {
                         mission_name = mission_obj.mission_area_name
                         // alert("mission_obj"+mission_name)
 
-                        res3 = {'from': camp, 'to': community.community_partner_name}
+                        res3 = {'from': camp, 'to': community.community_partner_name+"("+commps.length+")"}
                         // console.log("final",res3)
 
                         chart_data.push(res3)
                         node3 = {
-                            'id': community.community_partner_name,
+                            'id': community.community_partner_name+"("+commps.length+")",
                             'color': colorCodeObject[mission_name],
-                            'marker': {'symbol': 'circle'}
+                            'marker': {'symbol': 'circle',
+                            // 'radius': commps.length
+                            }
                         }
                         nodedata.push(node3)
                     }}
@@ -241,7 +243,9 @@ Highcharts.chart('container', {
                         text: titletext,
                     },
 
-
+                    box:{
+                        visibility: true
+                    }
 
         },
 

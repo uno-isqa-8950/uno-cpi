@@ -1524,10 +1524,14 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-    if(($("#id_project_name").val() === '') ||($("#id_academic_year").val() === '')){
-        alert("Please provide Project Name and Academic Year to save as Draft");
+    if(($("#id_project_name").val() === '') ){
+        alert("Please provide Project Name ");
         return false;
     }
+    if( ($("#id_academic_year").val() === '') ){
+            alert("Please Select Start Academic Year.");
+            return false
+        }
     if( ($("#id_engagement_type").val() === '') ){
             alert("Please Select Engagement type.");
             return false

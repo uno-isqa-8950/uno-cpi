@@ -25,10 +25,10 @@ label {
     font-weight: lighter;
 }
 
-.blackbutton{
-    border-radius: 8px;
-    margin: 8px;
-}
+/*.blackbutton{*/
+/*    border-radius: 8px;*/
+/*    margin: 8px;*/
+/*}*/
     @media (min-width:1200px)
 {
     .container{
@@ -243,10 +243,9 @@ document.getElementById('node1-id').innerHTML =
 
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><br><label style="margin-left: 0px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%"> ' +
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><label style="margin-left: px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%"> ' +
 '<col style: width="10%" span="4">' + '<th>Academic Year</th>' + '<th>Project Name</th>' +
                             '<th>Community Partner</th>' + '<th>Campus Partner</th>'
-
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
 
 

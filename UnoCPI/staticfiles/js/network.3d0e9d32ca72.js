@@ -190,16 +190,14 @@ for (coll in Collegenames) {
                         mission_name = mission_obj.mission_area_name
                         // alert("mission_obj"+mission_name)
 
-                        res3 = {'from': camp, 'to': community.community_partner_name+"("+commps.length+")"}
+                        res3 = {'from': camp, 'to': community.community_partner_name}
                         // console.log("final",res3)
 
                         chart_data.push(res3)
                         node3 = {
-                            'id': community.community_partner_name+"("+commps.length+")",
+                            'id': community.community_partner_name,
                             'color': colorCodeObject[mission_name],
-                            'marker': {'symbol': 'circle',
-                            // 'radius': commps.length
-                            }
+                            'marker': {'symbol': 'circle'}
                         }
                         nodedata.push(node3)
                     }}
@@ -215,17 +213,6 @@ if(chart_data.length===0){
     alert("Sorry, There are no Projects matching your selection criteria");
 }
 
- var titletext = "<span style='color:red'>▲College and Main Units</span>"+
-               "<span style='color: black'>▲Campus Partners</span>  "+" ● CommunityPartners Focus Areas: <br>"
-        var i;
-        for (i = 0; i < Missionarea.length; i++) {
-            var missionname = Missionarea[i]
-            var selectedcolor = colorCodeObject[Missionarea[i]]
-            titletext +=""+"<span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>"
-            ;
-
-        }
-
 Highcharts.chart('container', {
 
     chart: {
@@ -233,26 +220,19 @@ Highcharts.chart('container', {
         zoomType: 'xy'
     },
 // renderTo: 'container',
-    title:{
-        text:'.',
-        // align:right
-    },
-
-        legend: {
-                    title:{
-                        text: titletext,
-                    },
-
-                    box:{
-                        visibility: true
-                    }
-
+    title: {
+        text:'',
+        style: {
+            size: 100
         },
+        align: 'right',
+        floating:'false'
+    },
 
     plotOptions: {
         networkgraph: {
             turboThreshold: 0,
-            initialPositions: 'bottom',
+            initialPositions: 'top',
             cropThreshold:500,
             layoutAlgorithm: {
                 enableSimulation: false,
@@ -261,7 +241,18 @@ Highcharts.chart('container', {
             }
         },
     },
-
+    legend: {
+         layout: 'horizontal',
+        enabled: true,
+        align: 'right',
+            verticalAlign: 'bottom',
+            x: 10,
+            y: 50,
+            borderWidth: 1,
+            backgroundColor: '#FFFFFF',
+            shadow: 'true',
+        floating: true
+    },
     // responsive:{rules:[{condition:{maxWidth:500},
     // chartOptions:{ legend :{ layout:"horizontal",align:"center",verticalAlign:"bottom"}}}]},
 
@@ -275,7 +266,47 @@ Highcharts.chart('container', {
         },
         data: chart_data,
         nodes:nodedata,
-        visibility:true,
+  visible:true
+        // showInLegend:'true'
     },
     ]
-})
+},function(chart) { // on complete
+
+
+        var titletext = "<span style='color:red'>▲College and Main Units</span>"+
+               "<br><span style='color: black'>▲Campus Partners</span>  "+"<br> ● Community Partner  Mission Areas:"
+        var i;
+        for (i = 0; i < Missionarea.length; i++) {
+            var missionname = Missionarea[i]
+            var selectedcolor = colorCodeObject[Missionarea[i]]
+            titletext += " "+"<span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>";
+        }
+// alert(titletext);
+        chart.update({
+            legend: {
+                title: {
+                    text: titletext,
+                },
+                visible: true,
+            },
+
+        })
+
+    // chart.renderer.rect(95, 95, 1200,46, 2)
+    //   .attr({
+    //     'stroke-width': 1,
+    //       x:0.5,
+    //       y:0.5,
+    //       width:862,
+    //       height:46,
+    //       // visibility:visible,
+    //     stroke: '#999999',
+    //     fill: '#FFFFFF',
+    //     zIndex: 4
+    //   })
+    //   .add();
+
+    }
+
+);
+

@@ -166,7 +166,7 @@ class MissionSubCategory (models.Model):
 
 class ProjectSubCategory (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE)
+    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE,blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
     history = HistoricalRecords()
@@ -200,7 +200,7 @@ class ProjectMission (models.Model):
     )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20, choices=mission_choices)
-    mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
+    mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE,blank=True, null=True)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -209,7 +209,7 @@ class ProjectMission (models.Model):
 
 class ProjectCommunityPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE)
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True)
     total_people = models.IntegerField(blank=True, null=True)
     wages = models.IntegerField(default=22)
@@ -221,7 +221,7 @@ class ProjectCommunityPartner (models.Model):
 
 class ProjectCampusPartner (models.Model):
     project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE,blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True, default=0)
     total_people = models.IntegerField(blank=True, null=True, default=0)
     wages = models.IntegerField(blank=True, null=True)

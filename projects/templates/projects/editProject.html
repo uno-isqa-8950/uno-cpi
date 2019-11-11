@@ -590,7 +590,7 @@ label[for=id_campus-0-campus_partner]:after{
                 <div class="col-md-3">
                     <label>
 <!--                                 Primary Project Mission Area -->
-                        Primary Focus Area
+                        Focus Area
                         <span style="color:red;">*</span>
 
                     </label>
@@ -631,10 +631,10 @@ label[for=id_campus-0-campus_partner]:after{
   <div class="row"><br><br></div>
                                                             <div class="row" id="othersubinput">
                                                     <div class="col-md-3">
-                                                        <label style="padding-top: 10px">Other Sub Category</label>
+                                                        <label style="padding-top: 10px">Other Topics</label>
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Sub Categories">
+                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics">
                                                     </div>
 
                                                     <div class="col-md-1">
@@ -965,7 +965,7 @@ $('#update').show;
             return false;
         }
                 if ($("#id_mission_edit-0-mission").val() == '') {
-                    alert("Please provide Mission area before proceeding.");
+                    alert("Please provide Focus Area before proceeding.");
                     return false;
                 } else {
                     $('.sw-btn-prev').show();
@@ -1107,14 +1107,14 @@ var str = "";
 var name =  $('.subcat > h6.finalcat').length;
 //alert(name);
 if(name === 10) {
-            alert("Only Upto 10 Sub Categories are allowed");
+            alert("Only Upto 10 Topics are allowed");
                 $('#othersubcat').val('');
             return false;
         }
 else {
     var disp = $('#othersubcat').val();
     if (disp === "") {
-        alert("Please enter the Sub Category")
+        alert("Please enter topic name")
     } else {
         var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
         $("#displaysub").append(html);

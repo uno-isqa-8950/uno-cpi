@@ -27,7 +27,7 @@ urlpatterns = [
     url(r'^saveProjectAndRegister/$',views.saveProjectAndRegister, name='saveProjectAndRegister'),
     path('myDrafts/', views.myDrafts, name='myDrafts'),
     url(r'^project/(?P<pk>\d+)/delete/$', views.drafts_delete, name='drafts_delete'),
-	path('stream_response/', views.stream_response, name='stream_response'),
+	
 
 
 ]

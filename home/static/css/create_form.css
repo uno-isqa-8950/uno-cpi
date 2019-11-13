@@ -136,6 +136,7 @@ label[for=id_campus-0-campus_partner]:after{
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
+        border-radius: 8px;
       }
       .redbutton:hover{
           text-decoration: underline;
@@ -155,6 +156,7 @@ label[for=id_campus-0-campus_partner]:after{
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
+          border-radius: 8px;
       }
       .blackbutton:hover{
           text-decoration: underline;
@@ -176,6 +178,7 @@ label[for=id_campus-0-campus_partner]:after{
   -webkit-transition-duration: 0.4s;
   transition-duration: 0.4s;
   cursor: pointer;
+             border-radius: 8px;
       }
       .addbutton:hover{
           text-decoration: underline;

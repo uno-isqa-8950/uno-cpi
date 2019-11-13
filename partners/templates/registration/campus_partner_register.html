@@ -321,7 +321,7 @@
             <div class="col-lg-12 col-md-12">
                 <div class = "panel panel-default">
                     <div class="panel-heading text-center">
-                        <h4 style="margin:auto;padding: 13px">Register: Campus Partner</h4>
+                        <h4 style="margin:auto;padding: 13px">Campus Partner Registration</h4>
                     </div>
 
                     <div class="panel-body">
@@ -966,16 +966,22 @@ $(document).ready(function() {
             }
          $('#submit').show();
             $('#termsdiv').show();
+            $('.sw-btn-prev').show();
+    $('.sw-btn-next').hide();
 
         }
 if (stepDirection === 'backward') {
             $('#submit').hide();
             $('#termsdiv').hide();
+            $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
         }
         return true;
     });
         $('#submit').hide();
         $('#termsdiv').hide();
+        $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
 
     $(".collapse.show").each(function(){
         $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");

@@ -2402,10 +2402,51 @@ def communityPublicReport(request):
         campus_partner_cond = campus_partner_filter
         campus_id = int(campus_partner_filter)
 
-    params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
-    print ("params", params)
-    cursor = connection.cursor()
-    cursor.execute(sql.community_public_report, params)
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
+        cec_part_selection = cec_part_init_selection
+        cec_part_cond = '%'
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                 legislative_district_cond, college_unit_cond]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_report, params)
+        # cursor.execute(sql.projects_report, [project_ids])
+    elif cec_part_selection == "CURR_COMM":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_cec_curr_comm_report, params)
+    elif cec_part_selection == "FORMER_COMM":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_cec_former_comm_report, params)
+    elif cec_part_selection == "FORMER_CAMP":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_cec_former_camp_report, params)
+    elif cec_part_selection == "CURR_CAMP":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_cec_curr_camp_report, params)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
+    # params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
+    # print ("params", params)
+    # cursor = connection.cursor()
+    # cursor.execute(sql.community_public_report, params)
 
     for obj in cursor.fetchall():
         data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3]})
@@ -2418,7 +2459,8 @@ def communityPublicReport(request):
                                                                  'communityData': data_list,
                                                                  # 'missions': missions,
                                                                  'data_definition':data_definition,
-                                                                 'campus_id':campus_id})
+                                                                 'campus_id':campus_id,
+                                                                 'cec_part_choices': cec_part_choices})
 
 
 
@@ -2590,9 +2632,51 @@ def communityPrivateReport(request):
         campus_partner_cond = campus_partner_filter
         campus_id = int(campus_partner_filter)
 
-    params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
-    print ("params", params)
-    cursor = connection.cursor()
+    # params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
+    # print ("params", params)
+    # cursor = connection.cursor()
+
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
+        cec_part_selection = cec_part_init_selection
+        cec_part_cond = '%'
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_private_report, params)
+        # cursor.execute(sql.projects_report, [project_ids])
+    elif cec_part_selection == "CURR_COMM":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_private_cec_curr_comm_report, params)
+    elif cec_part_selection == "FORMER_COMM":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond , cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_private_cec_former_comm_report, params)
+    elif cec_part_selection == "FORMER_CAMP":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond , cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_private_cec_former_camp_report, params)
+    elif cec_part_selection == "CURR_CAMP":
+        cec_start_acad_year = academic_start_year_cond
+        cec_end_acad_year = academic_end_year_cond
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_private_cec_curr_camp_report, params)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
     if comm_ids is not None:
         if comm_ids.find(",") != -1:
             comm_list = comm_ids.split(",")
@@ -2603,13 +2687,13 @@ def communityPrivateReport(request):
             params.append(str(comm_ids))
             print('params-222-',params)
             cursor.execute(sql.selected_One_community_private_report, params)
-    else:
-        cursor.execute(sql.community_private_report, params)
+    # else:
+    #     cursor.execute(sql.community_private_report, params)
     # cursor.execute(sql.projects_report, [project_ids])
 
     for obj in cursor.fetchall():
         data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
-                          "unostudentshours": obj[4], "website": obj[5]})
+                          "unostudentshours": obj[4], "website": obj[5], "projectID": obj[6], "CommStatus": obj[7]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
@@ -2617,7 +2701,7 @@ def communityPrivateReport(request):
                                                                  'community_list': community_list,
                                                                  'communityData': data_list,
                                                                  # 'missions': missions,
-                                                                   'campus_filter': campus_project_filter, 'campus_id':campus_id})
+                                                                   'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
 
 
 def communityfromMissionReport(request, pk):

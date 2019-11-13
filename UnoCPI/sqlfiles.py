@@ -941,6 +941,8 @@ select pc.name commpartners
   ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
   ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
   , pc.website_url website
+  , array_agg(distinct p.id) ProjectID
+  , pc.partner_status_id CommStatus
 from partners_communitypartner pc 
 left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
 left join projects_project p on p.id = pcp.project_name_id
@@ -948,6 +950,7 @@ left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
 left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id and ps.name = 'Expired'
 where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
@@ -955,8 +958,131 @@ where pc.community_type_id::text like %s
  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s      
 
-group by commpartners, website
+group by commpartners, website, CommStatus
 order by commpartners;"""
+
+
+community_private_cec_curr_comm_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
+  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  , pc.website_url website
+  , array_agg(distinct p.id) ProjectID
+  , pc.partner_status_id CommStatus
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id and ps.name = 'Expired'
+left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id 
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and ((cec.start_acad_year_id <= %s) AND
+        (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))      
+
+group by commpartners, website, CommStatus
+order by commpartners;"""
+
+
+community_private_cec_former_comm_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
+  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  , pc.website_url website
+  , array_agg(distinct p.id) ProjectID
+  , pc.partner_status_id CommStatus
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id and ps.name = 'Expired'
+left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id 
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and cec.end_acad_year_id < %s     
+
+group by commpartners, website, CommStatus
+order by commpartners;"""
+
+
+community_private_cec_former_camp_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
+  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  , pc.website_url website
+  , array_agg(distinct p.id) ProjectID
+  , pc.partner_status_id CommStatus
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id and ps.name = 'Expired'
+left join partners_cecpartactiveyrs cec on cec.camp_partner_id = c.id 
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and cec.end_acad_year_id < %s     
+
+group by commpartners, website, CommStatus
+order by commpartners;"""
+
+
+community_private_cec_curr_camp_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
+  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  , pc.website_url website
+  , array_agg(distinct p.id) ProjectID
+  , pc.partner_status_id CommStatus
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id and ps.name = 'Expired'
+left join partners_cecpartactiveyrs cec on cec.camp_partner_id = c.id 
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and ((cec.start_acad_year_id <= %s) AND
+        (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))    
+
+group by commpartners, website, CommStatus
+order by commpartners;"""
+
 
 selected_community_private_report = """
 select pc.name commpartners
@@ -1028,6 +1154,112 @@ where pc.community_type_id::text like %s
  and  pcam.campus_partner_id::text like %s  
  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s      
+
+group by commpartners, website
+order by commpartners;
+"""
+
+
+community_public_cec_curr_comm_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  , pc.website_url website
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id  
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and ((cec.start_acad_year_id <= %s) AND
+        (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))       
+
+group by commpartners, website
+order by commpartners;
+"""
+
+
+community_public_cec_former_comm_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  , pc.website_url website
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id  
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and cec.end_acad_year_id < %s       
+
+group by commpartners, website
+order by commpartners;
+"""
+
+
+community_public_cec_former_camp_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  , pc.website_url website
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_cecpartactiveyrs cec on cec.camp_partner_id = c.id  
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and cec.end_acad_year_id < %s      
+
+group by commpartners, website
+order by commpartners;
+"""
+
+
+community_public_cec_curr_camp_report = """
+select pc.name commpartners
+  ,array_agg(distinct hm.mission_name) mission
+  ,COALESCE (count(distinct p.project_name),0) Projects
+  , pc.website_url website
+from partners_communitypartner pc 
+left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+left join projects_project p on p.id = pcp.project_name_id
+left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
+left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
+left join home_missionarea hm on hm.id = CommMission.mission_area_id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
+left join partners_cecpartactiveyrs cec on cec.camp_partner_id = c.id  
+where pc.community_type_id::text like %s
+ and((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+ and  pcam.campus_partner_id::text like %s  
+ and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
+ and c.college_name_id::text like %s
+ and ((cec.start_acad_year_id <= %s) AND
+        (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))        
 
 group by commpartners, website
 order by commpartners;

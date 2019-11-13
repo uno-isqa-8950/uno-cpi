@@ -102,12 +102,11 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endif %}
                     {% endfor %}
                 </label>
-                <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                        {{weitz_cec_part}}
-                    {% endfor %}
-                </select>
+                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
+                    </select>
             </div>
             <div class="col-lg-4 col-md-5 form-group">
                 <label for="college_name"> Colleges and Main Units

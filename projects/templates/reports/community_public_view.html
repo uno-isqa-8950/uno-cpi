@@ -2,8 +2,11 @@
 {% load staticfiles %}
 {% block content %}
     {% load wagtailcore_tags register_tags %}
-<link href="{% static 'css/base.css' %}" rel="stylesheet" type="text/css">
 
+<style>
+  A.class1 {color:#b60000;}
+A.class1:link  {text-decoration: underline; color: #b60000;}
+</style>
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -144,7 +147,7 @@
                     {% endfor %}
                 </select>
             </div>
-            <div class="col-lg-3 col-md-5 form-group ">
+            <div class="col-lg-4 col-md-5 form-group ">
 
                 <label >Legislative Districts
 
@@ -197,14 +200,19 @@
                         {% endif %}
                     {% endfor %}
                 </th>
+                
             </tr>
         </thead>
             <tbody>
-            {% for community in community_list %}
+            {% for community in communityData %}
             <tr>
                 <td>{{community.community_name}}</td>
-                <td>{% for mission in community.community_mission %}{{ mission }}<br>{% endfor %}</td>
+                <td>{% for mission in community.community_mission %}
+                    {% if mission is not None %}{{ mission }}<br>
+                    {% endif %}
+                    {% endfor %}</td>
                 <td>{{community.project_count}}</td>
+                
             </tr>
             {% endfor %}
             </tbody>
@@ -237,7 +245,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'Current Academic Years',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
     $('#id_legislative_value').select2({width: '75%'});
     $('#id_mission').select2({

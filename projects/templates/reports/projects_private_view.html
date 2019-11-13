@@ -155,11 +155,16 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                        {{weitz_cec_part}}
-                    {% endfor %}
+                        {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
                     </select>
+{#                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">#}
+{#                        <option> All </option>#}
+{#                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}#}
+{#                        {{weitz_cec_part}}#}
+{#                    {% endfor %}#}
+{#                    </select>#}
                     {%  comment %}
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>
@@ -257,7 +262,7 @@
                 <th>Engagement Types</th>
                 <th>Number of UNO Students</th>
                 <th>Number of UNO Students Hours</th>
-                <th>Economic Impact</th>
+{#                <th>Economic Impact</th>#}
 
             </tr>
             </thead>
@@ -288,7 +293,7 @@
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_uno_students}}</td>
                 <td>{{project.total_hours}}</td>
-                <td>{{project.economic_impact}}</td>
+{#                <td>{{project.economic_impact}}</td>#}
             </tr>
             {% endfor %}
             </tbody>

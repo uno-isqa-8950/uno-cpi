@@ -5,9 +5,9 @@
 {% block content %}
 
 <style>
-.card-header {
-    background-color: rgba(0,0,0,0);
-}
+    .card-header {
+        background-color: rgba(0,0,0,0);
+    }
     .accordion .card-header:after {
         font-family: 'FontAwesome';
         content: "\f068";
@@ -63,64 +63,64 @@
     }
 
     input[type=text], [type=password], [type=email], [type=url] {
-    width: 30%;
-    color: #444;
-    border: 2px solid #aaa;
-    border-radius: 4px;
-    line-height: 28px;
-    display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    margin: 10px 0 8px 4px;
-    margin-top: 10px;
-    margin-right: 0px;
-    margin-bottom: 8px;
-    margin-left: 22px;
-    padding-left: 8px;
-    padding-right: 20px;
-    font-size: 16px;
-    font-family: "Arial Narrow", sans-serif;
-    box-sizing: border-box;
-    margin-left: 12px;
-    margin: 10px 0 8px 4px;
-    outline: none;
-    box-sizing: border-box;
-    transition: .3s;
+        width: 30%;
+        color: #444;
+        border: 2px solid #aaa;
+        border-radius: 4px;
+        line-height: 28px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 10px 0 8px 4px;
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-bottom: 8px;
+        margin-left: 22px;
+        padding-left: 8px;
+        padding-right: 20px;
+        font-size: 16px;
+        font-family: "Arial Narrow", sans-serif;
+        box-sizing: border-box;
+        margin-left: 12px;
+        margin: 10px 0 8px 4px;
+        outline: none;
+        box-sizing: border-box;
+        transition: .3s;
 
 
 
-}
-.button-row-elements
-{
-    width: 100%;
-    float: left;
-}
-.button-row-elements button{
-    display:inline-block;
-}
-#Searchboxtext{
-    float:right;
-}
+    }
+    .button-row-elements
+    {
+        width: 100%;
+        float: left;
+    }
+    .button-row-elements button{
+        display:inline-block;
+    }
+    #Searchboxtext{
+        float:right;
+    }
 
-.filter-card{
-   border-top-color: rgba(0, 0, 0, 0.12);
-    border-top-style: solid;
-    border-top-width: 1px;
-    border-right-color: rgba(0, 0, 0, 0.12);
-    border-right-style: solid;
-    border-right-width: 1px;
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-left-color: rgba(0, 0, 0, 0.12);
-    border-left-style: solid;
-    border-left-width: 1px;
+    .filter-card{
+        border-top-color: rgba(0, 0, 0, 0.12);
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-right-color: rgba(0, 0, 0, 0.12);
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-bottom-color: rgba(0, 0, 0, 0.12);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-left-color: rgba(0, 0, 0, 0.12);
+        border-left-style: solid;
+        border-left-width: 1px;
 
-}
-.text-snippet{
-    text-align: left;
-}
+    }
+    .text-snippet{
+        text-align: left;
+    }
     .snippet-card{
         margin-top: 20px;
         padding-top:10px;
@@ -139,24 +139,46 @@
     }
 
     .media-body{
-            width: 100%;
-    float: left;
+        width: 100%;
+        float: left;
     }
     #academic_year{
         float:right;
     }
     .card-toptext{
-           width: 100%;
-    float: left;
+        width: 100%;
+        float: left;
         padding-bottom: 10px;
     }
+    .flex-container {
+        display: flex;
+        justify-content: space-around;
+        background-color: #FFFFFF;
 
+    }
+
+    .flex-container > div {
+        background-color: #FFFFFF;
+        width: 100%;
+        text-align: left;
+        line-height: 75px;
+        font-size: 15px;
+        flex-wrap:wrap;
+    }
+    .media-heading{
+        line-height: 0.1 !important;
+    }
 </style>
 
 
+
 <br>
 <br>
 <br>
+
+
+
+
 
 <div class=" text-center"><h4 class="heading">All Projects</h4></div>
 <div class="card snippet-card">
@@ -395,13 +417,30 @@
                             </h6>
                             </div>
 
-
-                            <h4 class="media-heading projectname" >
+                            <div class="projectname">
+                            <h4 class="media-heading " >
                                 {{ project.name }}
                             </h4>
+                                </div>
+
+                            <div class="flex-container">
+  <div style="width: 100%">
+      <b> Community Partner: </b>
+
+      {% for comm_part in project.comm_part %} {{comm_part}}, {% endfor %}
 
 
+  </div>
+  <div style="width: 100%"><b>Campus Partners:</b>
+  {% for camp_part in project.camp_part %} {{camp_part}}, {% endfor %}
+      Test2
+      test3
+      test 4
+      test 5
 
+  </div>
+
+</div>
 
                             </p></div>
                     </div>

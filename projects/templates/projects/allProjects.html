@@ -156,18 +156,24 @@
         background-color: #FFFFFF;
 
     }
+  .flex-container p{
+       line-height: 0px !important;
+   }
 
     .flex-container > div {
         background-color: #FFFFFF;
         width: 100%;
         text-align: left;
-        line-height: 75px;
+        line-height: 30px;
         font-size: 15px;
         flex-wrap:wrap;
+        padding-top: 25px;
     }
     .media-heading{
         line-height: 0.1 !important;
     }
+
+
 </style>
 
 
@@ -425,18 +431,22 @@
 
                             <div class="flex-container">
   <div style="width: 100%">
-      <b> Community Partner: </b>
+      <p><b> Community Partner: </b> </p>
 
-      {% for comm_part in project.comm_part %} {{comm_part}}, {% endfor %}
+      {% for comm_part in project.comm_part %} <p>{{comm_part}}</p> {% endfor %}
+      <p>Common Seed Soil Library</p> <p>Omaha Public Library (OPL)</p><p>Douglas County Department of Health & Human Services</p><p>ENSLAVED: An Exhibition of Modern Day Slavery
+      </p>  <p>	Learning Community Center of South Omaha </p>
 
 
   </div>
-  <div style="width: 100%"><b>Campus Partners:</b>
-  {% for camp_part in project.camp_part %} {{camp_part}}, {% endfor %}
-      Test2
-      test3
-      test 4
-      test 5
+  <div style="width: 100%">
+      <p><b>Campus Partners:</b></p>
+      {% for camp_part in project.camp_part %} <p>{{camp_part}}</p> {% endfor %}
+       <p>Common Seed Soil Library</p> <p>Omaha Public Library (OPL)</p><p>Douglas County Department of Health & Human Services</p><p>ENSLAVED: An Exhibition of Modern Day Slavery
+      </p>  <p>	Learning Community Center of South Omaha </p>
+      <p>Mayor's Commission for Citizens with Disabilities (MCCD)</p>
+      <p>Mayor's Commission for Citizens with Disabilities (MCCD)</p>
+
 
   </div>
 

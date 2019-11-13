@@ -25,10 +25,10 @@ label {
     font-weight: lighter;
 }
 
-/*.blackbutton{*/
-/*    border-radius: 8px;*/
-/*    margin: 8px;*/
-/*}*/
+.blackbutton{
+    border-radius: 8px;
+    margin: 8px;
+}
     @media (min-width:1200px)
 {
     .container{
@@ -161,7 +161,6 @@ label {
                    <thead>
                         <col style: width="10%" span="4">
                              {% if data_list.length >= 0 %}
-
                          <tr id="tablerow" >
                           <th >Academic Year
                            {% for data_definition in data_definition %}
@@ -228,7 +227,7 @@ label {
 <script>
 document.getElementById('node1-id').innerHTML =
                             '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
-                            ' All Projects</a></td></tr>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%"> ' +
+                            ' All Projects</a></td></tr>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%;border-collapse: separate"> ' +
 '<col style: width="10%" span="4">' + '<th>Academic Year</th>' + '<th>Project Name</th>' +
                             '<th>Community Partner</th>' + '<th>Campus Partner</th>'
 
@@ -243,12 +242,10 @@ document.getElementById('node1-id').innerHTML =
 
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><label style="margin-left: px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%"> ' +
-'<col style: width="10%" span="4">' + '<th>Academic Year</th>' + '<th>Project Name</th>' +
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><label style="margin-left: 0px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>' + '<table class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width: 100%;border-collapse: separate"> ' +
+'<col style: width="10%" span="4">'  + '<th>Academic Year</th>' + '<th>Project Name</th>' +
                             '<th>Community Partner</th>' + '<th>Campus Partner</th>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-
-
         </script>
 
 
@@ -259,7 +256,7 @@ document.getElementById('node1-id').innerHTML =
         <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr>' +'<br><br><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr>' +'<br><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
 
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
@@ -311,24 +308,11 @@ $(document).on('input', '.clearable', function(){
         $('#lnk-create_project').click(function(){
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<br>' +
                             '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
        });
 </script>
-
-<script>
-      function  tabledisplay() {
-    document.getElementById("tablerows");
-    if tabledisplay().le
-    {
-        style
-    }
-    alert("Fdf");
-    return false
-        }
-        </script>
 
 <script>
      $(function () {

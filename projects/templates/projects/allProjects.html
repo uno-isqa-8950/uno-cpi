@@ -5,11 +5,13 @@
 {% block content %}
 
 <style>
-
+.card-header {
+    background-color: rgba(0,0,0,0);
+}
     .accordion .card-header:after {
         font-family: 'FontAwesome';
         content: "\f068";
-        float: right;
+        margin-left: 138px;
     }
 
     .accordion .card-header.collapsed:after {
@@ -34,7 +36,8 @@
         margin-bottom: 8px;
     }
     .heading{
-        color:white;
+        color:black;
+        font-size: 30px;
     }
 
     @media (min-width: 1200px) {
@@ -55,6 +58,98 @@
         transition:.3s;
         margin-left: 22px;
     }
+    body{
+        background-color: rgba(0,0,0,.03);
+    }
+
+    input[type=text], [type=password], [type=email], [type=url] {
+    width: 30%;
+    color: #444;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    line-height: 28px;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 10px 0 8px 4px;
+    margin-top: 10px;
+    margin-right: 0px;
+    margin-bottom: 8px;
+    margin-left: 22px;
+    padding-left: 8px;
+    padding-right: 20px;
+    font-size: 16px;
+    font-family: "Arial Narrow", sans-serif;
+    box-sizing: border-box;
+    margin-left: 12px;
+    margin: 10px 0 8px 4px;
+    outline: none;
+    box-sizing: border-box;
+    transition: .3s;
+
+
+
+}
+.button-row-elements
+{
+    width: 100%;
+    float: left;
+}
+.button-row-elements button{
+    display:inline-block;
+}
+#Searchboxtext{
+    float:right;
+}
+
+.filter-card{
+   border-top-color: rgba(0, 0, 0, 0.12);
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-right-color: rgba(0, 0, 0, 0.12);
+    border-right-style: solid;
+    border-right-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-left-color: rgba(0, 0, 0, 0.12);
+    border-left-style: solid;
+    border-left-width: 1px;
+
+}
+.text-snippet{
+    text-align: left;
+}
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+
+    }
+
+    .projectname{
+        line-height: 0 !important;
+    }
+
+    .media-body{
+            width: 100%;
+    float: left;
+    }
+    #academic_year{
+        float:right;
+    }
+    .card-toptext{
+           width: 100%;
+    float: left;
+        padding-bottom: 10px;
+    }
 
 </style>
 
@@ -63,14 +158,22 @@
 <br>
 <br>
 
-<div class="panel-heading text-center"><h4 class="heading">All Projects</h4></div>&emsp;
+<div class=" text-center"><h4 class="heading">All Projects</h4></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        This is a list of all community engagement projects associated with your campus-based or community organization. Authorized users can click on the 'Edit' button to add project-level data
+    <!--{% all_projects %}-->
+    </div>
+</div>
 
 <div class="container-fluid">
-    <div>
+
+
+    <div class="container button-row-elements">
 
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
 
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
@@ -85,12 +188,13 @@
                 false
             );
         </script>
-
-        <span style="float: right"><input type="text" id="text" placeholder="Search..."></span>
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-primary" onclick="window.location.href = '/all-projects-table-project'; " value="Table View" >
+       <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
+       <input type="text" id="Searchboxtext" placeholder="Search...">
 
     </div>
 
-    <div class="card" style="border: 2px solid #C3C3C3;">
+    <div class="card filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -264,6 +368,8 @@
 
     <div id="accordion" class="accordion">
         {% for project in project %}
+
+
         <div class="card mb-0 projectcard">
 
 
@@ -277,18 +383,24 @@
                             <div class="logo-frame" style="padding-right: 10px;">
                                 <img src="https://local-karthik.s3.us-east-2.amazonaws.com/educational-support.jpg" alt="Card image cap"
                                      class="logo"
-                                     width="150" height="150" alt="">
+                                     width="130" height="130" alt="">
                             </div>
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">
+                            <div class="card-toptext">
+                            {% for projmisn in project.projmisn %}
+                            <h6 class="media-subheading" >
+                                {{ projmisn}}{% endfor %}
+                                <span id="academic_year">{{ project.academic_year }}</span>
+                            </h6>
+                            </div>
+
+
+                            <h4 class="media-heading projectname" >
                                 {{ project.name }}
                             </h4>
 
-                            {% for projmisn in project.projmisn %}
-                            <h5 class="media-subheading">
-                                {{ projmisn}}<br> <br>{% endfor %}
-                            </h5>
+
 
 
                             </p></div>

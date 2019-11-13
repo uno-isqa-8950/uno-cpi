@@ -463,7 +463,7 @@ def project_partner_info(request):
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
-        subcategory_count= MissionSubcategory.objects.filter(mission_area_id=m.id).filter(mission_type='Primary')
+
 
         a = request.GET.get('engagement_type', None)
         b = request.GET.get('academic_year', None)

@@ -949,6 +949,18 @@ def showAllProjects(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
+@login_required()
+def showAllProjectsTable(request):
+    data_definition=DataDefinition.objects.all()
+    projects_list=[]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql)
+    for obj in cursor.fetchall():
+         projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
+                              "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
+                              "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
+                              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+    return render(request, 'projects/allProjectsTable.html', {'project': projects_list, 'data_definition':data_definition})
 
 
 

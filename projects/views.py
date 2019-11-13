@@ -2449,7 +2449,7 @@ def communityPublicReport(request):
     # cursor.execute(sql.community_public_report, params)
 
     for obj in cursor.fetchall():
-        data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3]})
+        data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3], "CommStatus": obj[4]})
 
     return render(request, 'reports/community_public_view.html', { 'college_filter': college_partner_filter, 'campus_filter': campus_project_filter,
                                                                 'project_filter': project_filter,

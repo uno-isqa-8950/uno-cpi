@@ -47,27 +47,6 @@
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
-
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="engagement_type"> Engagement Type
-                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for engagement in projects.form.engagement_type %}
-                            {{engagement}}
-                        {% endfor %}
-                    </select>
-                </div>
-
-
                 <div class="col-lg-4 col-md-5 form-group">
 
                     <label for="academic_year"> Academic Years
@@ -102,6 +81,24 @@
                         <option> All </option>
                         {% for mission in missions.form.mission %}
                             {{mission}}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+
+                    <label for="engagement_type"> Engagement Type
+                         {% for data_definition in data_definition %}
+                            {% if data_definition.id == 31%}
+                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                      data-content="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    </label>
+                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for engagement in projects.form.engagement_type %}
+                            {{engagement}}
                         {% endfor %}
                     </select>
                 </div>
@@ -144,7 +141,7 @@
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="weitz_cec_part"> CEC Community Building Partners
+                    <label for="weitz_cec_part"> CEC Building Partners
 
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
@@ -155,11 +152,11 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                        {{weitz_cec_part}}
-                    {% endfor %}
+                        {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
                     </select>
+
                     {%  comment %}
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>
@@ -172,7 +169,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="community_type"> Community Partner Types
+                    <label for="community_type"> Community  Organization Type
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -206,25 +203,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-4 col-md-5 form-group ">
-
-                    <label >Legislative Districts
-    
-                        {% for data_definition in data_definition %}
-                        {% if data_definition.id == 52%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                            data-content="{{ data_definition.description }}" class="float">
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
-                        {% for item in legislative_choices %}
-                        <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
-                       <!-- <option> {{legislative_value}} </option>-->
-                        {% endfor %}
-                    </select>
-                </div>
+              
                 {% comment %}
                 <div class="col-lg-3 col-md-5 form-group">
                     <label for="id_legislative_district"> Legislative District : </label>
@@ -257,7 +236,7 @@
                 <th>Engagement Types</th>
                 <th>Number of UNO Students</th>
                 <th>Number of UNO Students Hours</th>
-                <th>Economic Impact</th>
+{#                <th>Economic Impact</th>#}
 
             </tr>
             </thead>
@@ -288,7 +267,7 @@
                 <td>{{project.engagementType}}</td>
                 <td>{{project.total_uno_students}}</td>
                 <td>{{project.total_hours}}</td>
-                <td>{{project.economic_impact}}</td>
+{#                <td>{{project.economic_impact}}</td>#}
             </tr>
             {% endfor %}
             </tbody>
@@ -330,7 +309,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '75%',
+    $('#id_community_type').select2({placeholder: 'All Community Organization Type',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

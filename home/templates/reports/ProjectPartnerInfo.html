@@ -253,7 +253,7 @@
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}
-                                    {% else %}<a href="{% url 'communityprivatereport' %}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a>
+                                    {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a>
                                     {% endif %}</td>
                                 <td>
                                     {% if  m.project_count  < 1 %}

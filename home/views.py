@@ -66,6 +66,18 @@ ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
 s3 = boto3.resource('s3',
          aws_access_key_id=ACCESS_ID,
          aws_secret_access_key= ACCESS_KEY)
+
+# Read JSON files for charts
+charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+
+
 #read Partner.geojson from s3
 content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
 partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
@@ -891,12 +903,9 @@ def partnershipintensity(request):
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
-    community_json = open('home/static/charts_json/community_partners.json')
-    CommunityPartners = json.load(community_json)
-    projects = open('home/static/charts_json/projects.json')
-    Projects = json.load(projects)
-    campus_json = open('home/static/charts_json/campus_partners.json')
-    CampusPartners = json.load(campus_json)
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/partnershipintensity.html',
                   {'data_definition': data_definition, 'project_filter': project_filter,
@@ -955,12 +964,9 @@ def trendreport(request):
         res = {'id': y.id, 'name': y.academic_year}
         yearList.append(res)
 
-    community_json = open('home/static/charts_json/community_partners.json')
-    CommunityPartners = json.load(community_json)
-    projects = open('home/static/charts_json/projects.json')
-    Projects = json.load(projects)
-    campus_json = open('home/static/charts_json/campus_partners.json')
-    CampusPartners = json.load(campus_json)
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/trendreport.html',
                   { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
@@ -1353,16 +1359,18 @@ def issueaddress(request):
     for sc in subcategory:
         subcats.append(sc.sub_category)
     yrs = []
+    yrid=[]
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
-        yrs.append(e.id)
-    max_yr_id = max(yrs)
-    min_yr_id = min(yrs)
+        yrs.append(e.academic_year)
+        yrid.append(e.id)
+    max_yr_id = max(yrid)
+    min_yr_id = min(yrid)
     # max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
-    # max_year=max_yr[0]
-    # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id-1))]
-    # min_year=min_yr[0]
-    # print(" min yaer",min_yr," ma yaer ",max_yr)
+    max_year=yrs[len(yrs)-1]
+    # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=(max_yr_id-1)))]
+    min_year=yrs[len(yrs)-2]
+    print(" min yaer",min_year," ma yaer ",max_year)
 
 
     b = request.GET.get('academic_year', None)
@@ -1665,8 +1673,8 @@ def issueaddress(request):
                        'to_project_filter': to_project_filter,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id})
-    # ,'max_year':max_year,'min_year':min_year})
+                       'college_filter': college_filter, 'campus_id': campus_id
+                        ,'max_year':max_year,'min_year':min_year})
 
 
 
@@ -1677,13 +1685,17 @@ def chartjsons():
     #
     # district = geojson["features"]
     campus_partner=open('home/static/charts_json/campus_partners.json')
-    campus_partner_json=json.load(campus_partner)
+    # campus_partner_json=json.load(charts_campuses)
+    campus_partner_json = json.load(campus_partner)#local
     community_partner = open('home/static/charts_json/community_partners.json')
-    community_partner_json = json.load(community_partner)
+    # community_partner_json = json.load(charts_communities)
+    community_partner_json = json.load(community_partner)#local
     mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
-    mission_subcategories_json = json.load(mission_subcategories)
+    # mission_subcategories_json = json.load(charts_missions)
+    mission_subcategories_json = json.load(mission_subcategories)#local
     projects =open ('home/static/charts_json/projects.json')
-    projects_json = json.load(projects)
+    # projects_json = json.load(charts_projects)
+    projects_json = json.load(projects)#local
     return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
 
 
@@ -1707,14 +1719,14 @@ def networkanalysis(request):
     max_year = max_yr[0]
 
     mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
-    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.order_by('academic_year'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     # campus_partner_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
-    print("campus_partner_filter",campus_filter)
+    # print("campus_partner_filter",campus_filter)
     k12_selection = request.GET.get('k12_flag', None)
     k12_init_selection = "All"
     if k12_selection is None:

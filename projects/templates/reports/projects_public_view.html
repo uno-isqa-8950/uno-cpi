@@ -153,9 +153,11 @@
                         {% endfor %}
                     </label>
                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        {% for cec_choice in cec_part_choices.cec_choice %}
-                            {{ cec_choice }}
-                        {% endfor %}
+                    <option> All </option>
+                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
+                        {{weitz_cec_part}}
+                    {% endfor %}
+                       
                     </select>
                     {%  comment %}
                         <option> All </option>
@@ -200,7 +202,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group ">
+                <div class="col-lg-4 col-md-5 form-group ">
 
                     <label >Legislative Districts
     

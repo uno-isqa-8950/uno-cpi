@@ -155,16 +155,17 @@
                         {% endfor %}
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        {% for cec_choice in cec_part_choices.cec_choice %}
-                            {{ cec_choice }}
-                        {% endfor %}
+                        <option> All </option>
+                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
+                        {{weitz_cec_part}}
+                    {% endfor %}
                     </select>
                     {%  comment %}
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>
                         {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                            {{weitz_cec_part}}
-                        {% endfor %}
+                        {{weitz_cec_part}}
+                    {% endfor %}
                     </select>
                     {% endcomment %}
                 </div>
@@ -205,7 +206,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group ">
+                <div class="col-lg-4 col-md-5 form-group ">
 
                     <label >Legislative Districts
     
@@ -374,8 +375,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
-    $('#id_legislative_value').select2({placeholder: 'Legislative Districts',width: '115%'});
+    $('#id_k12_flag').select2({placeholder: 'All K12 Involvement',width: '75%'});
+    $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {
                                             /* Sort data using lowercase comparison */

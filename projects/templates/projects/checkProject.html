@@ -5,7 +5,6 @@
 <style>
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
-
     .fade{
         color: black;
         display: block;
@@ -13,25 +12,28 @@
     }
     .fade:not(.show){
         opacity: 5;
-
     }
-
     .select2{
         width: 70%!important;
         border-radius: 2px;
         display: block;
         margin: 10px 0 8px 4px;
         height: 30px;
-
     }
 label {
     margin-left: 0px;
     font-weight: lighter;
 }
 .blackbutton{
-        border-radius: .25rem;
+    border-radius: 8px;
+    margin: 8px;
 }
-
+    @media (min-width:1200px)
+{
+    .container{
+        max-width: 1330px;
+    }
+}
 </style>
             <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
@@ -76,7 +78,7 @@ label {
 <div class="container" style="padding:10px;position: relative">
    <div class="card" style="border: 2px solid #C3C3C3;">
        <div class="collapse show" id="collapseExample">
-            <form method="POST" onSubmit = 'return checking();'>
+            <form method="POST" >
                   {% csrf_token %}
                <div class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
@@ -142,18 +144,24 @@ label {
 
          <div style="float: left;" id="button-id" style="display: none"></div>
          <div>
-            <div class="panel-body">&emsp;
+            <div class="panel-body">
                 <div class="justify-content-md-center" id="node-id" style="margin-left: 0%; "></div>
             </div>
      </div>
 
 
+
+
              <div style="margin-top:15px;">
 
-                <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
+                <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px">
                    <thead>
+                   	<col style="width:10%">
+	                <col style="width:25%">
+	                <col style="width:31%">
+                    <col style="width:31%">
                          <tr id="tablerow">
-                    {% if data_list is defined and data_list.length >= 1 %}
+                      {% if data_list is defined and data_list.length >= 1 %}
                           <th>Academic Year
                            {% for data_definition in data_definition %}
                              {% if data_definition.id == 30%}
@@ -211,16 +219,13 @@ label {
                 </div>
                 </table>
 
-
-
                  </div>
 
 {% if flagBit == 1 %}
 <script>
 document.getElementById('node1-id').innerHTML =
-                            '<br>' +
                             '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
-                            ' All Projects</a></td></tr>'
+                            ' All Projects</a></td></tr>' + '<br><br>'
 </script>
 {% endif %}
 
@@ -228,18 +233,18 @@ document.getElementById('node1-id').innerHTML =
 
         <script>
         document.getElementById('node1-id').innerHTML =
-                            '<br>' +
-                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >' +
-                            ' All Projects</a></td></tr>'
+                            // '<br>' +
+                            // '<tr></tr>' +
+                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<br>' +
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
-                            'Create Project</a></td></tr>'
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><br><label style="margin-left: -108px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label><br><br>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+
+
         </script>
 
-    <label style="margin-top: 15px">The above mentioned projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>
+
 {% endif %}
 
 {% if flagBit == 0 %}
@@ -247,23 +252,12 @@ document.getElementById('node1-id').innerHTML =
         <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<br>' +
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
-                            'Create Project<a></td></tr>'
+                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr>' +'<br><br><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+        document.getElementById("tablerows").style.display = "none";
         </script>
-    <label style="text-align:justify;">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the button below.</label>
 {% endif %}
 
-
-<script>
-    function checking() {
-    if(($("#projectName").val() === '') && ($("#communityPartner").val() === '---------') &&  ($("#campuspartner").val() === '---------') && ($("#academicYear").val() === '---------')){
-            alert("Please select any of the filters or enter a project name to search.");
-            return false
-        }
-}
-</script>
 {% endblock %}
 
         {% block selectizeForm %}
@@ -272,9 +266,9 @@ document.getElementById('node1-id').innerHTML =
 <script>
 $(document).ready(function(){
     $('#projectName').attr({placeholder: 'Project Name',width:'70%'});
-    $('#communityPartner').select2({placeholder: 'Community Partners',width: '225px'});
-    $('#academicYear').select2({placeholder: 'Academic Year',width: '225px'});
-    $('#campuspartner').select2({placeholder: 'Campus Partners',width: '225px'});
+    $('#communityPartner').select2({placeholder: 'All',width: '225px'});
+    $('#academicYear').select2({placeholder: 'All',width: '225px'});
+    $('#campuspartner').select2({placeholder: 'All',width: '225px'});
     });
 // submit when enter-Parimita
 $("#projectName").keyup(function(event){
@@ -302,8 +296,6 @@ $(document).on('input', '.clearable', function(){
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
         <script type="text/javascript">
-
-
 </script>
 <script>
         $('#lnk-create_project').click(function(){

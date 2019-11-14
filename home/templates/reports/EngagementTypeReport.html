@@ -176,7 +176,7 @@
                             {% endfor %}
                     </select>
             </div>
-<div class="col-lg-3 col-md-5 form-group ">
+<div class="col-lg-4 col-md-5 form-group ">
 
                         <label >Legislative Districts
 
@@ -269,14 +269,14 @@
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}
-                <a href="{% url 'projectsfromEngagementReport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1">{{e.project_count}}</a>
+                <a href="{% url 'showAllProjects' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1">{{e.project_count}}</a>
                 {% endif %}</td>
 
             <td>
                  {% if  e.community_count  < 1 %}
                 {{e.community_count}}
                 {% else %}
-                <a href="{% url 'communityfromEngagementReport' %}?comm_ids={{ e.comm_id_list }}" target="_blank" class="class1">{{ e.community_count }}</a>
+                <a href="{% url 'communityprivatereport' %}?comm_ids={{ e.comm_id_list }}" target="_blank" class="class1">{{ e.community_count }}</a>
                 {% endif %}
             </td>
             <td>{{ e.campus_count }}</td>

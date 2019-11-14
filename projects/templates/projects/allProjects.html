@@ -5,16 +5,23 @@
 {% block content %}
 
 <style>
+    .card-header {
+        background-color: rgba(0,0,0,0);
+        border-bottom: none;
 
+    }
     .accordion .card-header:after {
         font-family: 'FontAwesome';
-        content: "\f068";
-        float: right;
+        content: "\f056";
+        margin-left: 55px;
+            font-size: 20px;
     }
 
     .accordion .card-header.collapsed:after {
         /* symbol for "collapsed" panels */
-        content: "\f067";
+        content: "\f055";
+        font-size: 20px;
+
     }
     .projectcard{
         border: none;
@@ -24,17 +31,20 @@
     }
 
     .project-body{
-        border: 1px solid rgba(0, 0, 0, .125);
+        border: none;
         margin-top: 0 !important;
         margin-bottom: 8px;
     }
     .card-body {
-        border: 1px solid rgba(0, 0, 0, .125);
+        border: none
         margin-top: 0 !important;
         margin-bottom: 8px;
     }
     .heading{
-        color:white;
+        color:black;
+        font-size: 30px;
+        line-height: 0px !important;
+        padding-bottom: 15px;
     }
 
     @media (min-width: 1200px) {
@@ -55,39 +65,175 @@
         transition:.3s;
         margin-left: 22px;
     }
+    body{
+        background-color: rgba(0,0,0,.03);
+    }
+
+    input[type=text], [type=password], [type=email], [type=url] {
+        width: 30%;
+        color: #444;
+        border: 2px solid #aaa;
+        border-radius: 4px;
+        line-height: 28px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 10px 0 8px 4px;
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-bottom: 8px;
+        margin-left: 22px;
+        padding-left: 8px;
+        padding-right: 20px;
+        font-size: 16px;
+        font-family: "Arial Narrow", sans-serif;
+        box-sizing: border-box;
+        margin-left: 12px;
+        margin: 10px 0 8px 4px;
+        outline: none;
+        box-sizing: border-box;
+        transition: .3s;
+
+
+
+    }
+    .button-row-elements
+    {
+        width: 100%;
+        float: left;
+    }
+    .button-row-elements button{
+        display:inline-block;
+    }
+    #Searchboxtext{
+        float:right;
+    }
+
+    .filter-card{
+        border-top-color: rgba(0, 0, 0, 0.12);
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-right-color: rgba(0, 0, 0, 0.12);
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-bottom-color: rgba(0, 0, 0, 0.12);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-left-color: rgba(0, 0, 0, 0.12);
+        border-left-style: solid;
+        border-left-width: 1px;
+
+    }
+    .text-snippet{
+        text-align: left;
+    }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+        margin-bottom: 50px;
+    }
+
+    .projectname{
+        line-height: 0 !important;
+    }
+
+    .media-body{
+        width: 100%;
+        float: left;
+    }
+    #academic_year{
+        float:right;
+    }
+    .card-toptext{
+        width: 100%;
+        float: left;
+        padding-bottom: 10px;
+    }
+    .flex-container {
+        display: flex;
+        justify-content: space-around;
+        background-color: #FFFFFF;
+
+    }
+  .flex-container p{
+       line-height: 0px !important;
+      font-size:1vw;
+   }
+
+    .flex-container > div {
+        background-color: #FFFFFF;
+        width: 100%;
+        text-align: left;
+        line-height: 30px;
+        font-size: 15px;
+        flex-wrap:wrap;
+        padding-top: 25px;
+    }
+    .media-heading{
+        line-height: 0.1 !important;
+    }
+b{
+    font-size: 15px;
+}
 
 </style>
 
 
+
 <br>
 <br>
 <br>
 
-<div class="panel-heading text-center"><h4 class="heading">All Projects</h4></div>&emsp;
+
+
+
+
+<div class=" text-center"><h4 class="heading">All Projects</h4></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        This is a list of all community engagement projects associated with your campus-based or community organization. Authorized users can click on the 'Edit' button to add project-level data
+    <!--{% all_projects %}-->
+    </div>
+</div>
 
 <div class="container-fluid">
-<div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
 
-            <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
+
+    <div class="container button-row-elements">
+
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
+
+        <script type="text/javascript">
+            document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
-                if (event.target.value === "Hide Filters") {
-                    event.target.value = "Show Filters";
-                } else {
+                    if (event.target.value === "Hide Filters") {
+                        event.target.value = "Show Filters";
+                    } else {
                         event.target.value = "Hide Filters";
-                        }
+                    }
                 },
                 false
-                );
-            </script>
+            );
+        </script>
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-primary" onclick="window.location.href = '/all-projects-table-project'; " value="Table View" >
+       <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
+       <input type="text" id="Searchboxtext" placeholder="Search...">
 
-        </div>
+    </div>
 
-    <div class="card" style="border: 2px solid #C3C3C3;">
+    <div class="card filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -261,6 +407,8 @@
 
     <div id="accordion" class="accordion">
         {% for project in project %}
+
+
         <div class="card mb-0 projectcard">
 
 
@@ -271,22 +419,45 @@
 
                     <div class="media">
                         <a class="media-left" aria-label="">
-                            <div class="logo-frame" style="padding-right: 10px;">
+                            <div class="logo-frame" style="padding-right: 12px;">
                                 <img src="https://local-karthik.s3.us-east-2.amazonaws.com/educational-support.jpg" alt="Card image cap"
                                      class="logo"
-                                     width="150" height="150" alt="">
+                                     width="130" height="130" alt="">
                             </div>
                         </a>
                         <div class="media-body">
-                            <h4 class="media-heading">
+                            <div class="card-toptext">
+                            {% for projmisn in project.projmisn %}
+                            <h6 class="media-subheading" >
+                                <i>{{ projmisn}}{% endfor %}</i>
+                                <span id="academic_year"><i>{{ project.academic_year }}</i></span>
+                            </h6>
+                            </div>
+
+                            <div class="projectname">
+                            <h4 class="media-heading " >
                                 {{ project.name }}
                             </h4>
+                                </div>
 
-                            {% for projmisn in project.projmisn %}
-                            <h5 class="media-subheading">
-                                {{ projmisn}}<br> <br>{% endfor %}
-                            </h5>
+                            <div class="flex-container">
+  <div style="width: 100%">
+      <p><b> Community Partners: </b> </p>
 
+      {% for comm_part in project.comm_part %} <li>{{comm_part}}</li> {% endfor %}
+
+
+
+  </div>
+  <div style="width: 100%">
+      <p><b>Campus Partners:</b></p>
+      {% for camp_part in project.camp_part %} <li>{{camp_part}}</li> {% endfor %}
+
+
+
+  </div>
+
+</div>
 
                             </p></div>
                     </div>
@@ -298,36 +469,11 @@
 
 
             <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
-                <p>
-                <table style="width: 100%">
 
-                <thead>
-                <th>
-                <b> Community Partner</b>
-                </th>
-                <th><b>Campus Partners</b></th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-
-                            <br>
-                            {% for comm_part in project.comm_part %} {{comm_part}} <br> {% endfor %}
-                        </td>
-                        <td>
-
-                            <br>
-                            {% for camp_part in project.camp_part %} {{camp_part}} <br> {% endfor %}
-                        </td>
-
-                    </tr>
-                </tbody>
-                </table>
-                </p>
 
 
                 <p>
-                <table style="width: 100% ">
+                <table style="width: 100%;margin-left: 137px; ">
 
                     <tr>
                         <td>
@@ -336,48 +482,50 @@
                         <td>
                             <b> Project Semester: </b>{{ project.semester}}<br>
                         </td>
-
-                    </tr>
-                    <tr>
                         <td>
                             <b> Status: </b>{{ project.status}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
                         <td>
                             <b> Start Date: </b>{{ project.startDate }}<br>
                         </td>
                         <td>
                             <b> End Date: </b>{{ project.endDate }}<br>
                         </td>
-                    </tr>
-
-                    <tr>
                         <td>
                             <b> Outcomes: </b>{{ project.outcomes }}<br>
                         </td>
+                    </tr>
+
+                    <tr>
+
                         <td>
                             <b> Number of UNO Students: </b>{{project.total_uno_students}}<br>
                         </td>
                         <td>
                             <b> Number of UNO Students Hours: </b>{{project.total_uno_hours}}<br>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <b> Number of UNO Faculty/Staff: </b>{{project.total_uno_faculty}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
                         <td>
                             <b> Number of K12 Students: </b>{{project.total_k12_students}}<br>
                         </td>
                         <td>
                             <b> Number of K12 Students Hours: </b>{{project.total_k12_hours}}<br>
                         </td>
-
-                    </tr>
-                    <tr>
-
                         <td>
                             <b> Number of Other Participants: </b>{{project.total_other_community_members}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
+
                         <td>
                             <b> Activity Type: </b>{{ project.activityType }}<br>
                         </td>
@@ -385,7 +533,7 @@
                     </tr>
                 </table>
                 <br>
-                <b> Description: </b>{{ project.description }}<br>
+                <div style="margin-left: 137px"><b> Description: </b>{{ project.description }}<br></div>
                 </p>
 
             </div>

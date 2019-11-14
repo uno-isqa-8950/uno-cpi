@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^projectadd/$', views.project_total_Add, name='projectadd'),
     path('myProjects/',views.myProjects, name='myProjects'),
     path('allProjects/', views.showAllProjects, name='showAllProjects'),
+    path('all-projects-table-project/',views.showAllProjectsTable, name='showAllProjectsTable'),
     url(r'^projectSearchAdd/(?P<pk>\d+)/', views.SearchForProjectAdd, name='projectSearchAdd'),
     path('projectspublicreport/', views.projectsPublicReport, name='projectspublicreport'),
     url(r'^projectsfromMissionReport/(?P<pk>\d+)/', views.projectsfromMissionReport, name='projectsfromMissionReport'),

@@ -7,16 +7,21 @@
 <style>
     .card-header {
         background-color: rgba(0,0,0,0);
+        border-bottom: none;
+
     }
     .accordion .card-header:after {
         font-family: 'FontAwesome';
-        content: "\f068";
-        margin-left: 138px;
+        content: "\f056";
+        margin-left: 58px;
+            font-size: 20px;
     }
 
     .accordion .card-header.collapsed:after {
         /* symbol for "collapsed" panels */
-        content: "\f067";
+        content: "\f055";
+        font-size: 20px;
+
     }
     .projectcard{
         border: none;
@@ -26,18 +31,20 @@
     }
 
     .project-body{
-        border: 1px solid rgba(0, 0, 0, .125);
+        border: none;
         margin-top: 0 !important;
         margin-bottom: 8px;
     }
     .card-body {
-        border: 1px solid rgba(0, 0, 0, .125);
+        border: none
         margin-top: 0 !important;
         margin-bottom: 8px;
     }
     .heading{
         color:black;
         font-size: 30px;
+        line-height: 0px !important;
+        padding-bottom: 15px;
     }
 
     @media (min-width: 1200px) {
@@ -131,7 +138,8 @@
         margin-left: 25px;
         margin-right: 25px;
         border-radius:0px;
-
+        background-color: transparent;
+        margin-bottom: 50px;
     }
 
     .projectname{
@@ -158,6 +166,7 @@
     }
   .flex-container p{
        line-height: 0px !important;
+      font-size:1vw;
    }
 
     .flex-container > div {
@@ -172,7 +181,9 @@
     .media-heading{
         line-height: 0.1 !important;
     }
-
+b{
+    font-size: 15px;
+}
 
 </style>
 
@@ -408,7 +419,7 @@
 
                     <div class="media">
                         <a class="media-left" aria-label="">
-                            <div class="logo-frame" style="padding-right: 10px;">
+                            <div class="logo-frame" style="padding-right: 12px;">
                                 <img src="https://local-karthik.s3.us-east-2.amazonaws.com/educational-support.jpg" alt="Card image cap"
                                      class="logo"
                                      width="130" height="130" alt="">
@@ -418,8 +429,8 @@
                             <div class="card-toptext">
                             {% for projmisn in project.projmisn %}
                             <h6 class="media-subheading" >
-                                {{ projmisn}}{% endfor %}
-                                <span id="academic_year">{{ project.academic_year }}</span>
+                                <i>{{ projmisn}}{% endfor %}</i>
+                                <span id="academic_year"><i>{{ project.academic_year }}</i></span>
                             </h6>
                             </div>
 
@@ -431,24 +442,17 @@
 
                             <div class="flex-container">
   <div style="width: 100%">
-      <p><b> Community Partner: </b> </p>
+      <p><b> Community Partners: </b> </p>
 
-      {% for comm_part in project.comm_part %} <p>{{comm_part}}</p> {% endfor %}
-      <p>Common Seed Soil Library</p> <p>Omaha Public Library (OPL)</p><p>Douglas County Department of Health & Human Services</p><p>ENSLAVED: An Exhibition of Modern Day Slavery
-      </p>  <p>	Learning Community Center of South Omaha </p>
-      <p>Native Indian Centered Education Program (N.I.C.E.), Omaha Public Schools (OPS)</p>
-      <p>Sam and Frances Fried Holocaust and Genocide Education Fund</p>
-      <p>Yates Educational Community Partnership (ECP), Omaha Public Schools</p>
+      {% for comm_part in project.comm_part %} <li>{{comm_part}}</li> {% endfor %}
+
 
 
   </div>
   <div style="width: 100%">
       <p><b>Campus Partners:</b></p>
-      {% for camp_part in project.camp_part %} <p>{{camp_part}}</p> {% endfor %}
-       <p>Common Seed Soil Library</p> <p>Omaha Public Library (OPL)</p><p>Douglas County Department of Health & Human Services</p><p>ENSLAVED: An Exhibition of Modern Day Slavery
-      </p>  <p>	Learning Community Center of South Omaha </p>
-      <p>Mayor's Commission for Citizens with Disabilities (MCCD)</p>
-      <p>Mayor's Commission for Citizens with Disabilities (MCCD)</p>
+      {% for camp_part in project.camp_part %} <li>{{camp_part}}</li> {% endfor %}
+
 
 
   </div>
@@ -465,36 +469,11 @@
 
 
             <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
-                <p>
-                <table style="width: 100%">
 
-                <thead>
-                <th>
-                <b> Community Partner</b>
-                </th>
-                <th><b>Campus Partners</b></th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>
-
-                            <br>
-                            {% for comm_part in project.comm_part %} {{comm_part}} <br> {% endfor %}
-                        </td>
-                        <td>
-
-                            <br>
-                            {% for camp_part in project.camp_part %} {{camp_part}} <br> {% endfor %}
-                        </td>
-
-                    </tr>
-                </tbody>
-                </table>
-                </p>
 
 
                 <p>
-                <table style="width: 100% ">
+                <table style="width: 100%;margin-left: 137px; ">
 
                     <tr>
                         <td>
@@ -503,48 +482,50 @@
                         <td>
                             <b> Project Semester: </b>{{ project.semester}}<br>
                         </td>
-
-                    </tr>
-                    <tr>
                         <td>
                             <b> Status: </b>{{ project.status}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
                         <td>
                             <b> Start Date: </b>{{ project.startDate }}<br>
                         </td>
                         <td>
                             <b> End Date: </b>{{ project.endDate }}<br>
                         </td>
-                    </tr>
-
-                    <tr>
                         <td>
                             <b> Outcomes: </b>{{ project.outcomes }}<br>
                         </td>
+                    </tr>
+
+                    <tr>
+
                         <td>
                             <b> Number of UNO Students: </b>{{project.total_uno_students}}<br>
                         </td>
                         <td>
                             <b> Number of UNO Students Hours: </b>{{project.total_uno_hours}}<br>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <b> Number of UNO Faculty/Staff: </b>{{project.total_uno_faculty}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
                         <td>
                             <b> Number of K12 Students: </b>{{project.total_k12_students}}<br>
                         </td>
                         <td>
                             <b> Number of K12 Students Hours: </b>{{project.total_k12_hours}}<br>
                         </td>
-
-                    </tr>
-                    <tr>
-
                         <td>
                             <b> Number of Other Participants: </b>{{project.total_other_community_members}}<br>
                         </td>
+                    </tr>
+                    <tr>
+
+
                         <td>
                             <b> Activity Type: </b>{{ project.activityType }}<br>
                         </td>
@@ -552,7 +533,7 @@
                     </tr>
                 </table>
                 <br>
-                <b> Description: </b>{{ project.description }}<br>
+                <div style="margin-left: 137px"><b> Description: </b>{{ project.description }}<br></div>
                 </p>
 
             </div>

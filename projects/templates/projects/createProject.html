@@ -30,7 +30,7 @@
         <li><a href="#step-1" id="step1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li><a href="#step-4" id="step4">Other Information</a></li>
+        <li id="step4"><a href="#step-4">Other Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -595,11 +595,11 @@
             </div>
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" > Save as Draft</button>
+                 <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" > Save as Draft</button>
 <!--            </div>-->
 
-                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">Submit</button>
-                <button name="cancel" id="cancel" class="redbutton">Cancel</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">Submit</button>
+                <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
  </div>
     </div>
 
@@ -776,11 +776,12 @@ $('#step1').click(function () {
 
 });
 $('#step4').click(function () {
-    $('#submit').show();
-    $('#termsdiv').show();
-     $('.sw-btn-prev').show();
-    $('.sw-btn-next').hide();
-
+    if($('#step4').hasClass('active')) {
+        $('#submit').show();
+        $('#termsdiv').show();
+        $('.sw-btn-prev').show();
+        $('.sw-btn-next').hide();
+    }
 });
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();

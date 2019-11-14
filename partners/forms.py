@@ -81,21 +81,21 @@ class CampusPartnerContactForm(forms.ModelForm):
     #     if not email.endswith(sufix):
     #         raise forms.ValidationError("Please use your campus email (.edu) for the registration of a Campus Partner.")
     #     return email
-COUNTRY_CHOICES = [(' ','------'),('US','United States of America')]
-STATE_CHOICES = [(' ','------'),
-     ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
-     ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
-     ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'), ('ID', 'Idaho'),
-     ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
-     ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
-     ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'),
-     ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'),
-     ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
-     ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'),
-     ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'),
-     ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'),
-     ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
-     ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
+# COUNTRY_CHOICES = [(' ','------'),('US','United States of America')]
+# STATE_CHOICES = [(' ','------'),
+#      ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
+#      ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
+#      ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'), ('ID', 'Idaho'),
+#      ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
+#      ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
+#      ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'),
+#      ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'),
+#      ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
+#      ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'),
+#      ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'),
+#      ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'),
+#      ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
+#      ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
 
 
 class CommunityPartnerForm(forms.ModelForm):
@@ -103,8 +103,8 @@ class CommunityPartnerForm(forms.ModelForm):
     address_line1 = forms.CharField(max_length=200,label='Address', required=False)
     acronym = forms.CharField(max_length=15, label='Acronym', required=False)
     online_only = forms.BooleanField(required=False)
-    country = forms.ChoiceField(choices=COUNTRY_CHOICES, required=False)
-    state = forms.ChoiceField(choices=STATE_CHOICES, required=False)
+    country = forms.CharField(max_length=50,required=False)
+    state = forms.CharField(max_length=50,required=False)
     class Meta:
         model = CommunityPartner
         fields = ('name', 'website_url','online_only','acronym', 'community_type', 'k12_level', 'address_line1', 'city','state',

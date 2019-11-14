@@ -319,6 +319,20 @@ def createProject(request):
                             for cat in sub_cat_form:
                                 cat.project_name = proj
                                 cat.save()
+                                subcategory = str(cat.sub_category);
+                                print(subcategory)
+                                cursor = connection.cursor()
+                                cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                                rows = cursor.fetchall()
+                                print(rows)
+                                # print(rows[0])
+                                # projmission = projectmission.save()
+                                for mission in rows:
+                                    print(mission[0])
+                                    id = str(mission[0])
+                                    # print(id)
+                                    cursor = connection.cursor()
+                                    cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
 
                             for form in mission_form:
                                 form.project_name = proj
@@ -407,6 +421,20 @@ def createProject(request):
                     for cat in sub_cat_form:
                         cat.project_name = proj
                         cat.save()
+                        subcategory = str(cat.sub_category);
+                        print(subcategory)
+                        cursor = connection.cursor()
+                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        rows = cursor.fetchall()
+                        print(rows)
+                        # print(rows[0])
+                        # projmission = projectmission.save()
+                        for mission in rows:
+                            print(mission[0])
+                            id = str(mission[0])
+                            # print(id)
+                            cursor = connection.cursor()
+                            cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
 
                     for form in mission_form:
                         form.project_name = proj
@@ -523,6 +551,20 @@ def createProject(request):
                             for cat in sub_cat_form:
                                 cat.project_name = proj
                                 cat.save()
+                                subcategory = str(cat.sub_category);
+                                print(subcategory)
+                                cursor = connection.cursor()
+                                cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                                rows = cursor.fetchall()
+                                print(rows)
+                                # print(rows[0])
+                                # projmission = projectmission.save()
+                                for mission in rows:
+                                    print(mission[0])
+                                    id = str(mission[0])
+                                    # print(id)
+                                    cursor = connection.cursor()
+                                    cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
 
                             for form in mission_form:
                                 form.project_name = proj
@@ -608,6 +650,20 @@ def createProject(request):
                     for cat in sub_cat_form:
                         cat.project_name = proj
                         cat.save()
+                        subcategory = str(cat.sub_category);
+                        print(subcategory)
+                        cursor = connection.cursor()
+                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        rows = cursor.fetchall()
+                        print(rows)
+                        # print(rows[0])
+                        # projmission = projectmission.save()
+                        for mission in rows:
+                            print(mission[0])
+                            id = str(mission[0])
+                            # print(id)
+                            cursor = connection.cursor()
+                            cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
 
                     for form in mission_form:
                         form.project_name = proj
@@ -756,6 +812,20 @@ def editProject(request,pk):
                     for sc in subcat:
                         sc.project_name = instances
                         sc.save()
+                        subcategory = str(sc.sub_category);
+                        print(subcategory)
+                        cursor = connection.cursor()
+                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        rows = cursor.fetchall()
+                        print(rows)
+                        # print(rows[0])
+                        # projmission = projectmission.save()
+                        for mission in rows:
+                            print(mission[0])
+                            id = str(mission[0])
+                            # print(id)
+                            cursor = connection.cursor()
+                            cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
                     projects_list = []
                     camp_part_names = []
                     course_list = []
@@ -821,6 +891,20 @@ def editProject(request,pk):
                     for sc in subcat:
                         sc.project_name = instances
                         sc.save()
+                        subcategory = str(sc.sub_category);
+                        print(subcategory)
+                        cursor = connection.cursor()
+                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        rows = cursor.fetchall()
+                        print(rows)
+                        # print(rows[0])
+                        # projmission = projectmission.save()
+                        for mission in rows:
+                            print(mission[0])
+                            id = str(mission[0])
+                            # print(id)
+                            cursor = connection.cursor()
+                            cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
                     projects_list = []
                     camp_part_names = []
                     course_list = []

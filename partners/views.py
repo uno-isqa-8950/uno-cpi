@@ -195,13 +195,13 @@ def ajax_load_community(request):
     }
     return JsonResponse(data)
 #validation for acronym
-def ajax_load_community_acronym(request):
-    acronym = request.GET.get('acronym', None)
-    print(acronym)
-    data = {
-        'is_taken': CommunityPartner.objects.filter(acronym__iexact=acronym).exists()
-    }
-    return JsonResponse(data)
+# def ajax_load_community_acronym(request):
+#     acronym = request.GET.get('acronym', None)
+#     print(acronym)
+#     data = {
+#         'is_taken': CommunityPartner.objects.filter(acronym__iexact=acronym).exists()
+#     }
+#     return JsonResponse(data)
 
 
 #validation for campus name in register community partner form

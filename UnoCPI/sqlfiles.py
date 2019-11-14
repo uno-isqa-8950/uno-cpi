@@ -761,3 +761,9 @@ where pc.community_type_id::text like %s
 group by commpartners, website
 order by commpartners;
 """
+
+def createproj_othermission(subcategory):
+    return ( """select secondary_mission_area_id from projects_missionsubcategory pms inner join projects_subcategory ps on ps.id = pms.sub_category_id where ps.sub_category ='""" +subcategory+"""';""")
+
+def createproj_addothermission(subcategory,projid):
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other','""" +subcategory+"""','""" +projid+"""'); """)

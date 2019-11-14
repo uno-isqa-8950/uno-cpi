@@ -10,12 +10,13 @@ from UnoCPI import settings
 currentDT = datetime.datetime.now()
 logger=logging.getLogger("UNO CPI Application")
 #setup connection to database
-conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
-                              password=settings.DATABASES['default']['PASSWORD'],
-                              host=settings.DATABASES['default']['HOST'],
-                              port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+conn = psycopg2.connect("dbname = 'UNO_CPI_DEV' user = 'postgres' host = 'localhost' password = 'horcrux'")
+# conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
+#                               password=settings.DATABASES['default']['PASSWORD'],
+#                               host=settings.DATABASES['default']['HOST'],
+#                               port=settings.DATABASES['default']['PORT'],
+#                               database=settings.DATABASES['default']['NAME'],
+#                               sslmode="require")
 if (conn):
     logger.info("Connection Successful!")
 else:
@@ -33,8 +34,12 @@ q = "SELECT p.id, project_name, legislative_district, k12_flag, pm.mission_id, m
     "	where project_name_id = p.id), ', ') as campus_partner_ids), " \
     "(select array_to_string (array (select sub_category_id from projects_projectsubcategory " \
     "	where project_name_id = p.id), ', ') as subcategory_ids), " \
-    "(select array_to_string (array (select id from projects_academicyear " \
-    "	where id >= academic_year_id and (id <= end_academic_year_id or end_academic_year_id is null)), ', ') as yr_ids) " \
+    "CASE WHEN end_academic_year_id is null " \
+    "	THEN (select array_to_string (array (select id from projects_academicyear " \
+    "		where id = academic_year_id), ', ')) " \
+    "	ELSE (select array_to_string (array (select id from projects_academicyear " \
+    "		where id >= academic_year_id and (id<= end_academic_year_id or end_academic_year_id is null)), ', ')) " \
+    "	END as yr_ids " \
     "FROM projects_project p " \
     "LEFT JOIN projects_projectmission pm " \
     "	ON p.id = pm.project_name_id " \

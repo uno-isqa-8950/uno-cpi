@@ -34,28 +34,62 @@ label {
         max-width: 1330px;
     }
 }
+        body{
+        background-color: rgba(0,0,0,.03);
+    }
+        .text-snippet{
+        text-align: left;
+    }
+    .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 5px 10px #d3d3d3;
+        }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+        margin-bottom: 50px;
+    }
+
 </style>
-            <div class="row justify-content-md-center">
+<br><br>
+            <div class="row box justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                        <div class = "panel-default" style="width:100%">
-                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
-                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>
-                           </div>
-                        </div>
-                        <div class="card" style="padding: 10px;">
-                            <div class="container">
-                                {% priv_projs %}
-                            </div>
-                       </div>
-                    </div>
-                </div>
+                          <div class=" text-center"><h3 class="heading">Check Project</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        {% priv_projs %}
+<!--        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.-->
+    </div>
+</div>
+<!--                        <div class = "panel-default" style="width:100%">-->
+<!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->
+<!--                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>-->
+<!--                           </div>-->
+<!--                        </div>-->
+<!--                        <div class="card" style="padding: 10px;">-->
+<!--                            <div class="container">-->
+<!--                                {% priv_projs %}-->
+<!--                            </div>-->
+<!--                       </div>-->
+<!--                    </div>-->
+<!--                </div>-->
 
           <div class="card" style="border: none; padding: 10px;">
                <!-- Collapse buttons -->
              <div>
-                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="blackbutton" data-toggle="collapse" data-target="#collapseExample"
+                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                  aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="blackbutton" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
                  <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -131,14 +165,13 @@ label {
                            </label>
                    </div>
                  <div class="justify-content-md-center" style="margin-left: 45%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                     <button type="submit" value="submit" name="submit" class="save blackbutton" onclick="this.form.submit()">Search</button>
+                     <button type="submit" value="submit" name="submit" class="save btn btn-secondary" onclick="this.form.submit()">Search</button>
                  </div>
                 </form>
 
        </div>
  </div>
 </div>
-   </div>
 
          <div style="float: left;" id="node1-id" style="display: none"></div>
 
@@ -216,15 +249,17 @@ label {
 {% endfor %}
 
 </tbody>
-                </div>
                 </table>
+                </div>
 
                  </div>
-
+            </div>
+</div>
+<br><br>
 {% if flagBit == 1 %}
 <script>
 document.getElementById('node1-id').innerHTML =
-                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
+                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
                             ' All Projects</a></td></tr>' + '<br><br>'
 </script>
 {% endif %}
@@ -235,10 +270,10 @@ document.getElementById('node1-id').innerHTML =
         document.getElementById('node1-id').innerHTML =
                             // '<br>' +
                             // '<tr></tr>' +
-                            '<tr><td><a class="blackbutton" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
+                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><br><label style="margin-left: -108px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label><br><br>'
+                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br><br><label style="margin-left: -108px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label><br><br>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
 
 
@@ -252,7 +287,7 @@ document.getElementById('node1-id').innerHTML =
         <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr>' +'<br><br><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr>' +'<br><br><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
         </script>
@@ -302,7 +337,7 @@ $(document).on('input', '.clearable', function(){
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<br>' +
-                            '<tr><td><a class="blackbutton" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
+                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
        });
@@ -327,6 +362,5 @@ input.addEventListener("keyup", function(event) {
   }
 });
 </script>
-
 
 {% endblock %}

@@ -2,31 +2,64 @@
     {% load wagtailcore_tags register_tags %}
 
 <style>
+        body{
+        background-color: rgba(0,0,0,.03);
+    }
+        .text-snippet{
+        text-align: left;
+    }
+    .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 5px 10px #d3d3d3;
+        }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+        margin-bottom: 50px;
+    }
+
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color: #b60000;}
 </style>
-
-<div class="loader" id =loading></div>
-<div class="container">
-    <div class="row justify-content-md-center">
+<br><br>
+<!--<div class="loader" id =loading></div>-->
+<!--<div class="container">-->
+    <div class="row box justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Focus Areas Report</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
-                    {% miss_areas %}
-                </div>
-            </div>
-        </div>
+                                      <div class=" text-center"><h3 class="heading">Focus Areas Report</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        {% miss_areas %}
+<!--        This report shows the number of community partners, projects, and students based on the primary mission of their work. Various filters are provided to gain a better understanding on how different UNO units collaborate with the community. Please note, projects and partners could have different primary missions (e.g. a partner that has the primary mission of social justice, may carry out a project tailored towards economic sufficiency). This means that there is not a one-to-one relationship between partners' and projects' mission areas.-->
     </div>
 </div>
 
+<!--            <div class = "panel-default" style="width:100%">-->
+<!--               <div class="card" style="padding: 5px;margin-top:50px;">-->
+<!--                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Focus Areas Report</h4></b></label>-->
+<!--               </div>-->
+<!--            </div>-->
+<!--            <div class="card" style="padding: 10px;">-->
+<!--                <div class="center">-->
+<!--                    {% miss_areas %}-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
 
-<div class="container">
-    <div class="card" style="padding: 10px;">
+
+<!--<div class="container">-->
+<!--    <div class="card" style="padding: 10px;">-->
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"

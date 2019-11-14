@@ -44,7 +44,7 @@ class UserAdmin(ImportExportModelAdmin):
 
 class MissionAreaList(admin.ModelAdmin):
 
-    list_display = ('mission_name', 'description')
+    list_display = ('mission_name', 'description', 'mission_image_url', 'mission_color')
 
     search_fields = ('mission_name', 'description')
 

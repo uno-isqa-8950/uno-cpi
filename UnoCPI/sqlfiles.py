@@ -4,11 +4,61 @@ tables_sql = "SELECT table_schema || '.' || table_name "\
            "AND table_schema NOT IN ('pg_catalog', 'information_schema');"
 
 # Please dont make changes to this query, it directly affects AllProjects Page
+# all_projects_sql = """select distinct p.project_name
+#                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
+#                           ,array_agg(distinct pc.name) CommPartners
+#                             ,array_agg(distinct c.name) CampPartners
+#                             ,array_agg(distinct e.name) engagement_type
+#                             ,pa.academic_year
+#                             ,p.semester
+#                             ,ps.name status
+#                           ,case when p.start_date is null then 'None' end start_date
+#                             ,case when p.end_date is null then 'None' end end_date
+#                             ,p.outcomes
+#                             ,p.total_uno_students
+#                             ,p.total_uno_hours
+#                             ,p.total_uno_faculty
+#                             ,p.total_k12_students
+#                             ,p.total_k12_hours
+#                             ,p.total_other_community_members
+#                             ,a.name activity_type
+#                             ,p.description
+#                         -- 	,pc.name CommPartners
+#                         -- 	,c.name CampPartners
+#                         -- 	,e.name engagement_type
+#                         from projects_project p
+#                           inner join projects_projectmission m on p.id = m.project_name_id
+#                           inner join home_missionarea hm on hm.id = m.mission_id
+#                           inner join projects_engagementtype e on e.id = p.engagement_type_id
+#                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+#                           left join partners_communitypartner pc on pp.community_partner_id = pc.id
+#                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+#                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
+#                             inner join projects_academicyear pa on p.academic_year_id = pa.id
+#                             inner join projects_status ps on p.status_id = ps.id
+#                             inner join projects_activitytype a on p.activity_type_id = a.id
+#                         group by p.project_name
+#                             ,pa.academic_year
+#                             ,p.semester
+#                             ,ps.name
+#                             ,p.start_date
+#                             ,p.end_date
+#                             ,p.outcomes
+#                             ,p.total_uno_students
+#                             ,p.total_uno_hours
+#                             ,p.total_uno_faculty
+#                             ,p.total_k12_students
+#                             ,p.total_k12_hours
+#                             ,p.total_other_community_members
+#                             ,a.name
+#                             ,p.description
+#                         order by p.project_name limit 10;"""
+
 all_projects_sql = """select distinct p.project_name
-                          ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
+                          ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
-                            ,array_agg(distinct e.name) engagement_type
+                            ,array_agg(distinct e.name) engagement_type 
                             ,pa.academic_year
                             ,p.semester
                             ,ps.name status
@@ -23,9 +73,11 @@ all_projects_sql = """select distinct p.project_name
                             ,p.total_other_community_members
                             ,a.name activity_type
                             ,p.description
-                        -- 	,pc.name CommPartners
-                        -- 	,c.name CampPartners
-                        -- 	,e.name engagement_type
+                            ,p.project_type project_type
+                            ,p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            ,  p.campus_lead_staff campus_lead_staff
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -35,8 +87,21 @@ all_projects_sql = """select distinct p.project_name
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
                             inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
                             inner join projects_status ps on p.status_id = ps.id
                             inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                        where status.name != 'Drafts'
+                              and  e.id::text like %s
+                              and m.mission_id::text like %s
+                              and pc.community_type_id::text like %s
+                              and pp2.campus_partner_id::text like %s
+                              and c.college_name_id::text like %s
+                              and COALESCE (p.k12_flag::text, 'no') LIKE %s
+                              and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))         
                         group by p.project_name
                             ,pa.academic_year
                             ,p.semester
@@ -52,8 +117,317 @@ all_projects_sql = """select distinct p.project_name
                             ,p.total_other_community_members
                             ,a.name
                             ,p.description
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            ,campus_lead_staff
                         order by p.project_name limit 10;"""
 
+all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                            ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+                            , p.project_type project_type
+                            , p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            , p.campus_lead_staff campus_lead_staff
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                            left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id 
+                        where status.name != 'Drafts'
+                              and  e.id::text like %s
+                              and m.mission_id::text like %s
+                              and pc.community_type_id::text like %s
+                              and pp2.campus_partner_id::text like %s
+                              and c.college_name_id::text like %s
+                              and COALESCE (p.k12_flag::text, 'no') LIKE %s
+                              and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+                              and ((cec.start_acad_year_id <= %s) AND
+                                    (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))           
+
+
+                        group by p.project_name
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            ,project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            , campus_lead_staff
+                        order by p.project_name limit 10;"""
+
+
+all_projects_cec_former_comm_report_filter="""select distinct p.project_name
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                            ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+                            , p.project_type project_type
+                            , p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            , p.campus_lead_staff campus_lead_staff
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                            left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id 
+                        where status.name != 'Drafts'
+                              and  e.id::text like %s
+                              and m.mission_id::text like %s
+                              and pc.community_type_id::text like %s
+                              and pp2.campus_partner_id::text like %s
+                              and c.college_name_id::text like %s
+                              and COALESCE (p.k12_flag::text, 'no') LIKE %s
+                              and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+                              and cec.end_acad_year_id < %s           
+
+
+                        group by p.project_name
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            ,project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            , campus_lead_staff
+                        order by p.project_name limit 10;"""
+
+
+all_projects_cec_former_camp_report_filter ="""
+select distinct p.project_name
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                            ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+                            , p.project_type project_type
+                            , p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            , p.campus_lead_staff campus_lead_staff
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                            left join partners_cecpartactiveyrs cec on cec.camp_partner_id = c.id 
+                        where status.name != 'Drafts'
+                              and  e.id::text like %s
+                              and m.mission_id::text like %s
+                              and pc.community_type_id::text like %s
+                              and pp2.campus_partner_id::text like %s
+                              and c.college_name_id::text like %s
+                              and COALESCE (p.k12_flag::text, 'no') LIKE %s
+                              and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+                              and cec.end_acad_year_id < %s           
+
+
+                        group by p.project_name
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            ,campus_lead_staff
+                        order by p.project_name limit 10;
+"""
+
+
+all_projects_cec_curr_camp_report_filter ="""
+select distinct p.project_name
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                            ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+                            , p.project_type project_type
+                            , p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            , p.campus_lead_staff campus_lead_staff
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                            left join partners_cecpartactiveyrs cec on cec.comm_partner_id = pc.id 
+                        where status.name != 'Drafts'
+                              and  e.id::text like %s
+                              and m.mission_id::text like %s
+                              and pc.community_type_id::text like %s
+                              and pp2.campus_partner_id::text like %s
+                              and c.college_name_id::text like %s
+                              and COALESCE (p.k12_flag::text, 'no') LIKE %s
+                              and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
+                              and ((cec.start_acad_year_id <= %s) AND
+                                    (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))           
+
+
+                        group by p.project_name
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            ,campus_lead_staff
+                        order by p.project_name limit 10;
+"""
                     
 
 selected_projects_sql = """select distinct p.project_name

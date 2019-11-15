@@ -2,32 +2,6 @@
     {% load wagtailcore_tags register_tags %}
 
 <style>
-
-        body{
-        background-color: rgba(0,0,0,.03);
-    }
-        .text-snippet{
-        text-align: left;
-    }
-    .box{
-        padding: 10px;
-            background-color: white;
-            border: 1px;
-        box-shadow: 5px 10px #d3d3d3;
-        }
-    .snippet-card{
-        margin-top: 20px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-bottom: 20px;
-        border-left: none;
-        border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
-        border-radius:0px;
-        background-color: transparent;
-        margin-bottom: 50px;
-    }
     #loading
     {
         position: absolute;
@@ -102,37 +76,33 @@
     }
 
  </style>
-<br><br>
-<!--<div class="loader" id =loading></div>-->
-<!--<div class="container">-->
-   <div class="row box justify-content-md-center">
+
+<div class="loader" id =loading></div>
+<div class="container">
+   <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
-                                    <div class=" text-center"><h3 class="heading">Issues Addressed Analysis</h3></div>
-<div class="card snippet-card">
-    <div class="container text-snippet">
-        {% iss_charts %}
-<!--        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.-->
-    </div>
+         <div class = "panel-default" style="width:100%">
+            <div class="card" style="padding: 5px;margin-top:50px;">
+               <label style="text-align:justify;">
+                  <b style="font-size:16px;text-align:center;color:White;">
+                     <h4 style="line-height:.8em;padding-top:10px;">Focus Areas Analysis Chart </h4>
+                  </b>
+               </label>
+            </div>
+         </div>
+         <div class="card" style="border: none; padding: 10px;">
+            <div class="center">
+                {% iss_charts %}
+            </div>
+         </div>
+      </div>
+   </div>
 </div>
-<!--         <div class = "panel-default" style="width:100%">-->
-<!--            <div class="card" style="padding: 5px;margin-top:50px;">-->
-<!--               <label style="text-align:justify;">-->
-<!--                  <b style="font-size:16px;text-align:center;color:White;">-->
-<!--                     <h4 style="line-height:.8em;padding-top:10px;">Issues Addressed Analysis </h4>-->
-<!--                  </b>-->
-<!--               </label>-->
-<!--            </div>-->
-<!--         </div>-->
-<!--         <div class="card" style="border: none; padding: 10px;">-->
-<!--            <div class="center">-->
-<!--                {% iss_charts %}-->
-<!--            </div>-->
-<!--         </div>-->
 
 
 
-<!--<div class="container">-->
-<!--    <div class="card" style="border: none; padding: 10px;">-->
+<div class="container">
+    <div class="card" style="border: none; padding: 10px;">
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -228,7 +198,7 @@
                                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
-                            Community Partner Types
+                            Community Organization Types
                         </label>
                         <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                             <option> All </option>
@@ -288,12 +258,31 @@
                         CEC  Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                            {{weitz_cec_part}}
+
+                         {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
                         {% endfor %}
                     </select>
                     </div>
+
+                    <div class="col-lg-4 col-md-5 form-group ">
+                        <label for="legislative_value" >
+                            {% for data_definition in data_definition %}
+                                {% if data_definition.id == 52%}
+                                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                        data-content="{{ data_definition.description }}" class="float">
+                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                {% endif %}
+                            {% endfor %}
+                                    Legislative Districts
+                                </label>
+                                <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                                    {% for item in legislative_choices %}
+                                    <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
+                                   <!-- <option> {{legislative_value}} </option>-->
+                                    {% endfor %}
+                                </select>
+                            </div>
 
             </form>
         </div>
@@ -366,9 +355,10 @@ $(document).ready(function(){
                                         }});
     $('#id_academicyear').select2({placeholder: '{{ min_year }}',width: '75%'});
     $('#id_endacademicyear').select2({placeholder: '{{ max_year }}',width: '75%'});
+    $('#id_legislative_value').select2({width: '75%'});
 
     $('#id_weitz_cec_part').select2({placeholder: 'CEC  Building Partner',width: '75%'});
-    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

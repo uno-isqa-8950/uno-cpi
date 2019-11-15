@@ -3,6 +3,37 @@
 
 
 <style>
+
+    .info {
+	height: 20px;
+  /*border: 1px solid #888;*/
+  width: 20px;
+  margin-top: 3px;
+        align-content: center;
+        content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
+}
+
+.info:before {
+    align-content: center;
+    width:10px;
+    height: 10px;
+  display: inline-block;
+  line-height: 1.2;
+  margin: 10px;
+  /*font-family: "FontAwesome";*/
+  content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
+  color: #888;
+}
+
+
+    /*.logo {*/
+  /*display: block;*/
+  /*width: 10px;*/
+  /*height: 10px;*/
+  /*background-image: url('https://local-karthik.s3.us-east-2.amazonaws.com/educational-support.jpg');*/
+  /*background-position: 0 0;*/
+  /*background-repeat: no-repeat;*/
+/*}*/
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
     .fade{
@@ -59,12 +90,22 @@ label {
         background-color: transparent;
         margin-bottom: 50px;
     }
+    .icon-background2 {
+    color: white;
+    border:2px solid black;
+    border-radius: 200px ;
+}
+
+.fa-info {
+  color:black;
+  /* border:2px solid black; */
+}
 
 </style>
 <br><br>
             <div class="row box justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Check Project</h3></div>
+                        <div class=" text-center"><h3 class="heading"> Check Project</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
         {% priv_projs %}
@@ -116,12 +157,13 @@ label {
                   {% csrf_token %}
                <div class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="community_type" style="margin-left: 8px"> Community Partners
+<label for="community_type" style="margin-left:8px;align-content: center">
+                    <i class="info"></i> Community Partners
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
                             {% endif %}
                         {% endfor %}
-                    </label>
+</label>
                     <select id="communityPartner" name="communityPartner" CompValue=" ">
                         <option> </option>
                         {% for comm in Community_filter %}

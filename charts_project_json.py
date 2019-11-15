@@ -33,8 +33,12 @@ q = "SELECT p.id, project_name, legislative_district, k12_flag, pm.mission_id, m
     "	where project_name_id = p.id), ', ') as campus_partner_ids), " \
     "(select array_to_string (array (select sub_category_id from projects_projectsubcategory " \
     "	where project_name_id = p.id), ', ') as subcategory_ids), " \
-    "(select array_to_string (array (select id from projects_academicyear " \
-    "	where id >= academic_year_id and (id <= end_academic_year_id or end_academic_year_id is null)), ', ') as yr_ids) " \
+    "CASE WHEN end_academic_year_id is null " \
+    "	THEN (select array_to_string (array (select id from projects_academicyear " \
+    "		where id = academic_year_id), ', ')) " \
+    "	ELSE (select array_to_string (array (select id from projects_academicyear " \
+    "		where id >= academic_year_id and (id<= end_academic_year_id or end_academic_year_id is null)), ', ')) " \
+    "	END as yr_ids " \
     "FROM projects_project p " \
     "LEFT JOIN projects_projectmission pm " \
     "	ON p.id = pm.project_name_id " \

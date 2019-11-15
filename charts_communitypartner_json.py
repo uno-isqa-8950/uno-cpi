@@ -28,23 +28,32 @@ community_file = os.path.join(dirname,'home/static/charts_json/community_partner
 q = "SELECT comm.id, comm.name, legislative_district, community_type_id, type.community_type, " \
     "	cec_partner_status_id, cec.name, miss.mission_area_id, " \
     "(select array_to_string (array (select mission_area_id from partners_communitypartnermission " \
-    "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids) " \
+    "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids)," \
+    "CASE WHEN cec_partner_status_id in (select id from partners_cecpartnerstatus where name in ('Former', 'Current')) " \
+    "	THEN (select (select array_to_string (array (select id from projects_academicyear " \
+    "			where id >= start_acad_year_id and (id <= end_acad_year_id or end_acad_year_id is null)), ', ')) " \
+    "			from partners_cecpartactiveyrs where comm_partner_id = comm.id) " \
+    "	END AS cec_active_yrs " \
     "FROM partners_communitypartner comm " \
     "LEFT JOIN partners_communitytype type " \
     "	ON comm.community_type_id = type.id " \
     "LEFT JOIN partners_cecpartnerstatus cec " \
     "	ON comm.cec_partner_status_id = cec.id " \
-    "   AND cec.name <> 'Inactive' " \
     "LEFT JOIN partners_communitypartnermission miss " \
     "	ON comm.id = miss.community_partner_id " \
-    "	AND mission_type = 'Primary' ;"
+    "	AND mission_type = 'Primary' " \
+    "WHERE comm.id in (select distinct community_partner_id from projects_projectcommunitypartner) ;"
 cursor.execute(q)
 communities = cursor.fetchall()
 records = len(communities)
 comms = []
 for c in communities:
     type = {'community_type_id': c[3], 'community_type_name': c[4]}
-    cec_partner = {'cec_partner_status_id': c[5], 'cec_partner_status': c[6]}
+    if (c[9]):
+        cec_years = [int(e) for e in c[9].split(', ')]
+    else:
+        cec_years = []
+    cec_partner = {'cec_partner_status_id': c[5], 'cec_partner_status': c[6], 'cec_years':cec_years}
     if (c[8]):
         sec_mission_ids = [int(e) for e in c[8].split(', ')]
     else:

@@ -24,12 +24,7 @@
             <div class="col-lg-12 col-md-12">
 <!--                <div class = "panel panel-default">-->
                     <div class=" text-center"><h3 class="heading">Create Project</h3></div>
-<!--<div class="card snippet-card">-->
-<!--    <div class="container text-snippet">-->
-<!--        This is a list of all community engagement projects associated with your campus-based or community organization. Authorized users can click on the 'Edit' button to add project-level data-->
-<!--    {% all_projects %}-->
-<!--    </div>-->
-<!--</div>-->
+
 <!--                       <div class="panel-body">-->
 
 <div id="smartwizard">
@@ -45,7 +40,7 @@
                 <div class="row">
                 <div class="col">
                     <div class="row">
-                    <label for="id_project_name" class="col-sm-4">Project Name</label>
+                    <label for="id_project_name" class="col-sm-4"><i  style="padding-left: 25px"></i>Project Name</label>
                     <div class="col-sm-7">
                     {{ project.project_name }}
                     </div>
@@ -58,8 +53,8 @@
                     <div class="row">
                         {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
-                        <label for="id_engagement_type" data-toggle="tooltip" title="hello {{ data_definition.description }}" class="col-sm-4">
-                        Engagement Type
+                        <label for="id_engagement_type" data-toggle="tooltip" title="{{ data_definition.description }}" class="col-sm-4">
+                        <i class="info"></i> Engagement Type
 <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
                             </label>
                          {% endif %}
@@ -74,10 +69,10 @@
                     {% endif %}
                 </div>
                     <div class="row">
-                      <label class="col-sm-4">Activity Type <span style="color:red;">*</span></label>
-                      {% for data_definition in data_definition %}
+                         {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
-                      <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"></span>
+                      <label class="col-sm-4" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Activity Type <span style="color:red;">*</span></label>
+
                       {% endif %}
                       {% endfor %}
                         <div class="col-sm-7">
@@ -86,7 +81,7 @@
                     </div>
 
                     <div class="row">
-                      <label class="col-sm-4">Project Type</label>
+                      <label class="col-sm-4"><i class="info"></i> Project Type</label>
                         <div class="col-sm-7">
                       {{ project.project_type }}
                         </div>
@@ -291,8 +286,11 @@
                                     <div class="panel-body">
                                         <br>
                                             <div class="row community-row">
-                                                <div class="col-md-2">
-                                                <label style="padding-top:8px">Community Partner</label>
+                                                <div class="col-md-3">
+                                                    {% for data_definition in data_definition %}{% if data_definition.id == 2%}
+                                                <label style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Community Partner</label>
+                                                    {% endif %}
+                                                    {% endfor %}
                                             </div>
                                             <div class="col-md-4">
                                                 {{form2|bootstrap}}
@@ -323,19 +321,21 @@
             <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo">
     <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
-                                {% for data_definition in data_definition %}
-                                {% if data_definition.id == 1%}
+
                                  Campus Partner Information
-                                {% endif %}
-                                {% endfor %}
+
                                 </span>
 </button>
 <div id="campusinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
                                         <div class="row campus-row">
-                                            <div class="col-md-2">
-                                                <label for="id_academic_year" style="padding-top:8px">Campus Partner </label>
+                                            <div class="col-md-3">
+                                                 {% for data_definition in data_definition %}
+                                {% if data_definition.id == 1%}
+                                                <label for="id_academic_year" style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Campus Partner </label>
+                                                 {% endif %}
+                                {% endfor %}
                                             </div>
                                             <div class="col-md-4">
                                                 {{ form3.campus_partner|bootstrap }}
@@ -356,7 +356,7 @@
                                                       <div class="row"><br></div>
                                           <div class="centered">
 
-                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Community Partner</a>
+                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Campus Partner</a>
                                         </div>
                                     </div>
 </div>
@@ -417,13 +417,14 @@
             <div class="row"><br></div>
             <div class="row">
                 <div class="col-md-3">
-                    <label style="padding-top:8px"><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
-                                {% for data_definition in data_definition %}{% if data_definition.id == 39%}
-                                 Primary Focus Area
-                        <span style="color:red;">*</span>
-                                {% endif %}
+                    {% for data_definition in data_definition %}{% if data_definition.id == 39%}
+                    <label style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}">
+
+                                 <i class="info"></i> Primary Focus Area<span style="color:red;">*</span>
+
+                                </label>
+                    {% endif %}
                                 {% endfor %}
-                                </span></label>
                 </div>
                 <div class="col-md-6">
                     {{ form.mission | bootstrap}}
@@ -770,8 +771,11 @@ if (stepDirection === 'backward') {
     $('.sw-btn-prev').hide();
     $('.sw-btn-next').show();
 $('#id_k12_flag').change(function () {
-    if($('#id_k12_flag').prop('checked')==true){
+    if($('#id_k12_flag').prop('checked')===true){
         $("#k12-students").show();
+    }
+    else{
+         $("#k12-students").hide();
     }
 });
 $('#step1').click(function () {
@@ -1399,6 +1403,26 @@ $(document).ready(function(){
 
 <style>
 
+    .info {
+	height: 20px;
+  /*border: 1px solid #888;*/
+  width: 20px;
+  margin-top: 3px;
+        align-content: center;
+        content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
+}
+
+.info:before {
+    align-content: center;
+    width:10px;
+    height: 10px;
+  display: inline-block;
+  line-height: 1.2;
+  margin: 10px;
+  /*font-family: "FontAwesome";*/
+  content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
+  color: #888;
+}
     body{
         background-color: rgba(0,0,0,.03);
     }
@@ -1496,6 +1520,14 @@ input[id=othersubcat]{
   /*border-color:grey;*/
   /*box-shadow:0 0 8px 0 grey;*/
 }
+    .fade{
+        color: black;
+        display: block;
+        opacity: 100;
+    }
+    .fade:not(.show){
+        opacity: 5;
+    }
 </style>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file

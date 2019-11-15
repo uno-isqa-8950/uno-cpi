@@ -10,8 +10,8 @@ class CommunityPartnerResource(resources.ModelResource):
 
     class Meta:
         model = CommunityPartner
-        fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district')
-        import_id_fields = ['id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district']
+        fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district','partner_status', 'cec_partner_status')
+        import_id_fields = ['id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district','partner_status', 'cec_partner_status']
 
 class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
@@ -20,7 +20,7 @@ class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
                      'address_line1', 'address_line2', 'country', 'county','city', 'state', 'zip', 'latitude', 'longitude',
                     'active', 'weitz_cec_part','legislative_district', 'partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'county','city', 'website_url', 'active','partner_status', 'cec_partner_status')
+    search_fields = ('name', 'county','city', 'website_url', 'active','partner_status__name', 'cec_partner_status__name')
 
     resource_class = CommunityPartnerResource
 

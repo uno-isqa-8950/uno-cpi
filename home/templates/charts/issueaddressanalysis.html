@@ -2,6 +2,31 @@
     {% load wagtailcore_tags register_tags %}
 
 <style>
+        body{
+        background-color: rgba(0,0,0,.03);
+    }
+        .text-snippet{
+        text-align: left;
+    }
+    .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 5px 10px #d3d3d3;
+        }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+        margin-bottom: 50px;
+    }
     #loading
     {
         position: absolute;
@@ -25,18 +50,15 @@
         0% { -webkit-transform: rotate(0deg); }
         100% { -webkit-transform: rotate(360deg); }
     }
-
     @keyframes spin
     {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
 .bs-example
     {
     	margin: 100px 50px;
     }
-
     .form-inline label
     {
         font-weight:bold;
@@ -45,64 +67,60 @@
         display:inline;
         margin-left:22px;
     }
-
-
      .select2-container--default .select2-selection--single
      {
         margin-left:22px;
         width:100%;
      }
-
-
     .select2-container--open .select2-dropdown--below
     {
         width:100%;
         margin-left:22px;
     }
-
     .select2-selection__placeholder{
         font-size: small;
     }
-
     .form-inline .form-group
     {
         margin-bottom:30px;
         margin-top:10px;
     }
-
     .panel-default > .card {
         background-image: none;
         background-color: #333;
     }
-
  </style>
-
-<div class="loader" id =loading></div>
-<div class="container">
-   <div class="row justify-content-md-center">
+<br><br>
+<!--<div class="loader" id =loading></div>-->
+<!--<div class="container">-->
+   <div class="row box justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
-         <div class = "panel-default" style="width:100%">
-            <div class="card" style="padding: 5px;margin-top:50px;">
-               <label style="text-align:justify;">
-                  <b style="font-size:16px;text-align:center;color:White;">
-                     <h4 style="line-height:.8em;padding-top:10px;">Focus Areas Analysis Chart </h4>
-                  </b>
-               </label>
-            </div>
-         </div>
-         <div class="card" style="border: none; padding: 10px;">
-            <div class="center">
-                {% iss_charts %}
-            </div>
-         </div>
-      </div>
-   </div>
+                                    <div class=" text-center"><h3 class="heading">Focus Areas Analysis Chart</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        {% iss_charts %}
+<!--        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.-->
+    </div>
 </div>
+<!--         <div class = "panel-default" style="width:100%">-->
+<!--            <div class="card" style="padding: 5px;margin-top:50px;">-->
+<!--               <label style="text-align:justify;">-->
+<!--                  <b style="font-size:16px;text-align:center;color:White;">-->
+<!--                     <h4 style="line-height:.8em;padding-top:10px;">Issues Addressed Analysis </h4>-->
+<!--                  </b>-->
+<!--               </label>-->
+<!--            </div>-->
+<!--         </div>-->
+<!--         <div class="card" style="border: none; padding: 10px;">-->
+<!--            <div class="center">-->
+<!--                {% iss_charts %}-->
+<!--            </div>-->
+<!--         </div>-->
 
 
 
-<div class="container">
-    <div class="card" style="border: none; padding: 10px;">
+<!--<div class="container">-->
+<!--    <div class="card" style="border: none; padding: 10px;">-->
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -129,6 +147,7 @@
         <div class="card" style="border: 2px solid #C3C3C3;">
             <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
+
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="academicyear">

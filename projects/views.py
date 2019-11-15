@@ -164,6 +164,7 @@ def saveProjectAndRegister(request):
     project_type = request.GET.get('project_type')
     lead_staff_list = request.GET.get('lead_staff_list')
     k12_flag_value = False
+    year_in_project_name = ''
 
     if k12_involvment_flag == 'on':
         k12_flag_value = True
@@ -184,6 +185,7 @@ def saveProjectAndRegister(request):
 
     if start_academic_yr != '' and start_academic_yr is not None:
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
+        year_in_project_naame = project.academic_year
 
     if end_academic_yr != '' and end_academic_yr is not None:
         project.end_academic_year = AcademicYear.objects.get(id=end_academic_yr)
@@ -210,7 +212,8 @@ def saveProjectAndRegister(request):
     project.save()
     projectId = project.pk
 
-    
+    project.project_name = name + ": " + str(year_in_project_naame) + " (" + str(projectId) + ")"
+    project.save()
 
     if comm_list != '' or comm_list is not None:
         if comm_list.find(",") != -1:

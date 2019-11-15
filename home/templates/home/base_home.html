@@ -71,8 +71,8 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                         <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/projectInfo">Focus Areas</a>
-                            <a class="dropdown-item" href="/engageType">Engagement Types</a>
+                            <a class="dropdown-item" href="/project-Info">Focus Areas</a>
+                            <a class="dropdown-item" href="/engage-Type">Engagement Types</a>
 {#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                             {% if  user.is_authenticated %}
                                 <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
@@ -85,12 +85,12 @@
                     </li>
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
                         <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/missionchart">Focus Areas</a>
-                            <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                            <a class="dropdown-item" href="/issueaddress">Issues Addressed Analysis</a>
-                            <a class="dropdown-item" href="/trendreport">Trend Chart</a>
-                            <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
-<a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
+                            <a class="dropdown-item" href="/mission-chart">Focus Areas</a>
+                            <a class="dropdown-item" href="/engagement-type-chart2">Engagement Types</a>
+                            <a class="dropdown-item" href="/issue-address">Issues Addressed Analysis</a>
+                            <a class="dropdown-item" href="/trend-report">Trend Chart</a>
+                            <a class="dropdown-item" href="/network-analysis">Network Analysis</a>
+<a class="dropdown-item" href="/partnership-intensity">Partnership Intensity Analysis</a>
                         </ul>
                     </li>
                 </ul>
@@ -186,9 +186,8 @@
                 <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px;padding-bottom:10px; text-align: left;">
-                <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
-                <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                 <span><a class="fleft" style="text-decoration:underline"; href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline"; href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <!--<br>-->
                  <p>
                   <span><a class="fnone" style="font-size: 12px;">

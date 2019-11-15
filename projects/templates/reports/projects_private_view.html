@@ -179,7 +179,7 @@
         padding-top: 25px;
     }
     .media-heading{
-        line-height: 0.1 !important;
+        line-height: 0.5 !important;
     }
 b{
     font-size: 15px;
@@ -478,12 +478,13 @@ b{
                         <td>
                             <b> Academic year: </b>{{ project.academic_year }}<br>
                         </td>
+                           <td>
+                               <b>End Academic year:</b>{{end_academic_year}}
+                        </td>
                         <td>
                             <b> Project Semester: </b>{{ project.semester}}<br>
                         </td>
-                        <td>
-                            <b> Status: </b>{{ project.status}}<br>
-                        </td>
+
                     </tr>
                     <tr>
 
@@ -528,8 +529,33 @@ b{
                         <td>
                             <b> Activity Type: </b>{{ project.activityType }}<br>
                         </td>
+                        <td>
+                            <b>Lead Staff:</b>
+                            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}},{% endfor %}
+                        </td>
+                        <td>
+                            <b>SubCategory</b>:
+                            {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}
+
+                        </td>
 
                     </tr>
+                <tr>
+
+                    <td>
+                            <b> Status: </b>{{ project.status}}<br>
+                        </td>
+                    <td>
+                        <b>Project Type:</b>
+                        {{project.project_type}}
+                    </td>
+                </tr>
+                <tr>
+                   <td>
+                       <b>Engagment Type</b>
+                       {{project.engagementType}}
+                   </td>
+                </tr>
                 </table>
                 <br>
                 <div style="margin-left: 137px"><b> Description: </b>{{ project.description }}<br></div>

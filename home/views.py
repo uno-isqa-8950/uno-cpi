@@ -56,7 +56,8 @@ import datetime
 # The imports below are for running sql queries for Charts
 from django.db import connection
 from UnoCPI import sqlfiles
-from projects.forms import K12ChoiceForm
+from projects.forms import K12ChoiceForm,CecPartChoiceForm
+from projects.models import AcademicYear
 
 sql=sqlfiles
 logger = logging.getLogger(__name__)
@@ -391,8 +392,287 @@ def upload_income(request):
     return render(request, 'import/uploadIncomeDone.html')
 
 
-# (14) Mission Summary Report: filter by Semester, EngagementType
+# (14) Mission Summary Report: filter by Semester, EngagementType - TRY 1
+def project_partner_info(request):
+    data_definition = DataDefinition.objects.all()
+    focus_dict = {}
+    focus_list = []
+    subcat_dict = {}
+    subcat_list = []
+    subcat_proj_list = []
+    subcat_comm_part_list = []
+    focus_proj_list = []
+    focus_comm_part_list = []
+    focus_proj_total = 0
+    focus_comm_total = 0
+    focus_students_total = 0
+    focus_hours_total = 0
+    prev_focus_area = None
+    curr_focus_area = None
 
+    data_list=[]
+    legislative_choices = []
+    legislative_search = ''
+    data_definition = DataDefinition.objects.all()
+    status_draft = Status.objects.filter(name='Drafts')
+
+    #set legislative_selection on template choices field -- Manu Start
+    legislative_selection = request.GET.get('legislative_value', None)
+
+    if legislative_selection is None:
+        legislative_selection = 'All'
+
+    legislative_choices.append('All')
+    for i in range(1,50):
+        legistalive_val = 'Legislative District '+str(i)
+        legislative_choices.append(legistalive_val)
+
+    if legislative_selection is not None and legislative_selection != 'All':
+        legislative_search = legislative_selection.split(" ")[2]
+
+
+    #set legislative_selection on template choices field -- Manu End
+
+    #set k12 flag on template choices field
+    k12_selection = request.GET.get('k12_flag', None)
+    k12_init_selection = "All"
+    if k12_selection is None:
+        k12_selection = k12_init_selection
+
+    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    #print('CEC Partner set in view ' + cec_part_selection)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
+    # if k12_selection == 'Yes':
+    #     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+    #         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True))
+    #     else:
+    #         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=True).filter(legislative_district=legislative_search))
+    # elif k12_selection == 'No':
+    #      if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+    #         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
+    #      else:
+    #         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False).filter(legislative_district=legislative_search))
+    # else:
+    #     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
+    #     else:
+    #         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
+    #
+    #
+    # if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    # else:
+    #     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
+    # legislative district end -- Manu
+
+    #project_filter = ProjectFilter(request.GET, queryset=Project.objects.all()) # commented by Manu
+    missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    #communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all()) # commented by Manu
+
+    community_filtered_ids = communityPartners.qs.values_list('id',flat=True)
+    # community_filtered_ids = [community.id for community in communityPartners.qs]
+    community_project_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    # community_project_filtered_ids = [project.project_name_id for project in community_project_filter.qs]
+    community_project_filtered_ids = community_project_filter.qs.values_list('project_name', flat=True)
+
+    campus_filtered_ids = campusPartners.qs.values_list('id',flat=True)
+    # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_filtered_ids))
+    # campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+
+    mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+
+    # Finding intersection of all the filters
+    proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
+    proj_ids2 = list(set(proj_ids1).intersection(project_filtered_ids))
+    project_ids = list(set(proj_ids2).intersection(community_project_filtered_ids))
+
+    # To get the projects which does not have community partners
+    projects_comm_ids = list(set(proj_ids2).difference(set(project_ids)))
+    # projects_comm = list(Project.objects.filter(id__in=projects_comm_ids))
+
+    #List of all Projects with Campus, Community Partners and have Mission
+    # projects = list(Project.objects.filter(id__in=project_ids))
+    engagement_type_filter = request.GET.get('engagement_type', None)
+    if engagement_type_filter is None or engagement_type_filter == "All" or engagement_type_filter == '':
+        eng_type_cond = '%'
+    else:
+        eng_type_cond = engagement_type_filter
+
+    mission_type_filter = request.GET.get('mission', None)
+    if mission_type_filter is None or mission_type_filter == "All" or mission_type_filter == '':
+        mission_type_cond = '%'
+    else:
+        mission_type_cond =  mission_type_filter
+
+    community_type_filter = request.GET.get('community_type', None)
+    if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
+        community_type_cond = '%'
+    else:
+        community_type_cond =  community_type_filter
+
+    campus_partner_filter = request.GET.get('campus_partner', None)
+    if campus_partner_filter is None or campus_partner_filter == "All" or campus_partner_filter == '':
+        campus_partner_cond = '%'
+        campus_id = 0
+    else:
+        campus_partner_cond =  campus_partner_filter
+        campus_id = int(campus_partner_filter)
+
+    college_unit_filter = request.GET.get('college_name', None)
+    if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
+        college_unit_cond = '%'
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        college_unit_cond =  college_unit_filter
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+        legislative_district_cond = '%'
+
+    else:
+        legislative_district_cond =  legislative_search
+
+    academic_year_filter = request.GET.get('academic_year', None)
+    acad_years = AcademicYear.objects.all()
+    yrs = []
+    for e in acad_years:
+        yrs.append(e.id)
+    max_yr_id = max(yrs)
+    print("max_yr_id", max_yr_id)
+    if academic_year_filter is None or academic_year_filter == '':
+        academic_start_year_cond = int(max_yr_id)
+        academic_end_year_cond = int(max_yr_id)
+
+    elif academic_year_filter == "All":
+        academic_start_year_cond = int(max_yr_id)
+        academic_end_year_cond = 1
+    else:
+        academic_start_year_cond = int(academic_year_filter)
+        academic_end_year_cond = int(academic_year_filter)
+
+    K12_filter = request.GET.get('k12_flag', None)
+    if K12_filter is None or K12_filter == "All" or K12_filter == '':
+        K12_filter_cond = '%'
+
+    elif K12_filter == 'Yes':
+        K12_filter_cond =  'true'
+
+    elif K12_filter == 'No':
+        K12_filter_cond = 'false'
+
+    params = [eng_type_cond,
+              academic_start_year_cond,
+              academic_end_year_cond,
+              mission_type_cond,
+              college_unit_cond,
+              campus_partner_cond,
+              #cec_part_cond,
+              community_type_cond,
+              K12_filter_cond,
+              legislative_district_cond,
+              eng_type_cond,
+              academic_start_year_cond,
+              academic_end_year_cond,
+              mission_type_cond,
+              college_unit_cond,
+              campus_partner_cond,
+              # cec_part_cond,
+              community_type_cond,
+              K12_filter_cond,
+              legislative_district_cond]
+
+    print('Params:' , params)
+
+    cursor = connection.cursor()
+    cursor.execute(sql.missionSubcat_sql, params)
+    for obj in cursor.fetchall():
+        rec_type = obj[0]
+        if rec_type == 'SUMMARY':
+            focus_dict['id'] = obj[1]
+            focus_dict['mission_name'] = obj[2]
+            focus_dict['subcategory'] = obj[3]
+
+            focus_dict['project_count'] = obj[4]
+            focus_dict['community_count'] = obj[5]
+            focus_dict['total_uno_students'] = obj[6]
+            focus_dict['total_uno_hours'] = obj[7]
+
+            if focus_dict['community_count'] != '' and focus_dict['community_count'] is not None and focus_dict['community_count'] > 0:
+                focus_comm_total += focus_dict['community_count']
+            if focus_dict['project_count'] != '' and focus_dict['project_count'] is not None and focus_dict['project_count'] > 0:
+                focus_proj_total += focus_dict['project_count']
+            if focus_dict['total_uno_students'] != '' and focus_dict['total_uno_students'] is not None and focus_dict['total_uno_students'] > 0:
+                focus_students_total += focus_dict['total_uno_students']
+            if focus_dict['total_uno_hours'] != '' and focus_dict['total_uno_hours'] is not None and focus_dict['total_uno_hours'] > 0:
+                focus_hours_total += focus_dict['total_uno_hours']
+
+            focus_list.append(focus_dict.copy())
+
+        elif rec_type == 'DETAILS':
+            curr_focus_area = obj[1]  # set curr_focus_area
+
+            # first detail record - set previous focus area for compare
+            if prev_focus_area is None:
+                prev_focus_area = curr_focus_area
+
+            #Set current subcat record values
+            subcat_dict['id'] = obj[1]
+            subcat_dict['mission_name'] = obj[2]
+            subcat_dict['subcategory'] = obj[3]
+
+            subcat_dict['project_count'] = obj[4]
+            subcat_dict['community_count'] = obj[5]
+            subcat_dict['total_uno_students'] = obj[6]
+            subcat_dict['total_uno_hours'] = obj[7]
+
+            subcat_list.append(subcat_dict.copy())
+        else:
+            print('Invalid record type')
+
+    print('Focus Data')
+    print(str(focus_list))
+    print('totals data: ' +
+          'focus_comm_total: ' + str(focus_comm_total) + ' ' +
+          'focus_proj_total: ' + str(focus_proj_total) + ' ' +
+          'focus_students_total: ' + str(focus_students_total) + ' ' +
+          'focus_hours_total: ' + str(focus_hours_total))
+    print('Subcat Data')
+    print(str(subcat_list))
+
+    '''
+    cursor = connection.cursor()
+    cursor.execute(sql.missionSubcat_Details_sql, params)
+    for obj in cursor.fetchall():
+        rec_type = obj[0]
+        if rec_type == 'SUMMARY':
+    '''
+
+
+    return render(request, 'reports/ProjectPartnerInfo.html',
+                  {'data_definition': data_definition,
+                   'focus_list': focus_list, 'subcat_list': subcat_list,
+                   'legislative_choices': legislative_choices, 'legislative_value':legislative_selection,
+                   'focus_proj_total': focus_proj_total, 'focus_comm_total': focus_comm_total,
+                   'focus_students_total': focus_students_total,'focus_hours_total': focus_hours_total,
+                   'campus_id': campus_id, 'k12_choices': k12_choices, 'k12_selection': k12_selection,
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                   "missions": missions, "communityPartners": communityPartners,
+                   "campus_filter": campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id})
+
+'''
 
 def project_partner_info(request):
     missions = MissionArea.objects.all()
@@ -562,6 +842,8 @@ def project_partner_info(request):
                    'campus_filter': campus_filter, 'college_filter': college_filter,
                    'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
                    'hours_total': hours_total, 'campus_id':campus_id})
+'''
+
 
 # (15) Engagement Summary Report: filter by AcademicYear, MissionArea
 

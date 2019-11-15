@@ -123,88 +123,6 @@ label[for=id_campus-0-campus_partner]:after{
   overflow: hidden;
   background-color: #f1f1f1;
 }
- .redbutton{
-          background-color: white; /* Green */
-  border: 2px solid #b60000;
-  color: black;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-        border-radius: 8px;
-      }
-      .redbutton:hover{
-          text-decoration: underline;
-          color: white;
-          background-color: #b60000;
-      }
-      .blackbutton{
-          background-color: white; /* Green */
-  border: 2px solid black;
-  color: black;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-          border-radius: 8px;
-      }
-      .blackbutton:hover{
-          text-decoration: underline;
-          color: white;
-          background-color: black;
-      }
-
-
-      .addbutton{
-          background-color: black;
-  border: 2px solid black;
-  color: white;
-  padding: 8px 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  -webkit-transition-duration: 0.4s;
-  transition-duration: 0.4s;
-  cursor: pointer;
-             border-radius: 8px;
-      }
-      .addbutton:hover{
-          text-decoration: underline;
-          color: white;
-          /*background-color: black;*/
-      }
-
-
-
-      .btn-red{
-          background-color: crimson; /* Green */
-  border: none;
-  color: white;
-  padding: 2px 8px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-          height: 38px;
-  margin: 9px 10px;
-  -webkit-transition-duration: 0.4s; /* Safari */
-  transition-duration: 0.4s;
-  cursor: pointer;
-          border-radius: 5px;
-          margin-left:25px;
-      }
       .displaybox {
   border: 1px black;
   padding: 10px;
@@ -214,3 +132,10 @@ display: flex;
             .redborder {
   border: 1px red;
 }
+                .btn-cancel{
+            margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color:  #b60000;
+        color: white
+    }

@@ -87,7 +87,7 @@
                                 </div>
                                 <div class="col-md-3">
 <!--                            <div class="justify-content-md-center" >-->
-                            <a id="next"class="blackbutton" href="#" style="margin-left: 10%" role="button" onclick="checking();">Search</a>
+                            <a id="next"class="btn btn-secondary" href="#" style="margin-left: 10%" role="button" onclick="checking();">Search</a>
                             </div>
                             </div>
 <!--                        </div>-->
@@ -212,14 +212,14 @@ valueFilter.addEventListener("keydown", function (e) {
                         document.getElementById('node1-id').innerHTML =
                                     '<br>' +
                                     '<tr></tr>' +
-                                    '<tr><td><a class="blackbutton" href={% url 'communitypublicreport' %} role="button" data-toggle="tooltip" title="Click on this button to access Community Partners already registered"> Community Partner Report</a><br><br></td></tr>'
+                                    '<tr><td><a class="btn btn-secondary" href={% url 'communitypublicreport' %} role="button" data-toggle="tooltip" title="Click on this button to access Community Partners already registered"> Community Partner Report</a><br><br></td></tr>'
                         if(displayPartnersFlag == 0){
                                     var PartnerName = document.getElementById('partner_name').value;
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
                                         '<tr></tr>' +
-                                        '<tr><td><a class="blackbutton" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register a new Community Partner"> Register the Community Partner</a><br><br></td></tr>'
+                                        '<tr><td><a class="btn btn-secondary" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register a new Community Partner"> Register the Community Partner</a><br><br></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                         }
                             }
@@ -234,7 +234,7 @@ valueFilter.addEventListener("keydown", function (e) {
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
                                         '<tr><td><label style="text-align:justify;">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
-                                        '<tr><td><a class="blackbutton" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
+                                        '<tr><td><a class="btn btn-secondary" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                                 }
                     }

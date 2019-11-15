@@ -220,7 +220,7 @@ label[for=id_campus-0-campus_partner]:after{
         <li><a href="#step-1" id="click1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li><a href="#step-4" id="click4">Other Information</a></li>
+        <li id="click4"><a href="#step-4" >Other Information</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -477,7 +477,7 @@ label[for=id_campus-0-campus_partner]:after{
                                         {% endif %}
                                             </div>
                                                 <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row" onClick="clickCommunity()" style="padding-top:8px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
 
@@ -518,7 +518,7 @@ label[for=id_campus-0-campus_partner]:after{
                                         </div>
                                         <div class="col-md-1">
                                             <div class="input-group-append" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" onClick="clickCampus()" style="padding-top:8px" aria-hidden="true"></i>
                                             </div>
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
@@ -774,11 +774,11 @@ label[for=id_campus-0-campus_partner]:after{
             </div>
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save blackbutton" >Save as Draft</button>
+                 <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" >Save as Draft</button>
 <!--            </div>-->
-<button type="submit" value="update" name="update" id="update" class="save blackbutton" > Update</button>
-                 <button type="submit" value="submit" name="submit" id="submit" class="save blackbutton">  Submit</button>
-                <button name="cancel" id="cancel" class="redbutton"> Cancel</button>
+<button type="submit" value="update" name="update" id="update" class="save btn btn-secondary" > Update</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">  Submit</button>
+                <button name="cancel" id="cancel" class="btn btn-cancel"> Cancel</button>
  </div>
     </div>
 
@@ -1018,8 +1018,10 @@ if (stepNumber === 1) {
     });
     //-------------------buttons function if directly click on step 4-----------------
     $('#click4').click(function () {
-         $('.sw-btn-prev').show();
-                $('.sw-btn-next').hide();
+         if($('#click4').hasClass('active')) {
+             $('.sw-btn-prev').show();
+             $('.sw-btn-next').hide();
+         }
         if (status === 'Drafts') {
                         $('#termsdiv').show();
                         $('#draft').show();
@@ -1076,6 +1078,10 @@ $(".nospecial").keypress(function (e) {
 {% block custom_js %}
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
+
+
+
+    //Lead staff, Other sub Category and Other activity array list display function
     var leadstaff = $('#id_campus_lead_staff').val();
     if(leadstaff != '') {
         var splitleadstaff = leadstaff.split(',');
@@ -1103,7 +1109,7 @@ $(".nospecial").keypress(function (e) {
         }
     }
 
-
+//-----------------------add additional other sub category-----------------------
         $("#addsubcat").click(function () {
 var str = "";
 var name =  $('.subcat > h6.finalcat').length;
@@ -1129,6 +1135,7 @@ else {
     }
 }
     });
+    //-----------------------add additional Lead staff name-----------------------
     $("#submitname").click(function () {
 var str = "";
 var name =  $('.concat > h6.finalname').length;
@@ -1184,7 +1191,7 @@ else {
     });
 
 
-
+//-----------------------remove additional activity in array list-----------------------
             $(document).on('click', '.remove-act', function(e){
     e.preventDefault();
     $(this).parent().remove();
@@ -1197,6 +1204,8 @@ else {
                 // $('#id_campus_lead_staff').val(str);
     return false;
 });
+
+            //-----------------------remove additional lead staff in array list-----------------------
     $(document).on('click', '.remove-staff', function(e){
     e.preventDefault();
     $(this).parent().remove();
@@ -1209,6 +1218,7 @@ else {
                 // $('#id_campus_lead_staff').val(str);
     return false;
 });
+    //-----------------------remove additional sub category in array list-----------------------
                 $(document).on('click', '.remove-subcat', function(e){
     e.preventDefault();
     $(this).parent().remove();
@@ -1228,21 +1238,33 @@ else {
     if (el.id) el.id = el.id.replace(id_regex, replacement);
     if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
+//--------------------to count click for clone more which excludes previously added partner and only new partner id's are considered-------------------
+     var clickscomm = 0;
+    function clickCommunity() {
+        clickscomm += 1;
+ }
+     var clickscamp = 0;
+    function clickCampus() {
+        clickscamp += 1;
+ }
+
 var community_ids = [];
 var campus_ids = [];
 var subcategory_ids=[];
+var new_community_ids = [];
+var new_campus_ids = [];
 $("#id_registerCommAndSave").click(function (){
    var projecId = document.getElementById('id_projectId').value;
 
     var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project.Are you sure you want to register a New Community Partner?");
     if (result == true) {
     var commIdList = ''
-    if (community_ids.length >=1) {
-        commIdList  = String(community_ids);
+    if (new_community_ids.length >=1) {
+        commIdList  = String(new_community_ids);
     }
     var campIdList = ''
-    if (campus_ids.length >=1) {
-        campIdList  = String(campus_ids);
+    if (new_campus_ids.length >=1) {
+        campIdList  = String(new_campus_ids);
     }
      $.ajax({
         url: "/saveProjectAndRegister/",
@@ -1280,12 +1302,12 @@ $("#id_registerCampusAndSave").click(function (){
     var projecId = document.getElementById('id_projectId').value;
     if (result == true) {
     var commIdList = ''
-    if (community_ids.length >=1) {
-        commIdList  = String(community_ids);
+    if (new_community_ids.length >=1) {
+        commIdList  = String(new_community_ids);
     }
     var campIdList = ''
-    if (campus_ids.length >=1) {
-        campIdList  = String(campus_ids);
+    if (new_campus_ids.length >=1) {
+        campIdList  = String(new_campus_ids);
     }
      $.ajax({
         url: "/saveProjectAndRegister/",
@@ -1332,12 +1354,18 @@ function cloneMore(selector, prefix) {
             $(selector).find('select').val(' ');
             return;
         }
+        if(clickscomm > 1){
+            new_community_ids.push(selected)
+        }
         community_ids.push(selected);
     } else if (prefix == 'campus_edit') {
         if (campus_ids.includes(selected)) {
             alert('campus already added');
             $(selector).find('select').val(' ');
             return;
+        }
+        if(clickscamp > 1){
+            new_campus_ids.push(selected)
         }
         campus_ids.push(selected);
     }
@@ -1420,9 +1448,13 @@ function deleteForm(prefix, elem) {
         if (prefix == 'community_edit') {
         var index = community_ids.indexOf(selected);
         if (index != -1) community_ids.splice(index, 1);
+        var newindex = new_community_ids.indexOf(selected);
+        if (newindex != -1) new_community_ids.splice(index, 1);
     } else if (prefix == 'campus_edit') {
         var index = campus_ids.indexOf(selected);
         if (index != -1) campus_ids.splice(index, 1);
+        var newindex = new_campus_ids.indexOf(selected);
+        if (newindex != -1) new_campus_ids.splice(index, 1);
     }
     else if(prefix=='sub_category_edit'){
         var index = subcategory_ids.indexOf(selected);
@@ -1494,7 +1526,7 @@ $(document).on('click', '.remove-secondary_mission-row', function(e){
 $(document).on('click', '.remove-community_edit-row', function(e){
     e.preventDefault();
    $(this).parent().remove();
-    deleteForm('community', $(this));
+    deleteForm('community_edit', $(this));
     return false;
 });
 $(document).on('click', '.remove-campus_edit-row', function(e){
@@ -1512,8 +1544,8 @@ $(document).on('click', '.remove-sub_category_edit-row', function(e){
 </script>
 {#   Js to show the course form if some error happens after the form #}
 <script>
-window.onload = function () {
-    $('.community_edit-row:not(:last)').find(':input').not(':last').each(function() {
+
+    $('.community_edit-row:not(:last)').find('select').not(':last').each(function() {
         var name = $(this).attr('name');
         if(name) {
              var selectedcommunity = $('#id_'+name+' option:selected').text();
@@ -1528,7 +1560,7 @@ window.onload = function () {
              community_ids.push(selectedcommunityval)
         }
     });
-        $('.campus_edit-row:not(:last)').find(':input').not(':last').each(function() {
+        $('.campus_edit-row:not(:last)').find('select').not(':last').each(function() {
         var campname = $(this).attr('name');
         if(campname) {
              var selectedcampus = $('#id_'+campname+' option:selected').text();
@@ -1544,7 +1576,7 @@ window.onload = function () {
         }
 
     });
-            $('.sub_category_edit-row:not(:last)').find(':input').not(':last').each(function() {
+            $('.sub_category_edit-row:not(:last)').find('select').not(':last').each(function() {
         var subcat = $(this).attr('name');
         if(subcat) {
              var selectedcat = $('#id_'+subcat+' option:selected').text();
@@ -1562,6 +1594,8 @@ window.onload = function () {
         }
 
     });
+
+            window.onload = function () {
 //------------hide and show k-12 flag ---------------------
 $('#id_k12_flag').change(function () {
     if($('#id_k12_flag').prop('checked')==true){
@@ -1575,13 +1609,13 @@ $('#id_k12_flag').change(function () {
         var communitylast = $('.community_edit-row:last').find(':selected').text();
         var campuslast = $('.campus_edit-row:last').find(':selected').text();
          var subcatlast = $('.sub_category_edit-row:last').find(':selected').text();
-       if(communitylast != '---------') {
+       if(communitylast != '---------'||communitylast!='') {
            $('.add-community-row:last').click();
        }
-       if( campuslast != '---------') {
+       if( campuslast != '---------'||communitylast!='') {
            $('.add-campus-row:last').click();
        }
-       if(subcatlast != '---------') {
+       if(subcatlast != '---------'||subcatlast!='') {
            $('.add-sub_category-row:last').click();
        }
 
@@ -1692,6 +1726,7 @@ $(document).ready(function(){
  // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 </script>
 <style>
+
 .select2-container .select2-selection--single
 {
    height:32px;

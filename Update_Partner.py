@@ -36,7 +36,7 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               sslmode="require")
 
 if (conn):
-    print("connection sucess",conn)
+    print("connection sucess in Update Partner--",conn)
     logger.info("Connection Successful!")
 else:
     logger.info("Connection Error!")
@@ -53,9 +53,14 @@ dfCommunity = pd.read_sql_query(
     join home_missionarea hm on p.mission_area_id = hm.id \
     join partners_communitytype pc2 on PC.community_type_id = pc2.id \
     where  \
-    (pc.address_line1 not in ('','NA','N/A') or pc.city not in ('','NA','N/A') or pc.state not in ('','NA','N/A')) \
-    and (pc.latitude is null or pc.longitude is null or pc.legislative_district is null ) \
+    (pc.address_line1 not in ('','NA','N/A','None') or \
+    pc.city not in ('','NA','N/A','None') or \
+    pc.state not in ('','NA','N/A','None')) \
+    and (pc.latitude is null or pc.longitude is null \
+    or pc.legislative_district is null) \
     and lower(p.mission_type) = 'primary'",con=conn)
+
+print(repr(len(dfCommunity)) +" Partners fetched from the Database on " + str(currentDT))
 
 if len(dfCommunity) == 0:
     logger.critical("No Community Partners fetched from the Database while updating lang and lng on " + str(currentDT))
@@ -105,10 +110,11 @@ if len(dfCommunity) != 0:
     logger.info("Call update Community Partners in database") 
     dfCommunity.apply(lambda x: feature_from_row(x['community_partner'], str(x['fulladdress'])), axis=1)
     cursor.close()
+    conn.close()
 else:
     logger.info("Do not Call update partner function for each row") 
+    conn.close()
 
-conn.close()
 
 # Log when the Script ran
 logger.info("Community Partners of  " + repr(len(dfCommunity)) + " records are generated at " + str(currentDT))

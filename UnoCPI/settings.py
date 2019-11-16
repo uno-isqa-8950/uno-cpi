@@ -87,7 +87,7 @@ MIDDLEWARE = [
     'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
 
-SESSION_EXPIRE_SECONDS = 3600
+SESSION_EXPIRE_SECONDS = 1800
 ROOT_URLCONF = 'UnoCPI.urls'
 
 TEMPLATES = [

@@ -243,6 +243,29 @@ def saveProjectAndRegister(request):
     return JsonResponse(data)
 
 
+def getEngagemetActivityList(request):
+    selectedEngagement = request.GET.get('selectedEngagement')
+    print('selectedEngagement--',selectedEngagement)
+    activityList = []
+    if selectedEngagement is not None:
+        engagementObj = EngagementType.objects.get(name=selectedEngagement)
+        print("engagemenet Id--",engagementObj.id)
+        eng_act_obj = EngagementActivityType.objects.all().filter(EngagementTypeName=engagementObj)
+        print('eng_act_obj--',eng_act_obj)
+        for act in eng_act_obj:
+            print('act obj---',act.ActivityTypeName)
+            actObj = ActivityType.objects.get(name=act.ActivityTypeName)
+            activityList.append( {"name": actObj.name, "id": actObj.id}) 
+        
+        #otherActivityObj = ActivityType.objects.all().filter(name='Other')
+        #print('otherActivityObj--',otherActivityObj)
+        #activityList.append( {"name": otherActivityObj.name, "id": otherActivityObj.id}) 
+    print('activityList---',activityList)
+    data = {'activityList' : activityList}  
+    return JsonResponse(data)
+
+
+
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
@@ -964,11 +987,24 @@ def editProject(request,pk):
 
     else:
 
-            proj_edit = Project.objects.filter(id=pk)
+            proj_edit = Project.objects.get(id=pk)
+            print('proj_edit--',proj_edit)
+            engagementObj = proj_edit.engagement_type
+            print('selected engagemenet type--',engagementObj)
+            selectedActivity = proj_edit.activity_type
+            print('selected activity type--',selectedActivity)
+            eng_act_obj = EngagementActivityType.objects.all().filter(EngagementTypeName=engagementObj)
+            print('eng_act_obj--',eng_act_obj)
+            activityList= []
+            for act in eng_act_obj:
+                print('act obj---',act.ActivityTypeName)
+                actObj = ActivityType.objects.get(name=act.ActivityTypeName)
+                activityList.append( {"name": actObj.name, "id": actObj.id}) 
 
-            for x in proj_edit:
-                project = ProjectForm2(request.POST or None, instance=x)
-                course = CourseForm(instance = x)
+            #for x in proj_edit:
+            x= proj_edit
+            project = ProjectForm2(request.POST or None, instance=x)
+            course = CourseForm(instance = x)
 
             proj_mission = ProjectMission.objects.filter(project_name_id=pk)
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
@@ -983,7 +1019,7 @@ def editProject(request,pk):
                                                    'formset_comm_details': formset_comm_details,
                                                    'formset_camp_details':formset_camp_details,
                                                     'formset_subcat_details':formset_subcat_details,
-                                                    'projectId':pk})
+                                                    'projectId':pk,'activityList':activityList,'selectedActivity':selectedActivity})
 
 # @login_required()
 # def showAllProjects(request):

@@ -184,7 +184,10 @@
 b{
     font-size: 15px;
 }
-
+table{
+        table-layout: fixed;
+        width: 85%;
+    }
 </style>
 
 
@@ -467,113 +470,68 @@ b{
 
 
 
-            <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
+<div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
 
 
 
-                <p>
-                <table style="width: 100%;margin-left: 137px; ">
+    <p>
+    <table style="margin-left: 137px; ">
 
-                    <tr>
+       <tr>
                         <td>
-                            <b> Academic year: </b>{{ project.academic_year }}<br>
-                        </td>
-                           <td>
-                               <b>End Academic year:</b>{{end_academic_year}}
+                            <b>Engagement Type :</b> {{ project.engagementType }}
                         </td>
                         <td>
-                            <b> Project Semester: </b>{{ project.semester}}<br>
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td>
-                            <b> Start Date: </b>{{ project.startDate }}<br>
+                            <b> Activity Type :</b> {{ project.activityType}}
                         </td>
                         <td>
-                            <b> End Date: </b>{{ project.endDate }}<br>
-                        </td>
-                        <td>
-                            <b> Outcomes: </b>{{ project.outcomes }}<br>
-                        </td>
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            <b> Number of UNO Students: </b>{{project.total_uno_students}}<br>
-                        </td>
-                        <td>
-                            <b> Number of UNO Students Hours: </b>{{project.total_uno_hours}}<br>
-                        </td>
-                        <td>
-                            <b> Number of UNO Faculty/Staff: </b>{{project.total_uno_faculty}}<br>
+                            <b> Start Semester :</b> {{ project.semester}}
                         </td>
                     </tr>
                     <tr>
 
                         <td>
-                            <b> Number of K12 Students: </b>{{project.total_k12_students}}<br>
+                            <b> End Semester :</b> {{ project.end_semester }}
                         </td>
                         <td>
-                            <b> Number of K12 Students Hours: </b>{{project.total_k12_hours}}<br>
+                            <b> Start Academic Year :</b> {{ project.academic_year}}
                         </td>
                         <td>
-                            <b> Number of Other Participants: </b>{{project.total_other_community_members}}<br>
+                            <b> End Academic Year :</b> {{ project.end_academic_year }}
                         </td>
                     </tr>
-                    <tr>
+    <tr>
+        <td>
+            <b> Total UNO Students : </b> {{project.total_uno_students}}
+        </td>
+        <td>
+            <b>UNO Student Hours : </b> {{project.total_uno_hours}}
 
+        </td>
+        <td> <b>Total K-12 Students : </b> {{project.total_k12_students}}</td>
+    </tr>
+    <tr>
 
-                        <td>
-                            <b> Activity Type: </b>{{ project.activityType }}<br>
-                        </td>
-                        <td>
-                            <b>Lead Staff:</b>
-                            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}},{% endfor %}
-                        </td>
-                        <td>
-                            <b>SubCategory</b>:
-                            {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}
+        <td>
+            <b>Total K-12 Hours : </b> {{project.total_k12_hours}}
 
-                        </td>
+        </td>
+        <td>
+            <b>Campus Lead Staff : </b> {{project.campus_lead_staff}}
+        </td>
+    </tr>
 
-                    </tr>
-                <tr>
-
-                    <td>
-                            <b> Status: </b>{{ project.status}}<br>
-                        </td>
-                    <td>
-                        <b>Project Type:</b>
-                        {{project.project_type}}
-                    </td>
-                </tr>
-                <tr>
-                   <td>
-                       <b>Engagment Type</b>
-                       {{project.engagementType}}
-                   </td>
-                </tr>
-                </table>
-                <br>
-                <div style="margin-left: 137px"><b> Description: </b>{{ project.description }}<br></div>
-                </p>
+</table>
+    <br>
+    <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %} {{sub_category}}, {% endfor %}</div>
+    <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
+    </p>
 
             </div>
-            <!---->
 
-
-
-
-
-
-
-
-        </div>
+</div>
         {% endfor %}
-    </div>
+</div>
 
 </div>
 

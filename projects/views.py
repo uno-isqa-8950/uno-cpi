@@ -2054,7 +2054,16 @@ def projectsPrivateReport(request):
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection})
 
-#old table view of data
+
+
+
+
+
+
+#Private table view implementation with all projects sql query
+
+
+# old table view of data
 
 @admin_required()
 def projectstablePrivateReport(request):

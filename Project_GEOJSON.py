@@ -23,8 +23,8 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+                              database=settings.DATABASES['default']['NAME'])
+                              #sslmode="require")
 
 if (conn):
     logger.info("Connection Successful!")
@@ -134,7 +134,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 cursor.execute("select ces.name from partners_cecpartnerstatus ces , \
                     partners_communitypartner PC \
                     where ces.id = PC.cec_partner_status_id \
-                    and pc.name = '" +communityPartners[n] +"'")
+                    and PC.name = '" +communityPartners[n] +"'")
                 cecStatusList = cursor.fetchall()
                 if len(cecStatusList) != 0:
                     for obj in cecStatusList:
@@ -198,6 +198,6 @@ if len(df_projects) == 0:
     print("Project GEOJSON file NOT written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
 else:
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
+    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project_local.geojson').put(Body=format(jsonstring))
     print("Project GEOJSON file written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Project GEOJSON file written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

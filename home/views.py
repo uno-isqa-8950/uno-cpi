@@ -1198,6 +1198,8 @@ def partnershipintensity(request):
 
 
 # Trend Report Chart
+@login_required()
+@admin_required()
 def trendreport(request):
     data_definition = DataDefinition.objects.all()
 

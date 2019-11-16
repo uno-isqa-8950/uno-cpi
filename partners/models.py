@@ -31,7 +31,7 @@ class CommunityPartner(models.Model):
                                        verbose_name="Community Partner Status")
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True,blank=True,
-                                           verbose_name="Community CEC Partner Status")
+                                           verbose_name="Community CEC Partner Status",default=3)
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
     history = HistoricalRecords()

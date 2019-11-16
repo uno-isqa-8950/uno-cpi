@@ -4,7 +4,7 @@
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
-            .fade{
+    .fade{
         color: black;
         display: block;
         opacity: 100;
@@ -81,7 +81,7 @@
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}  Academic Years
+                    {% endfor %}  Academic Year
                 </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -118,7 +118,7 @@
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Community Partner Types
+                    {% endfor %} Community Organization Types
                 </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -136,7 +136,7 @@
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Colleges and Main Units
+                    {% endfor %} College and Main Units
                 </label>
                 <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                     <option> All </option>
@@ -175,7 +175,7 @@
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} CEC Community Building Partners
+                    {% endfor %} CEC Building Partners
                 </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option> All </option>
@@ -184,25 +184,6 @@
                             {% endfor %}
                     </select>
             </div>
-<div class="col-lg-4 col-md-5 form-group ">
-
-                        <label for="legislative_value">
-
-                            {% for data_definition in data_definition %}
-                            {% if data_definition.id == 52%}
-                            <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float">
-                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                            {% endfor %} Legislative District
-                        </label>
-                        <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
-                            {% for item in legislative_choices %}
-                            <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
-                           <!-- <option> {{legislative_value}} </option>-->
-                            {% endfor %}
-                        </select>
-                    </div>
             </form>
        </div>
     </div>
@@ -272,7 +253,7 @@
 <tbody>
    {% for e in engagement_List %}
         <tr>
-            <td><span data-toggle="tooltip" title="{{ e.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>{{ e.engagement_name }}</td>
+            <td><span data-toggle="tooltip" title="{{ e.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> {{ e.engagement_name }}</td>
             <td>
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
@@ -345,8 +326,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
-    $('#id_legislative_value').select2({width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */

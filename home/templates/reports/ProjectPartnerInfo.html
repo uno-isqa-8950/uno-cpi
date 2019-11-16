@@ -253,12 +253,12 @@
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}
-                                    {% else %}<a href="{% url 'communityfromMissionReport' m.id%}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a>
+                                    {% else %}<a href="{% url 'communityprivatereport' %}?comm_ids={{ m.comm_ids }}" target="_blank" class="class1">{{m.community_count}}</a>
                                     {% endif %}</td>
                                 <td>
                                     {% if  m.project_count  < 1 %}
                                     {{m.project_count}}
-                                    {% else %}<a href="{% url 'projectsfromMissionReport' m.id%}?proj_id_list={{ m.project_name_ids }}" target="_blank" class="class1">{{m.project_count}}</a>
+                                    {% else %}<a href="{% url 'showAllProjects' %}?proj_id_list={{ m.project_name_ids }}" target="_blank" class="class1">{{m.project_count}}</a>
                                     {% endif %}</td>
                                 <td>{{m.total_uno_students}}</td>
                                 <td>{{m.total_uno_hours}}</td>
@@ -327,6 +327,8 @@ $(document).ready(function(){
                                         }});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
+     $('#id_legislative_value').select2({width: '75%'});
+    
     $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */

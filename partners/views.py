@@ -189,10 +189,20 @@ def registerCommunityPartner(request):
 #validation for community name in register community partner form
 def ajax_load_community(request):
     name = request.GET.get('name', None)
+
     data = {
         'is_taken': CommunityPartner.objects.filter(name__iexact=name).exists()
     }
     return JsonResponse(data)
+#validation for acronym
+def ajax_load_community_acronym(request):
+    acronym = request.GET.get('acronym', None)
+    print(acronym)
+    data = {
+        'is_taken': CommunityPartner.objects.filter(acronym__iexact=acronym).exists()
+    }
+    return JsonResponse(data)
+
 
 #validation for campus name in register community partner form
 def ajax_load_campus(request):

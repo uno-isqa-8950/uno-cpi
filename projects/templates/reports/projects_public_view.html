@@ -7,7 +7,8 @@
         <div class="col-xl-12 col-md-12 col-sm-12">
             <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Projects</h4></b></label>
+                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
+                           style="line-height:.8em;padding-top:10px;">Projects Report</h4></b></label>
                </div>
             </div>
             <div class="card" style="padding: 10px;">
@@ -50,7 +51,7 @@
             <form class="form-inline" id="filters-form" method="get">
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="mission"> Project Mission Areas
+                    <label for="mission"> Project Focus Areas
 
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
@@ -152,9 +153,11 @@
                         {% endfor %}
                     </label>
                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        {% for cec_choice in cec_part_choices.cec_choice %}
-                            {{ cec_choice }}
-                        {% endfor %}
+                    <option> All </option>
+                    {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
+                        {{weitz_cec_part}}
+                    {% endfor %}
+                       
                     </select>
                     {%  comment %}
                         <option> All </option>
@@ -199,7 +202,7 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-lg-3 col-md-5 form-group ">
+                <div class="col-lg-4 col-md-5 form-group ">
 
                     <label >Legislative Districts
     
@@ -405,7 +408,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'Current Academic Year',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '80%'});
     $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
                                 sorter: function(data) {

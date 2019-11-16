@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
-from .forms import LoginForm
+from .forms import *
 from django.contrib import messages
-
+from django.contrib.auth.forms import *
+from django.utils.decorators import method_decorator
+from django.views.generic.edit import FormView
+from django.views.decorators.csrf import csrf_protect
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
 # Create your views here.
 

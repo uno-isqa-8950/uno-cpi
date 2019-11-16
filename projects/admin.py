@@ -125,7 +125,7 @@ class EngagementActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('EngagementTypeName', 'ActivityTypeName')
 
-    search_fields = ('EngagementTypeNamw', 'ActivityTypeName')
+    search_fields = ('EngagementTypeName__name', 'ActivityTypeName__name')
 
     resource_class = EngagementActivityTypeResource
 
@@ -139,7 +139,7 @@ class ProjectEngagementActivityResource(resources.ModelResource):
 class ProjectEngagementActivityList(admin.ModelAdmin):
 
     list_display = ('ProjectName', )
-    search_fields = ('Project Name', 'ProjectEngagement Activity Name')
+    #search_fields = ('projectname__project_name', 'ProjectEngagementActivityName__EngagementActivityType')
     resource_class = ProjectEngagementActivityResource
 
 
@@ -201,7 +201,7 @@ class ProjectSubCategoryResource(resources.ModelResource):
 class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('project_name', 'sub_category')
 
-    search_fields = ('project_name', 'sub_category')
+    search_fields = ('project_name__project_name', 'sub_category__sub_category')
 
     resource_class = ProjectSubCategoryResource
 
@@ -214,7 +214,7 @@ class MissionSubCategoryResource(resources.ModelResource):
 class MissionSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('secondary_mission_area', 'sub_category')
 
-    search_fields = ('secondary_mission_area', 'sub_category')
+    search_fields = ('secondary_mission_area__mission_name', 'sub_category__sub_category')
 
     resource_class = MissionSubCategoryResource
 

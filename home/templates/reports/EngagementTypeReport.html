@@ -4,6 +4,14 @@
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
+            .fade{
+        color: black;
+        display: block;
+        opacity: 100;
+    }
+    .fade:not(.show){
+        opacity: 5;
+    }
 </style>
 
   <script>
@@ -208,7 +216,7 @@
             {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
                         <span tabindex="-1" data-toggle="tooltip"
-                          title="{ data_definition.description }}" class="float" >
+                          title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Engagement Types</span>
                     {% endif %}
                 {% endfor %}
@@ -264,11 +272,8 @@
 <tbody>
    {% for e in engagement_List %}
         <tr>
-            <td><span data-toggle="tooltip" title="{{ project.engagement_type.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>{{ e.engagement_name }}</td>
+            <td><span data-toggle="tooltip" title="{{ e.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>{{ e.engagement_name }}</td>
             <td>
-
-
-
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}

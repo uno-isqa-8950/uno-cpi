@@ -851,9 +851,11 @@ def project_partner_info(request):
 def engagement_info(request):
     logger.info('Start engagement_info')
     engagements = EngagementType.objects.all()
+    print(engagements)
     data_definition = DataDefinition.objects.all()
     engagement_Dict = {}
     engagement_List = []
+
     status_draft = Status.objects.filter(name='Drafts')
     #set legislative_selection on template choices field -- by Manu
     legislative_choices = []
@@ -941,6 +943,7 @@ def engagement_info(request):
                 unique_camp_ids_count = len(unique_camp_ids)
 
         engagement_Dict['engagement_name'] = e.name
+        engagement_Dict['description'] = e.description
         engagement_Dict['project_count'] = project_count
         engagement_Dict['community_count'] = unique_comm_ids_count
         engagement_Dict['campus_count'] = unique_camp_ids_count

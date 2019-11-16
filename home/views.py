@@ -410,11 +410,13 @@ def project_partner_info(request):
     prev_focus_area = None
     curr_focus_area = None
 
+
     data_list=[]
     legislative_choices = []
     legislative_search = ''
     data_definition = DataDefinition.objects.all()
     status_draft = Status.objects.filter(name='Drafts')
+
 
     #set legislative_selection on template choices field -- Manu Start
     legislative_selection = request.GET.get('legislative_value', None)
@@ -543,7 +545,7 @@ def project_partner_info(request):
         legislative_district_cond = '%'
 
     else:
-        legislative_district_cond =  legislative_search
+        legislative_district_cond = legislative_search
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -604,11 +606,11 @@ def project_partner_info(request):
             focus_dict['id'] = obj[1]
             focus_dict['mission_name'] = obj[2]
             focus_dict['subcategory'] = obj[3]
-
             focus_dict['project_count'] = obj[4]
             focus_dict['community_count'] = obj[5]
             focus_dict['total_uno_students'] = obj[6]
             focus_dict['total_uno_hours'] = obj[7]
+            focus_dict['mission_desc'] = obj[8]
 
             if focus_dict['community_count'] != '' and focus_dict['community_count'] is not None and focus_dict['community_count'] > 0:
                 focus_comm_total += focus_dict['community_count']
@@ -637,7 +639,6 @@ def project_partner_info(request):
             subcat_dict['community_count'] = obj[5]
             subcat_dict['total_uno_students'] = obj[6]
             subcat_dict['total_uno_hours'] = obj[7]
-
             subcat_list.append(subcat_dict.copy())
         else:
             print('Invalid record type')
@@ -750,6 +751,7 @@ def project_partner_info(request):
         project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
+        mission_dict['description'] = m.description
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
@@ -857,28 +859,29 @@ def engagement_info(request):
     engagement_List = []
 
     status_draft = Status.objects.filter(name='Drafts')
-    #set legislative_selection on template choices field -- by Manu
+    # set legislative_selection on template choices field -- by Manu
     legislative_choices = []
     legislative_search = '';
-    
+
     legislative_selection = request.GET.get('legislative_value', None)
-   
+
     if legislative_selection is None:
         legislative_selection = 'All'
 
     legislative_choices.append('All')
-    for i in range(1,50):
-        legistalive_val = 'Legislative District '+str(i)
+    for i in range(1, 50):
+        legistalive_val = 'Legislative District ' + str(i)
         legislative_choices.append(legistalive_val)
-    
+
     if legislative_selection is not None and legislative_selection != 'All':
         legislative_search = legislative_selection.split(" ")[2]
 
     # legislative selectionn end by Manu
-             
+
     campus_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     campus_partner_filtered_ids = [campus.id for campus in campus_partner_filter.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+        campus_partner_id__in=campus_partner_filtered_ids))
     campus_project_filtered_ids = [project.project_name_id for project in campus_project_filter.qs]
     campus_campus_filtered_ids = [campus.campus_partner_id for campus in campus_project_filter.qs]
 
@@ -888,18 +891,21 @@ def engagement_info(request):
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     project_mission_ids = [p.project_name_id for p in missions_filter.qs]
 
-    
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         year_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     else:
-        year_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status__in=status_draft))
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-    
+        year_filter = ProjectFilter(request.GET,
+                                    queryset=Project.objects.filter(legislative_district=legislative_search).exclude(
+                                        status__in=status_draft))
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            legislative_district=legislative_search))
+
     project_year_ids = [project.id for project in year_filter.qs]
 
     community_filtered_ids = [community.id for community in communityPartners.qs]
-    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(community_partner_id__in=community_filtered_ids))
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+        community_partner_id__in=community_filtered_ids))
     comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
 
     filtered_project_ids = list(set(project_mission_ids).intersection(project_year_ids))
@@ -910,7 +916,8 @@ def engagement_info(request):
         # gets the prpject ids for one engagement type
         proj_comm = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_list)
         # gets the distinct ids from projectcommunity partner table for all the above projects
-        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(community_partner_id__in=community_filtered_ids).distinct()
+        proj_comm_1 = ProjectCommunityPartner.objects.filter(project_name_id__in=proj_comm).filter(
+            community_partner_id__in=community_filtered_ids).distinct()
         # gets all the community partner ids in a array. These are not distinct
         proj_comm_ids = [community.community_partner_id for community in proj_comm_1]
         # sets the non distinct array to a distinct set of community partner ids
@@ -922,7 +929,8 @@ def engagement_info(request):
         project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=project_year_ids).count()
         projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=project_year_ids)
         proj_ids_list = []
-        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+        proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_comm).filter(
+            campus_partner_id__in=campus_campus_filtered_ids).distinct()
         proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
         unique_camp_ids = set(proj_camp_ids)
 
@@ -932,12 +940,14 @@ def engagement_info(request):
         b = request.GET.get('community_type', None)
         if a is None or a == "All" or a == '':
             if b is None or b == "All" or b == '':
-                project_count = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1).count()
+                project_count = Project.objects.filter(engagement_type_id=e.id).filter(
+                    id__in=filtered_project_ids1).count()
                 projects = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
                 proj_camp1 = Project.objects.filter(engagement_type_id=e.id).filter(id__in=filtered_project_ids1)
-                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(campus_partner_id__in=campus_campus_filtered_ids).distinct()
+                proj_camp = ProjectCampusPartner.objects.filter(project_name_id__in=proj_camp1).filter(
+                    campus_partner_id__in=campus_campus_filtered_ids).distinct()
                 proj_camp_ids = [campus.campus_partner_id for campus in proj_camp]
-                #comm_id_list = list(campus.campus_partner_id for campus in proj_camp)
+                # comm_id_list = list(campus.campus_partner_id for campus in proj_camp)
                 unique_camp_ids = set(proj_camp_ids)
 
                 unique_camp_ids_count = len(unique_camp_ids)
@@ -988,7 +998,7 @@ def engagement_info(request):
     if college_value is None or college_value == "All" or college_value == '':
         campus_filter_qs = CampusPartner.objects.all()
     else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     campus_id = request.GET.get('campus_partner')
@@ -1000,9 +1010,11 @@ def engagement_info(request):
         campus_id = int(campus_id)
     logger.info('End engagement_info')
     return render(request, 'reports/EngagementTypeReport.html',
-                  {'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
-                      'college_filter': campus_partner_filter, 'missions_filter': missions_filter, 'year_filter': year_filter, 'engagement_List': engagement_List,
-                   'data_definition':data_definition, 'communityPartners' : communityPartners ,'campus_filter': campus_filter, 'campus_id':campus_id})
+                  {'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
+                   'college_filter': campus_partner_filter, 'missions_filter': missions_filter,
+                   'year_filter': year_filter, 'engagement_List': engagement_List,
+                   'data_definition': data_definition, 'communityPartners': communityPartners,
+                   'campus_filter': campus_filter, 'campus_id': campus_id})
 
 
 

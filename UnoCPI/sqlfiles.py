@@ -1659,7 +1659,7 @@ def createproj_addothermission(subcategory,projid):
 # Query for count of all projects mapped to Mission/Subcategory
 missionSubcat_sql = '''
 SELECT rec_type, mission_id, mission_name, sub_category,
-       proj_count, comm_part_count, uno_students, uno_hours
+       proj_count, comm_part_count, uno_students, uno_hours, mission_descr
 FROM (
 	select 'SUMMARY' rec_type, 
 	       m.id mission_id, 

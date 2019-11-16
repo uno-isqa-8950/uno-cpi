@@ -2605,14 +2605,29 @@ def communityPublicReport(request):
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     yrs = []
     for e in acad_years:
         yrs.append(e.id)
-    max_yr_id = max(yrs)
+    default_yr_id = acad_year -1
+    max_yr_id =max(yrs)
     print("max_yr_id", max_yr_id)
+    print("default_yr_id", default_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -2631,7 +2646,6 @@ def communityPublicReport(request):
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
-
     if comm_ids is not None:
         params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
                      legislative_district_cond, college_unit_cond]
@@ -2646,7 +2660,6 @@ def communityPublicReport(request):
             print('params-222-',params)
             cursor = connection.cursor()
             cursor.execute(sql.selected_One_community_public_report, params)
-
     else:
         if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
             cec_part_selection = cec_part_init_selection
@@ -2850,13 +2863,27 @@ def communityPrivateReport(request):
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     for e in acad_years:
         yrs.append(e.id)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
+    default_yr_id = acad_year - 1
+    #print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)

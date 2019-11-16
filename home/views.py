@@ -1200,34 +1200,9 @@ def partnershipintensity(request):
 # Trend Report Chart
 def trendreport(request):
     data_definition = DataDefinition.objects.all()
-    communityPartners = []
-    legislative_choices = []
-    legislative_search = ''
-    legislative_selection = request.GET.get('legislative_value', None)
 
-    if legislative_selection is None:
-        legislative_selection = 'All'
-
-    legislative_choices.append('All')
-    for i in range(1, 50):
-        legistalive_val = 'Legislative District ' + str(i)
-        legislative_choices.append(legistalive_val)
-
-    if legislative_selection is not None and legislative_selection != 'All':
-        legislative_search = legislative_selection.split(" ")[2]
-
-    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    else:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
-
-    k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
-    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
@@ -1239,6 +1214,15 @@ def trendreport(request):
     else:
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    # print('CEC Partner set in view ' + cec_part_selection)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     yearList = []
     for y in AcademicYear.objects.all():
@@ -1252,8 +1236,8 @@ def trendreport(request):
     return render(request, 'charts/trendreport.html',
                   { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
-                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,'campus_filter': campus_filter, 'k12_choices': k12_choices,
-                    'CommunityPartners': CommunityPartners, 'Projects':Projects, 'CampusPartners':CampusPartners, 'yearList':yearList})
+                    'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                    'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
 
 def EngagementType_Chart(request):

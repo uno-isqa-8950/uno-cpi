@@ -6,6 +6,14 @@
 <style>
   A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
+            .fade{
+        color: black;
+        display: block;
+        opacity: 100;
+    }
+    .fade:not(.show){
+        opacity: 5;
+    }
 </style>
 
 <div class="loader" id =loading></div>
@@ -60,8 +68,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 
                      <label for="academic_year">  {% for data_definition in data_definition %}
                              {% if data_definition.id == 32%}
-                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                       data-content="{{ data_definition.description }}" class="float" >
+                                 <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
                          {% endfor %} Academic Years
@@ -79,8 +87,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="college_name">{% for data_definition in data_definition %}
                                  {% if data_definition.id == 43%}
-                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                           data-content="{{ data_definition.description }}" class="float" >
+                                     <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                  {% endif %}
                         {% endfor %} College and Main Units
@@ -96,8 +104,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="campus_partner">{% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
+                                <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
                                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %} Campus Partners
@@ -115,8 +123,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                  <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part">{% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
+                                <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %} CEC Building Partners
@@ -132,8 +140,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type">{% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
+                                <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %} Community Organization Type 
@@ -151,8 +159,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 
                     <label >  {% for data_definition in data_definition %}
                         {% if data_definition.id == 52%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                            data-content="{{ data_definition.description }}" class="float">
+                        <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float">
                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
                         {% endfor %}Legislative Districts </label>
@@ -170,30 +178,30 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
             <tr>
-                <th>Community Partners
+                <th>
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 2%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partners</span>
                         {% endif %}
                     {% endfor %}
                 </th>
-                <th>Community Partner Focus Area
+                <th>
                       {% for data_definition in data_definition %}
                         {% if data_definition.id == 51%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partner Focus Area</span>
                         {% endif %}
                     {% endfor %}
                 </th>
-                <th>Projects
+                <th>
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 47%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                                       title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Projects</span>
                         {% endif %}
                     {% endfor %}
                 </th>

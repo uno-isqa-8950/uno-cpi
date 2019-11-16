@@ -270,7 +270,7 @@ class EngagementActivityType(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-         return str(self.EngagementTypeName)
+         return str(self.ActivityTypeName)
 
 
 class ProjectEngagementActivity(models.Model):

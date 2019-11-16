@@ -188,6 +188,12 @@ table{
         table-layout: fixed;
         width: 85%;
     }
+
+@media (min-width: 576px){}
+    .form-inline .form-control {
+        width: 85%;
+
+    }
 </style>
 
 
@@ -252,7 +258,7 @@ table{
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <select class="form-control" id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                         <option> All </option>
                         {% for sem in projects.form.academic_year %}
                             {{sem}}
@@ -289,7 +295,7 @@ table{
                             {% endif %}
                         {% endfor %}
                     </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                         <option> All </option>
                         {% for engagement in projects.form.engagement_type %}
                             {{engagement}}
@@ -325,7 +331,7 @@ table{
                         {% endif %}
                     {% endfor %}
                 </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <select  class="form-control" id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                         <option> All </option>
 
                         {% for campus in campus_filter.form.campus_partner %}
@@ -648,7 +654,8 @@ table{
 
        <tr>
                         <td>
-                            <b>Engagement Type :</b> {{ project.engagementType }}
+                            <b>Engagement Type :</b>
+                            {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
                         </td>
                         <td>
                             <b> Activity Type :</b> {{ project.activityType}}
@@ -686,7 +693,8 @@ table{
 
         </td>
         <td>
-            <b>Campus Lead Staff : </b> {{project.campus_lead_staff}}
+            <b>Campus Lead Staff : </b>
+            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}} {% endfor %}
         </td>
     </tr>
 

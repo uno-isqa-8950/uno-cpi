@@ -2270,14 +2270,29 @@ def communityPublicReport(request):
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     yrs = []
     for e in acad_years:
         yrs.append(e.id)
-    max_yr_id = max(yrs)
+    default_yr_id = acad_year -1
+    max_yr_id =max(yrs)
     print("max_yr_id", max_yr_id)
+    print("default_yr_id", default_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -2501,13 +2516,27 @@ def communityPrivateReport(request):
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     for e in acad_years:
         yrs.append(e.id)
     max_yr_id = max(yrs)
+    default_yr_id = acad_year - 1
     print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)

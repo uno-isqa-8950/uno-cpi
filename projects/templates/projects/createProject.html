@@ -20,10 +20,12 @@
 <div class="container-fluid">
 <br>
     <br>
+     <div class=" text-center"><h3 class="heading">Create Project</h3></div>
+    <br>
     <div class="row box justify-content-md-center">
             <div class="col-lg-12 col-md-12">
 <!--                <div class = "panel panel-default">-->
-                    <div class=" text-center"><h3 class="heading">Create Project</h3></div>
+
 
 <!--                       <div class="panel-body">-->
 
@@ -40,7 +42,7 @@
                 <div class="row">
                 <div class="col">
                     <div class="row">
-                    <label for="id_project_name" class="col-sm-4"><i  style="padding-left: 25px"></i>Project Name</label>
+                    <label for="id_project_name" class="col-sm-4"><i style="padding-left: 10px"></i>Project Name</label>
                     <div class="col-sm-7">
                     {{ project.project_name }}
                     </div>
@@ -54,7 +56,7 @@
                         {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
                         <label for="id_engagement_type" data-toggle="tooltip" title="{{ data_definition.description }}" class="col-sm-4">
-                        <i class="info"></i> Engagement Type
+                        <i class="fa fa-info-circle fa-1x"></i> Engagement Type
 <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
                             </label>
                          {% endif %}
@@ -71,7 +73,7 @@
                     <div class="row">
                          {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
-                      <label class="col-sm-4" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Activity Type <span style="color:red;">*</span></label>
+                      <label class="col-sm-4" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="fa fa-info-circle fa-1x"></i> Activity Type <span style="color:red;">*</span></label>
 
                       {% endif %}
                       {% endfor %}
@@ -81,7 +83,7 @@
                     </div>
 
                     <div class="row">
-                      <label class="col-sm-4"><i class="info"></i> Project Type</label>
+                      <label class="col-sm-4"><i class="fa fa-info-circle fa-1x"></i> Project Type</label>
                         <div class="col-sm-7">
                       {{ project.project_type }}
                         </div>
@@ -1433,7 +1435,8 @@ $(document).ready(function(){
         padding: 10px;
             background-color: white;
             border: 1px;
-        box-shadow: 5px 10px #d3d3d3;
+        /**/
+        box-shadow: 0 8px 17px 0 rgba(0, 0, 0, .2);
         }
     .snippet-card{
         margin-top: 20px;

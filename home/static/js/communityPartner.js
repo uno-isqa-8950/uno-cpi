@@ -196,6 +196,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var website = communityData.features
     var city = communityData.features
     var projects = communityData.features
+    var comm_cec_status = communityData.features
     // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var selectDistrict = communityData.features[i].properties["Legislative District Number"]
@@ -238,7 +239,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
             academic_year[i].properties["Academic Year"],
-            website[i].properties["Website"],projects[i].properties["Projects"]);
+            website[i].properties["Website"],projects[i].properties["Projects"],comm_cec_status[i].properties["Community CEC Status"]);
         markers.push(marker)
     }
     //adding the marker cluster functionality
@@ -293,12 +294,19 @@ var openedInfoWindow = null;
 var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects) {
+function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td>'+
+        (commCecStatus == 'Current' ? ('<td><span style="background-color: green; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+        (commCecStatus == 'Never' ? ('<td><span style="background-color: grey; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+         (commCecStatus == 'Former' ? ('<td><span style="background-color: red; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+'</tr><br />'+
+            //'</tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
+           // (commCecStatus != 'Never' ? ('<tr><td><span style="font-weight:bold">CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />')
+           // : '' ) +
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +

@@ -941,6 +941,7 @@ def engagement_info(request):
                 unique_camp_ids_count = len(unique_camp_ids)
 
         engagement_Dict['engagement_name'] = e.name
+        engagement_Dict['description'] = e.description
         engagement_Dict['project_count'] = project_count
         engagement_Dict['community_count'] = unique_comm_ids_count
         engagement_Dict['campus_count'] = unique_camp_ids_count
@@ -1198,36 +1199,13 @@ def partnershipintensity(request):
 
 
 # Trend Report Chart
+@login_required()
+@admin_required()
 def trendreport(request):
     data_definition = DataDefinition.objects.all()
-    communityPartners = []
-    legislative_choices = []
-    legislative_search = ''
-    legislative_selection = request.GET.get('legislative_value', None)
 
-    if legislative_selection is None:
-        legislative_selection = 'All'
-
-    legislative_choices.append('All')
-    for i in range(1, 50):
-        legistalive_val = 'Legislative District ' + str(i)
-        legislative_choices.append(legistalive_val)
-
-    if legislative_selection is not None and legislative_selection != 'All':
-        legislative_search = legislative_selection.split(" ")[2]
-
-    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    else:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
-
-    k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
-    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
@@ -1239,6 +1217,15 @@ def trendreport(request):
     else:
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    # print('CEC Partner set in view ' + cec_part_selection)
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     yearList = []
     for y in AcademicYear.objects.all():
@@ -1629,16 +1616,34 @@ def commPartnerResetPassword(request,pk):
 #Issue Address Analysis Chart
 
 def issueaddress(request):
-    missions = MissionArea.objects.all()
-    mission_area1 = list()
-    subcategory=SubCategory.objects.all()
-    subcats=list()
+
+    missions =[]
+    for m in  MissionArea.objects.all():
+        res={'id':m.id,'name':m.mission_name}
+        missions.append(res)
+    missions=sorted(missions,key=lambda i:i['name'])
+    # print("sorted mission list",missions)
+    missionarealist = list()
+    for m in missions:
+        missionarealist.append(m['name'])
+    # print("mission_area1",mission_area1)
+    subcategory = []
+    y=[]
+    # for x in ProjectSubCategory.objects.values('sub_category_id'):
+    #    if (x["sub_category_id"] not in y):
+    #     y.append(x["sub_category_id"])
+    #
+    # print(" ProjectSubCategory.objects.values_list('sub_category_id'):",y)
+    # # for  x in ProjectSubCategory.objects.values_list('sub_category_id'):
+    # #      y=[p.id for p in (SubCategory.objects.filter(id=x))]
+    # # print("y value",y)
+
+
     data_definition = DataDefinition.objects.all()
     json_data=[]
     from_json_data=[]
     to_json_data=[]
-    for sc in subcategory:
-        subcats.append(sc.sub_category)
+
     yrs = []
     yrid=[]
     acad_years = AcademicYear.objects.all()
@@ -1651,8 +1656,11 @@ def issueaddress(request):
     max_year=yrs[len(yrs)-1]
     # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=(max_yr_id-1)))]
     min_year=yrs[len(yrs)-2]
-    print(" min yaer",min_year," ma yaer ",max_year)
+    # print(" min yaer",min_year," ma yaer ",max_year)
 
+
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
 
     b = request.GET.get('academic_year', None)
     ba = request.GET.get('end_academic_year', None)
@@ -1688,6 +1696,12 @@ def issueaddress(request):
     subdrill = []
     from_subcat_counts=[]
     to_subcat_counts=[]
+
+
+
+
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_filtered_ids = [campus.id for campus in college_filter.qs]
 
@@ -1705,9 +1719,35 @@ def issueaddress(request):
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     community_filtered_ids = [community.id for community in communityPartners.qs]
 
+
     comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
         community_partner_id__in=community_filtered_ids))
     comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+
+    legislative_choices = []
+    legislative_search = ''
+    legislative_selection = request.GET.get('legislative_value', None)
+
+    if legislative_selection is None:
+        legislative_selection = 'All'
+
+    legislative_choices.append('All')
+    for i in range(1, 50):
+        legistalive_val = 'Legislative District ' + str(i)
+        legislative_choices.append(legistalive_val)
+
+    if legislative_selection is not None and legislative_selection != 'All':
+        legislative_search = legislative_selection.split(" ")[2]
+
+    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
+    else:
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            legislative_district=legislative_search))
+        # project_filter = ProjectFilter(request.GET,
+        #                                queryset=Project.objects.filter(legislative_district=legislative_search))
+
 
     proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
@@ -1730,77 +1770,117 @@ def issueaddress(request):
                             if e is None or e == "All" or e == '':
                                 project_ids = project_filtered_ids
 
+    secondary_y_axis=[]
+    Yaxis=[]
     for m in missions:
-        mission_area1.append(m.mission_name)
-        if f is None or f == "All" or f == '':
-            if e is None or e == "All" or e == '':
-                project_ids = proj2_ids
-        project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
-        project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
-        project_count3 = project_count1 | project_count2
-        from_project_ids = []
-        for c in project_count3:
-            from_project_ids.append (c.id)
-        from_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids)
-        from_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(
-            project_name_id__in=from_project_ids).count()
-
-
-        project_count4 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None).filter(id__in=project_ids)
-        project_count5 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end).filter(id__in=project_ids)
-        project_count6 = project_count4 | project_count5
-        to_project_ids = []
-        for c in project_count6:
-            to_project_ids.append (c.id)
-        to_project_count_ids = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids)
-        to_project_count = ProjectMission.objects.filter(mission=m.id).filter(mission_type='Primary').filter(
-            project_name_id__in=to_project_ids).count()
-        x=[pm.project_name_id for pm in from_project_count_ids]
-        y = [pm.project_name_id for pm in to_project_count_ids]
-
-        drilldata=[]
-        drillstartdata=[]
-        drillenddata=[]
-        if request.user.is_superuser:
+            y=[]
+            subcategory=[]
+            for s in MissionSubCategory.objects.filter(secondary_mission_area_id=m["id"]).values("sub_category_id"):
+                if (s["sub_category_id"] not in y):
+                    y.append(s["sub_category_id"])
+            # print(" sub category ids for mission 1", y)
+            for sc in SubCategory.objects.filter(id__in=y):
+                res = {'id': sc.id, 'name': sc.sub_category}
+                subcategory.append(res)
+            subcategory = sorted(subcategory, key=lambda i: i['name'])
+            subcategorylist = []
             for sc in subcategory:
-                from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc.id).count()
-                to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
-                    sub_category_id=sc.id).count()
-                from_subcat_counts.append(from_project_mission_sub_ids)
-                to_subcat_counts.append(to_project_mission_sub_ids)
-                if(from_project_mission_sub_ids>to_project_mission_sub_ids):
-                    drill = {"name":sc.sub_category,"x": from_project_mission_sub_ids,
-                         "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"red"}
-                else:
-                    drill = {"name":sc.sub_category,"x": from_project_mission_sub_ids,
-                             "x2": to_project_mission_sub_ids, "y": sc.id - 1,"color":"turquoise"}
-                drill_satrt = {"name":sc.sub_category,"x": from_project_mission_sub_ids, "y": sc.id - 1}
-                drill_end = {"name":sc.sub_category,"x": to_project_mission_sub_ids, "y": sc.id - 1}
-                drilldata.append(drill)
-                drillstartdata.append(drill_satrt)
-                drillenddata.append(drill_end)
-            drilled = {"type":"xrange","name": m.mission_name, "id": m.mission_name, "yAxis": 1, "data": drilldata}
-            # drilled_start = {"type":"scatter","name": m.mission_name+'StartYaer', "id": m.mission_name, "yAxis": 1, "data": drillstartdata}
-            # drilled_end = {"type":"scatter","name": m.mission_name+'EndYear', "id": m.mission_name, "yAxis": 1, "data": drillenddata}
-            subdrill.append(drilled)
-            # subdrill.append(drilled_start)
-            # subdrill.append(drilled_end)
-        from_project_count_data.append(from_project_count)
-        to_project_count_data.append(to_project_count)
-        from_subcat_count.append(from_subcat_counts)
-        to_subcat_count.append(from_subcat_counts)
-        if(from_project_count > to_project_count):
-            res = {"name":m.mission_name,"x": from_project_count, "x2": to_project_count, "y":m.id-1, "drilldown":m.mission_name,"color":"red"}
-        else:
-            res = {"name": m.mission_name, "x": from_project_count, "x2": to_project_count, "y": m.id - 1,
-                   "drilldown": m.mission_name, "color": "turquoise"}
-        resfrom = {"x": from_project_count,"y":m.id-1,"drilldown":m.mission_name}
-        resto = {"x": to_project_count,"y":m.id-1,"drilldown":m.mission_name}
+                subcategorylist.append(sc['name'])
+            mid = next((index for (index, d) in enumerate(missions) if d["name"] == m['name']),None)
+            if f is None or f == "All" or f == '':
+                if e is None or e == "All" or e == '':
+                    project_ids = proj2_ids
+            project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
+            project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
+            project_count3 = project_count1 | project_count2
+            from_project_ids = []
+            for c in project_count3:
+                from_project_ids.append (c.id)
+            from_project_count_ids = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids)
+            from_project_count = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(
+                project_name_id__in=from_project_ids).count()
 
-        json_data.append(res)
-        from_json_data.append(resfrom)
-        to_json_data.append(resto)
+            project_count4 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None).filter(id__in=project_ids)
+            project_count5 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end).filter(id__in=project_ids)
+            project_count6 = project_count4 | project_count5
+            to_project_ids = []
+            for c in project_count6:
+                to_project_ids.append (c.id)
+            to_project_count_ids = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids)
+            to_project_count = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(
+                project_name_id__in=to_project_ids).count()
+            x=[pm.project_name_id for pm in from_project_count_ids]
+            y = [pm.project_name_id for pm in to_project_count_ids]
 
+            drilldata=[]
+            if request.user.is_superuser:
+                for sc in subcategory:
+                    sid = next((index for (index, d) in enumerate(subcategory) if d["name"] == sc['name']), None)
+                    from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc['id']).count()
+                    to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
+                        sub_category_id=sc['id']).count()
+                    from_subcat_counts.append(from_project_mission_sub_ids)
+                    to_subcat_counts.append(to_project_mission_sub_ids)
+                    if(from_project_mission_sub_ids>to_project_mission_sub_ids):
+                        drill = {"name":sc['name'],"x": from_project_mission_sub_ids,
+                             "x2": to_project_mission_sub_ids, "y": sid ,"color":"red"}
+                    else:
+                        drill = {"name":sc['name'],"x": from_project_mission_sub_ids,
+                                 "x2": to_project_mission_sub_ids, "y":sid ,"color":"turquoise"}
+                    drilldata.append(drill)
+                drilled = {"type":"xrange","name": m['name'], "id": m['name'], "yAxis": mid+1 ,"data": drilldata}
+                subdrill.append(drilled)
+            from_project_count_data.append(from_project_count)
+            to_project_count_data.append(to_project_count)
+            if(from_project_count > to_project_count):
+                res = {"name":m['name'],"x": from_project_count, "x2": to_project_count, "y":mid, "drilldown":m['name'],"color":"red"}
+            else:
+                res = {"name": m['name'], "x": from_project_count, "x2": to_project_count, "y": mid ,
+                       "drilldown": m['name'], "color": "turquoise"}
+            resfrom = {"x": from_project_count,"y":mid,"drilldown":m['name']}
+            resto = {"x": to_project_count,"y":mid,"drilldown":m['name']}
+
+            json_data.append(res)
+            from_json_data.append(resfrom)
+            to_json_data.append(resto)
+            # print(" mid value ",mid," lemngt ",len(missions))
+            yaxis={
+            'id':mid+1,
+            'type': 'category',
+            # 'min':1,
+            # 'max':len(subcategorylist)-1,
+            # 'tickInterval':1.0,
+            'title': {'text': '',
+                      'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+            'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+            'categories': subcategorylist}
+            if(mid== len(missions)-1):
+                yaxis = {
+                    'id': mid + 1,
+                    'type': 'category',
+                    # 'min':1,
+                    # 'max':len(subcategorylist)-1,
+                    # 'tickInterval':1.0,
+                    'title': {'text': 'Focus Area',
+                              'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                    'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+                    'categories': subcategorylist}
+            secondary_y_axis.append(yaxis)
+
+    primary_axis={  # Primary Axis for Mission Areas
+                'id':0,
+                'type': 'category',
+                'title': {'text': '',
+                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+                'categories': missionarealist,
+            }
+    Yaxis.append(primary_axis)
+    for axis in secondary_y_axis:
+        if(axis not in Yaxis):
+            Yaxis.append(axis)
+
+    # print(" yxis value in category ",Yaxis)
     Academic_Year = {
         'name': 'Analysis Start Year',
         'data': from_json_data,
@@ -1813,48 +1893,36 @@ def issueaddress(request):
         'type': 'scatter'}
     project_over_academic_years = {
         'name': 'No of Projects ',
-        'data': json_data
+        'data': json_data,
+        'type':'xrange',
+        'showInLegend':False,
+        'marker':{
+            'enabled':True
+        }
         # 'color': 'turquoise'
                 }
 
 
     dumbellchart = {
-        'chart': {
-            'type': 'xrange'
-        },
 
        'title': '',
         'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
                                                     'style': {'fontWeight': 'bold', 'color': 'black',
                                                               'fontSize': '15px'}}},
-        'yAxis':[
-            {  # Primary Axis for Mission Areas
-                'id':0,
-                'title': {'text': '',
-                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-                'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-                'categories': mission_area1,
-
-            },
-        {  # Secondary  Axis for  Subcategory
-            'id':1,
-            'type': 'category',
-            'title': {'text': 'Missions Areas/ SubCategories',
-                      'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-            'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-            'categories': subcats,
-
-
-        }],
+        'yAxis':Yaxis,
         'plotOptions': {
             'xrange': {
                 'pointWidth': 4,
                 'dataLabels': {
                     'enabled': True,
-                    'inside':True,
+                    'inside':False,
                     'style': {
                         'fontSize': '6px'
+                    },
+                    'marker':{
+                    'linewidth':'4px',
                     }
+
                 },'colorByPoint': False,
                 'tooltip': {
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
@@ -1878,7 +1946,7 @@ def issueaddress(request):
             'align': 'right',
             'verticalAlign': 'top',
             'x': -10,
-            'y': 50,
+            'y': 10,
             'borderWidth': 1,
             'backgroundColor': '#FFFFFF',
             'shadow': 'true'
@@ -1888,34 +1956,6 @@ def issueaddress(request):
         'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
         'drilldown':{
             'series': subdrill,
-            'plotOptions': {
-                'xrange': {
-                    'pointWidth': 4,
-                    'dataLabels': {
-                        'enabled': True,
-                        'inside': True,
-                        'style': {
-                            'fontSize': '6px'
-                        }
-                    }, 'colorByPoint': False,
-                    'tooltip': {
-                        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                        'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}'
-                    }
-                },
-
-                'scatter': {
-                    'marker': {
-                        'radius': 6,
-                        'symbol': 'circle'
-                    }
-                }
-            },
-            'tooltip': {
-                'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
-            }
-
         }
 
     }
@@ -1940,22 +1980,15 @@ def issueaddress(request):
         projects = Project.objects.filter(engagement_type=engagement_type)
 
     dump = json.dumps(dumbellchart)
-    print('dumbellchart----',dump)
-    print('from_project_filter', from_project_filter)
-    print('project_filter',project_filter)
-    print( 'to_project_filter', to_project_filter)
-    print('data_definition', data_definition)
-    print('campus_filter', campus_filter)
-    print('communityPartners', communityPartners)
-    print('college_filter', college_filter)
-    print('campus_id', campus_id)
     return render(request, 'charts/issueaddressanalysis.html',
                       {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
                        'to_project_filter': to_project_filter,
                        'data_definition': data_definition,
                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-                       'college_filter': college_filter, 'campus_id': campus_id
-                        ,'max_year':max_year,'min_year':min_year})
+                       'college_filter': college_filter, 'campus_id': campus_id,'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
+                        'max_year':max_year,'min_year':min_year,'cec_part_choices': cec_part_choices})
+
+
 
 
 

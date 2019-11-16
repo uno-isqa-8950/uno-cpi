@@ -78,6 +78,7 @@ all_projects_sql = """select distinct p.project_name
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
                             ,  p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -122,6 +123,7 @@ all_projects_sql = """select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             ,campus_lead_staff
+                            ,mission_image
                         order by p.project_name limit 10;"""
 
 all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name

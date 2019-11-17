@@ -2650,17 +2650,17 @@ def communityPublicReport(request):
 
     #  test = AcademicYear.objects.get(academic_year=a_year)
     #  project =ProjectFormAdd(initial={"academic_year":test})
-    try:
-        acad_year = AcademicYear.objects.get(academic_year=a_year).id
-    except AcademicYear.DoesNotExist:
-        acad_year = None
-    yrs = []
+
     for e in acad_years:
         yrs.append(e.id)
-    default_yr_id = acad_year -1
-    max_yr_id =max(yrs)
-    print("max_yr_id", max_yr_id)
-    print("default_yr_id", default_yr_id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year - 1
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
+    max_yr_id = max(yrs)
+
+
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
         academic_end_year_cond = int(default_yr_id)
@@ -2693,7 +2693,6 @@ def communityPublicReport(request):
         else:
 
             params.append(str(comm_ids))
-            print('params-222-',params)
             cursor = connection.cursor()
             cursor.execute(sql.selected_One_community_public_report, params)
     else:
@@ -2736,10 +2735,6 @@ def communityPublicReport(request):
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-    # params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
-    # print ("params", params)
-    # cursor = connection.cursor()
-    # cursor.execute(sql.community_public_report, params)
 
     for obj in cursor.fetchall():
         data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3], "CommStatus": obj[4]})
@@ -2902,21 +2897,21 @@ def communityPrivateReport(request):
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
-        a_year = str(year) + "-" + str(year + 1)[-2:]
+        a_year = str(year-1) + "-" + str(year )[-2:]
     else:
-        a_year = str(year - 1) + "-" + str(year)[-2:]
+        a_year = str(year - 2) + "-" + str(year-1)[-2:]
 
     #  test = AcademicYear.objects.get(academic_year=a_year)
     #  project =ProjectFormAdd(initial={"academic_year":test})
-    try:
-        acad_year = AcademicYear.objects.get(academic_year=a_year).id
-    except AcademicYear.DoesNotExist:
-        acad_year = None
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    default_yr_id = acad_year - 1
-    #print("max_yr_id", max_yr_id)
+    print ('default_yr_id', default_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
         academic_end_year_cond = int(default_yr_id)
@@ -3226,12 +3221,6 @@ def communityfromEngagementReport(request):
     for m in communityPartners.qs:
         proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
         project_count = len(set(project_ids).intersection(proj_comm_par))
-        #if project_count==0:
-        #    continue
-        # if type == 'mission':
-        #     community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).\
-        #         filter(mission_type='Primary', mission_area_id=pk).values_list('mission_area__mission_name', flat=True)
-        # else:
         community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).\
             filter(mission_type='Primary').values_list('mission_area__mission_name', flat=True)
         community_dict['community_name'] = m.name

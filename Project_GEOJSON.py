@@ -135,7 +135,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 cursor.execute("select ces.name from partners_cecpartnerstatus ces , \
                     partners_communitypartner PC \
                     where ces.id = PC.cec_partner_status_id \
-                    and PC.name = '"+str(communityPartners[n]+"'"))
+                    and PC.name = '"+str(communityPartners[n])+"'")
                 cecStatusList = cursor.fetchall()
                 if len(cecStatusList) != 0:
                     for obj in cecStatusList:

@@ -69,6 +69,7 @@ s3 = boto3.resource('s3',
          aws_secret_access_key= ACCESS_KEY)
 
 # Read JSON files for charts
+
 charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
 charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
 charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
@@ -77,7 +78,6 @@ charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/cam
 charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
 charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
 charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
-
 
 #read Partner.geojson from s3
 content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')

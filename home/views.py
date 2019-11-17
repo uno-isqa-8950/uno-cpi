@@ -543,7 +543,7 @@ def project_partner_info(request):
         legislative_district_cond = '%'
 
     else:
-        legislative_district_cond =  legislative_search
+        legislative_district_cond = legislative_search
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -604,11 +604,11 @@ def project_partner_info(request):
             focus_dict['id'] = obj[1]
             focus_dict['mission_name'] = obj[2]
             focus_dict['subcategory'] = obj[3]
-
             focus_dict['project_count'] = obj[4]
             focus_dict['community_count'] = obj[5]
             focus_dict['total_uno_students'] = obj[6]
             focus_dict['total_uno_hours'] = obj[7]
+            focus_dict['mission_desc'] = obj[8]
 
             if focus_dict['community_count'] != '' and focus_dict['community_count'] is not None and focus_dict['community_count'] > 0:
                 focus_comm_total += focus_dict['community_count']
@@ -637,7 +637,6 @@ def project_partner_info(request):
             subcat_dict['community_count'] = obj[5]
             subcat_dict['total_uno_students'] = obj[6]
             subcat_dict['total_uno_hours'] = obj[7]
-
             subcat_list.append(subcat_dict.copy())
         else:
             print('Invalid record type')
@@ -750,6 +749,7 @@ def project_partner_info(request):
         project_id_list=[]
         mission_dict['id'] = m.id
         mission_dict['mission_name'] = m.mission_name
+        mission_dict['description'] = m.description
         project_count = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
         community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
         comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)

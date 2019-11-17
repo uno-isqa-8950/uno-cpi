@@ -69,15 +69,21 @@
                     {% endif %}
                 </div>
                     <div class="row">
-                         {% for data_definition in data_definition %}
+                      <label class="col-sm-4">Activity Type <span style="color:red;">*</span></label>
+                      {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
-                      <label class="col-sm-4" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Activity Type <span style="color:red;">*</span></label>
-
+                      <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"></span>
                       {% endif %}
                       {% endfor %}
-                        <div class="col-sm-7">
+                       <div class="col-sm-7">
+                      <select id="id_populate_activity" name="name_populate_activity" disabled="true">
+
+                        <option value="0">---------</option>
+                     </select>
+                     </div>
+                        <!--<div class="col-sm-7">
                       {{ project.activity_type }}
-                        </div>
+                        </div>-->
                     </div>
 
                     <div class="row">
@@ -987,6 +993,27 @@ else {
                 // $('#id_campus_lead_staff').val(str);
     return false;
 });
+$('#id_engagement_type').change(function () {
+    var selectedEngagement = $('#id_engagement_type option:selected').text();
+    $.ajax({
+        url: "/getEngagemetActivityList/",
+        data: {
+            'selectedEngagement': selectedEngagement
+        },
+        dataType: 'json',
+        success: function (data) {
+            var activityList = data.activityList
+            var options = '<option value="0">--------</option>';
+            for (var i = 0; i < activityList.length; i++) {
+                options += '<option value="' + activityList[i].id + '">' + activityList[i].name + '</option>';
+            }
+            $("select#id_populate_activity").html(options);
+            $("select#id_populate_activity option:first").attr('selected', 'selected');
+            $("select#id_populate_activity").attr('disabled', false);
+        }
+    });
+    
+});
 
 $('#id_activity_type').change(function () {
     var selectedactivity = $('#id_activity_type option:selected').text();
@@ -1051,7 +1078,7 @@ $("#id_registerCommAndSave").click(function (){
             'name': document.getElementById("id_project_name").value,
             'description':document.getElementById("id_description").value,
             'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_activity_type").value,
+            'activity_type':document.getElementById("id_populate_activity").value,
             'start_semester':document.getElementById("id_semester").value,
             'start_academic_yr':document.getElementById("id_academic_year").value,
             'end_semester':document.getElementById("id_end_semester").value,
@@ -1093,7 +1120,7 @@ $("#id_registerCampusAndSave").click(function (){
             'name': document.getElementById("id_project_name").value,
             'description':document.getElementById("id_description").value,
             'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_activity_type").value,
+            'activity_type':document.getElementById("id_populate_activity").value,
             'start_semester':document.getElementById("id_semester").value,
             'start_academic_yr':document.getElementById("id_academic_year").value,
             'end_semester':document.getElementById("id_end_semester").value,
@@ -1350,6 +1377,7 @@ $(document).ready(function(){
     $('#othersubinput').hide();
     $('.control-label').hide();
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_populate_activity').select2({placeholder: 'Select Activity Type',border:'2px solid #aaa'});
     $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
     $('#id_description').attr('placeholder','Project Description, Outcomes and Related Links');
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
@@ -1600,7 +1628,7 @@ console.log('draft');
             alert("Please Select Engagement type.");
             return false
         }
-        if( ($("#id_activity_type").val() === '') ){
+        if( ($("#id_populate_activity").val() === '') ){
             alert("Please Select Activity type.");
             return false
         }

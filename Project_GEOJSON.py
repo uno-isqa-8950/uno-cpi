@@ -131,10 +131,11 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 yearlist.append(academicYear[n])
             if (communityPartners[n] not in communityPartnerList):
                 communityPartnerList.append(communityPartners[n])
+                print('communityPartners[n]--',communityPartners[n])
                 cursor.execute("select ces.name from partners_cecpartnerstatus ces , \
                     partners_communitypartner PC \
                     where ces.id = PC.cec_partner_status_id \
-                    and PC.name = '" +communityPartners[n] +"'")
+                    and PC.name = '"+str(communityPartners[n])+"'")
                 cecStatusList = cursor.fetchall()
                 if len(cecStatusList) != 0:
                     for obj in cecStatusList:

@@ -8,11 +8,10 @@ global cursor
 try:
     connection = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                                   password=settings.DATABASES['default']['PASSWORD'],
-                                  host='localhost',
-                                  #host=settings.DATABASES['default']['HOST'],
+                                  host=settings.DATABASES['default']['HOST'],
                                   port=settings.DATABASES['default']['PORT'],
-                                  database=settings.DATABASES['default']['NAME'])
-                                  #sslmode="require")
+                                  database=settings.DATABASES['default']['NAME'],
+                                  sslmode="require")
 
     if connection:
         print("Postgres SQL Database successful connection")

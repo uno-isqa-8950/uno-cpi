@@ -65,7 +65,23 @@
     .container{
         max-width: 1330px;
     }
+    .boxed{
+        border: 1px solid black;
+            fill: rgb(255, 255, 255);
+    rx: 0;
+    ry: 0;
+    stroke: rgb(153, 153, 153);
+    stroke-width: 1;
+    x: 0.5;
+    y: 0.5;
+    width: 1024px;
+    height: 56px;
+    visibility: visible;
+align-self: flex-end;
+  margin-left: auto;
+    }
 }
+
 
     .select2-selection__placeholder{
         font-size: small;
@@ -291,10 +307,11 @@
             </form>
         </div>
     </div>
+<br>
 
-
-
+        <div class="boxed" style='align-self: center'> <p id="text" style="align: right"></p></div>
     <div id="container"  style= "max-width: 1330px; height: 1020px">
+
     {{ Missionlist | json_script:"missionlist"}}
     {{ campus_partner_json | json_script:"campus_partner_json"}}
     {{ community_partner_json | json_script:"community_partner_json"}}

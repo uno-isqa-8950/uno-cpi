@@ -12,7 +12,8 @@ var campus_partner_json = JSON.parse(document.getElementById('campus_partner_jso
 var community_partner_json = JSON.parse(document.getElementById('community_partner_json').textContent);
 var mission_subcategories_json = JSON.parse(document.getElementById('mission_subcategories_json').textContent);
 var projects_json = JSON.parse(document.getElementById('projects_json').textContent);
-console.log(Collegenames)
+
+// console.log(" initial load of projects_json",projects_json)
 var max_year = JSON.parse(document.getElementById('max_year').textContent);
 var max_yr_id = JSON.parse(document.getElementById('max_yr_id').textContent);
 // alert(max_yr_id);
@@ -88,11 +89,11 @@ if (!not_set.includes(engagement_type)) {
 
 
 }
-if (not_set.includes(engagement_type)) {
-    // console.log(" projects"+ engagement_type)
-    var projects_json = projects_json.filter(d => d.engagement_type.engagement_type_name=='Knowledge and Resource Sharing');
-
-}
+// if (not_set.includes(engagement_type)) {
+//     console.log(" projects"+ engagement_type)
+//     var projects_json = projects_json.filter(d => d.engagement_type.engagement_type_name=='Knowledge and Resource Sharing');
+//
+// }
 
 
 if (!not_set.includes(comm_type)) {
@@ -151,23 +152,32 @@ for (coll in Collegenames) {
     camppartners.forEach(function (feature) {
         var campid = feature["campus_partner_id"]
         if (camppartners !== 0) {
-            var camp = feature["campus_partner_name"]
-            // var cp={"from":Collegenames[coll].cname,"to":feature["campus_partner_name"]}
-            res2 = {'from': college, 'to': camp}
-            chart_data.push(res2)
-            node = {'id': college, 'color': 'red', 'marker': {'symbol': 'triangle'}}
-            node2 = {'id': camp, 'color': 'black', 'marker': {'symbol': 'triangle'}}
-            nodedata.push(node)
-            nodedata.push(node2)
-            // console.log("campuspartner ",camp)
-            var camppartnrprojects = projects_json.filter(d => d.campus_partner_ids.includes(campid));
-            var x = Object.keys(camppartnrprojects)
+            // var camp = feature["campus_partner_name"]
+            // // var cp={"from":Collegenames[coll].cname,"to":feature["campus_partner_name"]}
+            // res2 = {'from': college, 'to': camp}
+            // chart_data.push(res2)
+            // node = {'id': college, 'color': 'red', 'marker': {'symbol': 'triangle'}}
+            // node2 = {'id': camp, 'color': 'black', 'marker': {'symbol': 'triangle'}}
+            // nodedata.push(node)
+            // nodedata.push(node2)
+            console.log("campuspartner ",campid)
+            // console.log("projects_json",projects_json)
+            var camppartnrprojects = projects_json.filter(d => d.campus_partner_ids.includes(parseInt(campid)));
+            // var x = Object.keys(camppartnrprojects)
             console.log(" naresh ---------",camppartnrprojects,)
             // console.log("campus campuspartnerprojects",camppartnrprojects.length,campid,);
 
             camppartnrprojects.forEach(function (feature1) {
-                // console.log("community_partner_ids",comm)
+                console.log("community_partner_ids",camppartnrprojects)
                 if (camppartnrprojects != 0) {
+                    var camp = feature["campus_partner_name"]
+                    // var cp={"from":Collegenames[coll].cname,"to":feature["campus_partner_name"]}
+                    res2 = {'from': college, 'to': camp}
+                    chart_data.push(res2)
+                    node = {'id': college, 'color': 'red', 'marker': {'symbol': 'triangle'},'projects':''}
+                    node2 = {'id': camp, 'color': 'black', 'marker': {'symbol': 'triangle'},'projects':'Projects:'+camppartnrprojects.length}
+                    nodedata.push(node)
+                    nodedata.push(node2)
                     var commps = new Set()
                     community_partner_json.forEach(function (feature2) {
                         var comm = feature2.community_partner_name
@@ -177,7 +187,7 @@ for (coll in Collegenames) {
                             commps.add(comm)
                         }
                     })
-                    // console.log("community partner set",commps)
+                    console.log("community partner set",commps)
                     commps=Array.from(commps)
                     // console.log("community partner list",commps)
                     // console.log("community partners filtered for a campus partner", commps, "camp", camp)
@@ -198,8 +208,12 @@ for (coll in Collegenames) {
                             'id': community.community_partner_name,
                             'color': colorCodeObject[mission_name],
                             'marker': {'symbol': 'circle',
+
                             // 'radius': commps.length
-                            }
+                            },
+                            'projects':'Projects:'+commps.length+ '<br></br>'+'Focus Area: <b></b>'+mission_name
+                            // tooltip: {useHTML: true,
+                            // format:'<b>Name: {%id%} ${this.Node.name}</b><br><b> projects[${this.point.projects}]</b>'}
                         }
                         nodedata.push(node3)
                     }}
@@ -215,16 +229,21 @@ if(chart_data.length===0){
     alert("Sorry, There are no Projects matching your selection criteria");
 }
 
- var titletext = "<span style='color:red'>▲College and Main Units</span>"+
-               "<span style='color: black'>▲Campus Partners</span>  "+" ● CommunityPartners Focus Areas: <br>"
+ var titletext = "<span style='color:red'>▲College and Main Units</span>"+"<span style='color:white'> mission</span>"+
+               "<span style='color: black'>▲Campus Partners</span> <br>"
         var i;
         for (i = 0; i < Missionarea.length; i++) {
             var missionname = Missionarea[i]
             var selectedcolor = colorCodeObject[Missionarea[i]]
-            titletext +=""+"<span></span></span><span style='color:" + selectedcolor + "'>●" + missionname + "</span>"
+            titletext +=""+"<span style='color:" + selectedcolor + "'>●" + missionname +"<span style='color:white'> mission</span>"+"</span>"
             ;
 
         }
+
+    document.getElementById('text').innerHTML = titletext;
+
+
+// document.getElementById("text").innerHTML = titletext;
 
 Highcharts.chart('container', {
 
@@ -235,17 +254,24 @@ Highcharts.chart('container', {
 // renderTo: 'container',
     title:{
         text:'.',
+        style:{border:'1px solid black',
+        font:'Arial Narrow',
+        fontsize:1}
         // align:right
     },
 
         legend: {
+        enabled:true,
                     title:{
-                        text: titletext,
+                        text: "",
                     },
 
                     box:{
-                        visibility: true
-                    }
+                        visibility: true,
+                    },
+            // border: 'black',
+            stroke: 'black',
+            strokeWidth: 10,
 
         },
 
@@ -257,38 +283,34 @@ Highcharts.chart('container', {
             layoutAlgorithm: {
                 enableSimulation: false,
                 integration: 'verlet',
-                linkLength: 100
+                linkLength: 100,
+                linkWidth:10
             }
         },
     },
+tooltip: {
+        nullFormat:'N/A',
+        formatter: function (point) {
+             tooltext='Name: <b>' + this.point.id +'<br></br>'+ this.point.projects
+            return  tooltext
 
-    // responsive:{rules:[{condition:{maxWidth:500},
-    // chartOptions:{ legend :{ layout:"horizontal",align:"center",verticalAlign:"bottom"}}}]},
-    tooltip: {
-        // headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
-        pointFormat: '<span style="color:{point.color}">{point.from}</span><br> <span>{point.to}</span>ProjectCount:{point.p}<span></span> '
-                 },
-        legend: {
-            layout: 'horizontal',
-            align: 'right',
-            verticalAlign: 'top',
-            x: -10,
-            y: 10,
-            borderWidth: 1,
-            backgroundColor: '#FFFFFF',
-            shadow: 'true'
-        },
+        }
+    },
     series: [{
         name:'Network Graph',
         linkLength: 100,
         type:'networkgraph',
         dataLabels: {
             enabled: false,
+            // textPath:'<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>',
             linkFormat: ''
         },
         data: chart_data,
         nodes:nodedata,
-        visibility:true,
+        legendIndex:1,
+        opacity:0
+        // showInLegend:false,
+        // visibility:true,
     },
     ]
 })

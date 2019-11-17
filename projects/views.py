@@ -2641,12 +2641,13 @@ def communityPublicReport(request):
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
+    yrs =[]
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
-        a_year = str(year) + "-" + str(year + 1)[-2:]
+        a_year = str(year-1) + "-" + str(year )[-2:]
     else:
-        a_year = str(year - 1) + "-" + str(year)[-2:]
+        a_year = str(year - 2) + "-" + str(year-1)[-2:]
 
     #  test = AcademicYear.objects.get(academic_year=a_year)
     #  project =ProjectFormAdd(initial={"academic_year":test})

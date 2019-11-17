@@ -662,6 +662,21 @@ class Create_Projects_Form_Snippet(models.Model):
         verbose_name = "Create Projects Form Snippet"
 
 @register_snippet
+class edit_Projects_Form_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Edit Projects Form Snippet"
+
+
+@register_snippet
 class Register_Community_Partner_Form_Snippet(models.Model):
     text = models.CharField(max_length=1250)
 

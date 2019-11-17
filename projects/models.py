@@ -64,7 +64,7 @@ class Project (models.Model):
     )
     project_name = models.CharField(max_length=255, unique=True)
     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True,blank=True)
-    activity_type = models.ForeignKey('EngagementActivityType', on_delete=models.CASCADE, null=True, blank=True)
+    activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
     description = models.TextField(blank=True,  null=True)
     semester = models.CharField(max_length=20, null=True, blank=True)

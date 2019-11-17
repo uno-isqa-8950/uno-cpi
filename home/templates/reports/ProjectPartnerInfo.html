@@ -60,20 +60,19 @@
             <form class="form-inline" id="filters-form" method="get">
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="mission">
-
+                    <label for="academic_year">
                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 3%}
+                            {% if data_definition.id == 32%}
                                 <span tabindex="-1" data-toggle="tooltip"
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Project Focus Areas
+                        {% endfor %} Academic Year
                     </label>
-                    <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                         <option> All </option>
-                        {% for mission in missions.form.mission %}
-                            {{mission}}
+                        {% for sem in projects.form.academic_year %}
+                            {{sem}}
                         {% endfor %}
                     </select>
                 </div>
@@ -104,7 +103,7 @@
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Partner Types
+                        {% endfor %} Community Organization Types
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -113,7 +112,6 @@
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="college_name">
                          {% for data_definition in data_definition %}
@@ -122,7 +120,7 @@
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Colleges and Main Units
+                        {% endfor %} College and Main Units
                     </label>
                     <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
                         <option> All </option>
@@ -131,7 +129,6 @@
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="campus_partner">
                         {% for data_definition in data_definition %}
@@ -150,7 +147,6 @@
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
@@ -159,7 +155,7 @@
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} CEC Community Building Partners
+                        {% endfor %} CEC Building Partners
                     </label>
                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         {% for cec_choice in cec_part_choices.cec_choice %}
@@ -167,65 +163,9 @@
                         {% endfor %}
                     </select>
                 </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="tooltip"
-                                       title="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %} Academic Years
-                    </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for sem in projects.form.academic_year %}
-                            {{sem}}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="k12_flag">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 12%}
-                                <span tabindex="-1" data-toggle="tooltip"
-                                       title="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %} K12 Involvement
-                    </label>
-                    <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
-                        {% for k12_flag in k12_choices.k12_choice %}
-                            {{ k12_flag }}
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="col-lg-3 col-md-5 form-group ">
-
-                    <label>
-
-                        {% for data_definition in data_definition %}
-                        {% if data_definition.id == 52%}
-                        <span tabindex="-1" data-toggle="tooltip"
-                                       title="{{ data_definition.description }}" class="float">
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                        {% endfor %} Legislative Districts
-                    </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
-                        {% for item in legislative_choices %}
-                        <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
-                       <!-- <option> {{legislative_value}} </option>-->
-                        {% endfor %}
-                    </select>
-                </div>
-
             </form>
     </div>
 </div>
-
 
         <!--div class="card" style="margin-top:10px;padding:5px;box-shadow: 5px 7px 7px 5px grey;"-->
         <div style="margin-top:15px;">
@@ -236,7 +176,7 @@
                            {% for data_definition in data_definition %}
                                 {% if data_definition.id == 3%}
                                     <span tabindex="-1" data-toggle="tooltip"
-                                       title="{{ data_definition.description }}" class="float" >
+                                       title="{{ data_definition.description }}" class="float">
                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i> Focus Areas</span>
                                 {% endif %}
                             {% endfor %}
@@ -283,7 +223,7 @@
                 <tbody class="labels">
                     <tr>
                         <td><b>
-                            <span data-toggle="tooltip" title="{{ m.mission_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span><a data-toggle="collapse" href="#topics{{m.id}}">{{m.mission_name}}</a>
+                            <span data-toggle="tooltip" title="{{ m.mission_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span><a data-toggle="collapse" href="#topics{{m.id}}"> {{ m.mission_name }}</a>
                         </b></td>
                         <td><b>
                             {% if  m.community_count  < 1 %}
@@ -414,7 +354,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '80%',
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '80%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -429,22 +369,8 @@ $(document).ready(function(){
                                             });
                                         }});
     $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '80%'});
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
-                                sorter: function(data) {
-                                            /* Sort data using lowercase comparison */
-                                            return data.sort(function (a, b) {
-                                                a = a.text.toLowerCase();
-                                                b = b.text.toLowerCase();
-                                                if (a > b) {
-                                                    return 1;
-                                                } else if (a < b) {
-                                                    return -1;
-                                                }
-                                                return 0;
-                                            });
-                                        }});
-    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
+    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '80%'});
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -458,8 +384,6 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
-    $('#id_legislative_value').select2({placeholder: 'Legislative Districts',width: '110%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {
                                             /* Sort data using lowercase comparison */

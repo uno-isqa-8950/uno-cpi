@@ -164,6 +164,7 @@ def saveProjectAndRegister(request):
     project_type = request.GET.get('project_type')
     lead_staff_list = request.GET.get('lead_staff_list')
     k12_flag_value = False
+    year_in_project_name = ''
 
     if k12_involvment_flag == 'on':
         k12_flag_value = True
@@ -184,6 +185,7 @@ def saveProjectAndRegister(request):
 
     if start_academic_yr != '' and start_academic_yr is not None:
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
+        year_in_project_naame = project.academic_year
 
     if end_academic_yr != '' and end_academic_yr is not None:
         project.end_academic_year = AcademicYear.objects.get(id=end_academic_yr)
@@ -210,7 +212,8 @@ def saveProjectAndRegister(request):
     project.save()
     projectId = project.pk
 
-    
+    project.project_name = name + ": " + str(year_in_project_naame) + " (" + str(projectId) + ")"
+    project.save()
 
     if comm_list != '' or comm_list is not None:
         if comm_list.find(",") != -1:
@@ -782,8 +785,9 @@ def editProject(request,pk):
         for x in proj_edit:
             project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
-
-            formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
+            proj_mission = ProjectMission.objects.filter(project_name_id=x, mission_type='Primary')
+            for miss in proj_mission:
+                formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x, prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(request.POST or None, request.FILES, instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x, prefix='campus_edit')
             formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x, prefix='sub_category_edit')
@@ -967,11 +971,11 @@ def editProject(request,pk):
                 project = ProjectForm2(request.POST or None, instance=x)
                 course = CourseForm(instance = x)
 
-            proj_mission = ProjectMission.objects.filter(project_name_id=pk)
+            proj_mission = ProjectMission.objects.filter(project_name_id=pk, mission_type='Primary')
             proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id = pk)
             proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id = pk)
             # course_details = course(instance= x)
-            formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
+            formset_missiondetails = mission_edit_details(instance=x,  prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
             formset_subcat_details = sub_category_edit(instance=x, prefix='sub_category_edit')
@@ -2602,14 +2606,29 @@ def communityPublicReport(request):
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     yrs = []
     for e in acad_years:
         yrs.append(e.id)
-    max_yr_id = max(yrs)
+    default_yr_id = acad_year -1
+    max_yr_id =max(yrs)
     print("max_yr_id", max_yr_id)
+    print("default_yr_id", default_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -2628,7 +2647,6 @@ def communityPublicReport(request):
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
-
     if comm_ids is not None:
         params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
                      legislative_district_cond, college_unit_cond]
@@ -2643,7 +2661,6 @@ def communityPublicReport(request):
             print('params-222-',params)
             cursor = connection.cursor()
             cursor.execute(sql.selected_One_community_public_report, params)
-
     else:
         if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
             cec_part_selection = cec_part_init_selection
@@ -2847,13 +2864,27 @@ def communityPrivateReport(request):
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year) + "-" + str(year + 1)[-2:]
+    else:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+
+    #  test = AcademicYear.objects.get(academic_year=a_year)
+    #  project =ProjectFormAdd(initial={"academic_year":test})
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+    except AcademicYear.DoesNotExist:
+        acad_year = None
     for e in acad_years:
         yrs.append(e.id)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
+    default_yr_id = acad_year - 1
+    #print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)

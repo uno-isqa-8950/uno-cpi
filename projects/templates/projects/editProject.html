@@ -59,8 +59,10 @@
         font-size: small;
     }
     select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype]
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students],
+    input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype],
+    input[id=id_total_uno_faculty],input[id=id_total_other_community_members]
     {
         width:96%;
         height: 35px;
@@ -220,7 +222,7 @@ label[for=id_campus-0-campus_partner]:after{
         <li><a href="#step-1" id="click1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li id="click4"><a href="#step-4" >Other Information</a></li>
+        <li id="click4"><a href="#step-4" >Location</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -266,13 +268,7 @@ label[for=id_campus-0-campus_partner]:after{
                       {% endfor %}
                       {% endif %}
                     </div>
-                    <div class="row">
-                      <label class="col-sm-4">Project Type</label>
-                        <div class="col-sm-7">
-                      {{ project.project_type }}
-                        </div>
-                    </div>
-                    <div class="row"><br></div>
+
                 </div>
                 <div class="col">
                     <div class="row">
@@ -323,7 +319,17 @@ label[for=id_campus-0-campus_partner]:after{
                                     <div class="panel-body">
                                         <br>
                                         <div class="row">
-                                            <div class="form-group col">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                      <label class="col-sm-5"> Project Type</label>
+                        <div class="col-sm-6">
+                      {{ project.project_type }}
+                        </div>
+                                                </div>
+                                            </div>
+</div>
+                                        <div class="row">
+                                            <div class="col">
                                                 <div class="row">
                                                     <label for="id_semester" class="col-md-5">Start Semester</label>
                                                 <div class="col-sm-6">
@@ -344,7 +350,7 @@ label[for=id_campus-0-campus_partner]:after{
 
                                             </div>
                                                 </div>
-                                                <div class="form-group col">
+                                                <div class="col">
                                                     <div class="row">
                                                     <label for="id_academic_year" class="col-md-5">Start Academic Year</label>
                                                     <div class="col-sm-6">
@@ -396,6 +402,30 @@ label[for=id_campus-0-campus_partner]:after{
                                                 <label for="id_uno_hours" class="col-sm-5">UNO Student Hours</label>
                                                 <div class="col-sm-6">
                                                 {{ project.total_uno_hours}}
+                                                </div>
+                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                 <div class="row">
+                                                <label for="id_uno_students" class="col-sm-5">UNO Faculty/Staff Hours</label>
+                                                    <div class="col-sm-6">
+                                                {{ project.total_uno_faculty}}
+                                                    </div>
+                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                <label for="id_uno_hours" class="col-sm-5">Total Number of Other Participants</label>
+                                                <div class="col-sm-6">
+                                                {{ project.total_other_community_members}}
                                                 </div>
                                                 {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
                                                 <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
@@ -1011,6 +1041,14 @@ if (stepNumber === 1) {
         }
         return true;
     });
+    //------------------split project name-----------------------
+    var name = $("#id_project_name").val();
+    var justname = name.split(':');
+    $("#id_project_name").val(justname[0]);
+
+
+
+
         //-------------------buttons function if directly click on step 1-----------------
     $('#click1').click(function () {
         $('.sw-btn-prev').hide();
@@ -1035,7 +1073,19 @@ if (stepNumber === 1) {
                     }
     });
 
-
+//----------------------------------restrict comma and semicolon---------------------------
+     function RestrictCommaSemicolon(e) {
+        var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+        var regex = /[^,;]+$/;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) {
+                theEvent.preventDefault();
+            }
+        }
+    }
 
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
@@ -1044,6 +1094,10 @@ if (stepNumber === 1) {
     $('#step-2').hide();
     $('#step-3').hide();
     $("#step-4").hide();
+        $('#firstname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#lastname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#otheracttype').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#othersubinput').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
         $(".collapse.show").each(function(){
         	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
         });

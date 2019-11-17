@@ -9,7 +9,6 @@
 <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
 <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-                             {% create_project_forms %}
 <!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
                            <form method="POST">{% csrf_token %}
                                 {{formset.management_form}}
@@ -22,6 +21,11 @@
     <br>
      <div class=" text-center"><h3 class="heading">Create Project</h3></div>
     <br>
+    <div class="card snippet-card">
+    <div class="container text-snippet">
+         {% create_project_forms %}
+        </div>
+</div>
     <div class="row box justify-content-md-center">
             <div class="col-lg-12 col-md-12">
 <!--                <div class = "panel panel-default">-->
@@ -34,7 +38,7 @@
         <li><a href="#step-1" id="step1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li id="step4"><a href="#step-4">Other Information</a></li>
+        <li id="step4"><a href="#step-4">Location</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -82,12 +86,6 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                      <label class="col-sm-4"><i class="fa fa-info-circle fa-1x"></i> Project Type</label>
-                        <div class="col-sm-7">
-                      {{ project.project_type }}
-                        </div>
-                    </div>
                 </div>
                 <div class="col">
                     <div class="row">
@@ -105,7 +103,6 @@
                 </div>
                 </div>
                 </div>
-                <br>
                 <div class="row">
                     <div class="col-md-6">
                 <div class="row" id="otheractivity">
@@ -129,23 +126,25 @@
                                         </div>
                     </div>
                 </div>
-                <div class="row centered">
-                     {{ course|bootstrap }}
-            {% if  course.errors %}
-            {% for error in  course.errors %}
-            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-            {% endfor %}
-            {% endif %}
-            </div>
+
                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
                     <i class="fa fa-plus"></i> Project Duration
                     </button>
 
                     <div id="academicinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
-                                        <br>
+<div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                      <label class="col-sm-5"> Project Type</label>
+                        <div class="col-sm-6">
+                      {{ project.project_type }}
+                        </div>
+                                                </div>
+                                            </div>
+</div>
                                         <div class="row">
-                                            <div class="form-group col">
+                                            <div class="col-md-6">
                                                 <div class="row">
                                                     <label for="id_semester" class="col-md-5">Start Semester</label>
                                                 <div class="col-sm-6">
@@ -166,7 +165,7 @@
 
                                             </div>
                                                 </div>
-                                                <div class="form-group col">
+                                                <div class="col-md-6">
                                                     <div class="row">
                                                     <label for="id_academic_year" class="col-md-5">Start Academic Year</label>
                                                     <div class="col-sm-6">
@@ -218,6 +217,30 @@
                                                 <label for="id_uno_hours" class="col-sm-5">UNO Student Hours</label>
                                                 <div class="col-sm-6">
                                                 {{ project.total_uno_hours}}
+                                                </div>
+                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                 <div class="row">
+                                                <label for="id_uno_students" class="col-sm-5">UNO Faculty/Staff Hours</label>
+                                                    <div class="col-sm-6">
+                                                {{ project.total_uno_faculty}}
+                                                    </div>
+                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
+                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                {% endfor %} {% endif %}
+                                            </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="row">
+                                                <label for="id_uno_hours" class="col-sm-5">Total Number of Other Participants</label>
+                                                <div class="col-sm-6">
+                                                {{ project.total_other_community_members}}
                                                 </div>
                                                 {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
                                                 <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
@@ -287,6 +310,7 @@
                     <div id="communityinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
+                                        <div class="row centered"><span class="addcommerror" style="color: #b60000"></span></div>
                                             <div class="row community-row">
                                                 <div class="col-md-3">
                                                     {% for data_definition in data_definition %}{% if data_definition.id == 2%}
@@ -310,7 +334,7 @@
 
                                         <div class="community-fields displaybox row" id="community-fields"></div>
                                       <div class="row centered">
-                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
+                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
 
                                         </div>
                                     </div>
@@ -331,6 +355,7 @@
 <div id="campusinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
+                                        <div class="row centered"><span class="addcamperror" style="color: #b60000"></span></div>
                                         <div class="row campus-row">
                                             <div class="col-md-3">
                                                  {% for data_definition in data_definition %}
@@ -354,11 +379,12 @@
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
                                         </div>
+
                                         <div class="campus-fields displaybox row" id="campus-fields"></div>
                                                       <div class="row"><br></div>
                                           <div class="centered">
 
-                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #d71920;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Community Partner</a>
+                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Community Partner</a>
                                         </div>
                                     </div>
 </div>
@@ -370,6 +396,7 @@
 <div id="leadstaffinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
                                         <br>
+                                        <div class="row centered"><span class="addnameerror" style="color: #b60000"></span></div>
                                        <div class="row">
 
                                             <div class="col-md-12">
@@ -394,6 +421,7 @@
                                                 </div>
                                             </div>
                                        </div>
+
                                             <div style="display: none">
 <!--                                                <div>-->
                                             {{ project.campus_lead_staff}}
@@ -441,7 +469,7 @@
 
 
 
-
+<div class="row centered"><span class="addcaterror" style="color: #b60000"></span></div>
               {% for catform in categoryformset %}
             <div class="row">
                 <div class="col-md-3">
@@ -712,16 +740,23 @@ if(stepDirection === 'forward') {
 
         if(communitylast !='---------' && communitylast != ""){
             alert('Please make sure to add the selected value');
-            // $('.community-row:last').find('select').val(' ');
+            var html = "<i class='fa fa-exclamation-triangle' style='color: orange'></i> Add selected community partner";
+            $('.addcommerror').append(html);
+            // $('.community-row:last').find('select').style.borderColor = "red";;
             return false;
         }
         if(campuslast !='---------' && campuslast != ""){
-            alert('Please make sure to add the selected value');
+            alert('Please make sure to add the selected value')
+            // $('.campus-row:last').find('select').style.borderColor = "red";;
+            var html = "<i class='fa fa-exclamation-triangle' style='color: orange'></i> Add selected campus partner";
+            $('.addcamperror').append(html);
             return false;
         }
 
          if($('#firstname').val() !="" && $('#lastname') != ""){
             alert('Please make sure to add the Lead Staff Name');
+            var html = "<i class='fa fa-exclamation-triangle' style='color: orange'></i> Add faculty/lead staff name.";
+            $('.addnameerror').append(html);
             return false;
         }
         if ($("#id_campus-0-campus_partner").val() === '') {
@@ -737,6 +772,8 @@ if(stepDirection === 'forward') {
         var subcatlast = $('.sub_category-row:last').find(':selected').text();
         if(subcatlast !='---------' && subcatlast != ""){
             alert('Please make sure to add the selected value');
+            var html = "<i class='fa fa-exclamation-triangle' style='color: orange'></i> Add selected topic.";
+            $('.addcaterror').append(html);
             return false;
         }
         if ($("#id_mission-0-mission").val() == '') {
@@ -802,6 +839,10 @@ $('#step4').click(function () {
     $('#step-3').hide();
     $("#step-4").hide();
     $('#otheractivity').hide();
+    $('#firstname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#lastname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#otheracttype').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+    $('#othersubinput').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
         $(".collapse.show").each(function(){
         	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
         });
@@ -813,6 +854,8 @@ $('#step4').click(function () {
         });
 $('#id_total_uno_students').addClass('nospecial').attr('size','3');
 $('#id_total_uno_hours').addClass('nospecial');
+$('#id_total_uno_faculty').addClass('nospecial');
+$('#id_total_other_community_members').addClass('nospecial');
 $('#id_total_k12_students').addClass('nospecial');
 $('#id_total_k12_hours').addClass('nospecial');
 $('#communityinfo').addClass('show');
@@ -895,6 +938,7 @@ $("#id_project_name").change(function (e) {
 {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
 <script type="text/javascript">
     $("#submitname").click(function () {
+        $('.addnameerror').empty();
 var str = "";
 var name =  $('.concat > h6.finalname').length;
 //alert(name);
@@ -1117,7 +1161,19 @@ $("#id_registerCampusAndSave").click(function (){
     });
  }
 });
-
+//----------------------------------restrict comma and semicolon---------------------------
+     function RestrictCommaSemicolon(e) {
+        var theEvent = e || window.event;
+        var key = theEvent.keyCode || theEvent.which;
+        key = String.fromCharCode(key);
+        var regex = /[^,;]+$/;
+        if (!regex.test(key)) {
+            theEvent.returnValue = false;
+            if (theEvent.preventDefault) {
+                theEvent.preventDefault();
+            }
+        }
+    }
 
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
@@ -1232,6 +1288,7 @@ $(document).on('click', '.add-mission-row', function(e){
 });
 $(document).on('click', '.add-sub_category-row', function(e){
     e.preventDefault();
+    $('.addcaterror').empty();
     cloneMore('.sub_category-row:last', 'sub_category');
     return false;
 });
@@ -1242,6 +1299,7 @@ $(document).on('click', '.add-secondary_mission-row', function(e){
 });
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
+    $('.addcommerror').empty();
     cloneMore('.community-row:last', 'community');
     // $('.community-row:not(:last)').hide();
     // var name = $(this).attr('name');
@@ -1257,6 +1315,7 @@ $(document).on('click', '.add-community-row', function(e){
 });
 $(document).on('click', '.add-campus-row', function(e){
     e.preventDefault();
+    $('.addcamperror').empty();
     cloneMore('.campus-row:last', 'campus');
     return false;
 });
@@ -1405,26 +1464,6 @@ $(document).ready(function(){
 
 <style>
 
-    .info {
-	height: 20px;
-  /*border: 1px solid #888;*/
-  width: 20px;
-  margin-top: 3px;
-        align-content: center;
-        content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
-}
-
-.info:before {
-    align-content: center;
-    width:10px;
-    height: 10px;
-  display: inline-block;
-  line-height: 1.2;
-  margin: 10px;
-  /*font-family: "FontAwesome";*/
-  content: url('https://cpi-dev.s3.us-east-2.amazonaws.com/icons/infoicon.png');
-  color: #888;
-}
     body{
         background-color: rgba(0,0,0,.03);
     }
@@ -1485,8 +1524,11 @@ input[id=othersubcat]{
 
 
      select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype]
+   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],
+     input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],
+     input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype],
+         input[id=id_total_uno_faculty],input[id=id_total_other_community_members]
     {
         width:96%;
         height: 35px;

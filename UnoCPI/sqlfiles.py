@@ -731,7 +731,25 @@ from projects_project p
 		group by p.engagement_type_id,e.name
 		order by e.name) e on e.engagement_type_id = p.engagement_type_id
 group by e.name, e.numberofunostudents, e.unostudentshours,p.engagement_type_id
-order by engagement_type;"""
+order by engagement_type;
+
+
+# engagement_types_report_sql="""
+# select distinct e.name engagement_type
+#        , e.description engagrment_desc
+# 	   , count(p.project_name) Projects
+# 	   , count(pcomm.community_partner_id) CommPartners
+# 	   , count(pcamp.campus_partner_id) CampPartners
+# 	   , sum(p.total_uno_students) numberofunostudents
+# 	   , sum(p.total_uno_hours) unostudentshours
+# from projects_engagementtype e
+# 	left join projects_project p on p.engagement_type_id = e.id
+# 	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+# 	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+# 	left join projects_status s on s.id = p.status_id
+# where s.name != 'Drafts'
+# group by engagement_type, engagrment_desc
+# order by engagement_type;	"""
 
 comm_part_report_sql = """
 -- COMMUNITY PARTNER REPORT

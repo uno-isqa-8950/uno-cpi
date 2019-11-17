@@ -2897,9 +2897,9 @@ def communityPrivateReport(request):
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
-        a_year = str(year) + "-" + str(year + 1)[-2:]
+        a_year = str(year-1) + "-" + str(year )[-2:]
     else:
-        a_year = str(year - 1) + "-" + str(year)[-2:]
+        a_year = str(year - 2) + "-" + str(year-1)[-2:]
 
     #  test = AcademicYear.objects.get(academic_year=a_year)
     #  project =ProjectFormAdd(initial={"academic_year":test})
@@ -2907,11 +2907,11 @@ def communityPrivateReport(request):
         yrs.append(e.id)
     try:
         acad_year = AcademicYear.objects.get(academic_year=a_year).id
-        default_yr_id = acad_year - 1
+        default_yr_id = acad_year
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-
+    print ('default_yr_id', default_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
         academic_end_year_cond = int(default_yr_id)

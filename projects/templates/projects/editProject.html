@@ -258,17 +258,23 @@ label[for=id_campus-0-campus_partner]:after{
                       {% endif %}
                       {% endfor %}
                         <div class="col-sm-7">
-                      {{ project.activity_type }}
-                        </div>
-                      {% if  project.activity_type.errors %}
-                      {% for error in  project.activity_type.errors %}
-                      <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                      {% endfor %}
-                      {% endif %}
+                      <select id="id_populate_activity" name="name_populate_activity">
+                        {% for act in activityList %}
+                        {% if act == selectedActivity %}
+                        <option value={{act.id}} selected="selected">{{act.name}}</option>
+                        {% endif %}
+                        {% if act != selectedActivity %}
+                        <option value={{act.id}}>{{act.name}}</option>
+                          {% endif %}
+                        {% endfor %}
+                     </select>
+                     </div>
+                    
                     </div>
                     <div class="row">
                       <label class="col-sm-4">Project Type</label>
-                        <div class="col-sm-7">
+                     
+                       <div class="col-sm-7">
                       {{ project.project_type }}
                         </div>
                     </div>
@@ -1272,7 +1278,7 @@ $("#id_registerCommAndSave").click(function (){
             'name': document.getElementById("id_project_name").value,
             'description':document.getElementById("id_description").value,
             'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_activity_type").value,
+            'activity_type':document.getElementById("id_populate_activity").value,
             'start_semester':document.getElementById("id_semester").value,
             'start_academic_yr':document.getElementById("id_academic_year").value,
             'end_semester':document.getElementById("id_end_semester").value,
@@ -1316,7 +1322,7 @@ $("#id_registerCampusAndSave").click(function (){
             'name': document.getElementById("id_project_name").value,
             'description':document.getElementById("id_description").value,
             'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_activity_type").value,
+            'activity_type':document.getElementById("id_populate_activity").value,
             'start_semester':document.getElementById("id_semester").value,
             'start_academic_yr':document.getElementById("id_academic_year").value,
             'end_semester':document.getElementById("id_end_semester").value,
@@ -1644,7 +1650,27 @@ $('#id_k12_flag').change(function () {
             }
         }
     });
-
+$('#id_engagement_type').change(function () {
+    var selectedEngagement = $('#id_engagement_type option:selected').text();
+    $.ajax({
+        url: "/getEngagemetActivityList/",
+        data: {
+            'selectedEngagement': selectedEngagement
+        },
+        dataType: 'json',
+        success: function (data) {
+            var activityList = data.activityList
+            var options = '<option value="0">Select Activity Type</option>';
+            for (var i = 0; i < activityList.length; i++) {
+                options += '<option value="' + activityList[i].id + '">' + activityList[i].name + '</option>';
+            }
+            $("select#id_populate_activity").html(options);
+            $("select#id_populate_activity option:first").attr('selected', 'selected');
+            $("select#id_populate_activity").attr('disabled', false);
+        }
+    });
+    
+});
 
 
   var val = $("#id_activity_type").find("option:selected").text();
@@ -1706,6 +1732,8 @@ $(document).ready(function(){
     $('.checkbox').hide();
     $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    $('#id_populate_activity').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+    
     $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});

@@ -164,6 +164,7 @@
         border-left-color: rgba(0, 0, 0, 0.12);
         border-left-style: solid;
         border-left-width: 1px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 
     }
     .text-snippet{
@@ -275,7 +276,7 @@ table{
 
 
 <!-- / Collapse buttons -->
-    <div class="card">
+    <div class="card filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -549,13 +550,13 @@ table{
         </td>
         <td>
             <b>Campus Lead Staff : </b>
-            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}} {% endfor %}
+            {% for campus_lead_staff in project.campus_lead_staff %}{{campus_lead_staff}}{% endfor %},
         </td>
     </tr>
 
 </table>
     <br>
-    <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %} {{sub_category}}, {% endfor %}</div>
+    <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %},</div>
     <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
     </p>
 

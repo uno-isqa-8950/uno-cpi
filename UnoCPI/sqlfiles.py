@@ -124,6 +124,7 @@ all_projects_sql = """select distinct p.project_name
                             , sub_category
                             ,campus_lead_staff
                             ,mission_image
+                            
                         order by pa.academic_year desc;"""
 
 all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name

@@ -1344,8 +1344,22 @@ def engagement_info(request):
 
 
     for obj in cursor.fetchall():
+        comm_ids = obj[5]
+        comm_idList = ''
+        if comm_ids is not None:
+            print('comm_ids in eng',len(comm_ids))
+            
+            name_count = 0
+            if len(comm_ids) > 0:
+                for i in comm_ids:
+                    comm_idList = comm_idList + str(i)
+                    if name_count < len(comm_ids) - 1:
+                        comm_idList = comm_idList + str(",")
+                        name_count = name_count + 1
+
+        print('comm_idLists in eng',comm_idList)
         data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": obj[3],
-                          "community_count": obj[4], "comm_id_list": obj[5], "campus_count": obj[6], "total_uno_students": obj[7],
+                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": obj[7],
                           "total_uno_hours": obj[8]})
 
 

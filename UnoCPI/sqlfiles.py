@@ -1700,13 +1700,7 @@ left join partners_communitypartnermission CommMission on CommMission.community_
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.community_type_id::text like %s
- and((p.academic_year_id <= %s) AND 
-       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
- and  pcam.campus_partner_id::text like %s  
- and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
- and c.college_name_id::text like %s      
- and pc.id in %s  
+where pc.id in %s  
 
 group by commpartners, website, CommStatus, cstatus
 order by commpartners;
@@ -1727,13 +1721,7 @@ left join partners_communitypartnermission CommMission on CommMission.community_
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.community_type_id::text like %s
- and((p.academic_year_id <= %s) AND 
-       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
- and  pcam.campus_partner_id::text like %s  
- and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
- and c.college_name_id::text like %s      
- and pc.id::text = %s  
+where pc.id::text = %s  
 
 group by commpartners, website, CommStatus, cstatus
 order by commpartners;

@@ -49,6 +49,7 @@ dfCommunity = pd.read_sql_query(
     FROM partners_communitypartner PC \
     join projects_projectcommunitypartner pcp on PC.id = pcp.community_partner_id \
     join projects_project proj on pcp.project_name_id = proj.id \
+    join projects_status ps on ps.id = proj.status_id and ps.name != 'Drafts' \
     join projects_projectcampuspartner pcam on proj.id = pcam.project_name_id \
     join partners_communitypartnermission pm on PC.id = pm.community_partner_id \
     join home_missionarea hm on pm.mission_area_id = hm.id \
@@ -77,6 +78,7 @@ dfProjects = pd.read_sql_query(
     join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id \
     join university_college um on um.id = pc2.college_name_id \
     join projects_engagementtype pem on p.engagement_type_id = pem.id \
+    join projects_status ps on ps.id = p.status_id and ps.name != 'Drafts' \
     WHERE p.id IN \
     (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 if len(dfProjects) == 0:

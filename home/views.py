@@ -2054,18 +2054,18 @@ def chartjsons():
     #     geojson = json.load(f)
     #
     # district = geojson["features"]
-    campus_partner=open('home/static/charts_json/campus_partners.json')
-    # campus_partner_json=json.load(charts_campuses)
-    campus_partner_json = json.load(campus_partner)#local
-    community_partner = open('home/static/charts_json/community_partners.json')
-    # community_partner_json = json.load(charts_communities)
-    community_partner_json = json.load(community_partner)#local
-    mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
-    # mission_subcategories_json = json.load(charts_missions)
-    mission_subcategories_json = json.load(mission_subcategories)#local
-    projects =open ('home/static/charts_json/projects.json')
-    # projects_json = json.load(charts_projects)
-    projects_json = json.load(projects)#local
+    # campus_partner=open('home/static/charts_json/campus_partners.json')
+    campus_partner_json=json.loads(charts_campuses)
+    # campus_partner_json = json.load(campus_partner)#local
+    # community_partner = open('home/static/charts_json/community_partners.json')
+    community_partner_json = json.loads(charts_communities)
+    # community_partner_json = json.load(community_partner)#local
+    # mission_subcategories = open('home/static/charts_json/mission_subcategories.json')
+    mission_subcategories_json = json.loads(charts_missions)
+    # mission_subcategories_json = json.load(mission_subcategories)#local
+    # projects =open ('home/static/charts_json/projects.json')
+    projects_json = json.loads(charts_projects)
+    # projects_json = json.load(projects)#local
     return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
 
 

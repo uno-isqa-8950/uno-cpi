@@ -952,7 +952,7 @@ def editProject(request, pk):
                             id = str(mission[0])
                             # print(id)
                             cursor = connection.cursor()
-                            cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
+                            cursor.execute(sqlfiles.createproj_addothermission(id, str(pk)), params=None)
                     projects_list = []
                     camp_part_names = []
                     course_list = []

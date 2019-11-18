@@ -48,31 +48,7 @@ label {
         max-width: 1500px;
     }
 }
-        body{
-        background-color: rgba(0,0,0,.03);
-    }
-        .text-snippet{
-        text-align: left;
-    }
-    /*.box{*/
-    /*    padding: 10px;*/
-    /*        background-color: white;*/
-    /*        border: 1px;*/
-    /*    box-shadow: 5px 10px #d3d3d3;*/
-    /*    }*/
-    .snippet-card{
-        margin-top: 20px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-bottom: 20px;
-        border-left: none;
-        border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
-        border-radius:0px;
-        background-color: transparent;
-        margin-bottom: 50px;
-    }
+
 </style>
 <br><br>
             <div class="row justify-content-md-center">
@@ -80,9 +56,8 @@ label {
                           <div class=" text-center"><h3 class="heading">Search Project</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
-        {% priv_projs %}
-        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.
-    </div>
+        {%         create_projects %}
+        </div>
 </div>
 <!--                        <div class = "panel-default" style="width:100%">-->
 <!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->

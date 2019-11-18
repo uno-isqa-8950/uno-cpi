@@ -91,10 +91,8 @@ if (not_set.includes(weitz_cec_part)) {
         if (['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
             if (weitz_cec_part == 'CURR_COMM') {
                 var CECCommunityPartners = CommunityPartners.filter(d => d.cec_partner.cec_years.includes(yrID));
-                console.log(CECCommunityPartners.length);
             } else if (weitz_cec_part == 'FORMER_COMM') {
                 var CECCommunityPartners = CommunityPartners.filter(d => !d.cec_partner.cec_years.includes(yrID)).filter(d => d.cec_partner.cec_years.some(r=> yrArr.includes(r)));
-                console.log(CECCommunityPartners.length);
             }
             var projs = Projects.filter(d => d.years.includes(yearList[y].id));
             var filt = get_filter_set (projs, CECCommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part);
@@ -116,20 +114,17 @@ if (not_set.includes(weitz_cec_part)) {
         camp_data.push(campus.length);
     }
 }
-// console.log(proj_data);
-// console.log(comm_data);
-// console.log(camp_data);
 
 var project_count_series = {
-    'name': 'Project Count',
+    'name': 'Projects',
     'data': proj_data,
     'color': 'turquoise'};
 var community_partner_count_series = {
-    'name': 'Community Partner Count',
+    'name': 'Community Partners',
     'data': comm_data,
     'color': 'teal'};
 var campus_partner_count_series = {
-    'name': 'Campus Partner Count',
+    'name': 'Campus Partners',
     'data': camp_data,
     'color': 'blue'};
 
@@ -139,15 +134,16 @@ Highcharts.chart('container',
       "categories": yrs,
       "title":{
          "text":"Academic Years",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}}},
    "yAxis":{
       "title":{
          "text":"Projects/Partners",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}}},
    "plotOptions":{
       "series":{
          "dataLabels":{
             "style":{"fontSize":"8px"}}}},
+   "tooltip": {"split": true, "style": {"fontFamily": "Arial Narrow"}},
    "series":[project_count_series, community_partner_count_series, campus_partner_count_series],
    "legend":{
       "layout":"horizontal",
@@ -157,7 +153,8 @@ Highcharts.chart('container',
       "y":50,
       "borderWidth":1,
       "backgroundColor":"#FFFFFF",
-      "shadow":"true"},
+      "shadow":"true",
+      "itemStyle": {"fontFamily": "Arial Narrow"}},
    "responsive":{
       "rules":[{
         "condition":{"maxWidth":500},

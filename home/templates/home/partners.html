@@ -98,7 +98,8 @@
             <div class="row">
                 <div id="ab1" class="col-xs-6 col-md-4">
 {#                    <div class = "panel-default panel-heading  text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
+                    <div style="box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);">
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px">
                             <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Community Partners
                                     {% for data_definition in data_definition %}{% if data_definition.id == 2 %}
@@ -110,23 +111,24 @@
                         <div>
                             <img src="{% static "img/CommunityPartner.jpg" %}" class="img-fluid" alt="My Community Partner" width=100% height=100%/>
                         </div>
+                    </div>
                         <div style="text-align: center;">
                             {% comm_parts %}
 {#                            <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>#}
 
-                             <div class="col text-center">
-                                <div class="card" style="border:none">
+                             <div class="col text-center" style="margin-top: 20px">
+
                                     <form action="{% url 'partners:checkCommunityPartner' %}" >
-                                    <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-users" aria-hidden="true"></i>
+                                    <button id="myButton" type="submit" class="btn btn-secondary">
                                        Register Community Partner</button><br><br>
                                     </form>
-                                </div>
+
                             </div>
                             <div class="rich-text" >
                                 {% comm_part_users %}
     {#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
                                 {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
-                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Community Partner Users associated with a Community Partner"  href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
+                                    <a style="color: #b60000;font-family: 'Arial Narrow', sans-serif"  title="Registers Community Partner Users associated with a Community Partner"  href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
                                 {% endif %}
                                 <br>
                                 <br>
@@ -136,7 +138,8 @@
 {#                </div>#}
                 <div id="ab2" class="col-xs-6 col-md-4">
 {#                    <div class = "panel-default text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
+                    <div style="box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);">
+                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px;">
                             <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
                                     {% for data_definition in data_definition %}
@@ -149,17 +152,18 @@
                         <div>
                             <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
                         </div>
+                    </div>
                         <div style="text-align: center;">
                                 {% cam_parts %}<div class="col text-center">
-                                <div class="card" style="border:none">
+                                <div style="border:none;margin-top: 20px">
                                     <form action="{% url 'partners:registerCampusPartner' %}" >
-                                    <button id="myButton1" type="submit" class="btn btn-custom">   <i class="fa fa-users" aria-hidden="true"></i>
+                                    <button id="myButton1" type="submit" class="btn btn-secondary">
                                       Register Campus Partner</button><br><br>
                                     </form>
                                 </div>
                             </div>
-                            <div class="richtext-image" style="margin: auto">
-                                    {% cam_part_users %}<a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Registration </a>
+                            <div class="rich-text" style="margin: auto">
+                                    {% cam_part_users %}<a style="color: #b60000;font-family:'Arial Narrow' , sans-serif; text-decoration: underline"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Registration </a>
                                 </div>
                             </div>
                 </div>

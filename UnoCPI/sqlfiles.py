@@ -1809,3 +1809,11 @@ FROM (
 WHERE proj_id is not null	
 ORDER BY rec_type DESC, mission_id, sub_category;
 '''
+
+def editproj_addprimarymission(focusarea,projid):
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Primary','""" +focusarea+"""','""" +projid+"""'); """)
+
+def editproj_updateprimarymission(focusarea,projid):
+    return ( """update projects_projectmission set mission_id= '""" +focusarea+"""',project_name_id ='""" +projid+"""' where project_name_id ='""" +projid+"""' and mission_type = 'Primary'; """)
+
+

@@ -25,6 +25,7 @@ urlpatterns = [
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
     path('checkProject/', views.checkProject, name='checkProject'),
+    url(r'^saveFocusArea/$',views.saveFocusArea, name='saveFocusArea'),
     url(r'^saveProjectAndRegister/$',views.saveProjectAndRegister, name='saveProjectAndRegister'),
     url(r'^getEngagemetActivityList/$',views.getEngagemetActivityList, name='getEngagemetActivityList'),
     path('myDrafts/', views.myDrafts, name='myDrafts'),

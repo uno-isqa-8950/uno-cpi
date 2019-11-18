@@ -445,6 +445,14 @@ class ProjectMissionEditFormset(forms.ModelForm):
             'mission': (' '),
                     }
 
+class projectfocusarea(forms.ModelForm):
+    class Meta:
+        model = ProjectMission
+        fields = ('mission',)
+        labels = {
+            'mission': (' '),
+        }
+
 class ProjectMissionFormset(forms.ModelForm):
     class Meta:
         model = ProjectMission

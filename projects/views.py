@@ -271,6 +271,29 @@ def getEngagemetActivityList(request):
     return JsonResponse(data)
 
 
+def saveFocusArea(request):
+    selectedfocusarea = request.GET.get('focusarea')
+    projectid = request.GET.get('projectId')
+    print('selected focus area ajax--', selectedfocusarea)
+    print('selected focus area ajax--', projectid)
+    try:
+        test = ProjectMission.objects.get(project_name_id=projectid, mission_type='Primary')
+    except ProjectMission.DoesNotExist:
+        test = None
+
+    if test is not None:
+        cursor = connection.cursor()
+        cursor.execute(sqlfiles.editproj_updateprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+    else:
+        cursor = connection.cursor()
+        cursor.execute(sqlfiles.editproj_addprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+
+
+    return projectid
+
+
+
+
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
@@ -802,8 +825,7 @@ def createProject(request):
 
 @login_required()
 def editProject(request, pk):
-    mission_edit_details = inlineformset_factory(Project, ProjectMission, extra=0, min_num=1, can_delete=True,
-                                                 form=ProjectMissionEditFormset)
+    project_mission = ProjectMissionEditFormset()
     proj_comm_part_edit = inlineformset_factory(Project, ProjectCommunityPartner, extra=0, min_num=1, can_delete=True,
                                                 form=AddProjectCommunityPartnerForm)
     proj_campus_part_edit = inlineformset_factory(Project, ProjectCampusPartner, extra=0, min_num=1, can_delete=True,
@@ -816,13 +838,13 @@ def editProject(request, pk):
     if request.method == 'POST':
         # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
-
+        # projectName = request.POST['projectName'].strip()
+        # p = request.POST
+        # focus_area = request.GET['id_mission_area']
+        # print(focus_area)
         for x in proj_edit:
             project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
-
-            formset_missiondetails = mission_edit_details(request.POST, request.FILES, instance=x,
-                                                          prefix='mission_edit')
             formset_comm_details = proj_comm_part_edit(request.POST or None, request.FILES, instance=x,
                                                        prefix='community_edit')
             formset_camp_details = proj_campus_part_edit(request.POST or None, request.FILES, instance=x,
@@ -830,7 +852,7 @@ def editProject(request, pk):
             formset_subcatdetails = sub_category_edit(request.POST or None, request.FILES, instance=x,
                                                       prefix='sub_category_edit')
 
-            if project.is_valid() and formset_missiondetails.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
+            if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
                 print('in valid')
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(
@@ -839,13 +861,16 @@ def editProject(request, pk):
                 stat = str(instances.status)
                 if stat == 'Drafts':
                     instances.save()
-                    pm = formset_missiondetails.save()
                     compar = formset_comm_details.save()
                     campar = formset_camp_details.save()
                     subcat = formset_subcatdetails.save()
-                    for k in pm:
-                        k.project_name = instances
-                        k.save()
+                    # focus_areas = focusarea['id_mission']
+                    # focus_areas = request.POST.get('id_mission_area',None)
+                    # print(focus_areas)
+
+                    # for k in pm:
+                    #     k.project_name = instances
+                    #     k.save()
                     for p in compar:
                         p.project_name = instances
                         p.save()
@@ -885,7 +910,7 @@ def editProject(request, pk):
                             tot_hours = 0
                             for x in k:
 
-                                projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                                # projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
                                 cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                                 proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
                                 subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
@@ -913,7 +938,7 @@ def editProject(request, pk):
                                     'other_activity_type': x.other_activity_type,
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes,
-                                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                                    'total_economic_impact': x.total_economic_impact, 'cp': cp,
                                     'subc': subc,
                                     'camp_part': list_camp_part_names,
                                     }
@@ -923,13 +948,13 @@ def editProject(request, pk):
                     return HttpResponseRedirect("/myDrafts")
                 else:
                     instances.save()
-                    pm = formset_missiondetails.save()
+                    # pm = formset_missiondetails.save()
                     compar = formset_comm_details.save()
                     campar = formset_camp_details.save()
                     subcat = formset_subcatdetails.save()
-                    for k in pm:
-                        k.project_name = instances
-                        k.save()
+                    # for k in pm:
+                    #     k.project_name = instances
+                    #     k.save()
                     for p in compar:
                         p.project_name = instances
                         p.save()
@@ -969,7 +994,7 @@ def editProject(request, pk):
                             tot_hours = 0
                             for x in k:
 
-                                projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
+                                # projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
                                 cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
                                 proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
                                 subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
@@ -996,7 +1021,9 @@ def editProject(request, pk):
                                     'total_uno_faculty': x.total_uno_faculty,
                                     'total_other_community_members': x.total_other_community_members,
                                     'outcomes': x.outcomes, 'other_activity_type': x.other_activity_type,
-                                    'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'cp': cp,
+                                    'total_economic_impact': x.total_economic_impact,
+                                    # 'projmisn': projmisn,
+                                    'cp': cp,
                                     'subc': subc,
                                     'camp_part': list_camp_part_names,
                                     }
@@ -1021,28 +1048,63 @@ def editProject(request, pk):
         for act in eng_act_obj:
             print('act obj---', act.ActivityTypeName)
             actObj = ActivityType.objects.get(name=act.ActivityTypeName)
-            activityList.append({"name": actObj.name, "id": actObj.id})
-
+            # activityList.append({"name": actObj.name, "id": actObj.id})
+            if str(actObj.name)== str(selectedActivity):
+                selected = 'selected'
+                activityList.append({"name": actObj.name, "id": actObj.id, "selected":selected})
+            else:
+                activityList.append({"name": actObj.name, "id": actObj.id})
+        print (activityList)
             # for x in proj_edit:
         x = proj_edit
         project = ProjectForm2(request.POST or None, instance=x)
         course = CourseForm(instance=x)
+        project_mission = ProjectMissionEditFormset()
+        project_all_missions = MissionArea.objects.all()
+        # mission_areas = []
+        # for miss in project_all_missions:
+        #     print('missions-----', miss)
+        #     mission_areas.append({"name": miss.mission_name, "id": miss.id})
+        # print(mission_areas)
+        try:
+            test = ProjectMission.objects.get(project_name_id=pk,mission_type = 'Primary')
+        except ProjectMission.DoesNotExist:
+            test = None
 
-        proj_mission = ProjectMission.objects.filter(project_name_id=pk)
+        if test is not None:
+            proj_mission = ProjectMission.objects.get(project_name_id=pk,mission_type = 'Primary')
+        else:
+            proj_mission = 'none'
+
+        # print(proj_mission)
+        mission_areas = []
+        for miss in project_all_missions:
+            # print(miss.mission_name)
+            if miss.mission_name == str(proj_mission):
+                selected = 'selected'
+                mission_areas.append({"name": miss.mission_name, "id": miss.id,'selected':selected})
+            else:
+                mission_areas.append({"name": miss.mission_name, "id": miss.id})
+
+        # print(mission_areas)
+        # selectedMisson = proj_mission.mission_id
         proj_comm_part = ProjectCommunityPartner.objects.filter(project_name_id=pk)
         proj_camp_part = ProjectCampusPartner.objects.filter(project_name_id=pk)
         # course_details = course(instance= x)
-        formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
+        # formset_missiondetails = mission_edit_details(instance=x, prefix='mission_edit')
         formset_comm_details = proj_comm_part_edit(instance=x, prefix='community_edit')
         formset_camp_details = proj_campus_part_edit(instance=x, prefix='campus_edit')
         formset_subcat_details = sub_category_edit(instance=x, prefix='sub_category_edit')
         return render(request, 'projects/editProject.html', {'project': project, 'course': course,
-                                                             'formset_missiondetails': formset_missiondetails,
+                                                             'project_mission':project_mission,
+                                                             'mission_areas':mission_areas,
+                                                             # 'formset_missiondetails': formset_missiondetails,
                                                              'formset_comm_details': formset_comm_details,
                                                              'formset_camp_details': formset_camp_details,
                                                              'formset_subcat_details': formset_subcat_details,
                                                              'projectId': pk, 'activityList': activityList,
                                                              'selectedActivity': selectedActivity,
+                                                             'selectedMission':proj_mission,
                                                              'data_definition':data_definition})
 
 

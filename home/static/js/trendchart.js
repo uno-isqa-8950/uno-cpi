@@ -91,10 +91,10 @@ if (not_set.includes(weitz_cec_part)) {
         if (['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
             if (weitz_cec_part == 'CURR_COMM') {
                 var CECCommunityPartners = CommunityPartners.filter(d => d.cec_partner.cec_years.includes(yrID));
-                // console.log(CECCommunityPartners.length);
+                console.log(CECCommunityPartners.length);
             } else if (weitz_cec_part == 'FORMER_COMM') {
                 var CECCommunityPartners = CommunityPartners.filter(d => !d.cec_partner.cec_years.includes(yrID)).filter(d => d.cec_partner.cec_years.some(r=> yrArr.includes(r)));
-                // console.log(CECCommunityPartners.length);
+                console.log(CECCommunityPartners.length);
             }
             var projs = Projects.filter(d => d.years.includes(yearList[y].id));
             var filt = get_filter_set (projs, CECCommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part);

@@ -190,12 +190,12 @@ for (coll in Collegenames) {
                         mission_name = mission_obj.mission_area_name
                         // alert("mission_obj"+mission_name)
 
-                        res3 = {'from': camp, 'to': community.community_partner_name+"("+commps.length+")"}
+                        res3 = {'from': camp, 'to': community.community_partner_name,'p':commps.length}
                         // console.log("final",res3)
 
                         chart_data.push(res3)
                         node3 = {
-                            'id': community.community_partner_name+"("+commps.length+")",
+                            'id': community.community_partner_name,
                             'color': colorCodeObject[mission_name],
                             'marker': {'symbol': 'circle',
                             // 'radius': commps.length
@@ -264,13 +264,26 @@ Highcharts.chart('container', {
 
     // responsive:{rules:[{condition:{maxWidth:500},
     // chartOptions:{ legend :{ layout:"horizontal",align:"center",verticalAlign:"bottom"}}}]},
-
+    tooltip: {
+        // headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.from}</span><br> <span>{point.to}</span>ProjectCount:{point.p}<span></span> '
+                 },
+        legend: {
+            layout: 'horizontal',
+            align: 'right',
+            verticalAlign: 'top',
+            x: -10,
+            y: 10,
+            borderWidth: 1,
+            backgroundColor: '#FFFFFF',
+            shadow: 'true'
+        },
     series: [{
         name:'Network Graph',
         linkLength: 100,
         type:'networkgraph',
         dataLabels: {
-            enabled: true,
+            enabled: false,
             linkFormat: ''
         },
         data: chart_data,

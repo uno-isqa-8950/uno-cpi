@@ -4,6 +4,14 @@
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
+    .fade{
+        color: black;
+        display: block;
+        opacity: 100;
+    }
+    .fade:not(.show){
+        opacity: 5;
+    }
 </style>
 
   <script>
@@ -66,14 +74,14 @@
             <form class="form-inline" role="form" id="filters-form" method="get">
 
             <div class="col-lg-4 col-md-5 form-group ">
-                <label for="academic_year"> Academic Years
+                <label for="academic_year">
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 32%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %}  Academic Year
                 </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -84,15 +92,15 @@
             </div>
 
             <div class="col-lg-4 col-md-5 form-group ">
-                <label for="mission">Project Focus Areas
+                <label for="mission">
 
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 3%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} Project Focus Areas
                 </label>
                 <select id="id_mission" name="mission" onchange="this.form.submit()">
                     <option> All </option>
@@ -103,14 +111,14 @@
             </div>
 
             <div class="col-lg-4 col-md-5 form-group ">
-                <label for="community_type"> Community Partner Types
+                <label for="community_type">
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 33%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} Community Organization Type
                 </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -121,14 +129,14 @@
             </div>
 
             <div class="col-lg-4 col-md-5 form-group ">
-                <label for="college_name">Colleges and Main Units
+                <label for="college_name">
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 43%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} College and Main Units
                 </label>
                 <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                     <option> All </option>
@@ -138,14 +146,14 @@
                 </select>
             </div>
             <div class="col-lg-4 col-md-5 form-group ">
-            <label for="campus_partner"> Campus Partners
+            <label for="campus_partner">
                 {% for data_definition in data_definition %}
                     {% if data_definition.id == 1%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                     {% endif %}
-                {% endfor %}
+                {% endfor %} Campus Partners
             </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                     <option> All </option>
@@ -159,42 +167,23 @@
 
              <div class="col-lg-4 col-md-5 form-group ">
 
-                <label for="weitz_cec_part"> CEC Community Building Partners
+                <label for="weitz_cec_part">
 
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 27%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %} CEC Building Partners
                 </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                        <option> All </option>
-                            {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                                {{weitz_cec_part}}
-                            {% endfor %}
+                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                     {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
+
                     </select>
             </div>
-<div class="col-lg-4 col-md-5 form-group ">
-
-                        <label >Legislative Districts
-
-                            {% for data_definition in data_definition %}
-                            {% if data_definition.id == 52%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                data-content="{{ data_definition.description }}" class="float">
-                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                            {% endfor %}
-                        </label>
-                        <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
-                            {% for item in legislative_choices %}
-                            <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
-                           <!-- <option> {{legislative_value}} </option>-->
-                            {% endfor %}
-                        </select>
-                    </div>
             </form>
        </div>
     </div>
@@ -204,57 +193,57 @@
 <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
     <thead>
     <tr>
-        <th>Engagement Types
+        <th>
             {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Engagement Types</span>
                     {% endif %}
                 {% endfor %}
         </th>
-        <th>Projects
+        <th>
              {% for data_definition in data_definition %}
                     {% if data_definition.id == 47%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Projects</span>
                     {% endif %}
                 {% endfor %}
         </th>
-        <th>Community Partners
+        <th>
               {% for data_definition in data_definition %}
                     {% if data_definition.id == 46%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partners</span>
                     {% endif %}
                 {% endfor %}
         </th>
-        <th>Campus Partners
+        <th>
              {% for data_definition in data_definition %}
                     {% if data_definition.id == 50%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Campus Partners</span>
                     {% endif %}
                 {% endfor %}
         </th>
-        <th>UNO Students
+        <th>
             {% for data_definition in data_definition %}
                 {% if data_definition.id == 48%}
-                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                          data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students</span>
                 {% endif %}
             {% endfor %}
         </th>
-        <th>UNO Students Hours
+        <th>
              {% for data_definition in data_definition %}
                 {% if data_definition.id == 49%}
-                    <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                          data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students Hours</span>
                 {% endif %}
             {% endfor %}
         </th>
@@ -264,7 +253,7 @@
 <tbody>
    {% for e in engagement_List %}
         <tr>
-            <td>{{e.engagement_name}}</td>
+            <td><span data-toggle="tooltip" title="{{ e.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> {{ e.engagement_name }}</td>
             <td>
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
@@ -321,9 +310,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
+    $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+    $('#id_mission').select2({placeholder: 'All Project Focus Areas',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -337,9 +325,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
-    $('#id_legislative_value').select2({width: '75%'});
-    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
+    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -353,7 +340,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

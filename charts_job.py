@@ -12,7 +12,7 @@ sched1 = BackgroundScheduler()
 
 logger=logging.getLogger("UNO CPI Application Charts Batch job")
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=4)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=6)
 
 def scheduled_job():
     print('This job is run every Sunday at 4 AM GMT/ 11 PM CDT.')

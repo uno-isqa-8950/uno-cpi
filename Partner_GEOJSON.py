@@ -42,18 +42,23 @@ logger.info("Get all the Community Partners from the Database")
 
 # Get all the Community Partners from the database
 dfCommunity = pd.read_sql_query(
-    "SELECT pc.name as Community_Partner,pc.address_line1, pc.address_line2, \
-    pc.city, pc.state,pc.zip, hm.mission_name ,p.mission_type, \
-    pc.legislative_district,pc.median_household_income, pc2.community_type,\
-    pc.website_url, pc.longitude, pc.latitude FROM partners_communitypartner PC \
-    join partners_communitypartnermission p on PC.id = p.community_partner_id \
-    join home_missionarea hm on p.mission_area_id = hm.id \
-    join partners_communitytype pc2 on PC.community_type_id = pc2.id \
+    "SELECT distinct pc.name as Community_Partner,pc.address_line1, pc.address_line2, \
+    pc.city, pc.state,pc.zip, hm.mission_name ,pm.mission_type, \
+    pc.legislative_district,pc.median_household_income, pct.community_type,\
+    pc.website_url, pc.longitude, pc.latitude, COALESCE(ces.name, 'Never') as name \
+    FROM partners_communitypartner PC \
+    join projects_projectcommunitypartner pcp on PC.id = pcp.community_partner_id \
+    join projects_project proj on pcp.project_name_id = proj.id \
+    join projects_projectcampuspartner pcam on proj.id = pcam.project_name_id \
+    join partners_communitypartnermission pm on PC.id = pm.community_partner_id \
+    join home_missionarea hm on pm.mission_area_id = hm.id \
+    join partners_communitytype pct on PC.community_type_id = pct.id \
+    left join partners_cecpartnerstatus ces on PC.cec_partner_status_id = ces.id \
     where  \
     (pc.address_line1 not in ('','NA','N/A') or pc.city not in ('','NA','N/A') or pc.state not in ('','NA','N/A')) \
     and pc.longitude is not null \
     and pc.latitude is not null \
-    and lower(p.mission_type) = 'primary'",con=conn)
+    and lower(pm.mission_type) = 'primary'",con=conn)
 
 if len(dfCommunity) == 0:
     logger.critical("No Community Partners fetched from the Database on " + str(currentDT))
@@ -62,7 +67,7 @@ else:
 
 # Get all the Projects from the database and get their Campus Partners , Community Partners associated
 dfProjects = pd.read_sql_query(
-    "SELECT  project_name,academic_year , pc2.name as campus_partner ,\
+    "SELECT  project_name,academic_year ,pem.name as engagement_type , pc2.name as campus_partner ,\
     um.college_name,ppcp.name as community_partner \
     FROM projects_project P \
     join projects_academicyear pa on P.academic_year_id = pa.id \
@@ -71,7 +76,9 @@ dfProjects = pd.read_sql_query(
     join partners_communitypartner ppcp on ppc.community_partner_id = ppcp.id \
     join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id \
     join university_college um on um.id = pc2.college_name_id \
-    WHERE p.id IN (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
+    join projects_engagementtype pem on p.engagement_type_id = pem.id \
+    WHERE p.id IN \
+    (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 if len(dfProjects) == 0:
     logger.critical("No Projects are fetched from the Database as of " + str(currentDT))
 else:
@@ -85,13 +92,13 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 
 
 # Function that generates GEOJSON
-def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, longitude,latitude, Website,legislative_district):
-    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
+def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, longitude,latitude, Website,Cec_status,legislative_district):
+    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects':'',
                                                  'College Name': '', 'Mission Type': '', 'Project Name': '',
                                                  'Legislative District Number': '', 'Number of projects': '',
                                                  'Income': '', 'City': '', 'County': '', 'Mission Area': '',
                                                  'CommunityType': '', 'Campus Partner': '',
-                                                 'Academic Year': '', 'Website': ''},
+                                                 'Academic Year': '', 'Website': '','Community CEC Status': ''},                                                 
                'geometry': {'type': 'Point', 'coordinates': []}
                }
     feature['geometry']['coordinates'] = [longitude, latitude]
@@ -115,10 +122,12 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
     campuslist = []
     projectList = []
     collegeList = []
+    projectDetailList = []
     partners = dfProjects['community_partner']
     years = dfProjects['academic_year']
     campuses = dfProjects['campus_partner']
     projects = dfProjects['project_name']
+    enagaementType = dfProjects['engagement_type']
     colleges = dfProjects['college_name']
     count = 0
     for n in range(len(partners)):
@@ -129,6 +138,19 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                 campuslist.append(campuses[n])
             if (projects[n] not in projectList):
                 projectList.append(projects[n])
+                name = ''
+                try:
+                    Projectname = projects[n].split(':')
+                except ValueError:
+                    print('name does not have year')
+                    name = Projectname
+                else:
+                    print('name does not have year')
+                    name = Projectname[0]
+                
+                projectDetail = str(name)+':'+ str(years[n]) +':'+ str(enagaementType[n])
+                print('projectDetail--',projectDetail)
+                projectDetailList.append(projectDetail)
                 count += 1
             if (colleges[n] not in collegeList):
                 collegeList.append(colleges[n])
@@ -136,14 +158,15 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
     feature['properties']['Number of projects'] = count
     feature['properties']['Campus Partner'] = campuslist
     feature['properties']['Academic Year'] = yearlist
-    feature['properties']['Projects'] = projectList
+    feature['properties']['Projects'] = projectDetailList
     feature['properties']['College Name'] = collegeList
     feature['properties']['CommunityPartner'] = Community
     feature['properties']['CommunityType'] = CommunityType
     feature['properties']['Website'] = Website
+    feature['properties']['Community CEC Status'] = Cec_status
     feature['properties']['Mission Area'] = Mission
     feature['properties']['Mission Type'] = MissionType
-    feature['properties']['City'] = City
+    feature['properties']['City'] = City    
 
     collection['features'].append(feature)
     return feature
@@ -152,7 +175,8 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
 geojson_series = dfCommunity.apply(
     lambda x: feature_from_row(x['community_partner'], x['fulladdress'], x['mission_name'],\
      x['mission_type'], x['city'], x['community_type'], \
-      x['longitude'], x['latitude'], x['website_url'], x['legislative_district']), axis=1)
+      x['longitude'], x['latitude'], x['website_url'], \
+      x['name'], x['legislative_district']), axis=1)
 jsonstring = pd.io.json.dumps(collection)
 
 

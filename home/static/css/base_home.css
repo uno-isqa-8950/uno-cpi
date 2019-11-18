@@ -1,6 +1,37 @@
 body{
         background-color: rgba(0,0,0,.03);
     }
+    body{
+        background-color: rgba(0,0,0,.03);
+    }
+        .text-snippet{
+        text-align: left;
+    }
+    .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 20px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+        margin-bottom: 50px;
+    }
+        @media (min-width:1200px)
+{
+    .container{
+        max-width: 1500px;
+    }
+}
 .btn-group {
     float: left;
     ,

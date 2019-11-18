@@ -1015,6 +1015,7 @@ def engagement_info(request):
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     campus_filter_qs = CampusPartner.objects.all()
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+    college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
 
     college_unit_filter = request.GET.get('college_name', None)
@@ -1131,7 +1132,7 @@ def engagement_info(request):
 
 
     return render(request, 'reports/EngagementTypeReport.html',
-                   {'college_filter': campus_partner_filter, 'missions_filter': missions_filter,
+                   {'college_filter': college_partner_filter, 'missions_filter': missions_filter,
                     'year_filter': year_filter, 'engagement_List': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})

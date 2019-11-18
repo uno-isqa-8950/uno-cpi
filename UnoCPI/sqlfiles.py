@@ -738,11 +738,11 @@ order by mission_area;"""
 engagement_types_report_sql="""
 with eng_type_filter as (select e.name engagement_type
 	   , p.engagement_type_id eng_id
-	   , count(p.project_name) Projects
-	   , array_agg(p.id) projects_id
-	   , count(pcomm.community_partner_id) CommPartners
-	   , array_agg(pcomm.community_partner_id) CommPartners_id
-	   , count(pcamp.campus_partner_id) CampPartners
+	   , count(distinct p.project_name) Projects
+	   , array_agg(distinct p.project_name) projects_id
+	   , count(distinct pcomm.community_partner_id) CommPartners
+	   , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+	   , count(distinct pcamp.campus_partner_id) CampPartners
 	   , sum(p.total_uno_students) numberofunostudents
 	   , sum(p.total_uno_hours) unostudentshours
 from projects_engagementtype e
@@ -780,11 +780,11 @@ order by eng_type;		"""
 engagement_types_cec_curr_comm_report_sql="""
 with eng_type_filter as (select e.name engagement_type
 	   , p.engagement_type_id eng_id
-	   , count(p.project_name) Projects
-	   , array_agg(p.id) projects_id
-	   , count(pcomm.community_partner_id) CommPartners
-	   , array_agg(pcomm.community_partner_id) CommPartners_id
-	   , count(pcamp.campus_partner_id) CampPartners
+	   , count(distinct p.project_name) Projects
+	   , array_agg(distinct p.id) projects_id
+	   , count(distinct pcomm.community_partner_id) CommPartners
+	   , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+	   , count(distinct pcamp.campus_partner_id) CampPartners
 	   , sum(p.total_uno_students) numberofunostudents
 	   , sum(p.total_uno_hours) unostudentshours
 from projects_engagementtype e
@@ -825,11 +825,11 @@ order by eng_type;		"""
 engagement_types_cec_former_comm_report_sql="""
 with eng_type_filter as (select e.name engagement_type
 	   , p.engagement_type_id eng_id
-	   , count(p.project_name) Projects
-	   , array_agg(p.id) projects_id
-	   , count(pcomm.community_partner_id) CommPartners
-	   , array_agg(pcomm.community_partner_id) CommPartners_id
-	   , count(pcamp.campus_partner_id) CampPartners
+	   , count(distinct p.project_name) Projects
+	   , array_agg(distinct p.id) projects_id
+	   , count(distinct pcomm.community_partner_id) CommPartners
+	   , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+	   , count(distinct pcamp.campus_partner_id) CampPartners
 	   , sum(p.total_uno_students) numberofunostudents
 	   , sum(p.total_uno_hours) unostudentshours
 from projects_engagementtype e
@@ -869,11 +869,11 @@ order by eng_type;		"""
 engagement_types_cec_former_camp_report_sql="""
 with eng_type_filter as (select e.name engagement_type
 	   , p.engagement_type_id eng_id
-	   , count(p.project_name) Projects
-	   , array_agg(p.id) projects_id
-	   , count(pcomm.community_partner_id) CommPartners
-	   , array_agg(pcomm.community_partner_id) CommPartners_id
-	   , count(pcamp.campus_partner_id) CampPartners
+	   , count(distinct p.project_name) Projects
+	   , array_agg(distinct p.id) projects_id
+	   , count(distinct pcomm.community_partner_id) CommPartners
+	   , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+	   , count(distinct pcamp.campus_partner_id) CampPartners
 	   , sum(p.total_uno_students) numberofunostudents
 	   , sum(p.total_uno_hours) unostudentshours
 from projects_engagementtype e
@@ -912,11 +912,11 @@ order by eng_type;		"""
 engagement_types_cec_curr_camp_report_sql="""
 with eng_type_filter as (select e.name engagement_type
 	   , p.engagement_type_id eng_id
-	   , count(p.project_name) Projects
-	   , array_agg(p.id) projects_id
-	   , count(pcomm.community_partner_id) CommPartners
-	   , array_agg(pcomm.community_partner_id) CommPartners_id
-	   , count(pcamp.campus_partner_id) CampPartners
+	   , count(distinct p.project_name) Projects
+	   , array_agg(distinct p.id) projects_id
+	   , count(distinct pcomm.community_partner_id) CommPartners
+	   , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+	   , count(distinct pcamp.campus_partner_id) CampPartners
 	   , sum(p.total_uno_students) numberofunostudents
 	   , sum(p.total_uno_hours) unostudentshours
 from projects_engagementtype e
@@ -1690,19 +1690,19 @@ select pc.name commpartners
   , pc.partner_status_id CommStatus
   , ps.name cstatus
 from partners_communitypartner pc 
-left join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
+ join projects_projectcommunitypartner pcp on pc.id = pcp.community_partner_id
 left join projects_project p on p.id = pcp.project_name_id
 left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
 left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
-left join partners_campuspartner c on pcam.campus_partner_id = c.id
+left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
 where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
- and c.college_name_id::text like %s  
+ and c.college_name_id::text like %s      
  and pc.id in %s  
 
 group by commpartners, website, CommStatus, cstatus
@@ -1729,8 +1729,8 @@ where pc.community_type_id::text like %s
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s    
- and c.college_name_id::text like %s 
- and pc.id = %s  
+ and c.college_name_id::text like %s      
+ and pc.id::text = %s  
 
 group by commpartners, website, CommStatus, cstatus
 order by commpartners;

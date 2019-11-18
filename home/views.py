@@ -394,21 +394,198 @@ def upload_income(request):
 
 # (14) Mission Summary Report: filter by Semester, EngagementType - TRY 1
 def project_partner_info(request):
+    missions = MissionArea.objects.all()
+    data_definition = DataDefinition.objects.all()
+    mission_dict = {}
+    mission_list = []
+    proj_total = 0
+    comm_total = 0
+    students_total = 0
+    hours_total = 0
+
+    legislative_choices = []
+    legislative_search = ''
+
+    # set legislative_selection on template choices field -- Manu Start
+    legislative_selection = request.GET.get('legislative_value', None)
+
+    status_draft = Status.objects.filter(name='Drafts')
+    # status_draft_ids = status_draft.qs.value_list('id', flat=True)
+
+    if legislative_selection is None:
+        legislative_selection = 'All'
+
+    legislative_choices.append('All')
+    for i in range(1, 50):
+        legistalive_val = 'Legislative District ' + str(i)
+        legislative_choices.append(legistalive_val)
+
+    if legislative_selection is not None and legislative_selection != 'All':
+        legislative_search = legislative_selection.split(" ")[2]
+
+    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
+    else:
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            legislative_district=legislative_search))
+        project_filter = ProjectFilter(request.GET,
+                                       queryset=Project.objects.filter(legislative_district=legislative_search).exclude(
+                                           status__in=status_draft))
+    # legislative district end -- Manu
+
+    # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all()) -- commented by Manu
+    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
+    # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all()) -- commented by Manu
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    # college_filtered_ids = [campus.id for campus in college_filter.qs]
+    college_filtered_ids = college_filter.qs.values_list('id', flat=True)
+    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+        campus_partner_id__in=college_filtered_ids))
+    # campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
+    campus_project_filter_ids = campus_project_filter.qs.values_list('project_name', flat=True)
+
+    # campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+    campus_filtered_ids = campus_filter.qs.values_list('project_name', flat=True)
+
+    # project_filtered_ids = [project.id for project in project_filter.qs]
+    project_filtered_ids = project_filter.qs.values_list('id', flat=True)
+    print ('project_filtered_ids :', project_filtered_ids)
+    # project_filtered_ids = list(set(project_filtered_ids1).difference(project_drafted_ids))
+
+    # community_filtered_ids = [community.id for community in communityPartners.qs]
+    community_filtered_ids = communityPartners.qs.values_list('id', flat=True)
+    comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+        community_partner_id__in=community_filtered_ids))
+    # comm_filtered_ids = [project.project_name_id for project in comm_filter.qs]
+    comm_filtered_ids = comm_filter.qs.values_list('project_name', flat=True)
+
+    proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
+    proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
+    project_ids = list(set(proj2_ids).intersection(comm_filtered_ids))
+
+    proj_comm = ProjectCommunityPartner.objects.filter(project_name_id__in=project_ids).filter(
+        community_partner_id__in=community_filtered_ids).distinct()
+    proj_comm_ids = [community.community_partner_id for community in proj_comm]
+
+    for m in missions:
+        project_id_list = []
+        mission_dict['id'] = m.id
+        mission_dict['mission_name'] = m.mission_name
+        project_count = ProjectMission.objects.filter(mission=m.id).filter(
+            project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
+        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+            mission_type='Primary').filter(community_partner_id__in=proj_comm_ids).count()
+        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+            mission_type='Primary').filter(community_partner_id__in=proj_comm_ids)
+        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
+        p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(
+            mission_type='Primary')
+
+        a = request.GET.get('engagement_type', None)
+        b = request.GET.get('academic_year', None)
+        c = request.GET.get('campus_partner', None)
+        d = request.GET.get('college_name', None)
+        if a is None or a == "All" or a == '':
+            if b is None or b == "All" or b == '':
+                if c is None or c == "All" or c == '':
+                    if d is None or d == "All" or d == '':
+                        community_count = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+                            mission_type='Primary').filter(community_partner_id__in=community_filtered_ids).count()
+                        comm_id_filter = CommunityPartnerMission.objects.filter(mission_area_id=m.id).filter(
+                            mission_type='Primary').filter(community_partner_id__in=community_filtered_ids)
+                        comm_id_list = list(community.community_partner_id for community in comm_id_filter)
+
+        e = request.GET.get('community_type', None)
+        f = request.GET.get('weitz_cec_part', None)
+        if f is None or f == "All" or f == '':
+            if e is None or e == "All" or e == '':
+                p_mission = ProjectMission.objects.filter(mission=m.id).filter(
+                    project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
+                project_count = ProjectMission.objects.filter(mission=m.id).filter(
+                    project_name_id__in=project_filtered_ids).filter(mission_type='Primary').count()
+
+        mission_dict['project_count'] = project_count
+        mission_dict['community_count'] = community_count
+        total_uno_students = 0
+        total_uno_hours = 0
+
+        for pm in p_mission:
+            project_id_list.append(pm.project_name_id)
+            uno_students = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_students'))
+            uno_hours = Project.objects.filter(id=pm.project_name_id).aggregate(Sum('total_uno_hours'))
+            total_uno_students += uno_students['total_uno_students__sum']
+            total_uno_hours += uno_hours['total_uno_hours__sum']
+
+        mission_dict['total_uno_hours'] = total_uno_hours
+        mission_dict['total_uno_students'] = total_uno_students
+        mission_dict['project_id_list'] = project_id_list
+        mission_dict['comm_id_list'] = comm_id_list
+        comm_ids = ''
+        name_count = 0
+
+        for i in comm_id_list:
+            comm_ids = comm_ids + str(i)
+
+            if name_count < len(comm_id_list) - 1:
+                comm_ids = comm_ids + str(",")
+                name_count = name_count + 1
+
+        mission_dict['comm_ids'] = comm_ids
+
+        project_name_id = ''
+        project_name_count = 0
+
+        for z in project_id_list:
+            project_name_id = project_name_id + str(z)
+
+            if project_name_count < len(project_id_list) - 1:
+                project_name_id = project_name_id + str(",")
+                project_name_count = project_name_count + 1
+
+        mission_dict['project_name_ids'] = project_name_id
+
+        mission_list.append(mission_dict.copy())
+        proj_total += project_count
+        comm_total += community_count
+        students_total += total_uno_students
+        hours_total += total_uno_hours
+
+    college_value = request.GET.get('college_name', None)
+    if college_value is None or college_value == "All" or college_value == '':
+        campus_filter_qs = CampusPartner.objects.all()
+    else:
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+
+    campus_id = request.GET.get('campus_partner')
+    if campus_id == "All":
+        campus_id = -1
+    if (campus_id is None or campus_id == ''):
+        campus_id = 0
+    else:
+        campus_id = int(campus_id)
+    return render(request, 'reports/ProjectPartnerInfo.html',
+                  {'project_filter': project_filter, 'data_definition': data_definition,
+                   'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
+                   'communityPartners': communityPartners, 'mission_list': mission_list,
+                   'campus_filter': campus_filter, 'college_filter': college_filter,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
+                   'hours_total': hours_total, 'campus_id': campus_id})
+
+
+# (14a) Updated Mission Summary Report: filter by Semester, EngagementType - TRY 1
+def project_partner_info_rev(request):
     data_definition = DataDefinition.objects.all()
     focus_dict = {}
     focus_list = []
-    subcat_dict = {}
-    subcat_list = []
-    subcat_proj_list = []
-    subcat_comm_part_list = []
-    focus_proj_list = []
-    focus_comm_part_list = []
+    topic_dict = {}
+    topic_list = []
     focus_proj_total = 0
     focus_comm_total = 0
     focus_students_total = 0
     focus_hours_total = 0
-    prev_focus_area = None
-    curr_focus_area = None
 
     data_list=[]
     legislative_choices = []
@@ -543,7 +720,7 @@ def project_partner_info(request):
         legislative_district_cond = '%'
 
     else:
-        legislative_district_cond = legislative_search
+        legislative_district_cond =  legislative_search
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -594,50 +771,100 @@ def project_partner_info(request):
               K12_filter_cond,
               legislative_district_cond]
 
-    print('Params:' , params)
+    print('focusTopic_sql Params:' , params)
 
     cursor = connection.cursor()
-    cursor.execute(sql.missionSubcat_sql, params)
+    cursor.execute(sql.focusTopic_sql, params)
     for obj in cursor.fetchall():
         rec_type = obj[0]
         if rec_type == 'SUMMARY':
-            focus_dict['id'] = obj[1]
-            focus_dict['mission_name'] = obj[2]
-            focus_dict['subcategory'] = obj[3]
+            focus_dict['focus_id'] = obj[1]
+            focus_dict['focus_name'] = obj[2]
+            focus_dict['topic'] = obj[3]
             focus_dict['project_count'] = obj[4]
             focus_dict['community_count'] = obj[5]
             focus_dict['total_uno_students'] = obj[6]
             focus_dict['total_uno_hours'] = obj[7]
-            focus_dict['mission_desc'] = obj[8]
+            focus_dict['mission_subcat_id'] = obj[8]
 
-            if focus_dict['community_count'] != '' and focus_dict['community_count'] is not None and focus_dict['community_count'] > 0:
-                focus_comm_total += focus_dict['community_count']
-            if focus_dict['project_count'] != '' and focus_dict['project_count'] is not None and focus_dict['project_count'] > 0:
-                focus_proj_total += focus_dict['project_count']
             if focus_dict['total_uno_students'] != '' and focus_dict['total_uno_students'] is not None and focus_dict['total_uno_students'] > 0:
                 focus_students_total += focus_dict['total_uno_students']
             if focus_dict['total_uno_hours'] != '' and focus_dict['total_uno_hours'] is not None and focus_dict['total_uno_hours'] > 0:
                 focus_hours_total += focus_dict['total_uno_hours']
 
+            if focus_dict['community_count'] != '' and focus_dict['community_count'] is not None and focus_dict['community_count'] > 0:
+                focus_comm_total += focus_dict['community_count']
+                get_focus_details = True
+            else:
+                get_focus_details = False
+
+            if focus_dict['project_count'] != '' and focus_dict['project_count'] is not None and focus_dict['project_count'] > 0:
+                focus_proj_total += focus_dict['project_count']
+                get_focus_details = True
+            else:
+                get_focus_details = False
+
+            if get_focus_details:
+                focusDtlParams = [eng_type_cond,
+                                  academic_start_year_cond,
+                                  academic_end_year_cond,
+                                  focus_dict['focus_id'],
+                                  college_unit_cond,
+                                  campus_partner_cond,
+                                  # cec_part_cond,
+                                  community_type_cond,
+                                  K12_filter_cond,
+                                  legislative_district_cond]
+
+                print('focus_Details_sql Params:', params)
+
+                cursor = connection.cursor()
+                cursor.execute(sql.focus_Details_sql, focusDtlParams)
+                for focus_cnt_dtls in cursor.fetchall():
+                    focus_dict['proj_list'] = focus_cnt_dtls[0]
+                    focus_dict['comm_list'] = focus_cnt_dtls[1]
+
             focus_list.append(focus_dict.copy())
 
         elif rec_type == 'DETAILS':
-            curr_focus_area = obj[1]  # set curr_focus_area
 
-            # first detail record - set previous focus area for compare
-            if prev_focus_area is None:
-                prev_focus_area = curr_focus_area
+            #Set current topic record values
+            topic_dict['focus_id'] = obj[1]
+            topic_dict['focus_name'] = obj[2]
+            topic_dict['topic'] = obj[3]
+            topic_dict['project_count'] = obj[4]
+            topic_dict['community_count'] = obj[5]
+            topic_dict['total_uno_students'] = obj[6]
+            topic_dict['total_uno_hours'] = obj[7]
 
-            #Set current subcat record values
-            subcat_dict['id'] = obj[1]
-            subcat_dict['mission_name'] = obj[2]
-            subcat_dict['subcategory'] = obj[3]
+            if ((topic_dict['project_count'] != '' and topic_dict['project_count'] is not None and topic_dict['project_count'] > 0) or \
+                (topic_dict['community_count'] != '' and topic_dict['community_count'] is not None and topic_dict['community_count'] > 0)):
+                get_topic_details = True
+            else:
+                get_topic_details = False
 
-            subcat_dict['project_count'] = obj[4]
-            subcat_dict['community_count'] = obj[5]
-            subcat_dict['total_uno_students'] = obj[6]
-            subcat_dict['total_uno_hours'] = obj[7]
-            subcat_list.append(subcat_dict.copy())
+            if get_topic_details:
+                topicDtlParams = [eng_type_cond,
+                                  academic_start_year_cond,
+                                  academic_end_year_cond,
+                                  focus_dict['foucus_id'],
+                                  topic_dict['focus_topic_id'],
+                                  college_unit_cond,
+                                  campus_partner_cond,
+                                  # cec_part_cond,
+                                  community_type_cond,
+                                  K12_filter_cond,
+                                  legislative_district_cond]
+
+                print('topics_Details_sql Params:', params)
+
+                cursor = connection.cursor()
+                cursor.execute(sql.topics_Details_sql, topicDtlParams)
+                for topic_cnt_dtls in cursor.fetchall():
+                    topic_dict['proj_list'] = topic_cnt_dtls[0]
+                    topic_dict['comm_list'] = topic_cnt_dtls[1]
+
+            topic_list.append(topic_dict.copy())
         else:
             print('Invalid record type')
 
@@ -648,21 +875,12 @@ def project_partner_info(request):
           'focus_proj_total: ' + str(focus_proj_total) + ' ' +
           'focus_students_total: ' + str(focus_students_total) + ' ' +
           'focus_hours_total: ' + str(focus_hours_total))
-    print('Subcat Data')
-    print(str(subcat_list))
-
-    '''
-    cursor = connection.cursor()
-    cursor.execute(sql.missionSubcat_Details_sql, params)
-    for obj in cursor.fetchall():
-        rec_type = obj[0]
-        if rec_type == 'SUMMARY':
-    '''
-
+    print('Topic Data')
+    print(str(topic_list))
 
     return render(request, 'reports/ProjectPartnerInfo.html',
                   {'data_definition': data_definition,
-                   'focus_list': focus_list, 'subcat_list': subcat_list,
+                   'focus_list': focus_list, 'topic_list': topic_list,
                    'legislative_choices': legislative_choices, 'legislative_value':legislative_selection,
                    'focus_proj_total': focus_proj_total, 'focus_comm_total': focus_comm_total,
                    'focus_students_total': focus_students_total,'focus_hours_total': focus_hours_total,
@@ -1389,8 +1607,8 @@ def trendreport(request):
     return render(request, 'charts/trendreport.html',
                   { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
-                    'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,'campus_filter': campus_filter, 'k12_choices': k12_choices,
-                    'CommunityPartners': CommunityPartners, 'Projects':Projects, 'CampusPartners':CampusPartners, 'yearList':yearList})
+                    'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                    'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
 
 def EngagementType_Chart(request):

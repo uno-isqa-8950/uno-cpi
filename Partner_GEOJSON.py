@@ -67,7 +67,7 @@ else:
 
 # Get all the Projects from the database and get their Campus Partners , Community Partners associated
 dfProjects = pd.read_sql_query(
-    "SELECT  project_name,academic_year , pc2.name as campus_partner ,\
+    "SELECT  project_name,academic_year ,pem.name as engagement_type , pc2.name as campus_partner ,\
     um.college_name,ppcp.name as community_partner \
     FROM projects_project P \
     join projects_academicyear pa on P.academic_year_id = pa.id \
@@ -76,6 +76,7 @@ dfProjects = pd.read_sql_query(
     join partners_communitypartner ppcp on ppc.community_partner_id = ppcp.id \
     join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id \
     join university_college um on um.id = pc2.college_name_id \
+    join projects_engagementtype pem on p.engagement_type_id = pem.id \
     WHERE p.id IN \
     (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 if len(dfProjects) == 0:
@@ -92,12 +93,12 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 
 # Function that generates GEOJSON
 def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, longitude,latitude, Website,Cec_status,legislative_district):
-    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
+    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects':'',
                                                  'College Name': '', 'Mission Type': '', 'Project Name': '',
                                                  'Legislative District Number': '', 'Number of projects': '',
                                                  'Income': '', 'City': '', 'County': '', 'Mission Area': '',
                                                  'CommunityType': '', 'Campus Partner': '',
-                                                 'Academic Year': '', 'Website': '','Community CEC Status': ''},
+                                                 'Academic Year': '', 'Website': '','Community CEC Status': ''},                                                 
                'geometry': {'type': 'Point', 'coordinates': []}
                }
     feature['geometry']['coordinates'] = [longitude, latitude]
@@ -121,10 +122,12 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
     campuslist = []
     projectList = []
     collegeList = []
+    projectDetailList = []
     partners = dfProjects['community_partner']
     years = dfProjects['academic_year']
     campuses = dfProjects['campus_partner']
     projects = dfProjects['project_name']
+    enagaementType = dfProjects['engagement_type']
     colleges = dfProjects['college_name']
     count = 0
     for n in range(len(partners)):
@@ -135,6 +138,19 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                 campuslist.append(campuses[n])
             if (projects[n] not in projectList):
                 projectList.append(projects[n])
+                name = ''
+                try:
+                    Projectname = projects[n].split(':')
+                except ValueError:
+                    print('name does not have year')
+                    name = Projectname
+                else:
+                    print('name does not have year')
+                    name = Projectname[0]
+                
+                projectDetail = str(name)+':'+ str(years[n]) +':'+ str(enagaementType[n])
+                print('projectDetail--',projectDetail)
+                projectDetailList.append(projectDetail)
                 count += 1
             if (colleges[n] not in collegeList):
                 collegeList.append(colleges[n])
@@ -142,7 +158,7 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
     feature['properties']['Number of projects'] = count
     feature['properties']['Campus Partner'] = campuslist
     feature['properties']['Academic Year'] = yearlist
-    feature['properties']['Projects'] = projectList
+    feature['properties']['Projects'] = projectDetailList
     feature['properties']['College Name'] = collegeList
     feature['properties']['CommunityPartner'] = Community
     feature['properties']['CommunityType'] = CommunityType

@@ -1291,20 +1291,19 @@ def partnershipintensity(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
         project_filter = ProjectFilter(request.GET,queryset=Project.objects.filter(legislative_district=legislative_search))
 
-    k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
-    k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
     y_selection = request.GET.get('y_axis', None)
-    y_init_selection = "years"
+    y_init_selection = "campus"
     if y_selection is None:
         y_selection = y_init_selection
     y_choices = YChoiceForm(initial={'y_choice': y_selection})
 
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+
+    community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
+    community_filter_qs = CommunityPartner.objects.all()
+    community_filter = [{'name': m.name, 'id': m.id} for m in community_filter_qs]
 
     college_value = request.GET.get('college_name', None)
     if college_value is None or college_value == "All" or college_value == '':
@@ -1313,11 +1312,27 @@ def partnershipintensity(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
+    #set cec partner flag on template choices field
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if cec_part_selection is None:
+        cec_part_selection = cec_part_init_selection
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+
     missionList = []
     for m in MissionArea.objects.all():
-        res = {'id': m.id, 'name': m.mission_name}
+        res = {'id': m.id, 'name': m.mission_name, 'color': m.mission_color}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
+
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
+
+    yearList = []
+    for y in AcademicYear.objects.all():
+        res = {'id': y.id, 'name': y.academic_year}
+        yearList.append(res)
 
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
@@ -1326,9 +1341,9 @@ def partnershipintensity(request):
     return render(request, 'charts/partnershipintensity.html',
                   {'data_definition': data_definition, 'project_filter': project_filter,
                   'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
-                   'communityPartners': communityPartners, 'campus_filter': campus_filter,
-                   'college_filter': college_filter, 'k12_choices': k12_choices, 'y_choices': y_choices,
-                   'CommunityPartners': CommunityPartners, 'missionList': missionList,
+                   'communityPartners': communityPartners, 'campus_filter': campus_filter, 'community_filter':community_filter,
+                   'college_filter': college_filter, 'y_choices': y_choices, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                   'CommunityPartners': CommunityPartners, 'missionList': missionList, 'yearList':yearList,
                    'Projects':Projects, 'CampusPartners':CampusPartners})
 
 

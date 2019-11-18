@@ -2609,31 +2609,8 @@ def communityPublicReport(request):
     else:
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
-    # legislative district end -- Manu
-
-    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+   
     college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-
-    # campus_partner_filtered_ids = college_partner_filter.qs.values_list('id',flat=True)
-    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    # campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name',flat=True)
-
-    # mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
-    #project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-
-    # proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
-    #project_ids = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
-
-    # for m in communityPartners.qs:
-    #     proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
-    #     project_count = len(set(project_ids).intersection(proj_comm_par))
-    #     #if project_count == 0: # change by Manu
-    #      #   continue   # change by Manu
-    #     community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).filter(mission_type='Primary').values_list('mission_area__mission_name',flat=True)
-    #     community_dict['community_name'] = m.name
-    #     community_dict['community_mission'] = community_mission
-    #     community_dict['project_count'] = project_count
-    #     community_list.append(community_dict.copy())
 
     college_value = request.GET.get('college_name', None)
     if college_value is None or college_value == "All" or college_value == '':
@@ -2641,14 +2618,6 @@ def communityPublicReport(request):
     else:
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-
-    # campus_id = request.GET.get('campus_partner')
-    # if campus_id == "All":
-    #     campus_id = -1
-    # if (campus_id is None or campus_id == ''):
-    #     campus_id = 0
-    # else:
-    #     campus_id = int(campus_id)
 
     college_unit_filter = request.GET.get('college_name', None)
     if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
@@ -2660,14 +2629,11 @@ def communityPublicReport(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_filter)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    print("campus_project: ", campus_project_filter)
-
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         legislative_district_cond = '%'
 
     else:
         legislative_district_cond = legislative_search
-
 
     community_type_filter = request.GET.get('community_type', None)
     if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
@@ -2684,9 +2650,6 @@ def communityPublicReport(request):
         a_year = str(year-1) + "-" + str(year )[-2:]
     else:
         a_year = str(year - 2) + "-" + str(year-1)[-2:]
-
-    #  test = AcademicYear.objects.get(academic_year=a_year)
-    #  project =ProjectFormAdd(initial={"academic_year":test})
 
     for e in acad_years:
         yrs.append(e.id)
@@ -2720,18 +2683,19 @@ def communityPublicReport(request):
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
     if comm_ids is not None:
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                     legislative_district_cond, college_unit_cond]
+        print('list connn id --',len(comm_ids))
+        params = []       
         if comm_ids.find(",") != -1:
             comm_list = comm_ids.split(",")
             params.append(tuple(comm_list))
             cursor = connection.cursor()
             cursor.execute(sql.selected_community_public_report, params)
+            
         else:
-
             params.append(str(comm_ids))
             cursor = connection.cursor()
             cursor.execute(sql.selected_One_community_public_report, params)
+        
     else:
         if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
             cec_part_selection = cec_part_init_selection

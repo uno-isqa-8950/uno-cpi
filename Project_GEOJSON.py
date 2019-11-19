@@ -39,6 +39,7 @@ pro.state as State, pro.zip as Zip ,pro.longitude as longitude, pro.latitude as 
 pro.legislative_district as legislative_district \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
+join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
 where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
@@ -47,13 +48,32 @@ and pro.longitude is not null \
 and lower(mis.mission_type)='primary'",con=conn)
 
 ##Get all the Campus Partners and College Names
-df = pd.read_sql_query("select pro.project_name, pc.name as campus_partner ,uc.college_name , p.name as community_partner , pa.name as activity_type, pe.name as engagement_type,a.academic_year, hm.mission_name,c.community_type from projects_project pro left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id join partners_campuspartner pc on procamp.campus_partner_id = pc.id join university_college uc on pc.college_name_id = uc.id  left join projects_projectcommunitypartner pp on pro.id = pp.project_name_id left join partners_communitypartner p on pp.community_partner_id = p.id left join projects_activitytype pa on pro.activity_type_id = pa.id left join projects_engagementtype pe on pro.engagement_type_id = pe.id left join projects_academicyear a on pro.academic_year_id = a.id left join projects_projectmission pp2 on pro.id = pp2.project_name_id join home_missionarea hm on pp2.mission_id = hm.id left join partners_communitytype c on p.community_type_id = c.id",con=conn)
+df = pd.read_sql_query("select pro.project_name, \
+    pc.name as campus_partner ,uc.college_name , \
+    p.name as community_partner , pa.name as activity_type, \
+    pe.name as engagement_type,a.academic_year, \
+    hm.mission_name,c.community_type, ces.name as cec_status \
+    from projects_project pro \
+    left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id \
+    join partners_campuspartner pc on procamp.campus_partner_id = pc.id \
+    join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts'\
+    join university_college uc on pc.college_name_id = uc.id  \
+    left join projects_projectcommunitypartner pp on pro.id = pp.project_name_id \
+    left join partners_communitypartner p on pp.community_partner_id = p.id \
+    left join projects_activitytype pa on pro.activity_type_id = pa.id \
+    left join projects_engagementtype pe on pro.engagement_type_id = pe.id \
+    left join projects_academicyear a on pro.academic_year_id = a.id \
+    left join projects_projectmission pp2 on pro.id = pp2.project_name_id \
+    join home_missionarea hm on pp2.mission_id = hm.id \
+    left join partners_communitytype c on p.community_type_id = c.id \
+    left join partners_cecpartnerstatus ces on p.cec_partner_status_id = ces.id",con=conn)
 logger.info("Campus partner and college name for Projects of  " + repr(len(df)) + " records are generated at " + str(currentDT))
-conn.close()
+#conn.close()
 
 if len(df) == 0:
     logger.critical("No Projects fetched from the Database on " + str(currentDT))
 else:
+    cursor = conn.cursor()
     logger.info(repr(len(df)) + "Projects are in the Database on " + str(currentDT))
 
 collection = {'type': 'FeatureCollection', 'features': []}
@@ -67,7 +87,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                                                  'Description': '', 'Academic Year': '',
                                                  'Legislative District Number':'','College Name': '',
                                                  'Campus Partner': '', 'Community Partner':'', 'Mission Area':'','Community Partner Type':'',
-                                                 'Address Line1':'', 'City':'', 'State':'', 'Zip':''},
+                                                 'Address Line1':'', 'City':'', 'State':'', 'Zip':'','Community CEC status':''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
 
@@ -91,6 +111,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     missionAreaList = []
     activityTypeList = []
     engagementTypeList = []
+    communityCecStatusList = []
     projects = df['project_name']
     campusPartners = df['campus_partner']
     academicYear = df['academic_year']
@@ -100,6 +121,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     activityType = df['activity_type']
     colleges = df['college_name']
     engagementType = df['engagement_type']
+    communityCecStatus = df['cec_status']
 
     for n in range(len(projects)):
         if (projects[n] == Projectname):
@@ -111,6 +133,22 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 yearlist.append(academicYear[n])
             if (communityPartners[n] not in communityPartnerList):
                 communityPartnerList.append(communityPartners[n])
+                '''
+                print('communityPartners[n]--',communityPartners[n])
+                commPartner = str(communityPartners[n])
+                cursor.execute("select ces.name from partners_cecpartnerstatus ces , \
+                    partners_communitypartner PC \
+                    where ces.id = PC.cec_partner_status_id \
+                    and PC.name = %s",str(commPartner))
+                cecStatusList = cursor.fetchall()
+                if len(cecStatusList) != 0:
+                    for obj in cecStatusList:
+                        communityCecStatusList.append(obj[0])
+                else:
+                    communityCecStatusList.append('Never')
+                    
+                conn.commit()
+                '''
             if (communityPartnerType[n] not in communityTypeList):
                 communityTypeList.append(communityPartnerType[n])
             if (missionAreas[n] not in missionAreaList):
@@ -134,14 +172,18 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     feature['properties']['City'] = City
     feature['properties']['State'] = State
     feature['properties']['Zip'] = Zip
+    feature['properties']['Community CEC status'] = communityCecStatusList
    
     collection['features'].append(feature)
     return feature
 
-geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'],\
-     str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']), \
-          x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
-jsonstring = pd.io.json.dumps(collection)
+if len(df_projects) != 0:
+    geojson_series = df_projects.apply(lambda x: feature_from_row(x['project_name'], x['description'],\
+         str(x['fulladdress']),str(x['address_line1']), str(x['city']), str(x['state']), \
+              x['longitude'], x['latitude'], str(x['zip']), x['legislative_district']), axis=1)
+    jsonstring = pd.io.json.dumps(collection)
+    cursor.close()
+    conn.close()
 
 if len(df_projects) != 0:
     logger.info("Write Project GeoJSON  in output directory")

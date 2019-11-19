@@ -6,9 +6,9 @@
 
     <style>
 
-        #sidebar {
-            background: #333;
-        }
+        /*#sidebar {*/
+        /*    background: #333;*/
+        /*}*/
 
         .btn-primary {
             background-color: #bbbbbb;
@@ -76,6 +76,8 @@
             margin-left:0px;
             width:210px;
             margin-top: 0px;
+            border: 2px solid #aaa;
+            border-radius:4px;
         }
 
         select[id=selectDistrict]
@@ -182,29 +184,33 @@
 
         .legend {
 
-            background-color: #bbbbbb;
-            border-radius: 10px;
+            background-color: white;
+            border-radius: 5px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-            font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font: 13px/20px 'Arial Narrow', sans-serif;
             position:relative;
-            left:10px;
-            right: 10px;
             padding: 10px;
-            color: white;
+            color: black;
             width:230px;
 
         }
 
         .legend h4 {
             margin: 0 0 5px;
-            color: white;
+            color: black;
             font-size: 14px;
+        }
+        .legend b{
+
+            color: black;
+            font-size: 12px;
         }
 
         .legend div span {
             border-radius: 100%;
             display: inline-block;
             height: 13px;
+            border: 1px solid black;
             margin-right: 10px;
             width: 13px;
         }
@@ -361,6 +367,7 @@
 
      label {
         font-size: 14px;
+         /*margin-top: 25px;*/
     }
 }
 
@@ -441,17 +448,17 @@
 }
 
     </style>
-
+<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
     <div class="wrapper">
-        <nav id="sidebar" style="height: 115%">
+<!--        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="sidebar">-->
+        <nav id="sidebar" style="margin-top: -5px;height: 110%;">
             <div class="row" style="border-bottom:1px solid grey; height:60px;">
                 <div class="col-lg-4 col-md-4">
                     <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
                 </div>
-                <div class="col-lg-6 col-md-6" style="padding:15px;">
-                    <button type="button" class="btn btn-primary" style="margin-left:55px;" id="reset">
-                        Reset
-                    </button>
+                <div class="col-lg-8 col-md-8" style="padding-top:18px;text-align:right;">
+                    <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
 
@@ -481,25 +488,24 @@
                 <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
 
-                        <div class="card" style="padding: 5px;background-color:#333;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                        <div class="card" style="padding: 5px;margin-top:-5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow', sans-serif;text-align:center;">
                             <div class="row">
-                                <div class="col-lg-1 col-md-1">
+                                <div class="col-lg-1 col-md-1 col-sm-1">
                                     <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                         <span></span>
                                     </button>
 
                                 </div>
 
-                                <div class="col-lg-4 col-md-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                        <label><b>Maps: Community Partner Type</b>
-                                            {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
-                                                <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                        {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                        <label style="text-align: left"><b>Community Partner Type Map</b><br/><small>{{ data_definition.description }}</small></label>
                                             {% endif %}{% endfor %}
-                                        </label>
+
                                     </div>
                                 </div>
-                                <div class="col-lg-7 col-md-6">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div style="box-sizing: border-box; padding:5px;">
                                         <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
                                         </label>
@@ -524,6 +530,7 @@
                     </div>
                 </div>
           </div>
+
 <footer id="footer">
       <div class="container-fluid">
         <div class="row">
@@ -550,17 +557,7 @@
                 activities, or employment. Learn more about Equity, Access and Diversity.</p>
              </div>
 
-          <!--<div class="footertext"></div>-->
-<!---->
-          <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
-                <!--The University of Nebraska does not discriminate based on race,-->
-                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
-                <!--gender identity, religion, disability, age, genetic information,-->
-                <!--veteran status, marital status, and/or political affiliation in its programs,-->
-                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
-          <!--</div>-->
-<!---->
-          <!--<div class="footertext"></div>-->
+
         </div>
       </div>
 </footer>

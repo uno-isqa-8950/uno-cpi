@@ -83,9 +83,11 @@ MIDDLEWARE = [
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'crum.CurrentRequestUserMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
 
-
+SESSION_EXPIRE_SECONDS = 1800
 ROOT_URLCONF = 'UnoCPI.urls'
 
 TEMPLATES = [

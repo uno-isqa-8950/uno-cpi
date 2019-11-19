@@ -37,7 +37,7 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               sslmode="require")
 
 if (conn):
-    print("connection sucess",conn)
+    print("connection sucess in update project",conn)
     logger.info("Connection Successful!")
 else:
     logger.info("Connection Error!")
@@ -52,11 +52,11 @@ pro.state as State, pro.zip as Zip \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
 where \
-(pro.address_line1 not in ('','NA','N/A') \
-or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
+(pro.address_line1 not in ('','NA','N/A','None') \
+and pro.city not in ('','NA','N/A','None') and pro.state not in ('','NA','N/A','None')) \
 and (pro.longitude is null or pro.longitude is null or pro.legislative_district is null) \
 and lower(mis.mission_type)='primary'",con=conn)
-print('before checking query')
+print('before checking project query')
 if len(df_projects) == 0:
     logger.info("No Projects fetched from the Database on " + str(currentDT))
     print("No Projects fetched from the Database on " + str(currentDT))
@@ -91,13 +91,13 @@ def feature_from_row(Projectname, FullAddress):
             if polygon.contains(coord):  # check if a partner is in a polygon
                 legi_district = property["id"]
                 print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
-                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))
-                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Community)))
+                logger.info("Update project records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,Projectname" +str(Projectname))
+                cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Projectname)))
                 #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
                 conn.commit()
             else:
-                logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,name" +str(Community))
-                cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s where name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(Community)))
+                logger.info("Update project records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,Projectname" +str(Projectname))
+                cursor.execute("update projects_project set longitude= %s, latitude= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),str(Projectname)))
                 #cursor.execute("update partners_communitypartner set longitude= %s, latitude= %s,legislative_district= %s where name= %s",(str(longitude),str(latitude),legi_district,str(Community)))
                 conn.commit()
         
@@ -106,9 +106,11 @@ if len(df_projects) != 0:
     logger.info("Call update project function for each row") 
     df_projects.apply(lambda x: feature_from_row(x['project_name'], str(x['fulladdress'])), axis=1)
     cursor.close()
+    conn.close()
 else:
     logger.info("Do not Call update project function for each row") 
+    conn.close()
     
-conn.close()
+
 # Log when the Script ran
 logger.info("Projects of  " + repr(len(df_projects)) + " records are generated at " + str(currentDT))

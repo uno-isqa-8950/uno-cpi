@@ -79,6 +79,7 @@ all_projects_sql = """select distinct p.project_name
                             , s.sub_category sub_category
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -124,6 +125,7 @@ all_projects_sql = """select distinct p.project_name
                             , sub_category
                             ,campus_lead_staff
                             ,mission_image
+                            , act_type
                             
                         order by pa.academic_year desc;"""
 
@@ -151,6 +153,8 @@ all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
                             , p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -200,6 +204,8 @@ all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             , campus_lead_staff
+                            ,mission_image
+                            , act_type
                         order by pa.academic_year desc;"""
 
 
@@ -227,6 +233,8 @@ all_projects_cec_former_comm_report_filter="""select distinct p.project_name
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
                             , p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -275,6 +283,8 @@ all_projects_cec_former_comm_report_filter="""select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             , campus_lead_staff
+                            ,mission_image
+                            , act_type
                         order by pa.academic_year desc;"""
 
 
@@ -303,6 +313,8 @@ select distinct p.project_name
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
                             , p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -351,6 +363,8 @@ select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             ,campus_lead_staff
+                            ,mission_image
+                            , act_type
                         order by pa.academic_year desc;
 """
 
@@ -379,7 +393,9 @@ select distinct p.project_name
                             , p.end_semester end_semester
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
-                            , p.campus_lead_staff campus_lead_staff
+                            , p.campus_lead_staff campus_lead_staff                     
+                            , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -429,6 +445,8 @@ select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             ,campus_lead_staff
+                            ,mission_image
+                            , act_type
                         order by pa.academic_year desc;
 """
                     

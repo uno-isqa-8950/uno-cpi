@@ -3,554 +3,263 @@
 {% load wagtailcore_tags register_tags %}
 
 {% block content %}
-
 <style>
-    .card-header {
-        background-color: rgba(0,0,0,0);
-        border-bottom: none;
-
-    }
-    .accordion .card-header:after {
-        font-family: 'FontAwesome';
-        content: "\f056";
-        margin-left: 55px;
-            font-size: 20px;
-    }
-
-    .accordion .card-header.collapsed:after {
-        /* symbol for "collapsed" panels */
-        content: "\f055";
-        font-size: 20px;
-
-    }
-    .projectcard{
-        border: none;
-        margin-top: 20px;
-        margin-bottom: 20px !important;
-        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    }
-
-    .project-body{
-        border: none;
-        margin-top: 0 !important;
-        margin-bottom: 8px;
-    }
-    .card-body {
-        border: none
-        margin-top: 0 !important;
-        margin-bottom: 8px;
-    }
-    .heading{
-        color:black;
-        font-size: 30px;
-        line-height: 0px !important;
-        padding-bottom: 15px;
-    }
-
-    @media (min-width: 1200px) {
-        .container {
-            max-width: 1330px;
-        }
-    }
-
-    .form-control
+    #loading
     {
-        width:85%;
-        border:2px solid #aaa;
-        border-radius:4px;
-        margin:10px 0 8px 4px;
-        outline:none;
-        padding:3px;
-        box-sizing:border-box;
-        transition:.3s;
-        margin-left: 22px;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        z-index: 1;
+        width: 150px;
+        height: 150px;
+        margin: -75px 0 0 -75px;
+        border: 16px solid #f3f3f3;
+        border-bottom: 16px solid red;
+        border-top: 16px solid gray;
+        border-radius: 50%;
+        width: 80px;
+        height: 80px;
+        -webkit-animation: spin 2s linear infinite;
+        animation: spin 2s linear infinite;
     }
-    body{
-        background-color: rgba(0,0,0,.03);
-    }
-
-    input[type=text], [type=password], [type=email], [type=url] {
-        width: 30%;
-        color: #444;
-        border: 2px solid #aaa;
-        border-radius: 4px;
-        line-height: 28px;
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        margin: 10px 0 8px 4px;
-        margin-top: 10px;
-        margin-right: 0px;
-        margin-bottom: 8px;
-        margin-left: 22px;
-        padding-left: 8px;
-        padding-right: 20px;
-        font-size: 16px;
-        font-family: "Arial Narrow", sans-serif;
-        box-sizing: border-box;
-        margin-left: 12px;
-        margin: 10px 0 8px 4px;
-        outline: none;
-        box-sizing: border-box;
-        transition: .3s;
-
-
-
-    }
-    .button-row-elements
+    @-webkit-keyframes spin
     {
-        width: 100%;
-        float: left;
+        0% { -webkit-transform: rotate(0deg); }
+        100% { -webkit-transform: rotate(360deg); }
     }
-    .button-row-elements button{
-        display:inline-block;
+    @keyframes spin
+    {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
-    #Searchboxtext{
-        float:right;
-    }
-
-    .filter-card{
-        border-top-color: rgba(0, 0, 0, 0.12);
-        border-top-style: solid;
-        border-top-width: 1px;
-        border-right-color: rgba(0, 0, 0, 0.12);
-        border-right-style: solid;
-        border-right-width: 1px;
-        border-bottom-color: rgba(0, 0, 0, 0.12);
-        border-bottom-style: solid;
-        border-bottom-width: 1px;
-        border-left-color: rgba(0, 0, 0, 0.12);
-        border-left-style: solid;
-        border-left-width: 1px;
-
-    }
-    .text-snippet{
-        text-align: left;
-    }
-    .snippet-card{
-        margin-top: 20px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-bottom: 20px;
-        border-left: none;
-        border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
-        border-radius:0px;
-        background-color: transparent;
-        margin-bottom: 50px;
-    }
-
-    .projectname{
-        line-height: 0 !important;
-    }
-
-    .media-body{
-        width: 100%;
-        float: left;
-    }
-    #academic_year{
-        float:right;
-    }
-    .card-toptext{
-        width: 100%;
-        float: left;
-        padding-bottom: 10px;
-    }
-    .flex-container {
-        display: flex;
-        justify-content: space-around;
-        background-color: #FFFFFF;
-
-    }
-  .flex-container p{
-       line-height: 0px !important;
-      font-size:1vw;
-   }
-
-    .flex-container > div {
-        background-color: #FFFFFF;
-        width: 100%;
-        text-align: left;
-        line-height: 30px;
-        font-size: 15px;
-        flex-wrap:wrap;
-        padding-top: 25px;
-    }
-    .media-heading{
-        line-height: 0.1 !important;
-    }
-b{
-    font-size: 15px;
+label, .btn-default
+{
+    margin-left:100px;
 }
-
+/* Datatable Css */
+    .btn-group{float:left;, labels:"Export"}
+    #example_length{float:left; margin:0 0 0 0px;}
+    #example_length select{width:50%;}
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        margin-left:0px;
+    }
+    div.dataTables_wrapper div.dataTables_filter label
+    {
+        float:right;
+    }
+    @media (max-width: 900px)
+    {
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            float:left;
+            margin-left:50px;
+        }
+        #example_length select{width:35%;}
+    }
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+.panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+ .page-item.active .page-link
+    {
+    background-color: #333333;
+    border-color: #333333;
+    }
+    .page-link
+    {
+    color:#333333;
+    }
+    .page-link:hover
+    {
+    color:grey;
+    }
 </style>
 
-
-
-<br>
-<br>
-<br>
-
-
-
-
-
-<div class=" text-center"><h4 class="heading">All Projects</h4></div>
-<div class="card snippet-card">
-    <div class="container text-snippet">
-        This is a list of all community engagement projects associated with your campus-based or community organization. Authorized users can click on the 'Edit' button to add project-level data
-    <!--{% all_projects %}-->
-    </div>
-</div>
-
-<div class="container-fluid">
-
-
-    <div class="container button-row-elements">
-
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-               aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
-
-        <script type="text/javascript">
-            document.getElementById("btn").addEventListener(
-                "click",
-                function(event) {
-                    if (event.target.value === "Hide Filters") {
-                        event.target.value = "Show Filters";
-                    } else {
-                        event.target.value = "Hide Filters";
-                    }
-                },
-                false
-            );
-        </script>
-       <input type="button" id="btn-table" value= "Table View" class="btn btn-primary" onclick="window.location.href = '/all-projects-table-project'; " value="Table View" >
-       <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
-       <input type="text" id="Searchboxtext" placeholder="Search...">
-
-    </div>
-
-    <div class="card filter-card">
-        <div class="collapse show" id="collapseExample">
-            <form class="form-inline" id="filters-form" method="get">
-
-
-
-
-
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="academic_year"> Academic Years
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="form-control" name="academic_year" onchange="this.form.submit()">
-                        <option> All </option>
-
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="mission"> Focus Areas
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 3%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
-                        <option> All </option>
-
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="engagement_type"> Engagement Type
-                        {% for data_definition in data_definition %}
-                        {% if data_definition.id == 3%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                        {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                        <option> All </option>
-
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="college_name"> Colleges and Main Units
-                        {% for data_definition in data_definition %}
-                        {% if data_definition.id == 43%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                        {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
-                        <option> All </option>
-                    </select>
-                </div>
-                <div class="col-lg-4 col-md-5 form-group">
-                <label for="campus_partner"> Campus Partners
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 1%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}
-                </label>
-                    <select class=form-control id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
-                        <option> All </option>
-
-
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="weitz_cec_part"> CEC Community Building Partners
-
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 27%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-
-                    </select>
-
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="community_type"> Community Partner Types
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 33%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
-                        <option> All </option>
-
-                    </select>
-                </div>
-
-
-                <div class="col-lg-4 col-md-5 form-group ">
-
-                    <label >Legislative Districts
-
-                        {% for data_definition in data_definition %}
-                        {% if data_definition.id == 52%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                            data-content="{{ data_definition.description }}" class="float">
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
-
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-
-                    <label for="k12_flag"> K12 Involvement
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 12%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
-
-                    </select>
-                </div>
-
-            </form>
-        </div>
-    </div>
-
-
-
-
-
-
-
-
-
-
-    <!--Project list starts from here -->
-
-    <div id="accordion" class="accordion">
-        {% for project in project %}
-
-
-        <div class="card mb-0 projectcard">
-
-
-            <div class="card-header collapsed" data-toggle="collapse" href="#collapse-{{ forloop.counter }}">
-
-                <a class="card-title">
-
-
-                    <div class="media">
-                        <a class="media-left" aria-label="">
-                            <div class="logo-frame" style="padding-right: 12px;">
-                                <img src="https://local-karthik.s3.us-east-2.amazonaws.com/educational-support.jpg" alt="Card image cap"
-                                     class="logo"
-                                     width="130" height="130" alt="">
-                            </div>
-                        </a>
-                        <div class="media-body">
-                            <div class="card-toptext">
-                            {% for projmisn in project.projmisn %}
-                            <h6 class="media-subheading" >
-                                <i>{{ projmisn}}{% endfor %}</i>
-                                <span id="academic_year"><i>{{ project.academic_year }}</i></span>
-                            </h6>
-                            </div>
-
-                            <div class="projectname">
-                            <h4 class="media-heading " >
-                                {{ project.name }}
-                            </h4>
+<div class="loader" id =loading></div>
+ <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+		    <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default"style="width:90%; margin-left: 5%">
+                    <div class="panel-heading text-center"><h4>All Projects</h4></div>&emsp;
+                  <div class="panel-body">
+                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% all_projects %}
                                 </div>
+                             </div>
+                  </div>
+			            <div class="panel-body">
+                        <div class="container">
+                            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                            <thead>
+                                <tr>
 
-                            <div class="flex-container">
-  <div style="width: 100%">
-      <p><b> Community Partners: </b> </p>
+                                    <th>Projects
+                                        {% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Mission Areas{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Community Partners{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Campus Partners{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Engagement Types{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Academic Years{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                    {% endif %} {% endfor %}
+                                    </th>
+                                    <th>Status</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
+                                    <th>Outcomes</th>
+                                    <th>Number of UNO Students</th>
+                                    <th>Number of UNO Students Hours</th>
+                                    <th>Number of UNO Faculty/Staff</th>
+                                    <th>Number of K12 Students</th>
+                                    <th>Number of K12 Students Hours</th>
+                                    <th>Number of Other Participants</th>
+                                    <th>Activity Type</th>
+{#                                    <th>Campus Facilitator</th>#}
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-      {% for comm_part in project.comm_part %} <li>{{comm_part}}</li> {% endfor %}
-
-
-
-  </div>
-  <div style="width: 100%">
-      <p><b>Campus Partners:</b></p>
-      {% for camp_part in project.camp_part %} <li>{{camp_part}}</li> {% endfor %}
-
-
-
-  </div>
-
-</div>
-
-                            </p></div>
+                                {% for project in project %}
+                                <tr>
+                                    <td>{{ project.name }}</td>
+{#                                    <td>{% for projmisn in project.projmisn %}#}
+{#                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission__mission_name}}<br> <br>{% endfor %} </td>#}
+                                    <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
+                                    <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
+                                    <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
+{#                                    <td>{{ project.engagementType }}</td> #}   {# This is for old code in case we roll back #}
+                                    <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
+                                    <td>{{ project.academic_year }}</td>
+                                    <td>{{ project.semester}}</td>
+                                    <td>{{ project.status}}</td>
+                                    <td>{{ project.startDate }}</td>
+                                    <td>{{ project.endDate }}</td>
+                                    <td>{{ project.outcomes }}</td>
+                                    <td>{{project.total_uno_students}}</td>
+                                    <td>{{project.total_uno_hours}}</td>
+                                    <td>{{project.total_uno_faculty}}</td>
+                                    <td>{{project.total_k12_students}}</td>
+                                    <td>{{project.total_k12_hours}}</td>
+                                    <td>{{project.total_other_community_members}}</td>
+                                    <td>{{ project.activityType }}</td>
+{#                                    <td>{{ project.facilitator }}</td>#}
+                                    <td>{{ project.description }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            </table>&emsp;
+                        </div>
                     </div>
-
-
-                </a>
+                </div>
             </div>
-
-
-
-            <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
-
-
-
-                <p>
-                <table style="width: 100%;margin-left: 137px; ">
-
-                    <tr>
-                        <td>
-                            <b> Academic year: </b>{{ project.academic_year }}<br>
-                        </td>
-                        <td>
-                            <b> Project Semester: </b>{{ project.semester}}<br>
-                        </td>
-                        <td>
-                            <b> Status: </b>{{ project.status}}<br>
-                        </td>
-                    </tr>
-                    <tr>
-
-                        <td>
-                            <b> Start Date: </b>{{ project.startDate }}<br>
-                        </td>
-                        <td>
-                            <b> End Date: </b>{{ project.endDate }}<br>
-                        </td>
-                        <td>
-                            <b> Outcomes: </b>{{ project.outcomes }}<br>
-                        </td>
-                    </tr>
-
-                    <tr>
-
-                        <td>
-                            <b> Number of UNO Students: </b>{{project.total_uno_students}}<br>
-                        </td>
-                        <td>
-                            <b> Number of UNO Students Hours: </b>{{project.total_uno_hours}}<br>
-                        </td>
-                        <td>
-                            <b> Number of UNO Faculty/Staff: </b>{{project.total_uno_faculty}}<br>
-                        </td>
-                    </tr>
-                    <tr>
-
-                        <td>
-                            <b> Number of K12 Students: </b>{{project.total_k12_students}}<br>
-                        </td>
-                        <td>
-                            <b> Number of K12 Students Hours: </b>{{project.total_k12_hours}}<br>
-                        </td>
-                        <td>
-                            <b> Number of Other Participants: </b>{{project.total_other_community_members}}<br>
-                        </td>
-                    </tr>
-                    <tr>
-
-
-                        <td>
-                            <b> Activity Type: </b>{{ project.activityType }}<br>
-                        </td>
-
-                    </tr>
-                </table>
-                <br>
-                <div style="margin-left: 137px"><b> Description: </b>{{ project.description }}<br></div>
-                </p>
-
-            </div>
-            <!---->
-
-
-
-
-
-
-
-
         </div>
-        {% endfor %}
-    </div>
+ </div>&emsp;
 
-</div>
+ {% endblock %}
 
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
+{#<script type="text/javascript" src='{% static "js/pdfmake.min.js" %}'></script>#}
+{#<script type="text/javascript" src='{% static "js/datatables.min.js" %}'></script>#}
+<!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       buttons: {
+       name: 'primary',
+       buttons: ['csv', 'excel' ,'pdf'],
+       },
+       columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
+   });
+ $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
+// Link to Specific Project - Parimita
+    const urlParams = new URLSearchParams(window.location.search);
+    const projectName = urlParams.get('p_name');
+    if (projectName === null){
+        $('#example').DataTable().columns(0).search('').draw();
+    }
+    else {
+        $('#example').DataTable().columns(0).search(projectName).draw();
+    }
+   } );
+
+
+</script>
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
+</script>
+<style>
+    div.dataTables_wrapper div.dataTables_length label
+    {
+    margin-left:30px;
+    }
+    @media (max-width: 900px)
+    {
+    div.dataTables_wrapper div.dataTables_length label
+    {
+        float:left;
+        margin-left:50px;
+    }
+    }
+    div.dataTables_wrapper div.dataTables_paginate
+    {
+        float:right;
+    }
+</style>
+     <script>
+         $(function () {
+             $('[data-toggle="popover"]').popover()
+         })
+     </script>
 
 {% endblock %}

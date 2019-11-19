@@ -207,6 +207,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var website = communityData.features
     var city = communityData.features
     var projects = communityData.features
+    var comm_cec_status = communityData.features
     for (i=0; i<communityData.features.length; i++) {
         var selectDistrict = communityData.features[i].properties["Legislative District Number"]
         var selectYear = communityData.features[i].properties["Academic Year"]
@@ -248,7 +249,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
             academic_year[i].properties["Academic Year"],
-            website[i].properties["Website"],projects[i].properties["Projects"]);
+            website[i].properties["Website"],projects[i].properties["Projects"],comm_cec_status[i].properties["Community CEC Status"]);
         markers.push(marker)
     }
     //adding the marker cluster functionality
@@ -303,13 +304,17 @@ var openedInfoWindow = null;
 var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects) {
+function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
 
     google.maps.event.addListener(marker, 'click', function() {
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td>' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
+              (commCecStatus == 'Current' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><span style="background-color: green; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+        (commCecStatus == 'Never' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><span style="background-color: grey; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+         (commCecStatus == 'Former' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><span style="background-color: red; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
+'</tr><br />'+
             '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
@@ -330,11 +335,24 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        infowindow.setContent(
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().replace(/\s*\(.*?\)(?:,)\s*/g,"<br> ")+ '</td></tr><br />')
-         // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
-        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        var projectDtlList = projects.toString().split(",");
+         var projectHtml = ''
+         var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+            //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
+        '<tr><td style="margin-top: 5%">'+
+        '<table border="1"><tr>'+
+        '<td><span style="font-weight:bold">&nbsp;Academic Year&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
+        var projInnerHtml = ''
+        for(var i=0;i<projectDtlList.length;i++){
+            projInnerHtml += '<tr><td><span>&nbsp;'+projectDtlList[i].split(':')[1]+'&nbsp;</span></td>'+
+        '<td><span>&nbsp;'+projectDtlList[i].split(':')[0].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td>'+
+        '<td><span >&nbsp;'+projectDtlList[i].split(':')[2].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td></tr>';
+        }
+        projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
+        infowindow.setContent(projectHtml)
         map.panTo(this.getPosition());
 
         // google.maps.event.addListener(marker, 'rightclick', function() {

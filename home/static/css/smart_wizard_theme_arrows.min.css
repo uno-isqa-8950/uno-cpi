@@ -38,9 +38,9 @@
 .sw-theme-arrows>ul.step-anchor>li.active>a{border-color:#316BD5!important;color:#fff!important;
     background:#316BD5!important}
 .sw-theme-arrows>ul.step-anchor>li.active>a:after{border-left:30px solid #316BD5!important}
-.sw-theme-arrows>ul.step-anchor>li.done>a{border-color:#b1dfbb!important;color:#fff!important;
-    background:#b1dfbb!important}
-.sw-theme-arrows>ul.step-anchor>li.done>a:after{border-left:30px solid #b1dfbb}
+.sw-theme-arrows>ul.step-anchor>li.done>a{border-color:#014421!important;color:#fff!important;
+    background:#014421!important}
+.sw-theme-arrows>ul.step-anchor>li.done>a:after{border-left:30px solid #014421}
 .sw-theme-arrows>ul.step-anchor>li.danger>a{border-color:#d9534f!important;color:#fff!important;
     background:#d9534f!important}.sw-theme-arrows>ul.step-anchor>li.danger>a:after{border-left:30px solid #d9534f!important}
 .sw-theme-arrows>ul.step-anchor>li.disabled>a,.sw-theme-arrows>ul.step-anchor>li.disabled>a:hover

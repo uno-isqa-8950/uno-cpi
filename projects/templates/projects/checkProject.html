@@ -4,26 +4,7 @@
 
 <style>
 
-     .box{
-        padding: 10px;
-            background-color: white;
-            border: 1px;
-        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
-         margin:15px;
-        }
-    .snippet-card{
-        margin-top: 20px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-bottom: 0px;
-        border-left: none;
-        border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
-        border-radius:0px;
-        background-color: transparent;
 
-    }
         .form-control
     {
         width:85%;
@@ -67,41 +48,27 @@ label {
         max-width: 1500px;
     }
 }
-body{
-    font-size: 20px;
-}
+
 </style>
 <br><br>
             <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Search Project</h3></div>
+                          <div class=" text-center"><h3 class="heading">Create Project</h3></div>
 <div class="card snippet-card">
-    <div class="container text-snippet">
+    <div class="text-snippet">
         {%         create_projects %}
         </div>
 </div>
-<!--                        <div class = "panel-default" style="width:100%">-->
-<!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->
-<!--                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>-->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                        <div class="card" style="padding: 10px;">-->
-<!--                            <div class="container">-->
-<!--                                {% priv_projs %}-->
-<!--                            </div>-->
-<!--                       </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
-          <div class="row" style="border: none; padding: 10px;margin-left:10px;margin-bottom:-20px">
+          <div class="row" style="padding: 10px;">
                <!-- Collapse buttons -->
-             <div>
-                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+<!--             <div>-->
+                 <input type="button" style="float: left" id="hide" value= "Hide Filters" class="btn filter btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                  aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+                 <input type="button" style="float: left" id="reset" value= "Reset Filters" class="btn filter btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
                  <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
+                document.getElementsByClassName("filter").addEventListener(
                 "click",
                 function(event) {
                 if (event.target.value === "Hide Filters") {
@@ -115,10 +82,9 @@ body{
                 </script>
 
                 </div>
-          </div>
 
 
-<div class="container">
+<!--<div class="container">-->
    <div class="box">
        <div class="collapse show" id="collapseExample">
             <form method="POST" >
@@ -181,21 +147,21 @@ body{
        </div>
  </div>
 </div>
-<div class="row" style="border:none;margin: 5px;" margin-top:-10px;>
-         <div style="float: left;" id="node1-id"></div>
+<div class="row" style="padding: 5px">
+         <div style="float: left;margin:2px" id="node1-id"></div>
 
-         <div style="float: left;" id="button-id" ></div>
+         <div style="float: left;margin:2px" id="button-id" ></div>
 </div>
 
 
-  <div class="row" style="margin: 10px">
-<span class="label"></span>
+  <div class="row">
+<span class="label" style="margin:10px"></span>
             </div>
 
              <div style="margin-top:15px;">
 
 
-                <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
+                <table id="example" class="table box table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
                    <thead>
                    	<col style="width:10%">
 	                <col style="width:25%">

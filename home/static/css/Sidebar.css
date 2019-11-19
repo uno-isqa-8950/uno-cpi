@@ -52,10 +52,9 @@ p {
     SIDEBAR STYLE
 ----------------------------------------------------- */
 #sidebar {
-    height:-webkit-fill-available;
     margin-top: -5px;
-    width: 255px;
-    position: fixed;
+    width: 260px;
+    position: absolute;
     top: 78px;
     left: -250px;
     height: calc(100vh - 88px);
@@ -64,7 +63,6 @@ p {
     color: White;
     transition: all 0.3s;
     padding:10px;
-    border-right: 1px solid gray;
     /*opacity: .9;*/
     display: flex; flex-direction: row;    display: -moz-box;
     display: -webkit-flexbox;

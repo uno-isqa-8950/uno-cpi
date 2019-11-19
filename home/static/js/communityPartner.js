@@ -318,7 +318,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
-        if(project_number == 0 ){
+        if(project_number != 0 ){
             commBodyHtml +='<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>';
         }
         commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
@@ -495,9 +495,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
+    resetFiltersOnSearchComm();
 
     if (e.keyCode == 8 || e.keyCode == 46) {
-        resetFiltersOnSearchComm();
+        
      
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);

@@ -1003,54 +1003,71 @@ order by p.project_name;
 
 my_projects="""
 select distinct p.project_name
-  ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
-  ,array_agg(distinct pc.name) CommPartners
-    ,array_agg(distinct c.name) CampPartners
-    ,array_agg(distinct e.name) engagement_type
-    ,pa.academic_year
-    ,p.semester
-    ,ps.name status
-  ,case when p.start_date is null then 'None' end start_date
-    ,case when p.end_date is null then 'None' end end_date
-    ,p.outcomes
-    ,p.total_uno_students
-    ,p.total_uno_hours
-    ,p.total_uno_faculty
-    ,p.total_k12_students
-    ,p.total_k12_hours
-    ,p.total_other_community_members
-    ,a.name activity_type
-    ,p.description
-    ,p.id
-from projects_project p
-  inner join projects_projectmission m on p.id = m.project_name_id  
-  inner join home_missionarea hm on hm.id = m.mission_id
-  inner join projects_engagementtype e on e.id = p.engagement_type_id
-    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
-    left join partners_communitypartner pc on pp.community_partner_id = pc.id
-    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
-    left join partners_campuspartner c on pp2.campus_partner_id = c.id
-    inner join projects_academicyear pa on p.academic_year_id = pa.id
-    inner join projects_status ps on p.status_id = ps.id
-    inner join projects_activitytype a on p.activity_type_id = a.id
-where p.id =  ANY(%s)
-group by p.project_name
-    ,p.id
-    ,pa.academic_year
-    ,p.semester
-    ,ps.name
-    ,p.start_date
-    ,p.end_date
-    ,p.outcomes
-    ,p.total_uno_students
-    ,p.total_uno_hours
-    ,p.total_uno_faculty
-    ,p.total_k12_students
-    ,p.total_k12_hours
-    ,p.total_other_community_members
-    ,a.name
-    ,p.description
-order by p.project_name;
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                          ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+							,p.id
+                            ,p.project_type project_type
+                            ,p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            ,  p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            ,p.other_activity_type act_type
+                        from projects_project p
+                          inner join projects_projectmission m on p.id = m.project_name_id
+                          inner join home_missionarea hm on hm.id = m.mission_id
+                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                        where status.name != 'Drafts' and p.id = ANY(%s)       
+                        group by p.project_name
+							,p.id
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            ,campus_lead_staff
+                            ,mission_image
+                        order by p.project_name;
 """
 
 #This query is for returning draft projects for campus partners or community partners
@@ -1058,54 +1075,71 @@ order by p.project_name;
 
 my_drafts="""
 select distinct p.project_name
-  ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
-  ,array_agg(distinct pc.name) CommPartners
-    ,array_agg(distinct c.name) CampPartners
-    ,array_agg(distinct e.name) engagement_type
-    ,pa.academic_year
-    ,p.semester
-    ,ps.name status
-  ,case when p.start_date is null then 'None' end start_date
-    ,case when p.end_date is null then 'None' end end_date
-    ,p.outcomes
-    ,p.total_uno_students
-    ,p.total_uno_hours
-    ,p.total_uno_faculty
-    ,p.total_k12_students
-    ,p.total_k12_hours
-    ,p.total_other_community_members
-    ,a.name activity_type
-    ,p.description
-    ,p.id
-from projects_project p
-  left join projects_projectmission m on p.id = m.project_name_id
-  left join home_missionarea hm on hm.id = m.mission_id
-  left join projects_engagementtype e on e.id = p.engagement_type_id
-    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
-    left join partners_communitypartner pc on pp.community_partner_id = pc.id
-    left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
-    left join partners_campuspartner c on pp2.campus_partner_id = c.id
-    inner join projects_academicyear pa on p.academic_year_id = pa.id
-    inner join projects_status ps on p.status_id = ps.id
-    inner join projects_activitytype a on p.activity_type_id = a.id
-    where p.status_id = '5' and p.id =  ANY(%s)
-group by p.project_name
-    ,p.id
-    ,pa.academic_year
-    ,p.semester
-    ,ps.name
-    ,p.start_date
-    ,p.end_date
-    ,p.outcomes
-    ,p.total_uno_students
-    ,p.total_uno_hours
-    ,p.total_uno_faculty
-    ,p.total_k12_students
-    ,p.total_k12_hours
-    ,p.total_other_community_members
-    ,a.name
-    ,p.description
-order by p.project_name;        
+                          ,array_agg(distinct hm.mission_name) mission_area
+                          ,array_agg(distinct pc.name) CommPartners
+                            ,array_agg(distinct c.name) CampPartners
+                            ,array_agg(distinct e.name) engagement_type 
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name status
+                          ,case when p.start_date is null then 'None' end start_date
+                            ,case when p.end_date is null then 'None' end end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name activity_type
+                            ,p.description
+							,p.id
+                            ,p.project_type project_type
+                            ,p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            , s.sub_category sub_category
+                            ,  p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            ,p.other_activity_type act_type
+                        from projects_project p
+                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join home_missionarea hm on hm.id = m.mission_id
+                          left join projects_engagementtype e on e.id = p.engagement_type_id
+                            left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+                          left join partners_communitypartner pc on pp.community_partner_id = pc.id
+                            left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+                            left join partners_campuspartner c on pp2.campus_partner_id = c.id
+                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            inner join projects_status ps on p.status_id = ps.id
+                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                        where status.name = 'Drafts' and p.id = ANY(%s)       
+                        group by p.project_name
+							,p.id
+                            ,pa.academic_year
+                            ,p.semester
+                            ,ps.name
+                            ,p.start_date
+                            ,p.end_date
+                            ,p.outcomes
+                            ,p.total_uno_students
+                            ,p.total_uno_hours
+                            ,p.total_uno_faculty
+                            ,p.total_k12_students
+                            ,p.total_k12_hours
+                            ,p.total_other_community_members
+                            ,a.name
+                            ,p.description
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            , sub_category
+                            ,campus_lead_staff
+                            ,mission_image
+                        order by p.project_name;
 """
 
 

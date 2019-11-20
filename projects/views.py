@@ -52,7 +52,6 @@ def communitypartnerhome(request):
 def myProjects(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-    # Get the campus partner id's related to the user
     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
     camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
     proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
@@ -66,8 +65,12 @@ def myProjects(request):
              "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
              "total_uno_students": obj[11],
              "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
-             "total_k12_hours": obj[15], "pk":obj[19],
-             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+             "total_k12_hours": obj[15],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
+             "project_type": obj[20], "pk":obj[19]
+                , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
+             "campus_lead_staff": obj[24],
+             "mission_image": obj[25], "other_activity_type": obj[26]})
 
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
@@ -3533,8 +3536,12 @@ def myDrafts(request):
              "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
              "total_uno_students": obj[11],
              "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
-             "total_k12_hours": obj[15], "pk":obj[19],
-             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
+             "total_k12_hours": obj[15],
+             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
+             "project_type": obj[20], "pk":obj[19]
+                , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
+             "campus_lead_staff": obj[24],
+             "mission_image": obj[25], "other_activity_type": obj[26]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
 

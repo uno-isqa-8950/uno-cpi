@@ -199,6 +199,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} Legislative Districts
                     </label>
                     <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->

@@ -2592,13 +2592,17 @@ def communityPublicReport(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    legislative_choices.append('All')
+    # legislative_choices.append('All')
     for i in range(1,50):
         legistalive_val = 'Legislative District '+str(i)
         legislative_choices.append(legistalive_val)
 
     if legislative_selection is not None and legislative_selection != 'All':
-        legislative_search = legislative_selection.split(" ")[2]
+        if legislative_selection == '-1':
+            legislative_search ='%'
+        else:
+            legislative_search = legislative_selection.split(" ")[2]
+    
 
     #project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     #communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -2772,13 +2776,16 @@ def communityPrivateReport(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    legislative_choices.append('All')
+    # legislative_choices.append('All')
     for i in range(1,50):
         legistalive_val = 'Legislative District '+str(i)
         legislative_choices.append(legistalive_val)
 
     if legislative_selection is not None and legislative_selection != 'All':
-        legislative_search = legislative_selection.split(" ")[2]
+        if legislative_selection == '-1':
+            legislative_search ='%'
+        else:
+            legislative_search = legislative_selection.split(" ")[2]
 
    # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
    # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())

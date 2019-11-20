@@ -1,10 +1,10 @@
 {% extends 'home/base_home.html' %}
 {% load staticfiles %}
 {% block content %}
-{% load wagtailcore_tags register_tags %}
+    {% load wagtailcore_tags register_tags %}
 
 <style>
-    A.class1 {color:#b60000;}
+  A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
   .fade{
       display: block;
@@ -163,6 +163,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} Campus Partners
                     </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                         {% for campus in campus_filter %}
@@ -180,6 +181,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %}Legislative Districts
                     </label>
                     <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->

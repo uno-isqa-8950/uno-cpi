@@ -2937,9 +2937,9 @@ def communityPrivateReport(request):
     # cursor = connection.cursor()
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
+    # cec_part_init_selection = "All"
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
+        # cec_part_selection = cec_part_init_selection
         cec_part_cond = '%'
         params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
                   legislative_district_cond, college_unit_cond]

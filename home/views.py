@@ -1562,11 +1562,6 @@ def partnershipintensity(request):
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
 
-    yearList = []
-    for y in AcademicYear.objects.all():
-        res = {'id': y.id, 'name': y.academic_year}
-        yearList.append(res)
-
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1576,7 +1571,7 @@ def partnershipintensity(request):
                   'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
                    'communityPartners': communityPartners, 'campus_filter': campus_filter, 'community_filter':community_filter,
                    'college_filter': college_filter, 'y_choices': y_choices, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
-                   'CommunityPartners': CommunityPartners, 'missionList': missionList, 'yearList':yearList,
+                   'CommunityPartners': CommunityPartners, 'missionList': missionList,
                    'Projects':Projects, 'CampusPartners':CampusPartners})
 
 

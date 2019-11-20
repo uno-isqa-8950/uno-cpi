@@ -267,11 +267,11 @@ label[for=id_campus-0-campus_partner]:after{
                       {% endfor %}
                         <div class="col-sm-7">
                       <select id="id_populate_activity" name="name_populate_activity">
+                          <option value = "0">--------</option>
                         {% for act in activityList %}
-                        {% if act == selectedActivity %}
+                        {% if act.selected == 'selected' %}
                         <option value={{act.id}} selected="selected">{{act.name}}</option>
-                        {% endif %}
-                        {% if act != selectedActivity %}
+                        {% else %}
                         <option value={{act.id}}>{{act.name}}</option>
                           {% endif %}
                         {% endfor %}
@@ -661,7 +661,7 @@ label[for=id_campus-0-campus_partner]:after{
         </div>
 
         <div id="step-3">
-             {% for missform in formset_missiondetails %}
+
             <div class="row">
                 <div class="col-md-3">
                     <label>
@@ -672,12 +672,24 @@ label[for=id_campus-0-campus_partner]:after{
                     </label>
                 </div>
                 <div class="col-md-6">
-                    {{ missform | bootstrap}}
+
+
+                   <select id="id_mission_area" class="form-control" name="id_mission_area">
+                       <option value="0">--------</option>
+                        {% for miss in mission_areas %}
+                        {% if miss.selected == 'selected' %}
+                        <option value={{miss.id}} selected="selected">{{miss.name}}</option>
+                        {% else %}
+
+                        <option value={{miss.id}}>{{miss.name}}</option>
+                          {% endif %}
+                        {% endfor %}
+                     </select>
 <!--{{proj_mission}}-->
                 </div>
             </div>
 
-                                {% endfor %}
+
 
 
 
@@ -1054,7 +1066,7 @@ $('#update').show;
         }
 
 
-                if ($("#id_mission_edit-0-mission").val() == '') {
+                if ($("#id_mission_area").val() === '0') {
                     alert("Please provide Focus Area before proceeding.");
                     return false;
                 } else {
@@ -1120,6 +1132,25 @@ if (stepNumber === 1) {
                         $('#update').show();
                     }
     });
+    //----------------------------saving focus area---------------------
+    $('.save').click(function () {
+       var focusarea = $('#id_mission_area').val();
+       if(focusarea != "0"){
+           $.ajax({
+        url: "/saveFocusArea/",
+       //url:"/partners/registerCommunityPartnerForProject/",
+        data: {
+            'focusarea': document.getElementById("id_mission_area").value,
+            'projectId':document.getElementById('id_projectId').value
+        },
+    });
+       }
+    });
+
+
+
+
+
     $('#id_project_name').addClass('inputbox');
     $('#submit').hide();
     // $('#othersubinput').hide();

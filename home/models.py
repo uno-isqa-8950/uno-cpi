@@ -350,7 +350,7 @@ class MissionArea (models.Model):
     mission_color = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return str(self.mission_name)
+        return '%s %s ' % (self.mission_name, self.mission_color)
 
 
 class HouseholdIncome(models.Model):

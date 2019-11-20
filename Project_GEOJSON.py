@@ -39,6 +39,7 @@ pro.state as State, pro.zip as Zip ,pro.longitude as longitude, pro.latitude as 
 pro.legislative_district as legislative_district \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
+join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
 where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
@@ -55,6 +56,7 @@ df = pd.read_sql_query("select pro.project_name, \
     from projects_project pro \
     left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id \
     join partners_campuspartner pc on procamp.campus_partner_id = pc.id \
+    join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts'\
     join university_college uc on pc.college_name_id = uc.id  \
     left join projects_projectcommunitypartner pp on pro.id = pp.project_name_id \
     left join partners_communitypartner p on pp.community_partner_id = p.id \

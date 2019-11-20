@@ -537,7 +537,10 @@ $('[data-toggle="popover"]').popover()
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel',
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel',
         {
          extend : 'pdfHtml5',
          messageTop:'All projects report',
@@ -560,7 +563,9 @@ $('[data-toggle="popover"]').popover()
 
         ],
        /*added below line to disable smart search so that exact word entered is serached*/
-        "oSearch": {"bSmart": false}
+        "oSearch": {"bSmart": false},
+        "scrollY": "none",
+        "scrollCollapse": false
    });
        $('#example_filter').find('input').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}

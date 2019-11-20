@@ -488,7 +488,10 @@
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel',
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel',
            {
          extend : 'pdfHtml5',
          messageTop:'Projects report',
@@ -500,17 +503,19 @@
        },
        columnDefs: [
 
-           { responsivePriority: 10001, targets: 10 },
-           { responsivePriority: 10001, targets: 11 },
-           { responsivePriority: 10001, targets: 12 },
-           { responsivePriority: 10001, targets: 13 },
-           { responsivePriority: 10001, targets: 14 },
+           // { responsivePriority: 10001, targets: 10 },
+           // { responsivePriority: 10001, targets: 11 },
+           // { responsivePriority: 10001, targets: 12 },
+           // { responsivePriority: 10001, targets: 13 },
+           // { responsivePriority: 10001, targets: 14 },
            {"width": "21.5%","targets":[0,1,2,3,4,5,6]}
 
 
         ],
        /*added below line to disable smart search so that exact word entered is serached*/
-        "oSearch": {"bSmart": false}
+        "oSearch": {"bSmart": false},
+        "scrollY": "none",
+        "scrollCollapse": false
    });
        $('#example_filter').find('input').addClass('clearable');
        function tog(v){return v?'addClass':'removeClass';}

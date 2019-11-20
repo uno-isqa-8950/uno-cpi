@@ -155,12 +155,11 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
                     where id < (select id from projects_academicyear where academic_year = '"+str(end_academic_year[n])+"') \
                     and id > (select id from projects_academicyear where academic_year = '"+str(years[n])+"')")
                 conn.commit()
-                cursor.fetchall()   
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:
                     for obj in academicList:
-                         if (obj not in yearlist):
-                             yearlist.append(obj)
+                         if (obj[0] not in yearlist):
+                             yearlist.append(obj[0])
                 else:
                     print('Academic Year not found')
                                 

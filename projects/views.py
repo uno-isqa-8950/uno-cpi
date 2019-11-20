@@ -243,6 +243,26 @@ def saveProjectAndRegister(request):
     return JsonResponse(data)
 
 
+def saveFocusArea(request):
+    selectedfocusarea = request.GET.get('focusarea')
+    projectid = request.GET.get('projectId')
+    print('selected focus area ajax--', selectedfocusarea)
+    print('selected focus area ajax--', projectid)
+    try:
+        test = ProjectMission.objects.get(project_name_id=projectid, mission_type='Primary')
+    except ProjectMission.DoesNotExist:
+        test = None
+
+    if test is not None:
+        cursor = connection.cursor()
+        cursor.execute(sqlfiles.editproj_updateprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+    else:
+        cursor = connection.cursor()
+        cursor.execute(sqlfiles.editproj_addprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+
+
+    return projectid
+
 def getEngagemetActivityList(request):
     selectedEngagement = request.GET.get('selectedEngagement')
     print('selectedEngagement--',selectedEngagement)
@@ -265,38 +285,16 @@ def getEngagemetActivityList(request):
     return JsonResponse(data)
 
 
-def saveFocusArea(request):
-    selectedfocusarea = request.GET.get('focusarea')
-    projectid = request.GET.get('projectId')
-    print('selected focus area ajax--', selectedfocusarea)
-    print('selected focus area ajax--', projectid)
-    try:
-        test = ProjectMission.objects.get(project_name_id=projectid, mission_type='Primary')
-    except ProjectMission.DoesNotExist:
-        test = None
-
-    if test is not None:
-        cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_updateprimarymission(str(selectedfocusarea), str(projectid)), params=None)
-    else:
-        cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_addprimarymission(str(selectedfocusarea), str(projectid)), params=None)
-
-
-    return projectid
-
-
-
 
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
-    # secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
+    #secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     sub_category = modelformset_factory(ProjectSubCategory, extra=1, form=AddSubCategoryForm)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
-    data_definition = DataDefinition.objects.all()
-    # Populate project name-Parimita
+    data_definition=DataDefinition.objects.all()
+    #Populate project name-Parimita
     request.POST.get('id_project_name')
     # if request.method == 'POST' and 'submit' in request.POST:
     if request.method == 'POST':
@@ -304,16 +302,17 @@ def createProject(request):
         course = CourseForm(request.POST)
         categoryformset = sub_category(request.POST or None, prefix='sub_category')
         formset = mission_details(request.POST or None, prefix='mission')
-        # formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
+        #formset4 = secondary_mission_details(request.POST or None, prefix='secondary_mission')
         formset2 = proj_comm_part(request.POST or None, prefix='community')
         formset3 = proj_campus_part(request.POST or None, prefix='campus')
         if project.is_valid() and formset.is_valid() and course.is_valid() and formset2.is_valid() and formset3.is_valid() and categoryformset.is_valid():
+
 
             if request.POST.get('k12_flag'):
                 project.k12_flag = True
             else:
                 project.k12_flag = False
-            # project.created_by = created_by
+            #project.created_by = created_by
             proj = project.save()
             proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
             eng = str(proj.engagement_type)
@@ -554,7 +553,7 @@ def createProject(request):
                             projects_list.append(data)
                     return render(request, 'projects/draftadd_done.html', {'project': projects_list})
             elif stat == 'Active':
-                if (address != ''):
+                if(address != ''):
                     if (address != 'N/A'):  # check if a community partner's address is there
                         fulladdress = proj.address_line1 + ' ' + proj.city
                         geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
@@ -1100,6 +1099,7 @@ def editProject(request, pk):
                                                              'selectedActivity': selectedActivity,
                                                              'selectedMission':proj_mission,
                                                              'data_definition':data_definition})
+
 
 
 # @login_required()

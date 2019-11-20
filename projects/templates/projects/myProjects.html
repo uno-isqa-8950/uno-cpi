@@ -72,61 +72,64 @@
 
 
 
-<br>
-<br>
+<div class="loader" id =loading></div>
+ <div class = "container-fluid">
         <div class="row justify-content-md-center">
-		    <div class="col-lg-12 col-md-12">
-                <div class=" text-center"><h3 class="heading">My Projects</h3></div>
-<div class="card snippet-card">
-    <div class="container text-snippet">
-   {% my_projects %}
-    </div>
-</div>
-                            <div class="container-fluid box">
+		    <div class="col-lg-12 col-md-12" style="margin-left: 5%">
+                <div class = "panel panel-default" style="width:90%">
+                    <div class="panel-heading text-center"><h4>My Projects</h4></div>
+                  <div class="panel-body">
+                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                                <div class="container">
+                                    {% my_projects %}
+                                </div>
+                             </div>
+                  </div>
+                            <div class="container-fluid">
                                     <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                                         <thead>
                                             <tr>
-                                                <th>Projects{% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Projects{% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Focus Areas{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Focus Areas{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Community Partners{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Community Partners{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Campus Partners{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Campus Partners{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Engagement Types{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Engagement Types{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Activity Type</th>
-                                                <th>Academic Years{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="all">Activity Type</th>
+                                                <th class="none">Academic Years{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th>Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                                <th class="none">Semester{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}
                                                 </th>
-                                                <th> Status </th>
-                                                <th> Start Date </th>
-                                                <th> End Date </th>
-                                                <th> Outcomes</th>
-                                                <th> Number of UNO Students</th>
-                                                <th> Number of UNO Students Hours</th>
-                                                <th> Number of UNO Faculty/Staff</th>
-                                                <th> Number of K12 Students</th>
-                                                <th> Number of K12 Students Hours </th>
-                                                <th> Number of Other Partcipants</th>
+                                                <th class="none"> Status </th>
+                                                <th class="none"> Start Date </th>
+                                                <th class="none"> End Date </th>
+                                                <th class="none"> Outcomes</th>
+                                                <th class="none"> Number of UNO Students</th>
+                                                <th class="none"> Number of UNO Students Hours</th>
+                                                <th class="none"> Number of UNO Faculty/Staff</th>
+                                                <th class="none"> Number of K12 Students</th>
+                                                <th class="none"> Number of K12 Students Hours </th>
+                                                <th class="none"> Number of Other Partcipants</th>
 
-                                                <th>Description</th>
-                                                <th>Project Type</th>
-                                                <th>End Semester</th>
-                                                <th>End Academic Year</th>
-                                                <th>Sub Category</th>
-                                                <th>Campus Lead Staff</th>
-                                                <th>Other Activity Type</th>
-                                                <th>Action</th>
+                                                <th class="none">Description</th>
+                                                <th class="none">Project Type</th>
+                                                <th class="none">End Semester</th>
+                                                <th class="none">End Academic Year</th>
+                                                <th class="none">Sub Category</th>
+                                                <th class="none">Campus Lead Staff</th>
+                                                <th class="none">Other Activity Type</th>
+                                                <th class="none">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -159,13 +162,14 @@
                                 {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
 
                             <td>
+                                                <td>
                                 {%if campus_lead_staff > 1%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
                                 {%else%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
                                 {%endif%}
                             </td>
-                                <td>
+
                                 {%if other_activity_type > 1%}
                                 {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
                                 {%else%}

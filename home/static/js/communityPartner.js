@@ -297,25 +297,34 @@ var rightclickwindow = null;
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
-        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td>'+
-        (commCecStatus == 'Current' ? ('<td><span style="background-color: green; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-        (commCecStatus == 'Never' ? ('<td><span style="background-color: grey; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-         (commCecStatus == 'Former' ? ('<td><span style="background-color: red; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-'</tr><br />'+
-            //'</tr><br />' +
-            // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
-           // (commCecStatus != 'Never' ? ('<tr><td><span style="font-weight:bold">CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />')
-           // : '' ) +
-            '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
+       var commInnerHtml = '';
+       
+       var commCecHtml = '';
+
+       var commHeadHtml = '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td></tr><br />';
+        if(commCecStatus == 'Current'){
+            commCecHtml ='<tr><td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:green" aria-hidden="true"></i></td></tr><br />';
+        }
+        if(commCecStatus == 'Never'){
+            commCecHtml ='<tr><td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-times" style="color:red" aria-hidden="true"></i></td></tr><br />';
+        }
+        if(commCecStatus == 'Former'){
+            commCecHtml ='<tr><td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:orange" aria-hidden="true"></i></td></tr><br />';
+        }
+        var commBodyHtml = '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>' +
-            (project_number == 0 ? '':
-                ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
+            '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
+        if(project_number != 0 ){
+            commBodyHtml +='<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>';
+        }
+        commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
+
+        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+        infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());
@@ -326,9 +335,25 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        infowindow.setContent(
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        // alert(projects.toString().split(","));
+         var projectDtlList = projects.toString().split(",");
+         var projectHtml = ''
+         var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+            //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
+        '<tr><td style="margin-top: 5%">'+
+        '<table border="1"><tr>'+
+        '<td><span style="font-weight:bold">&nbsp;Academic Year&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
+        var projInnerHtml = ''
+        for(var i=0;i<projectDtlList.length;i++){
+            projInnerHtml += '<tr><td><span>&nbsp;'+projectDtlList[i].split(':')[1]+'&nbsp;</span></td>'+
+        '<td><span>&nbsp;'+projectDtlList[i].split(':')[0].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td>'+
+        '<td><span >&nbsp;'+projectDtlList[i].split(':')[2].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td></tr>';
+        }
+        projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
+        infowindow.setContent(projectHtml)
          // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         map.panTo(this.getPosition());
 
@@ -470,8 +495,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-      resetFiltersOnSearchComm();
+    resetFiltersOnSearchComm();
+
     if (e.keyCode == 8 || e.keyCode == 46) {
+        
      
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);

@@ -2681,7 +2681,7 @@ def communityPublicReport(request):
         campus_id = int(campus_partner_filter)
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
+    # cec_part_init_selection = "All"
     if comm_ids is not None:
         print('list connn id --',len(comm_ids))
         params = []       
@@ -2698,7 +2698,7 @@ def communityPublicReport(request):
         
     else:
         if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-            cec_part_selection = cec_part_init_selection
+            # cec_part_selection = cec_part_init_selection
             cec_part_cond = '%'
             params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
                      legislative_district_cond, college_unit_cond]

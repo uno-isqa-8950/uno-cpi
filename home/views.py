@@ -1376,11 +1376,6 @@ def trendreport(request):
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-    yearList = []
-    for y in AcademicYear.objects.all():
-        res = {'id': y.id, 'name': y.academic_year}
-        yearList.append(res)
-
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1389,7 +1384,7 @@ def trendreport(request):
                   { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
                     'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
                     'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
-                    'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
+                    'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
 
 def EngagementType_Chart(request):

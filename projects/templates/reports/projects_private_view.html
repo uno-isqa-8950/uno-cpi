@@ -236,8 +236,22 @@ table{
         width: 85%;
 
     }
+
+.btn-secondary{
+        margin: 2px;
+}
+.buttons-csv{
+        margin:2px;
+    }
+
+
 </style>
 
+<script>
+$(function () {
+$('[data-toggle="popover"]').popover()
+})
+</script>
 
 <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
 <div class="card snippet-card">
@@ -253,8 +267,7 @@ table{
 
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
-
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -550,11 +563,19 @@ table{
         </td>
         <td>
             <b>Campus Lead Staff : </b>
-            {% for campus_lead_staff in project.campus_lead_staff %}{{campus_lead_staff}}{% endfor %},
+             {%if campus_lead_staff > 1%}
+             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
+             {%else%}
+             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+             {%endif%}
         </td>
         <td>
-            <b>Other Activity Type:</b>{{project.other_activity_type}}
-
+            <b>Other Activity Type:</b>
+            {%if other_activity_type > 1%}
+            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
+            {%else%}
+            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
+            {%endif%}
         </td>
     </tr>
 

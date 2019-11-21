@@ -76,29 +76,17 @@
     }
 
  </style>
-
-<div class="loader" id =loading></div>
-<div class="container">
+<br>
+<br>
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Mission Areas</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="border: none; padding: 10px;">
-                <div class="center">
-                    {% miss_charts %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+            <div class=" text-center"><h3 class="heading">Focus Areas</h3></div>
+                    <div class="card snippet-card">
+                        <div class="container text-snippet">
+                       {% miss_charts %}
+                        </div>
+                    </div>
 
-
-
-<div class="container">
-    <div class="card" style="border: none; padding: 10px;">
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -123,7 +111,7 @@
     <!-- / Collapse buttons -->
 
 
-        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class="box">
             <div class="collapse show" id="collapseExample">
 
             <!--<form id="filters-form" method="get">-->
@@ -245,7 +233,7 @@
             </div>
         </div>
 
-
+<div class="box">
                 <div id="container"  style= "max-width: 1000px; height: 450px"></div>
                     <script src="https://code.highcharts.com/highcharts.src.js"></script>
                     <script>
@@ -253,6 +241,7 @@
                     </script>
                 <!--/div>
             </div-->
+        </div>
         </div>
 </div><br><br><br><br>
 {% endblock %}

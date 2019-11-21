@@ -61,7 +61,7 @@ all_projects_sql = """select distinct p.project_name
                             ,array_agg(distinct e.name) engagement_type 
                             ,pa.academic_year
                             ,p.semester
-                            ,ps.name status
+                            ,status.name status
                           ,case when p.start_date is null then 'None' end start_date
                             ,case when p.end_date is null then 'None' end end_date
                             ,p.outcomes
@@ -106,7 +106,7 @@ all_projects_sql = """select distinct p.project_name
                         group by p.project_name
                             ,pa.academic_year
                             ,p.semester
-                            ,ps.name
+                            ,status.name
                             ,p.start_date
                             ,p.end_date
                             ,p.outcomes

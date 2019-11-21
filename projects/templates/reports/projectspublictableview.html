@@ -249,7 +249,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="mission"> Focus Areas
+                    <label for="mission"> Project Focus Areas
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -399,7 +399,7 @@
                             </th>
                             <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %} {% endfor %}Mission Areas
+                                {% endif %} {% endfor %}Project Focus Areas
                             </th>
                             <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>

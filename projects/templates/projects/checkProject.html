@@ -3,6 +3,20 @@
 
 
 <style>
+
+
+        .form-control
+    {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        margin:10px 0 8px 4px;
+        outline:none;
+        padding:3px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 22px;
+    }
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
     .fade{
@@ -31,44 +45,19 @@ label {
     @media (min-width:1200px)
 {
     .container{
-        max-width: 1330px;
+        max-width: 1500px;
     }
 }
-        body{
-        background-color: rgba(0,0,0,.03);
-    }
-        .text-snippet{
-        text-align: left;
-    }
-    .box{
-        padding: 10px;
-            background-color: white;
-            border: 1px;
-        box-shadow: 5px 10px #d3d3d3;
-        }
-    .snippet-card{
-        margin-top: 20px;
-        padding-top:10px;
-        padding-bottom:10px;
-        margin-bottom: 20px;
-        border-left: none;
-        border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
-        border-radius:0px;
-        background-color: transparent;
-        margin-bottom: 50px;
-    }
+
 </style>
 <br><br>
-            <div class="row box justify-content-md-center">
+            <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Check Project</h3></div>
+                          <div class=" text-center"><h3 class="heading">Search Project</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
-        {% priv_projs %}
-<!--        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.-->
-    </div>
+        {%         create_projects %}
+        </div>
 </div>
 <!--                        <div class = "panel-default" style="width:100%">-->
 <!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->
@@ -83,7 +72,7 @@ label {
 <!--                    </div>-->
 <!--                </div>-->
 
-          <div class="card" style="border: none; padding: 10px;">
+          <div class="row" style="border: none; padding: 30px;margin:10px">
                <!-- Collapse buttons -->
              <div>
                  <input type="button" style="float: left" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
@@ -108,8 +97,8 @@ label {
           </div>
 
 
-<div class="container" style="padding:10px;position: relative">
-   <div class="card" style="border: 2px solid #C3C3C3;">
+<div class="container">
+   <div class="box">
        <div class="collapse show" id="collapseExample">
             <form method="POST" >
                   {% csrf_token %}
@@ -172,20 +161,20 @@ label {
  </div>
 </div>
 <div class="row">
-         <div style="float: left;" id="node1-id" style="display: none"></div>
+         <div style="float: left;margin:10px" id="node1-id"></div>
 
-         <div style="float: left;" id="button-id" style="display: none"></div>
+         <div style="float: left;margin:10px" id="button-id" ></div>
 </div>
 
 
   <div class="row">
-<span class="label"></span>
+<span class="label" style="margin:15px"></span>
             </div>
 
              <div style="margin-top:15px;">
 
 
-                <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px">
+                <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
                    <thead>
                    	<col style="width:10%">
 	                <col style="width:25%">
@@ -275,7 +264,7 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-var label = '<label style="margin-left: 0px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
+var label = '<label style="margin-left: 10px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
 $('.label').append(label);
         var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><th>Campus Partner</th>';
         $('#example').find('thead').append(html);

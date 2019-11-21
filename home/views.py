@@ -756,6 +756,7 @@ def project_partner_info(request):
         comm_id_list = list(community.community_partner_id for community in comm_id_filter)
         p_mission = ProjectMission.objects.filter(mission=m.id).filter(project_name_id__in=project_filtered_ids).filter(mission_type='Primary')
 
+
         a = request.GET.get('engagement_type', None)
         b = request.GET.get('academic_year', None)
         c = request.GET.get('campus_partner', None)

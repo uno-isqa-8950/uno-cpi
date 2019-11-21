@@ -241,7 +241,7 @@ class ProjectFormAdd(ModelForm):
         fields = ('project_name','engagement_type','activity_type','project_type','description','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
                     'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
-                  'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff','other_activity_type')
+                  'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff','other_activity_type','total_uno_faculty','total_other_community_members')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()

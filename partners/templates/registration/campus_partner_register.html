@@ -318,19 +318,19 @@
     <div class = "container-fluid">
 
         <div class="row justify-content-md-center">
-            <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center">
+            <div class="col-xl-12 col-md-12 col-sm-12">
+
+                    <div class="text-center">
                         <h4 style="margin:auto;padding: 13px">Campus Partner Registration</h4>
                     </div>
 
-                    <div class="panel-body">
-                        <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
+
+                        <div class="card snippet-card">
+                           <div class="container text-snippet">
                                     {% cam_part_regs %}
                                 </div>
                              </div>
-
+<div class ="box">
                         {% csrf_token %}
                         <div id="smartwizard">
                             <ul>
@@ -435,11 +435,11 @@
                             </div>
 
 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
+
+
+
     <div class ="container-fluid">
         <div class="row centered" id="termsdiv">
                                     <p><input type="checkbox" id="terms">
@@ -456,10 +456,13 @@
                                     <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
 
                                 </div>
+        </div>
+        </div>
+        </div>
 
 
     </div>
-
+    </div>
 </form>
 
 

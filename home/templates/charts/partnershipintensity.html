@@ -132,7 +132,7 @@
                         {% endfor %}
                         Academic Years
                     </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <select id="id_academic_year" name="academic_year" onchange="updateChart()">
                         <option> All </option>
                             {% for sem in project_filter.form.academic_year %}
                                 {{sem}}
@@ -151,7 +151,7 @@
                         {% endfor %}
                         Engagement Types
                     </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
                         <option> All </option>
                         {% for engagement in project_filter.form.engagement_type %}
                             {% debug %}
@@ -171,7 +171,7 @@
                         {% endfor %}
                         Colleges and Main Units
                     </label>
-                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <select id="id_college_name" name="college_name" onchange="updateChart()">
                         <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -190,7 +190,7 @@
                         {% endfor %}
                         Campus Partners
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                         {% for campus in campus_filter %}
@@ -209,7 +209,7 @@
                             {% endif %}
                         {% endfor %} CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -227,7 +227,7 @@
                         {% endfor %}
                         Community Organization Type
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
                         <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -246,7 +246,7 @@
                         {% endfor %}
                         Legislative Districts
                     </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updateChart()">
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
@@ -256,7 +256,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="y_axis">Y-Axis</label>
-                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="this.form.submit()">
+                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()">
                         {% for y_axis in y_choices.y_choice %}
                             {{ y_axis }}
                         {% endfor %}
@@ -265,7 +265,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_partner">
-                    {% for data_definition in data_definition %}
+                        {% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
                                       data-content="{{ data_definition.description }}" class="float" >
@@ -274,7 +274,7 @@
                         {% endfor %}
                         Community Partners
                     </label>
-                    <select id="id_community_partner" name="community_partner" onchange="this.form.submit()">
+                    <select id="id_community_partner" name="community_partner" onchange="updateChart()">
                         <option> All </option>
                         <option value {% if community_id == 0 %} selected {% endif %}>---------</option>
                             {% for community in community_filter %}
@@ -293,7 +293,6 @@
         {{ CommunityPartners | json_script:"CommunityPartners"}}
         {{ CampusPartners | json_script:"CampusPartners"}}
         {{ missionList | json_script:"missionList"}}
-        {{ yearList | json_script:"yearList"}}
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script type="text/javascript" src='{% static "js/partnershipintensity.js" %}'></script>
     </div>
@@ -348,7 +347,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'Current Academic Year',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
     $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All',width: '75%'});
     $('#id_y_axis').select2({width: '75%'});

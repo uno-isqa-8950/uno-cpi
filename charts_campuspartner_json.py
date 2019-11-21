@@ -25,12 +25,7 @@ cursor = conn.cursor()
 dirname = os.path.dirname(__file__)
 campus_file = os.path.join(dirname,'home/static/charts_json/campus_partners.json')
 
-q = "SELECT camp.id, camp.name, college_name_id, college_name, uni.name as university, cec_partner_status_id, cec.name," \
-    "CASE WHEN cec_partner_status_id in (select id from partners_cecpartnerstatus where name in ('Former', 'Current')) " \
-    "	THEN (select (select array_to_string (array (select id from projects_academicyear " \
-    "			where id >= start_acad_year_id and (id <= end_acad_year_id or end_acad_year_id is null)), ', ')) " \
-    "			from partners_cecpartactiveyrs where camp_partner_id = camp.id) " \
-    "	END AS cec_active_yrs " \
+q = "SELECT camp.id, camp.name, college_name_id, college_name, uni.name as university, cec_partner_status_id, cec.name " \
     "FROM partners_campuspartner camp " \
     "LEFT JOIN university_college clg " \
     "	ON college_name_id = clg.id " \
@@ -38,18 +33,19 @@ q = "SELECT camp.id, camp.name, college_name_id, college_name, uni.name as unive
     "	ON clg.university_id = uni.id " \
     "LEFT JOIN partners_cecpartnerstatus cec " \
     "	ON camp.cec_partner_status_id = cec.id " \
-    "WHERE camp.id in (select distinct campus_partner_id from projects_projectcampuspartner) ;"
+    "WHERE camp.id in " \
+    "(select distinct campus_partner_id " \
+    " 	from projects_projectcampuspartner pcam " \
+    "	inner join projects_project p " \
+    "		on pcam.project_name_id = p.id " \
+    "	where p.status_id <> (SELECT id FROM projects_status WHERE name = 'Drafts')) ;"
 cursor.execute(q)
 campus = cursor.fetchall()
 records = len(campus)
 camps = []
 for c in campus:
-    if (c[7]):
-        cec_years = [int(e) for e in c[7].split(', ')]
-    else:
-        cec_years = []
     college = {'college_name_id': c[2], 'college_name': c[3]}
-    cec_partner = {'cec_partner_status_id': c[5], 'cec_partner_status': c[6], 'cec_years':cec_years}
+    cec_partner = {'cec_partner_status_id': c[5], 'cec_partner_status': c[6]}
     res = {'campus_partner_id': c[0], 'campus_partner_name': c[1],
            'college': college, 'university': c[4], 'cec_partner': cec_partner}
     camps.append(res)

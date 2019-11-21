@@ -6,10 +6,22 @@
 
     <style>
 
-        /*#sidebar {*/
-        /*    background: #333;*/
-        /*}*/
+        body {
+            background: #333333;
+        }
+@media (max-width:575px) {
+    .fleft, .fright {
+        border:none!important;
+    }
 
+     label {
+        font-size: 14px;
+         /*margin-top: 25px;*/
+    }
+     .card{
+         margin-top: 25px;
+     }
+}
         .btn-primary {
             background-color: #bbbbbb;
             border-color: #333;
@@ -369,6 +381,9 @@
         font-size: 14px;
          /*margin-top: 25px;*/
     }
+     .card{
+         margin-top: 25px;
+     }
 }
 
     .footertext {
@@ -428,6 +443,7 @@
         display: inline;
     }
 
+
 @media (max-width: 992px) {
     .col-sm-2 {
         margin-left: 0!important;
@@ -446,33 +462,75 @@
     }
 
 }
-
+        .card{
+            padding: 5px;
+            background-color:#333333;
+            color:White;
+            font-size:20px;
+            border: 0px;
+            font-family:'Arial Narrow', sans-serif;
+            text-align:center;
+        }
+#sidebar {
+    margin-top: -5px;
+    width: 260px;
+    position: fixed;
+    top: 78px;
+    left: -250px;
+    height: -webkit-fill-available;
+    z-index: 999;
+    background: #333;
+    color: White;
+    transition: all 0.3s;
+    padding:10px;
+    /*opacity: .9;*/
+    display: flex; flex-direction: row;    display: -moz-box;
+    display: -webkit-flexbox;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    -moz-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
+}
+        a .selectCommtype span{
+            border: 1px solid black;
+        }
     </style>
 <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
 <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
-    <div class="wrapper">
+<!--    <div class="wrapper" style="height: 100%">-->
 <!--        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="sidebar">-->
-        <nav id="sidebar" style="margin-top: -5px;height: 110%;">
-            <div class="row" style="border-bottom:1px solid grey; height:60px;">
+<div class="container">
+        <nav id="sidebar" style="margin-top: -5px;height: 100%;">
+            <div class="row" style="height:30px;">
                 <div class="col-lg-4 col-md-4">
-                    <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
+                    <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
-                <div class="col-lg-8 col-md-8" style="padding-top:18px;text-align:right;">
+                <div class="col-lg-8 col-md-8" style="text-align:right;">
                     <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
-        <div class='legend'>
+            <div class='legend'>
+
             <div id='state-legend'>
-                <h4>Community Partner Types</h4>
                 <div id='commTypeFilters' style="padding-bottom:5px;border-bottom: 1px solid grey;">
                 </div>
+
+
+                <!--</select>-->
+                <!--div id="sidebar"-->
                 <select  style="margin-top:10px;" id="selectMission" class="selectMission"></select>
                 <select id="selectCollege" class="selectCollege"></select>
                 <select id="selectCampus" class="selectCampus"></select>
                 <select id="selectYear" class="selectYear"></select>
                 <select id="selectDistrict" class="selectDistrict"></select>
+               
+
             </div>
-            <div style="padding-top:10px;border-top: 1px solid grey;">
+             <div style="padding-top:10px;border-top: 1px solid grey;">
                     <input id='valueFilter' type='text' placeholder='Search Community Partner' />
                 </div>
             </div>
@@ -484,29 +542,34 @@
                 <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
 
-                        <div class="card" style="padding: 5px;margin-top:-5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow', sans-serif;text-align:center;">
+                        <div class="card">
                             <div class="row">
-                                <div class="col-lg-1 col-md-1 col-sm-1">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col">
                                     <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                         <span></span>
                                     </button>
 
                                 </div>
 
-                                <div class="col-lg-5 col-md-5 col-sm-5">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col"  style="text-align: left">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                        {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
-                                        <label style="text-align: left"><b>Community Partner Type Map</b><br/><small>{{ data_definition.description }}</small></label>
-                                            {% endif %}{% endfor %}
-
+                                        <label style="text-align: left"><b>Community Partner Type Map</b></label>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div style="box-sizing: border-box; padding:5px;">
+                                <div class="col-lg-6 col-md-6 col-sm-6 col">
+                                    <div style="box-sizing: border-box; padding:5px; ">
                                         <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col" style="text-align: left;font-size: 12px;font-family: "Arial Narrow", sans-serif">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                        <span style="text-align: left">{{ data_definition.description }}</span>
+                                            {% endif %}{% endfor %}
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -526,7 +589,6 @@
                     </div>
                 </div>
           </div>
-
 <footer id="footer">
       <div class="container-fluid">
         <div class="row">

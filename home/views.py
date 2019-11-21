@@ -2001,14 +2001,14 @@ def issueaddress(request):
 
     missions =[]
     for m in  MissionArea.objects.all():
-        res={'id':m.id,'name':m.mission_name}
+        res={'id':m.id,'name':m.mission_name,'color': m.mission_color}
         missions.append(res)
-    missions=sorted(missions,key=lambda i:i['name'])
-    # print("sorted mission list",missions)
+    missions=sorted(missions,key=lambda i:i['name'],reverse=True)
+    print("sorted mission list",missions)
     missionarealist = list()
     for m in missions:
         missionarealist.append(m['name'])
-    # print("mission_area1",mission_area1)
+    print("mission_area1",missionarealist)
     subcategory = []
     y=[]
     # for x in ProjectSubCategory.objects.values('sub_category_id'):
@@ -2212,7 +2212,7 @@ def issueaddress(request):
             for sc in SubCategory.objects.filter(id__in=y):
                 res = {'id': sc.id, 'name': sc.sub_category}
                 subcategory.append(res)
-            subcategory = sorted(subcategory, key=lambda i: i['name'])
+            subcategory = sorted(subcategory, key=lambda i: i['name'],reverse=True)
             subcategorylist = []
             for sc in subcategory:
                 subcategorylist.append(sc['name'])
@@ -2281,7 +2281,7 @@ def issueaddress(request):
             # 'max':len(subcategorylist)-1,
             # 'tickInterval':1.0,
             'title': {'text': '',
-                      'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                      'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
             'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
             'categories': subcategorylist}
             if(mid== len(missions)-1):
@@ -2292,7 +2292,7 @@ def issueaddress(request):
                     # 'max':len(subcategorylist)-1,
                     # 'tickInterval':1.0,
                     'title': {'text': 'Focus Area',
-                              'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                              'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
                     'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
                     'categories': subcategorylist}
             secondary_y_axis.append(yaxis)
@@ -2337,7 +2337,7 @@ def issueaddress(request):
 
        'title': '',
         'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
-                                                    'style': {'fontWeight': 'bold', 'color': 'black',
+                                                    'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black',
                                                               'fontSize': '15px'}}},
         'yAxis':Yaxis,
         'plotOptions': {
@@ -2355,6 +2355,7 @@ def issueaddress(request):
 
                 },'colorByPoint': False,
                 'tooltip': {
+                    'style': {'fontFamily': 'Arial Narrow'},
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
                     'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>'
                 }
@@ -2368,6 +2369,7 @@ def issueaddress(request):
             }
         },
         'tooltip': {
+            'style': {'fontFamily': 'Arial Narrow'},
         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
         'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
                  },
@@ -2379,7 +2381,9 @@ def issueaddress(request):
             'y': 10,
             'borderWidth': 1,
             'backgroundColor': '#FFFFFF',
-            'shadow': 'true'
+            'shadow': 'true',
+            'itemStyle': {'fontFamily': 'Arial Narrow'},
+            'backgroundColor': '#FFFFFF', "shadow": 'true'
         },
 
 
@@ -2458,6 +2462,14 @@ def networkanalysis(request):
     max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
     max_year = max_yr[0]
 
+    missionList = []
+    for m in MissionArea.objects.all():
+        res = {'id': m.id, 'name': m.mission_name, 'color': m.mission_color}
+        missionList.append(res)
+    missionList = sorted(missionList, key=lambda i: i['name'])
+
+    # community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
+
     mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.order_by('academic_year'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -2465,6 +2477,9 @@ def networkanalysis(request):
     # campus_partner_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+
+    community_filter_qs = CommunityPartner.objects.all()
+    community_filter = [{'name': m.name, 'id': m.id} for m in community_filter_qs]
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
@@ -2530,10 +2545,10 @@ def networkanalysis(request):
 
 
     return render(request, 'charts/network.html',
-                  { 'Missionlist': sorted(GEOJSON2()[2]),'data_definition':data_definition,'Collegenames': (GEOJSON2()[7]),
+                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames': (GEOJSON2()[7]),
                    'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'max_year':max_year,
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
                     'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices} )
+                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter} )
 

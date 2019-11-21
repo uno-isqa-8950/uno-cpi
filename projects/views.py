@@ -2683,6 +2683,22 @@ def communityPublicReport(request):
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+
+    if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
+        cec_part_selection = cec_part_init_selection
+        cec_part_cond = '%'
+        # cursor.execute(sql.projects_report, [project_ids])
+    elif cec_part_selection == "CURR_COMM":
+        cec_part_cond = 'Current'
+
+    elif cec_part_selection == "FORMER_COMM":
+        cec_part_cond = 'Former'
+
+
+
+
+
+    cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     if comm_ids is not None:
         params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
                      legislative_district_cond, college_unit_cond]
@@ -2697,42 +2713,46 @@ def communityPublicReport(request):
             cursor = connection.cursor()
             cursor.execute(sql.selected_One_community_public_report, params)
     else:
-        if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-            cec_part_selection = cec_part_init_selection
-            cec_part_cond = '%'
-            params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                     legislative_district_cond, college_unit_cond]
-            cursor = connection.cursor()
-            cursor.execute(sql.community_public_report, params)
-            # cursor.execute(sql.projects_report, [project_ids])
-        elif cec_part_selection == "CURR_COMM":
-            cec_start_acad_year = academic_start_year_cond
-            cec_end_acad_year = academic_end_year_cond
-            params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                      legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
-            cursor = connection.cursor()
-            cursor.execute(sql.community_public_cec_curr_comm_report, params)
-        elif cec_part_selection == "FORMER_COMM":
-            cec_start_acad_year = academic_start_year_cond
-            cec_end_acad_year = academic_end_year_cond
-            params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                      legislative_district_cond, college_unit_cond, cec_end_acad_year]
-            cursor = connection.cursor()
-            cursor.execute(sql.community_public_cec_former_comm_report, params)
-        elif cec_part_selection == "FORMER_CAMP":
-            cec_start_acad_year = academic_start_year_cond
-            cec_end_acad_year = academic_end_year_cond
-            params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                      legislative_district_cond, college_unit_cond, cec_end_acad_year]
-            cursor = connection.cursor()
-            cursor.execute(sql.community_public_cec_former_camp_report, params)
-        elif cec_part_selection == "CURR_CAMP":
-            cec_start_acad_year = academic_start_year_cond
-            cec_end_acad_year = academic_end_year_cond
-            params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                      legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
-            cursor = connection.cursor()
-            cursor.execute(sql.community_public_cec_curr_camp_report, params)
+        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+                  legislative_district_cond, college_unit_cond, cec_part_cond]
+        cursor = connection.cursor()
+        cursor.execute(sql.community_public_report, params)
+        # if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
+        #     cec_part_selection = cec_part_init_selection
+        #     cec_part_cond = '%'
+        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+        #              legislative_district_cond, college_unit_cond]
+        #     cursor = connection.cursor()
+        #     cursor.execute(sql.community_public_report, params)
+        #     # cursor.execute(sql.projects_report, [project_ids])
+        # elif cec_part_selection == "CURR_COMM":
+        #     cec_start_acad_year = academic_start_year_cond
+        #     cec_end_acad_year = academic_end_year_cond
+        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+        #               legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
+        #     cursor = connection.cursor()
+        #     cursor.execute(sql.community_public_cec_curr_comm_report, params)
+        # elif cec_part_selection == "FORMER_COMM":
+        #     cec_start_acad_year = academic_start_year_cond
+        #     cec_end_acad_year = academic_end_year_cond
+        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+        #               legislative_district_cond, college_unit_cond, cec_end_acad_year]
+        #     cursor = connection.cursor()
+        #     cursor.execute(sql.community_public_cec_former_comm_report, params)
+        # elif cec_part_selection == "FORMER_CAMP":
+        #     cec_start_acad_year = academic_start_year_cond
+        #     cec_end_acad_year = academic_end_year_cond
+        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+        #               legislative_district_cond, college_unit_cond, cec_end_acad_year]
+        #     cursor = connection.cursor()
+        #     cursor.execute(sql.community_public_cec_former_camp_report, params)
+        # elif cec_part_selection == "CURR_CAMP":
+        #     cec_start_acad_year = academic_start_year_cond
+        #     cec_end_acad_year = academic_end_year_cond
+        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+        #               legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
+        #     cursor = connection.cursor()
+        #     cursor.execute(sql.community_public_cec_curr_camp_report, params)
 
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
@@ -2941,39 +2961,46 @@ def communityPrivateReport(request):
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
         cec_part_selection = cec_part_init_selection
         cec_part_cond = '%'
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_private_report, params)
         # cursor.execute(sql.projects_report, [project_ids])
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_private_cec_curr_comm_report, params)
+        cec_part_cond = 'Current'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond , cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_private_cec_former_comm_report, params)
-    elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond , cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_private_cec_former_camp_report, params)
-    elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-                  legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.community_private_cec_curr_camp_report, params)
+        cec_part_cond = 'Former'
+
+
+    params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+              legislative_district_cond, college_unit_cond, cec_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.community_private_report, params)
+    # elif cec_part_selection == "CURR_COMM":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+    #               legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.community_private_cec_curr_comm_report, params)
+    # elif cec_part_selection == "FORMER_COMM":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+    #               legislative_district_cond, college_unit_cond , cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.community_private_cec_former_comm_report, params)
+    # elif cec_part_selection == "FORMER_CAMP":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+    #               legislative_district_cond, college_unit_cond , cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.community_private_cec_former_camp_report, params)
+    # elif cec_part_selection == "CURR_CAMP":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
+    #               legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.community_private_cec_curr_camp_report, params)
 
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 

@@ -182,17 +182,19 @@
     </style>
     <div class = "container">
         <div class="row justify-content-md-center">
-            <div class="col-lg-8 col-md-10">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4>Campus Partner User</h4></div>
-                     <div class="panel-body">
-                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% cam_part_user_regs %}
-                                </div>
-                             </div>
-                     </div>
-                    <div class="panel-body">
+            <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
+
+                    <div class="text-center"><h3 class="heading">Campus Partner User</h3></div>
+
+                   <div class="card snippet-card">
+                       <div class="text-snippet">
+                           {% cam_part_user_regs %}
+                       </div>
+                   </div>
+                   <br>
+
+                    <div class="box">
                         <form action="." name="myForm" method="post">
                             {% csrf_token %}
 
@@ -221,14 +223,14 @@
                             </div>
                             <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-secondary">
+                                    <button type="submit" class="btn btn-secondary" style="margin-left:48px;">
                                         Submit</button>
                                 </div>
                             </div><br><br>
                         </form>
                     </div>
-                </div>
-            </div>
+
+
         </div>
     </div>
 

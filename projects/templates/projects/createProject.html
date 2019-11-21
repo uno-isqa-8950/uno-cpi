@@ -40,7 +40,8 @@
     <div>
         <div id="step-1">
             <div id="form-step-0">
-                <div class="row">
+
+                <div class="row" style="margin-top: 20px;">
                 <div class="col-md-6">
                     <div class="row">
                     <label for="id_project_name" class="col-sm-4"><i  style="padding-left: 15px"></i> Project Name</label>
@@ -115,7 +116,7 @@
                     <label class="col-sm-2" for="id_engagement_type">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
-                    <div class="col">
+                    <div class="col-sm-7">
                     {{ project.description }}
                     </div>
                     {% if  project.description.errors %}

@@ -102,7 +102,9 @@ all_projects_sql = """select distinct p.project_name
                               and c.college_name_id::text like %s
                               and COALESCE (p.k12_flag::text, 'no') LIKE %s
                               and ((p.academic_year_id <= %s) AND 
-                                    (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))         
+                                    (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))  
+                              and 	pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like %s)
+                              and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like %s)             
                         group by p.project_name
                             ,pa.academic_year
                             ,p.semester

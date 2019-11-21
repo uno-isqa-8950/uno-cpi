@@ -1109,7 +1109,7 @@ def engagement_info(request):
         yrs.append(e.id)
     try:
         acad_year = AcademicYear.objects.get(academic_year=a_year).id
-        default_yr_id = acad_year - 1
+        default_yr_id = acad_year
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
     max_yr_id = max(yrs)

@@ -1030,9 +1030,9 @@ select distinct p.project_name
                             , hm.mission_image_url mission_image
                             ,p.other_activity_type act_type
                         from projects_project p
-                          inner join projects_projectmission m on p.id = m.project_name_id
-                          inner join home_missionarea hm on hm.id = m.mission_id
-                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join home_missionarea hm on hm.id = m.mission_id
+                          left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                           left join partners_communitypartner pc on pp.community_partner_id = pc.id
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id

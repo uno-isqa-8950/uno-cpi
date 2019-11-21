@@ -4,7 +4,12 @@
 
 {% block content %}
 <style>
-
+ .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
 /* Datatable Css */
     .btn-group{float:left;, labels:"Export"}
     #example_length{float:left; margin:0 0 0 0px;}
@@ -139,6 +144,8 @@
     {
         width: 100%;
         float: left;
+        padding:0;
+        margin-bottom: 15px;
     }
     .button-row-elements button{
         display:inline-block;
@@ -183,17 +190,32 @@
         margin-top: 20px;
         padding-top:10px;
         padding-bottom:10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         border-left: none;
         border-right:none;
         margin-left: 25px;
         margin-right: 25px;
         border-radius:0px;
         background-color: transparent;
-        margin-bottom: 50px;
+
+    }
+
+    .btn-secondary{
+        margin: 2px;
+    }
+    .buttons-csv{
+        margin:2px;
     }
 
 </style>
+
+<script>
+
+$(function () {
+$('[data-toggle="popover"]').popover()
+})
+
+</script>
 
 <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
 <div class="card snippet-card">
@@ -207,10 +229,10 @@
 
     <div class="container button-row-elements">
 
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-               aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
-<input type="button" id="btn-table" value= "Card View" class="btn btn-primary" onclick="window.location.href = '/projectsprivatereport'; " value="Card View" >
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectprivatetableview' %}' " value="Reset Filters" >
+<input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport'; " value="Card View" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -229,7 +251,7 @@
 
 
 <!-- / Collapse buttons -->
-    <div class="card filter-card">
+    <div class="card box filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -254,7 +276,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="mission"> Focus Areas
+                    <label for="mission"> Project Focus Areas
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -387,97 +409,105 @@
             </form>
         </div>
     </div>
- <div class = "container-fluid">
-        <div class="row justify-content-md-center">
-		    <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-			            <div class="panel-body">
-                        <div class="container">
-                            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
-                            <thead>
-                                <tr>
 
-                                    <th>
-                                        {% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Projects
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Mission Areas
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Community Partners
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Campus Partners
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Engagement Types
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Academic Years
-                                    </th>
-                                    <th>{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}Semester
-                                    </th>
-                                    <th>End Semester </th>
-                                    <th>Start Date</th>
-                                    <th>End Date</th>
-                                    <th>End Academic Year</th>
-                                    <th>Number of UNO Students</th>
-                                    <th>Number of UNO Students Hours</th>
-                                    <th>Number of UNO Faculty/Staff</th>
-                                    <th>Number of K12 Students</th>
-                                    <th>Number of K12 Students Hours</th>
-                                    <th>Number of Other Participants</th>
-                                    <th>Activity Type</th>
-                                    <th>Campus Lead Staff</th>
-                                    <th>Topics</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
+                        <div class="box">
+                    <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                        <thead>
+                        <tr>
 
-                                {% for project in project %}
-                                <tr>
-                                    <td>{{ project.name }}</td>
-                                    <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
-                                    <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
-                                    <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
-                                    <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
-                                    <td>{{ project.academic_year }}</td>
-                                    <td>{{ project.semester}}</td>
-                                    <td>{{ project.end_semester }}</td>
-                                    <td>{{ project.startDate }}</td>
-                                    <td>{{ project.endDate }}</td>
-                                    <td>{{ project.end_academic_year }}</td>
-                                    <td>{{project.total_uno_students}}</td>
-                                    <td>{{project.total_uno_hours}}</td>
-                                    <td>{{project.total_uno_faculty}}</td>
-                                    <td>{{project.total_k12_students}}</td>
-                                    <td>{{project.total_k12_hours}}</td>
-                                    <td>{{project.total_other_community_members}}</td>
-                                    <td>{{ project.activityType }}</td>
-                                    <td>{% for campus_lead_staff in project.campus_lead_staff %}{{campus_lead_staff}}{% endfor %},</td>
-                                    <td>{% for sub_category in project.sub_category %}{{sub_category}}{% endfor %},</td>
-                                    <td >{{ project.description }}</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                            </table>&emsp;
-                        </div>
-                    </div>
+                            <th class="all">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Projects
+                            </th>
+                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                 data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Project Focus Areas
+                            </th>
+                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                 data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Community Partners
+                            </th>
+                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                 data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Campus Partners
+                            </th>
+                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Engagement Types
+                            </th>
+                            <th class="none">{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Academic Years
+                            </th>
+                            <th class="none">{% for data_definition in data_definition %}{% if data_definition.id == 37%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
+                                                                                                                  data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                {% endif %} {% endfor %}Semester
+                            </th>
+                            <th class="none">End Semester </th>
+                            <th class="none">Start Date</th>
+                            <th class="none">End Date</th>
+                            <th class="none">End Academic Year</th>
+                            <th class="none">Number of UNO Students</th>
+                            <th class="none">Number of UNO Students Hours</th>
+                            <th class="none">Number of UNO Faculty/Staff</th>
+                            <th class="none">Number of K12 Students</th>
+                            <th class="none">Number of K12 Students Hours</th>
+                            <th class="none">Number of Other Participants</th>
+                            <th class="none">Activity Type</th>
+                            <th class="none">Campus Lead Staff</th>
+                            <th class="none">Topics</th>
+                            <th class="none">Other Activity Type</th>
+                            <th class="none">Description</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for project in project %}
+                        <tr>
+                            <td>{{ project.name }}</td>
+                            <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
+                            <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
+                            <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
+                            <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
+                            <td>{{ project.academic_year }}</td>
+                            <td>{{ project.semester}}</td>
+                            <td>{{ project.end_semester }}</td>
+                            <td>{{ project.startDate }}</td>
+                            <td>{{ project.endDate }}</td>
+                            <td>{{ project.end_academic_year }}</td>
+                            <td>{{project.total_uno_students}}</td>
+                            <td>{{project.total_uno_hours}}</td>
+                            <td>{{project.total_uno_faculty}}</td>
+                            <td>{{project.total_k12_students}}</td>
+                            <td>{{project.total_k12_hours}}</td>
+                            <td>{{project.total_other_community_members}}</td>
+                            <td>{{ project.activityType }}</td>
+                            <td>
+                                {%if campus_lead_staff > 1%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
+                                {%else%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {%endif%}
+                            </td>
+                            <td>
+                                {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
+                            <td>
+                                {%if other_activity_type > 1%}
+                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
+                                {%else%}
+                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
+                                {%endif%}
+                            </td>
+                            <td class="none">{{ project.description }}</td>
+
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>&emsp;
                 </div>
             </div>
-        </div>
- </div>
-</div> </div>
+
  {% endblock %}
 
 {% block js %}
@@ -489,18 +519,75 @@
 <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
 
 <script type="text/javascript">
    $(document).ready(function() {
-   $('#example').DataTable({
+   // $('#example').DataTable({
+   //     dom: 'B<"clear">lftpi',
+   //     buttons: {
+   //     name: 'primary',
+   //     buttons: ['csv', 'excel' ]
+   //     },
+   //     columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
+   // });
+
+          $('#example').DataTable({
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel' ]
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel',
+
+           {
+            extend : 'pdfHtml5',
+            messageTop:'Projects report',
+            orientation : 'landscape',
+            pageSize : 'A2',
+            text : 'PDF',
+            titleAttr : 'PDF'
+           }
+
+       ]
        },
-       columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
+       columnDefs: [
+
+           { responsivePriority: 10001, targets: 10 },
+           { responsivePriority: 10001, targets: 11 },
+           { responsivePriority: 10001, targets: 12 },
+           { responsivePriority: 10001, targets: 13 },
+           { responsivePriority: 10001, targets: 14 },
+           {"width": "21.5%","targets":[0,1,2,3,4,5,6]}
+
+
+        ],
+       /*added below line to disable smart search so that exact word entered is serached*/
+        "oSearch": {"bSmart": false},
+        "scrollY": "none",
+        "scrollCollapse": false
    });
+       $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+
+
+   });
+
+
+
+
    } );
 </script>
 <script language="javascript" type="text/javascript">
@@ -525,11 +612,7 @@
         float:right;
     }
 </style>
-     <script>
-         $(function () {
-             $('[data-toggle="popover"]').popover()
-         })
-     </script>
+
 
 {% endblock %}
 

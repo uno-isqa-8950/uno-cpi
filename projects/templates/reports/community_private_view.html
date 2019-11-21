@@ -1,17 +1,51 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-    {% load wagtailcore_tags register_tags %}
+{% load wagtailcore_tags register_tags %}
 
 <style>
   A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
-        .fade{
-        color: black;
-        display: block;
-        opacity: 100;
+  .fade{
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
     }
-    .fade:not(.show){
-        opacity: 5;
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
     }
+
+.tooltip-inner{
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+}
+
+      select:required:invalid {
+      color: #666;
+      }
+      option[value=""][disabled] {
+      display: none;
+      }
+      option {
+      color: #000;
+      }
+
 </style>
 
   <script>
@@ -27,7 +61,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
             <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
-                           style="line-height:.8em;padding-top:10px;">Community Partners Reports</h4></b></label>
+                           style="line-height:.8em;padding-top:10px;">Community Partners Report</h4></b></label>
                </div>
             </div>
             <div class="card" style="padding: 10px;">
@@ -73,7 +107,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
-                         {% endfor %} Academic Year
+                         {% endfor %} Academic Years
 
                      </label>
                      <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
@@ -90,7 +124,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Organization Type
+                        {% endfor %} Community Organization Types
 
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
@@ -110,7 +144,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} CEC Building Partners
 
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select class="form-control"  id="id_weitz_cec_part" name="weitz_cec_part"   onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -164,6 +199,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} Legislative Districts
                     </label>
                     <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
@@ -315,8 +352,9 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
+
     $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
     $('#id_mission').select2({
         placeholder: 'All Focus Areas', width: '75%',

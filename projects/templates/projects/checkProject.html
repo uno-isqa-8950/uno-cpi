@@ -19,37 +19,7 @@
     }
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
-/*  .fade{*/
-/*      display: block;*/
-/*      opacity: 100;*/
-/*      word-wrap: break-word;*/
-/*      text-align: left;*/
-/*      max-width: 300px;*/
-/*      width: 300px;*/
-/*      min-width: 0px;*/
 
-/*    }*/
-/*  .fade:not(.show){*/
-/*      display: block;*/
-/*      opacity: 100;*/
-/*      word-wrap: break-word;*/
-/*      text-align: left;*/
-/*      max-width: 300px;*/
-/*      width: 300px;*/
-/*      min-width: 0px;*/
-
-/*    }*/
-
-/*.tooltip-inner{*/
-/*    display: block;*/
-/*    opacity: 100;*/
-/*    word-wrap: break-word;*/
-/*    text-align: left;*/
-/*    max-width: 300px;*/
-/*    width: 300px;*/
-/*    min-width: 0px;*/
-
-/*}*/
     .select2{
         width: 70%!important;
         border-radius: 2px;
@@ -135,30 +105,12 @@ label {
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Academic Year
+                        {% endfor %} Academic Years
                     </label>
                     <select id="academicYear" name="academicYear" >
                         <option> </option>
                         {% for sem in academic_yr_filter %}
                         <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
-                        {% endfor %} Academic Year
-                    </select>
-                </div>
-
-                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="campus_partner" style="margin-left: 8px">
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 1%}
-                        <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
-                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}Campus Partners
-                    </label>
-                    <select id="campuspartner" name="campusPartner" CampValue=" ">
-                        <option> </option>
-                       {% for campus in campus_filter %}
-                        <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
                         {% endfor %}
                     </select>
                 </div>
@@ -176,6 +128,23 @@ label {
                         <option> </option>
                         {% for comm in Community_filter %}
                         <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %}>{{comm.name}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                 <div class="col-lg-4 col-md-5 form-group">
+                    <label for="campus_partner" style="margin-left: 8px">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 1%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}Campus Partners
+                    </label>
+                    <select id="campuspartner" name="campusPartner" CampValue=" ">
+                        <option> </option>
+                       {% for campus in campus_filter %}
+                        <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
                         {% endfor %}
                     </select>
                 </div>

@@ -5,6 +5,12 @@
 {% block content %}
 
 <style>
+     .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
 /*.select2-hidden-accessible{*/
           /*width:85%;*/
         /*border:2px solid #aaa;*/
@@ -143,6 +149,8 @@
     {
         width: 100%;
         float: left;
+        padding:0;
+        margin-bottom: 15px;
     }
     .button-row-elements button{
         display:inline-block;
@@ -174,14 +182,14 @@
         margin-top: 20px;
         padding-top:10px;
         padding-bottom:10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         border-left: none;
         border-right:none;
         margin-left: 25px;
         margin-right: 25px;
         border-radius:0px;
         background-color: transparent;
-        margin-bottom: 50px;
+
     }
 
     .projectname{
@@ -265,9 +273,9 @@ $('[data-toggle="popover"]').popover()
 
     <div class="container button-row-elements">
 
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-               aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -281,9 +289,9 @@ $('[data-toggle="popover"]').popover()
                 false
             );
         </script>
-       <input type="button" id="btn-table" value= "Table View" class="btn btn-primary" onclick="window.location.href = '/project-private-table-view'; " value="Table View" >
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/project-private-table-view'; " value="Table View" >
        <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
-       <input type="text" id="Searchboxtext" placeholder="Search...">
+       <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
     </div>
 

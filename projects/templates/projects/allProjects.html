@@ -4,7 +4,12 @@
 
 {% block content %}
 <style>
-
+ .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
 /* Datatable Css */
     .btn-group{float:left;, labels:"Export"}
     #example_length{float:left; margin:0 0 0 0px;}
@@ -58,22 +63,6 @@
     }
 
 
-
-
-
-    .accordion .card-header:after {
-        font-family: 'FontAwesome';
-        content: "\f146";
-        margin-left: 55px;
-            font-size: 20px;
-    }
-
-    .accordion .card-header.collapsed:after {
-        /* symbol for "collapsed" panels */
-        content: "\f0fe";
-        font-size: 20px;
-
-    }
 
     .heading{
         color:black;
@@ -139,6 +128,8 @@
     {
         width: 100%;
         float: left;
+        padding:0;
+        margin-bottom: 15px;
     }
     .button-row-elements button{
         display:inline-block;
@@ -183,14 +174,13 @@
         margin-top: 20px;
         padding-top:10px;
         padding-bottom:10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         border-left: none;
         border-right:none;
         margin-left: 25px;
         margin-right: 25px;
         border-radius:0px;
         background-color: transparent;
-        margin-bottom: 50px;
     }
 
 .btn-secondary{
@@ -209,6 +199,7 @@ $('[data-toggle="popover"]').popover()
 })
 
 </script>
+
 <div class=" text-center"><h4 class="heading">All Projects</h4></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
@@ -221,9 +212,9 @@ $('[data-toggle="popover"]').popover()
 
     <div class="container button-row-elements">
 
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'showAllProjects' %}' " value="Reset Filters" >
+        <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'showAllProjects' %}' " value="Reset Filters" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -242,7 +233,7 @@ $('[data-toggle="popover"]').popover()
 
 
 <!-- / Collapse buttons -->
-    <div class="card filter-card">
+    <div class="card box filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -400,12 +391,13 @@ $('[data-toggle="popover"]').popover()
             </form>
         </div>
     </div>
-    <div class = "container-fluid">
-        <div class="row justify-content-md-center">
-            <div class="col-lg-12 col-md-12">
-                 <div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-			            <div class="panel-body">
-                        <div class="container">
+    <!--<div class = "container-fluid">-->
+        <!--<div class="row justify-content-md-center">-->
+            <!--<div class="col-lg-12 col-md-12">-->
+
+                 <!--<div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">-->
+			            <!--<div class="panel-body">-->
+                        <div class="box">
                     <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                         <tr>
@@ -503,11 +495,6 @@ $('[data-toggle="popover"]').popover()
                     </table>&emsp;
                 </div>
             </div>
-        </div>
-    </div>
-        </div>
- </div>
-</div>
  {% endblock %}
 
 {% block js %}

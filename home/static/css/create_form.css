@@ -149,6 +149,14 @@ display: flex;
         color: white
     }
 
+                  .btn-secondary{
+            margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color:  #333333;
+        color: white
+    }
+
                   .fade{
       display: block;
       opacity: 100;

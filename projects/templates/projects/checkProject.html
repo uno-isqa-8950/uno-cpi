@@ -46,33 +46,19 @@ label {
 <br><br>
             <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Search Project</h3></div>
+                          <div class=" text-center"><h3 class="heading">Create Project</h3></div>
 <div class="card snippet-card">
-    <div class="container text-snippet">
+    <div class="text-snippet">
         {%         create_projects %}
         </div>
 </div>
-<!--                        <div class = "panel-default" style="width:100%">-->
-<!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->
-<!--                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>-->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                        <div class="card" style="padding: 10px;">-->
-<!--                            <div class="container">-->
-<!--                                {% priv_projs %}-->
-<!--                            </div>-->
-<!--                       </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
-          <div class="row" style="border: none; padding: 10px;margin:10px">
-               <!-- Collapse buttons -->
-             <div>
-                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
-                 aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+    <div>
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" />
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
-                 <script type="text/javascript">
+            <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
@@ -84,13 +70,11 @@ label {
                 },
                 false
                 );
-                </script>
+            </script>
 
-                </div>
-          </div>
+        </div>
 
-
-<div class="container">
+<!--<div class="container">-->
    <div class="box">
        <div class="collapse show" id="collapseExample">
             <form method="POST" >
@@ -168,21 +152,21 @@ label {
        </div>
  </div>
 </div>
-<div class="row">
-         <div style="float: left;margin:10px" id="node1-id"></div>
+<div class="row" style="margin-left: 0px ">
+         <div style=" margin-right: 5px " id="node1-id"></div>
 
-         <div style="float: left;margin:10px" id="button-id" ></div>
+         <div  id="button-id" ></div>
 </div>
 
 
   <div class="row">
-<span class="label" style="margin:15px"></span>
+<span class="label"></span>
             </div>
 
-             <div style="margin-top:15px;">
+             <div style="margin-top:0px;">
 
 
-                <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
+                <table id="example" class="table box table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
                    <thead>
                    	<col style="width:10%">
 	                <col style="width:25%">
@@ -255,7 +239,7 @@ label {
 {% if flagBit == 1 %}
 <script>
 document.getElementById('node1-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
+                            '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
                             ' All Projects</a></td></tr>';
 var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><th>Campus Partner</th>';
         $('#example').find('thead').append(html);
@@ -266,13 +250,13 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
 
 <script>
         document.getElementById('node1-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
+                            '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
 
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-var label = '<label style="margin-left: 10px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
+var label = '<label style="margin-left: 15px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
 $('.label').append(label);
         var html='<th>                        {% for data_definition in data_definition %}\n' +
             '                            {% if data_definition.id == 32%}\n' +
@@ -311,7 +295,7 @@ $('.label').append(label);
         <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
 
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
@@ -362,7 +346,7 @@ $(document).on('input', '.clearable', function(){
         $('#lnk-create_project').click(function(){
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
        });

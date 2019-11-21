@@ -1322,9 +1322,9 @@ def showAllProjects(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
+    # k12_init_selection = "All"
     if k12_selection is None:
-        k12_selection = k12_init_selection
+        K12_filter_cond = '%'
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1393,9 +1393,9 @@ def showAllProjects(request):
         K12_filter_cond = 'false'
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
+    # cec_part_init_selection = "All"
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
+        # cec_part_selection = cec_part_init_selection
         cec_part_cond = '%'
         params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
                   K12_filter_cond, academic_start_year_cond, academic_end_year_cond]

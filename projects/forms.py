@@ -36,6 +36,19 @@ class CecPartChoiceForm(forms.Form):
     cec_choice = forms.ChoiceField(label="CEC Partner Choices", choices=CEC_CHOICES, required=False)
 
 
+COMM_CEC_CHOICES = [
+    ('All', 'All (CEC/Non-CEC Partners)'),
+    ('CURR_COMM', 'Current Community Building Partners'),
+    ('FORMER_COMM', 'Former Community Building Partners')]
+'''
+    ('FORMER_CAMP', 'Former Campus Building Partners'),
+    ('NEVER', 'Never CEC Building Partner')]
+'''
+
+
+class OommCecPartChoiceForm(forms.Form):
+    cec_choice = forms.ChoiceField(label="Comm CEC Partner Choices", choices=COMM_CEC_CHOICES, required=False)
+
 '''
 class CecPartChoiceForm(forms.ModelForm):
 

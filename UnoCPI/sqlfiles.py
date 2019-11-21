@@ -1532,7 +1532,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s      
 
 group by commpartners, website, CommStatus, cstatus
@@ -1561,7 +1561,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and ((cec.start_acad_year_id <= %s) AND
         (COALESCE(cec.end_acad_year_id,p.academic_year_id) >= %s))      
@@ -1592,7 +1592,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and cec.end_acad_year_id < %s     
 
@@ -1622,7 +1622,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and cec.end_acad_year_id < %s     
 
@@ -1652,7 +1652,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and ((cec.start_acad_year_id <= %s) AND
         (COALESCE(cec.end_acad_year_id,p.academic_year_id) >= %s))    
@@ -1733,7 +1733,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s      
 
 group by commpartners, website, CommStatus, cstatus
@@ -1760,7 +1760,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and ((cec.start_acad_year_id <= %s) AND
         (COALESCE(cec.end_acad_year_id,p.academic_year_id) >= %s))       
@@ -1789,7 +1789,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and cec.end_acad_year_id < %s       
 
@@ -1817,7 +1817,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and cec.end_acad_year_id < %s      
 
@@ -1845,7 +1845,7 @@ where pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
  and  pcam.campus_partner_id::text like %s  
- and COALESCE(pcp.legislative_district::TEXT,'0') LIKE %s    
+ and COALESCE(pc.legislative_district::TEXT,'0') LIKE %s    
  and c.college_name_id::text like %s
  and ((cec.start_acad_year_id <= %s) AND
         (COALESCE(cec.end_acad_year_id,p.academic_year_id) >= %s))        

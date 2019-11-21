@@ -16,7 +16,7 @@ from university.models import Course
 from .forms import ProjectCommunityPartnerForm, CourseForm, ProjectFormAdd, AddSubCategoryForm
 from django.contrib.auth.decorators import login_required
 from .models import Project,ProjectMission, ProjectCommunityPartner, ProjectCampusPartner, Status ,EngagementType, ActivityType, ProjectSubCategory
-from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm, CecPartChoiceForm
+from .forms import ProjectForm, ProjectMissionForm, ScndProjectMissionFormset, K12ChoiceForm, CecPartChoiceForm, OommCecPartChoiceForm
 from django.shortcuts import render, redirect, get_object_or_404 , get_list_or_404
 from django.utils import timezone
 from  .forms import ProjectMissionFormset,AddProjectCommunityPartnerForm, AddProjectCampusPartnerForm,ProjectForm2, ProjectMissionEditFormset
@@ -2734,7 +2734,7 @@ def communityPublicReport(request):
             cursor = connection.cursor()
             cursor.execute(sql.community_public_cec_curr_camp_report, params)
 
-    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+    cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
 
     for obj in cursor.fetchall():
@@ -2975,7 +2975,7 @@ def communityPrivateReport(request):
         cursor = connection.cursor()
         cursor.execute(sql.community_private_cec_curr_camp_report, params)
 
-    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
+    cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     # else:
     #     cursor.execute(sql.community_private_report, params)

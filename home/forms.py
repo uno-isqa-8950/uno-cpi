@@ -15,10 +15,10 @@ from projects.models import Project, EngagementType, ActivityType, Status, Proje
     ProjectCommunityPartner, ProjectMission, AcademicYear
 
 intensity_y_choices = [
+    ('campus', 'Number of Campus Partners'),
     ('years', 'Years of Engagement'),
     ('engagement', 'Number of Engagement Types'),
-    ('score', 'Interdisciplinary Score'),
-    ('campus', 'Number of Campus Partners')]
+    ('score', 'Interdisciplinary Score')]
 class YChoiceForm(forms.Form):
     y_choice = forms.ChoiceField(label="Y Choices", choices=intensity_y_choices, required=False)
 

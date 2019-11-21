@@ -34,6 +34,7 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               sslmode="require")
 
 if (conn):
+    cursor = conn.cursor()
     logger.info("Connection Successful!")
 else:
     logger.info("Connection Error!")
@@ -49,6 +50,7 @@ dfCommunity = pd.read_sql_query(
     FROM partners_communitypartner PC \
     join projects_projectcommunitypartner pcp on PC.id = pcp.community_partner_id \
     join projects_project proj on pcp.project_name_id = proj.id \
+    join projects_status ps on ps.id = proj.status_id and ps.name != 'Drafts' \
     join projects_projectcampuspartner pcam on proj.id = pcam.project_name_id \
     join partners_communitypartnermission pm on PC.id = pm.community_partner_id \
     join home_missionarea hm on pm.mission_area_id = hm.id \
@@ -62,12 +64,14 @@ dfCommunity = pd.read_sql_query(
 
 if len(dfCommunity) == 0:
     logger.critical("No Community Partners fetched from the Database on " + str(currentDT))
-else:
+else:    
     logger.info(repr(len(dfCommunity)) + "Community Partners are in the Database on " + str(currentDT))
 
 # Get all the Projects from the database and get their Campus Partners , Community Partners associated
 dfProjects = pd.read_sql_query(
-    "SELECT  project_name,academic_year , pc2.name as campus_partner ,\
+    "SELECT  project_name, (select academic_year from projects_academicyear ay where ay.id = p.academic_year_id) as startyear , \
+    (select academic_year from projects_academicyear where id = COALESCE(p.end_academic_year_id,p.academic_year_id)) as endyear, \
+    pem.name as engagement_type , pc2.name as campus_partner ,\
     um.college_name,ppcp.name as community_partner \
     FROM projects_project P \
     join projects_academicyear pa on P.academic_year_id = pa.id \
@@ -76,13 +80,15 @@ dfProjects = pd.read_sql_query(
     join partners_communitypartner ppcp on ppc.community_partner_id = ppcp.id \
     join partners_campuspartner pc2 on  pc.campus_partner_id= pc2.id \
     join university_college um on um.id = pc2.college_name_id \
+    join projects_engagementtype pem on p.engagement_type_id = pem.id \
+    join projects_status ps on ps.id = p.status_id and ps.name != 'Drafts' \
     WHERE p.id IN \
     (SELECT project_name_id FROM projects_projectcommunitypartner)",con=conn)
 if len(dfProjects) == 0:
     logger.critical("No Projects are fetched from the Database as of " + str(currentDT))
 else:
     logger.info(repr(len(dfProjects)) + "Projects are in the Database as of " + str(currentDT))
-conn.close()
+#conn.close()
 
 collection = {'type': 'FeatureCollection', 'features': []}
 
@@ -92,12 +98,12 @@ dfCommunity['fulladdress'] = dfCommunity[['address_line1', 'city', 'state']].app
 
 # Function that generates GEOJSON
 def feature_from_row(Community, Address, Mission, MissionType, City, CommunityType, longitude,latitude, Website,Cec_status,legislative_district):
-    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects': '',
+    feature = {'type': 'Feature', 'properties': {'CommunityPartner': '', 'Address': '', 'Projects':'',
                                                  'College Name': '', 'Mission Type': '', 'Project Name': '',
                                                  'Legislative District Number': '', 'Number of projects': '',
                                                  'Income': '', 'City': '', 'County': '', 'Mission Area': '',
                                                  'CommunityType': '', 'Campus Partner': '',
-                                                 'Academic Year': '', 'Website': '','Community CEC Status': ''},
+                                                 'Academic Year': '', 'Website': '','Community CEC Status': ''},                                                 
                'geometry': {'type': 'Point', 'coordinates': []}
                }
     feature['geometry']['coordinates'] = [longitude, latitude]
@@ -107,8 +113,8 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            print('property["properties"]--',property["properties"]["id"])
-            print('legislative_district--from database,',legislative_district)
+            #print('property["properties"]--',property["properties"]["id"])
+            #print('legislative_district--from database,',legislative_district)
             feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
     for m in range(len(county)):  # iterate through the County Geojson
         properties2 = county[m]
@@ -121,28 +127,73 @@ def feature_from_row(Community, Address, Mission, MissionType, City, CommunityTy
     campuslist = []
     projectList = []
     collegeList = []
+    projectDetailList = []
     partners = dfProjects['community_partner']
-    years = dfProjects['academic_year']
+    years = dfProjects['startyear']
     campuses = dfProjects['campus_partner']
     projects = dfProjects['project_name']
+    enagaementType = dfProjects['engagement_type']
     colleges = dfProjects['college_name']
+    end_academic_year = dfProjects['endyear']
+    #print('startAcdYr---',years,'endAcdyr---',end_academic_year)
+    #for i in range(len(dfAcademicYr)):
+       # print('academic year',dfAcademicYr['id'], 'name--',dfAcademicYr['academic_year'])
+
     count = 0
     for n in range(len(partners)):
         if (partners[n] == Community):
+            print('years[n]---',years[n])
             if (years[n] not in yearlist):
                 yearlist.append(years[n])
+            if (end_academic_year[n] not in yearlist):
+                yearlist.append(end_academic_year[n])
+
+            if (years[n] is not None and end_academic_year[n] is not None):   
+                print('years[n]---', str(years[n]))  
+                print('end_academic_year[n]---', str(end_academic_year[n]))            
+                cursor.execute("select academic_year from projects_academicyear \
+                    where id < (select id from projects_academicyear where academic_year = '"+str(end_academic_year[n])+"') \
+                    and id > (select id from projects_academicyear where academic_year = '"+str(years[n])+"')")
+                conn.commit()
+                cursor.fetchall()   
+                academicList = cursor.fetchall()
+                if len(academicList) != 0:
+                    for obj in academicList:
+                         if (obj not in yearlist):
+                             yearlist.append(obj)
+                else:
+                    print('Academic Year not found')
+                                
             if (campuses[n] not in campuslist):
                 campuslist.append(campuses[n])
             if (projects[n] not in projectList):
+                print('projects[n]--',str(projects[n]))
                 projectList.append(projects[n])
+                name = ''
+                try:
+                    Projectname = projects[n].split(':')
+                    print('Projectname--',Projectname)
+                except ValueError:
+                    print('name does not have year')
+                    name = Projectname
+                else:
+                    print('name does have year',len(Projectname))
+                    for i in range(0,len(Projectname)-1):
+                        name += Projectname[i]
+                    print('name--',name)
+                
+                projectDetail = str(name)+':'+ str(years[n]) +':'+ str(enagaementType[n])
+                #print('projectDetail--',projectDetail)
+                projectDetailList.append(projectDetail)
                 count += 1
             if (colleges[n] not in collegeList):
                 collegeList.append(colleges[n])
 
+    print('yearlist--',yearlist)
     feature['properties']['Number of projects'] = count
     feature['properties']['Campus Partner'] = campuslist
     feature['properties']['Academic Year'] = yearlist
-    feature['properties']['Projects'] = projectList
+    feature['properties']['Projects'] = projectDetailList
     feature['properties']['College Name'] = collegeList
     feature['properties']['CommunityPartner'] = Community
     feature['properties']['CommunityType'] = CommunityType
@@ -162,6 +213,8 @@ geojson_series = dfCommunity.apply(
       x['longitude'], x['latitude'], x['website_url'], \
       x['name'], x['legislative_district']), axis=1)
 jsonstring = pd.io.json.dumps(collection)
+cursor.close()
+conn.close()
 
 
 if len(dfCommunity) != 0:
@@ -182,6 +235,6 @@ if len(dfCommunity) == 0:
     print("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
 else:
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
+    #s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
     print("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

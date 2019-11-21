@@ -61,7 +61,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
             <div class = "panel-default" style="width:100%">
                <div class="card" style="padding: 5px;margin-top:50px;">
                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
-                           style="line-height:.8em;padding-top:10px;">Community Partners Reports</h4></b></label>
+                           style="line-height:.8em;padding-top:10px;">Community Partners Report</h4></b></label>
                </div>
             </div>
             <div class="card" style="padding: 10px;">
@@ -107,7 +107,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
-                         {% endfor %} Academic Year
+                         {% endfor %} Academic Years
 
                      </label>
                      <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
@@ -124,7 +124,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Organization Type
+                        {% endfor %} Community Organization Types
 
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
@@ -354,7 +354,7 @@ $(document).ready(function(){
                                         }});
 
     $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
     $('#id_mission').select2({
         placeholder: 'All Focus Areas', width: '75%',

@@ -159,14 +159,13 @@
                                 {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
 
                             <td>
-                                                <td>
                                 {%if campus_lead_staff > 1%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
                                 {%else%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
                                 {%endif%}
                             </td>
-
+                                <td>
                                 {%if other_activity_type > 1%}
                                 {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
                                 {%else%}

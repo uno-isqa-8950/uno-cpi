@@ -27,6 +27,7 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               sslmode="require")
 
 if (conn):
+    cursor = conn.cursor()
     logger.info("Connection Successful!")
 else:
     logger.info("Connection Error!")
@@ -51,8 +52,10 @@ and lower(mis.mission_type)='primary'",con=conn)
 df = pd.read_sql_query("select pro.project_name, \
     pc.name as campus_partner ,uc.college_name , \
     p.name as community_partner , pa.name as activity_type, \
-    pe.name as engagement_type,a.academic_year, \
-    hm.mission_name,c.community_type, ces.name as cec_status \
+    pe.name as engagement_type, \
+    hm.mission_name,c.community_type, ces.name as cec_status,  \
+    (select academic_year from projects_academicyear ay where ay.id = pro.academic_year_id) as startyear , \
+    (select academic_year from projects_academicyear where id = COALESCE(pro.end_academic_year_id,pro.academic_year_id)) as endyear \
     from projects_project pro \
     left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id \
     join partners_campuspartner pc on procamp.campus_partner_id = pc.id \
@@ -73,7 +76,6 @@ logger.info("Campus partner and college name for Projects of  " + repr(len(df)) 
 if len(df) == 0:
     logger.critical("No Projects fetched from the Database on " + str(currentDT))
 else:
-    cursor = conn.cursor()
     logger.info(repr(len(df)) + "Projects are in the Database on " + str(currentDT))
 
 collection = {'type': 'FeatureCollection', 'features': []}
@@ -114,7 +116,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     communityCecStatusList = []
     projects = df['project_name']
     campusPartners = df['campus_partner']
-    academicYear = df['academic_year']
+    academicYear = df['startyear']
     communityPartners = df['community_partner']
     missionAreas = df['mission_name']
     communityPartnerType = df['community_type']
@@ -122,6 +124,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
     colleges = df['college_name']
     engagementType = df['engagement_type']
     communityCecStatus = df['cec_status']
+    end_academic_year = df['endyear']
 
     for n in range(len(projects)):
         if (projects[n] == Projectname):
@@ -131,24 +134,27 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 collegeList.append(colleges[n])
             if (academicYear[n] not in yearlist):
                 yearlist.append(academicYear[n])
+            if (end_academic_year[n] not in yearlist):
+                yearlist.append(end_academic_year[n])
+
+            if (academicYear[n] is not None and end_academic_year[n] is not None):   
+                print('academicYear[n]---', str(academicYear[n]))  
+                print('end_academic_year[n]---', str(end_academic_year[n]))            
+                cursor.execute("select academic_year from projects_academicyear \
+                    where id < (select id from projects_academicyear where academic_year = '"+str(end_academic_year[n])+"') \
+                    and id > (select id from projects_academicyear where academic_year = '"+str(academicYear[n])+"')")
+                conn.commit()
+                academicList = cursor.fetchall()
+                if len(academicList) != 0:
+                    for obj in academicList:
+                         if (obj[0] not in yearlist):
+                             yearlist.append(obj[0])
+                else:
+                    print('Academic Year not found')
+            
             if (communityPartners[n] not in communityPartnerList):
                 communityPartnerList.append(communityPartners[n])
-                '''
-                print('communityPartners[n]--',communityPartners[n])
-                commPartner = str(communityPartners[n])
-                cursor.execute("select ces.name from partners_cecpartnerstatus ces , \
-                    partners_communitypartner PC \
-                    where ces.id = PC.cec_partner_status_id \
-                    and PC.name = %s",str(commPartner))
-                cecStatusList = cursor.fetchall()
-                if len(cecStatusList) != 0:
-                    for obj in cecStatusList:
-                        communityCecStatusList.append(obj[0])
-                else:
-                    communityCecStatusList.append('Never')
-                    
-                conn.commit()
-                '''
+               
             if (communityPartnerType[n] not in communityTypeList):
                 communityTypeList.append(communityPartnerType[n])
             if (missionAreas[n] not in missionAreaList):
@@ -158,6 +164,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
             if (engagementType[n] not in engagementTypeList):
                 engagementTypeList.append(engagementType[n])
 
+    print('yearlist--',yearlist)
     feature['properties']['Project Name'] = Projectname
     feature['properties']['Engagement Type'] = engagementTypeList
     feature['properties']['Activity Type'] = activityTypeList

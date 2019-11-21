@@ -6,14 +6,37 @@
 <style>
   A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
-            .fade{
-        color: black;
-        display: block;
-        opacity: 100;
+  .fade{
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
     }
-    .fade:not(.show){
-        opacity: 5;
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
     }
+
+.tooltip-inner{
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 300px;
+    width: 300px;
+    min-width: 0px;
+
+}
 </style>
 
 <div class="loader" id =loading></div>
@@ -71,8 +94,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
-                         {% endfor %} Academic Year
-                       
+                         {% endfor %} Academic Years
+
                      </label>
                      <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                          <option> All </option>
@@ -88,7 +111,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Organization Type
+                        {% endfor %} Community Organization Types
 
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
@@ -108,6 +131,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} CEC Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -139,6 +163,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} Campus Partners
                     </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                         {% for campus in campus_filter %}
@@ -156,6 +181,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %}Legislative Districts
                     </label>
                     <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
@@ -196,7 +223,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endif %}
                     {% endfor %}
                 </th>
-                
+
             </tr>
         </thead>
             <tbody>
@@ -208,7 +235,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                     {% endif %}
                     {% endfor %}</td>
                 <td>{{community.project_count}}</td>
-                
+
             </tr>
             {% endfor %}
             </tbody>
@@ -241,8 +268,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'Previous Academic Years',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partner',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts', width: '75%'});
     $('#id_mission').select2({
         placeholder: 'All Focus Areas', width: '75%',
@@ -333,5 +360,12 @@ $(document).on('input', '.clearable', function(){
             $('[data-toggle="popover"]').popover()
         })
     </script>
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
+  </script>
 
 {% endblock %}

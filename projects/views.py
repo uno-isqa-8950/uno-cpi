@@ -1323,9 +1323,9 @@ def showAllProjects(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+        # k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1555,9 +1555,9 @@ def projectstablePublicReport(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -2042,8 +2042,8 @@ def projectsPrivateReport(request):
 @login_required()
 def projectstablePrivateReport(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
-    print('selectedprojectId--',selectedprojectId)
-    data_definition=DataDefinition.objects.all()
+    print('selectedprojectId--', selectedprojectId)
+    data_definition = DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
@@ -2053,12 +2053,12 @@ def projectstablePrivateReport(request):
     # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
         campus_partner_id__in=campus_filtered_ids))
-    projects_list=[]
+    projects_list = []
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -2194,7 +2194,6 @@ def projectstablePrivateReport(request):
 
 
 #Project private reports card and table view end here.
-
 
 
 

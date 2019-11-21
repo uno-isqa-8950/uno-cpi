@@ -1920,147 +1920,118 @@ def createproj_addothermission(subcategory,projid):
 
 
 
-# Query for count of all projects mapped to Mission/Subcategory
-focusTopic_sql = '''
-SELECT rec_type, mission_id, mission_name, sub_category,
-       proj_count, comm_part_count, uno_students, uno_hours, mission_subcat_id
-FROM (
-	select 'SUMMARY' rec_type, 
-	       m.id mission_id, 
-	       m.mission_name, 
-	       m.description mission_descr,
-	       'None' sub_category, 
-	       COALESCE(count(p.project_name),0) proj_count,
-	       COALESCE(count(comm_part.id),0) comm_part_count,
-	       SUM(COALESCE(p.total_uno_students,0)) uno_students, 
-	       SUM(COALESCE(p.total_uno_hours,0)) uno_hours,
-	       -1 mission_subcat_id --not used for focus areas but needed below
-	from home_missionarea m
-	  left join projects_projectmission pm on m.id = pm.mission_id
-	  left join projects_project p on p.id = pm.project_name_id
-	  left join projects_engagementtype e on e.id = p.engagement_type_id
-	  left join projects_projectcampuspartner proj_camp_part on proj_camp_part.project_name_id = p.id
-	  left join partners_campuspartner camp_part on camp_part.id = proj_camp_part.campus_partner_id
-	  left join projects_projectcommunitypartner proj_comm_part on proj_comm_part.project_name_id = p.id
-	  left join partners_communitypartner comm_part on comm_part.id = proj_comm_part.community_partner_id
-	  left join partners_cecpartactiveyrs comm_cec on comm_cec.comm_partner_id = comm_part.id
-	  left join partners_cecpartactiveyrs camp_cec on camp_cec.camp_partner_id = camp_part.id
-	where COALESCE(p.engagement_type_id::TEXT, '0') LIKE %s
-	  and ((COALESCE(p.academic_year_id,(SELECT min(id) from projects_academicyear)) <= %s) AND 
-	       (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
-	  and COALESCE(m.id::TEXT,'0') LIKE %s
-	  and COALESCE(camp_part.college_name_id::TEXT,'0') LIKE %s
-	  and COALESCE(camp_part.id::TEXT,'0') LIKE %s
-	  and COALESCE(comm_part.community_type_id::TEXT,'0') LIKE %s
-	  and COALESCE(p.k12_flag::TEXT,'no') LIKE %s
-	  and COALESCE(p.legislative_district::TEXT,'0') LIKE %s
-	GROUP BY m.id, m.mission_name  
-	UNION
-	select 'DETAILS' rec_type, 
-	       m.id mission_id, 
-	       m.mission_name, 
-	       m.description mission_descr, 
-	       s.sub_category,  
-	       proj_data.proj_count, 
-	       proj_data.comm_part_count, 
-	       proj_data.uno_students, 
-	       proj_data.uno_hours,
-	       proj_data.mission_subcat_id
-	from home_missionarea m
-	  join projects_missionsubcategory msc on msc.secondary_mission_area_id = m.id
-	  join projects_subcategory s on s.id = msc.sub_category_id
-	  left join (select m.id mission_id, 
-                        m.mission_name, 
-                        s.id subcat_id,        
-                        s.sub_category subcategory,
-                        COALESCE(count(p.project_name),0) proj_count,
-                        COALESCE(count(comm_part.id),0) comm_part_count,
-                        SUM(COALESCE(p.total_uno_students,0)) uno_students, 
-                        SUM(COALESCE(p.total_uno_hours,0)) uno_hours,
-                        COALESCE(msc.id,-1) mission_subcat_id
-                 from home_missionarea m
-                     left join projects_missionsubcategory msc on msc.secondary_mission_area_id = m.id
-                     left join projects_subcategory s on s.id = msc.sub_category_id
-                     left join projects_projectsubcategory ps on ps.sub_category_id = s.id
-                     left join projects_project p on p.id = ps.project_name_id
-                     left join projects_projectmission pm on pm.project_name_id = p.id  
-                     left join projects_engagementtype e on e.id = p.engagement_type_id
-                     left join projects_projectcampuspartner proj_camp_part on proj_camp_part.project_name_id = p.id
-                     left join partners_campuspartner camp_part on camp_part.id = proj_camp_part.campus_partner_id
-                     left join projects_projectcommunitypartner proj_comm_part on proj_comm_part.project_name_id = p.id
-                     left join partners_communitypartner comm_part on comm_part.id = proj_comm_part.community_partner_id
-                     left join partners_cecpartactiveyrs comm_cec on comm_cec.comm_partner_id = comm_part.id
-                     left join partners_cecpartactiveyrs camp_cec on camp_cec.camp_partner_id = camp_part.id
-                 where COALESCE(p.engagement_type_id::TEXT, '0') LIKE %s
-                   and ((COALESCE(p.academic_year_id,(SELECT min(id) from projects_academicyear)) <= %s) AND 
-                        (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
-                   and COALESCE(m.id::TEXT,'0') LIKE %s
-                   and COALESCE(camp_part.college_name_id::TEXT,'0') LIKE %s
-                   and COALESCE(camp_part.id::TEXT,'0') LIKE %s
-                   and COALESCE(comm_part.community_type_id::TEXT,'0') LIKE %s
-                   and COALESCE(p.k12_flag::TEXT,'No') LIKE %s
-                   and COALESCE(p.legislative_district::TEXT,'0') LIKE %s
-                 GROUP BY m.id, s.id, m.mission_name, s.sub_category, msc.id) proj_data ON proj_data.mission_id = m.id AND proj_data.subcat_id = s.id
-	order by mission_name, sub_category) q
-ORDER BY rec_type DESC, mission_id, sub_category;
-'''
-
-# Query for details of all projects and partners from Mission query above
-focus_Details_sql = '''
-SELECT STRING_AGG((p.id::TEXT),', ') proj_list, STRING_AGG((comm_part.id::TEXT),', ') comm_list
-FROM home_missionarea m
-    left join projects_projectmission pm on m.id = pm.mission_id
-    left join projects_project p on p.id = pm.project_name_id
-    left join projects_engagementtype e on e.id = p.engagement_type_id
-    left join projects_projectcampuspartner proj_camp_part on proj_camp_part.project_name_id = p.id
-    left join partners_campuspartner camp_part on camp_part.id = proj_camp_part.campus_partner_id
-    left join projects_projectcommunitypartner proj_comm_part on proj_comm_part.project_name_id = p.id
-    left join partners_communitypartner comm_part on comm_part.id = proj_comm_part.community_partner_id
-    left join partners_cecpartactiveyrs comm_cec on comm_cec.comm_partner_id = comm_part.id
-    left join partners_cecpartactiveyrs camp_cec on camp_cec.camp_partner_id = camp_part.id
-WHERE COALESCE(p.engagement_type_id::TEXT, '0') LIKE %s
-    and ((COALESCE(p.academic_year_id,(SELECT min(id) from projects_academicyear)) <= %s) AND 
-         (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
-    and COALESCE(m.id::TEXT,'0') LIKE %s
-    and COALESCE(camp_part.college_name_id::TEXT,'0') LIKE %s
-    and COALESCE(camp_part.id::TEXT,'0') LIKE %s
-    and COALESCE(comm_part.community_type_id::TEXT,'0') LIKE %s
-    and COALESCE(p.k12_flag::TEXT,'No') LIKE %s
-    and COALESCE(p.legislative_district::TEXT,'0') LIKE %s;  
-'''
-# Query for details of all projects and partners from topics (subcat) query above
-topics_Details_sql = '''
-select STRING_AGG((proj_data.proj_id::TEXT),', ') proj_list, STRING_AGG((proj_data.comm_part_id::TEXT),', ') comm_list
-from home_missionarea m
-    join projects_missionsubcategory msc on msc.secondary_mission_area_id = m.id
-    join projects_subcategory s on s.id = msc.sub_category_id
-    left join (select p.id proj_id,
-                      m.id mission_id,
-                      s.id subcat_id, 
-                      comm_part.id comm_part_id,
-                      msc.id mission_subcat_id
-               from home_missionarea m
-                   left join projects_missionsubcategory msc on msc.secondary_mission_area_id = m.id
-                   left join projects_subcategory s on s.id = msc.sub_category_id
-                   left join projects_projectsubcategory ps on ps.sub_category_id = s.id
-                   left join projects_project p on p.id = ps.project_name_id
-                   left join projects_projectmission pm on pm.project_name_id = p.id  
-                   left join projects_engagementtype e on e.id = p.engagement_type_id
-                   left join projects_projectcampuspartner proj_camp_part on proj_camp_part.project_name_id = p.id
-                   left join partners_campuspartner camp_part on camp_part.id = proj_camp_part.campus_partner_id
-                   left join projects_projectcommunitypartner proj_comm_part on proj_comm_part.project_name_id = p.id
-                   left join partners_communitypartner comm_part on comm_part.id = proj_comm_part.community_partner_id
-                   left join partners_cecpartactiveyrs comm_cec on comm_cec.comm_partner_id = comm_part.id
-                   left join partners_cecpartactiveyrs camp_cec on camp_cec.camp_partner_id = camp_part.id
-	           where COALESCE(p.engagement_type_id::TEXT, '0') LIKE %s
-                 and ((COALESCE(p.academic_year_id,(SELECT min(id) from projects_academicyear)) <= %s) AND 
-                      (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= %s))
-                 and COALESCE(m.id::TEXT,'0') LIKE %s
-                 and COALESCE(camp_part.college_name_id::TEXT,'0') LIKE %s
-                 and COALESCE(camp_part.id::TEXT,'0') LIKE %s
-                 and COALESCE(comm_part.community_type_id::TEXT,'0') LIKE %s
-                 and COALESCE(p.k12_flag::TEXT,'No') LIKE %s
-                 and COALESCE(p.legislative_district::TEXT,'0') LIKE %s) proj_data ON proj_data.mission_id = m.id AND proj_data.subcat_id = s.id;
+focusTopic_report_sql='''
+select rec_type, focus_id, focus_name, focus_desc, 
+       focus_image_url, focus_color, 
+       topic_id, topic_name, topic_desc,
+       proj proj_count, proj_ids proj_list, 
+       comm comm_count, comm_id comm_list,
+       camp camp_count,
+       unostu, unohr,
+       k12stu, k12hr
+from ((with focus_filter as (select pm.mission_id focus_id
+                                  , m.mission_name focus_area_name			   
+                                  , count(distinct p.project_name) Projects
+                                  , array_agg(distinct p.id) projects_id
+                                  , count(distinct pcomm.community_partner_id) CommPartners
+                                  , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+                                  , count(distinct pcamp.campus_partner_id) CampPartners
+                                  , sum(p.total_uno_students) numberofunostudents
+                                  , sum(p.total_uno_hours) unostudentshours
+                                  , sum(p.total_k12_students) numberofk12students
+                                  , sum(p.total_k12_hours) k12studentshours
+                             from home_missionarea m
+                                 left join projects_projectmission pm on m.id = pm.mission_id
+                                 left join projects_project p on pm.project_name_id = p.id
+                                 left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+                                 left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+                                 left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+                                 left join projects_status s on s.id = p.status_id	
+                                 left join partners_campuspartner c on pcamp.campus_partner_id = c.id  
+                             where COALESCE(s.name,'None') != 'Drafts'
+                               and pm.mission_id::text like %s
+                               and comm.community_type_id::text like %s
+                               and pcamp.campus_partner_id::text like %s
+                               and c.college_name_id::text like %s
+                               and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+                             group by focus_area_name, focus_id
+                             order by focus_area_name)
+       Select distinct 'Focus' rec_type
+                     , focus.id focus_id
+                     , focus.mission_name focus_name
+                     , COALESCE(focus.description,'None') focus_desc
+                     , focus.mission_image_url focus_image_url
+                     , focus.mission_color focus_color                     
+                     , -1 topic_id
+                     , 'None' topic_name
+                     , 'None' topic_desc	      
+                     , COALESCE(focus_filter.Projects, 0) proj
+                     , focus_filter.projects_id proj_ids
+                     , COALESCE(focus_filter.CommPartners, 0) comm
+                     , focus_filter.CommPartners_id comm_id
+                     , COALESCE(focus_filter.CampPartners, 0) camp
+                     , COALESCE(focus_filter.numberofunostudents, 0) unostu
+                     , COALESCE(focus_filter.unostudentshours, 0) unohr
+                     , COALESCE(focus_filter.numberofk12students, 0) k12stu
+                     , COALESCE(focus_filter.k12studentshours, 0) k12hr	      
+       from home_missionarea focus
+           left join focus_filter on focus_filter.focus_id = focus.id
+       group by rec_type, focus.id, focus.mission_name, focus_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr, k12stu, k12hr
+       order by focus_name)
+       UNION
+      (with topic_filter as (select ms.secondary_mission_area_id focus_id
+                                  , ms.sub_category_id topic_id
+                                  , count(distinct p.project_name) Projects
+                                  , array_agg(distinct p.id) projects_id
+                                  , count(distinct pcomm.community_partner_id) CommPartners
+                                  , array_agg(distinct pcomm.community_partner_id) CommPartners_id
+                                  , count(distinct pcamp.campus_partner_id) CampPartners
+                                  , sum(p.total_uno_students) numberofunostudents
+                                  , sum(p.total_uno_hours) unostudentshours
+                                  , sum(p.total_k12_students) numberofk12students
+                                  , sum(p.total_k12_hours) k12studentshours			   
+                             from projects_missionsubcategory ms
+                                 left join projects_projectsubcategory psc on psc.sub_category_id = ms.sub_category_id --and psc.project_name_id = p.id
+                                 left join projects_project p on p.id = psc.project_name_id
+                                 left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+                                 left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+                                 left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+                                 left join projects_status s on s.id = p.status_id	
+                                 left join partners_campuspartner c on pcamp.campus_partner_id = c.id  
+                             where COALESCE(s.name,'None') != 'Drafts'
+                               and ms.secondary_mission_area_id::text like %s
+                               and comm.community_type_id::text like %s
+                               and pcamp.campus_partner_id::text like %s
+                               and c.college_name_id::text like %s
+                               and ((p.academic_year_id <= %s) AND 
+                                    (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+                             group by focus_id, topic_id
+                             order by focus_id,topic_id)		      
+       Select distinct 'Topic' rec_type
+                      , focus_topic.secondary_mission_area_id focus_id
+                      , 'None' focus_name
+                      , 'None' focus_desc
+                      , 'None' focus_image_url
+                      , 'black' focus_color
+                      , topic.id topic_id
+                      , topic.sub_category topic_name
+                      , topic.sub_category_descr topic_desc
+                      , COALESCE(topic_filter.Projects, 0) proj
+                      , topic_filter.projects_id proj_ids
+                      , COALESCE(topic_filter.CommPartners, 0) comm
+                      , topic_filter.CommPartners_id comm_id
+                      , COALESCE(topic_filter.CampPartners, 0) camp
+                      , COALESCE(topic_filter.numberofunostudents, 0) unostu
+                      , COALESCE(topic_filter.unostudentshours, 0) unohr
+                      , COALESCE(topic_filter.numberofk12students, 0) k12stu
+                      , COALESCE(topic_filter.k12studentshours, 0) k12hr	      
+       from projects_missionsubcategory focus_topic
+           join projects_subcategory topic on topic.id = focus_topic.sub_category_id
+           left join topic_filter on topic_filter.topic_id = topic.id
+       group by focus_topic.secondary_mission_area_id, topic.id, topic.sub_category, topic_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr, k12stu, k12hr
+       order by focus_id,topic_name)) focus_topic_data
+order by rec_type, focus_id, topic_id;
 '''
 
 def editproj_addprimarymission(focusarea,projid):

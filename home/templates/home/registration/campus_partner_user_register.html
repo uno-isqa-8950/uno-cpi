@@ -119,9 +119,12 @@
     <style>
         @media (min-width: 600px)
         {
-            input[type=text], input[type=email], input[type=password], .form-control
+            input[type=text], input[type=email], input[type=password]
             {
                 width:91%;
+                margin-left:25px;
+                border:2px solid #bbbbbb;
+                border-radius:4px;
             }
             .btn-custom
             {
@@ -179,20 +182,23 @@
     </style>
     <div class = "container">
         <div class="row justify-content-md-center">
-            <div class="col-xl-6 col-md-10 col-sm-8">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4>Register: Campus Partner User</h4></div>
-                     <div class="panel-body">
-                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% cam_part_user_regs %}
-                                </div>
-                             </div>
-                     </div>
-                    <div class="panel-body">
-                        <form action="." name="myForm" method="post">{% csrf_token %}
-                            <div class = "row">
-                                <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
+
+                    <div class="text-center"><h3 class="heading">Campus Partner User</h3></div>
+
+                   <div class="card snippet-card">
+                       <div class="text-snippet">
+                           {% com_part_regs %}
+                       </div>
+                   </div>
+                   <br>
+
+                    <div class="box">
+                        <form action="." name="myForm" method="post">
+                            {% csrf_token %}
+
+
                                     {{ campus_partner_user_form|bootstrap }}
                                     {% if campus_partner_user_form.errors %} {% for error in campus_partner_user_form.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                     {{ user_form.first_name|bootstrap }}
@@ -208,19 +214,23 @@
                                     <i><small style="color: grey; " class="help-block1">Your password should have at least 8 characters, 1 digit and 1 special character.</small></i>
                                     {% if user_form.password2.errors %} {% for error in  user_form.password2.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
-                                </div>
-                            </div>
+
+
                             <br>
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <p style="font-size: 14px"><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
                                  I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
                             </div>
-                            <p id="button-center"><button type="submit" class="btn btn-custom" > <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                Submit</button></p><br>
+                            <div class = "row justify-content-md-center">
+                                <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <button type="submit" class="btn btn-secondary" style="margin-left:48px;">
+                                        Submit</button>
+                                </div>
+                            </div><br><br>
                         </form>
                     </div>
-                </div>
-            </div>
+
+
         </div>
     </div>
 

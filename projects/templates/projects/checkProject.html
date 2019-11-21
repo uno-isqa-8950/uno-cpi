@@ -19,14 +19,7 @@
     }
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
-    .fade{
-        color: black;
-        display: block;
-        opacity: 100;
-    }
-    .fade:not(.show){
-        opacity: 5;
-    }
+
     .select2{
         width: 70%!important;
         border-radius: 2px;
@@ -60,15 +53,13 @@ label {
         </div>
 </div>
 
-          <div class="row" style="padding: 10px;">
-               <!-- Collapse buttons -->
-<!--             <div>-->
-                 <input type="button" style="float: left" id="hide" value= "Hide Filters" class="btn filter btn-secondary" data-toggle="collapse" data-target="#collapseExample"
-                 aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="reset" value= "Reset Filters" class="btn filter btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+    <div>
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" />
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
-                 <script type="text/javascript">
-                document.getElementsByClassName("filter").addEventListener(
+            <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
                 if (event.target.value === "Hide Filters") {
@@ -79,10 +70,9 @@ label {
                 },
                 false
                 );
-                </script>
+            </script>
 
-                </div>
-
+        </div>
 
 <!--<div class="container">-->
    <div class="box">
@@ -90,13 +80,34 @@ label {
             <form method="POST" >
                   {% csrf_token %}
                <div class="form-inline" id="filters-form" method="get">
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="community_type" style="margin-left: 8px"> Community Partners
+
+                   <div class="col-lg-4 col-md-5 form-group">
+                    <label for="academic_year" style="margin-left: 8px">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %} Academic Years
+                    </label>
+                    <select id="academicYear" name="academicYear" >
+                        <option> </option>
+                        {% for sem in academic_yr_filter %}
+                        <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                     <div class="col-lg-4 col-md-5 form-group">
+                    <label for="community_type" style="margin-left: 8px">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
-                            {% endif %}
-                        {% endfor %}
-                    </label>
+                          <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} Community Organization Types
+                </label>
                     <select id="communityPartner" name="communityPartner" CompValue=" ">
                         <option> </option>
                         {% for comm in Community_filter %}
@@ -104,13 +115,15 @@ label {
                         {% endfor %}
                     </select>
                 </div>
-
                  <div class="col-lg-4 col-md-5 form-group">
-                    <label for="campus_partner" style="margin-left: 8px"> Campus Partners
+                    <label for="campus_partner" style="margin-left: 8px">
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 1%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}
+                    {% endfor %}Campus Partners
                     </label>
                     <select id="campuspartner" name="campusPartner" CampValue=" ">
                         <option> </option>
@@ -120,22 +133,14 @@ label {
                     </select>
                 </div>
                    <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year" style="margin-left: 8px"> Academic Year
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="academicYear" name="academicYear" >
-                        <option> </option>
-                        {% for sem in academic_yr_filter %}
-                        <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
-                        {% endfor %}
-                    </select>
-                </div>
-
-                   <div class="col-lg-4 col-md-5 form-group">
-                       <label for="projectName" style="margin-left: 8px"> Project Name
+                       <label for="projectName" style="margin-left: 8px">
+                           {% for data_definition in data_definition %}
+                            {% if data_definition.id == 36%}
+                          <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} Project Name
                  <input type="text" style="margin-left: 0px;height: 28px" name="projectName" id="projectName"  value = "{{projectName}}" >
                            </label>
                    </div>
@@ -147,18 +152,18 @@ label {
        </div>
  </div>
 </div>
-<div class="row" style="padding: 5px">
-         <div style="float: left;margin:2px" id="node1-id"></div>
+<div class="row" style="margin-left: 0px ">
+         <div style=" margin-right: 5px " id="node1-id"></div>
 
-         <div style="float: left;margin:2px" id="button-id" ></div>
+         <div  id="button-id" ></div>
 </div>
 
 
   <div class="row">
-<span class="label" style="margin:10px"></span>
+<span class="label"></span>
             </div>
 
-             <div style="margin-top:15px;">
+             <div style="margin-top:0px;">
 
 
                 <table id="example" class="table box table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
@@ -234,7 +239,7 @@ label {
 {% if flagBit == 1 %}
 <script>
 document.getElementById('node1-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
+                            '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects">' +
                             ' All Projects</a></td></tr>';
 var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><th>Campus Partner</th>';
         $('#example').find('thead').append(html);
@@ -245,15 +250,39 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
 
 <script>
         document.getElementById('node1-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
+                            '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
 
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
-var label = '<label style="margin-left: 10px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
+var label = '<label style="margin-left: 15px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
 $('.label').append(label);
-        var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><th>Campus Partner</th>';
+        var html='<th>                        {% for data_definition in data_definition %}\n' +
+            '                            {% if data_definition.id == 32%}\n' +
+            '                        <span tabindex="-1" data-toggle="tooltip"\n' +
+            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
+            '                            {% endif %}\n' +
+            '                        {% endfor %} Academic Year</th><th>{% for data_definition in data_definition %}\n' +
+            '                            {% if data_definition.id == 36%}\n' +
+            '                          <span tabindex="-1" data-toggle="tooltip"\n' +
+            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
+            '                        {% endif %}\n' +
+            '                    {% endfor %} Project Name</th><th> {% for data_definition in data_definition %}\n' +
+            '                            {% if data_definition.id == 33%}\n' +
+            '                          <span tabindex="-1" data-toggle="tooltip"\n' +
+            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
+            '                        {% endif %}\n' +
+            '                    {% endfor %} Community Organization Type(s)</th><th> {% for data_definition in data_definition %}\n' +
+            '                                {% if data_definition.id == 1%}\n' +
+            '                                  <span tabindex="-1" data-toggle="tooltip" ' +
+            '                                      title="{{ data_definition.description }}" class="float" >' +
+            '                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>\n' +
+            '                                {% endif %}' +
+            '                             {% endfor %} Campus Partner(s)</th>';
         $('#example').find('thead').append(html);
 
         </script>
@@ -266,7 +295,7 @@ $('.label').append(label);
         <!--var projectName = document.getElementById('projectName').value;-->
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
 
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
@@ -282,9 +311,9 @@ $('.label').append(label);
 <script>
 $(document).ready(function(){
     $('#projectName').attr({placeholder: 'Project Name',width:'70%'});
-    $('#communityPartner').select2({placeholder: 'All',width: '225px'});
-    $('#academicYear').select2({placeholder: 'All',width: '225px'});
-    $('#campuspartner').select2({placeholder: 'All',width: '225px'});
+    $('#communityPartner').select2({placeholder: 'All Community Organization Types',width: '225px'});
+    $('#academicYear').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#campuspartner').select2({placeholder: 'All Campus Partners',width: '225px'});
     });
 // submit when enter-Parimita
 $("#projectName").keyup(function(event){
@@ -317,7 +346,7 @@ $(document).on('input', '.clearable', function(){
         $('#lnk-create_project').click(function(){
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
-                            '<tr><td><a class="btn btn-secondary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
+                            '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">' +
                             'Create Project</a></td></tr>'
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
        });

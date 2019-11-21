@@ -297,24 +297,43 @@ var rightclickwindow = null;
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
+       var commInnerHtml = '';
+       var commBodyHtml = '';
+       var commCecHtml = '';
+ 
+       var commHeadHtml ='<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td></tr><br />'+
+                         '<tr><td><span style="font-weight:bold">*CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />' +
+                         '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
+                        
+        if(commCecStatus == 'Current'){
+            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> is a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+        if(commCecStatus == 'Never'){
+            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has never been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+        if(commCecStatus == 'Former'){
+         commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+                        
+        if(project_number != 0 ){
+            commBodyHtml +='<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>';
+        }
+        commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
+
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td>'+
-        (commCecStatus == 'Current' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:green" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
-        (commCecStatus == 'Never' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:orange" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
-         (commCecStatus == 'Former' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-cross" style="color:red" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
-            //'</tr><br />' +
-            // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
-           // (commCecStatus != 'Never' ? ('<tr><td><span style="font-weight:bold">CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />')
-           // : '' ) +
-            '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>' +
-            (project_number == 0 ? '':
-                ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
+        infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());
@@ -485,8 +504,10 @@ var valueFilter = document.getElementById("valueFilter");
 
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
-      resetFiltersOnSearchComm();
+    resetFiltersOnSearchComm();
+
     if (e.keyCode == 8 || e.keyCode == 46) {
+        
      
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);

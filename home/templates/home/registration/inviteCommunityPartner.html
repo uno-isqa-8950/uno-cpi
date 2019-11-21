@@ -1,7 +1,7 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block title %}Reset your Password{% endblock%}
-
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -89,7 +89,7 @@ label
 
                        <div class="card snippet-card">
                        <div class="text-snippet">
-                             {% com_part_regs %}
+                          {% com_part_user_regs %}
                        </div>
                        </div>
 

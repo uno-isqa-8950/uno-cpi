@@ -24,24 +24,24 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:20px;text-align:center;color:white;"><h4
-                           style="line-height:.8em;padding-top:10px;">Engagement Types Report</h4></b></label>
+               <br><br>
+               <div class="text-center">
+                   <h3 class="heading">Engagement Types Report</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
+
+               <div class="card snippet-card">
+                  <div class="container text-snippet">
                     {% eng_types %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<div class ="box">
     <div class="container">
     <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
-        <div>
+        <div style="padding: 20px;">
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
@@ -190,7 +190,7 @@
 
 <br>
     <div style="margin-top:15px;">
-<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+<table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
     <thead>
     <tr>
         <th>
@@ -285,6 +285,7 @@
 </table>
         </div>
                 </div>
+    </div>
     </div>
     <br>
 <br> <br> <br>

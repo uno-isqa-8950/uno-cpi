@@ -455,7 +455,7 @@ $('[data-toggle="popover"]').popover()
     <!--Project list starts from here -->
 
     <div id="accordion" class="accordion">
-        {% for project in project %}
+        {% for project in cards %}
 
 
         <div class="card mb-0 projectcard">
@@ -560,8 +560,32 @@ $('[data-toggle="popover"]').popover()
 </div>
         {% endfor %}
 </div>
+<!--Code for Pagination -->
 
 </div>
+{% if cards.has_other_pages %}
+  <ul class="pagination">
+    {% if cards.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ cards.previous_page_number }}">&laquo;</a>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in cards.paginator.page_range %}
+      {% if cards.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if cards.has_next %}
+      <li><a href="?page={{ cards.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+
 
 
 {% endblock %}

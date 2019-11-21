@@ -76,22 +76,21 @@ all_projects_sql = """select distinct p.project_name
                             ,p.project_type project_type
                             ,p.end_semester end_semester
                             , ea.academic_year end_academic_year
-                            , s.sub_category sub_category
+                            ,array_agg(distinct s.sub_category) sub_category
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             , p.other_activity_type act_type
                         from projects_project p
-                          inner join projects_projectmission m on p.id = m.project_name_id
-                          inner join home_missionarea hm on hm.id = m.mission_id
-                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join home_missionarea hm on hm.id = m.mission_id
+                          left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                           left join partners_communitypartner pc on pp.community_partner_id = pc.id
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
-                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear pa on p.academic_year_id = pa.id
                             left join projects_academicyear ea on p.end_academic_year_id = ea.id
-                            inner join projects_status ps on p.status_id = ps.id
-                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_activitytype a on p.activity_type_id = a.id
                             left join projects_projectsubcategory psub on psub.project_name_id = p.id
                             left join projects_subcategory s on psub.sub_category_id = s.id
                             left join projects_status status on status.id = p.status_id
@@ -122,7 +121,6 @@ all_projects_sql = """select distinct p.project_name
                             , project_type
                             , end_semester
                             , end_academic_year
-                            , sub_category
                             ,campus_lead_staff
                             ,mission_image
                             , act_type
@@ -151,22 +149,21 @@ all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
                             , p.project_type project_type
                             , p.end_semester end_semester
                             , ea.academic_year end_academic_year
-                            , s.sub_category sub_category
+                            ,array_agg(distinct s.sub_category) sub_category
                             , p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             , p.other_activity_type act_type
                         from projects_project p
-                          inner join projects_projectmission m on p.id = m.project_name_id
-                          inner join home_missionarea hm on hm.id = m.mission_id
-                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join home_missionarea hm on hm.id = m.mission_id
+                          left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                           left join partners_communitypartner pc on pp.community_partner_id = pc.id
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
-                            inner join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear pa on p.academic_year_id = pa.id
                             left join projects_academicyear ea on p.end_academic_year_id = ea.id
-                            inner join projects_status ps on p.status_id = ps.id
-                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_activitytype a on p.activity_type_id = a.id
                             left join projects_projectsubcategory psub on psub.project_name_id = p.id
                             left join projects_subcategory s on psub.sub_category_id = s.id
                             left join projects_status status on status.id = p.status_id
@@ -202,7 +199,6 @@ all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
                             ,project_type
                             , end_semester
                             , end_academic_year
-                            , sub_category
                             , campus_lead_staff
                             ,mission_image
                             , act_type

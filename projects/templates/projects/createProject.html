@@ -1407,13 +1407,13 @@ window.onload = function () {
     $("#id_project_name").val(projectName);
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
-              $("#id_name").show();
-              $("label.control-label[for=id_name], input#id_name").show();
+              $("#id_name").hide();
+              $("label.control-label[for=id_name], input#id_name").hide();
               // $("label.control-label[for=id_prefix], input#id_prefix").show();
-              $("label.control-label[for=id_section], input#id_section").show();
-           $("#id_prefix").show();
-           $("label.control-label[for=id_number], input#id_number").show();
-           $("#id_number").show();
+              $("label.control-label[for=id_section], input#id_section").hide();
+           $("#id_prefix").hide();
+           $("label.control-label[for=id_number], input#id_number").hide();
+           $("#id_number").hide();
            }
 }
 </script>
@@ -1436,13 +1436,13 @@ window.onload = function () {
            console.log(val)
            if (val === 'Course') {
                $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-               $("#id_prefix").show();
-               $("label.control-label[for=id_number], input#id_number").show();
-               $("#id_number").show();
-               $("label.control-label[for=id_section], input#id_section").show();
-               $("#id_section").show();
+               $("label.control-label[for=id_name], input#id_name").hide();
+               $("label.control-label[for=id_prefix], input#id_prefix").hide();
+               $("#id_prefix").hide();
+               $("label.control-label[for=id_number], input#id_number").hide();
+               $("#id_number").hide();
+               $("label.control-label[for=id_section], input#id_section").hide();
+               $("#id_section").hide();
            }
            else {
                hideInputs();

@@ -207,7 +207,8 @@ label[for=id_campus-0-campus_partner]:after{
                                <input type="hidden" id="id_projectId" value="{{projectId}}" />
 
 <div class="container-fluid">
-
+<br>
+    <br>
     <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12">
 
@@ -1475,6 +1476,7 @@ function cloneMore(selector, prefix) {
         return;
     }
     if (prefix == 'community_edit') {
+        // $('.community_edit-row:last').find('[value="'+selected+'"]').hide();
         if (community_ids.includes(selected)) {
             alert('community already added');
             $(selector).find('select').val(' ');
@@ -1484,6 +1486,9 @@ function cloneMore(selector, prefix) {
             new_community_ids.push(selected)
         }
         community_ids.push(selected);
+         community_ids.forEach(function (item,index) {
+            $('.community_edit-row:last').find('[value="'+item+'"]').hide();
+        });
     } else if (prefix == 'campus_edit') {
         if (campus_ids.includes(selected)) {
             alert('campus already added');
@@ -1586,6 +1591,9 @@ function deleteForm(prefix, elem) {
         var index = subcategory_ids.indexOf(selected);
         if (index !=-1) subcategory_ids.splice(index,1);
     }
+    community_ids.forEach(function (item,index) {
+            $('.community_edit-row:last').find('[value="'+item+'"]').hide();
+        });
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
   console.log('In deleteForm - total', total);
   if (total > 1) {
@@ -1622,6 +1630,7 @@ $(document).on('click', '.add-secondary_mission-row', function(e){
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
     $('.addcommerror').empty();
+    $('.community_edit-row:last').find('option:not(:selected)').show();
     cloneMore('.community_edit-row:last', 'community_edit');
     // $('.community-row:not(:last)').hide();
     // var name = $(this).attr('name');

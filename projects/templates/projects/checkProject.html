@@ -53,34 +53,22 @@ label {
 <br><br>
             <div class="row justify-content-md-center">
                     <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Search Project</h3></div>
+                          <div class=" text-center"><h3 class="heading">Create Project</h3></div>
 <div class="card snippet-card">
-    <div class="container text-snippet">
+    <div class="text-snippet">
         {%         create_projects %}
         </div>
 </div>
-<!--                        <div class = "panel-default" style="width:100%">-->
-<!--                           <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">-->
-<!--                               <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Search Project</h4></b></label>-->
-<!--                           </div>-->
-<!--                        </div>-->
-<!--                        <div class="card" style="padding: 10px;">-->
-<!--                            <div class="container">-->
-<!--                                {% priv_projs %}-->
-<!--                            </div>-->
-<!--                       </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
-          <div class="row" style="border: none; padding: 30px;margin:10px">
+          <div class="row" style="padding: 10px;">
                <!-- Collapse buttons -->
-             <div>
-                 <input type="button" style="float: left" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+<!--             <div>-->
+                 <input type="button" style="float: left" id="hide" value= "Hide Filters" class="btn filter btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                  aria-expanded="false" aria-controls="collapseExample" />
-                 <input type="button" style="float: left" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+                 <input type="button" style="float: left" id="reset" value= "Reset Filters" class="btn filter btn-secondary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
                  <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
+                document.getElementsByClassName("filter").addEventListener(
                 "click",
                 function(event) {
                 if (event.target.value === "Hide Filters") {
@@ -94,10 +82,9 @@ label {
                 </script>
 
                 </div>
-          </div>
 
 
-<div class="container">
+<!--<div class="container">-->
    <div class="box">
        <div class="collapse show" id="collapseExample">
             <form method="POST" >
@@ -160,21 +147,21 @@ label {
        </div>
  </div>
 </div>
-<div class="row">
-         <div style="float: left;margin:10px" id="node1-id"></div>
+<div class="row" style="padding: 5px">
+         <div style="float: left;margin:2px" id="node1-id"></div>
 
-         <div style="float: left;margin:10px" id="button-id" ></div>
+         <div style="float: left;margin:2px" id="button-id" ></div>
 </div>
 
 
   <div class="row">
-<span class="label" style="margin:15px"></span>
+<span class="label" style="margin:10px"></span>
             </div>
 
              <div style="margin-top:15px;">
 
 
-                <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
+                <table id="example" class="table box table-bordered dt-responsive overflow-wrap:break-word" style="width:100%;mso-cellspacing: 10px;background-color: white">
                    <thead>
                    	<col style="width:10%">
 	                <col style="width:25%">

@@ -78,6 +78,7 @@ all_projects_sql = """select distinct p.project_name
                             , ea.academic_year end_academic_year
                             , s.sub_category sub_category
                             ,  p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
                         from projects_project p
                           inner join projects_projectmission m on p.id = m.project_name_id
                           inner join home_missionarea hm on hm.id = m.mission_id
@@ -122,6 +123,8 @@ all_projects_sql = """select distinct p.project_name
                             , end_academic_year
                             , sub_category
                             ,campus_lead_staff
+                            ,mission_image
+                            
                         order by pa.academic_year desc;"""
 
 all_projects_cec_curr_comm_report_filter ="""select distinct p.project_name
@@ -709,29 +712,249 @@ from projects_project p
 group by hm.mission_name,CommPartners
 order by mission_area;"""
 
-engagement_types_report_sql = """
--- ENGAGEMENT TYPE REPORT
-select distinct e.name engagement_type
-   ,p.engagement_type_id
-  ,count(distinct p.project_name) Projects
-	,count(distinct pp.community_partner_id) CommPartners
-	,count(distinct pp2.campus_partner_id) CampPartners
-	,e.numberofunostudents
-	,e.unostudentshours
-from projects_project p
- 	left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
-	left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
-	inner join
-  	(select p.engagement_type_id
-     	,e.name --engagement_type
-			,sum(p.total_uno_students) numberofunostudents
-			,sum(p.total_uno_hours) unostudentshours
-		from projects_project p
-			inner join projects_engagementtype e on e.id = p.engagement_type_id
-		group by p.engagement_type_id,e.name
-		order by e.name) e on e.engagement_type_id = p.engagement_type_id
-group by e.name, e.numberofunostudents, e.unostudentshours,p.engagement_type_id
-order by engagement_type;"""
+# engagement_types_report_sql = """
+# -- ENGAGEMENT TYPE REPORT
+# select distinct e.name engagement_type
+#    ,p.engagement_type_id
+#   ,count(distinct p.project_name) Projects
+# 	,count(distinct pp.community_partner_id) CommPartners
+# 	,count(distinct pp2.campus_partner_id) CampPartners
+# 	,e.numberofunostudents
+# 	,e.unostudentshours
+# from projects_project p
+#  	left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
+# 	left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
+# 	inner join
+#   	(select p.engagement_type_id
+#      	,e.name --engagement_type
+# 			,sum(p.total_uno_students) numberofunostudents
+# 			,sum(p.total_uno_hours) unostudentshours
+# 		from projects_project p
+# 			inner join projects_engagementtype e on e.id = p.engagement_type_id
+# 		group by p.engagement_type_id,e.name
+# 		order by e.name) e on e.engagement_type_id = p.engagement_type_id
+# group by e.name, e.numberofunostudents, e.unostudentshours,p.engagement_type_id
+# order by engagement_type;
+#
+#
+
+engagement_types_report_sql="""
+with eng_type_filter as (select e.name engagement_type
+	   , p.engagement_type_id eng_id
+	   , count(p.project_name) Projects
+	   , array_agg(p.id) projects_id
+	   , count(pcomm.community_partner_id) CommPartners
+	   , array_agg(pcomm.community_partner_id) CommPartners_id
+	   , count(pcamp.campus_partner_id) CampPartners
+	   , sum(p.total_uno_students) numberofunostudents
+	   , sum(p.total_uno_hours) unostudentshours
+from projects_engagementtype e
+	left join projects_project p on p.engagement_type_id = e.id
+	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+	left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+	left join projects_status s on s.id = p.status_id
+	left join projects_projectmission pm on pm.project_name_id = p.id
+	left join partners_campuspartner c on pcamp.campus_partner_id = c.id  
+where s.name != 'Drafts'
+  and pm.mission_id::text like %s
+  and comm.community_type_id::text like %s
+  and pcamp.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+group by engagement_type, eng_id
+order by engagement_type)
+Select distinct eng.name eng_type
+      , eng.description eng_desc  
+	  , COALESCE(eng_type_filter.Projects, 0) proj
+	  , eng_type_filter.projects_id proj_ids
+	  , COALESCE(eng_type_filter.CommPartners, 0) comm
+	  , eng_type_filter.CommPartners_id comm_id
+	  , COALESCE(eng_type_filter.CampPartners, 0) camp
+	  , COALESCE(eng_type_filter.numberofunostudents, 0) unostu
+	  , COALESCE(eng_type_filter.unostudentshours, 0) unohr
+from projects_engagementtype eng
+	 left join eng_type_filter on eng.id = eng_type_filter.eng_id
+group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr
+order by eng_type;		"""
+
+
+engagement_types_cec_curr_comm_report_sql="""
+with eng_type_filter as (select e.name engagement_type
+	   , p.engagement_type_id eng_id
+	   , count(p.project_name) Projects
+	   , array_agg(p.id) projects_id
+	   , count(pcomm.community_partner_id) CommPartners
+	   , array_agg(pcomm.community_partner_id) CommPartners_id
+	   , count(pcamp.campus_partner_id) CampPartners
+	   , sum(p.total_uno_students) numberofunostudents
+	   , sum(p.total_uno_hours) unostudentshours
+from projects_engagementtype e
+	left join projects_project p on p.engagement_type_id = e.id
+	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+	left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+	left join projects_status s on s.id = p.status_id
+	left join projects_projectmission pm on pm.project_name_id = p.id
+	left join partners_campuspartner c on pcamp.campus_partner_id = c.id 
+	left join partners_cecpartactiveyrs cec on cec.comm_partner_id = comm.id  
+where s.name != 'Drafts'
+  and pm.mission_id::text like %s
+  and comm.community_type_id::text like %s
+  and pcamp.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+  and ((cec.start_acad_year_id <= %s) AND
+      (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))     
+group by engagement_type, eng_id
+order by engagement_type)
+Select distinct eng.name eng_type
+      , eng.description eng_desc  
+	  , COALESCE(eng_type_filter.Projects, 0) proj
+	  , eng_type_filter.projects_id proj_ids
+	  , COALESCE(eng_type_filter.CommPartners, 0) comm
+	  , eng_type_filter.CommPartners_id comm_id
+	  , COALESCE(eng_type_filter.CampPartners, 0) camp
+	  , COALESCE(eng_type_filter.numberofunostudents, 0) unostu
+	  , COALESCE(eng_type_filter.unostudentshours, 0) unohr
+from projects_engagementtype eng
+	 left join eng_type_filter on eng.id = eng_type_filter.eng_id
+group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr
+order by eng_type;		"""
+
+
+engagement_types_cec_former_comm_report_sql="""
+with eng_type_filter as (select e.name engagement_type
+	   , p.engagement_type_id eng_id
+	   , count(p.project_name) Projects
+	   , array_agg(p.id) projects_id
+	   , count(pcomm.community_partner_id) CommPartners
+	   , array_agg(pcomm.community_partner_id) CommPartners_id
+	   , count(pcamp.campus_partner_id) CampPartners
+	   , sum(p.total_uno_students) numberofunostudents
+	   , sum(p.total_uno_hours) unostudentshours
+from projects_engagementtype e
+	left join projects_project p on p.engagement_type_id = e.id
+	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+	left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+	left join projects_status s on s.id = p.status_id
+	left join projects_projectmission pm on pm.project_name_id = p.id
+	left join partners_campuspartner c on pcamp.campus_partner_id = c.id 
+	left join partners_cecpartactiveyrs cec on cec.comm_partner_id = comm.id  
+where s.name != 'Drafts'
+  and pm.mission_id::text like %s
+  and comm.community_type_id::text like %s
+  and pcamp.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+  and cec.end_acad_year_id < %s      
+group by engagement_type, eng_id
+order by engagement_type)
+Select distinct eng.name eng_type
+      , eng.description eng_desc  
+	  , COALESCE(eng_type_filter.Projects, 0) proj
+	  , eng_type_filter.projects_id proj_ids
+	  , COALESCE(eng_type_filter.CommPartners, 0) comm
+	  , eng_type_filter.CommPartners_id comm_id
+	  , COALESCE(eng_type_filter.CampPartners, 0) camp
+	  , COALESCE(eng_type_filter.numberofunostudents, 0) unostu
+	  , COALESCE(eng_type_filter.unostudentshours, 0) unohr
+from projects_engagementtype eng
+	 left join eng_type_filter on eng.id = eng_type_filter.eng_id
+group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr
+order by eng_type;		"""
+
+
+engagement_types_cec_former_camp_report_sql="""
+with eng_type_filter as (select e.name engagement_type
+	   , p.engagement_type_id eng_id
+	   , count(p.project_name) Projects
+	   , array_agg(p.id) projects_id
+	   , count(pcomm.community_partner_id) CommPartners
+	   , array_agg(pcomm.community_partner_id) CommPartners_id
+	   , count(pcamp.campus_partner_id) CampPartners
+	   , sum(p.total_uno_students) numberofunostudents
+	   , sum(p.total_uno_hours) unostudentshours
+from projects_engagementtype e
+	left join projects_project p on p.engagement_type_id = e.id
+	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+	left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+	left join projects_status s on s.id = p.status_id
+	left join projects_projectmission pm on pm.project_name_id = p.id
+	left join partners_campuspartner c on pcamp.campus_partner_id = c.id 
+	left join partners_cecpartactiveyrs cec on cec.comm_partner_id = c.id  
+where s.name != 'Drafts'
+  and pm.mission_id::text like %s
+  and comm.community_type_id::text like %s
+  and pcamp.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+  and cec.end_acad_year_id < %s      
+group by engagement_type, eng_id
+order by engagement_type)
+Select distinct eng.name eng_type
+      , eng.description eng_desc  
+	  , COALESCE(eng_type_filter.Projects, 0) proj
+	  , eng_type_filter.projects_id proj_ids
+	  , COALESCE(eng_type_filter.CommPartners, 0) comm
+	  , eng_type_filter.CommPartners_id comm_id
+	  , COALESCE(eng_type_filter.CampPartners, 0) camp
+	  , COALESCE(eng_type_filter.numberofunostudents, 0) unostu
+	  , COALESCE(eng_type_filter.unostudentshours, 0) unohr
+from projects_engagementtype eng
+	 left join eng_type_filter on eng.id = eng_type_filter.eng_id
+group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr
+order by eng_type;		"""
+
+engagement_types_cec_curr_camp_report_sql="""
+with eng_type_filter as (select e.name engagement_type
+	   , p.engagement_type_id eng_id
+	   , count(p.project_name) Projects
+	   , array_agg(p.id) projects_id
+	   , count(pcomm.community_partner_id) CommPartners
+	   , array_agg(pcomm.community_partner_id) CommPartners_id
+	   , count(pcamp.campus_partner_id) CampPartners
+	   , sum(p.total_uno_students) numberofunostudents
+	   , sum(p.total_uno_hours) unostudentshours
+from projects_engagementtype e
+	left join projects_project p on p.engagement_type_id = e.id
+	left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
+	left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
+	left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
+	left join projects_status s on s.id = p.status_id
+	left join projects_projectmission pm on pm.project_name_id = p.id
+	left join partners_campuspartner c on pcamp.campus_partner_id = c.id 
+	left join partners_cecpartactiveyrs cec on cec.comm_partner_id = c.id  
+where s.name != 'Drafts'
+  and pm.mission_id::text like %s
+  and comm.community_type_id::text like %s
+  and pcamp.campus_partner_id::text like %s
+  and c.college_name_id::text like %s
+  and ((p.academic_year_id <= %s) AND 
+       (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+  and ((cec.start_acad_year_id <= %s) AND
+      (COALESCE(cec.end_acad_year_id,(SELECT max(id) from projects_academicyear)) >= %s))      
+group by engagement_type, eng_id
+order by engagement_type)
+Select distinct eng.name eng_type
+      , eng.description eng_desc  
+	  , COALESCE(eng_type_filter.Projects, 0) proj
+	  , eng_type_filter.projects_id proj_ids
+	  , COALESCE(eng_type_filter.CommPartners, 0) comm
+	  , eng_type_filter.CommPartners_id comm_id
+	  , COALESCE(eng_type_filter.CampPartners, 0) camp
+	  , COALESCE(eng_type_filter.numberofunostudents, 0) unostu
+	  , COALESCE(eng_type_filter.unostudentshours, 0) unohr
+from projects_engagementtype eng
+	 left join eng_type_filter on eng.id = eng_type_filter.eng_id
+group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr
+order by eng_type;		"""
 
 comm_part_report_sql = """
 -- COMMUNITY PARTNER REPORT
@@ -1809,3 +2032,11 @@ FROM (
 WHERE proj_id is not null	
 ORDER BY rec_type DESC, mission_id, sub_category;
 '''
+
+def editproj_addprimarymission(focusarea,projid):
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Primary','""" +focusarea+"""','""" +projid+"""'); """)
+
+def editproj_updateprimarymission(focusarea,projid):
+    return ( """update projects_projectmission set mission_id= '""" +focusarea+"""',project_name_id ='""" +projid+"""' where project_name_id ='""" +projid+"""' and mission_type = 'Primary'; """)
+
+

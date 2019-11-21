@@ -8,12 +8,7 @@
         .text-snippet{
         text-align: left;
     }
-    .box{
-        padding: 10px;
-            background-color: white;
-            border: 1px;
-        box-shadow: 5px 10px #d3d3d3;
-        }
+
 
         /*@media (min-width: 1200px) {*/
         /*.container {*/
@@ -99,7 +94,7 @@
 <br><br>
 <!--<div class="loader" id =loading></div>-->
 <!--<div class="container">-->
-   <div class="row box justify-content-md-center">
+   <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
                                     <div class=" text-center"><h3 class="heading">Focus Areas Analysis Chart</h3></div>
 <div class="card snippet-card">
@@ -149,8 +144,8 @@
 
         </div>
     <!-- / Collapse buttons -->
-
-        <div class="card" style="border: 2px solid #C3C3C3;">
+<div class="box">
+        <div class="card" >
             <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
 
@@ -311,8 +306,7 @@
 
             </form>
         </div>
-    </div>
-
+        </div>
     <div id="container"  style= "max-width: 1000px; height: 450px"></div>
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="https://code.highcharts.com/modules/xrange.js"></script>
@@ -328,6 +322,7 @@
         </script>
     </div>
 </div>
+   </div>
 <br><br><br><br>
 {% endblock %}
 

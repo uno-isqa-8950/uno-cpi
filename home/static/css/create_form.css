@@ -88,6 +88,15 @@
 }
 textarea[id=id_description]{
     height:120px;
+    width: 96%;
+    border:1px solid #aaa;
+    border-radius:4px;
+    margin:5px 0px 0px 10px;
+    outline:none;
+    padding:4px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
 }
 label[for=id_campus-0-campus_partner]:after{
     display: none;

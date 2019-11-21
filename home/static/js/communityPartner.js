@@ -299,10 +299,9 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
     google.maps.event.addListener(marker, 'click', function () {
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
         infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td>'+
-        (commCecStatus == 'Current' ? ('<td><span style="background-color: green; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-        (commCecStatus == 'Never' ? ('<td><span style="background-color: grey; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-         (commCecStatus == 'Former' ? ('<td><span style="background-color: red; border: 1px solid #ffffff">abc</span></td></tr><br />') : '' ) +
-'</tr><br />'+
+        (commCecStatus == 'Current' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:green" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
+        (commCecStatus == 'Never' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-check" style="color:orange" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
+         (commCecStatus == 'Former' ? ('&nbsp;<td><span style="font-weight:bold">CEC Building Partner: </span><i class="fa fa-cross" style="color:red" aria-hidden="true"></i></td></tr><br />') : '</tr>' ) +
             //'</tr><br />' +
             // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
            // (commCecStatus != 'Never' ? ('<tr><td><span style="font-weight:bold">CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />')
@@ -326,9 +325,25 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        infowindow.setContent(
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        // alert(projects.toString().split(","));
+         var projectDtlList = projects.toString().split(",");
+         var projectHtml = ''
+         var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
+            //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
+        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
+        '<tr><td style="margin-top: 5%">'+
+        '<table border="1"><tr>'+
+        '<td><span style="font-weight:bold">&nbsp;Academic Year&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
+        '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
+        var projInnerHtml = ''
+        for(var i=0;i<projectDtlList.length;i++){
+            projInnerHtml += '<tr><td><span>&nbsp;'+projectDtlList[i].split(':')[1]+'&nbsp;</span></td>'+
+        '<td><span>&nbsp;'+projectDtlList[i].split(':')[0].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td>'+
+        '<td><span >&nbsp;'+projectDtlList[i].split(':')[2].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td></tr>';
+        }
+        projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
+        infowindow.setContent(projectHtml)
          // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         map.panTo(this.getPosition());
 

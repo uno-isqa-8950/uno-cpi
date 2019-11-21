@@ -1025,7 +1025,7 @@ select distinct p.project_name
                             ,p.project_type project_type
                             ,p.end_semester end_semester
                             , ea.academic_year end_academic_year
-                            , s.sub_category sub_category
+                            , array_agg(distinct s.sub_category) sub_category
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             ,p.other_activity_type act_type
@@ -1064,7 +1064,6 @@ select distinct p.project_name
                             , project_type
                             , end_semester
                             , end_academic_year
-                            , sub_category
                             ,campus_lead_staff
                             ,mission_image
                         order by p.project_name;
@@ -1097,7 +1096,7 @@ select distinct p.project_name
                             ,p.project_type project_type
                             ,p.end_semester end_semester
                             , ea.academic_year end_academic_year
-                            , s.sub_category sub_category
+                            , array_agg(distinct s.sub_category) sub_category
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             ,p.other_activity_type act_type
@@ -1136,7 +1135,6 @@ select distinct p.project_name
                             , project_type
                             , end_semester
                             , end_academic_year
-                            , sub_category
                             ,campus_lead_staff
                             ,mission_image
                         order by p.project_name;

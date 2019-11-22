@@ -33,11 +33,11 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         </div>
     </div>
 </div>
-<div class ="box">
+
 <div class="container">
-    <div class="card" style="padding: 10px;">
+
         <!-- Collapse buttons -->
-        <div style="padding: 20px;">
+        <div style="margin-left: -10px">
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn1" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'communitypublicreport' %}' " value="Reset Filters" >
@@ -60,7 +60,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 <!-- / Collapse buttons -->
 
 <!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+    <div class ="box">
+
         <div class="collapse show" id="collapseExample">
         <form class="form-inline" id="filters-form" method="get">
              <div class="col-lg-4 col-md-5 form-group">
@@ -167,7 +168,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 </div>
         </form>
         </div>
-</div>
+    </div>
+<div class ="box">
 <div style="margin-top:15px;">
         <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
@@ -216,7 +218,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
             {% endfor %}
             </tbody>
         </table>
-       </div></div>
+       </div>
 
         <br>
 </div>

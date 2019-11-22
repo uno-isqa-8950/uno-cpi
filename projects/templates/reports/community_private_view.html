@@ -39,11 +39,11 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         </div>
     </div>
 </div>
-<div class ="box">
-    <div class="container">
-    <div class="card" style="padding: 10px; ">
+
+
+    <!--<div class="card" style="border:0px; padding: 10px; ">-->
         <!-- Collapse buttons -->
-        <div class="row" style="padding: 35px;">
+        <div style="margin-left: -10px">
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
@@ -64,7 +64,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 
         </div>
 <!-- / Collapse buttons -->
-    <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+    <!--<div class="card" style="border: 0px solid #C3C3C3;">-->
         <div class="collapse show" id="collapseExample">
              <form class="form-inline" id="filters-form" method="get">
                  <div class="col-lg-4 col-md-5 form-group">
@@ -177,8 +178,9 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 </div>
              </form>
         </div>
-    </div>
-
+    <!--</div>-->
+        </div>
+        <div class ="box">
         <div style="margin-top:15px;">
         <table id="example" class="table table-bordered  dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
@@ -287,8 +289,9 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         </table>
         <br>
         </div>
-    </div></div>
-</div>
+    </div>
+    <!--</div>-->
+
 <br>
 <br> <br> <br>
 <script type="text/javascript">

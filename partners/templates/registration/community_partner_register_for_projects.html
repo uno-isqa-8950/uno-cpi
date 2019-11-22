@@ -111,7 +111,6 @@ width:93%!important;
 </style>
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
- {% create_project_forms %}
 
 <form action="." onfocusout="return validateForm()"  method="post">
     {{ formset_primary_mission.management_form }}
@@ -123,10 +122,16 @@ width:93%!important;
 
     <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center"><h4 style="margin:auto;padding: 13px">Community Partner Registration</h4></div>
-                       <div class="panel-body">
-<div class="row"><br></div>
+                <br>
+                <br>
+                              <div class=" text-center"><h3 class="heading">Community Partner Registration</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+
+                                    {% com_part_regs %}
+    </div>
+</div>
+                <div class="box">
 <div id="smartwizard">
     <ul>
         <li><a href="#step-1">Partner Information</a></li>
@@ -453,13 +458,6 @@ width:93%!important;
                        </div>
                 </div>
             </div>
-    </div>
-
-
-
-
-
-
 </form>
 
 <!--<br><br><br>-->

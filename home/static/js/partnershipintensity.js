@@ -61,11 +61,12 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
         feature["campus_partner_ids"].forEach(item => projectCampus.add(item));
     })
 
-    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year)) {
+    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner) || ['CURR_CAMP', 'FORMER_CAMP'].includes(weitz_cec_part)) {
         var CommunityPartners = CommunityPartners.filter(d => projectCommunities.has(d.community_partner_id));
+    }
+    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(comm_type) || !not_set.includes(legislative_value) || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
         var CampusPartners = CampusPartners.filter(d => projectCampus.has(d.campus_partner_id));
     }
-
     if (not_set.includes(y_axis)) {
        var y_axis = "campus";
     }
@@ -113,18 +114,21 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
        var mission_comms = {"name":missionList[m].name, "color":color, "data":data};
        chart_data.push(mission_comms);
     }
-
     var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
     var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
 
     return [xLine, yLine, y_label, chart_data];
 }
 
-var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, '', '', '', '', '', '', '', '', '');
+var defaultYrID = JSON.parse(document.getElementById('defaultYrID').textContent);
+
+var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, '', defaultYrID, '', '', '', '', '', '', '');
 var xLine = res[0];
 var yLine = res[1];
 var y_label = res[2];
 var chart_data = res[3];
+
+var clickdouble = {clickedOnce : false, timer : null, timeBetweenClicks : 400};
 
 var chart = Highcharts.chart('container', {
    "chart":{ "type":"scatter","zoomType":"xy"},
@@ -156,10 +160,29 @@ var chart = Highcharts.chart('container', {
             "states":{"hover":{"enabled":true,"lineColor":"rgb(100,100,100)"}}},
          "states":{"hover":{"marker":{"enabled":false}}},
          "jitter": {"x": 0.24, "y": 0.24},
+         "point": {"events": {
+            "click": function () {
+                chart.update({
+                   "xAxis":{
+                      "plotLines":[
+                         { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" },
+                         { "value":this.x, "width":2, "color":"#d33" }]},
+                   "yAxis":{
+                      "plotLines":[
+                         { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" },
+                         { "value":this.y, "width":2, "color":"#d33" }]},
+                });
+                if (clickdouble == ('Category: ' + this.category + ', value: ' + this.y)) {
+                    this.remove();
+                    clickdouble = '';
+                }else{
+                    clickdouble = 'Category: ' + this.category + ', value: ' + this.y;
+                }}}},
          "tooltip":{
-            "style": {"fontFamily": "Arial Narrow"},
+            "style": {"fontFamily": "Arial Narrow", "pointerEvents": "auto"},
             "headerFormat": "",
-            "pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}"}}},
+            "pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}
+      }},
    "responsive":{"rules":[{"condition":{"maxWidth":500},
             "chartOptions":{"legend":{"layout":"horizontal","align":"center","verticalAlign":"bottom"}}}]},
    "series":chart_data
@@ -231,3 +254,18 @@ function updateChart () {
     }
 }
 
+function updateCampus() {
+    var allCamps = JSON.parse(document.getElementById('campus_filter').textContent);
+    var college_name = $('#id_college_name option:selected').val();
+    if (!not_set.includes(college_name)) {
+        var campus_filter = allCamps.filter(d => d.college === parseInt(college_name));
+    } else {
+        var campus_filter = allCamps;
+    }
+    var select = document.getElementById("id_campus_partner");
+    select.options.length = 0;
+    select.options[select.options.length] = new Option('All', 'All');
+    for(campus in campus_filter) {
+        select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
+    }
+}

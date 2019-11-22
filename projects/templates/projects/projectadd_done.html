@@ -40,4 +40,10 @@ p {
 			<div class="panel-body">
               <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been successfully added</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
+<script>
+            function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+</script>
 {% endblock %}

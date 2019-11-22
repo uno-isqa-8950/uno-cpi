@@ -1,13 +1,31 @@
 //*********************************** Get data from HTML *****************************************************
 
+// const colorCodeObject = {
+//     "Business":"#27ffcb",
+//     "Government Agency" :"#65dc1e",
+//     "Higher Education Institution":"#1743f3",
+//     "K-12":"#ba55d3",
+//     "Nonprofit":"#e55e5e",
+// }
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
-var CollegeName = JSON.parse(document.getElementById('collegename-list').textContent);
+var CollegeName = JSON.parse(document.getElementById('college-list').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 
+const colorCodeObject = {
+    [CommunityType[0]]:         "#01B8AA",
+    [CommunityType[1]]:         "#374649",
+    [CommunityType[2]]:    "#FD625E",
+    [CommunityType[3]]:          "#8AD4EB",
+    [CommunityType[4]]:        "#FE9666",
+    [CommunityType[5]]:       "#A66999",
+    [CommunityType[6]]:       "#3599B8",
+    [CommunityType[7]]:       "#DFBFBF",
+    [CommunityType[8]]:       "#1743f3"
+}
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
 communityData.features.forEach(function(feature) {
@@ -82,19 +100,15 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 ]
 });
 
-
-
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Focus Areas" ' + 'class="selectMission"' + 'value="' + 'All Focus Areas"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Focus Areas</b></a>' + "<br>";
-for (var i = 0; i < Missionarea.length; i++) {
-    var mission = Missionarea[i];
-    var missionName = mission.split(':')[0];
-    var missionColor = mission.split(':')[1];
-    var color = missionColor;
-    select += `<a href="#"  id="${missionName.valueOf()}" class="selectMission" value="${missionName.valueOf()}"><span style="background-color: ${color}"></span><b>${missionName.toString()}</b></a>` + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community Partner Types" ' + 'class="selectCommType"' + 'value="' + 'All Community Partner Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Partner Types</b></a>' + "<br>";
+for (var i = 0; i < CommunityType.length; i++) {
+    var commType = CommunityType[i];
+    var color = colorCodeObject[commType];
+    select += `<a href="#"  id="${commType.valueOf()}" class="selectCommType" value="${commType.valueOf()}"><span style="background-color: ${color}"></span><b>${commType.toString()}</b></a>` + "<br>";
 }
-$('#missionAreaFilters').html(select);
+$('#commTypeFilters').html(select);
 //*********************************** Add the districts *****************************************************
 
 var select1 = '';
@@ -107,11 +121,13 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
-for (i = 0; i < CommunityType.length; i++) {
-    select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
+select2 += '<option value="' + "All Focus Areas" + '" selected="selected">' + 'All Focus Areas' + '</option>';
+for (i = 0; i < Missionarea.length; i++) {
+    var mission = Missionarea[i];
+    var missionName = mission.split(':')[0];
+    select2 += '<option value="' + missionName + '">' + missionName + '</option>';
 }
-$('#selectCommtype').html(select2);
+$('#selectMission').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var select3 = '';
@@ -135,7 +151,6 @@ $('#selectYear').html(select4);
 
 var select5 = '';
 select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
-
 for (i = 0; i < CollegeName.length; i++) {
     select5 += '<option value="' + CollegeName[i].id + '">' + CollegeName[i].cname + '</option>';
 }
@@ -159,6 +174,9 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         type: 'geojson',
         data: districtData,
     });
+
+
+
 
 // circle added to the map
     var circle = {
@@ -186,7 +204,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         var selectDistrict = communityData.features[i].properties["Legislative District Number"]
         var selectYear = communityData.features[i].properties["Academic Year"]
         var engagementType = communityData.features[i].properties["Engagement Type"]
-        var selectCommtype = communityData.features[i].properties["CommunityType"]
+        var selectCommType = communityData.features[i].properties["CommunityType"]
         var selectMission = communityData.features[i].properties["Mission Area"]
         var selectCampus = communityData.features[i].properties["Campus Partner"]
         var yearTest = communityData.features[i].properties["yeartest"]
@@ -201,11 +219,11 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             },
             map: map,
             icon: circle, // set the icon here
-            fillColor: missionColor(selectMission),
+            fillColor: commTypeColor(selectCommType),
             selectDistrict: selectDistrict,
             selectYear: selectYear,
             selectMission: selectMission,
-            selectCommtype: selectCommtype,
+            selectCommType: selectCommType,
             selectCampus: selectCampus,
             yearTest: yearTest,
             campusTest: campusTest,
@@ -215,20 +233,10 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         });
 
         oms.addMarker(marker);
-       function missionColor(mission) {
-       // alert('mission--'+mission);
-        var assignColor = '';
-            for (var i = 0; i < Missionarea.length; i++) {
-                var missiondtl = Missionarea[i];
-                var missionName = missiondtl.split(':')[0];
-                var missionColor = missiondtl.split(':')[1];
-                if(mission == missionName){
-                    assignColor = missionColor;
-                }
-            }
-            return circle.fillColor = assignColor;
+        function commTypeColor(commType) {
+             return circle.fillColor = colorCodeObject[commType];
         }
-        attachMessage(marker, partner_name[i].properties['CommunityPartner'],
+        attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
             project_number[i].properties['Number of projects'],city[i].properties['City'],
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
@@ -240,45 +248,45 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Focus Areas", "All Campus Partners", "All Community Partner Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
+    defaultFilterValues = ["All Community Partner Types", "All Focus Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
     // Object to identify filters set by the user
     filters = {
+        "selectCommType":       "All Community Partner Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
 
-});
+})
 
 var mcOptions = {
     maxZoom: 15,
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };
@@ -288,10 +296,11 @@ var openedInfoWindow = null;
 var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
+function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
-       var commInnerHtml = '';
+        //if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+         var commInnerHtml = '';
        var commBodyHtml = '';
        var commCecHtml = '';
  
@@ -318,7 +327,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         }
         commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
 
-        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+        if (openedInfoWindow != null) openedInfoWindow.close(); 
         infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
@@ -330,8 +339,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        // alert(projects.toString().split(","));
-         var projectDtlList = projects.toString().split(",");
+        var projectDtlList = projects.toString().split(",");
          var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
@@ -358,7 +366,6 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         }
         projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
         infowindow.setContent(projectHtml)
-         // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         map.panTo(this.getPosition());
 
         // google.maps.event.addListener(marker, 'rightclick', function() {
@@ -429,6 +436,7 @@ function returnKeepValue(setFilters, marker) {
 
 function filterMarkers() {
     const setFilters = getSetFilterOptions();
+    console.log("Set filters: ", setFilters);
 
     for (var i = 0; i < markers.length; i++) {
         let marker = markers[i];
@@ -465,7 +473,7 @@ selectCollege_tag.addEventListener("change", function(event) {
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    document.getElementById("valueFilter").value = "";
+     document.getElementById("valueFilter").value = "";
     if (event.target == valueFilter){
         return
     }
@@ -474,7 +482,7 @@ selectFilters.addEventListener("change", function(event) {
 
         selectFilterChildren.forEach((child) => {
             // Set each filter's value
-            if (child.id !== "missionAreaFilters" && child.id !== "selectCollege") {
+            if (child.id !== "commTypeFilters" && child.id !== "selectCollege") {
                 mapFilter(child.id, child.value);
             }
         });
@@ -484,12 +492,12 @@ selectFilters.addEventListener("change", function(event) {
      $('#totalnumber').html(getClusterSize());
 });
 
-var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));
-for (let missionAreaFilter of missionAreaFilters) {
-    missionAreaFilter.addEventListener("click", function(event) {
+var commTypeFilters = Array.from(document.getElementsByClassName("selectCommType"));
+for (let communityFilter of commTypeFilters) {
+    communityFilter.addEventListener("click", function(event) {
         document.getElementById("valueFilter").value = "";
-        let value = missionAreaFilter.textContent;
-        mapFilter("selectMission", value);
+        let value = communityFilter.textContent;
+        mapFilter("selectCommType", value);
         filterMarkers();
         $('#totalnumber').html(getClusterSize());
     });
@@ -501,10 +509,7 @@ var valueFilter = document.getElementById("valueFilter");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     resetFiltersOnSearchComm();
-
     if (e.keyCode == 8 || e.keyCode == 46) {
-        
-     
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
             markerCluster.clearMarkers(markers[i]);
@@ -514,10 +519,9 @@ valueFilter.addEventListener("keydown", function (e) {
 });
 
 // the listening button off
-valueFilter.addEventListener("keyup", function (e) { 
+valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
-
     markerCluster.clearMarkers();
     if (value == "") {
         for (var i = 0; i < markers.length; i++) {
@@ -536,6 +540,7 @@ valueFilter.addEventListener("keyup", function (e) {
             } else {
                 markers[i].setVisible(false);
                 markerCluster.removeMarker(markers[i]);
+
             }
         }
         markerCluster.redraw();
@@ -546,12 +551,12 @@ valueFilter.addEventListener("keyup", function (e) {
 function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
+        "selectCommType":       "All Community Partner Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
@@ -565,18 +570,19 @@ function resetFiltersOnSearchComm (){
     }
     $('#selectCampus').html(select3);
 
+
     filterMarkers();
-    $('#totalnumber').html(getClusterSize()); 
+    $('#totalnumber').html(getClusterSize());
 }
 
 $("#reset").click(function () {
     const defaultFilterObject = {
+        "selectCommType":       "All Community Partner Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
     valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
@@ -590,6 +596,7 @@ $("#reset").click(function () {
         select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
     }
     $('#selectCampus').html(select3);
+
 
     filterMarkers();
     $('#totalnumber').html(getClusterSize());

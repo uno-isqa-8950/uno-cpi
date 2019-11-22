@@ -127,7 +127,7 @@ $('#engagementFilters').html(select);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select1 = '';
-select1 += '<option value="' + "All Mission Areas" + '" selected="selected">' + 'All Mission Areas' + '</option>';
+select1 += '<option value="' + "All Focus Areas" + '" selected="selected">' + 'All Focus Areas' + '</option>';
 for (i = 0; i < Missionarea.length; i++) {
     select1 += '<option value="' + Missionarea[i] + '">' + Missionarea[i] + '</option>';
 }
@@ -282,7 +282,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     // Object to identify filters set by the user
     filters = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
@@ -300,27 +300,27 @@ var mcOptions = {
     averageCenter: true,
     styles: [{
         height: 53,
-        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 66,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 66
         },
         {
             height: 78,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 78
         },
         {
             height: 90,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 90
         }]
 };
@@ -513,6 +513,7 @@ selectFilters.addEventListener("change", function(event) {
 var engagementFilters = Array.from(document.getElementsByClassName("selectEngagement"));
 for (let engageFilter of engagementFilters) {
     engageFilter.addEventListener("click", function(event) {
+        document.getElementById("valueFilter").value = "";
         let value = engageFilter.textContent;
         mapFilter("selectEngagement", value);
         filterMarkers();
@@ -568,7 +569,7 @@ function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
@@ -598,7 +599,7 @@ function resetFiltersOnSearchComm (){
 $("#reset").click(function () {
     const defaultFilterObject = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",

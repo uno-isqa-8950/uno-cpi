@@ -1,13 +1,34 @@
-//*********************************** Get data from HTML *****************************************************
+//*********************************** Get mapbox API and get data from HTML *****************************************************
 
+// mapboxgl.accessToken = 'pk.eyJ1IjoidW5vY3BpZGV2dGVhbSIsImEiOiJjanJiZTk2cjkwNjZ5M3l0OGNlNWZqYm91In0.vPmkC3MFDrTlBk-ntUFruA';
+// var colorcode = ['#27ffcb', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#29234b'] --old code
+// const colorCodeObject = {
+//     "Economic Sufficiency":         "#27ffcb",
+//     "Educational Support" :         "#65dc1e",
+//     "Environmental Stewardship":    "#1743f3",
+//     "Health and Wellness":          "#ba55d3",
+//     "International Service":        "#e55e5e",
+//     "Social Justice":               "#29234b"
+// }
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
 var CommunityType = JSON.parse(document.getElementById('CommTypelist').textContent);
-var CollegeName = JSON.parse(document.getElementById('collegename-list').textContent);
+var CollegeName = JSON.parse(document.getElementById('college-list').textContent);
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 
+const colorCodeObject = {
+    [Missionarea[0]]:         "#01B8AA",
+    [Missionarea[1]]:         "#374649",
+    [Missionarea[2]]:    "#FD625E",
+    [Missionarea[3]]:          "#8AD4EB",
+    [Missionarea[4]]:        "#FE9666",
+    [Missionarea[5]]:       "#A66999",
+    [Missionarea[6]]:       "#3599B8",
+    [Missionarea[7]]:       "#DFBFBF",
+    [Missionarea[8]]:       "#1743f3"
+}
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
 communityData.features.forEach(function(feature) {
@@ -17,12 +38,11 @@ communityData.features.forEach(function(feature) {
     count++;
 })
 //*********************************** Load the map *****************************************************
-
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
-    zoom: 4,
+    zoom: 7,
     minZoom: 3,
     // maxZoom: 13,
     fullscreenControl: false,
@@ -135,7 +155,6 @@ $('#selectYear').html(select4);
 
 var select5 = '';
 select5 += '<option value="' + "All Colleges and Main Units" + '" selected="selected">' + 'All Colleges and Main Units' + '</option>';
-
 for (i = 0; i < CollegeName.length; i++) {
     select5 += '<option value="' + CollegeName[i].id + '">' + CollegeName[i].cname + '</option>';
 }
@@ -160,6 +179,16 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         data: districtData,
     });
 
+     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+
+    //To DO :If any district is selected highlight it
+    map.data.setStyle({
+        fillColor: "#fee8c8",
+        fillOpacity: 0.4,
+        strokeWeight: 0.2
+    })
+
+
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
@@ -181,7 +210,6 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var city = communityData.features
     var projects = communityData.features
     var comm_cec_status = communityData.features
-    // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var selectDistrict = communityData.features[i].properties["Legislative District Number"]
         var selectYear = communityData.features[i].properties["Academic Year"]
@@ -216,17 +244,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 
         oms.addMarker(marker);
        function missionColor(mission) {
-       // alert('mission--'+mission);
-        var assignColor = '';
-            for (var i = 0; i < Missionarea.length; i++) {
-                var missiondtl = Missionarea[i];
-                var missionName = missiondtl.split(':')[0];
-                var missionColor = missiondtl.split(':')[1];
-                if(mission == missionName){
-                    assignColor = missionColor;
-                }
-            }
-            return circle.fillColor = assignColor;
+            return circle.fillColor = colorCodeObject[mission];
         }
         attachMessage(marker, partner_name[i].properties['CommunityPartner'],
             project_number[i].properties['Number of projects'],city[i].properties['City'],
@@ -256,33 +274,33 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
 var mcOptions = {
     maxZoom: 15,
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
+    averageCenter: true,
     styles: [{
         height: 53,
-        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };
-
 
 var openedInfoWindow = null;
 var rightclickwindow = null;
@@ -290,7 +308,8 @@ var rightclickwindow = null;
 // function to call the infowindow on clicking markers
 function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
-    google.maps.event.addListener(marker, 'click', function () {
+
+    google.maps.event.addListener(marker, 'click', function() {
        var commInnerHtml = '';
        var commBodyHtml = '';
        var commCecHtml = '';
@@ -325,13 +344,12 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         map.panTo(this.getPosition());
         // added next 4 lines
         openedInfoWindow = infowindow;
-        google.maps.event.addListener(infowindow, 'closeclick', function () {
+        google.maps.event.addListener(infowindow, 'closeclick', function() {
             openedInfoWindow = null;
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        // alert(projects.toString().split(","));
-         var projectDtlList = projects.toString().split(",");
+          var projectDtlList = projects.toString().split(",");
          var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
@@ -358,7 +376,6 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         }
         projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
         infowindow.setContent(projectHtml)
-         // '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.toString().split(",").join("<br>")+ '</td></tr><br />')
         map.panTo(this.getPosition());
 
         // google.maps.event.addListener(marker, 'rightclick', function() {
@@ -371,9 +388,51 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
     });
 }
 
+
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
-  infowindow.close();
+    infowindow.close(map);
+})
+
+var states = new Array();
+var selectDistrict = document.getElementById('selectDistrict');
+selectDistrict.addEventListener("change", function (e) {
+    var value = e.target.value.trim()
+    // var value=value1.split("Legislative District")[1]
+    value = parseInt(value)
+    // console.log(value1, value)
+    if (isNaN(value)) {
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
+    } else {
+        var coords = []
+        for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
+        for (i = 0; i < districtData.features.length; i++) {
+            if (value == districtData.features[i].id) {
+                for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
+                    coords.push({
+                        lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
+                        lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
+                    });
+                }
+            }
+        }
+        var state = new google.maps.Polygon({
+            paths: coords,
+            strokeColor: '#fe911d',
+            strokeOpacity: 0.8,
+            strokeWeight: 1,
+            fillColor: '#fe911d',
+            fillOpacity: 0.25,
+        });
+
+        states.push(state)
+        state.setMap(map)
+
+    }
 })
 
 // Check if a marker already exists in a cluster
@@ -429,6 +488,7 @@ function returnKeepValue(setFilters, marker) {
 
 function filterMarkers() {
     const setFilters = getSetFilterOptions();
+    console.log("Set filters: ", setFilters);
 
     for (var i = 0; i < markers.length; i++) {
         let marker = markers[i];
@@ -461,33 +521,34 @@ selectCollege_tag.addEventListener("change", function(event) {
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });
+
 // Create a wrapper div around all the filters and a change event listener
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
 selectFilters.addEventListener("change", function(event) {
-    document.getElementById("valueFilter").value = "";
+     document.getElementById("valueFilter").value = "";
     if (event.target == valueFilter){
         return
     }
     else {
-        const selectFilterChildren = Array.from(selectFilters.children);
+    const selectFilterChildren = Array.from(selectFilters.children);
 
-        selectFilterChildren.forEach((child) => {
-            // Set each filter's value
-            if (child.id !== "missionAreaFilters" && child.id !== "selectCollege") {
-                mapFilter(child.id, child.value);
-            }
-        });
-        filterMarkers();
-        $('#totalnumber').html(getClusterSize());
+    selectFilterChildren.forEach((child) => {
+        // Set each filter's value
+        if (child.id !== "missionAreaFilters" && child.id !== "selectCollege") {
+            mapFilter(child.id, child.value);
+        }
+    });
+    filterMarkers();
+    $('#totalnumber').html(getClusterSize());
     }
      $('#totalnumber').html(getClusterSize());
 });
 
 var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));
 for (let missionAreaFilter of missionAreaFilters) {
+    document.getElementById("valueFilter").value = "";
     missionAreaFilter.addEventListener("click", function(event) {
-        document.getElementById("valueFilter").value = "";
         let value = missionAreaFilter.textContent;
         mapFilter("selectMission", value);
         filterMarkers();
@@ -501,10 +562,7 @@ var valueFilter = document.getElementById("valueFilter");
 //Press the listening button
 valueFilter.addEventListener("keydown", function (e) {
     resetFiltersOnSearchComm();
-
     if (e.keyCode == 8 || e.keyCode == 46) {
-        
-     
         for (var i = 0; i < markers.length; i++) {
             markers[i].setVisible(false);
             markerCluster.clearMarkers(markers[i]);
@@ -514,7 +572,7 @@ valueFilter.addEventListener("keydown", function (e) {
 });
 
 // the listening button off
-valueFilter.addEventListener("keyup", function (e) { 
+valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
 
@@ -536,6 +594,7 @@ valueFilter.addEventListener("keyup", function (e) {
             } else {
                 markers[i].setVisible(false);
                 markerCluster.removeMarker(markers[i]);
+
             }
         }
         markerCluster.redraw();
@@ -557,6 +616,9 @@ function resetFiltersOnSearchComm (){
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);
     }
+    for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
 
     var select3 = '';
     select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
@@ -566,7 +628,7 @@ function resetFiltersOnSearchComm (){
     $('#selectCampus').html(select3);
 
     filterMarkers();
-    $('#totalnumber').html(getClusterSize()); 
+    $('#totalnumber').html(getClusterSize());
 }
 
 $("#reset").click(function () {
@@ -583,6 +645,9 @@ $("#reset").click(function () {
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);
     }
+    for (var k=0; k<states.length; k++) {
+            states[k].setMap(null);
+        }
 
     var select3 = '';
     select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';

@@ -300,27 +300,27 @@ var mcOptions = {
     averageCenter: true,
     styles: [{
         height: 53,
-        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 66,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 66
         },
         {
             height: 78,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 78
         },
         {
             height: 90,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 90
         }]
 };
@@ -513,7 +513,6 @@ selectFilters.addEventListener("change", function(event) {
 var engagementFilters = Array.from(document.getElementsByClassName("selectEngagement"));
 for (let engageFilter of engagementFilters) {
     engageFilter.addEventListener("click", function(event) {
-        document.getElementById("valueFilter").value = "";
         let value = engageFilter.textContent;
         mapFilter("selectEngagement", value);
         filterMarkers();

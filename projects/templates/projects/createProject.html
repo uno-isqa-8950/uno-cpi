@@ -882,6 +882,11 @@ window.history.pushState(null, "", window.location.href);
             window.history.pushState(null, "", window.location.href);
         };
 
+
+        function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
 //----------------------------------restrict comma and semicolon---------------------------
      function RestrictCommaSemicolon(e) {
         var theEvent = e || window.event;

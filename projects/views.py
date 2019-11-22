@@ -33,6 +33,7 @@ from googlemaps import Client
 # The imports below are for running sql queries for AllProjects Page
 from django.db import connection
 from UnoCPI import sqlfiles
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 sql=sqlfiles
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -1281,9 +1282,9 @@ def showAllProjects(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+        # k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1322,17 +1323,29 @@ def showAllProjects(request):
         # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
     # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+    else:
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
+    print("default_yr_id---", default_yr_id)
+    print ("max_yr ---", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -1340,6 +1353,9 @@ def showAllProjects(request):
     else:
         academic_start_year_cond = int(academic_year_filter)
         academic_end_year_cond = int(academic_year_filter)
+
+    print("academic_start_year_cond----", academic_start_year_cond)
+    print("academic_end_year_cond---", academic_end_year_cond)
 
     K12_filter = request.GET.get('k12_flag', None)
     if K12_filter is None or K12_filter == "All" or K12_filter == '':
@@ -1351,47 +1367,73 @@ def showAllProjects(request):
     elif K12_filter == 'No':
         K12_filter_cond = 'false'
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
-        cec_part_cond = '%'
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_sql, params)
-        # cursor.execute(sql.projects_report, [project_ids])
+        # cec_part_selection = cec_part_init_selection
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+        cec_comm_part_cond = 'Current'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+        cec_comm_part_cond = 'Former'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Former'
+
     elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
-    # print('CEC Partner set in view ' + cec_part_selection)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Current'
+
+    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, params)
+
+    # if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
+    #     cec_part_selection = cec_part_init_selection
+    #     cec_part_cond = '%'
+    #     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    #               K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.all_projects_sql, params)
+    #     # cursor.execute(sql.projects_report, [project_ids])
+    # elif cec_part_selection == "CURR_COMM":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    #               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
+    #               cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+    # elif cec_part_selection == "FORMER_COMM":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    #               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+    # elif cec_part_selection == "FORMER_CAMP":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    #               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+    # elif cec_part_selection == "CURR_CAMP":
+    #     cec_start_acad_year = academic_start_year_cond
+    #     cec_end_acad_year = academic_end_year_cond
+    #     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    #               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
+    #               cec_end_acad_year]
+    #     cursor = connection.cursor()
+    #     cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
+    # # print('CEC Partner set in view ' + cec_part_selection)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
@@ -1472,9 +1514,9 @@ def projectstablePublicReport(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1517,13 +1559,25 @@ def projectstablePublicReport(request):
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+    else:
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
+
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -1542,76 +1596,63 @@ def projectstablePublicReport(request):
     elif K12_filter == 'No':
         K12_filter_cond = 'false'
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
-        cec_part_cond = '%'
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_sql, params)
-        # cursor.execute(sql.projects_report, [project_ids])
+        # cec_part_selection = cec_part_init_selection
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+        cec_comm_part_cond = 'Current'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+        cec_comm_part_cond = 'Former'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Former'
+
     elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
-    # print('CEC Partner set in view ' + cec_part_selection)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Current'
+
+    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, params)
+
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
-
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                       params=None)
-           # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
+                           params=None)
+        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
-            projId = "("+str(selectedprojectId)+")"
-            print('project_name_list--',projId)
+            projId = "(" + str(selectedprojectId) + ")"
+            print('project_name_list--', projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
-                       params=None)
-            #cursor.execute(sql.search_projects_sql,project_name_list)
+                           params=None)
+            # cursor.execute(sql.search_projects_sql,project_name_list)
     # else:
     #
     #     cursor.execute(sql.all_projects_sql)
 
     for obj in cursor.fetchall():
-         projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
-                              "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
-                              "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
-                              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
-                              , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25]})
+        projects_list.append(
+            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+             "engagementType": obj[4], "academic_year": obj[5], "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
+             "total_uno_students": obj[11], "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
+             "total_k12_hours": obj[15], "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
+             "project_type": obj[19], "end_semester": obj[20], "end_academic_year": obj[21], "sub_category": obj[22],
+             "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25]})
     return render(request, 'reports/projectspublictableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
@@ -1635,9 +1676,9 @@ def projectsPublicReport(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1680,13 +1721,24 @@ def projectsPublicReport(request):
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+    else:
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -1705,65 +1757,51 @@ def projectsPublicReport(request):
     elif K12_filter == 'No':
         K12_filter_cond = 'false'
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
-        cec_part_cond = '%'
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_sql, params)
-        # cursor.execute(sql.projects_report, [project_ids])
+        # cec_part_selection = cec_part_init_selection
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+        cec_comm_part_cond = 'Current'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+        cec_comm_part_cond = 'Former'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Former'
+
     elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
-    # print('CEC Partner set in view ' + cec_part_selection)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Current'
+
+    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, params)
+
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
-
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                       params=None)
-           # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
+                           params=None)
+        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
-            projId = "("+str(selectedprojectId)+")"
-            print('project_name_list--',projId)
+            projId = "(" + str(selectedprojectId) + ")"
+            print('project_name_list--', projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
-                       params=None)
-            #cursor.execute(sql.search_projects_sql,project_name_list)
+                           params=None)
+            # cursor.execute(sql.search_projects_sql,project_name_list)
     # else:
     #
     #     cursor.execute(sql.all_projects_sql)
@@ -1775,18 +1813,18 @@ def projectsPublicReport(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(projects_list, 5)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_public_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
-
-
-
-
-
-
-
-#Public reports end here
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
 
 
 # project private card and table view starts here
@@ -1795,6 +1833,7 @@ def projectsPublicReport(request):
 def projectsPrivateReport(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
     print('selectedprojectId--',selectedprojectId)
+
     data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')
@@ -1802,15 +1841,16 @@ def projectsPrivateReport(request):
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
-    # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
+
     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
         campus_partner_id__in=campus_filtered_ids))
-    projects_list=[]
+
+    projects_list = []
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1849,17 +1889,27 @@ def projectsPrivateReport(request):
         # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
     # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+    else:
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -1878,68 +1928,49 @@ def projectsPrivateReport(request):
     elif K12_filter == 'No':
         K12_filter_cond = 'false'
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
-        cec_part_cond = '%'
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_sql, params)
-        # cursor.execute(sql.projects_report, [project_ids])
+        # cec_part_selection = cec_part_init_selection
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+        cec_comm_part_cond = 'Current'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+        cec_comm_part_cond = 'Former'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Former'
+
     elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
-    # print('CEC Partner set in view ' + cec_part_selection)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Current'
+
+    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, params)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
-
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                       params=None)
-           # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
+                           params=None)
+        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
-            projId = "("+str(selectedprojectId)+")"
-            print('project_name_list--',projId)
+            projId = "(" + str(selectedprojectId) + ")"
+            print('project_name_list--', projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
-                       params=None)
-            #cursor.execute(sql.search_projects_sql,project_name_list)
-    # else:
-    #
-    #     cursor.execute(sql.all_projects_sql)
+                           params=None)
 
     for obj in cursor.fetchall():
          projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
@@ -1948,10 +1979,18 @@ def projectsPrivateReport(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(projects_list, 5)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_private_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
 
 @login_required()
 def projectstablePrivateReport(request):
@@ -1970,9 +2009,9 @@ def projectstablePrivateReport(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -2011,17 +2050,27 @@ def projectstablePrivateReport(request):
         # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
     # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
     yrs = []
+    month = datetime.datetime.now().month
+    year = datetime.datetime.now().year
+    if month > 7:
+        a_year = str(year - 1) + "-" + str(year)[-2:]
+    else:
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
     for e in acad_years:
         yrs.append(e.id)
+    try:
+        acad_year = AcademicYear.objects.get(academic_year=a_year).id
+        default_yr_id = acad_year
+    except AcademicYear.DoesNotExist:
+        default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("max_yr_id", max_yr_id)
     if academic_year_filter is None or academic_year_filter == '':
-        academic_start_year_cond = int(max_yr_id)
-        academic_end_year_cond = int(max_yr_id)
+        academic_start_year_cond = int(default_yr_id)
+        academic_end_year_cond = int(default_yr_id)
 
     elif academic_year_filter == "All":
         academic_start_year_cond = int(max_yr_id)
@@ -2040,68 +2089,49 @@ def projectstablePrivateReport(request):
     elif K12_filter == 'No':
         K12_filter_cond = 'false'
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_init_selection = "All"
+    cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        cec_part_selection = cec_part_init_selection
-        cec_part_cond = '%'
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_sql, params)
-        # cursor.execute(sql.projects_report, [project_ids])
+        # cec_part_selection = cec_part_init_selection
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "CURR_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_comm_report_filter, params)
+        cec_comm_part_cond = 'Current'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_COMM":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_comm_report_filter, params)
+        cec_comm_part_cond = 'Former'
+        cec_camp_part_cond = '%'
+
     elif cec_part_selection == "FORMER_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_former_camp_report_filter, params)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Former'
+
     elif cec_part_selection == "CURR_CAMP":
-        cec_start_acad_year = academic_start_year_cond
-        cec_end_acad_year = academic_end_year_cond
-        params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-                  K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_start_acad_year,
-                  cec_end_acad_year]
-        cursor = connection.cursor()
-        cursor.execute(sql.all_projects_cec_curr_camp_report_filter, params)
-    # print('CEC Partner set in view ' + cec_part_selection)
+        cec_comm_part_cond = '%'
+        cec_camp_part_cond = 'Current'
+
+    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    cursor = connection.cursor()
+    cursor.execute(sql.all_projects_sql, params)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
-
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                       params=None)
-           # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
+                           params=None)
+        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
-            projId = "("+str(selectedprojectId)+")"
-            print('project_name_list--',projId)
+            projId = "(" + str(selectedprojectId) + ")"
+            print('project_name_list--', projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
-                       params=None)
-            #cursor.execute(sql.search_projects_sql,project_name_list)
-    # else:
-    #
-    #     cursor.execute(sql.all_projects_sql)
+                           params=None)
 
     for obj in cursor.fetchall():
          projects_list.append({"name": obj[0].split("(")[0], "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
@@ -2117,7 +2147,6 @@ def projectstablePrivateReport(request):
 
 
 #Project private reports card and table view end here.
-
 
 
 
@@ -2633,18 +2662,16 @@ def communityPublicReport(request):
     legislative_choices = []
     legislative_search = ''
     data_definition=DataDefinition.objects.all()
+    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+    project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     status_draft = Status.objects.filter(name='Drafts')
-    print('in community report')
-    comm_ids = request.GET.get('comm_ids', None)
-    print('in community report comm_ids--',comm_ids)
 
-    #set legislative_selection on template choices field -- Manu Start
+    comm_ids = request.GET.get('comm_ids', None)
     legislative_selection = request.GET.get('legislative_value', None)
 
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    # legislative_choices.append('All')
     for i in range(1,50):
         legistalive_val = 'Legislative District '+str(i)
         legislative_choices.append(legistalive_val)
@@ -2654,17 +2681,6 @@ def communityPublicReport(request):
             legislative_search ='%'
         else:
             legislative_search = legislative_selection.split(" ")[2]
-
-
-    #project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-    #communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-
-    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
-    else:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search))
 
     college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
@@ -2711,11 +2727,11 @@ def communityPublicReport(request):
         yrs.append(e.id)
     try:
         acad_year = AcademicYear.objects.get(academic_year=a_year).id
-        default_yr_id = acad_year - 1
+        default_yr_id = acad_year
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
-    max_yr_id = max(yrs)
 
+    max_yr_id = max(yrs)
 
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
@@ -2769,47 +2785,11 @@ def communityPublicReport(request):
                   legislative_district_cond, college_unit_cond, cec_part_cond]
         cursor = connection.cursor()
         cursor.execute(sql.community_public_report, params)
-        # if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        #     cec_part_selection = cec_part_init_selection
-        #     cec_part_cond = '%'
-        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-        #              legislative_district_cond, college_unit_cond]
-        #     cursor = connection.cursor()
-        #     cursor.execute(sql.community_public_report, params)
-        #     # cursor.execute(sql.projects_report, [project_ids])
-        # elif cec_part_selection == "CURR_COMM":
-        #     cec_start_acad_year = academic_start_year_cond
-        #     cec_end_acad_year = academic_end_year_cond
-        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-        #               legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
-        #     cursor = connection.cursor()
-        #     cursor.execute(sql.community_public_cec_curr_comm_report, params)
-        # elif cec_part_selection == "FORMER_COMM":
-        #     cec_start_acad_year = academic_start_year_cond
-        #     cec_end_acad_year = academic_end_year_cond
-        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-        #               legislative_district_cond, college_unit_cond, cec_end_acad_year]
-        #     cursor = connection.cursor()
-        #     cursor.execute(sql.community_public_cec_former_comm_report, params)
-        # elif cec_part_selection == "FORMER_CAMP":
-        #     cec_start_acad_year = academic_start_year_cond
-        #     cec_end_acad_year = academic_end_year_cond
-        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-        #               legislative_district_cond, college_unit_cond, cec_end_acad_year]
-        #     cursor = connection.cursor()
-        #     cursor.execute(sql.community_public_cec_former_camp_report, params)
-        # elif cec_part_selection == "CURR_CAMP":
-        #     cec_start_acad_year = academic_start_year_cond
-        #     cec_end_acad_year = academic_end_year_cond
-        #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-        #               legislative_district_cond, college_unit_cond, cec_start_acad_year, cec_end_acad_year]
-        #     cursor = connection.cursor()
-        #     cursor.execute(sql.community_public_cec_curr_camp_report, params)
 
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-
     for obj in cursor.fetchall():
+        print('project ids--',obj[6])
         data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3], "CommStatus": obj[4]})
 
     return render(request, 'reports/community_public_view.html', { 'college_filter': college_partner_filter, 'campus_filter': campus_project_filter,
@@ -2818,11 +2798,9 @@ def communityPublicReport(request):
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'communityData': data_list,
-                                                                 # 'missions': missions,
                                                                  'data_definition':data_definition,
                                                                  'campus_id':campus_id,
                                                                  'cec_part_choices': cec_part_choices})
-
 
 
 @login_required()
@@ -2855,93 +2833,10 @@ def communityPrivateReport(request):
         else:
             legislative_search = legislative_selection.split(" ")[2]
 
-   # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-   # communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-
-    if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status=5))
-    else:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(legislative_district=legislative_search).exclude(status=5))
-    # legislative district end -- Manu
-
-    # missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     college_partner_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    #
-    # campus_partner_filtered_ids = campus_partner_filter.qs.values_list('id', flat=True)
-    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(campus_partner_id__in=campus_partner_filtered_ids))
-    # campus_project_filtered_ids = campus_project_filter.qs.values_list('project_name', flat=True)
 
-    # mission_filtered_ids = missions.qs.values_list('project_name', flat=True)
     project_filtered_ids = project_filter.qs.values_list('id', flat=True)
-
-    # proj_ids1 = list(set(campus_project_filtered_ids).intersection(mission_filtered_ids))
-    #project_ids = list(set(campus_project_filtered_ids).intersection(project_filtered_ids))
-    # for m in communityPartners.qs:
-    #     project_id_list = []
-    #     proj_comm_par = ProjectCommunityPartner.objects.filter(community_partner_id=m.id).values_list('project_name',flat=True)
-    #     project_count = len(set(project_ids).intersection(proj_comm_par))
-    #
-    #     #if project_count==0:
-    #     #    continue
-    #     community_mission = CommunityPartnerMission.objects.filter(community_partner_id=m.id).filter(mission_type='Primary').values_list('mission_area__mission_name', flat=True)
-    #     community_dict['community_name'] = m.name
-    #     community_dict['community_mission'] = community_mission
-    #     community_dict['website'] = m.website_url
-    #     community_dict['project_count'] = project_count
-
-        # Code to get the contact email id of community partners from Contacts Model
-        # contact = list(Contact.objects.filter(community_partner=m.id, contact_type='Primary'))
-        # for contact in contact:
-        #     comp_part_contact.append(contact.email_id)
-        # list_contacts = comp_part_contact
-        # comp_part_contact = []
-        # community_dict['email'] = list_contacts
-
-        # Code to get the uno hours, students, economic impact form Project Table
-        # total_uno_students = 0
-        # total_uno_hours = 0
-        # total_economic_impact= 0
-        # p_community = list(set(project_ids).intersection(proj_comm_par))
-        # for pm in p_community:
-        #     project_id_list.append(pm)
-        #     uno_students = Project.objects.filter(id=pm).aggregate(Sum('total_uno_students'))
-        #     uno_hours = Project.objects.filter(id=pm).aggregate(Sum('total_uno_hours'))
-        #     economic_impact = Project.objects.filter(id=pm).aggregate(Sum('total_economic_impact'))
-        #     total_uno_students += uno_students['total_uno_students__sum']
-        #     total_uno_hours += uno_hours['total_uno_hours__sum']
-        #     total_economic_impact += economic_impact['total_economic_impact__sum']
-        # community_dict['total_uno_hours'] = total_uno_hours
-        # community_dict['total_uno_students'] = total_uno_students
-        # community_dict['total_economic_impact'] = total_economic_impact
-        # project_name_id = ''
-        # project_name_count =0
-        # for z in project_id_list:
-        #     project_name_id = project_name_id + str(z)
-        #
-        #     if project_name_count < len(project_id_list)-1:
-        #         project_name_id = project_name_id + str(",")
-        #         project_name_count = project_name_count + 1
-        #
-        # community_dict['project_name_ids'] =project_name_id
-        # community_list.append(community_dict.copy())
-
-    # college_value = request.GET.get('college_name', None)
-    # if college_value is None or college_value == "All" or college_value == '':
-    #     campus_filter_qs = CampusPartner.objects.all()
-    # else:
-    #     campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-    # campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-
-    # campus_id = request.GET.get('campus_partner')
-    # if campus_id == "All":
-    #     campus_id = -1
-    # if (campus_id is None or campus_id == ''):
-    #     campus_id = 0
-    # else:
-    #     campus_id = int(campus_id)
-
+    
     college_unit_filter = request.GET.get('college_name', None)
     if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
         college_unit_cond = '%'
@@ -2952,14 +2847,11 @@ def communityPrivateReport(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_filter)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    print("campus_project: ", campus_project_filter)
-
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         legislative_district_cond = '%'
 
     else:
         legislative_district_cond = legislative_search
-
 
     community_type_filter = request.GET.get('community_type', None)
     if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
@@ -2977,17 +2869,17 @@ def communityPrivateReport(request):
     else:
         a_year = str(year - 2) + "-" + str(year-1)[-2:]
 
-    #  test = AcademicYear.objects.get(academic_year=a_year)
-    #  project =ProjectFormAdd(initial={"academic_year":test})
     for e in acad_years:
         yrs.append(e.id)
+
     try:
         acad_year = AcademicYear.objects.get(academic_year=a_year).id
         default_yr_id = acad_year
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
+
     max_yr_id = max(yrs)
-    print ('default_yr_id', default_yr_id)
+
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
         academic_end_year_cond = int(default_yr_id)
@@ -3007,10 +2899,6 @@ def communityPrivateReport(request):
         campus_partner_cond = campus_partner_filter
         campus_id = int(campus_partner_filter)
 
-    # params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond, legislative_district_cond , college_unit_cond]
-    # print ("params", params)
-    # cursor = connection.cursor()
-
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     # cec_part_init_selection = "All"
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
@@ -3028,42 +2916,11 @@ def communityPrivateReport(request):
               legislative_district_cond, college_unit_cond, cec_part_cond]
     cursor = connection.cursor()
     cursor.execute(sql.community_private_report, params)
-    # elif cec_part_selection == "CURR_COMM":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-    #               legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.community_private_cec_curr_comm_report, params)
-    # elif cec_part_selection == "FORMER_COMM":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-    #               legislative_district_cond, college_unit_cond , cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.community_private_cec_former_comm_report, params)
-    # elif cec_part_selection == "FORMER_CAMP":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-    #               legislative_district_cond, college_unit_cond , cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.community_private_cec_former_camp_report, params)
-    # elif cec_part_selection == "CURR_CAMP":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [community_type_cond, academic_start_year_cond, academic_end_year_cond, campus_partner_cond,
-    #               legislative_district_cond, college_unit_cond , cec_start_acad_year, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.community_private_cec_curr_camp_report, params)
-
+   
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-    # else:
-    #     cursor.execute(sql.community_private_report, params)
-    # cursor.execute(sql.projects_report, [project_ids])
-
     for obj in cursor.fetchall():
+        print('proj ids--',obj[6])
         data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
                           "unostudentshours": obj[4], "website": obj[5], "projectID": obj[6], "CommStatus": obj[7]})
 
@@ -3072,7 +2929,6 @@ def communityPrivateReport(request):
                                                                  'communityPartners': communityPartners,
                                                                  'community_list': community_list,
                                                                  'communityData': data_list,
-                                                                 # 'missions': missions,
                                                                    'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
 
 

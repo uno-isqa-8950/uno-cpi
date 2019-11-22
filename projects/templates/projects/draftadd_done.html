@@ -46,4 +46,10 @@ p {
               <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been saved as a Draft.
                   A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myDrafts/'>My Drafts<a> page.</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
+<script>
+            function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+</script>
 {% endblock %}

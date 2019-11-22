@@ -68,16 +68,17 @@
 <!--    <div class = "container">-->
         <div class="row justify-content-md-center">
             <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
 <!--                <div class = "panel panel-default" style="width:100%;margin-top: 50px" >-->
-                    <div class="panel-heading text-center" style="color: white"><h4>Register a Community Partner</h4></div>
-                        <div class="panel-body">
-                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% com_part_regs %}
+                    <div class=" text-center"><h3 class="heading">Register a Community Partner</h3></div>
+
+                            <div class="card snippet-card">
+                                <div class="text-snippet">
+                                    {% com_part_user_regs %}
                                 </div>
                              </div>
-                         </div>
-                    <div class="panel-body">
+
+                    <div class="box">
                         <br><br>
 <!--                        <label style="text-align: center">Enter text to search community partner</label>-->
                         <form method="POST" onsubmit="return false">{% csrf_token %}
@@ -100,11 +101,13 @@
                     </div>
 
 <!--                </div>-->
-                                     <div style="float: left;"  id="node1-id" style="display: none"></div>
-         <div style="float: left;"  id="button-id" style="display: none"></div>
+                <div class="row" style="margin-top:-30px; margin-left:-10px;margin-bottom:0px">
+                <div id="node1-id" ></div>
+         <div   id="button-id"></div>
+                </div>
          <div>
-            <div class="panel-body">&emsp;
-                <div class="justify-content-md-center" id="node-id" style="margin-left: 0%;"></div>
+            <div class="panel-body" style="margin-top: -40px;margin-left: 10px;width: 100%">&emsp;
+                <div class="justify-content-md-center" id="node-id" style="margin-left: -10px;"></div>
             </div>
      </div>
             </div>
@@ -132,7 +135,7 @@
     {{ partnerNames | json_script:"partner-data"}}
 <!--         {{ CommunityPartner.acronym }} -->
 
-    <div style="margin-bottom: 300px"></div>
+    <div style="margin-bottom: 300px; width: 100%;"></div>
 
     <script>
 var valueFilter = document.getElementById("partner_name");
@@ -180,7 +183,7 @@ valueFilter.addEventListener("keydown", function (e) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i]);
                                 <!--alert(partnerlist);-->
-                                var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
+                                var mylist = '<table class="table table-hover table-sm table-bordered box">' +
                                     '<tr><th>Community Partner</th></tr>';
                                 for (let j =0; j<partnerlist.length;j++ ){
                                     if(partnerlist[j].toLowerCase().trim() == value.toLowerCase().trim())
@@ -202,7 +205,7 @@ valueFilter.addEventListener("keydown", function (e) {
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
                                     '<br>' +
-                                    '<tr><td><label style="text-align:justify;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.<label</td></tr><br><br>' +
+                                    '<tr><td><label style="text-align:justify;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</label></td></tr><br><br>' +
                                     {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
                                     {#'<table class="table table-hover table-sm table-bordered">' +#}
                                     {#'<tr><th>Community Partner</th></tr>' +#}
@@ -233,12 +236,13 @@ valueFilter.addEventListener("keydown", function (e) {
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
-                                        '<tr><td><label style="text-align:justify;">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
+                                        '<tr><td><label style="text-align:justify; padding-left:10px;padding-top:20px">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
                                         '<tr><td><a class="btn btn-secondary" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                                 }
                     }
             };
+
                 $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -299,6 +303,7 @@ $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
 </script>
+
 
 <script type="text/javascript">
    $(document).ready(function() {

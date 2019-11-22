@@ -53,8 +53,8 @@ dfCommunity = pd.read_sql_query(
     join home_missionarea hm on p.mission_area_id = hm.id \
     join partners_communitytype pc2 on PC.community_type_id = pc2.id \
     where  \
-    (pc.address_line1 not in ('','NA','N/A','None') or \
-    pc.city not in ('','NA','N/A','None') or \
+    (pc.address_line1 not in ('','NA','N/A','None') and \
+    pc.city not in ('','NA','N/A','None') and \
     pc.state not in ('','NA','N/A','None')) \
     and (pc.latitude is null or pc.longitude is null \
     or pc.legislative_district is null) \

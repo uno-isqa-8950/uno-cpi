@@ -13,6 +13,7 @@ from django.contrib.messages import constants as messages
 import dj_database_url
 from django.urls import reverse_lazy
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -51,7 +52,6 @@ INSTALLED_APPS = [
     'import_export',
     'logentry_admin',
     'simple_history',
-
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -63,7 +63,7 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-
+    'session_security',
     'modelcluster',
     'taggit',
     'storages',
@@ -84,10 +84,12 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'crum.CurrentRequestUserMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django_session_timeout.middleware.SessionTimeoutMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
 ]
 
-SESSION_EXPIRE_SECONDS = 1800
+SESSION_SECURITY_EXPIRE_AFTER=1800
+SESSION_SECURITY_WARN_AFTER=5
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 ROOT_URLCONF = 'UnoCPI.urls'
 
 TEMPLATES = [

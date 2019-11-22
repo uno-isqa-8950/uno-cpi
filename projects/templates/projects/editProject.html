@@ -267,7 +267,7 @@ label[for=id_campus-0-campus_partner]:after{
                          {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
                       <label class="col-sm-4"  data-toggle="tooltip" title="{{ data_definition.description }}">
-                        <i class="fa fa-info-circle"></i> Activity Type <span style="color:red;">*</span></label>
+                        <i class="fa fa-info-circle"></i> Activity Type </label>
                       {% endif %}
                       {% endfor %}
                         <div class="col-sm-7">
@@ -325,31 +325,6 @@ label[for=id_campus-0-campus_partner]:after{
                 </div>
                 </div>
                 </div>
-<!--                                <div class="row">-->
-<!--                    <div class="col-md-6">-->
-<!--                        <div class="row centered"><span class="addactivityerror" style="color: #b60000"></span> </div>-->
-<!--                <div class="row" id="otheractivity">-->
-<!--                      <label class="col-sm-4"><i  style="padding-left: 15px"></i>  Other Activity Type</label>-->
-<!--                             <div class="col-md-6">-->
-<!--                                 <input id='otheracttype' type="text" class="inputbox" placeholder="Add Other Activity Types">-->
-<!--                             <div class="row displaybox" id='displayact'>-->
-<!--                                        </div>-->
-<!--                             </div>-->
-
-<!--                                                    <div class="col-md-1">-->
-<!--&lt;!&ndash;                                                        <div><br></div>&ndash;&gt;-->
-<!--                                                <div class="input-group-append" >-->
-<!--                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>-->
-<!--                                            </div>-->
-<!--                                            </div>-->
-<!--                                                </div>-->
-<!--                                            <div style="display: none">-->
-<!--&lt;!&ndash;                                                <div>&ndash;&gt;-->
-<!--                                            {{ project.other_activity_type}}-->
-<!--                                            </div>-->
-
-<!--                    </div>-->
-<!--                </div>-->
 
                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
                     <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
@@ -983,10 +958,7 @@ $('#update').show;
                     alert("Please provide Project start semester.");
                     return false
                 }
-                // if ($("#id_academic_year").val() === '') {
-                //     alert("Please provide Project start academic year.");
-                //     return false
-                // }
+
                 if( ($("#id_description").val() === '') ){
                     alert("Please Provide Description for the project.");
                     return false

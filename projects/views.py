@@ -1717,9 +1717,9 @@ def projectsPublicReport(request):
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 
@@ -1895,9 +1895,9 @@ def projectsPrivateReport(request):
     projects_list = []
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
-    k12_init_selection = "All"
-    if k12_selection is None:
-        k12_selection = k12_init_selection
+    # k12_init_selection = "All"
+    # if k12_selection is None:
+    #     k12_selection = k12_init_selection
 
     k12_choices = K12ChoiceForm(initial={'k12_choice': k12_selection})
 

@@ -5,58 +5,6 @@ from crum import get_current_user
 from django.contrib.postgres.fields import ArrayField
 from UnoCPI import  settings
 
-
-# class Project (models.Model):
-#     project_name = models.CharField(max_length=255, unique=True)
-#     engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True)
-#     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
-#     facilitator = models.CharField(max_length=255, blank=True)
-#     description = models.TextField(blank=True, null=True)
-#     semester = models.CharField(max_length=20, blank=False)
-#     end_semester = models.CharField(max_length=20, blank=True)
-#     academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=False, related_name = "academic_year1")
-#     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
-#     total_uno_students = models.PositiveIntegerField(null=True, default= 0)
-#     total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
-#     k12_flag = models.BooleanField(default=False)
-#     total_k12_students = models.PositiveIntegerField(null=True, default= 0)
-#     total_k12_hours = models.PositiveIntegerField(null=True, default= 0)
-#     total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)
-#     total_other_community_members = models.PositiveIntegerField(null=True, default= 0)
-#     start_date = models.DateField(null=True, blank=True)
-#     end_date = models.DateField(null=True, blank=True)
-#     other_details = models.CharField(max_length=1000, null=True, blank=True)
-#     outcomes = models.CharField(max_length=100, null=True, blank=True)
-#     status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True, default=1)
-#     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True, default=0)
-#     address_line1 = models.CharField(max_length=1024, blank=True, null=True)
-#     address_line2 = models.CharField(max_length=1024, blank=True, null=True)
-#     country = models.CharField(max_length=100, blank=True, null=True)
-#     city = models.CharField(max_length=25, blank=True, null=True)
-#     state = models.CharField(max_length=15, blank=True, null=True)
-#     zip = models.CharField(max_length=10, null=True, blank=True)
-#     county = models.CharField(max_length=100, blank=True, null=True)
-#     legislative_district = models.IntegerField(null=True, blank=True)
-#     median_household_income = models.IntegerField(null=True, blank=True)
-#     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
-#     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
-#     created_date = models.DateTimeField(default=timezone.now)
-#     updated_date = models.DateTimeField(auto_now_add=True)
-#     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
-#     history = HistoricalRecords()
-#
-#     def created(self):
-#         self.created_date = timezone.now()
-#         self.save()
-#
-#     def updated(self):
-#         self.updated_date = timezone.now()
-#         self.save()
-#
-#     def __str__(self):
-#         return str(self.project_name)
-
-
 class Project (models.Model):
     project_choices = (
         ('Event', 'Event'),

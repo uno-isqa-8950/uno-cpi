@@ -35,15 +35,20 @@
         <li><a href="#step-1" id="step1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li id="step4"><a href="#step-4">Other Information</a></li>
+        <li id="step4"><a href="#step-4">Location</a></li>
     </ul>
     <div>
         <div id="step-1">
             <div id="form-step-0">
-                <div class="row">
+
+                <div class="row" style="margin-top: 20px;">
                 <div class="col-md-6">
                     <div class="row">
-                    <label for="id_project_name" class="col-sm-4"><i  style="padding-left: 15px"></i> Project Name</label>
+                            {% for data_definition in data_definition %}
+                    {% if data_definition.id == 36%}
+                    <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip" title="{{ data_definition.description }}"></i> Project Name</label>
+                         {% endif %}
+                    {% endfor %}
                     <div class="col-sm-7">
                     {{ project.project_name }}
                     </div>
@@ -56,8 +61,8 @@
                     <div class="row">
                         {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
-                        <label for="id_engagement_type" data-toggle="tooltip" title="{{ data_definition.description }}" class="col-sm-4">
-                        <i class="fa fa-info-circle"></i> Engagement Type
+                        <label for="id_engagement_type" class="col-sm-4">
+                        <i class="fa fa-info-circle" data-toggle="tooltip" title="{{ data_definition.description }}"></i> Engagement Type
 <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
                             </label>
                          {% endif %}
@@ -75,7 +80,7 @@
                         {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
                       <label class="col-sm-4"  data-toggle="tooltip" title="{{ data_definition.description }}">
-                        <i class="fa fa-info-circle"></i> Activity Type <span style="color:red;">*</span></label>
+                        <i class="fa fa-info-circle"></i> Activity Type </label>
                       {% endif %}
                       {% endfor %}
                        <div class="col-sm-7">
@@ -115,7 +120,7 @@
                     <label class="col-sm-2" for="id_engagement_type">Description</label>
 <!--                    </div>-->
 <!--                    <div class="row">-->
-                    <div class="col">
+                    <div class="col-sm-7">
                     {{ project.description }}
                     </div>
                     {% if  project.description.errors %}
@@ -126,37 +131,7 @@
                 </div>
                 </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-<!--                <div class="row" id="otheractivity">-->
-<!--                      <label class="col-sm-4">Other Activity Type</label>-->
-<!--                             <div class="col-md-6">-->
-<!--                                 <input id='otheracttype' type="text" class="inputbox" placeholder="Add Other Activity Types">-->
-<!--                                                    </div>-->
 
-<!--                                                    <div class="col-md-1">-->
-<!--&lt;!&ndash;                                                        <div><br></div>&ndash;&gt;-->
-<!--                                                <div class="input-group-append" >-->
-<!--                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>-->
-<!--                                            </div>-->
-<!--                                            </div>-->
-<!--                                                </div>-->
-<!--                                            <div style="display: none">-->
-<!--&lt;!&ndash;                                                <div>&ndash;&gt;-->
-<!--                                            {{ project.other_activity_type}}-->
-<!--                                            </div>-->
-<!--                                        <div class="row displaybox" id='displayact'>-->
-<!--                                        </div>-->
-                    </div>
-                </div>
-                <div class="row centered">
-                     {{ course|bootstrap }}
-            {% if  course.errors %}
-            {% for error in  course.errors %}
-            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-            {% endfor %}
-            {% endif %}
-            </div>
                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
                     <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
                     </button>
@@ -728,11 +703,11 @@ if(stepDirection === 'forward') {
             alert("Please Select Engagement type.");
             return false
         }
-        var selectedactivityval = $('#id_populate_activity option:selected').val();
-        if( selectedactivityval === "0" ){
-            alert("Please Select Activity type.");
-            return false
-        }
+        // var selectedactivityval = $('#id_populate_activity option:selected').val();
+        // if( selectedactivityval === "0" ){
+        //     alert("Please Select Activity type.");
+        //     return false
+        // }
           if($('#otheracttype').val() !="" ){
                     alert('Please Make Sure To Add The Other Activity Value');
                     var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add other activity type.";
@@ -1406,13 +1381,13 @@ window.onload = function () {
     $("#id_project_name").val(projectName);
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
-              $("#id_name").show();
-              $("label.control-label[for=id_name], input#id_name").show();
+              $("#id_name").hide();
+              $("label.control-label[for=id_name], input#id_name").hide();
               // $("label.control-label[for=id_prefix], input#id_prefix").show();
-              $("label.control-label[for=id_section], input#id_section").show();
-           $("#id_prefix").show();
-           $("label.control-label[for=id_number], input#id_number").show();
-           $("#id_number").show();
+              $("label.control-label[for=id_section], input#id_section").hide();
+           $("#id_prefix").hide();
+           $("label.control-label[for=id_number], input#id_number").hide();
+           $("#id_number").hide();
            }
 }
 </script>
@@ -1435,13 +1410,13 @@ window.onload = function () {
            console.log(val)
            if (val === 'Course') {
                $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").show();
-               $("label.control-label[for=id_prefix], input#id_prefix").show();
-               $("#id_prefix").show();
-               $("label.control-label[for=id_number], input#id_number").show();
-               $("#id_number").show();
-               $("label.control-label[for=id_section], input#id_section").show();
-               $("#id_section").show();
+               $("label.control-label[for=id_name], input#id_name").hide();
+               $("label.control-label[for=id_prefix], input#id_prefix").hide();
+               $("#id_prefix").hide();
+               $("label.control-label[for=id_number], input#id_number").hide();
+               $("#id_number").hide();
+               $("label.control-label[for=id_section], input#id_section").hide();
+               $("#id_section").hide();
            }
            else {
                hideInputs();

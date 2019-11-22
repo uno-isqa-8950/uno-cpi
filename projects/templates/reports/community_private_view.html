@@ -12,6 +12,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
     .fade:not(.show){
         opacity: 5;
     }
+
+
 </style>
 
   <script>
@@ -24,27 +26,27 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
-                           style="line-height:.8em;padding-top:10px;">Community Partners Reports</h4></b></label>
+               <br><br>
+               <div class="text-center">
+                   <h3 class="heading">Community Partners Reports</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="container">
+
+            <div class="card snippet-card">
+                <div class="container text-snippet">
                     {% priv_comms %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <div class="container">
-    <div class="card" style="padding: 10px; ">
+
+
+    <!--<div class="card" style="border:0px; padding: 10px; ">-->
         <!-- Collapse buttons -->
-        <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <div style="margin-left: -10px">
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -62,7 +64,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 
         </div>
 <!-- / Collapse buttons -->
-    <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+    <!--<div class="card" style="border: 0px solid #C3C3C3;">-->
         <div class="collapse show" id="collapseExample">
              <form class="form-inline" id="filters-form" method="get">
                  <div class="col-lg-4 col-md-5 form-group">
@@ -110,7 +113,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} CEC Building Partners
 
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select class="form-control"  id="id_weitz_cec_part" name="weitz_cec_part"   onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -164,6 +168,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                         {% endfor %} Legislative Districts
                     </label>
                     <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
@@ -172,10 +178,11 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 </div>
              </form>
         </div>
-    </div>
-
+    <!--</div>-->
+        </div>
+        <div class ="box">
         <div style="margin-top:15px;">
-        <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
+        <table id="example" class="table table-bordered  dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
             <tr>
                 <th>
@@ -282,7 +289,9 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         </table>
         <br>
         </div>
-    </div></div>
+    </div>
+    <!--</div>-->
+
 <br>
 <br> <br> <br>
 <script type="text/javascript">
@@ -315,8 +324,9 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
+
     $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
     $('#id_mission').select2({
         placeholder: 'All Focus Areas', width: '75%',

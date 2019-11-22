@@ -77,31 +77,22 @@
 
  </style>
 
-<div class="loader" id =loading></div>
-<div class="container">
+<br>
+    <br>
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Partnership Intensity Analysis</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="border: none; padding: 10px;">
-                <div class="center">
-                    {% partnershipintensityanalysis_charts %}
-                </div>
-            </div>
+                          <div class=" text-center"><h3 class="heading">Partnership Intensity Analysis</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        {% partnershipintensityanalysis_charts %}
         </div>
-    </div>
 </div>
 
-<div class="container">
-    <div class="card" style="border: none; padding: 10px;">
     <!-- Collapse buttons -->
     <div>
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
         aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'partnershipintensity' %}' " value="Reset Filters" >
+        <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'partnershipintensity' %}' " value="Reset Filters" >
 
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
@@ -118,7 +109,7 @@
         </script>
     </div>
     <!-- / Collapse buttons -->
-    <div class="card" style="border: 2px solid #C3C3C3;">
+    <div class="box">
         <div class="collapse show" id="collapseExample">
                 <form class="form-inline" role="form" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
@@ -132,7 +123,7 @@
                         {% endfor %}
                         Academic Years
                     </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <select id="id_academic_year" name="academic_year" onchange="updateChart()">
                         <option> All </option>
                             {% for sem in project_filter.form.academic_year %}
                                 {{sem}}
@@ -151,7 +142,7 @@
                         {% endfor %}
                         Engagement Types
                     </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
                         <option> All </option>
                         {% for engagement in project_filter.form.engagement_type %}
                             {% debug %}
@@ -171,7 +162,7 @@
                         {% endfor %}
                         Colleges and Main Units
                     </label>
-                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
                         <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -190,7 +181,7 @@
                         {% endfor %}
                         Campus Partners
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                         {% for campus in campus_filter %}
@@ -209,7 +200,7 @@
                             {% endif %}
                         {% endfor %} CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -227,7 +218,7 @@
                         {% endfor %}
                         Community Organization Type
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
                         <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -246,7 +237,7 @@
                         {% endfor %}
                         Legislative Districts
                     </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updateChart()">
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
@@ -256,7 +247,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="y_axis">Y-Axis</label>
-                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="this.form.submit()">
+                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()">
                         {% for y_axis in y_choices.y_choice %}
                             {{ y_axis }}
                         {% endfor %}
@@ -265,7 +256,7 @@
 
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_partner">
-                    {% for data_definition in data_definition %}
+                        {% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
                                       data-content="{{ data_definition.description }}" class="float" >
@@ -274,7 +265,7 @@
                         {% endfor %}
                         Community Partners
                     </label>
-                    <select id="id_community_partner" name="community_partner" onchange="this.form.submit()">
+                    <select id="id_community_partner" name="community_partner" onchange="updateChart()">
                         <option> All </option>
                         <option value {% if community_id == 0 %} selected {% endif %}>---------</option>
                             {% for community in community_filter %}
@@ -282,22 +273,23 @@
                             {% endfor %}
                     </select>
                 </div>
-
-
             </form>
         </div>
     </div>
 
+<div class="row"><br></div>
+    <div class="box">
     <div id="container"  style= "height: 450px; margin:10px"></div>
         {{ Projects | json_script:"Projects"}}
         {{ CommunityPartners | json_script:"CommunityPartners"}}
         {{ CampusPartners | json_script:"CampusPartners"}}
         {{ missionList | json_script:"missionList"}}
-        {{ yearList | json_script:"yearList"}}
+        {{ campus_filter | json_script:"campus_filter"}}
+        {{ defaultYrID | json_script:"defaultYrID"}}
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script type="text/javascript" src='{% static "js/partnershipintensity.js" %}'></script>
     </div>
-
+    </div>
 </div><br><br><br><br>
 {% endblock %}
 
@@ -348,7 +340,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'Current Academic Year',width: '75%'});
+    $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
     $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All',width: '75%'});
     $('#id_y_axis').select2({width: '75%'});
@@ -384,44 +376,5 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
-
 {% block js %}
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-<script type="text/javascript">
-   $(document).ready(function() {
-   $('#example').DataTable({
-       dom: 'B<"clear">ft',
-       <!--To remove search function from mission area report-->
-       // searching:false,
-       buttons: {
-       name: 'primary',
-       buttons: ['csv', 'excel', 'pdf']
-       },
-       // ordering:false
-       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  ]
-   });
-       $('#example_filter').find('input').addClass('clearable');
-               function tog(v){return v?'addClass':'removeClass';}
-$(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-    $('#example').DataTable().destroy();
-    $('#example').DataTable().draw();
-    $('#example_filter').find('input').addClass('clearable');
-});
-   } );
-</script>
-<script language="javascript" type="text/javascript">
-    console.log(" im in loader stopper");
-    window.onload = function(){ document.getElementById("loading").style.display = "none" }
-</script>
 {% endblock %}

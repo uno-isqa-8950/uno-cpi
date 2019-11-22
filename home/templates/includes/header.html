@@ -117,7 +117,9 @@ margin-top:15px;
                       <a class="dropdown-item" href="/missionchart">Focus Areas</a>
                       <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
                       <a class="dropdown-item" href="/issueaddress">Issues Addressed Analysis</a>
-                      <a class="dropdown-item" href="/trendreport">Trend Report</a>
+                    {% if  user.is_superuser %}
+                        <a class="dropdown-item" href="/trendreport">Project and Partner Trends</a>
+                    {% endif %}
                       <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
                     </ul>
                   </li>

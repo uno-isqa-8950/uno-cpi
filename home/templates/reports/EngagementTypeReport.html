@@ -24,27 +24,27 @@
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:white;"><h4
-                           style="line-height:.8em;padding-top:10px;">Engagement Types Report</h4></b></label>
+               <br><br>
+               <div class="text-center">
+                   <h3 class="heading">Engagement Types Report</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
+
+               <div class="card snippet-card">
+                  <div class="container text-snippet">
                     {% eng_types %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
     <div class="container">
-    <div class="card" style="padding: 10px;">
+
         <!-- Collapse buttons -->
-        <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <div style="margin-left: -10px">
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
 
 
 
@@ -67,7 +67,8 @@
     <!-- / Collapse buttons -->
 
 <!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+
         <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
@@ -156,6 +157,7 @@
                 {% endfor %} Campus Partners
             </label>
                 <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <option value="" disabled selected hidden></option>
                     <option> All </option>
                     <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
@@ -178,6 +180,7 @@
                     {% endfor %} CEC Building Partners
                 </label>
                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                       <option value="" disabled selected hidden></option>
                      {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -189,8 +192,9 @@
     </div>
 
 <br>
+    <div class ="box">
     <div style="margin-top:15px;">
-<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+<table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
     <thead>
     <tr>
         <th>
@@ -284,8 +288,10 @@
 </tbody>
 </table>
         </div>
-                </div>
+
+
     </div>
+        </div>
     <br>
 <br> <br> <br>
 {% endblock %}
@@ -325,7 +331,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */

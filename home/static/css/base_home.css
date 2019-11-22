@@ -6,12 +6,18 @@ body{
     }
         .text-snippet{
         text-align: left;
+            margin-bottom: -20px;
     }
+        .heading{
+            font-family: "Arial Narrow", sans-serif;
+        font-size: 28px;
+        }
     .box{
         padding: 10px;
             background-color: white;
             border: 1px;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        margin-bottom: 20px;
         }
     .snippet-card{
         margin-top: 20px;
@@ -20,11 +26,12 @@ body{
         margin-bottom: 20px;
         border-left: none;
         border-right:none;
-        margin-left: 25px;
-        margin-right: 25px;
+        margin-left: 10px;
+        margin-right: 10px;
         border-radius:0px;
         background-color: transparent;
-        margin-bottom: 50px;
+        font-family: "Arial Narrow", sans-serif;
+        font-size: 18px;
     }
         @media (min-width:1200px)
 {

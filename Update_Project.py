@@ -51,6 +51,7 @@ mis.mission_type, pro.description,pro.city as City, \
 pro.state as State, pro.zip as Zip \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
+join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
 where \
 (pro.address_line1 not in ('','NA','N/A','None') \
 and pro.city not in ('','NA','N/A','None') and pro.state not in ('','NA','N/A','None')) \

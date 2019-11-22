@@ -102,7 +102,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Community Partner Types" ' + 'class="selectCommType"' + 'value="' + 'All Community Partner Types"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Community Partner Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community Partner Types" ' + 'class="selectCommType"' + 'value="' + 'All Community Partner Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Partner Types</b></a>' + "<br>";
 for (var i = 0; i < CommunityType.length; i++) {
     var commType = CommunityType[i];
     var color = colorCodeObject[commType];
@@ -298,19 +298,42 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
         if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-        infowindow.setContent('<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
-            // '<tr><td><span style="font-weight:bold">Legislative District Number: </span>&nbsp; </td><td>' + district_number + '</td></tr><br />' +
-           '<tr><td><span style="font-weight:bold">CEC Building Partner: </span>'+commCecStatus+'</td></tr><br />'+
-        
-            '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Website: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>' +
-             (project_number == 0 ? '':
-            ('<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>')));
+          var commInnerHtml = '';
+       var commBodyHtml = '';
+       var commCecHtml = '';
+ 
+       var commHeadHtml ='<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td></tr><br />'+
+                         '<tr><td><span style="font-weight:bold">*CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />' +
+                         '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
+                        
+        if(commCecStatus == 'Current'){
+            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> is a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+        if(commCecStatus == 'Never'){
+            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has never been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+        if(commCecStatus == 'Former'){
+         commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
+                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+        }
+                        
+        if(project_number != 0 ){
+            commBodyHtml +='<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>';
+        }
+        commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
+
+        infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());

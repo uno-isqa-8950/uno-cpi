@@ -5,6 +5,12 @@
 {% block content %}
 
 <style>
+     .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
 /*.select2-hidden-accessible{*/
           /*width:85%;*/
         /*border:2px solid #aaa;*/
@@ -143,6 +149,8 @@
     {
         width: 100%;
         float: left;
+        padding:0;
+        margin-bottom: 15px;
     }
     .button-row-elements button{
         display:inline-block;
@@ -174,14 +182,14 @@
         margin-top: 20px;
         padding-top:10px;
         padding-bottom:10px;
-        margin-bottom: 20px;
+        margin-bottom: 10px;
         border-left: none;
         border-right:none;
         margin-left: 25px;
         margin-right: 25px;
         border-radius:0px;
         background-color: transparent;
-        margin-bottom: 50px;
+
     }
 
     .projectname{
@@ -236,8 +244,22 @@ table{
         width: 85%;
 
     }
+
+.btn-secondary{
+        margin: 2px;
+}
+.buttons-csv{
+        margin:2px;
+    }
+
+
 </style>
 
+<script>
+$(function () {
+$('[data-toggle="popover"]').popover()
+})
+</script>
 
 <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
 <div class="card snippet-card">
@@ -251,10 +273,9 @@ table{
 
     <div class="container button-row-elements">
 
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-               aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '' " value="Reset Filters" >
-
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -268,9 +289,9 @@ table{
                 false
             );
         </script>
-       <input type="button" id="btn-table" value= "Table View" class="btn btn-primary" onclick="window.location.href = '/project-private-table-view'; " value="Table View" >
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/project-private-table-view'; " value="Table View" >
        <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
-       <input type="text" id="Searchboxtext" placeholder="Search...">
+       <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
     </div>
 
@@ -301,7 +322,7 @@ table{
 
                 <div class="col-lg-4 col-md-5 form-group">
 
-                    <label for="mission"> Focus Areas
+                    <label for="mission"> Project Focus Areas
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
@@ -439,7 +460,8 @@ table{
     <!--Project list starts from here -->
 
     <div id="accordion" class="accordion">
-        {% for project in project %}
+
+        {% for project in cards %}
 
 
         <div class="card mb-0 projectcard">
@@ -550,7 +572,19 @@ table{
         </td>
         <td>
             <b>Campus Lead Staff : </b>
-            {% for campus_lead_staff in project.campus_lead_staff %}{{campus_lead_staff}}{% endfor %},
+             {%if campus_lead_staff > 1%}
+             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
+             {%else%}
+             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+             {%endif%}
+        </td>
+        <td>
+            <b>Other Activity Type:</b>
+            {%if other_activity_type > 1%}
+            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
+            {%else%}
+            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
+            {%endif%}
         </td>
     </tr>
 
@@ -565,9 +599,31 @@ table{
 </div>
         {% endfor %}
 </div>
+<!--Code for Pagination -->
 
 </div>
-
+{% if cards.has_other_pages %}
+  <ul class="pagination">
+    {% if cards.has_previous %}
+        <a href="?page=1">First</a>
+        <a href="?page={{ cards.previous_page_number }}">&laquo;</a>
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in cards.paginator.page_range %}
+      {% if cards.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if cards.has_next %}
+      <li><a href="?page={{ cards.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
 
 {% endblock %}
 

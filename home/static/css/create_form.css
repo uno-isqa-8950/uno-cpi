@@ -88,6 +88,15 @@
 }
 textarea[id=id_description]{
     height:120px;
+    width: 96%;
+    border:1px solid #aaa;
+    border-radius:4px;
+    margin:5px 0px 0px 10px;
+    outline:none;
+    padding:4px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
 }
 label[for=id_campus-0-campus_partner]:after{
     display: none;
@@ -139,3 +148,42 @@ display: flex;
     background-color:  #b60000;
         color: white
     }
+
+                  .btn-secondary{
+            margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color:  #333333;
+        color: white
+    }
+
+                  .fade{
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+
+.tooltip-inner {
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 300px;
+    width: 300px;
+    min-width: 0px;
+}

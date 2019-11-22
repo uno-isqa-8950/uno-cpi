@@ -27,6 +27,7 @@ urlpatterns = [
    path('networkanalysis/', views.networkanalysis, name='networkanalysis'),
    path('trendreport/', views.trendreport, name='trendreport'),
    path('partnershipintensity/', views.partnershipintensity, name='partnershipintensity'),
+   path('projectInfo_old/', views.project_partner_info_old, name='project_partner_info_old'),
    path('projectInfo/', views.project_partner_info, name='project_partner_info'),
    path('engageType/', views.engagement_info, name='engagement_info'),
    path('engagementtypechart2/' , views.EngagementType_Chart, name = 'EngagementType_Chart'),

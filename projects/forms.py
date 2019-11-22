@@ -36,6 +36,19 @@ class CecPartChoiceForm(forms.Form):
     cec_choice = forms.ChoiceField(label="CEC Partner Choices", choices=CEC_CHOICES, required=False)
 
 
+COMM_CEC_CHOICES = [
+    ('All', 'All (CEC/Non-CEC Partners)'),
+    ('CURR_COMM', 'Current Community Building Partners'),
+    ('FORMER_COMM', 'Former Community Building Partners')]
+'''
+    ('FORMER_CAMP', 'Former Campus Building Partners'),
+    ('NEVER', 'Never CEC Building Partner')]
+'''
+
+
+class OommCecPartChoiceForm(forms.Form):
+    cec_choice = forms.ChoiceField(label="Comm CEC Partner Choices", choices=COMM_CEC_CHOICES, required=False)
+
 '''
 class CecPartChoiceForm(forms.ModelForm):
 
@@ -241,7 +254,7 @@ class ProjectFormAdd(ModelForm):
         fields = ('project_name','engagement_type','activity_type','project_type','description','semester',
                     'status', 'address_line1','country','city', 'state','zip','latitude',
                     'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
-                  'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff','other_activity_type')
+                  'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff','other_activity_type','total_uno_faculty','total_other_community_members')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput()
@@ -444,6 +457,14 @@ class ProjectMissionEditFormset(forms.ModelForm):
         labels = {
             'mission': (' '),
                     }
+
+class projectfocusarea(forms.ModelForm):
+    class Meta:
+        model = ProjectMission
+        fields = ('mission',)
+        labels = {
+            'mission': (' '),
+        }
 
 class ProjectMissionFormset(forms.ModelForm):
     class Meta:

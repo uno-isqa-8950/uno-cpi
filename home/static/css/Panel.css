@@ -110,7 +110,7 @@ input[type=text],[type=password],[type=email],[type=url]
 /*}*/
 
 
-input[id=id_start_date],input[id=id_end_date],textarea[id=id_description],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
+input[id=id_start_date],input[id=id_end_date],textarea[id=id_total_uno_hours],select[id=id_semester],input[type=number],select[id=id_status]
 {
     width:85%;
     border:1px solid #aaa;

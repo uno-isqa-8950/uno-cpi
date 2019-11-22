@@ -43,4 +43,5 @@ urlpatterns = [
     path(r'session_security/', include('session_security.urls')),
 
 
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

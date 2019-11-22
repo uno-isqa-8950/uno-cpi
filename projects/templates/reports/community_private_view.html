@@ -28,7 +28,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         <div class="col-xl-12 col-md-12 col-sm-12">
                <br><br>
                <div class="text-center">
-                   <h3 class="heading">Community Partners Reports</h3>
+                   <h3 class="heading">Community Partners Report</h3>
                </div>
 
             <div class="card snippet-card">
@@ -75,7 +75,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
-                         {% endfor %} Academic Year
+                         {% endfor %} Academic Years
 
                      </label>
                      <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
@@ -92,7 +92,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Organization Type
+                        {% endfor %} Community Organization Types
 
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
@@ -326,7 +326,7 @@ $(document).ready(function(){
     $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
     $('#id_mission').select2({
-        placeholder: 'All Focus Areas', width: '75%',
+        placeholder: 'All Project Focus Areas', width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

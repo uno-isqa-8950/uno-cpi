@@ -4,21 +4,13 @@
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
-    .fade{
-        color: black;
-        display: block;
-        opacity: 100;
-    }
-    .fade:not(.show){
-        opacity: 5;
-    }
 </style>
 
-  <script>
-    $(function () {
-  $('[data-toggle="popover"]').popover()
-})
-  </script>
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 
 <div class="loader" id =loading></div>
 <div class="container">

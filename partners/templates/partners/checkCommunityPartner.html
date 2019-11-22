@@ -68,16 +68,17 @@
 <!--    <div class = "container">-->
         <div class="row justify-content-md-center">
             <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
 <!--                <div class = "panel panel-default" style="width:100%;margin-top: 50px" >-->
-                    <div class="panel-heading text-center" style="color: white"><h4>Register a Community Partner</h4></div>
-                        <div class="panel-body">
-                            <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% com_part_regs %}
+                    <div class=" text-center"><h3 class="heading">Register a Community Partner</h3></div>
+
+                            <div class="card snippet-card">
+                                <div class="text-snippet">
+                                    {% com_part_user_regs %}
                                 </div>
                              </div>
-                         </div>
-                    <div class="panel-body">
+
+                    <div class="box">
                         <br><br>
 <!--                        <label style="text-align: center">Enter text to search community partner</label>-->
                         <form method="POST" onsubmit="return false">{% csrf_token %}
@@ -100,11 +101,11 @@
                     </div>
 
 <!--                </div>-->
-                                     <div style="float: left;"  id="node1-id" style="display: none"></div>
-         <div style="float: left;"  id="button-id" style="display: none"></div>
+                                     <div style="float: left;margin-left: -10px;"  id="node1-id" style="display: none"></div>
+         <div style="float: left;margin-left: -5px;"  id="button-id" style="display: none"></div>
          <div>
             <div class="panel-body">&emsp;
-                <div class="justify-content-md-center" id="node-id" style="margin-left: 0%;"></div>
+                <div class="justify-content-md-center" id="node-id" style="margin-left: -10px;"></div>
             </div>
      </div>
             </div>
@@ -132,7 +133,7 @@
     {{ partnerNames | json_script:"partner-data"}}
 <!--         {{ CommunityPartner.acronym }} -->
 
-    <div style="margin-bottom: 300px"></div>
+    <div style="margin-bottom: 300px; width: 100%;"></div>
 
     <script>
 var valueFilter = document.getElementById("partner_name");
@@ -180,7 +181,7 @@ valueFilter.addEventListener("keydown", function (e) {
                             if (!(partners[i] in partnerlist)) {
                                 partnerlist.push(partners[i]);
                                 <!--alert(partnerlist);-->
-                                var mylist = '<table class="table table-hover table-sm table-bordered table-striped">' +
+                                var mylist = '<table class="table table-hover table-sm table-bordered box">' +
                                     '<tr><th>Community Partner</th></tr>';
                                 for (let j =0; j<partnerlist.length;j++ ){
                                     if(partnerlist[j].toLowerCase().trim() == value.toLowerCase().trim())
@@ -239,6 +240,7 @@ valueFilter.addEventListener("keydown", function (e) {
                                 }
                     }
             };
+
                 $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -299,6 +301,7 @@ $("#node1-id").on("click",function () {
     valueFilter.value = "";
 })
 </script>
+
 
 <script type="text/javascript">
    $(document).ready(function() {

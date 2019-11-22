@@ -6,7 +6,7 @@
 <style type="text/css">
 
 
-@media (max-width: 700px)
+@media (max-width: 200px)
 {
 h4
 {
@@ -53,12 +53,19 @@ width:87%;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
+@media(min-width:300px)
+{
+  .container
+  {
+    max-width:600px;
+  }
+}
 
 </style>
 
 
 
-<div class="container ">
+<div class="container">
 	{% for message in messages %}
         <div class="alert alert-danger">
         <a class="close" href="#" data-dismiss="alert">×</a>
@@ -66,17 +73,17 @@ width:87%;
         </div>
     {% endfor %}
     <div class ="row justify-content-md-center">
-        <div class="col-xl-6 col-md-8">
-	        <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Login</h4></div>&emsp;
-	    	        <div class="panel-body">
-                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                        <div class="container">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
+		        <div class="text-center"><h3 class="heading">Login</h3></div>&emsp;
+
+                    <div class="card snippet-card">
+                        <div class="text-snippet">
                             {% logins %}
                         </div>
                     </div>
 
-                        <div class="login-form">
+                        <div class="box">
                             <form action='.' method="post">
                             {% csrf_token %}
 							<!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
@@ -87,12 +94,12 @@ width:87%;
             			    <input class="input" type="password" name="password" placeholder="Password" required><br>
 {#                            <div class="row justify-content-md-center" >#}
                                 <div class="col-xs-1 center-block text-center" style="border: none">
-                                    <p><button type="submit" class="btn btn-custom center-block" style="font-size:1.1em;"><i class="fa fa-sign-in" aria-hidden="true"></i>
+                                    <p><button type="submit" class="btn btn-secondary" style="font-size:1.1em;">
                                         Login</button></p><br>
                                 </div>
 {#                            </div>#}
                             <div class="row justify-content-md-center">
-                                <div class="col-md-12" style="text-align:center; margin-left:1%; margin-right:3%">
+                                <div class="col-md-12" style="text-align:center; margin-left:1%; margin-right:0%">
             			            <a style=" color: #d71920;" href='/password_reset/'>Forgot Password?</a><br>
                                 <!--/div>
                                 <div class="col-md-12" style="text-align:center;"-->
@@ -101,8 +108,8 @@ width:87%;
                             </div>
 		                    </form>
            	            </div>
-	                </div>
-                </div>
+
+
         </div>
 
     </div>

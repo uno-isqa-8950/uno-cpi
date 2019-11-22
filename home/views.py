@@ -1217,26 +1217,19 @@ def partnershipintensity(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
         project_filter = ProjectFilter(request.GET,queryset=Project.objects.filter(legislative_district=legislative_search))
 
-
     y_selection = request.GET.get('y_axis', None)
     y_init_selection = "campus"
     if y_selection is None:
         y_selection = y_init_selection
     y_choices = YChoiceForm(initial={'y_choice': y_selection})
 
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
-    community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
+    campus_filter_qs = CampusPartner.objects.all()
+    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
+
     community_filter_qs = CommunityPartner.objects.all()
     community_filter = [{'name': m.name, 'id': m.id} for m in community_filter_qs]
-
-    college_value = request.GET.get('college_name', None)
-    if college_value is None or college_value == "All" or college_value == '':
-        campus_filter_qs = CampusPartner.objects.all()
-    else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id = college_value)
-    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -1245,48 +1238,53 @@ def partnershipintensity(request):
         cec_part_selection = cec_part_init_selection
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
+#########################
+    # static_charts_projects = open('home/static/charts_json/projects.json')
+    # static_charts_communities = open('home/static/charts_json/community_partners.json')
+    # static_charts_campuses = open('home/static/charts_json/campus_partners.json')
+    # static_charts_missions = open('home/static/charts_json/mission_subcategories.json')
+    # Projects = json.load(static_charts_projects)
+    # CommunityPartners = json.load(static_charts_communities)
+    # CampusPartners = json.load(static_charts_campuses)
+    # MissionObject = json.load(static_charts_missions)
+#########################
+
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
+    MissionObject = json.loads(charts_missions)
+
     missionList = []
-    for m in MissionArea.objects.all():
-        res = {'id': m.id, 'name': m.mission_name, 'color': m.mission_color}
+    for m in MissionObject:
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color']}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
-    Projects = json.loads(charts_projects)
-    CommunityPartners = json.loads(charts_communities)
-    CampusPartners = json.loads(charts_campuses)
-
-    Projects = json.loads(charts_projects)
-    CommunityPartners = json.loads(charts_communities)
-    CampusPartners = json.loads(charts_campuses)
+    defaultyr = AcademicYear.objects.all()
+    defaultYrID = defaultyr[defaultyr.count() - 2].id
 
     return render(request, 'charts/partnershipintensity.html',
                   {'data_definition': data_definition, 'project_filter': project_filter,
                   'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
                    'communityPartners': communityPartners, 'campus_filter': campus_filter, 'community_filter':community_filter,
                    'college_filter': college_filter, 'y_choices': y_choices, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
-                   'CommunityPartners': CommunityPartners, 'missionList': missionList,
+                   'CommunityPartners': CommunityPartners, 'missionList': missionList, 'defaultYrID': defaultYrID,
                    'Projects':Projects, 'CampusPartners':CampusPartners})
 
 
 # Trend Report Chart
-@login_required()
-@admin_required()
+# @login_required()
+# @admin_required()
 def trendreport(request):
     data_definition = DataDefinition.objects.all()
 
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-
-    campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
-    college_value = request.GET.get('college_name', None)
-    if college_value is None or college_value == "All" or college_value == '':
-        campus_filter_qs = CampusPartner.objects.all()
-    else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+    campus_filter_qs = CampusPartner.objects.all()
+    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)

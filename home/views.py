@@ -1042,6 +1042,7 @@ def engagement_info(request):
 
 
 # Chart for projects with mission areas
+@login_required()
 def missionchart(request):
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -1080,6 +1081,7 @@ def missionchart(request):
                    'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners, 'missionList':missionList })
 
 
+@login_required()
 def partnershipintensity(request):
     missions = MissionArea.objects.all()
     data_definition = DataDefinition.objects.all()
@@ -1198,7 +1200,7 @@ def trendreport(request):
                     'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
                     'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
-
+@login_required()
 def EngagementType_Chart(request):
     data_definition = DataDefinition.objects.all()
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
@@ -1474,7 +1476,7 @@ def commPartnerResetPassword(request,pk):
 
 
 #Issue Address Analysis Chart
-
+@login_required()
 def issueaddress(request):
 
     missions =[]
@@ -1930,6 +1932,7 @@ def chartjsons():
 
 
 ###Network Analysis Chart
+@login_required()
 def networkanalysis(request):
     data_definition = DataDefinition.objects.all()
     Campuspartner = GEOJSON2()[4]

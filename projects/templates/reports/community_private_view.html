@@ -252,7 +252,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 {#                     {% if  community.project_count  < 1 %}#}
 {#                        {{community.project_count}}#}
 {#                     {% else %}#}
-{#                        <a href="#" class="class1">{{ community.project_count }}</a>#}
+{#                        <a href="{% url 'projectspublicreport' %}?proj_id_list={{ community.project_id_list }}" class="class1">{{ community.project_count }}</a>#}
 {#                {% endif %}#}
 {#                    {{community.project_count}}#}
 {#                </td>#}

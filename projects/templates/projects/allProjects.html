@@ -459,7 +459,12 @@ $(document).ready(function(){
                             <th class="none">Activity Type</th>
                             <th class="none">Campus Lead Staff</th>
                             <th class="none">Topics</th>
-                            <th class="none">Other Activity Type</th>
+
+                            <th class="none">
+                                 Other Activity Type
+
+                                </th>
+
                             <th class="none">Description</th>
                         </tr>
                         </thead>
@@ -486,8 +491,8 @@ $(document).ready(function(){
                             <td>{{project.total_other_community_members}}</td>
                             <td>{{ project.activityType }}</td>
                             <td>
-                                {%if campus_lead_staff > 1%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
+                                {% if project.campus_lead_staff|length > 0%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
                                 {%endif%}
@@ -496,11 +501,17 @@ $(document).ready(function(){
                                 {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
 
                             <td>
-                                {%if other_activity_type > 1%}
-                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
+
+                                {% if project.activityType == 'Other' %}
+                                {% if project.other_activity_type|length > 0%}
+                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
-                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
+                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
                                 {%endif%}
+                                {%else%}
+                                 None
+                                {%endif%}
+
                             </td>
                             <td class="none">{{ project.description }}</td>
 

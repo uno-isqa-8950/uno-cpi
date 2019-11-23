@@ -1,12 +1,16 @@
 var not_set = [undefined, "All", ''];
-var yearList = JSON.parse(document.getElementById('yearList').textContent);
+var engagementList = JSON.parse(document.getElementById('engagementList').textContent);
 var Projects = JSON.parse(document.getElementById('Projects').textContent);
 var CommunityPartners = JSON.parse(document.getElementById('CommunityPartners').textContent);
 var CampusPartners = JSON.parse(document.getElementById('CampusPartners').textContent);
 
-function get_filter_set (Projects, CommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part) {
-    if (!not_set.includes(engagement_type)) {
-        var Projects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagement_type));
+function get_filter_set (Projects, CommunityPartners, CampusPartners, academic_year, mission, comm_type, college_name, campus_partner, weitz_cec_part) {
+    if (!not_set.includes(academic_year)) {
+        var Projects = Projects.filter(d => d.years.includes(parseInt(academic_year)));
+    }
+    if (!not_set.includes(mission)) {
+        var Projects = Projects.filter(d => d.primary_mission_area.mission_id === parseInt(mission));
+        var CommunityPartners = CommunityPartners.filter(d => d.primary_mission_id === parseInt(mission));
     }
     if (weitz_cec_part == 'CURR_CAMP') {
         var CampusPartners = CampusPartners.filter(d => d.cec_partner.cec_partner_status === "Current");
@@ -43,6 +47,7 @@ function get_filter_set (Projects, CommunityPartners, CampusPartners, engagement
         })
         var Projects = Projects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
     }
+
     var projectCommunities = new Set();
     Projects.forEach(function (feature) {
         if (feature["community_partner_ids"].length != 0) {
@@ -65,15 +70,16 @@ function get_filter_set (Projects, CommunityPartners, CampusPartners, engagement
     return [Projects, CommunityPartners, CampusPartners];
 }
 
-function getChartData(yearList, Projects, CommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part) {
+function getChartData(engagementList, Projects, CommunityPartners, CampusPartners, academic_year, mission, comm_type, college_name, campus_partner, weitz_cec_part) {
     var proj_data = [];
     var comm_data = [];
     var camp_data = [];
-    var yrs = [];
-    for (y in yearList) {
-        yrs.push(yearList[y].name);
-        var YrProjects = Projects.filter(d => d.years.includes(yearList[y].id));
-        var filt = get_filter_set(YrProjects, CommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part);
+    var engagements = [];
+    for (e in engagementList) {
+        engagements.push(engagementList[e].name);
+        var EngProjects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagementList[e].id));
+
+        var filt = get_filter_set(EngProjects, CommunityPartners, CampusPartners, academic_year, mission, comm_type, college_name, campus_partner, weitz_cec_part);
         var projs = filt[0];
         var community = filt[1];
         var campus = filt[2];
@@ -81,80 +87,64 @@ function getChartData(yearList, Projects, CommunityPartners, CampusPartners, eng
         comm_data.push(community.length);
         camp_data.push(campus.length);
     }
-    var project_count_series = {
-        'name': 'Projects',
-        'data': proj_data,
-        'color': 'turquoise'
-    };
-    var community_partner_count_series = {
-        'name': 'Community Partners',
-        'data': comm_data,
-        'color': 'teal'
-    };
-    var campus_partner_count_series = {
-        'name': 'Campus Partners',
-        'data': camp_data,
-        'color': 'blue'
-    };
-    return [yrs, project_count_series, community_partner_count_series, campus_partner_count_series];
+    return [engagements, proj_data, comm_data, camp_data];
 }
-var res = getChartData(yearList, Projects, CommunityPartners, CampusPartners, '', '', '', '', '', '');
-var yrs = res[0];
-var project_count_series = res[1];
-var community_partner_count_series = res[2];
-var campus_partner_count_series = res[3];
 
-var chart = Highcharts.chart('container',
-    {"title":{"text":""},
+var defaultYrID = JSON.parse(document.getElementById('defaultYrID').textContent);
+
+var res = getChartData(engagementList, Projects, CommunityPartners, CampusPartners, defaultYrID, '', '', '', '', '');
+var engagements = res[0];
+var proj_data = res[1];
+var comm_data = res[2];
+var camp_data = res[3];
+
+var chart = Highcharts.chart('container',{
+   "chart":{"type":"bar"},
+   "title":{"text":""},
    "xAxis":{
-      "categories": yrs,
-      "title":{
-         "text":"Academic Years",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}}},
+      "title":{"text":"Engagement Types",
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+      "categories": engagements,
+      "labels":{"style":{"color":"black","fontSize":"13px"}}},
    "yAxis":{
+      "allowDecimals":false,
       "title":{
          "text":"Projects/Partners",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+      "min":0,
+      "max":74},
    "plotOptions":{
-      "series":{
-         "dataLabels":{
-            "style":{"fontSize":"8px"}}}},
-   "tooltip": {"split": true, "style": {"fontFamily": "Arial Narrow"}},
-   "series":[project_count_series, community_partner_count_series, campus_partner_count_series],
+      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px"}}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",
       "verticalAlign":"top",
-      "x":-10,
-      "y":50,
+      "x":-40, "y":-5,
       "borderWidth":1,
       "backgroundColor":"#FFFFFF",
-      "shadow":"true",
-      "itemStyle": {"fontFamily": "Arial Narrow"}},
-   "responsive":{
-      "rules":[{
-        "condition":{"maxWidth":500},
-        "chartOptions":{
-           "legend":{"layout":"horizontal","align":"center","verticalAlign":"bottom"}}}]}
+      "shadow":"true"},
+   "series":[
+      {"name":"Projects","data": proj_data,"color":"teal"},
+      {"name":"Community Partners","data": comm_data,"color":"turquoise"},
+      {"name":"Campus Partners","data": camp_data,"color":"blue"}]
 });
 
 function updateChart () {
+    var academic_year = $('#id_academic_year option:selected').val();
     var mission = $('#id_mission option:selected').val();
-    var engagement_type = $('#id_engagement_type option:selected').val();
+    var comm_type = $('#id_community_type option:selected').val();
     var college_name = $('#id_college_name option:selected').val();
     var campus_partner = $('#id_campus_partner option:selected').val();
     var weitz_cec_part = $('#id_weitz_cec_part option:selected').val();
-    var comm_type = $('#id_community_type option:selected').val();
+    if (academic_year == '') {
+        var academic_year = defaultYrID;
+    }
+    var res = getChartData(engagementList, Projects, CommunityPartners, CampusPartners, academic_year, mission, comm_type, college_name, campus_partner, weitz_cec_part);
+    var proj_data = res[1];
+    var comm_data = res[2];
+    var camp_data = res[3];
 
-    var res = getChartData(yearList, Projects, CommunityPartners, CampusPartners, engagement_type, mission, comm_type, college_name, campus_partner, weitz_cec_part);
-    var yrs = res[0];
-    var project_count_series = res[1];
-    var community_partner_count_series = res[2];
-    var campus_partner_count_series = res[3];
-
-    chart.update({
-       "xAxis":{"categories": yrs},
-       "series":[project_count_series, community_partner_count_series, campus_partner_count_series]});
+    chart.update({"series":[ {"data": proj_data}, {"data": comm_data}, {"data": camp_data}]});
 }
 
 function updateCampus() {

@@ -437,16 +437,15 @@ $(document).ready(function() {
                 //     return false
                 // }
                 if ($("#id_online_only").is(':checked')) {
+                    $('#id_country').val('');
+                    $('#id_state').val('');
+                    $('#id_city').val('');
+                    $('#id_zip').val('');
+
                     if ($('#id_website_url').val() === '') {
                         alert("Please Provide Your Website URL.");
                         return false
                     }
-                    // else {
-                    //     var maxl = $('#id_website_url').val().length;
-                    //     if (($('#id_website_url').val().substr(maxl - 4, maxl) != '.com')) {
-                    //         $('#id_website_url').val($('#id_website_url').val() + '.com');
-                    //     }
-                    // }
                 }
                 // if($('#physically_located').is(':checked')) {
 

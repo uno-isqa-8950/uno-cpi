@@ -645,7 +645,8 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
+                    # return redirect(request, 'projects/confirmAddProject.html',/ {'project': projects_list})
+                    return HttpResponseRedirect("projects/confirmAddProject.html")
                 if (address == ''):
                     proj.save()
                     mission_form = formset.save(commit=False)
@@ -3507,3 +3508,7 @@ def drafts_delete(request,pk):
     draft_delete = get_object_or_404(Project, pk=pk)
     draft_delete.delete()
     return HttpResponseRedirect("/myDrafts")
+
+# def drafts_delete(request,pk):
+#
+#     return render(request, 'projects/myDrafts.html',

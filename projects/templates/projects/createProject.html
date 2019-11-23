@@ -44,11 +44,13 @@
                 <div class="row" style="margin-top: 20px;">
                 <div class="col-md-6">
                     <div class="row">
-                            {% for data_definition in data_definition %}
-                    {% if data_definition.id == 36%}
-                    <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip" title="{{ data_definition.description }}"></i> Project Name</label>
-                         {% endif %}
-                    {% endfor %}
+                        {% for data_definition in data_definition %}
+                        {% if data_definition.id == 36%}
+                        <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip"
+                                                                         title="{{ data_definition.description }}"></i>
+                            Project Name</label>
+                        {% endif %}
+                        {% endfor %}
                     <div class="col-sm-7">
                     {{ project.project_name }}
                     </div>
@@ -62,7 +64,8 @@
                         {% for data_definition in data_definition %}
                     {% if data_definition.id == 31%}
                         <label for="id_engagement_type" class="col-sm-4">
-                        <i class="fa fa-info-circle" data-toggle="tooltip" title="{{ data_definition.description }}"></i> Engagement Type
+                            <i class="fa fa-info-circle" data-toggle="tooltip"
+                               title="{{ data_definition.description }}"></i> Engagement Type
 <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
                             </label>
                          {% endif %}
@@ -80,7 +83,7 @@
                         {% for data_definition in data_definition %}
                       {% if data_definition.id == 42%}
                       <label class="col-sm-4"  data-toggle="tooltip" title="{{ data_definition.description }}">
-                        <i class="fa fa-info-circle"></i> Activity Type </label>
+                          <i class="fa fa-info-circle"></i> Activity Type </label>
                       {% endif %}
                       {% endfor %}
                        <div class="col-sm-7">
@@ -661,7 +664,6 @@
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
 <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
-
 <script type="text/javascript">
 $(document).ready(function(){
     $('#smartwizard').smartWizard({
@@ -688,7 +690,7 @@ $(document).ready(function(){
     });
         $('#cancel').on('click', function (e) {
                         e.preventDefault();
-                    if (confirm("You will be redirected back to check project page and data will be lost. Are you sure, you want to cancel creating project?")){
+            if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
                       window.location = '/checkProject';
                     }
         });
@@ -697,11 +699,11 @@ var elmForm = $("#form-step-"+stepNumber);
 if(stepDirection === 'forward') {
     if (stepNumber === 0) {
         if(($("#id_project_name").val() === '')){
-            alert("Please provide Project name to proceed.");
+            alert("Project Name Required");
             return false
         }
         if( ($("#id_engagement_type").val() === '') ){
-            alert("Please Select Engagement type.");
+            alert("Engagement Type Required");
             return false
         }
         // var selectedactivityval = $('#id_populate_activity option:selected').val();
@@ -710,29 +712,28 @@ if(stepDirection === 'forward') {
         //     return false
         // }
           if($('#otheracttype').val() !="" ){
-                    alert('Please Make Sure To Add The Other Activity Value');
-                    var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add other activity type.";
+              alert('Add Other Activity Type');
+              var html = "Add Other Activity Type.";
                     $('.addactivityerror').append(html);
                     return false;
         }
         if( ($("#id_description").val() === '') ){
-            alert("Please Provide Description for the project.");
+            alert("Project Description Required");
             return false
         }
         if(($("#id_semester").val() === '')){
-            alert("Please provide Project start semester.");
+            alert("Project Start Semester Required");
             return false
         }
-
          var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();
                 if(fromacademicyear === ''){
-            alert("Please provide Project start academic year.");
+                    alert("Project Start Academic Year Required");
             return false
         }
                 if (toacademicyear != '') {
                     if (toacademicyear < fromacademicyear) {
-                        alert("Please Check Start and End Academic Years");
+                        alert("Project End Academic Year is before Project Start Academic Year");
                         return false;
                     }
                 }
@@ -745,26 +746,26 @@ if(stepDirection === 'forward') {
         var communitylast = $('.community-row:last').find(':selected').text();
         var campuslast = $('.campus-row:last').find(':selected').text();
         if(communitylast !='---------' && communitylast != ""){
-            alert('Please make sure to add the selected value');
-             var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add selected community partner.";
+            alert('Add selected Community Partner');
+            var html = "Add selected Community Partner";
                     $('.addcommerror').append(html);
             // $('.community-row:last').find('select').val(' ');
             return false;
         }
         if(campuslast !='---------' && campuslast != ""){
-            alert('Please make sure to add the selected value');
-             var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add selected campus partner.";
+            alert('Add selected Campus Partner');
+            var html = "Add selected Campus Partner";
                     $('.addcamperror').append(html);
             return false;
         }
          if($('#firstname').val() !="" && $('#lastname') != ""){
-            alert('Please make sure to add the Lead Staff Name');
-             var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add the faculty/lead staff name.";
+             alert('Add Campus Staff and/or Faculty Lead');
+             var html = "Add Campus Staff and/or Faculty Lead";
                     $('.addnameerror').append(html);
             return false;
         }
         if ($("#id_campus-0-campus_partner").val() === '') {
-            alert("Please provide Campus partner before proceeding.");
+            alert("Campus Partner Required");
             return false;
         }
             $('#submit').hide();
@@ -775,22 +776,19 @@ if(stepDirection === 'forward') {
     if (stepNumber === 2) {
         var subcatlast = $('.sub_category-row:last').find(':selected').text();
         if(subcatlast !='---------' && subcatlast != ""){
-            alert('Please make sure to add the selected value');
-             var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add selected topic.";
+            alert('Add selected Topic');
+            var html = "Add selected Topic.";
                     $('.addcaterror').append(html);
             return false;
         }
          if($('#othersubcat').val() !=""){
-            alert('Please make sure to add other topic');
-             var html = "<i class='fa fa-exclamation-triangle' style='color:orange'></i>Please add the faculty/lead staff name.";
+             alert('Add Other Topic');
+             var html = "Add Other Topic";
                     $('.addothercaterror').append(html);
             return false;
         }
-
-
-
         if ($("#id_mission-0-mission").val() == '') {
-            alert("Please provide Focus Area before proceeding.");
+            alert("Primary Focus Area Required");
             return false;
         }
         else {
@@ -881,18 +879,6 @@ window.history.pushState(null, "", window.location.href);
         window.onpopstate = function() {
             window.history.pushState(null, "", window.location.href);
         };
-
-
-            function disableBack() {
-                window.history.forward()
-            }
-
-            window.onload = disableBack();
-            window.onpageshow = function (evt) {
-                if (evt.persisted)
-                    disableBack()
-            }
-
 //----------------------------------restrict comma and semicolon---------------------------
      function RestrictCommaSemicolon(e) {
         var theEvent = e || window.event;
@@ -910,8 +896,6 @@ window.history.pushState(null, "", window.location.href);
     $('#lastname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
     $('#otheracttype').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
     $('#othersubinput').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
-
-
 //--------------order academic years--------------------
     var sel = $('#id_academic_year');
 $(sel).html($("option", $(sel)).sort(function(a, b) {
@@ -963,6 +947,7 @@ $("#id_project_name").change(function (e) {
 });
 });
 </script>
+<br><br><br><br><br><br><br><br><br><br>
 <script>
     $(document).ready(function () {
         function disableBack() { window.history.forward() }
@@ -982,8 +967,6 @@ $("#id_project_name").change(function (e) {
     // window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
     // window.onhashchange = function () { window.location.hash = "no-back-button"; }
 </script>
-
-<br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
@@ -996,7 +979,7 @@ var str = "";
 var name =  $('.concat > h6.finalname').length;
 //alert(name);
 if(name === 10) {
-            alert("Only Upto 10 staff members are allowed");
+    alert("Maximum of 10 Campus Staff and/or Faculty Lead members are allowed");
                 $('#firstname').val('');
     $('#lastname').val('');
             return false;
@@ -1004,7 +987,7 @@ if(name === 10) {
 else {
     var disp = $('#firstname').val() + ' ' + $('#lastname').val();
     if (disp === " ") {
-        alert("Please enter the name of the Campus Lead Staff")
+        alert("Add Campus Staff and/or Faculty Lead")
     } else {
         var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
         $("#display").append(html);
@@ -1024,14 +1007,14 @@ var str = "";
 var name =  $('.subcat > h6.finalcat').length;
 //alert(name);
 if(name === 10) {
-            alert("Only Upto 10 Topics are allowed");
+    alert("Maximum of 10 Topics are allowed");
                 $('#othersubcat').val('');
             return false;
         }
 else {
     var disp = $('#othersubcat').val();
     if (disp === "") {
-        alert("Please enter the Topic Name")
+        alert("Add Other Topic")
     } else {
         var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
         $("#displaysub").append(html);
@@ -1051,14 +1034,14 @@ var str = "";
 var name =  $('.act > h6.finalact').length;
 //alert(name);
 if(name === 10) {
-            alert("Only Upto 10 activity types are allowed");
+    alert("Maximum of 10 Activity Types are allowed");
                 $('#otheracttype').val('');
             return false;
         }
 else {
     var disp = $('#otheracttype').val();
     if (disp === "") {
-        alert("Please enter the activity type")
+        alert("Add Activity Type")
     } else {
         var html = '<div class="act"><h6 class="finalact" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-act fa fa-close"></i> </h6></div>';
         $("#displayact").append(html);
@@ -1102,7 +1085,6 @@ $('#id_engagement_type').change(function () {
             $("select#id_populate_activity").attr('disabled', false);
         }
     });
-
 });
 $('#id_populate_activity').change(function () {
     var selectedactivity = $('#id_populate_activity option:selected').text();
@@ -1154,7 +1136,7 @@ var community_ids = [];
 var campus_ids = [];
 var subcategory_ids=[];
 $("#id_registerCommAndSave").click(function (){
-    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project.Are you sure you want to register a New Community Partner?");
+    var result = confirm("You will be redirected to Register Community Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Community Partner?");
     if (result == true) {
     var commIdList = ''
     if (community_ids.length >=1) {
@@ -1193,7 +1175,7 @@ $("#id_registerCommAndSave").click(function (){
  }
 });
 $("#id_registerCampusAndSave").click(function (){
-    var result = confirm("You will be redirected to page where you can register your partner.Upon Submission of the registration form, you will be redirected back to this page to create a new project. Are you sure you want to register a New Campus Partner?");
+    var result = confirm("You will be redirected to Register Campus Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Campus Partner?");
     if (result == true) {
     var commIdList = ''
     if (community_ids.length >=1) {
@@ -1243,26 +1225,36 @@ function cloneMore(selector, prefix) {
     }
     if (prefix == 'community') {
         if (community_ids.includes(selected)) {
-            alert('community already added');
+            alert('Community Partner already added');
            $(selector).find('select').val(' ');
             return;
         }
         community_ids.push(selected);
+        community_ids.forEach(function (item, index) {
+            $('.community-row:last').find('[value="' + item + '"]').hide();
+        });
     } else if (prefix == 'campus') {
         if (campus_ids.includes(selected)) {
-            alert('campus already added');
+            alert('Campus Partner already added');
            $(selector).find('select').val(' ');
             return;
         }
         campus_ids.push(selected);
+        campus_ids.forEach(function (item, index) {
+            $('.campus-row:last').find('[value="' + item + '"]').hide();
+        })
+
     }
     else if (prefix=='sub_category'){
         if (subcategory_ids.includes(selected)){
-            alert('Subcategory already added');
+            alert('Topic already added');
            $(selector).find('select').val(' ');
             return;
         }
         subcategory_ids.push(selected);
+        subcategory_ids.forEach(function (item, index) {
+            $('.sub_category-row:last').find('[value="' + item + '"]').hide();
+        });
     }
     var newElement = $(selector).clone(true);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
@@ -1312,14 +1304,27 @@ function deleteForm(prefix, elem) {
     if (prefix == 'community') {
         var index = community_ids.indexOf(selected);
         if (index != -1) community_ids.splice(index, 1);
+         $('.community-row:last').find('[value="' + selected + '"]').show();
     } else if (prefix == 'campus') {
         var index = campus_ids.indexOf(selected);
         if (index != -1) campus_ids.splice(index, 1);
+        $('.campus-row:last').find('[value="' + selected + '"]').show();
     }
     else if(prefix=='sub_category'){
         var index = subcategory_ids.indexOf(selected);
         if (index !=-1) subcategory_ids.splice(index,1);
+        $('.sub_category-row:last').find('[value="' + selected + '"]').show();
     }
+    community_ids.forEach(function (item, index) {
+        $('.community-row:last').find('[value="' + item + '"]').hide();
+    });
+    campus_ids.forEach(function (item, index) {
+        $('.campus-row:last').find('[value="' + item + '"]').hide();
+
+    });
+    subcategory_ids.forEach(function (item, index) {
+        $('.sub_category-row:last').find('[value="' + item + '"]').hide();
+    });
   var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
   console.log('In deleteForm - total', total);
   if (total > 1) {
@@ -1346,6 +1351,7 @@ $(document).on('click', '.add-mission-row', function(e){
 $(document).on('click', '.add-sub_category-row', function(e){
     e.preventDefault();
     $('.addcaterror').empty();
+     $('.sub_category-row:last').find('option:not(:selected)').show();
     cloneMore('.sub_category-row:last', 'sub_category');
     return false;
 });
@@ -1356,23 +1362,16 @@ $(document).on('click', '.add-secondary_mission-row', function(e){
 });
 $(document).on('click', '.add-community-row', function(e){
     e.preventDefault();
+     $('.community-row:last').find('option:not(:selected)').show();
     cloneMore('.community-row:last', 'community');
     $('.addcommerror').empty();
-    // $('.community-row:not(:last)').hide();
-    // var name = $(this).attr('name');
-          // var selectedcommunity = $('#id_'+name+' option:selected').text();
-          // console.log(selectedcommunity);
-        // var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-community-row fa fa-trash"></i> </div>';
-  // '</div>'+
-  // '<div class="form-group">'+
-  // '<button class="btn blackbutton remove" type="button">x</button>'+
-  // '</div>';
-  //       $("#copy-fields").append(html);
+
     return false;
 });
 $(document).on('click', '.add-campus-row', function(e){
     e.preventDefault();
     $('.addcamperror').empty();
+     $('.campus-row:last').find('option:not(:selected)').show();
     cloneMore('.campus-row:last', 'campus');
     return false;
 });
@@ -1413,13 +1412,13 @@ window.onload = function () {
     $("#id_project_name").val(projectName);
   var val = $("#id_activity_type").find("option:selected").text();
            if (val === 'Course') {
-              $("#id_name").hide();
-              $("label.control-label[for=id_name], input#id_name").hide();
+               $("#id_name").hide();
+               $("label.control-label[for=id_name], input#id_name").hide();
               // $("label.control-label[for=id_prefix], input#id_prefix").show();
-              $("label.control-label[for=id_section], input#id_section").hide();
-           $("#id_prefix").hide();
-           $("label.control-label[for=id_number], input#id_number").hide();
-           $("#id_number").hide();
+               $("label.control-label[for=id_section], input#id_section").hide();
+               $("#id_prefix").hide();
+               $("label.control-label[for=id_number], input#id_number").hide();
+               $("#id_number").hide();
            }
 }
 </script>
@@ -1470,7 +1469,7 @@ $(document).ready(function(){
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
     $('#id_populate_activity').select2({placeholder: 'Select Activity Type',border:'2px solid #aaa'});
     $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
-    $('#id_description').attr('placeholder','Project Description, Outcomes and Related Links');
+    $('#id_description').attr('placeholder', 'Project Description, Outcomes, Courses, and/or Related Links');
     // $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});
@@ -1492,7 +1491,7 @@ $(document).ready(function(){
         var fromacademicyear=$("#id_academic_year").val();
         var toacademicyear=$("#id_end_academic_year").val();
         if (toacademicyear<fromacademicyear ){
-            alert("Please Check Start and End Academic Years");
+            alert("Project End Academic Year is before Project Start Academic Year");
             // $("#id_end_academic_year").val('-------- ');
             // $("#id_academic_year").val(' ');
             return false;
@@ -1503,7 +1502,7 @@ $(document).ready(function(){
         var toacademicyear=$("#id_end_academic_year").val();
         if (toacademicyear!='') {
             if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
-                alert("Please Check Start and End Academic Years");
+                alert("Project End Academic Year is before Project Start Academic Year");
                 // $("#id_end_academic_year").val(' ');
                 // $("#id_academic_year").val(' ');
                 return false;
@@ -1515,7 +1514,6 @@ $(document).ready(function(){
 </script>
 
 <style>
-
 label{
   cursor: pointer;
 }
@@ -1654,19 +1652,19 @@ $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
     if(($("#id_project_name").val() === '') ){
-        alert("Please provide Project Name ");
+        alert("Project Name Required ");
         return false;
     }
     if( ($("#id_academic_year").val() === '') ){
-            alert("Please Select Start Academic Year.");
+        alert("Start Academic Year Required");
             return false
         }
     if( ($("#id_engagement_type").val() === '') ){
-            alert("Please Select Engagement type.");
+        alert("Engagement Type Required");
             return false
         }
         if( ($("#id_populate_activity").val() === '') ){
-            alert("Please Select Activity type.");
+            alert("Activity type Required");
             return false
         }
     else{
@@ -1690,12 +1688,12 @@ $('#submit').click(function () {
         var val1 = id_campus.options[id_campus.selectedIndex].text;
         var location = document.getElementById("errorid").scrollTop;
         if (val === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Please select a Primary Mission Area'|escape }}</strong></div>";
+            error = "<div class='alert alert-danger'><strong>{{ 'Primary Focus Area Required'|escape }}</strong></div>";
             document.getElementById("errorid").innerHTML = error;
             document.documentElement.scrollTop = 900;
         }
         if (val1 === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Please select at least one Campus Partner'|escape }}</strong></div>";
+            error = "<div class='alert alert-danger'><strong>{{ 'Campus Partner Required'|escape }}</strong></div>";
             document.getElementById("errorid1").innerHTML = error;
             document.documentElement.scrollTop = 900;
             {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}

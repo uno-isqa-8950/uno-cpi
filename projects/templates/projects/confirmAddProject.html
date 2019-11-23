@@ -37,12 +37,19 @@ p {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-
+    @media(min-width:300px) {
+        .container {
+            max-width: 600px;
+        }
+    }
 </style>
 <div class="container">
- <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Thank You</h4></div>
-			<div class="panel-body">
+ <div class = "col-xl-12 col-md-12 col-sm-12">
+     <br>
+     <br>
+     <br><br><br>
+		<div class="text-center"><h3 class="heading">Thank You</h3></div>
+			<div class="box">
               <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been successfully added.
                   A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myProjects/'>My Projects<a> page.</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
@@ -65,6 +72,4 @@ p {
     window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
     window.onhashchange = function () { window.location.hash = "no-back-button"; }
 </script>
-
-
 {% endblock %}

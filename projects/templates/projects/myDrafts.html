@@ -137,6 +137,7 @@
                                                 <th class="none">Sub Category</th>
                                                 <th class="none">Campus Lead Staff</th>
                                                 <th class="none">Other Activity Type</th>
+                                                <th class="none">Other Sub Categories</th>
                                                 <th class="none">Action</th>
                                             </tr>
                                         </thead>
@@ -181,6 +182,13 @@
                                 {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
                                 {%else%}
                                 {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
+                                {%endif%}
+                            </td>
+                                             <td>
+                                {%if other_sub_category > 1%}
+                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %},
+                                {%else%}
+                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %}
                                 {%endif%}
                             </td>
                                                 <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;">Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>

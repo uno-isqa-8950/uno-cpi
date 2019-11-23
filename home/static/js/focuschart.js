@@ -79,7 +79,9 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
         projSeries.push(projs.length);
         communitySeries.push(comms.length);
     }
-    return [missionCategories, projSeries, communitySeries];
+    var max = Math.max(...projSeries.concat(communitySeries)) +5;
+
+    return [missionCategories, projSeries, communitySeries, max];
 }
 
 var defaultYrID = JSON.parse(document.getElementById('defaultYrID').textContent);
@@ -88,6 +90,7 @@ var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList
 var missionCategories = res[0];
 var projSeries = res[1];
 var communitySeries = res[2];
+var max = res[3];
 
 var chart = Highcharts.chart('container', {
    "chart":{ "type":"bar" },
@@ -105,7 +108,7 @@ var chart = Highcharts.chart('container', {
          "text":"Projects/Community Partners ",
          "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px" }},
       "min":0,
-      "max":32},
+      "max":max},
    "plotOptions":{
       "bar":{
          "dataLabels":{
@@ -138,7 +141,9 @@ function updateChart () {
     var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part);
     var projSeries = res[1];
     var communitySeries = res[2];
-    chart.update({"series":[ {"data": projSeries}, {"data": communitySeries}]});
+    var max = res[3];
+    chart.update({"series":[ {"data": projSeries}, {"data": communitySeries}],
+                    "yAxis":{"max":max}});
 }
 
 function updateCampus() {

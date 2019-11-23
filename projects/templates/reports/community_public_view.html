@@ -212,7 +212,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                     {% if mission is not None %}{{ mission }}<br>
                     {% endif %}
                     {% endfor %}</td>
-                <td>{{community.project_count}}</td>
+                <td><a href="{% url 'projectspublicreport' %}?proj_id_list={{ community.project_id_list }}" class="class1">{{community.project_count}}</a></td>
                 
             </tr>
             {% endfor %}

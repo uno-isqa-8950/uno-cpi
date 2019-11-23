@@ -37,11 +37,20 @@ margin-top: 15px;
 
 }
 
+@media(min-width:300px)
+{
+  .container
+  {
+    max-width:600px;
+  }
+}
+
 </style>
 <div class="container">
- <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Thank You</h4></div>
-			<div class="panel-body">
+ <div class = "col-xl-12 col-md-12 col-sm-12">
+     <br><br>
+		<div class="text-center"><h3 class="heading">Thank You</h3></div>
+			<div class="box">
               <p>Your organization is successfully registered as a campus partner.</p>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
 {% endblock %}

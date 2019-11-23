@@ -166,7 +166,7 @@ var chart = Highcharts.chart('container', {
             "symbol": "circle",
             "states":{"hover":{"enabled":true,"lineColor":"rgb(100,100,100)"}}},
          "states":{"hover":{"marker":{"enabled":false}}},
-         "jitter": {"x": 0.24, "y": 0.24},
+         // "jitter": {"x": 0.24, "y": 0.24},
          "point": {"events": {
             "click": function () {
                 chart.update({
@@ -314,4 +314,12 @@ function updateCampus() {
     for(campus in campus_filter) {
         select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
     }
+}
+
+function jitterFunc(checkboxElem) {
+  if (checkboxElem.checked) {
+    chart.update({ "plotOptions":{ "scatter":{"jitter": {"x": 0.24, "y": 0.24}} }});
+  } else {
+    chart.update({ "plotOptions":{ "scatter":{"jitter": {"x": 0, "y": 0}} }});
+  }
 }

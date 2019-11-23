@@ -1423,7 +1423,7 @@ def GEOJSON():
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
     collection = json.loads(partner_geojson)
     mission_list = MissionArea.objects.all()
-    mission_list = [m.mission_name for m in mission_list]
+    mission_list = [str(m.mission_name) +':'+str(m.mission_color) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()

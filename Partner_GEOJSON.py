@@ -30,8 +30,8 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'])
-                              #sslmode="require")
+                              database=settings.DATABASES['default']['NAME'],
+                              sslmode="require")
 
 if (conn):
     cursor = conn.cursor()
@@ -234,6 +234,6 @@ if len(dfCommunity) == 0:
     print("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
 else:
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner_local.geojson').put(Body=format(jsonstring))
+    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
     print("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
     logger.info("Partner GEOJSON file written having total records of " +repr(len(dfCommunity))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

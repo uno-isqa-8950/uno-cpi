@@ -79,7 +79,6 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
         projSeries.push(projs.length);
         communitySeries.push(comms.length);
     }
-    console.log([projSeries, communitySeries])
     return [missionCategories, projSeries, communitySeries];
 }
 
@@ -136,7 +135,6 @@ function updateChart () {
     if (academic_year == '') {
         var academic_year = defaultYrID;
     }
-    console.log([engagement_type,college_name,campus_partner,weitz_cec_part,comm_type])
     var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part);
     var projSeries = res[1];
     var communitySeries = res[2];

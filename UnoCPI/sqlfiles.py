@@ -1102,13 +1102,13 @@ academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academic
 
 def showSelectedProjects(project_name_list):
 	return ( """select distinct p.project_name
-                          ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area
+                          ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
-                            ,array_agg(distinct e.name) engagement_type
+                            ,array_agg(distinct e.name) engagement_type 
                             ,pa.academic_year
                             ,p.semester
-                            ,ps.name status
+                            ,status.name status
                           ,case when p.start_date is null then 'None' end start_date
                             ,case when p.end_date is null then 'None' end end_date
                             ,p.outcomes
@@ -1120,25 +1120,33 @@ def showSelectedProjects(project_name_list):
                             ,p.total_other_community_members
                             ,a.name activity_type
                             ,p.description
-                        -- 	,pc.name CommPartners
-                        -- 	,c.name CampPartners
-                        -- 	,e.name engagement_type
+                            ,p.project_type project_type
+                            ,p.end_semester end_semester
+                            , ea.academic_year end_academic_year
+                            ,array_agg(distinct s.sub_category) sub_category
+                            ,  p.campus_lead_staff campus_lead_staff
+                            , hm.mission_image_url mission_image
+                            , p.other_activity_type act_type
+                            , p.other_sub_category other_subCat
                         from projects_project p
-                          inner join projects_projectmission m on p.id = m.project_name_id
-                          inner join home_missionarea hm on hm.id = m.mission_id
-                          inner join projects_engagementtype e on e.id = p.engagement_type_id
+                          left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary'
+                          left join home_missionarea hm on hm.id = m.mission_id
+                          left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                           left join partners_communitypartner pc on pp.community_partner_id = pc.id
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
-                            inner join projects_academicyear pa on p.academic_year_id = pa.id
-                            inner join projects_status ps on p.status_id = ps.id
-                            inner join projects_activitytype a on p.activity_type_id = a.id 
-                            where p.id in """+str(project_name_list)+"""
+                            left join projects_academicyear pa on p.academic_year_id = pa.id
+                            left join projects_academicyear ea on p.end_academic_year_id = ea.id
+                            left join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_projectsubcategory psub on psub.project_name_id = p.id
+                            left join projects_subcategory s on psub.sub_category_id = s.id
+                            left join projects_status status on status.id = p.status_id
+                        where status.name != 'Drafts' and p.id in """+str(project_name_list)+"""
                         group by p.project_name
                             ,pa.academic_year
                             ,p.semester
-                            ,ps.name
+                            ,status.name
                             ,p.start_date
                             ,p.end_date
                             ,p.outcomes
@@ -1150,7 +1158,14 @@ def showSelectedProjects(project_name_list):
                             ,p.total_other_community_members
                             ,a.name
                             ,p.description
-                        order by p.project_name;"""    )
+                            , project_type
+                            , end_semester
+                            , end_academic_year
+                            ,campus_lead_staff
+                            ,mission_image
+                            , act_type
+                            ,other_subCat                            
+                        order by pa.academic_year desc;""" )
 
 def checkProjectsql(projectName, comPartner, campPartner, acadYear):
     return ("""SELECT (regexp_split_to_array(p.project_name, E'\:+'))[1] as project_names, STRING_AGG(distinct pc.name, ', ' ORDER BY pc.name) As pcnames,

@@ -1789,7 +1789,7 @@ def projectsPublicReport(request):
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
     print("CEC partner condition: ", cec_part_selection)
 
-    if selectedprojectId is not None:
+    if selectedprojectId is not None and selectedprojectId != '':
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
@@ -2790,7 +2790,18 @@ def communityPublicReport(request):
 
     for obj in cursor.fetchall():
         print('project ids--',obj[6])
-        data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "website": obj[3], "CommStatus": obj[4]})
+        proj_ids = obj[6]
+        proj_idList = ''
+        if proj_ids is not None:
+            name_count = 0
+            if len(proj_ids) > 0:
+                for i in proj_ids:
+                    proj_idList = proj_idList + str(i)
+                    if name_count < len(proj_ids) - 1:
+                        proj_idList = proj_idList + str(",")
+                        name_count = name_count + 1
+        
+        data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "project_id_list": proj_idList, "website": obj[3], "CommStatus": obj[4]})
 
     return render(request, 'reports/community_public_view.html', { 'college_filter': college_partner_filter, 'campus_filter': campus_project_filter,
                                                                 'project_filter': project_filter,
@@ -2921,8 +2932,19 @@ def communityPrivateReport(request):
 
     for obj in cursor.fetchall():
         print('proj ids--',obj[6])
+        proj_ids = obj[6]
+        proj_idList = ''
+        if proj_ids is not None:
+            name_count = 0
+            if len(proj_ids) > 0:
+                for i in proj_ids:
+                    proj_idList = proj_idList + str(i)
+                    if name_count < len(proj_ids) - 1:
+                        proj_idList = proj_idList + str(",")
+                        name_count = name_count + 1
+
         data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
-                          "unostudentshours": obj[4], "website": obj[5], "projectID": obj[6], "CommStatus": obj[7]})
+                          "unostudentshours": obj[4], "website": obj[5], "proj_id_list": proj_idList, "CommStatus": obj[7]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,

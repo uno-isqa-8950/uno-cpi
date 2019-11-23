@@ -97,7 +97,7 @@ var chart = Highcharts.chart('container', {
    "title":{ "text":"" },
    "xAxis":{
       "title":{
-         "text":"Mission Areas",
+         "text":"Focus Areas",
          "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px" }},
       "categories": missionCategories,
       "labels":{

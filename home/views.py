@@ -2534,7 +2534,7 @@ def networkanalysis(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    legislative_choices.append('All')
+    # legislative_choices.append('All')
     for i in range(1, 50):
         legistalive_val = 'Legislative District ' + str(i)
         legislative_choices.append(legistalive_val)

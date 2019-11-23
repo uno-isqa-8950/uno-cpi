@@ -171,22 +171,22 @@
                                 {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
 
                             <td>
-                                {%if campus_lead_staff > 1%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
+                            {% if project.campus_lead_staff|length > 0%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
                                 {%endif%}
                             </td>
                                 <td>
                                 {%if other_activity_type > 1%}
-                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
+                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
                                 {%endif%}
                             </td>
-                                             <td>
+                                            <td>
                                 {%if other_sub_category > 1%}
-                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %},
+                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %}
                                 {%endif%}

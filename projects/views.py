@@ -33,6 +33,7 @@ from googlemaps import Client
 # The imports below are for running sql queries for AllProjects Page
 from django.db import connection
 from UnoCPI import sqlfiles
+from django.core.paginator import Paginator,EmptyPage, PageNotAnInteger
 
 sql=sqlfiles
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
@@ -1816,10 +1817,18 @@ def projectsPublicReport(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(projects_list, 5)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_public_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
 
 
 
@@ -1989,10 +1998,18 @@ def projectsPrivateReport(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
+    page = request.GET.get('page', 1)
+    paginator = Paginator(projects_list, 5)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_private_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter,'cards':cards})
 
 @login_required()
 def projectstablePrivateReport(request):

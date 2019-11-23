@@ -195,6 +195,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                             mission_obj = mission_subcategories_json.find(d => d.mission_area_id == mission_id)
                             mission_name = mission_obj.mission_area_name
                             // alert("mission_obj"+mission_name)
+                            commpprojects=projects_json.filter(d => d.community_partner_ids.includes(community.community_partner_id))
+                            // console.log("commpprojects ",commpprojects.length)
 
                             res3 = {'from': camp, 'to': community.community_partner_name, 'p': commps.length}
                             // console.log("final",res3)
@@ -210,7 +212,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
                                     // 'radius': commps.length
                                 },
-                                'projects': 'Projects:' + commps.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name
+                                'projects': 'Projects:' + commpprojects.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name
                                 // tooltip: {useHTML: true,
                                 // format:'<b>Name: {%id%} ${this.Node.name}</b><br><b> projects[${this.point.projects}]</b>'}
                             }

@@ -47,9 +47,23 @@ p {
                   A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myDrafts/'>My Drafts<a> page.</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
 <script>
-            function disableBack() { window.history.forward() }
+    $(document).ready(function () {
+        function disableBack() { window.history.forward() }
 
         window.onload = disableBack();
-        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+        window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
+    });
 </script>
+<script type = "text/javascript" >
+    function preventBack() { window.history.forward(); }
+    setTimeout("preventBack()", 0);
+    window.onunload = function() { null };
+</script>
+
+<script>
+    window.location.hash = "no-back-button";
+    window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
+    window.onhashchange = function () { window.location.hash = "no-back-button"; }
+</script>
+
 {% endblock %}

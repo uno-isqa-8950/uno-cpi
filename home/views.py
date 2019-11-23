@@ -998,35 +998,6 @@ def engagement_info(request):
         cec_comm_part_cond = '%'
         cec_camp_part_cond = 'Current'
 
-    # elif cec_part_selection == "CURR_COMM":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-    #               academic_start_year_cond, academic_end_year_cond, cec_start_acad_year, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.engagement_types_cec_curr_comm_report_sql, params)
-    # elif cec_part_selection == "FORMER_COMM":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-    #               academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.engagement_types_cec_former_comm_report_sql, params)
-    # elif cec_part_selection == "FORMER_CAMP":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-    #               academic_start_year_cond, academic_end_year_cond, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.engagement_types_cec_former_camp_report_sql, params)
-    # elif cec_part_selection == "CURR_CAMP":
-    #     cec_start_acad_year = academic_start_year_cond
-    #     cec_end_acad_year = academic_end_year_cond
-    #     params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-    #               academic_start_year_cond, academic_end_year_cond, cec_start_acad_year, cec_end_acad_year]
-    #     cursor = connection.cursor()
-    #     cursor.execute(sql.engagement_types_cec_curr_comm_report_sql, params)
-
     params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
@@ -1035,13 +1006,12 @@ def engagement_info(request):
     #cec_part_choices = CecPartChoiceForm()
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-
     for obj in cursor.fetchall():
         comm_ids = obj[5]
+        proj_ids = obj[3]
+        print('proj_ids--',proj_ids)
         comm_idList = ''
         if comm_ids is not None:
-            print('comm_ids in eng',len(comm_ids))
-            
             name_count = 0
             if len(comm_ids) > 0:
                 for i in comm_ids:
@@ -1050,7 +1020,6 @@ def engagement_info(request):
                         comm_idList = comm_idList + str(",")
                         name_count = name_count + 1
 
-        print('comm_idLists in eng',comm_idList)
         data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": obj[3],
                           "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": obj[7],
                           "total_uno_hours": obj[8]})
@@ -1061,7 +1030,6 @@ def engagement_info(request):
                     'year_filter': year_filter, 'engagement_List': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
-
 
 
 # Chart for projects with mission areas
@@ -1454,7 +1422,7 @@ def GEOJSON():
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
     collection = json.loads(partner_geojson)
     mission_list = MissionArea.objects.all()
-    mission_list = [m.mission_name for m in mission_list]
+    mission_list = [str(m.mission_name) +':'+str(m.mission_color) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [m.community_type for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
@@ -1539,39 +1507,41 @@ def GEOJSON2():
 ###Project map export to javascript
 def googleprojectdata(request):
     data_definition = DataDefinition.objects.all()
-    Campuspartner = GEOJSON2()[4]
-    Communitypartner = GEOJSON2()[3]
+    map_json_data = GEOJSON2()
+    Campuspartner = map_json_data[4]
+    Communitypartner = map_json_data[3]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
-    data = GEOJSON2()[0]
+    data = map_json_data[0]
     return render(request, 'home/projectMap.html',
-                  {'districtData': district, 'collection': GEOJSON2()[0],
+                  {'districtData': district, 'collection': map_json_data[0],
                    'number': len(data['features']),
-                   'Missionlist': sorted(GEOJSON2()[2]),
-                   'CommTypelist': sorted(GEOJSON2()[5]),  # pass the array of unique mission areas and community types
+                   'Missionlist': sorted(map_json_data[2]),
+                   'CommTypelist': sorted(map_json_data[5]),  # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
-                   'EngagementType': sorted(GEOJSON2()[1]),
-                   'year': sorted(GEOJSON2()[6]),'data_definition':data_definition,
-                   'Collegename': (GEOJSON2()[7])
+                   'EngagementType': sorted(map_json_data[1]),
+                   'year': sorted(map_json_data[6]),'data_definition':data_definition,
+                   'Collegename': (map_json_data[7])
                    }
                   )
 
 
 def googleDistrictdata(request):
     data_definition = DataDefinition.objects.all()
-    Campuspartner = GEOJSON()[3]
-    data = GEOJSON()[0]
+    map_json_data = GEOJSON()
+    Campuspartner = map_json_data[3]
+    data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/legislativeDistrict.html',
-                  {'districtData': district, 'collection': GEOJSON()[0],
-                   'Missionlist': sorted(GEOJSON()[1]),
-                   'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
+                  {'districtData': district, 'collection': map_json_data[0],
+                   'Missionlist': sorted(map_json_data[1]),
+                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(GEOJSON()[4]),'data_definition':data_definition,
-                   'Collegename': GEOJSON()[6]
+                   'year': sorted(map_json_data[4]),'data_definition':data_definition,
+                   'Collegename': map_json_data[6]
                    }
                   )
 
@@ -1584,6 +1554,7 @@ def googlepartnerdata(request):
     data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
+    print('sorted(map_json_data[1]---',sorted(map_json_data[1]))
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
                    'Missionlist': sorted(map_json_data[1]),
@@ -1598,18 +1569,19 @@ def googlepartnerdata(request):
 
 def googlemapdata(request):
     data_definition = DataDefinition.objects.all()
-    Campuspartner = GEOJSON()[3]
-    College = GEOJSON()[6]
-    data = GEOJSON()[0]
+    map_json_data = GEOJSON()
+    Campuspartner = map_json_data[3]
+    College = map_json_data[6]
+    data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartnerType.html',
                   {'collection': data, 'districtData': district,
-                   'Missionlist': sorted(GEOJSON()[1]),
-                   'CommTypeList': sorted(GEOJSON()[2]),  # pass the array of unique mission areas and community types
+                   'Missionlist': sorted(map_json_data[1]),
+                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': GEOJSON()[4],'data_definition':data_definition,
+                   'year': map_json_data[4],'data_definition':data_definition,
                    'College': (College)
                    }
                   )

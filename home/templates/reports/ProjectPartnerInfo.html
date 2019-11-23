@@ -5,41 +5,64 @@
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
     .fade{
-        color: black;
-        display: block;
-        opacity: 100;
-    }
-    .fade:not(.show){
-        opacity: 5;
-    }
-</style>
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
 
-  <script>
-    $(function () {
-  $('[data-toggle="popover"]').popover()
-})
+    }
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+
+.tooltip-inner {
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 300px;
+    width: 300px;
+    min-width: 0px;
+}
+</style>
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
   </script>
 
 <div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:white;"><h4
-                           style="line-height:.8em;padding-top:10px;">Focus Areas Report</h4></b></label>
+            <br><br>
+
+               <div class="text-center">
+                   <h3 class="heading">Focus Areas Report</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
-                    {% eng_types %}
+
+            <div class="card snippet-card">
+                <div class="container text-snippet">
+                    {% miss_areas %}
                 </div>
             </div>
         </div>
     </div>
 </div>
     <div class="container">
-    <div class="card" style="padding: 10px;">
+
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -67,7 +90,8 @@
     <!-- / Collapse buttons -->
 
 <!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+
         <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
@@ -81,7 +105,7 @@
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}  Academic Year
+                    {% endfor %}  Academic Years
                 </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -98,7 +122,7 @@
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Community Organization Type
+                    {% endfor %} Community Organization Types
                 </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -107,27 +131,26 @@
                             {% endfor %}
                     </select>
             </div>
-            <div class="col-lg-4 col-md-5 form-group ">
+                <div class="col-lg-4 col-md-5 form-group">
 
-                <label for="weitz_cec_part">
-
+                <label for="engagement_type">
                     {% for data_definition in data_definition %}
-                        {% if data_definition.id == 27%}
-                            <span tabindex="-1" data-toggle="tooltip"
+                    {% if data_definition.id == 31%}
+                    <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
-                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %} CEC Building Partners
+                          <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    {% endif %}
+                    {% endfor %} Engagement Types
                 </label>
-                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
-                   <option value="" disabled selected hidden></option>
-                     {% for cec_choice in cec_part_choices.cec_choice %}
-                            {{ cec_choice }}
-                        {% endfor %}
-
-                    </select>
+                <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <option value="" disabled selected hidden></option>
+                    <option> All </option>
+                    {% for engagement_type in engagement_filter.form.engagement_type %}
+                        {{engagement_type}}
+                    {% endfor %}
+                </select>
             </div>
-            <div class="col-lg-4 col-md-5 form-group ">
+                <div class="col-lg-4 col-md-5 form-group ">
                 <label for="college_name">
                     {% for data_definition in data_definition %}
                         {% if data_definition.id == 43%}
@@ -163,50 +186,35 @@
                     {% endfor %}
                 </select>
             </div>
+
             <div class="col-lg-4 col-md-5 form-group ">
-                <label for="mission">
+
+                <label for="weitz_cec_part">
 
                     {% for data_definition in data_definition %}
-                        {% if data_definition.id == 3%}
+                        {% if data_definition.id == 27%}
                             <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
-                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Project Focus Areas
+                    {% endfor %} CEC Building Partners
                 </label>
-                <select id="id_mission" name="mission" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for mission in missions_filter.form.mission %}
-                        {{mission}}
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="col-lg-4 col-md-5 form-group">
+                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                   <option value="" disabled selected hidden></option>
+                     {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
 
-                <label for="engagement_type">
-                    {% for data_definition in data_definition %}
-                    {% if data_definition.id == 31%}
-                    <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
-                          <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                    {% endif %}
-                    {% endfor %}
-                    Engagement Type
-                </label>
-                <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                    <option> All </option>
-                    {% for engagement_type in engagement_filter.form.engagement_type %}
-                        {{engagement_type}}
-                    {% endfor %}
-                </select>
+                    </select>
             </div>
             </form>
        </div>
-    </div>
 
+        </div>
 <br>
+    <div class ="box">
     <div style="margin-top:15px;">
-<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+<table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
     <thead>
     <tr>
         <th>
@@ -289,13 +297,8 @@
         <tbody class="labels">
             <tr>
                 <td><b>
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 3%}
-                            <span tabindex="-1" data-toggle="tooltip"
-                                  title="{{ data_definition.description }}" class="float" >
-                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}
+                    <span data-toggle="tooltip" title="{{ focus.focus_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+<!--                    <a data-toggle="collapse" href="#topics{{m.id}}"> {{ m.mission_name }}</a>-->
                     <a style="color: {{ focus.focus_color }}" data-toggle="collapse" href="#topics{{focus.focus_id}}">{{focus.focus_name}}</a>
                 </b></td>
                 <td><b>
@@ -398,10 +401,10 @@
 {% endcomment %}
 </table>
         </div>
-                </div>
     </div>
-    <br>
-<br> <br> <br>
+    </div>
+
+<br> <br>
 {% endblock %}
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
@@ -439,7 +442,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -468,7 +471,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_engagement_type').select2({placeholder: 'Engagement Type',width: '75%',
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

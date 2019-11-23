@@ -1564,7 +1564,7 @@ left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
 left join projects_status s on s.id = p.status_id
-where  s.name != 'Drafts'
+where  s.name != 'Drafts' 
 and pc.id in %s  
 
 group by commpartners, website, CommStatus, cstatus
@@ -1588,7 +1588,7 @@ left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
 left join projects_status s on s.id = p.status_id
-where  s.name != 'Drafts'
+where  s.name != 'Drafts' 
 and pc.id::text = %s  
 
 group by commpartners, website, CommStatus, cstatus

@@ -2004,9 +2004,9 @@ def projectstablePrivateReport(request):
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     # campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
     # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-        campus_partner_id__in=campus_filtered_ids))
-    # projects_list=[]
+    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+    #     campus_partner_id__in=campus_filtered_ids))
+    projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
     # k12_init_selection = "All"

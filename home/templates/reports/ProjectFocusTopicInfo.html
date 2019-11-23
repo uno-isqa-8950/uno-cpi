@@ -50,7 +50,7 @@ $(document).ready(function(){
             <br><br>
 
                <div class="text-center">
-                   <h3 class="heading">Primary Focus Areas Report</h3>
+                   <h3 class="heading">Focus Areas With Topic Details</h3>
                </div>
 
             <div class="card snippet-card">
@@ -292,13 +292,14 @@ $(document).ready(function(){
 
   </tr>
     <thead>
-        {% for focus in focus_list %}
+        {% for focus in focus_topic_list %}
+        {% if focus.rec_type == 'Focus' %}
         <tbody class="labels">
             <tr>
                 <td><b>
                     <span data-toggle="tooltip" title="{{ focus.focus_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
 <!--                    <a data-toggle="collapse" href="#topics{{m.id}}"> {{ m.mission_name }}</a>-->
-                    <p style="color: {{ focus.focus_color }}" data-toggle="collapse" href="#topics{{focus.focus_id}}">{{focus.focus_name}}</p>
+                    <a style="color: {{ focus.focus_color }}" data-toggle="collapse" href="#topics{{focus.focus_id}}">{{focus.focus_name}}</a>
                 </b></td>
                 <td><b>
                     {% if  focus.community_count  < 1 %}
@@ -321,6 +322,36 @@ $(document).ready(function(){
                 <td><b>{{focus.total_k12_hours}}</b></td>
             </tr>
         </tbody>
+        <tbody class="collapse" id="topics{{focus.focus_id}}">
+        {% for topic in focus_topic_list %}
+        {%  if topic.rec_type == 'Topic' and topic.focus_id == focus.focus_id %}
+            <tr>
+                <td>{{topic.topic_name}}</td>
+                <td>
+                    {% if  topic.community_count  < 1 %}
+                        {{topic.community_count}}
+                        {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ topic.comm_id_list }}" target="_blank" class="class1">{{topic.community_count}}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if  topic.project_count  < 1 %}
+                        {{topic.project_count}}
+                        {% else %}<a href="{% url 'projectsfromMissionReport' topic.focus_id%}?proj_id_list={{ topic.project_name_ids }}" target="_blank" class="class1">{{topic.project_count}}</a>
+                    {% endif %}
+                </td>
+                <td><b>
+                    {{topic.campus_count}}
+                </b></td>
+                <td>{{topic.total_uno_students}}</td>
+                <td>{{topic.total_uno_hours}}</td>
+                <td>{{topic.total_k12_students}}</td>
+                <td>{{topic.total_k12_hours}}</td>
+            </tr>
+        {%  endif %}
+        {% endfor %}
+
+        </tbody>
+        {% endif %}
         {% endfor %}
         <tbody>
             <tr>
@@ -332,6 +363,8 @@ $(document).ready(function(){
                 <td><b>{{ rpt_total_uno_hours }}</b></td>
                 <td><b>{{ rpt_total_k12_students }}</b></td>
                 <td><b>{{ rpt_total_k12_hours }}</b></td>
+            </tr>
+        </tbody>
             </tr>
         </tbody>
 </table>

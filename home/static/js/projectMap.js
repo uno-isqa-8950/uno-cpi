@@ -278,7 +278,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Engagement Types", "All Mission Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
+    defaultFilterValues = ["All Engagement Types", "All Focus Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
     // Object to identify filters set by the user
     filters = {
         "selectEngagement":     "All Engagement Types",

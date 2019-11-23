@@ -4,7 +4,7 @@ var CommunityPartners = JSON.parse(document.getElementById('CommunityPartners').
 var Projects = JSON.parse(document.getElementById('Projects').textContent);
 var CampusPartners = JSON.parse(document.getElementById('CampusPartners').textContent);
 
-function getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, legislative_value, y_axis) {
+function getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, comm_type, legislative_value, y_axis) {
     if (!not_set.includes(engagement_type)) {
         var Projects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagement_type));
     }
@@ -117,17 +117,16 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
     var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
 
-    return [xLine, yLine, y_label, chart_data, CommunityPartners];
+    return [xLine, yLine, y_label, chart_data];
 }
 
 var defaultYrID = JSON.parse(document.getElementById('defaultYrID').textContent);
 
-var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, '', defaultYrID, '', '', '', '', '', '');
+var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, '', defaultYrID, '', '', '', '', '', '', '');
 var xLine = res[0];
 var yLine = res[1];
 var y_label = res[2];
 var chart_data = res[3];
-var comms = res[4];
 
 var clickdouble = {clickedOnce : false, timer : null, timeBetweenClicks : 400};
 
@@ -201,29 +200,36 @@ function updateChart () {
     if (academic_year == '') {
         var academic_year = defaultYrID;
     }
-    var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, legislative_value, y_axis);
-    var xLine = res[0];
-    var yLine = res[1];
-    var y_label = res[2];
-    var chart_data = res[3];
-    var comms = res[4];
+    console.log(academic_year);
+    var filt_set = [y_axis, academic_year, engagement_type, college_name, campus_partner, weitz_cec_part, legislative_value, comm_type];
 
-    chart.update({
-       "xAxis":{
-          "plotLines":[
-             { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-       "yAxis":{
-          "title":{"text":y_label},
-          "plotLines":[
-             { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-       "plotOptions":{
-          "scatter":{
-             "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}}},
-       "series":chart_data
-    });
+    for (m in filt_set) {
+      if (!not_set.includes(filt_set[m])) {
+        var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, comm_type, legislative_value, y_axis);
+        var xLine = res[0];
+        var yLine = res[1];
+        var y_label = res[2];
+        var chart_data = res[3];
+
+        chart.update({
+           "xAxis":{
+              "plotLines":[
+                 { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+           "yAxis":{
+              "title":{"text":y_label},
+              "plotLines":[
+                 { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+           "plotOptions":{
+              "scatter":{
+                 "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}}},
+           "series":chart_data
+        });
+        break;
+      }
+    }
 
     var selectedComm = $('#id_community_partner option:selected').val();
-    var selectCom = comms.filter(d => d.community_partner_id == selectedComm);
+    var selectCom = CommunityPartners.filter(d => d.community_partner_id == selectedComm);
     if (not_set.includes(selectedComm)) {
         chart.update({
            "xAxis":{

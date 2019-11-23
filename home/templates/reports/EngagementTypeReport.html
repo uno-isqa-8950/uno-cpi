@@ -4,21 +4,13 @@
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
-    .fade{
-        color: black;
-        display: block;
-        opacity: 100;
-    }
-    .fade:not(.show){
-        opacity: 5;
-    }
 </style>
 
-  <script>
-    $(function () {
-  $('[data-toggle="popover"]').popover()
-})
-  </script>
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 
 <div class="loader" id =loading></div>
 <div class="container">
@@ -82,7 +74,7 @@
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}  Academic Year
+                    {% endfor %}  Academic Years
                 </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -119,7 +111,7 @@
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Community Organization Type
+                    {% endfor %} Community Organization Types
                 </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -262,7 +254,7 @@
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}
-                <a href="#" class="class1">{{e.project_count}}</a>
+                <a href="{% url 'projectspublicreport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1">{{e.project_count}}</a>
                 {% endif %}</td>
 
             <td>

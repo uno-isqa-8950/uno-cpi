@@ -157,7 +157,7 @@ display: flex;
         color: white
     }
 
-                  .fade{
+  .fade{
       display: block;
       opacity: 100;
       word-wrap: break-word;

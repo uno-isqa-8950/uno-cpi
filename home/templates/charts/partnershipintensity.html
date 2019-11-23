@@ -74,9 +74,44 @@
         background-image: none;
         background-color: #333;
     }
+      .fade{
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+
+.tooltip-inner {
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 300px;
+    width: 300px;
+    min-width: 0px;
+}
 
  </style>
 
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 <br>
     <br>
     <div class="row justify-content-md-center">
@@ -116,17 +151,37 @@
                     <label for="academic_year">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                         Academic Years
                     </label>
                     <select id="id_academic_year" name="academic_year" onchange="updateChart()">
+
                         <option> All </option>
                             {% for sem in project_filter.form.academic_year %}
                                 {{sem}}
+                            {% endfor %}
+                    </select>
+                </div>
+
+                    <div class="col-lg-4 col-md-5 form-group">
+                    <label for="community_type">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 33%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        Community Organization Types
+                    </label>
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
+                        <option> All </option>
+                            {% for community_type in communityPartners.form.community_type %}
+                                {{community_type}}
                             {% endfor %}
                     </select>
                 </div>
@@ -135,9 +190,9 @@
                     <label for="engagement_type">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                         Engagement Types
@@ -155,12 +210,12 @@
                     <label for="college-name">
                            {% for data_definition in data_definition %}
                             {% if data_definition.id == 43%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
-                        Colleges and Main Units
+                        College and Main Units
                     </label>
                     <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
                         <option> All </option>
@@ -174,14 +229,15 @@
                     <label for="campus_partner">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                         Campus Partners
                     </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
+                         <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                         {% for campus in campus_filter %}
@@ -194,83 +250,76 @@
                     <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                data-content="{{ data_definition.description }}" class="float" >
-                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %} CEC Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="community_type">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 33%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                        Community Organization Type
-                    </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
-                        <option> All </option>
-                            {% for community_type in communityPartners.form.community_type %}
-                                {{community_type}}
-                            {% endfor %}
-                    </select>
-                </div>
 
                 <div class="col-lg-4 col-md-5 form-group ">
                     <label >
                         {% for data_definition in data_definition %}
                         {% if data_definition.id == 52%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                            data-content="{{ data_definition.description }}" class="float">
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
                         {% endfor %}
                         Legislative Districts
                     </label>
                     <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
+                        <option>All</option>
                         {% for item in legislative_choices %}
                         <option {% if item == legislative_value %}selected{% endif %}>{{ item }}</option>
                        <!-- <option> {{legislative_value}} </option>-->
                         {% endfor %}
                     </select>
                 </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="y_axis">Y-Axis</label>
-                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()">
-                        {% for y_axis in y_choices.y_choice %}
-                            {{ y_axis }}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
+                    <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_partner">
                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% if data_definition.id == 2%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                         Community Partners
                     </label>
                     <select id="id_community_partner" name="community_partner" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if community_id == 0 %} selected {% endif %}>---------</option>
                             {% for community in community_filter %}
                                 <option value={{community.id}} {% if community_id == community.id %} selected {% endif %}>{{community.name}}</option>
                             {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="y_axis">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 56%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} Y-Axis
+                    </label>
+                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
+                        {% for y_axis in y_choices.y_choice %}
+                            {{ y_axis }}
+                        {% endfor %}
                     </select>
                 </div>
             </form>
@@ -342,9 +391,9 @@ $(document).ready(function(){
                                         }});
     $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
     $('#id_k12_flag').select2({placeholder: 'K12 Involvement',width: '75%'});
-    $('#id_legislative_value').select2({placeholder: 'All',width: '75%'});
-    $('#id_y_axis').select2({width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partner',width: '75%'});
+    $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
+    $('#id_y_axis').select2({placeholder: 'Number of Campus Partners',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
     $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -359,7 +408,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

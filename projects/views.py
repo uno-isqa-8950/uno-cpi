@@ -3250,9 +3250,9 @@ def checkProject(request):
     if request.method == 'POST':
         flag = 0;
         projectName = request.POST['projectName'].strip()
-        communityPartner = request.POST.get('communityPartner').replace('-', '')
-        campusPartner = request.POST['campusPartner'].replace('-', '')
-        academicYear = request.POST['academicYear'].replace('---', '')
+        communityPartner = request.POST.get('communityPartner').replace('All', '')
+        campusPartner = request.POST['campusPartner'].replace('All', '')
+        academicYear = request.POST['academicYear'].replace('All', '')
         #  academic_filter_qs = AcademicYear.objects.get(academic_year=academicYear)
         #  acad = academic_filter_qs.id
         #  acad_id = str(acad)

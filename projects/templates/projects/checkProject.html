@@ -92,7 +92,8 @@ label {
                         {% endfor %} Academic Years
                     </label>
                     <select id="academicYear" name="academicYear" >
-                        <option> </option>
+<!--                        <option></option>-->
+                        <option>All</option>
                         {% for sem in academic_yr_filter %}
                         <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
                         {% endfor %}
@@ -108,8 +109,9 @@ label {
                         {% endif %}
                     {% endfor %} Community Organization Types
                 </label>
-                    <select id="communityPartner" name="communityPartner" CompValue=" ">
-                        <option> </option>
+                    <select id="communityPartner" name="communityPartner" >
+<!--                        <option></option>-->
+                        <option>All</option>
                         {% for comm in Community_filter %}
                         <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %}>{{comm.name}} </option>
                         {% endfor %}
@@ -125,8 +127,9 @@ label {
                         {% endif %}
                     {% endfor %}Campus Partners
                     </label>
-                    <select id="campuspartner" name="campusPartner" CampValue=" ">
-                        <option> </option>
+                    <select id="campuspartner" name="campusPartner" >
+<!--                        <option></option>-->
+                        <option>All</option>
                        {% for campus in campus_filter %}
                         <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
                         {% endfor %}

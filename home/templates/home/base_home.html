@@ -112,9 +112,7 @@
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-{#                <li class="nav-item">#}
-{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
-{#                </li>#}
+
             {% endif %}
             {% if user.is_authenticated and user.is_superuser %}
                 <li class=" nav-item dropdown">
@@ -129,9 +127,6 @@
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-{#                <li class="nav-item">#}
-{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
-{#                </li>#}
             {% endif %}
             {% if user.is_authenticated and user.is_superuser %}
                 <li class=" nav-item dropdown">

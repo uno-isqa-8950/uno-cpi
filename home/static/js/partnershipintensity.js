@@ -197,30 +197,40 @@ function updateChart () {
     var weitz_cec_part = $('#id_weitz_cec_part option:selected').val();
     var legislative_value = $('#id_legislative_value option:selected').val();
     var comm_type = $('#id_community_type option:selected').val();
+    if (academic_year == '') {
+        var academic_year = defaultYrID;
+    }
+    console.log(academic_year);
+    var filt_set = [y_axis, academic_year, engagement_type, college_name, campus_partner, weitz_cec_part, legislative_value, comm_type];
 
-    var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, comm_type, legislative_value, y_axis);
-    var xLine = res[0];
-    var yLine = res[1];
-    var y_label = res[2];
-    var chart_data = res[3];
+    for (m in filt_set) {
+      if (!not_set.includes(filt_set[m])) {
+        var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, comm_type, legislative_value, y_axis);
+        var xLine = res[0];
+        var yLine = res[1];
+        var y_label = res[2];
+        var chart_data = res[3];
 
-    chart.update({
-       "xAxis":{
-          "plotLines":[
-             { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-       "yAxis":{
-          "title":{"text":y_label},
-          "plotLines":[
-             { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-       "plotOptions":{
-          "scatter":{
-             "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}"}}},
-       "series":chart_data
-    });
+        chart.update({
+           "xAxis":{
+              "plotLines":[
+                 { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+           "yAxis":{
+              "title":{"text":y_label},
+              "plotLines":[
+                 { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+           "plotOptions":{
+              "scatter":{
+                 "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}}},
+           "series":chart_data
+        });
+        break;
+      }
+    }
 
     var selectedComm = $('#id_community_partner option:selected').val();
     var selectCom = CommunityPartners.filter(d => d.community_partner_id == selectedComm);
-    if (selectedComm == 'All') {
+    if (not_set.includes(selectedComm)) {
         chart.update({
            "xAxis":{
               "plotLines":[

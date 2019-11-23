@@ -140,7 +140,7 @@
                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %}
                             {% endfor %}
-                            Project Focus Areas
+                            Focus Areas
                         </label>
                         <select id="id_mission" name="mission" onchange="updateChart()">
                             <option> All </option>
@@ -250,7 +250,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#id_mission').select2({placeholder: 'All Project Focus Areas',width: '75%',
+    $('#id_mission').select2({placeholder: 'All Focus Areas',width: '75%',
                                             sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {

@@ -1534,7 +1534,9 @@ left join partners_communitypartnermission CommMission on CommMission.community_
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.community_type_id::text like %s
+left join projects_status s on s.id = p.status_id
+where  s.name != 'Drafts'
+and pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  
@@ -1561,7 +1563,9 @@ left join partners_communitypartnermission CommMission on CommMission.community_
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id 
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.id in %s  
+left join projects_status s on s.id = p.status_id
+where  s.name != 'Drafts'
+and pc.id in %s  
 
 group by commpartners, website, CommStatus, cstatus
 order by commpartners;
@@ -1583,7 +1587,9 @@ left join partners_communitypartnermission CommMission on CommMission.community_
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id
 left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.id::text = %s  
+left join projects_status s on s.id = p.status_id
+where  s.name != 'Drafts'
+and pc.id::text = %s  
 
 group by commpartners, website, CommStatus, cstatus
 order by commpartners;
@@ -1604,8 +1610,10 @@ left join projects_projectcampuspartner pcam on pcam.project_name_id = p.id
 left join partners_communitypartnermission CommMission on CommMission.community_partner_id = pc.id and  CommMission.mission_type='Primary'
 left join home_missionarea hm on hm.id = CommMission.mission_area_id
 left join partners_campuspartner c on pcam.campus_partner_id = c.id
-left join partners_partnerstatus ps on ps.id = pc.partner_status_id 
-where pc.community_type_id::text like %s
+left join partners_partnerstatus ps on ps.id = pc.partner_status_id
+left join projects_status s on s.id = p.status_id
+where  s.name != 'Drafts' 
+and pc.community_type_id::text like %s
  and((p.academic_year_id <= %s) AND 
        (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
  and  pcam.campus_partner_id::text like %s  

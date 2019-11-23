@@ -1,7 +1,7 @@
 {% extends 'home/base_home.html' %}
 {% load bootstrap %}
 {% block title %}Reset your Password{% endblock%}
-
+{% load wagtailcore_tags register_tags %}
 {% block content %}
 
 <style>
@@ -83,16 +83,18 @@ label
 
 <div class = "container">
     <div class ="row justify-content-md-center">
-        <div class="col-xl-7 col-md-10">
-            <div class = "panel panel-default">
-		        <div class="panel-heading text-center"><h4>Invite a Community Partner User</h4></div>
-			        <div class="panel-body">
-                        <p id="align">
-                            A community partner user is an individual associated with a community partner
-                            organization. Inviting a community partner user will allow the user access to log into the
-                            Community Partnership Initiative and view their data, including project-level information.
-                            Submitting this form will trigger the user to receive an activation email.
-                        </p>
+        <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
+		        <div class="text-center"><h3 class="heading">Invite a Community Partner User</h3></div>
+
+                       <div class="card snippet-card">
+                       <div class="text-snippet">
+                          {% com_part_user_regs %}
+                       </div>
+                       </div>
+
+                       <br>
+                       <div class="box">
                         <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
                         {% csrf_token %}
                             {{ community_partner_user_form|bootstrap}}
@@ -106,13 +108,13 @@ label
 
                             <div class = "row justify-content-md-center">
                                 <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <p id="button-center"><button type="submit" class="btn btn-custom"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                        Submit</button></p>
+                                    <p id="button-center"><button type="submit" class="btn btn-secondary">
+                                        Submit</button>
                                 </div>
                             </div><br><br>
                         </form>
-                    </div>
-                </div>
+                       </div>
+
             </div>
     </div>
 </div>

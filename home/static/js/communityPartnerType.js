@@ -121,9 +121,11 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Mission Areas" + '" selected="selected">' + 'All Mission Areas' + '</option>';
+select2 += '<option value="' + "All Focus Areas" + '" selected="selected">' + 'All Focus Areas' + '</option>';
 for (i = 0; i < Missionarea.length; i++) {
-    select2 += '<option value="' + Missionarea[i] + '">' + Missionarea[i] + '</option>';
+    var mission = Missionarea[i];
+    var missionName = mission.split(':')[0];
+    select2 += '<option value="' + missionName + '">' + missionName + '</option>';
 }
 $('#selectMission').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
@@ -246,11 +248,11 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Community Partner Types", "All Mission Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
+    defaultFilterValues = ["All Community Partner Types", "All Focus Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
     // Object to identify filters set by the user
     filters = {
         "selectCommType":       "All Community Partner Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units",
@@ -264,27 +266,27 @@ var mcOptions = {
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };
@@ -297,13 +299,12 @@ var rightclickwindow = null;
 function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
     google.maps.event.addListener(marker, 'click', function () {
-        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
-          var commInnerHtml = '';
+        //if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+         var commInnerHtml = '';
        var commBodyHtml = '';
        var commCecHtml = '';
  
        var commHeadHtml ='<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td></tr><br />'+
-                         '<tr><td><span style="font-weight:bold">*CEC Building Partner: </span>&nbsp; </td><td>' + commCecStatus + '</td></tr><br />' +
                          '<tr><td><span style="font-weight:bold">Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
@@ -313,19 +314,12 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
                         '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
                         
         if(commCecStatus == 'Current'){
-            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> is a Barbara Weitz Community Engagement Center (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
-                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
-        }
-        if(commCecStatus == 'Never'){
-            commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has never been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
-                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+            commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
         if(commCecStatus == 'Former'){
-         commCecHtml ='<tr><td><span>*<b>'+ partner_name +'</b><i> has been a Barbara Weitz Community Engagement Center (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building. '+
-                        'To learn more visit the CEC website : <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">https://www.unomaha.edu/community-engagement-center/index.php</a></i></span></td></tr></br></br>';
+         commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
                         
         if(project_number != 0 ){
@@ -333,6 +327,7 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
         }
         commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
 
+        if (openedInfoWindow != null) openedInfoWindow.close(); 
         infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
@@ -344,8 +339,7 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        var projectDtlList = projects.toString().split(",");
-         var projectHtml = ''
+        var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
@@ -355,10 +349,19 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
         '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
         '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
         var projInnerHtml = ''
-        for(var i=0;i<projectDtlList.length;i++){
-            projInnerHtml += '<tr><td><span>&nbsp;'+projectDtlList[i].split(':')[1]+'&nbsp;</span></td>'+
-        '<td><span>&nbsp;'+projectDtlList[i].split(':')[0].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td>'+
-        '<td><span >&nbsp;'+projectDtlList[i].split(':')[2].replace(/\s*\(.*?\)\s*/g,"")+'&nbsp;</span></td></tr>';
+        for(var i=0;i<projects.length;i++){
+            var projAcademicyr = projects[i].split(':')[1];
+            var projName = projects[i].split(':')[0];
+            if(projName != '' && projName != null){
+                projName = projName.replace(/\s*\(.*?\)\s*/g,"");
+            }
+            var projEngType = projects[i].split(':')[2];
+            if(projEngType != '' && projEngType != null){
+                projEngType = projEngType.replace(/\s*\(.*?\)\s*/g,"");
+            }
+            projInnerHtml += '<tr><td><span>&nbsp;'+projAcademicyr+'&nbsp;</span></td>'+
+        '<td><span>&nbsp;'+projName+'&nbsp;</span></td>'+
+        '<td><span >&nbsp;'+projEngType+'&nbsp;</span></td></tr>';
         }
         projectHtml = projHeadHtml + projInnerHtml +'</table></td></tr>';
         infowindow.setContent(projectHtml)
@@ -491,6 +494,7 @@ selectFilters.addEventListener("change", function(event) {
 var commTypeFilters = Array.from(document.getElementsByClassName("selectCommType"));
 for (let communityFilter of commTypeFilters) {
     communityFilter.addEventListener("click", function(event) {
+        document.getElementById("valueFilter").value = "";
         let value = communityFilter.textContent;
         mapFilter("selectCommType", value);
         filterMarkers();
@@ -547,7 +551,7 @@ function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
         "selectCommType":       "All Community Partner Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units",
@@ -573,7 +577,7 @@ function resetFiltersOnSearchComm (){
 $("#reset").click(function () {
     const defaultFilterObject = {
         "selectCommType":       "All Community Partner Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units",

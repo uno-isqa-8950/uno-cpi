@@ -1,50 +1,18 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-{% load wagtailcore_tags register_tags %}
+    {% load wagtailcore_tags register_tags %}
 
 <style>
   A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
-  .fade{
-      display: block;
-      opacity: 100;
-      word-wrap: break-word;
-      text-align: left;
-      max-width: 300px;
-      width: 300px;
-      min-width: 0px;
-
+        .fade{
+        color: black;
+        display: block;
+        opacity: 100;
     }
-  .fade:not(.show){
-      display: block;
-      opacity: 100;
-      word-wrap: break-word;
-      text-align: left;
-      max-width: 300px;
-      width: 300px;
-      min-width: 0px;
-
+    .fade:not(.show){
+        opacity: 5;
     }
 
-.tooltip-inner{
-    display: block;
-    opacity: 100;
-    word-wrap: break-word;
-    text-align: left;
-      max-width: 300px;
-      width: 300px;
-      min-width: 0px;
-
-}
-
-      select:required:invalid {
-      color: #666;
-      }
-      option[value=""][disabled] {
-      display: none;
-      }
-      option {
-      color: #000;
-      }
 
 </style>
 
@@ -58,27 +26,27 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4
-                           style="line-height:.8em;padding-top:10px;">Community Partners Report</h4></b></label>
+               <br><br>
+               <div class="text-center">
+                   <h3 class="heading">Community Partners Reports</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="container">
+
+            <div class="card snippet-card">
+                <div class="container text-snippet">
                     {% priv_comms %}
                 </div>
             </div>
         </div>
     </div>
 </div>
-    <div class="container">
-    <div class="card" style="padding: 10px; ">
+
+
+    <!--<div class="card" style="border:0px; padding: 10px; ">-->
         <!-- Collapse buttons -->
-        <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <div style="margin-left: -10px">
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -96,7 +64,8 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 
         </div>
 <!-- / Collapse buttons -->
-    <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+    <!--<div class="card" style="border: 0px solid #C3C3C3;">-->
         <div class="collapse show" id="collapseExample">
              <form class="form-inline" id="filters-form" method="get">
                  <div class="col-lg-4 col-md-5 form-group">
@@ -107,7 +76,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                        title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              {% endif %}
-                         {% endfor %} Academic Years
+                         {% endfor %} Academic Year
 
                      </label>
                      <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
@@ -124,7 +93,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                       title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %} Community Organization Types
+                        {% endfor %} Community Organization Type
 
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
@@ -209,10 +178,11 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 </div>
              </form>
         </div>
-    </div>
-
+    <!--</div>-->
+        </div>
+        <div class ="box">
         <div style="margin-top:15px;">
-        <table id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
+        <table id="example" class="table table-bordered  dt-responsive overflow-wrap:break-word" style="width:100%">
             <thead>
             <tr>
                 <th>
@@ -282,7 +252,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
 {#                     {% if  community.project_count  < 1 %}#}
 {#                        {{community.project_count}}#}
 {#                     {% else %}#}
-{#                        <a href="#" class="class1">{{ community.project_count }}</a>#}
+{#                        <a href="{% url 'projectspublicreport' %}?proj_id_list={{ community.project_id_list }}" class="class1">{{ community.project_count }}</a>#}
 {#                {% endif %}#}
 {#                    {{community.project_count}}#}
 {#                </td>#}
@@ -319,7 +289,9 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
         </table>
         <br>
         </div>
-    </div></div>
+    </div>
+    <!--</div>-->
+
 <br>
 <br> <br> <br>
 <script type="text/javascript">

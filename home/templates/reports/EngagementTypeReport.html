@@ -1,75 +1,42 @@
 {% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-{% load wagtailcore_tags register_tags %}
+    {% load wagtailcore_tags register_tags %}
 
 <style>
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color:#b60000;}
-  .fade{
-      display: block;
-      opacity: 100;
-      word-wrap: break-word;
-      text-align: left;
-      max-width: 300px;
-      width: 300px;
-      min-width: 0px;
-
-    }
-  .fade:not(.show){
-      display: block;
-      opacity: 100;
-      word-wrap: break-word;
-      text-align: left;
-      max-width: 300px;
-      width: 300px;
-      min-width: 0px;
-
-    }
-
-.tooltip-inner{
-    display: block;
-    opacity: 100;
-    word-wrap: break-word;
-    text-align: left;
-    max-width: 300px;
-    width: 300px;
-    min-width: 0px;
-
-}
 </style>
 
 <script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip({
-        placement : 'top'
-    });
-});
-  </script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 
 <div class="loader" id =loading></div>
 <div class="container">
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:white;"><h4
-                           style="line-height:.8em;padding-top:10px;">Engagement Types Report</h4></b></label>
+               <br><br>
+               <div class="text-center">
+                   <h3 class="heading">Engagement Types Report</h3>
                </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
+
+               <div class="card snippet-card">
+                  <div class="container text-snippet">
                     {% eng_types %}
                 </div>
             </div>
         </div>
     </div>
 </div>
+
     <div class="container">
-    <div class="card" style="padding: 10px;">
+
         <!-- Collapse buttons -->
-        <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <div style="margin-left: -10px">
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'engagement_info' %}' " value="Reset Filters" >
 
 
 
@@ -92,7 +59,8 @@ $(document).ready(function(){
     <!-- / Collapse buttons -->
 
 <!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class ="box">
+
         <div class="collapse show" id="collapseExample">
 
         	<!--<div class="row">-->
@@ -106,7 +74,7 @@ $(document).ready(function(){
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %}  Academic Years
+                    {% endfor %}  Academic Year
                 </label>
                 <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                     <option> All </option>
@@ -143,7 +111,7 @@ $(document).ready(function(){
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Community Organization Types
+                    {% endfor %} Community Organization Type
                 </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
@@ -216,8 +184,9 @@ $(document).ready(function(){
     </div>
 
 <br>
+    <div class ="box">
     <div style="margin-top:15px;">
-<table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+<table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
     <thead>
     <tr>
         <th>
@@ -285,7 +254,7 @@ $(document).ready(function(){
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}
-                <a href="#" class="class1">{{e.project_count}}</a>
+                <a href="{% url 'projectspublicreport' %}?proj_id_list={{ e.project_id_list }}" class="class1">{{e.project_count}}</a>
                 {% endif %}</td>
 
             <td>
@@ -311,8 +280,10 @@ $(document).ready(function(){
 </tbody>
 </table>
         </div>
-                </div>
+
+
     </div>
+        </div>
     <br>
 <br> <br> <br>
 {% endblock %}

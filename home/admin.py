@@ -41,12 +41,15 @@ class UserAdmin(ImportExportModelAdmin):
 #
 #     search_fields = ('first_name', 'last_name', 'email_id', 'contact_type', 'community_partner', 'campus_partner')
 
+class MissionAreaResource(resources.ModelResource):
+    class Meta:
+        model = MissionArea
 
-class MissionAreaList(admin.ModelAdmin):
+class MissionAreaList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('mission_name', 'description', 'mission_image_url', 'mission_color')
-
     search_fields = ('mission_name', 'description')
+    resource_class = MissionAreaResource
 
 class HouseholdIncomeResource(resources.ModelResource):
     class Meta:

@@ -8,10 +8,6 @@ function get_filter_set (Projects, CommunityPartners, CampusPartners, engagement
     if (!not_set.includes(engagement_type)) {
         var Projects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagement_type));
     }
-    if (!not_set.includes(mission)) {
-        var Projects = Projects.filter(d => d.primary_mission_area.mission_id === parseInt(mission));
-        var CommunityPartners = CommunityPartners.filter(d => d.primary_mission_id === parseInt(mission));
-    }
     if (weitz_cec_part == 'CURR_CAMP') {
         var CampusPartners = CampusPartners.filter(d => d.cec_partner.cec_partner_status === "Current");
     }
@@ -48,15 +44,24 @@ function get_filter_set (Projects, CommunityPartners, CampusPartners, engagement
         var Projects = Projects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
     }
     var projectCommunities = new Set();
-    var projectCampus = new Set();
     Projects.forEach(function (feature) {
         if (feature["community_partner_ids"].length != 0) {
             feature["community_partner_ids"].forEach(item => projectCommunities.add(item));
         }
-        feature["campus_partner_ids"].forEach(item => projectCampus.add(item));
     })
     var CommunityPartners = CommunityPartners.filter(d => projectCommunities.has(d.community_partner_id));
+
+    if (!not_set.includes(mission)) {
+        var Projects = Projects.filter(d => d.primary_mission_area.mission_id === parseInt(mission));
+        var CommunityPartners = CommunityPartners.filter(d => d.primary_mission_id === parseInt(mission));
+    }
+
+    var projectCampus = new Set();
+    Projects.forEach(function (feature) {
+        feature["campus_partner_ids"].forEach(item => projectCampus.add(item));
+    })
     var CampusPartners = CampusPartners.filter(d => projectCampus.has(d.campus_partner_id));
+
     return [Projects, CommunityPartners, CampusPartners];
 }
 

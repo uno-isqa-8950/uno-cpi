@@ -2449,7 +2449,7 @@ def chartjsons():
     return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
 
 
-
+@login_required()
 ###Network Analysis Chart
 def networkanalysis(request):
     data_definition = DataDefinition.objects.all()
@@ -2466,7 +2466,8 @@ def networkanalysis(request):
     for e in acad_years:
         yrs.append(e.id)
     max_yr_id = max(yrs)
-    max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
+    max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
+    print(" ma year ",max_yr)
     max_year = max_yr[0]
 
     missionList = []

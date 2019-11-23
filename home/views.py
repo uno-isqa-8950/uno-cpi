@@ -1010,8 +1010,17 @@ def engagement_info(request):
     for obj in cursor.fetchall():
         comm_ids = obj[5]
         proj_ids = obj[3]
-        print('proj_ids--',proj_ids)
+        proj_idList = ''
         comm_idList = ''
+        if proj_ids is not None:
+            name_count = 0
+            if len(proj_ids) > 0:
+                for i in proj_ids:
+                    proj_idList = proj_idList + str(i)
+                    if name_count < len(proj_ids) - 1:
+                        proj_idList = proj_idList + str(",")
+                        name_count = name_count + 1
+
         if comm_ids is not None:
             name_count = 0
             if len(comm_ids) > 0:
@@ -1021,7 +1030,7 @@ def engagement_info(request):
                         comm_idList = comm_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": obj[3],
+        data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
                           "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": obj[7],
                           "total_uno_hours": obj[8]})
 
@@ -1171,7 +1180,7 @@ def partnershipintensity(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    legislative_choices.append('All')
+    # legislative_choices.append('All')
     for i in range(1, 50):
         legistalive_val = 'Legislative District ' + str(i)
         legislative_choices.append(legistalive_val)
@@ -1188,8 +1197,8 @@ def partnershipintensity(request):
 
     y_selection = request.GET.get('y_axis', None)
     y_init_selection = "campus"
-    if y_selection is None:
-        y_selection = y_init_selection
+    # if y_selection is None:
+        # y_selection = y_init_selection
     y_choices = YChoiceForm(initial={'y_choice': y_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
@@ -1202,9 +1211,9 @@ def partnershipintensity(request):
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if cec_part_selection is None:
-        cec_part_selection = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    # if cec_part_selection is None:
+    #     cec_part_selection = "All"
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
 #########################
@@ -1257,9 +1266,9 @@ def trendreport(request):
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if cec_part_selection is None:
-        cec_part_selection = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    # if cec_part_selection is None:
+    #     cec_part_selection = cec_part_init_selection
     # print('CEC Partner set in view ' + cec_part_selection)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -1663,11 +1672,11 @@ def issueaddress(request):
         res={'id':m.id,'name':m.mission_name,'color': m.mission_color}
         missions.append(res)
     missions=sorted(missions,key=lambda i:i['name'],reverse=True)
-    print("sorted mission list",missions)
+    # print("sorted mission list",missions)
     missionarealist = list()
     for m in missions:
         missionarealist.append(m['name'])
-    print("mission_area1",missionarealist)
+    # print("mission_area1",missionarealist)
     subcategory = []
     y=[]
 
@@ -1726,6 +1735,64 @@ def issueaddress(request):
     to_subcat_counts=[]
 
 
+
+    cp=CecPartnerStatus.objects.all()
+    status=[]
+    for c in cp:
+        res={'id':c.id,'status':c.name}
+        status.append(res)
+        if c.name=='Current':
+            Current=c.id
+        if c.name=='Former':
+            Former=c.id
+        if c.name=='Never':
+            Never=c.id
+
+
+
+
+    #set cec partner flag on template choices field
+    weitz_cec_part = request.GET.get('weitz_cec_part', None)
+    cec_part_init_selection = "All"
+    if weitz_cec_part is None:
+        weitz_cec_part = cec_part_init_selection
+    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': weitz_cec_part})
+
+    # print("weitz_cec_part",weitz_cec_part)
+    if weitz_cec_part == "All":
+        ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
+        # print(" all ",ceccommunityPartners,ceccampuspartners )
+    if weitz_cec_part == "CURR_CAMP" :
+        ceccampuspartners= [d.id for d in (CampusPartner.objects.filter(cec_partner_status=Current))]
+        ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        # print(" cec partner with current ",ceccampuspartners)
+    if weitz_cec_part == "FORMER_CAMP" :
+        ceccampuspartners = [d.id for d in (CampusPartner.objects.filter(cec_partner_status=Former))]
+        ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+        # print(" cec partner with former ", ceccampuspartners)
+    if weitz_cec_part == "CURR_COMM" :
+        ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            cec_partner_status=Current))
+        ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
+        # print(" cec comm partner with current ", ceccommunityPartners)
+    if weitz_cec_part == "FORMER_COMM" :
+        ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            cec_partner_status=Former))
+        ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
+        # print(" cec comm partner with former ", ceccommunityPartners)
+
+
+
+    ceccampus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+        campus_partner_id__in=ceccampuspartners))
+    cec_campus_project_filter_ids = [project.project_name_id for project in ceccampus_project_filter.qs]
+
+    cec_community_filtered_ids = [community.id for community in ceccommunityPartners.qs]
+    cec_comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
+        community_partner_id__in=cec_community_filtered_ids))
+    cec_comm_proj_filtered_ids = [project.project_name_id for project in cec_comm_filter.qs]
+
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_filtered_ids = [campus.id for campus in college_filter.qs]
 
@@ -1735,6 +1802,7 @@ def issueaddress(request):
 
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
+    campus_filtered_ids=list(set(campus_filtered_ids).intersection(cec_campus_project_filter_ids))
 
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     projects = Project.objects.all()
@@ -1748,9 +1816,6 @@ def issueaddress(request):
     project_filtered_ids = [project.id for project in projects]
 
 
-
-
-    communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 
     legislative_choices = []
     legislative_search = ''
@@ -1786,12 +1851,8 @@ def issueaddress(request):
         community_partner_id__in=community_filtered_ids))
     comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
 
+    comm_proj_filtered_ids=list(set(comm_proj_filtered_ids).intersection(cec_comm_proj_filtered_ids))
 
-    cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-
-
-    cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))

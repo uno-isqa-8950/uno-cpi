@@ -339,8 +339,7 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-        var projectDtlList = projects.toString().split(",");
-         var projectHtml = ''
+        var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
@@ -350,13 +349,13 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
         '<td><span style="font-weight:bold">&nbsp;Name&nbsp;</span></td>'+
         '<td><span style="font-weight:bold">&nbsp;Engagement Type&nbsp;</span></td></tr>';
         var projInnerHtml = ''
-        for(var i=0;i<projectDtlList.length;i++){
-            var projAcademicyr = projectDtlList[i].split(':')[1];
-            var projName = projectDtlList[i].split(':')[0];
+        for(var i=0;i<projects.length;i++){
+            var projAcademicyr = projects[i].split(':')[1];
+            var projName = projects[i].split(':')[0];
             if(projName != '' && projName != null){
                 projName = projName.replace(/\s*\(.*?\)\s*/g,"");
             }
-            var projEngType = projectDtlList[i].split(':')[2];
+            var projEngType = projects[i].split(':')[2];
             if(projEngType != '' && projEngType != null){
                 projEngType = projEngType.replace(/\s*\(.*?\)\s*/g,"");
             }

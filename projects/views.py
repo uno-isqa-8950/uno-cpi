@@ -3250,18 +3250,33 @@ def checkProject(request):
     if request.method == 'POST':
         flag = 0;
         projectName = request.POST['projectName'].strip()
-        communityPartner = request.POST.get('communityPartner').replace('All', '')
-        campusPartner = request.POST['campusPartner'].replace('All', '')
-        academicYear = request.POST['academicYear'].replace('All', '')
+        communityPartner = request.POST['communityPartner']
+        if communityPartner == 'All':
+            communityPartner_id = -1
+        else:
+            communityPartner_id = 0
+        campusPartner = request.POST['campusPartner']
+        if campusPartner == 'All':
+            campusPartner_id = -1
+        else:
+            campusPartner_id = 0
+        academicYear = request.POST['academicYear']
+        if academicYear == 'All':
+            acad_id = -1
+        else:
+            acad_id = 0
+        commpart_filter = communityPartner.replace('All', '')
+        camp_filter = campusPartner.replace('All', '')
+        acad_filter = academicYear.replace('All', '')
         #  academic_filter_qs = AcademicYear.objects.get(academic_year=academicYear)
         #  acad = academic_filter_qs.id
         #  acad_id = str(acad)
         # # acad_id = [m.id for m in academic_filter_qs]
         #  print(acad_id)
         print(academicYear)
-        print(sqlfiles.checkProjectsql(projectName, communityPartner, campusPartner, academicYear))
+        print(sqlfiles.checkProjectsql(projectName, commpart_filter, campusPartner, academicYear))
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.checkProjectsql(projectName, communityPartner, campusPartner, academicYear),
+        cursor.execute(sqlfiles.checkProjectsql(projectName, commpart_filter, camp_filter, acad_filter),
                        params=None)
         rows = cursor.fetchall()
         # print(rows[0][0])
@@ -3284,10 +3299,13 @@ def checkProject(request):
                            'data_definition': data_definition,
                            'academic_yr_filter': academic_yr_filter,
                            'campus_filter': campus_filter,
+                           'communityPartner_id': communityPartner_id,
                            "Community_filter": Community_filter,
                            'communityPartner_selected': communityPartner,
                            'campusPartner_selected': campusPartner,
-                           'academicYear_selected': academicYear
+                           'campusPartner_id': campusPartner_id,
+                           'academicYear_selected': academicYear,
+                           'acad_id': acad_id
                            })
 
         else:

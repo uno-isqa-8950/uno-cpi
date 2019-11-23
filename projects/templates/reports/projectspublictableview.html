@@ -298,10 +298,12 @@
                         {% endfor %}College and Main Units
                     </label>
                     <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for college in college_filter.form.college_name %}
-                            {{college}}
-                        {% endfor %}
+                        <option > All </option>
+                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+
+                    {% for campus in campus_filter %}
+                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                    {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">

@@ -1275,10 +1275,10 @@ def showAllProjects(request):
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
+    # campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
     # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-        campus_partner_id__in=campus_filtered_ids))
+    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+    #     campus_partner_id__in=campus_filtered_ids))
     projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
@@ -1320,8 +1320,8 @@ def showAllProjects(request):
         campus_filter_qs = CampusPartner.objects.all()
     else:
         college_unit_cond = college_unit_filter
-        # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
-    # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_cond)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -1464,7 +1464,7 @@ def showAllProjects(request):
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
 
@@ -1552,8 +1552,8 @@ def projectstablePublicReport(request):
         campus_filter_qs = CampusPartner.objects.all()
     else:
         college_unit_cond = college_unit_filter
-        # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
-    # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_cond)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
 
     academic_year_filter = request.GET.get('academic_year', None)
@@ -1654,7 +1654,7 @@ def projectstablePublicReport(request):
              "project_type": obj[19], "end_semester": obj[20], "end_academic_year": obj[21], "sub_category": obj[22],
              "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25]})
     return render(request, 'reports/projectspublictableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
 
@@ -1714,8 +1714,8 @@ def projectsPublicReport(request):
         campus_filter_qs = CampusPartner.objects.all()
     else:
         college_unit_cond = college_unit_filter
-        # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
-    # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_cond)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
 
     academic_year_filter = request.GET.get('academic_year', None)
@@ -1822,7 +1822,7 @@ def projectsPublicReport(request):
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_public_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
 
@@ -1886,8 +1886,8 @@ def projectsPrivateReport(request):
         campus_filter_qs = CampusPartner.objects.all()
     else:
         college_unit_cond = college_unit_filter
-        # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
-    # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_cond)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -1988,7 +1988,7 @@ def projectsPrivateReport(request):
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
     return render(request, 'reports/projects_private_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
 
@@ -2002,11 +2002,11 @@ def projectstablePrivateReport(request):
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__in=status_draft))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
+    # campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
     # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
         campus_partner_id__in=campus_filtered_ids))
-    projects_list=[]
+    # projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
     # k12_init_selection = "All"
@@ -2047,8 +2047,8 @@ def projectstablePrivateReport(request):
         campus_filter_qs = CampusPartner.objects.all()
     else:
         college_unit_cond = college_unit_filter
-        # campus_filter_qs = CampusPartner.objects.filter(college_name_id=campus_partner_filter)
-    # campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
+        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_cond)
+    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
@@ -2141,7 +2141,7 @@ def projectstablePrivateReport(request):
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25]})
     return render(request, 'reports/projectsprivatetableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
 

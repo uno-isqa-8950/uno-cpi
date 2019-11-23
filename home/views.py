@@ -2083,11 +2083,14 @@ def issueaddress(request):
 
 
 
+
+
     #set cec partner flag on template choices field
     weitz_cec_part = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if weitz_cec_part is None:
-        weitz_cec_part = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    if weitz_cec_part is None or weitz_cec_part == "All" or weitz_cec_part == '':
+            ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
+            ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': weitz_cec_part})
 
     # print("weitz_cec_part",weitz_cec_part)
@@ -2156,7 +2159,7 @@ def issueaddress(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    legislative_choices.append('All')
+    # legislative_choices.append('All')
     for i in range(1, 50):
         legistalive_val = 'Legislative District ' + str(i)
         legislative_choices.append(legistalive_val)

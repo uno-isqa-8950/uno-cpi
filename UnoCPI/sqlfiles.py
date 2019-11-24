@@ -1773,6 +1773,8 @@ from ((with focus_filter as (select pm.mission_id focus_id
                              from home_missionarea m
                                  left join projects_projectmission pm on m.id = pm.mission_id
                                  left join projects_project p on pm.project_name_id = p.id
+                                 left join projects_projectengagementactivity pea on pea."ProjectName_id" = p.id
+                                 left join projects_engagementactivitytype ea on ea.id = pea."ProjectEngagementActivityName_id"
                                  left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
                                  left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
                                  left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
@@ -1783,6 +1785,7 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                and COALESCE(comm.community_type_id::text,'None') like %s
                                and COALESCE(pcamp.campus_partner_id::text,'None') like %s
                                and COALESCE(c.college_name_id::text,'None') like %s
+                               and COALESCE(ea."EngagementTypeName_id"::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
                                and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)
@@ -1824,8 +1827,10 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                   , sum(p.total_k12_students) numberofk12students
                                   , sum(p.total_k12_hours) k12studentshours			   
                              from projects_missionsubcategory ms
-                                 left join projects_projectsubcategory psc on psc.sub_category_id = ms.sub_category_id --and psc.project_name_id = p.id
+                                 left join projects_projectsubcategory psc on psc.sub_category_id = ms.sub_category_id
                                  left join projects_project p on p.id = psc.project_name_id
+                                 left join projects_projectengagementactivity pea on pea."ProjectName_id" = p.id
+                                 left join projects_engagementactivitytype ea on ea.id = pea."ProjectEngagementActivityName_id"
                                  left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
                                  left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
                                  left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
@@ -1836,6 +1841,7 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                and COALESCE(comm.community_type_id::text,'None') like %s
                                and COALESCE(pcamp.campus_partner_id::text,'None') like %s
                                and COALESCE(c.college_name_id::text,'None') like %s
+                               and COALESCE(ea."EngagementTypeName_id"::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
                                and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)

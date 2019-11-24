@@ -71,7 +71,7 @@ def myProjects(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
@@ -443,8 +443,7 @@ def createProject(request):
                                     }
                             projects_list.append(data)
 
-                    return render(request, 'projects/draftadd_done.html', {'project': projects_list})
-
+                    return HttpResponseRedirect('/draft-project-done')
                 if (address == ''):
                     proj.save()
                     mission_form = formset.save(commit=False)
@@ -522,7 +521,7 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/draftadd_done.html', {'project': projects_list})
+                    return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
                 if(address != ''):
                     if (address != "N/A"):  # check if a community partner's address is there
@@ -645,7 +644,8 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
+                    # return redirect(request, 'projects/confirmAddProject.html',/ {'project': projects_list})
+                    return HttpResponseRedirect('/submit-project-done')
                 if (address == ''):
                     proj.save()
                     mission_form = formset.save(commit=False)
@@ -745,7 +745,7 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
+                    return HttpResponseRedirect('/submit-project-done')
     else:
         month = datetime.datetime.now().month
         year = datetime.datetime.now().year
@@ -3498,7 +3498,7 @@ def myDrafts(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
 
@@ -3507,3 +3507,10 @@ def drafts_delete(request,pk):
     draft_delete = get_object_or_404(Project, pk=pk)
     draft_delete.delete()
     return HttpResponseRedirect("/myDrafts")
+
+
+def draft_project_done(request):
+    return render(request, 'projects/draftadd_done.html')
+
+def submit_project_done(request):
+    return render(request, 'projects/confirmAddProject.html')

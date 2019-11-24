@@ -117,6 +117,12 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
     var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
 
+    var select = document.getElementById("id_community_partner");
+    select.options.length = 2;
+    for (c in CommunityPartners) {
+        select.options[select.options.length] = new Option(CommunityPartners[c].community_partner_name, CommunityPartners[c].community_partner_id);
+    }
+
     return [xLine, yLine, y_label, chart_data, CommunityPartners];
 }
 
@@ -160,7 +166,7 @@ var chart = Highcharts.chart('container', {
             "symbol": "circle",
             "states":{"hover":{"enabled":true,"lineColor":"rgb(100,100,100)"}}},
          "states":{"hover":{"marker":{"enabled":false}}},
-         "jitter": {"x": 0.24, "y": 0.24},
+         // "jitter": {"x": 0.24, "y": 0.24},
          "point": {"events": {
             "click": function () {
                 chart.update({
@@ -222,9 +228,68 @@ function updateChart () {
        "series":chart_data
     });
 
+    // var selectedComm = $('#id_community_partner option:selected').val();
+    // var selectCom = comms.filter(d => d.community_partner_id == selectedComm);
+    // if (not_set.includes(selectedComm)) {
+    //     chart.update({
+    //        "xAxis":{
+    //           "plotLines":[
+    //              { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+    //        "yAxis":{
+    //           "plotLines":[
+    //              { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
+    //     });
+    // } else if (selectCom.length) {
+    //     var selected = selectCom[0].community_partner_name;
+    //     for (c in chart_data) {
+    //         if (chart_data[c].data.length) {
+    //             for (d in chart_data[c].data) {
+    //                 if (chart_data[c].data[d].name === selected) {
+    //                     chart.update({
+    //                        "xAxis":{
+    //                           "plotLines":[
+    //                              { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" },
+    //                              { "value":chart_data[c].data[d].x, "width":2, "color":"#d33" }]},
+    //                        "yAxis":{
+    //                           "plotLines":[
+    //                              { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" },
+    //                              { "value":chart_data[c].data[d].y, "width":2, "color":"#d33" }]},
+    //                     });
+    //                 }
+    //             }
+    //         }
+    //     }
+    // } else {
+    //     alert("The selected community partner does not exist for the filters selected");
+    // }
+}
+
+function getCommunityCroasshairs () {
     var selectedComm = $('#id_community_partner option:selected').val();
-    var selectCom = comms.filter(d => d.community_partner_id == selectedComm);
-    if (not_set.includes(selectedComm)) {
+    if (!not_set.includes(selectedComm)) {
+        var selectCom = CommunityPartners.filter(d => d.community_partner_id == selectedComm);
+        var selected = selectCom[0].community_partner_name;
+        for (c in chart_data) {
+            if (chart_data[c].data.length) {
+                for (d in chart_data[c].data) {
+                    if (chart_data[c].data[d].name === selected) {
+                        chart.update({
+                            "xAxis": {
+                                "plotLines": [
+                                    {"value": xLine, "dashStyle": "dash", "width": 2, "color": "#d33"},
+                                    {"value": chart_data[c].data[d].x, "width": 2, "color": "#d33"}]
+                            },
+                            "yAxis": {
+                                "plotLines": [
+                                    {"value": yLine, "dashStyle": "dash", "width": 2, "color": "#d33"},
+                                    {"value": chart_data[c].data[d].y, "width": 2, "color": "#d33"}]
+                            },
+                        });
+                    }
+                }
+            }
+        }
+    } else {
         chart.update({
            "xAxis":{
               "plotLines":[
@@ -233,28 +298,6 @@ function updateChart () {
               "plotLines":[
                  { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
         });
-    } else if (selectCom.length) {
-        var selected = selectCom[0].community_partner_name;
-        for (c in chart_data) {
-            if (chart_data[c].data.length) {
-                for (d in chart_data[c].data) {
-                    if (chart_data[c].data[d].name === selected) {
-                        chart.update({
-                           "xAxis":{
-                              "plotLines":[
-                                 { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" },
-                                 { "value":chart_data[c].data[d].x, "width":2, "color":"#d33" }]},
-                           "yAxis":{
-                              "plotLines":[
-                                 { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" },
-                                 { "value":chart_data[c].data[d].y, "width":2, "color":"#d33" }]},
-                        });
-                    }
-                }
-            }
-        }
-    } else {
-        alert("The selected community partner does not exist for the filters selected");
     }
 }
 
@@ -267,9 +310,16 @@ function updateCampus() {
         var campus_filter = allCamps;
     }
     var select = document.getElementById("id_campus_partner");
-    select.options.length = 0;
-    select.options[select.options.length] = new Option('All', 'All');
+    select.options.length = 2;
     for(campus in campus_filter) {
         select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
     }
+}
+
+function jitterFunc(checkboxElem) {
+  if (checkboxElem.checked) {
+    chart.update({ "plotOptions":{ "scatter":{"jitter": {"x": 0.24, "y": 0.24}} }});
+  } else {
+    chart.update({ "plotOptions":{ "scatter":{"jitter": {"x": 0, "y": 0}} }});
+  }
 }

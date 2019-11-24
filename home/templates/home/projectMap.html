@@ -379,22 +379,24 @@
     font-size: 15px;
 
     }
+          body {
+            background: #333333;
+        }
 
     </style>
 
     <div class="wrapper">
         <nav id="sidebar" style="height: 110%;margin-top:-5px;">
-            <div class="row" style="border-bottom:1px solid grey; height:60px;">
+            <div class="row" style="height:30px;">
                 <div class="col-lg-4 col-md-4">
-                    <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
+                    <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
-                <div class="col-lg-8 col-md-8" style="padding-top:18px;text-align:right;">
+                <div class="col-lg-8 col-md-8" style="text-align:right;">
                     <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
              <div class='legend'>
             <div id='state-legend'>
-                <h4>Engagement Type</h4>
                 <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;"></div>
                 <select style="margin-top:10px;"  id="selectMission" class="selectMission"></select>
                 <select id="selectCollege" class="selectCollege"></select>
@@ -428,10 +430,10 @@
 
                                 </div>
 
-                                <div class="col-lg-4 col-md-5">
+                                <div class="col-lg-4 col-md-5" style="text-align: left">
                                     <div style="box-sizing: border-box;padding:5px;opacity:1.0;">
                                          {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
-                                        <label style="text-align: left"><b>Project Map</b><br/><small>{{ data_definition.description }}</small></label>
+                                        <label style="text-align: left"><b>Project Map</b></label>
                                           {% endif %}{% endfor %}
 
                                     </div>
@@ -443,6 +445,14 @@
                                         </label>
                                     </div>
                                 </div>
+                            </div>
+                              <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col" style="text-align: left;font-size: 12px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
+                                        <span style="text-align: left">{{ data_definition.description }}</span>
+                                            {% endif %}{% endfor %}
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -495,9 +505,8 @@
                 <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px; text-align: left;">
-                <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
-                <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+v                <span><a class="fleft" style="text-decoration:underline"; href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline"; href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <!--<br>-->
                  <p>
                   <span><a class="fnone" style="font-size: 12px;">
@@ -505,7 +514,7 @@
 			                    document.write("&copy; "+new Date().getFullYear());
 		                </script>, </a></span><span class="break"></span>
 
-                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
                 </a></span>
                  </p>
                  <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,

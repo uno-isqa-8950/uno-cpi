@@ -3622,8 +3622,8 @@ def communityfromEngagementReport(request):
 
 # project duplication check
 def checkProject(request):
-    data_list = [];
-    flag = 0;
+    data_list = []
+    flag = 0
     data_definition = DataDefinition.objects.all()
     academic_yr_filter = AcademicYear.objects.all().order_by('-academic_year')
     campus_filter = CampusPartner.objects.all()
@@ -3632,18 +3632,64 @@ def checkProject(request):
     if request.method == 'POST':
         flag = 0;
         projectName = request.POST['projectName'].strip()
-        communityPartner = request.POST.get('communityPartner').replace('-', '')
-        campusPartner = request.POST['campusPartner'].replace('-', '')
-        academicYear = request.POST['academicYear'].replace('---', '')
+        communityPartner = request.POST['communityPartner']
+        if communityPartner == 'All':
+            communityPartner_id = -1
+        else:
+            communityPartner_id = 0
+        campusPartner = request.POST['campusPartner']
+        if campusPartner == 'All':
+            campusPartner_id = -1
+        else:
+            campusPartner_id = 0
+        academicYear = request.POST['academicYear']
+        acad_years = AcademicYear.objects.all()
+        yrs = []
+        month = datetime.datetime.now().month
+        year = datetime.datetime.now().year
+        if month > 7:
+            a_year = str(year - 1) + "-" + str(year)[-2:]
+        else:
+            a_year = str(year - 2) + "-" + str(year - 1)[-2:]
+
+        for e in acad_years:
+            yrs.append(e.id)
+        try:
+            acad_year = AcademicYear.objects.get(academic_year=a_year).id
+            default_yr_id = acad_year
+        except AcademicYear.DoesNotExist:
+            default_yr_id = max(yrs)
+        max_yr_id = max(yrs)
+        print("default_yr_id---", default_yr_id)
+        print ("max_yr ---", max_yr_id)
+        if academicYear is None or academicYear == '':
+            academic_start_year_cond = int(default_yr_id)
+            academic_end_year_cond = int(default_yr_id)
+            acad_id = 0
+
+        elif academicYear == "All":
+            academic_start_year_cond = int(max_yr_id)
+            academic_end_year_cond = 1
+            acad_id = -1
+        else:
+            academic_year_filter = AcademicYear.objects.get(academic_year=academicYear).id
+            academic_start_year_cond = int(academic_year_filter)
+            academic_end_year_cond = int(academic_year_filter)
+            acad_id = 0
+
+
+        commpart_filter = communityPartner.replace('All', '')
+        camp_filter = campusPartner.replace('All', '')
+        acad_filter = academicYear.replace('All', '')
         #  academic_filter_qs = AcademicYear.objects.get(academic_year=academicYear)
         #  acad = academic_filter_qs.id
         #  acad_id = str(acad)
         # # acad_id = [m.id for m in academic_filter_qs]
         #  print(acad_id)
         print(academicYear)
-        print(sqlfiles.checkProjectsql(projectName, communityPartner, campusPartner, academicYear))
+        print(sqlfiles.checkProjectsql(projectName, commpart_filter, campusPartner, academic_start_year_cond, academic_end_year_cond ))
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.checkProjectsql(projectName, communityPartner, campusPartner, academicYear),
+        cursor.execute(sqlfiles.checkProjectsql(projectName, commpart_filter, camp_filter, academic_start_year_cond,academic_end_year_cond ),
                        params=None)
         rows = cursor.fetchall()
         # print(rows[0][0])
@@ -3666,10 +3712,13 @@ def checkProject(request):
                            'data_definition': data_definition,
                            'academic_yr_filter': academic_yr_filter,
                            'campus_filter': campus_filter,
+                           'communityPartner_id': communityPartner_id,
                            "Community_filter": Community_filter,
                            'communityPartner_selected': communityPartner,
                            'campusPartner_selected': campusPartner,
-                           'academicYear_selected': academicYear
+                           'campusPartner_id': campusPartner_id,
+                           'academicYear_selected': academicYear,
+                           'acad_id': acad_id
                            })
 
         else:
@@ -3694,8 +3743,8 @@ def checkProject(request):
                        'campus_filter': campus_filter, "Community_filter": Community_filter})
 
 
+
 @login_required()
-# @campuspartner_required()
 def project_total_Add(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
     secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)

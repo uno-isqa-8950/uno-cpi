@@ -71,7 +71,7 @@ def myProjects(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
@@ -3498,7 +3498,7 @@ def myDrafts(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
 

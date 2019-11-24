@@ -117,9 +117,9 @@
                     <label for="academicyear">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                          Academic Years
@@ -136,14 +136,13 @@
                     <label for="engagement_type">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}
-                        Engagement Types
+                        {% endfor %} Engagement Types
                     </label>
-&emsp;                  <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
+                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
                         <option> All </option>
                         {% for engagement in project_filter.form.engagement_type %}
                             {{engagement}}
@@ -155,12 +154,12 @@
                     <label for="community_type">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
-                        Community Partner Types
+                        Community Organization Types
                     </label>
                     <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
                         <option> All </option>
@@ -174,12 +173,12 @@
                     <label for="college-name">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 43%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                data-content="{{ data_definition.description }}" class="float" >
-                                <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
-                        Colleges and Main Units
+                        College and Main Units
                     </label>
                     <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
                         <option> All </option>
@@ -193,14 +192,15 @@
                     <label for="campus_partner">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                    <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %}
                         Campus Partners
                     </label>
                     <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                             {% for campus in campus_filter %}
@@ -213,13 +213,14 @@
                     <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                data-content="{{ data_definition.description }}" class="float" >
-                                <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
                         {% endfor %} CEC Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
+                        <option value="" disabled selected hidden></option>
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
                         {% endfor %}
@@ -278,8 +279,8 @@ $(document).ready(function(){
                                             });
                                         }});
     $('#id_academicyear').select2({placeholder: 'Previous Academic Year',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'All CEC Building Partner',width: '75%'});
-    $('#id_community_type').select2({placeholder: 'All Community Partner Types',width: '75%',
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -293,7 +294,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -314,10 +315,10 @@ $(document).ready(function(){
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
-    </script>
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 {% endblock %}
 

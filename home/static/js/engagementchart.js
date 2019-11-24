@@ -106,18 +106,18 @@ var chart = Highcharts.chart('container',{
    "title":{"text":""},
    "xAxis":{
       "title":{"text":"Engagement Types",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}},
       "categories": engagements,
-      "labels":{"style":{"color":"black","fontSize":"13px"}}},
+      "labels":{"style":{"color":"black","fontSize":"13px", "fontFamily": "Arial Narrow"}}},
    "yAxis":{
       "allowDecimals":false,
       "title":{
          "text":"Projects/Partners",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}},
       "min":0,
       "max":max},
    "plotOptions":{
-      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px"}}}},
+      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px", "fontFamily": "Arial Narrow"}}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",
@@ -125,7 +125,8 @@ var chart = Highcharts.chart('container',{
       "x":-40, "y":-5,
       "borderWidth":1,
       "backgroundColor":"#FFFFFF",
-      "shadow":"true"},
+      "shadow":"true",
+      "itemStyle": {"fontFamily": "Arial Narrow"}},
    "series":[
       {"name":"Projects","data": proj_data,"color":"teal"},
       {"name":"Community Partners","data": comm_data,"color":"turquoise"},

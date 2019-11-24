@@ -37,13 +37,33 @@ p {
   -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
           box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
-
+    @media(min-width:300px) {
+        .container {
+            max-width: 600px;
+        }
+    }
 </style>
 <div class="container">
- <div class = "panel panel-default">
-		<div class="panel-heading text-center"><h4>Thank You</h4></div>
-			<div class="panel-body">
+ <div class = "col-xl-12 col-md-12 col-sm-12">
+     <br>
+     <br>
+     <br><br><br>
+		<div class="text-center"><h3 class="heading">Thank You</h3></div>
+			<div class="box">
               <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been successfully added.
                   A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myProjects/'>My Projects<a> page.</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
+
+<script type = "text/javascript" >
+ // $(document).ready(function() {
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function() {
+          window.history.pushState(null, "", window.location.href);
+      };
+    	window.history.forward();
+	function noBack() { window.history.forward(); }
+</script>
+
+
+
 {% endblock %}

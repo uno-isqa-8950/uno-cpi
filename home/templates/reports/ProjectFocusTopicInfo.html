@@ -67,7 +67,7 @@ $(document).ready(function(){
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'primary_focus_topic_info' %}' " value="Reset Filters" >
 
 
 
@@ -310,7 +310,7 @@ $(document).ready(function(){
                 <td><b>
                     {% if  focus.project_count  < 1 %}
                         {{focus.project_count}}
-                        {% else %}<a href="{% url 'projectsfromMissionReport' focus.focus_id%}?proj_id_list={{ focus.project_name_ids }}" target="_blank" class="class1">{{focus.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ focus.proj_id_list }}" target="_blank" class="class1">{{focus.project_count}}</a>
                     {% endif %}
                 </b></td>
                 <td><b>
@@ -326,7 +326,7 @@ $(document).ready(function(){
         {% for topic in focus_topic_list %}
         {%  if topic.rec_type == 'Topic' and topic.focus_id == focus.focus_id %}
             <tr>
-                <td>{{topic.topic_name}}</td>
+                <td><div style="padding-left: 2em;">{{topic.topic_name}}</div></td>
                 <td>
                     {% if  topic.community_count  < 1 %}
                         {{topic.community_count}}
@@ -336,7 +336,7 @@ $(document).ready(function(){
                 <td>
                     {% if  topic.project_count  < 1 %}
                         {{topic.project_count}}
-                        {% else %}<a href="{% url 'projectsfromMissionReport' topic.focus_id%}?proj_id_list={{ topic.project_name_ids }}" target="_blank" class="class1">{{topic.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ topic.proj_id_list }}" target="_blank" class="class1">{{topic.project_count}}</a>
                     {% endif %}
                 </td>
                 <td><b>

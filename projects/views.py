@@ -1798,7 +1798,7 @@ def projectsPublicReport(request):
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
-            print('project_name_list--', projId)
+            print('project_name_list--   ', projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
                            params=None)
             # cursor.execute(sql.search_projects_sql,project_name_list)

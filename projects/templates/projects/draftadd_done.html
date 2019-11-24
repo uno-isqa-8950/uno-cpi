@@ -59,24 +59,14 @@ p {
               <p style="margin-bottom: auto;margin-top: auto; text-align: center">Your project has been saved as a Draft.
                   A campus partner user can edit an associated project at any time from the <a style=" color: #d71920;" href='/myDrafts/'>My Drafts<a> page.</p><br>
             </div></div></div><br><br><br><br><br><br><br><br><br><br><br>
-<script>
-    $(document).ready(function () {
-        function disableBack() { window.history.forward() }
-
-        window.onload = disableBack();
-        window.onpageshow = function (evt) { if (evt.persisted) disableBack() }
-    });
-</script>
 <script type = "text/javascript" >
-    function preventBack() { window.history.forward(); }
-    setTimeout("preventBack()", 0);
-    window.onunload = function() { null };
-</script>
-
-<script>
-    window.location.hash = "no-back-button";
-    window.location.hash = "Again-No-back-button";//again because google chrome don't insert first hash into history
-    window.onhashchange = function () { window.location.hash = "no-back-button"; }
+ // $(document).ready(function() {
+      window.history.pushState(null, "", window.location.href);
+      window.onpopstate = function() {
+          window.history.pushState(null, "", window.location.href);
+      };
+    	window.history.forward();
+	function noBack() { window.history.forward(); }
 </script>
 
 {% endblock %}

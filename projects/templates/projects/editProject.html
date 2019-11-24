@@ -44,7 +44,7 @@
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
         label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
     {
-        content:"*" ;
+        content:" *" ;
         color:red
     }
     h4
@@ -1462,6 +1462,15 @@ $("#id_registerCampusAndSave").click(function (){
     });
  }
 });
+community_ids.forEach(function (item, index) {
+            $('.community_edit-row:last').find('[value="' + item + '"]').hide();
+        });
+ campus_ids.forEach(function (item, index) {
+            $('.campus_edit-row:last').find('[value="' + item + '"]').hide();
+        });
+ subcategory_ids.forEach(function (item, index) {
+            $('.sub_category_edit-row:last').find('[value="' + item + '"]').hide();
+        });
 function cloneMore(selector, prefix) {
     // $(this).parent().fadeout();
        var selected = $(selector).find(':selected').val();

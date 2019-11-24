@@ -443,8 +443,7 @@ def createProject(request):
                                     }
                             projects_list.append(data)
 
-                    return render(request, 'projects/draftadd_done.html', {'project': projects_list})
-
+                    return HttpResponseRedirect('/draft-project-done')
                 if (address == ''):
                     proj.save()
                     mission_form = formset.save(commit=False)
@@ -522,7 +521,7 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/draftadd_done.html', {'project': projects_list})
+                    return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
                 if(address != ''):
                     if (address != "N/A"):  # check if a community partner's address is there
@@ -646,7 +645,7 @@ def createProject(request):
                                     }
                             projects_list.append(data)
                     # return redirect(request, 'projects/confirmAddProject.html',/ {'project': projects_list})
-                    return HttpResponseRedirect("projects/confirmAddProject.html")
+                    return HttpResponseRedirect('/submit-project-done')
                 if (address == ''):
                     proj.save()
                     mission_form = formset.save(commit=False)
@@ -746,7 +745,7 @@ def createProject(request):
                                     'camp_part': list_camp_part_names,
                                     }
                             projects_list.append(data)
-                    return render(request, 'projects/confirmAddProject.html', {'project': projects_list})
+                    return HttpResponseRedirect('/submit-project-done')
     else:
         month = datetime.datetime.now().month
         year = datetime.datetime.now().year
@@ -3509,6 +3508,9 @@ def drafts_delete(request,pk):
     draft_delete.delete()
     return HttpResponseRedirect("/myDrafts")
 
-# def drafts_delete(request,pk):
-#
-#     return render(request, 'projects/myDrafts.html',
+
+def draft_project_done(request):
+    return render(request, 'projects/draftadd_done.html')
+
+def submit_project_done(request):
+    return render(request, 'projects/confirmAddProject.html')

@@ -34,7 +34,7 @@ wagtail==2.6
 whitenoise==3.3.1
 APScheduler==3.5.3
 django-crum
-django-session-security==2.6.5
+django-session-timeout==0.0.4
 
 
 pytest

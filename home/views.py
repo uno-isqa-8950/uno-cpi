@@ -1203,7 +1203,7 @@ def engagement_info(request):
         clause_query += " and comm.community_type_id::text like '"+ community_type_cond +"'"
 
     if cec_comm_part_cond != '%':
-        clause_query +=  " and 	comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '"+ cec_comm_part_cond +"')"
+        clause_query +=  " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '"+ cec_comm_part_cond +"')"
 
 
 
@@ -1262,6 +1262,7 @@ def engagement_info(request):
                     'year_filter': year_filter, 'engagement_List': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
+
 
 
 # Chart for projects with mission areas

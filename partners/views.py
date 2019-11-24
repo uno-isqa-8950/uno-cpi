@@ -394,6 +394,7 @@ def orgProfileMissions(request, pk):
 def registerCampusPartner_forprojects(request):
     ContactFormset = modelformset_factory(Contact, extra=1, form=CampusPartnerContactForm)
     colleges = []
+    data_definition = DataDefinition.objects.all()
     for object in College.objects.order_by('college_name'):
         colleges.append(object.college_name)
     #departmnts = []
@@ -419,7 +420,7 @@ def registerCampusPartner_forprojects(request):
         projectId = request.GET.get('projectId')
         campus_partner_form = CampusPartnerForm()
         formset = ContactFormset(queryset=Contact.objects.none())
-        return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form,
+        return render(request,'registration/campus_partner_register_for_projects.html',{'campus_partner_form': campus_partner_form, 'data_definition': data_definition,
                                                                        'formset': formset,'colleges':colleges,'projectId':projectId})
 
 #register function for a user to register a new community partner during filling the project create form

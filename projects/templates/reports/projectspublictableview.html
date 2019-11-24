@@ -298,12 +298,10 @@
                         {% endfor %}College and Main Units
                     </label>
                     <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
-                        <option > All </option>
-                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
-
-                    {% for campus in campus_filter %}
-                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
-                    {% endfor %}
+                        <option> All </option>
+                        {% for college in college_filter.form.college_name %}
+                            {{college}}
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
@@ -317,11 +315,12 @@
                     {% endfor %}Campus Partners
                 </label>
                     <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
-                        <option> All </option>
+                        <option > All </option>
+                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
-                        {% for campus in campus_filter.form.campus_partner %}
-                            {{campus}}
-                        {% endfor %}
+                    {% for campus in campus_filter %}
+                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                    {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">

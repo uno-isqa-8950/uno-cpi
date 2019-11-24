@@ -14,10 +14,10 @@ sched1 = BackgroundScheduler()
 logger=logging.getLogger("UNO CPI Application Create MAPS json Batch job")
 
 #
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=5)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=1)
 
 def scheduled_job():
-    print('This job is ran every Sunday at 5 AM GMT/ 11 PM CDT.')
+    print('This job is ran every day at 1:30 AM CST/ 12:30 AM CDT.')
     project = 'python Project_GEOJSON.py'
     partner = 'python Partner_GEOJSON.py'
 

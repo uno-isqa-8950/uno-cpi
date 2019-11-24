@@ -363,12 +363,10 @@ table{
                         {% endfor %}College and Main Units
                     </label>
                     <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
-                        <option > All </option>
-                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
-
-                    {% for campus in campus_filter %}
-                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
-                    {% endfor %}
+                        <option> All </option>
+                        {% for college in college_filter.form.college_name %}
+                            {{college}}
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
@@ -382,11 +380,12 @@ table{
                     {% endfor %}Campus Partners
                 </label>
                     <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
-                        <option> All </option>
+                        <option > All </option>
+                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
-                        {% for campus in campus_filter.form.campus_partner %}
-                            {{campus}}
-                        {% endfor %}
+                    {% for campus in campus_filter %}
+                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                    {% endfor %}
                     </select>
                 </div>
 
@@ -548,6 +547,7 @@ table{
 </table>
     <br>
     <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</div>
+    <div style="margin-left: 137px"><b> Other Topics : </b> {% for other in project.other_sub_category %}{{other}}{% endfor %}</div>
     <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
     </p>
 

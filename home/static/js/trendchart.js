@@ -118,7 +118,7 @@ var chart = Highcharts.chart('container',
    "plotOptions":{
       "series":{
          "dataLabels":{
-            "style":{"fontSize":"8px"}}}},
+            "style":{"fontSize":"8px", "fontFamily": "Arial Narrow"}}}},
    "tooltip": {"split": true, "style": {"fontFamily": "Arial Narrow"}},
    "series":[project_count_series, community_partner_count_series, campus_partner_count_series],
    "legend":{

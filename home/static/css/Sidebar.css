@@ -51,13 +51,22 @@ p {
 /* ---------------------------------------------------
     SIDEBAR STYLE
 ----------------------------------------------------- */
+        .card-top{
+            padding: 5px;
+            background-color:#333333;
+            color:White;
+            font-size:20px;
+            border: 0px;
+            font-family:'Arial Narrow', sans-serif;
+            text-align:left;
+        }
 #sidebar {
     margin-top: -5px;
     width: 260px;
-    position: absolute;
+    position: fixed;
     top: 78px;
     left: -250px;
-    height: calc(100vh - 88px);
+    height: -webkit-fill-available;
     z-index: 999;
     background: #333;
     color: White;
@@ -213,7 +222,7 @@ a.article, a.article:hover {
 #content.active
     {
     width: calc(100% - 250px);
-    padding-left:5px;
+    padding-left:10px;
     }
 
 

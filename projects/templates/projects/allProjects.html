@@ -457,14 +457,10 @@ $(document).ready(function(){
                             <th class="none">Number of K12 Students Hours</th>
                             <th class="none">Number of Other Participants</th>
                             <th class="none">Activity Type</th>
+                            <th class="none">Other Activity Type</th>
                             <th class="none">Campus Lead Staff</th>
                             <th class="none">Topics</th>
-
-                            <th class="none">
-                                 Other Activity Type
-
-                                </th>
-
+                            <th class="none">Other Topics</th>
                             <th class="none">Description</th>
                         </tr>
                         </thead>
@@ -479,7 +475,11 @@ $(document).ready(function(){
                             <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
                             <td>{{ project.academic_year }}</td>
                             <td>{{ project.semester}}</td>
-                            <td>{{ project.end_semester }}</td>
+                            <td>
+                                {%if project.end_semester|length == 0%} None {%endif%}
+                                {{ project.end_semester }}
+
+                            </td>
                             <td>{{ project.startDate }}</td>
                             <td>{{ project.endDate }}</td>
                             <td>{{ project.end_academic_year }}</td>
@@ -490,16 +490,6 @@ $(document).ready(function(){
                             <td>{{project.total_k12_hours}}</td>
                             <td>{{project.total_other_community_members}}</td>
                             <td>{{ project.activityType }}</td>
-                            <td>
-                                {% if project.campus_lead_staff|length > 0%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
-                                {%endif%}
-                            </td>
-                            <td>
-                                {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
-
                             <td>
 
                                 {% if project.activityType == 'Other' %}
@@ -513,6 +503,36 @@ $(document).ready(function(){
                                 {%endif%}
 
                             </td>
+                            <td>
+                                {% if project.campus_lead_staff|length == 0%} None {%endif%}
+                                {% if project.campus_lead_staff|length > 0%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                                {%else%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {%endif%}
+                            </td>
+                            <td>
+
+                                <!--{% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}-->
+                                {% if project.sub_category|length > 0%}
+                                {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                                {%else%}
+                                {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+                                {%endif%}
+                            </td>
+                            <td>
+                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+                                <!--{% if project.other_sub_category == 'Others' %}-->
+                                <!--{% if project.other_sub_category|length > 0%}-->
+                                <!--{% for other_sub_category in project.sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+                                <!--{%else%}-->
+                                <!--{% for other_sub_category in project.sub_category %} {{other_sub_category}}{% endfor%}-->
+                                <!--{%endif%}-->
+                              <!---->
+                                <!--{%endif%}-->
+
+
+
                             <td class="none">{{ project.description }}</td>
 
                         </tr>

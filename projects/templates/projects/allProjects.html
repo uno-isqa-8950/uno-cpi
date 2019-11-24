@@ -512,28 +512,14 @@ $(document).ready(function(){
                                 {%endif%}
                             </td>
                             <td>
-
-                                <!--{% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}-->
                                 {% if project.sub_category|length > 0%}
                                 {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
                                 {%endif%}
                             </td>
-                            <td>
-                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
-                                <!--{% if project.other_sub_category == 'Others' %}-->
-                                <!--{% if project.other_sub_category|length > 0%}-->
-                                <!--{% for other_sub_category in project.sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
-                                <!--{%else%}-->
-                                <!--{% for other_sub_category in project.sub_category %} {{other_sub_category}}{% endfor%}-->
-                                <!--{%endif%}-->
-                              <!---->
-                                <!--{%endif%}-->
-
-
-
-                            <td class="none">{{ project.description }}</td>
+                            <td>{{project.other_sub_category}}</td>
+                            <td>{{ project.description }}</td>
 
                         </tr>
                         {% endfor %}

@@ -2467,11 +2467,23 @@ def networkanalysis(request):
     yrs = []
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
-        yrs.append(e.id)
-    max_yr_id = max(yrs)
-    max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
-    print(" ma year ",max_yr)
-    max_year = max_yr[0]
+        res={'id':e.id,'year':e.academic_year}
+        yrs.append(res)
+    # max_yr_id = max(yrs)
+    acyear = sorted(yrs, key=lambda i: i['year'], reverse=True)
+
+    year_ids=[]
+    year_names=[]
+    for e in acyear:
+        year_ids.append(e['id'])
+        year_names.append(e['year'])
+    # print(year_ids[1])
+    # print(year_names[1])
+    # max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
+    max_yr_id=year_ids[1]
+    max_year = year_names[1]
+    print(" ma year ",max_year)
+    print(" ma year ", max_yr_id)
 
     missionList = []
     for m in MissionArea.objects.all():

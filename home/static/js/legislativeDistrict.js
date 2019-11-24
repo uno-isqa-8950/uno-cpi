@@ -106,7 +106,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Focus Areas" ' + 'class="selectMission"' + 'value="' + 'All Focus Areas"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Focus Areas</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Focus Areas" ' + 'class="selectMission"' + 'value="' + 'All Focus Areas"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Focus Areas</b></a>' + "<br>";
 for (var i = 0; i < Missionarea.length; i++) {
     var mission = Missionarea[i];
     var missionName = mission.split(':')[0];

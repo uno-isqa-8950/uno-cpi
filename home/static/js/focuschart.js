@@ -98,22 +98,22 @@ var chart = Highcharts.chart('container', {
    "xAxis":{
       "title":{
          "text":"Focus Areas",
-         "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px" }},
+         "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px", "fontFamily": "Arial Narrow" }},
       "categories": missionCategories,
       "labels":{
-         "style":{ "color":"black", "fontSize":"13px" }}},
+         "style":{ "color":"black", "fontSize":"13px", "fontFamily": "Arial Narrow" }}},
    "yAxis":{
       "allowDecimals":false,
       "title":{
          "text":"Projects/Community Partners ",
-         "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px" }},
+         "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px", "fontFamily": "Arial Narrow" }},
       "min":0,
       "max":max},
    "plotOptions":{
       "bar":{
          "dataLabels":{
             "enabled":"true",
-            "style":{ "fontSize":"9px" }}}},
+            "style":{ "fontSize":"9px", "fontFamily": "Arial Narrow" }}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",
@@ -121,7 +121,8 @@ var chart = Highcharts.chart('container', {
       "x":-10, "y":50,
       "borderWidth":1,
       "backgroundColor":"#FFFFFF",
-      "shadow":"true"},
+      "shadow":"true",
+      "itemStyle": {"fontFamily": "Arial Narrow"}},
    "series":[
       {"name":"Projects","data": projSeries,"color":"turquoise"},
       {"name":"Community Partners","data": communitySeries,"color":"teal"}

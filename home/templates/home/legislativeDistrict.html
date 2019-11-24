@@ -6,7 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
 
 <style>
-
+  body {
+            background: #333333;
+        }
     #sidebar {
         background-color: #333333;
     }
@@ -420,18 +422,17 @@ color: #d71920;
 
 <div class="wrapper">
    <nav id="sidebar" style="margin-top: -5px;height: 110%;">
-            <div class="row" style="border-bottom:1px solid grey; height:60px;">
+            <div class="row" style="height:30px;">
                 <div class="col-lg-4 col-md-4">
-                    <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
+                    <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
-                <div class="col-lg-8 col-md-8" style="padding-top:18px;text-align:right;">
+                <div class="col-lg-8 col-md-8" style="text-align:right;">
                     <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
 
     <div class='legend'>
         <div id='state-legend'>
-            <h4>Focus Areas</h4>
             <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
             <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict"></select>
@@ -452,17 +453,17 @@ color: #d71920;
                 <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
-                            <div class="card" style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                            <div class="card" style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow',sans-serif;text-align:center;">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1">
                                         <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
                                             <span></span>
                                         </button>
                                     </div>
-                                    <div class="col-lg-4 col-md-5">
+                                    <div class="col-lg-4 col-md-5" style="text-align: left">
                                         <div style="box-sizing: border-box;padding:5px;">
                                                 {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
-                                             <label style="text-align: left"><b>Legislative District Map</b><br/><small>{{ data_definition.description }}</small></label>
+                                             <label style="text-align: left"><b>Legislative District Map</b></label>
                                                {% endif %}{% endfor %}
 
                                         </div>
@@ -474,6 +475,14 @@ color: #d71920;
                                         </div>
                                     </div>
                                 </div>
+                                 <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col" style="text-align: left;font-size: 12px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
+                                        <span style="text-align: left">{{ data_definition.description }}</span>
+                                            {% endif %}{% endfor %}
+                            </div>
+                            </div>
                             </div>
                         </div>
 
@@ -501,16 +510,15 @@ color: #d71920;
                 <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px; text-align: left;">
-                <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
-                <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                <span><a class="fleft" style="text-decoration:underline"; href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline"; href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <!--<br>-->
                   <p><span><a class="fnone" style="font-size: 12px;">
                         <script type="text/JavaScript">
 			                    document.write("&copy; "+new Date().getFullYear());
 		                </script>, </a></span><span class="break"></span>
 
-                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
                 </a></span></p>
                   <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,

@@ -115,7 +115,7 @@ $('#selectDistrict').html(select2);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Engagement Types" ' + 'class="selectEngagement"' + 'value="' + 'All Engagement Types"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Engagement Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Engagement Types" ' + 'class="selectEngagement"' + 'value="' + 'All Engagement Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Engagement Types</b></a>' + "<br>";
 for (var i = 0; i < Engagement.length; i++) {
     var engagement = Engagement[i]
     var color = colorCodeObject[engagement];

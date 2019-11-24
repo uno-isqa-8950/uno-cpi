@@ -31,7 +31,8 @@ urlpatterns = [
     url(r'^getEngagemetActivityList/$',views.getEngagemetActivityList, name='getEngagemetActivityList'),
     path('myDrafts/', views.myDrafts, name='myDrafts'),
     url(r'^project/(?P<pk>\d+)/delete/$', views.drafts_delete, name='drafts_delete'),
-	
+    url('draft-project-done/',views.draft_project_done,name='draft-project-done'),
+    url('submit-project-done/', views.submit_project_done, name='submit-project-done'),
 
 
 ]

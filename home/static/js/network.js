@@ -39,16 +39,15 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     if (not_set.includes(academic_year)) {
         // alert(academic_year)
-        academic_year = max_yr_id-1
-        var projects_json = projects_json.filter(d => d.years.includes(academic_year));
-        // console.log("filtered academic_year", projects_json)
+        var projects_json = projects_json.filter(d => d.years.includes(max_yr_id));
+        // console.log("filtered default academic_year", projects_json)
     }
 
 
     if (!not_set.includes(academic_year)) {
         // alert(academic_year)
         var projects_json = projects_json.filter(d => d.years.includes(parseInt(academic_year)));
-        // console.log("filtered academic_year"+ projects_json)
+        // console.log("filtered academic_year", projects_json)
     }
 
 
@@ -73,10 +72,12 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     if (not_set.includes(comm_type) && comm_type != 'All') {
         var community_partner_json = community_partner_json.filter(d => d.community_type.community_type_name == 'Nonprofit');
+        // console.log(" default community type",community_partner_json)
 
     }
     if (not_set.includes(comm_type) && comm_type == 'All') {
         var community_partner_json = community_partner_json;
+        // console.log(" all  community type",community_partner_json)
 
     }
 
@@ -103,8 +104,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         // console.log("community_partner",community_partner)
         var projects_json = projects_json.filter(d => d.community_partner_ids.includes(parseInt(community_partner)));
         var community_partner_json = community_partner_json.filter(d => d.community_partner_id== parseInt(community_partner));
-        console.log("filtered projects for cp areas", projects_json)
-        console.log("filtered partners  for cp areas", community_partner_json)
+        // console.log("filtered projects for cp areas", projects_json)
+        // console.log("filtered partners  for cp areas", community_partner_json)
     }
 // need to add weitzpart status in json
     if (!not_set.includes(weitz_cec_part)) {
@@ -302,6 +303,22 @@ var chart=Highcharts.chart('container', {
                 integration: 'verlet',
                 linkLength: 100,
                 linkWidth:1
+            },
+
+            events: {
+                mouseOver: function (node) {
+                    node.update({
+                        radius: 10,
+                        linkWidth: 10
+                    });
+                },
+                mouseOut: function (node) {
+                    node.update({
+                        radius: 2,
+                        linkWidth: 1
+                    })
+
+                }
             }
         }
     },

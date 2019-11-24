@@ -87,7 +87,9 @@ function getChartData(engagementList, Projects, CommunityPartners, CampusPartner
         comm_data.push(community.length);
         camp_data.push(campus.length);
     }
-    return [engagements, proj_data, comm_data, camp_data];
+    var max = Math.max(...proj_data.concat(comm_data.concat(camp_data))) +5;
+
+    return [engagements, proj_data, comm_data, camp_data, max];
 }
 
 var defaultYrID = JSON.parse(document.getElementById('defaultYrID').textContent);
@@ -97,24 +99,25 @@ var engagements = res[0];
 var proj_data = res[1];
 var comm_data = res[2];
 var camp_data = res[3];
+var max = res[4];
 
 var chart = Highcharts.chart('container',{
    "chart":{"type":"bar"},
    "title":{"text":""},
    "xAxis":{
       "title":{"text":"Engagement Types",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}},
       "categories": engagements,
-      "labels":{"style":{"color":"black","fontSize":"13px"}}},
+      "labels":{"style":{"color":"black","fontSize":"13px", "fontFamily": "Arial Narrow"}}},
    "yAxis":{
       "allowDecimals":false,
       "title":{
          "text":"Projects/Partners",
-         "style":{"fontWeight":"bold","color":"black","fontSize":"15px"}},
+         "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}},
       "min":0,
-      "max":74},
+      "max":max},
    "plotOptions":{
-      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px"}}}},
+      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px", "fontFamily": "Arial Narrow"}}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",
@@ -122,7 +125,8 @@ var chart = Highcharts.chart('container',{
       "x":-40, "y":-5,
       "borderWidth":1,
       "backgroundColor":"#FFFFFF",
-      "shadow":"true"},
+      "shadow":"true",
+      "itemStyle": {"fontFamily": "Arial Narrow"}},
    "series":[
       {"name":"Projects","data": proj_data,"color":"teal"},
       {"name":"Community Partners","data": comm_data,"color":"turquoise"},
@@ -143,8 +147,10 @@ function updateChart () {
     var proj_data = res[1];
     var comm_data = res[2];
     var camp_data = res[3];
+    var max = res[4];
 
-    chart.update({"series":[ {"data": proj_data}, {"data": comm_data}, {"data": camp_data}]});
+    chart.update({"series":[ {"data": proj_data}, {"data": comm_data}, {"data": camp_data}],
+                    "yAxis":{"max":max}});
 }
 
 function updateCampus() {

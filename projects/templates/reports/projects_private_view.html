@@ -28,31 +28,26 @@
     /*margin-left:5px;*/
     /*border-radius: 0px;*/
 /*}*/
-
 /*.select2-container--default .select2-selection--single*/
 /*{*/
    /*border: 1px solid #aaa;*/
    /*margin-top:8px;*/
 /*}*/
-
 /*.select2-container--default .select2-selection--single .select2-selection__arrow*/
 /*{*/
    /*top:12px;*/
 /*}*/
-
 /*.select2-container--default .select2-selection--single:focus*/
 /*{*/
   /*border-color:gray;*/
   /*!*box-shadow:0 0 8px 0 grey;*!*/
 /*}*/
-
 /*.select2-container--default .select2-selection--single .select2-selection__rendered {*/
     /*line-height: 32px;*/
 /*}*/
     .card-header {
         background-color: rgba(0,0,0,0);
         border-bottom: none;
-
     }
     .accordion .card-header:after {
         font-family: 'FontAwesome';
@@ -60,12 +55,10 @@
         margin-left: 55px;
             font-size: 20px;
     }
-
     .accordion .card-header.collapsed:after {
         /* symbol for "collapsed" panels */
         content: "\f0fe";
         font-size: 20px;
-
     }
     .projectcard{
         border: none;
@@ -73,7 +66,6 @@
         margin-bottom: 20px !important;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     }
-
     .project-body{
         border: none;
         margin-top: 0 !important;
@@ -90,15 +82,12 @@
         line-height: 0px !important;
         padding-bottom: 15px;
         padding-top: 60px;
-
     }
-
     @media (min-width: 1200px) {
         .container {
             max-width: 1330px;
         }
     }
-
     .form-control
     {
         width:85%;
@@ -115,7 +104,6 @@
     body{
         background-color: rgba(0,0,0,.03);
     }
-
     input[type=text], [type=password], [type=email], [type=url] {
         width: 30%;
         color: #444;
@@ -141,9 +129,6 @@
         outline: none;
         box-sizing: border-box;
         transition: .3s;
-
-
-
     }
     .button-row-elements
     {
@@ -158,7 +143,6 @@
     #Searchboxtext{
         float:right;
     }
-
     .filter-card{
         border-top-color: rgba(0, 0, 0, 0.12);
         border-top-style: solid;
@@ -173,7 +157,6 @@
         border-left-style: solid;
         border-left-width: 1px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-
     }
     .text-snippet{
         text-align: left;
@@ -189,13 +172,10 @@
         margin-right: 25px;
         border-radius:0px;
         background-color: transparent;
-
     }
-
     .projectname{
         line-height: 0 !important;
     }
-
     .media-body{
         width: 100%;
         float: left;
@@ -212,13 +192,11 @@
         display: flex;
         justify-content: space-around;
         background-color: #FFFFFF;
-
     }
   .flex-container p{
        line-height: 0px !important;
       font-size:1vw;
    }
-
     .flex-container > div {
         background-color: #FFFFFF;
         width: 100%;
@@ -238,21 +216,16 @@ table{
         table-layout: fixed;
         width: 85%;
     }
-
 @media (min-width: 576px){}
     .form-inline .form-control {
         width: 85%;
-
     }
-
 .btn-secondary{
         margin: 2px;
 }
 .buttons-csv{
         margin:2px;
     }
-
-
 </style>
 
 <script>
@@ -595,6 +568,7 @@ table{
         {% endfor %}
 <!--Code for Pagination -->
 </div>
+<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
 <div class="row" style="float:right; padding-right: 10px">
 {% if cards.has_other_pages %}
 
@@ -631,7 +605,6 @@ table{
 
 <script>
 $(document).ready(function(){
-
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */

@@ -410,8 +410,10 @@ def primary_focus_topic_info(request):
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
     # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
 
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    engagement_filter_qs = EngagementType.objects.all()
+    eng_project_filter = [{'name': e.name, 'id': e.id} for e in engagement_filter_qs]
 
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_unit_filter = request.GET.get('college_name', None)
     if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
         college_unit_cond = '%'
@@ -500,11 +502,16 @@ def primary_focus_topic_info(request):
         cec_camp_part_cond = 'Current'
 
     engagement_filter = request.GET.get('engagement_type', None)
-    #print('engagement_filter: ' + str(engagement_filter))
+    if engagement_filter is None or engagement_filter == "All" or engagement_filter == '':
+        engagement_cond = '%'
+        engagement_id = -1
+    else:
+        engagement_cond = engagement_filter
+        engagement_id = int(engagement_filter)
 
-    params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond, engagement_cond,
               academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond,
-              mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond, engagement_cond,
               academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
     cursor.execute(sql.primaryFocusTopic_report_sql, params)
@@ -561,9 +568,10 @@ def primary_focus_topic_info(request):
 
     return render(request, 'reports/ProjectFocusTopicInfo.html',
                    {'college_filter': college_filter, 'missions_filter': missions_filter,
-                    'engagement_filter': engagement_filter, 'year_filter': year_filter, 'focus_topic_list': data_list,
+                    'engagement_filter': eng_project_filter, 'engagement_id': engagement_id,
+                    'year_filter': year_filter, 'focus_topic_list': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
-                    'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices,
+                    'campus_filter': campus_project_filter, 'campus_id': campus_id, 'cec_part_choices': cec_part_choices,
                     'rpt_total_comm_partners': rpt_total_comm_partners, 'rpt_total_camp_partners': rpt_total_camp_partners,
                     'rpt_total_projects': rpt_total_projects,
                     'rpt_total_uno_students': rpt_total_uno_students, 'rpt_total_uno_hours': rpt_total_uno_hours,

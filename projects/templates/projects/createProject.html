@@ -146,7 +146,15 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="row">
-                      <label class="col-sm-5"> Project Type</label>
+
+                      <label class="col-sm-5">
+                          {% for data_definition in data_definition %}
+                        {% if data_definition.id == 62%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}Project Type</label>
                         <div class="col-sm-6">
                       {{ project.project_type }}
                         </div>
@@ -156,7 +164,15 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <label for="id_semester" class="col-md-5">Start Semester</label>
+                                                    <label for="id_semester" class="col-md-5">
+                                                        {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 53%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        Start Semester</label>
                                                 <div class="col-sm-6">
                                                     {{ project.semester}}
                                                 </div>
@@ -165,7 +181,15 @@
                                                     {% endfor %} {% endif %}
                                                 </div>
                                                     <div class="row">
-                                            <label class="col-md-5">End Semester</label>
+                                            <label class="col-md-5">
+                                                {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 54%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                End Semester</label>
                                                 <div class="col-sm-6">
                                                 {{ project.end_semester}}
                                                 </div>
@@ -177,7 +201,15 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                    <label for="id_academic_year" class="col-md-5">Start Academic Year</label>
+                                                    <label for="id_academic_year" class="col-md-5">
+                                                        {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 57%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        Start Academic Year</label>
                                                     <div class="col-sm-6">
                                                     {{ project.academic_year}}
                                                     </div>
@@ -186,7 +218,15 @@
                                                     {% endfor %} {% endif %}
                                                     </div>
                                                     <div class="row">
-                                                <label class="col-md-5">End Academic Year</label>
+                                                <label class="col-md-5">
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 58%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    End Academic Year</label>
                                                 <div class="col-sm-6">
                                                 {{ project.end_academic_year}}
                                                 </div>
@@ -213,7 +253,15 @@
                                         <div class="row">
                                             <div class="col">
                                                  <div class="row">
-                                                <label for="id_uno_students" class="col-sm-5">Total UNO Students</label>
+                                                <label for="id_uno_students" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 48%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    Total UNO Students</label>
                                                     <div class="col-sm-6">
                                                 {{ project.total_uno_students}}
                                                     </div>
@@ -224,7 +272,15 @@
                                             </div>
                                             <div class="col">
                                                 <div class="row">
-                                                <label for="id_uno_hours" class="col-sm-5">UNO Student Hours</label>
+                                                <label for="id_uno_hours" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 49%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    UNO Student Hours</label>
                                                 <div class="col-sm-6">
                                                 {{ project.total_uno_hours}}
                                                 </div>
@@ -237,7 +293,15 @@
                                          <div class="row">
                                             <div class="col">
                                                  <div class="row">
-                                                <label for="id_uno_students" class="col-sm-5">UNO Faculty/Staff Hours</label>
+                                                <label for="id_uno_students" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 63%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    UNO Faculty/Staff Hours</label>
                                                     <div class="col-sm-6">
                                                 {{ project.total_uno_faculty}}
                                                     </div>
@@ -248,7 +312,15 @@
                                             </div>
                                             <div class="col">
                                                 <div class="row">
-                                                <label for="id_uno_hours" class="col-sm-5">Total Number of Other Participants</label>
+                                                <label for="id_uno_hours" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 64%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    Total Number of Other Participants</label>
                                                 <div class="col-sm-6">
                                                 {{ project.total_other_community_members}}
                                                 </div>
@@ -267,7 +339,15 @@
                                         <div class="row" id ="k12-students">
                                             <div class="form-group-row col">
                                                 <div class="row">
-                                                <label for="id_k12_students" class="col-sm-5">Total number of K-12 Students:</label>
+                                                <label for="id_k12_students" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                         {% if data_definition.id == 66%}
+                                                         <span tabindex="-1" data-toggle="tooltip"
+                                                               title="{{ data_definition.description }}" class="float" >
+                                                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                          {% endif %}
+                                                    {% endfor %}
+                                                    Total number of K-12 Students:</label>
                                                  <div class="col-sm-6">
                                                 {{ project.total_k12_students}}
                                                  </div>
@@ -279,7 +359,15 @@
                                             </div>
                                             <div class="form-group-row col">
                                                 <div class="row">
-                                                <label for="id_k12_hours" class="col-sm-5">Total number of K-12 Hours:</label>
+                                                <label for="id_k12_hours" class="col-sm-5">
+                                                    {% for data_definition in data_definition %}
+                                                         {% if data_definition.id == 67%}
+                                                         <span tabindex="-1" data-toggle="tooltip"
+                                                               title="{{ data_definition.description }}" class="float" >
+                                                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                          {% endif %}
+                                                    {% endfor %}
+                                                    Total number of K-12 Hours:</label>
                                                  <div class="col-sm-6">
                                                 {{ project.total_k12_hours}}
                                                  </div>
@@ -323,10 +411,17 @@
                                         <div class="row centered" ><span class="addcommerror" style="color: #b60000"></span> </div>
                                             <div class="row community-row">
                                                 <div class="col-md-3">
-                                                    {% for data_definition in data_definition %}{% if data_definition.id == 2%}
-                                                <label style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Community Partner</label>
-                                                    {% endif %}
-                                                    {% endfor %}
+
+                                                <label style="padding-top:8px" >
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 2%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    Community Partner</label>
+
                                             </div>
                                             <div class="col-md-4">
                                                 {{form2|bootstrap}}
@@ -368,11 +463,16 @@
                                         <div class="row centered"><span class="addcamperror" style="color: #b60000"></span> </div>
                                         <div class="row campus-row">
                                             <div class="col-md-3">
-                                                 {% for data_definition in data_definition %}
-                                {% if data_definition.id == 1%}
-                                                <label for="id_academic_year" style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}"><i class="info"></i> Campus Partner </label>
-                                                 {% endif %}
-                                {% endfor %}
+
+                                                <label style="padding-top:8px" >
+                                                    {% for data_definition in data_definition %}
+                                                           {% if data_definition.id == 1%}
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="{{ data_definition.description }}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                            {% endif %}
+                                                        {% endfor %}Campus Partner </label> <span style="color:red;">*</span>
+
                                             </div>
                                             <div class="col-md-4">
                                                 {{ form3.campus_partner|bootstrap }}
@@ -455,14 +555,15 @@
             <div class="row"><br></div>
             <div class="row">
                 <div class="col-md-3">
-                    {% for data_definition in data_definition %}{% if data_definition.id == 39%}
-                    <label style="padding-top:8px" data-toggle="tooltip" title="{{ data_definition.description }}">
-
-                                 <i class="info"></i> Primary Focus Area<span style="color:red;">*</span>
-
-                                </label>
-                    {% endif %}
-                                {% endfor %}
+                    <label style="padding-top:8px">
+                        {% for data_definition in data_definition %}
+                        {% if data_definition.id == 39%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                              title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                        {% endfor %}Focus Area <span style="color:red;">*</span>
+                    </label>
                 </div>
                 <div class="col-md-6">
                     {{ form.mission | bootstrap}}
@@ -481,7 +582,15 @@
               {% for catform in categoryformset %}
             <div class="row">
                 <div class="col-md-3">
-                    <label style="padding-top:8px">Topics</label>
+                    <label style="padding-top:8px">
+                        {% for data_definition in data_definition %}
+                        {% if data_definition.id == 65%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                              title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                        {% endfor %}
+                        Topics</label>
                 </div>
                 <div class="col-md-6 sub_category-row">
                     <!--<div class="row ">-->
@@ -1450,7 +1559,7 @@ $(document).ready(function(){
     $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
     $('#id_populate_activity').select2({placeholder: 'Select Activity Type',border:'2px solid #aaa'});
     $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
-    $('#id_description').attr('placeholder', 'Project Description, Outcomes, Courses, and/or Related Links');
+    $('#id_description').attr('placeholder', 'Project Description, Outcomes, Course Details, and/or Related Links');
     // $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
     $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
     $('#id_status').select2({placeholder: 'Select Status',});

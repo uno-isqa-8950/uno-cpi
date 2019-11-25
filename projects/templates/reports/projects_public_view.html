@@ -51,7 +51,7 @@
     .accordion .card-header:after {
         font-family: 'FontAwesome';
         content: "\f146";
-        margin-left: 55px;
+        /*margin-left: 55px;*/
             font-size: 20px;
     }
 
@@ -533,21 +533,40 @@ table{
                         </td>
                     </tr>
 
-    <tr>
-        <td>
-            <b>Other Activity Type:</b>
-            {%if other_activity_type > 1%}
-            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
-            {%else%}
-            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
-            {%endif%}
-        </td>
-    </tr>
+
 
 </table>
+        <div style="margin-left: 137px">
+            <b>Other Activity Type:</b>
+            {% if project.activityType == 'Other' %}
+            {% if project.other_activity_type|length > 0%}
+            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+            {%endif%}
+            {%else%}
+            None
+            {%endif%}
+
+        </div>
+
+    <div style="margin-left: 137px"><b> Topics : </b>
+        {% if project.sub_category|length > 0%}
+        {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+        {%else%}
+        {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+        {%endif%}
+    </div>
+    <div style="margin-left: 137px"><b> Other Topics : </b>
+
+        {% if project.other_sub_category|length > 0%}
+        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+        {%else%}
+        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+        {%endif%}
+
+    </div>
     <br>
-    <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</div>
-    <div style="margin-left: 137px"><b> Other Topics : </b> {% for other in project.other_sub_category %}{{other}}{% endfor %}</div>
     <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
     </p>
 
@@ -555,35 +574,35 @@ table{
 
 </div>
         {% endfor %}
+    <!--Code for Pagination -->
 </div>
-<!--Code for Pagination -->
-
-</div>
+<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
+<div class="row" style="float:right; padding-right: 10px">
 {% if cards.has_other_pages %}
-  <ul class="pagination">
+
     {% if cards.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ cards.previous_page_number }}">&laquo;</a>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
+        <a class="btn btn-secondary" href="?page=1">First</a>
+        <a class="btn btn-secondary" href="?page={{ cards.previous_page_number }}">Previous</a>
+
     {% endif %}
-    {% for i in cards.paginator.page_range %}
-      {% if cards.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% for num in cards.paginator.page_range %}
+      {% if cards.number == num %}
+        <a class="btn btn-secondary"href="?page={{ num }}">{{ num }}</a>
+      {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
+         <a class="btn btn-secondary" href="?page={{ num }}">{{ num }}</a>
       {% endif %}
     {% endfor %}
     {% if cards.has_next %}
-      <li><a href="?page={{ cards.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+      <a class="btn btn-secondary" href="?page={{ cards.next_page_number }}">Next</a>
+      <a class="btn btn-secondary" href="?page={{ cards.paginator.num_pages }}">Last</a>
+
     {% endif %}
-  </ul>
+
 {% endif %}
+</div>
 
-
-
+</div>
+    <br><br>
 {% endblock %}
 
 

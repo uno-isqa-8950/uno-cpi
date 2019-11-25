@@ -37,11 +37,17 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                        academic_year,engagement_type, mission,comm_type, college_name,campus_partner,weitz_cec_part,legislative,community_partner  ) {
 
 
-    if (not_set.includes(academic_year)) {
+   /* if (not_set.includes(academic_year)) {
         // alert(academic_year)
         academic_year = max_yr_id-1
         var projects_json = projects_json.filter(d => d.years.includes(academic_year));
         // console.log("filtered academic_year", projects_json)
+    }*/
+
+    if (not_set.includes(academic_year)) {
+        // alert(academic_year)
+        var projects_json = projects_json.filter(d => d.years.includes(max_yr_id));
+        // console.log("filtered default academic_year", projects_json)
     }
 
 

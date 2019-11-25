@@ -105,7 +105,7 @@ try:
       query_KR = "update projects_project set activity_type_id = \
         (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
         where engagement_type_id = \
-        (select e.id from projects_engagementtype as e where e.name = 'Knowledge/Info Sharing') \
+        (select e.id from projects_engagementtype as e where e.name = 'Knowledge and Resource Sharing') \
          and activity_type_id = \
          (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
       print('query--',query_KR)

@@ -1170,7 +1170,7 @@ def showSelectedProjects(project_name_list):
                             ,other_subCat                            
                         order by pa.academic_year desc;""" )
 
-def checkProjectsql(projectName, comPartner, campPartner, acadYear):
+def checkProjectsql(projectName, comPartner, campPartner, academic_start_year_cond, academic_end_year_cond):
     return ("""SELECT (regexp_split_to_array(p.project_name, E'\:+'))[1] as project_names, STRING_AGG(distinct pc.name, ', ' ORDER BY pc.name) As pcnames,
 pa.academic_year, STRING_AGG(distinct c.name, ', ' ORDER BY c.name) As cnames
 FROM projects_project p
@@ -1182,7 +1182,8 @@ left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                             where lower(p.project_name) LIKE '%""" + projectName.lower() + """%'
                             AND pc.name LIKE '%""" + comPartner + """%'
                             AND c.name LIKE '%""" + campPartner + """%'
-                            AND pa.academic_year LIKE '%""" + acadYear + """%'
+                            AND (p.academic_year_id <= """ + str(academic_start_year_cond) + """
+                            AND (COALESCE(p.end_academic_year_id,(SELECT max(id) from projects_academicyear)) >= """ + str(academic_end_year_cond) + """))
 GROUP BY project_names, pa.academic_year
 ORDER BY pa.academic_year DESC;
 """)
@@ -1773,6 +1774,8 @@ from ((with focus_filter as (select pm.mission_id focus_id
                              from home_missionarea m
                                  left join projects_projectmission pm on m.id = pm.mission_id
                                  left join projects_project p on pm.project_name_id = p.id
+                                 left join projects_projectengagementactivity pea on pea."ProjectName_id" = p.id
+                                 left join projects_engagementactivitytype ea on ea.id = pea."ProjectEngagementActivityName_id"
                                  left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
                                  left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
                                  left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
@@ -1783,6 +1786,7 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                and COALESCE(comm.community_type_id::text,'None') like %s
                                and COALESCE(pcamp.campus_partner_id::text,'None') like %s
                                and COALESCE(c.college_name_id::text,'None') like %s
+                               and COALESCE(ea."EngagementTypeName_id"::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
                                and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)
@@ -1824,8 +1828,10 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                   , sum(p.total_k12_students) numberofk12students
                                   , sum(p.total_k12_hours) k12studentshours			   
                              from projects_missionsubcategory ms
-                                 left join projects_projectsubcategory psc on psc.sub_category_id = ms.sub_category_id --and psc.project_name_id = p.id
+                                 left join projects_projectsubcategory psc on psc.sub_category_id = ms.sub_category_id
                                  left join projects_project p on p.id = psc.project_name_id
+                                 left join projects_projectengagementactivity pea on pea."ProjectName_id" = p.id
+                                 left join projects_engagementactivitytype ea on ea.id = pea."ProjectEngagementActivityName_id"
                                  left join projects_projectcampuspartner pcamp on pcamp.project_name_id = p.id
                                  left join projects_projectcommunitypartner pcomm on pcomm.project_name_id = p.id
                                  left join partners_communitypartner comm on comm.id = pcomm.community_partner_id
@@ -1836,6 +1842,7 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                and COALESCE(comm.community_type_id::text,'None') like %s
                                and COALESCE(pcamp.campus_partner_id::text,'None') like %s
                                and COALESCE(c.college_name_id::text,'None') like %s
+                               and COALESCE(ea."EngagementTypeName_id"::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
                                and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)

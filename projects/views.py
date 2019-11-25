@@ -1997,6 +1997,7 @@ def projectsPublicReport(request):
                                      , other_subCat \
                                      order by pa.academic_year desc; "
     # cursor.execute(sql.all_projects_sql, params)
+    print("project public report query -- ",project_end_query)
     cursor.execute(project_end_query)
 
 
@@ -2252,6 +2253,7 @@ def projectsPrivateReport(request):
                                      , other_subCat \
                                      order by pa.academic_year desc; "
     # cursor.execute(sql.all_projects_sql, params)
+    print("project private report query -- ",project_end_query)
     cursor.execute(project_end_query)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})

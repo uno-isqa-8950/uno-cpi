@@ -141,7 +141,7 @@ var subdrill=[]
     for (m in Missionarea) {
         var mission_id=Missionarea[m].id;
         missionarealist.push(Missionarea[m].name);
-        console.log(" mission id and name",mission_id)
+        // console.log(" mission id and name",mission_id)
         var startyearprojects = startprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
         var from_project_count=startyearprojects.length
         var endyearprojects=endprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
@@ -149,6 +149,7 @@ var subdrill=[]
         var mid=Missionarea.indexOf(Missionarea[m])
         // console.log(" from_project_count,to_project_count ", from_project_count,to_project_count )
         if(from_project_count > to_project_count) {
+            var per=Math.round(((from_project_count-to_project_count)/from_project_count)*100)
             // console.log("red")
             res = {
                 "name": Missionarea[m].name,
@@ -156,18 +157,22 @@ var subdrill=[]
                 "x2": to_project_count,
                 "y": mid,
                 "drilldown": Missionarea[m].name,
-                "color": "red"
+                "color": "red",
+                "per":per
             }
         }
             else {
                 // console.log("non red")
+            var per=Math.round(((to_project_count-from_project_count)/from_project_count)*100)
+            // console.log(" per ",per)
             res = {
                 "name": Missionarea[m].name,
                 "x": from_project_count,
                 "x2": to_project_count,
                 "y": mid,
                 "drilldown": Missionarea[m].name,
-                "color": "turquoise"
+                "color": "turquoise",
+                "per":per
             }
         }
 
@@ -184,9 +189,9 @@ var subdrill=[]
                var res={'id':feature.subcategory_id,'name':feature.subcategory_name}
                subcategory.push(res)
             subcategory=subcategory.sort((a,b)=>(a.name <b.name ? 1: -1))
-            console.log("sorted subcategory",subcategory)
+            // console.log("sorted subcategory",subcategory)
         })}
-        console.log("Missionarea[m].name ",Missionarea[m].name,"-------------",subcategory)
+        // console.log("Missionarea[m].name ",Missionarea[m].name,"-------------",subcategory)
         subcategorylist=[]
         drilldata=[]
 
@@ -200,16 +205,18 @@ var subdrill=[]
             var to_subcat_counts = to_project_mission_sub_ids.length
             // var mid = Missionarea.indexOf(m)
             if (from_subcat_counts > to_subcat_counts) {
+                var per= Math.round(((from_subcat_counts-to_subcat_counts)/from_subcat_counts)*100)
                 var drill = {
                     "name": subcategory[sc].name, "x": from_subcat_counts,
-                    "x2": to_subcat_counts, "y": sid, "color": "red"
+                    "x2": to_subcat_counts, "y": sid, "color": "red","per":per
                 }
             }
 
             else {
+                var per= Math.round(((from_subcat_counts-to_subcat_counts)/from_subcat_counts)*100)
                var  drill = {
                     "name": subcategory[sc].name, "x": from_subcat_counts,
-                    "x2": to_subcat_counts, "y": sid, "color": "turquoise"
+                    "x2": to_subcat_counts, "y": sid, "color": "turquoise","per":per
                 }
             }
 
@@ -223,12 +230,12 @@ var subdrill=[]
                 "data": drilldata
             }
             subdrill.push(drilled)
-            console.log("drilldata",drilldata)
-            console.log("subdrill",subdrill)
+            // console.log("drilldata",drilldata)
+            // console.log("subdrill",subdrill)
 
-            console.log("Missionarea.length",Missionarea.length)
+            // console.log("Missionarea.length",Missionarea.length)
         if(mid == (Missionarea.length-1)){
-                console.log(" last one")
+                // console.log(" last one")
                 yaxis = {
                     'id': mid + 1,
                     'type': 'category',
@@ -250,13 +257,13 @@ var subdrill=[]
                       'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
             'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
             'categories': subcategorylist}}
-            console.log(" ya xis ",yaxis)
+            // console.log(" ya xis ",yaxis)
 
             secondary_y_axis.push(yaxis)
 
 
     }
- console.log("secondary_y_axis",secondary_y_axis)
+ // console.log("secondary_y_axis",secondary_y_axis)
 
   var   primary_axis={
                 'id':0,
@@ -331,11 +338,11 @@ var Yaxis=res[4]
 var Growth=res[5]
 var Decrease=res[6]
 
-console.log(project_over_academic_years)
-console.log("Academic_Year ",Academic_Year)
-console.log("End_Academic_Year",End_Academic_Year)
-console.log(" subdrill ",subdrill)
-console.log(" y axs " ,Yaxis)
+// console.log(project_over_academic_years)
+// console.log("Academic_Year ",Academic_Year)
+// console.log("End_Academic_Year",End_Academic_Year)
+// console.log(" subdrill ",subdrill)
+// console.log(" y axs " ,Yaxis)
 
                 Highcharts.Tick.prototype.drillable = function () {};
 
@@ -363,7 +370,7 @@ console.log(" y axs " ,Yaxis)
                 'tooltip': {
                     'style': {'fontFamily': 'Arial Narrow'},
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>'
+                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br> Growth/Decrease: {point.per} %'
                 }
             },
 

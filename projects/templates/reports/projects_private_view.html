@@ -57,7 +57,7 @@
     .accordion .card-header:after {
         font-family: 'FontAwesome';
         content: "\f146";
-        margin-left: 55px;
+        /*margin-left: 55px;*/
             font-size: 20px;
     }
 
@@ -557,35 +557,60 @@ table{
             <b>UNO Student Hours : </b> {{project.total_uno_hours}}
 
         </td>
-        <td> <b>Total K-12 Students : </b> {{project.total_k12_students}}</td>
+        <td><b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</td>
+
     </tr>
     <tr>
 
-        <td>
-            <b>Total K-12 Hours : </b> {{project.total_k12_hours}}
+        <td> <b>Total K-12 Students : </b> {{project.total_k12_students}}</td>
+        <td><b>Total K-12 Hours : </b> {{project.total_k12_hours}}</td>
 
-        </td>
-        <td>
-            <b>Campus Lead Staff : </b>
-             {%if campus_lead_staff > 1%}
-             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
-             {%else%}
-             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
-             {%endif%}
-        </td>
-        <td>
-            <b>Other Activity Type:</b>
-            {%if other_activity_type > 1%}
-            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
-            {%else%}
-            {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
-            {%endif%}
-        </td>
+
     </tr>
 
+
 </table>
+
+
+   <div style="margin-left: 137px">
+            <b>Campus Lead Staff : </b>
+          {% if project.campus_lead_staff|length == 0%} None {%endif%}
+          {% if project.campus_lead_staff|length > 0%}
+          {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+          {%else%}
+          {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+          {%endif%}
+   </div>
+     <div style="margin-left: 137px">
+            <b>Other Activity Type:</b>
+           {% if project.activityType == 'Other' %}
+           {% if project.other_activity_type|length > 0%}
+           {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+           {%else%}
+           {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+           {%endif%}
+           {%else%}
+           None
+           {%endif%}
+     </div>
+    <div style="margin-left: 137px"><b> Topics : </b>
+        {% if project.sub_category|length > 0%}
+        {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+        {%else%}
+        {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+        {%endif%}
+    </div>
+    <div style="margin-left: 137px"><b> Other Topics : </b>
+
+        {% if project.other_sub_category|length > 0%}
+        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+        {%else%}
+        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+        {%endif%}
+
+    </div>
+
     <br>
-    <div style="margin-left: 137px"><b> Topics : </b> {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %},</div>
     <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
     </p>
 
@@ -593,7 +618,9 @@ table{
 
 </div>
         {% endfor %}
+</div>
 <!--Code for Pagination -->
+
 </div>
 <span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
 <div class="row" style="float:right; padding-right: 10px">

@@ -574,35 +574,34 @@ table{
 
 </div>
         {% endfor %}
+    <!--Code for Pagination -->
 </div>
-<!--Code for Pagination -->
-
-</div>
+<div class="row" style="float:right; padding-right: 10px">
 {% if cards.has_other_pages %}
-  <ul class="pagination">
+
     {% if cards.has_previous %}
-        <a href="?page=1">First</a>
-        <a href="?page={{ cards.previous_page_number }}">&laquo;</a>
-    {% else %}
-      <li class="disabled"><span>&laquo;</span></li>
+        <a class="btn btn-secondary" href="?page=1">First</a>
+        <a class="btn btn-secondary" href="?page={{ cards.previous_page_number }}">Previous</a>
+
     {% endif %}
-    {% for i in cards.paginator.page_range %}
-      {% if cards.number == i %}
-        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-      {% else %}
-        <li><a href="?page={{ i }}">{{ i }}</a></li>
+    {% for num in cards.paginator.page_range %}
+      {% if cards.number == num %}
+        <a class="btn btn-secondary"href="?page={{ num }}">{{ num }}</a>
+      {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
+         <a class="btn btn-secondary" href="?page={{ num }}">{{ num }}</a>
       {% endif %}
     {% endfor %}
     {% if cards.has_next %}
-      <li><a href="?page={{ cards.next_page_number }}">&raquo;</a></li>
-    {% else %}
-      <li class="disabled"><span>&raquo;</span></li>
+      <a class="btn btn-secondary" href="?page={{ cards.next_page_number }}">Next</a>
+      <a class="btn btn-secondary" href="?page={{ cards.paginator.num_pages }}">Last</a>
+
     {% endif %}
-  </ul>
+
 {% endif %}
+</div>
 
-
-
+</div>
+    <br><br>
 {% endblock %}
 
 

@@ -71,7 +71,7 @@ def myProjects(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
@@ -197,7 +197,8 @@ def saveProjectAndRegister(request):
     if engagement_type != '' and engagement_type is not None:
         project.engagement_type = EngagementType.objects.get(id=engagement_type)
 
-    if activity_type != '' and activity_type is not None:
+    print('activity_type--',activity_type)
+    if activity_type != '' and activity_type != '0' and activity_type is not None:
         project.activity_type = ActivityType.objects.get(id=activity_type)
 
     if lead_staff_list != '' and lead_staff_list is not None:
@@ -1654,7 +1655,7 @@ def projectstablePublicReport(request):
              "project_type": obj[19], "end_semester": obj[20], "end_academic_year": obj[21], "sub_category": obj[22],
              "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25]})
     return render(request, 'reports/projectspublictableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
-                   'campus_filter': campus_project_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
+                   'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
                    'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
 
@@ -1812,7 +1813,7 @@ def projectsPublicReport(request):
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25]})
+                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
     page = request.GET.get('page', 1)
     paginator = Paginator(projects_list, 5)
     try:
@@ -2004,9 +2005,9 @@ def projectstablePrivateReport(request):
     campusPartners = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     # campus_filtered_ids = campusPartners.qs.values_list('id', flat=True)
     # campus_filtered_ids = [campus.id for campus in campusPartners.qs]
-    campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-        campus_partner_id__in=campus_filtered_ids))
-    # projects_list=[]
+    # campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
+    #     campus_partner_id__in=campus_filtered_ids))
+    projects_list=[]
     cursor = connection.cursor()
     k12_selection = request.GET.get('k12_flag', None)
     # k12_init_selection = "All"
@@ -2800,7 +2801,7 @@ def communityPublicReport(request):
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
                         name_count = name_count + 1
-        
+
         data_list.append({"community_name": obj[0], "community_mission":obj[1],"project_count": obj[2], "project_id_list": proj_idList, "website": obj[3], "CommStatus": obj[4]})
 
     return render(request, 'reports/community_public_view.html', { 'college_filter': college_partner_filter, 'campus_filter': campus_project_filter,
@@ -3498,7 +3499,7 @@ def myDrafts(request):
              "project_type": obj[20], "pk":obj[19]
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26]})
+             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
 
     return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition':data_definition})
 

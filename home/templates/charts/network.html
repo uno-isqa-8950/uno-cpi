@@ -25,18 +25,15 @@
         0% { -webkit-transform: rotate(0deg); }
         100% { -webkit-transform: rotate(360deg); }
     }
-
     @keyframes spin
     {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
     }
-
 .bs-example
     {
     	margin: 100px 50px;
     }
-
     .form-inline label
     {
         font-weight:bold;
@@ -45,26 +42,17 @@
         display:inline;
         margin-left:22px;
     }
-
-
      .select2-container--default .select2-selection--single
      {
         margin-left:22px;
         width:100%;
      }
-
-
     .select2-container--open .select2-dropdown--below
     {
         width:100%;
         margin-left:22px;
     }
 
-    @media (min-width:1200px)
-{
-    .container{
-        max-width: 1330px;
-    }
     .boxed{
         font-size: smaller;
         margin-bottom: 10px;
@@ -84,24 +72,19 @@
         {#stroke: rgb(0, 0, 0);#}
     stroke-width: 1;
     stroke-opacity: 0.15;
-
 align-self: flex-end;
   margin-left: auto;
         margin-bottom: auto;
     }
 }
-
-
     .select2-selection__placeholder{
         font-size: small;
     }
-
     .form-inline .form-group
     {
         margin-bottom:30px;
         margin-top:10px;
     }
-
     .panel-default > .card {
         background-image: none;
         background-color: #333;
@@ -110,7 +93,8 @@ align-self: flex-end;
     background-color: none;
 }
  </style>
-
+    <br>
+    <br>
    <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
                                               <div class=" text-center"><h3 class="heading">Network Analysis Chart</h3></div>
@@ -120,13 +104,11 @@ align-self: flex-end;
 <!--        The Community Partnership Initiative allows campus partners to submit and account for all community engagement projects. The technology supports complex and highly collaborative projects that involve multiple campus and community partners. To submit a new engaged project, please ensure that the project is not already in the database by searching for it.-->
     </div>
 </div>
-
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'networkanalysis' %}' " value="Reset Filters" >
-
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                 "click",
@@ -140,14 +122,11 @@ align-self: flex-end;
                 false
                 );
             </script>
-
         </div>
     <!-- / Collapse buttons -->
-
         <div class="card box" style="border:0px;">
             <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
-
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="academicyear">
                         {% for data_definition in data_definition %}
@@ -204,7 +183,6 @@ align-self: flex-end;
                                     {% endfor %}
                             </select>
                     </div>
-
                     <div class="col-lg-4 col-md-5 form-group ">
                         <label for="college-name">
                             {% for data_definition in data_definition %}
@@ -223,8 +201,6 @@ align-self: flex-end;
                             {% endfor %}
                         </select>
                     </div>
-
-
             <div class="col-lg-4 col-md-5 form-group">
                         <label for="campus_partner">
                         {% for data_definition in data_definition %}
@@ -244,7 +220,6 @@ align-self: flex-end;
                                     {% endfor %}
                             </select>
                     </div>
-
                      <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
@@ -263,7 +238,6 @@ align-self: flex-end;
                         {% endfor %}
                     </select>
                     </div>
-
 {#                    <div class="col-lg-4 col-md-5 form-group">#}
 {##}
 {#                    <label for="k12_flag">#}
@@ -322,7 +296,6 @@ align-self: flex-end;
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
-
                     <label for="mission">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
@@ -339,20 +312,16 @@ align-self: flex-end;
                         {% endfor %}
                     </select>
                 </div>
-
-
             </form>
         </div>
     </div>
     </div>
 </div>
-
 <br>
 {#    <div class="container">#}
 <div class="box">
         <div class="boxed" style='align-self: center'> <p id="text" style="align: right"></p></div>
     <div id="container"  style= "max-width: 1330px; height: 1020px">
-
     {{ Missionlist | json_script:"missionlist"}}
     {{ campus_partner_json | json_script:"campus_partner_json"}}
     {{ community_partner_json | json_script:"community_partner_json"}}
@@ -361,22 +330,19 @@ align-self: flex-end;
     {{ Collegenames | json_script:"Collegenames"}}
     {{ max_year| json_script:"max_year" }}
     {{ max_yr_id| json_script:"max_yr_id" }}
-
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
         <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
         <script type="text/javascript" src='{% static "js/network.js" %}'></script>
-
     </div>
 </div>
 <br><br><br><br>
 {% endblock %}
-
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
 <script>
 $(document).ready(function(){
-    $('#id_mission').select2({placeholder: 'All Focus Areas',width: '75%',
+    $('#id_mission').select2({placeholder: 'All Project Focus Areas',width: '75%',
                                             sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -390,7 +356,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_engagement_type').select2({placeholder: 'Knowledge and Resource Sharing',width: '75%',
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -432,15 +398,12 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-
     $('#id_academicyear').select2({placeholder: ' {{  max_year }}',width: '75%',
-
                         sorter: function(data) {
         console.log(data)
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
                                                 console.log(a)
-
                                                 a = a;
                                                 b = b;
                                                 if (a > b) {
@@ -451,7 +414,6 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-
     {#$('#id_academicyear option[value={{ max_yr_id }}]').attr({'selected':'selected'});#}
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '75%'});
     $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
@@ -497,7 +459,6 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-
 });
 </script>
 <script language="javascript" type="text/javascript">
@@ -509,6 +470,4 @@ $(document).ready(function(){
               $('[data-toggle="tooltip"]').tooltip();
             });
 </script>
-
 {% endblock %}
-

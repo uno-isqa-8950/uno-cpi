@@ -296,13 +296,13 @@
                         {% endfor %}
                         Community Partners
                     </label>
-                    <select id="id_community_partner" name="community_partner" onchange="updateChart()">
+                    <select id="id_community_partner" name="community_partner" onchange="getCommunityCroasshairs()">
                         <option value="" disabled selected hidden></option>
                         <option> All </option>
-                        <option value {% if community_id == 0 %} selected {% endif %}>---------</option>
-                            {% for community in community_filter %}
-                                <option value={{community.id}} {% if community_id == community.id %} selected {% endif %}>{{community.name}}</option>
-                            {% endfor %}
+{#                        <option value {% if community_id == 0 %} selected {% endif %}>---------</option>#}
+{#                            {% for community in community_filter %}#}
+{#                                <option value={{community.id}} {% if community_id == community.id %} selected {% endif %}>{{community.name}}</option>#}
+{#                            {% endfor %}#}
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
@@ -329,6 +329,7 @@
 <div class="row"><br></div>
     <div class="box">
     <div id="container"  style= "height: 450px; margin:10px"></div>
+        Show overlapping points <input type="checkbox" name="checkfield" id="g01-01"  onchange="jitterFunc(this)"/>
         {{ Projects | json_script:"Projects"}}
         {{ CommunityPartners | json_script:"CommunityPartners"}}
         {{ CampusPartners | json_script:"CampusPartners"}}

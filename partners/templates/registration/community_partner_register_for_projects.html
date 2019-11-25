@@ -110,7 +110,11 @@ width:93%!important;
 
 </style>
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
-
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 
 <form action="." onfocusout="return validateForm()"  method="post">
     {{ formset_primary_mission.management_form }}
@@ -143,7 +147,15 @@ width:93%!important;
                 <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                    <label for="id_name" class="col-sm-4">Community Partner Organization</label>
+                        <label for="id_name" class="col-sm-4">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 2%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                            title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                    Community Partner Organization</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.name}}
                             {% if community_partner_form.name.errors %} {% for error in community_partner_form.name.errors %}
@@ -153,7 +165,15 @@ width:93%!important;
                 </div>
                     <div class="col-md-6">
                     <div class="row">
-                    <label for="id_name" class="col-sm-4">Community Partner Type</label>
+                        <label for="id_name" class="col-sm-4">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 33%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                            title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        Community Partner Type</label>
                     <div class="col">
                            {{ community_partner_form.community_type}}
                                     {% if community_partner_form.community_type.errors %} {% for error in community_partner_form.community_type.errors %}
@@ -166,7 +186,15 @@ width:93%!important;
                 <div class="row">
                 <div class="col-md-6">
                     <div class="row">
-                    <label class="col-sm-4">Acronym</label>
+                        <label for="id_acronym" class="col-sm-4">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 59%}
+                             <span tabindex="-1" data-toggle="tooltip"
+                              title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        Acronym</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.acronym}}
                         <span class="errormsg" style="color: red; font-size: 12px"></span>
@@ -175,7 +203,15 @@ width:93%!important;
                 </div>
                     <div class="col-md-6">
                     <div class="row" id="k12input">
-                    <label class="col-sm-4">K-12 Level</label>
+                        <label class="col-sm-4">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 61%}
+                             <span tabindex="-1" data-toggle="tooltip"
+                              title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        K-12 Level</label>
                     <div class="col-sm-7">
                              {{ community_partner_form.k12_level}}
                     </div>
@@ -301,8 +337,10 @@ width:93%!important;
                     <div class="row">
                 <div class="col-md-4">
                     {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 39%}
-                    <label><span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                    {% if data_definition.id == 51%}
+                    <label><span tabindex="-1" data-toggle="tooltip"
+                            title="{{ data_definition.description }}" class="float" >
+                            <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i>
 
                                  Primary Mission Area <span style="color:red;">*</span>
 
@@ -319,12 +357,14 @@ width:93%!important;
             <div class="row mission-row">
                 <div class="col-md-4">
                      {% for data_definition in data_definition %}
-                    {% if data_definition.id == 40%}
-                    <span id="test1" tabindex="-1" data-toggle="popover" data-trigger="focus"
-                          data-content="{{ data_definition.description }}" class="float" >
-                        <label>Secondary Mission Area</label></span>
-                    {% endif %}
+                    {% if data_definition.id == 60%}
+                    <label><span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i>
+                          {% endif %}
                     {% endfor %}
+                        Other Focus Area
+                    </span></label>
                 </div>
                 <div class="col-md-8">
                     <div class="row">

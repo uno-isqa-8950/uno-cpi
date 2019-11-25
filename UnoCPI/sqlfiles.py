@@ -969,6 +969,7 @@ select distinct p.project_name
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             ,p.other_activity_type act_type
+                            ,p.other_sub_category other_subCat
                         from projects_project p
                           left join projects_projectmission m on p.id = m.project_name_id
                           left join home_missionarea hm on hm.id = m.mission_id
@@ -1040,6 +1041,8 @@ select distinct p.project_name
                             ,  p.campus_lead_staff campus_lead_staff
                             , hm.mission_image_url mission_image
                             ,p.other_activity_type act_type
+                            ,p.other_sub_category other_subCat
+            
                         from projects_project p
                           left join projects_projectmission m on p.id = m.project_name_id
                           left join home_missionarea hm on hm.id = m.mission_id
@@ -1747,8 +1750,7 @@ def createproj_addothermission(subcategory,projid):
     return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other','""" +subcategory+"""','""" +projid+"""'); """)
 
 
-
-focusTopic_report_sql='''
+primaryFocusTopic_report_sql='''
 select rec_type, focus_id, focus_name, focus_desc, 
        focus_image_url, focus_color, 
        topic_id, topic_name, topic_desc,
@@ -1777,12 +1779,14 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                  left join projects_status s on s.id = p.status_id	
                                  left join partners_campuspartner c on pcamp.campus_partner_id = c.id  
                              where COALESCE(s.name,'None') != 'Drafts'
-                               and pm.mission_id::text like %s
-                               and comm.community_type_id::text like %s
-                               and pcamp.campus_partner_id::text like %s
-                               and c.college_name_id::text like %s
+                               and COALESCE(pm.mission_id::text,'None') like %s
+                               and COALESCE(comm.community_type_id::text,'None') like %s
+                               and COALESCE(pcamp.campus_partner_id::text,'None') like %s
+                               and COALESCE(c.college_name_id::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+                               and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)
+                               and COALESCE(c.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in (select id from partners_cecpartnerstatus where name like %s)                                    
                              group by focus_area_name, focus_id
                              order by focus_area_name)
        Select distinct 'Focus' rec_type
@@ -1828,12 +1832,14 @@ from ((with focus_filter as (select pm.mission_id focus_id
                                  left join projects_status s on s.id = p.status_id	
                                  left join partners_campuspartner c on pcamp.campus_partner_id = c.id  
                              where COALESCE(s.name,'None') != 'Drafts'
-                               and ms.secondary_mission_area_id::text like %s
-                               and comm.community_type_id::text like %s
-                               and pcamp.campus_partner_id::text like %s
-                               and c.college_name_id::text like %s
+                               and COALESCE(ms.secondary_mission_area_id::text,'None') like %s
+                               and COALESCE(comm.community_type_id::text,'None') like %s
+                               and COALESCE(pcamp.campus_partner_id::text,'None') like %s
+                               and COALESCE(c.college_name_id::text,'None') like %s
                                and ((p.academic_year_id <= %s) AND 
                                     (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
+                               and COALESCE(comm.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in  (select id from partners_cecpartnerstatus where name like %s)
+                               and COALESCE(c.cec_partner_status_id,(select id from partners_cecpartnerstatus where name like 'Never')) in (select id from partners_cecpartnerstatus where name like %s)                                    
                              group by focus_id, topic_id
                              order by focus_id,topic_id)		      
        Select distinct 'Topic' rec_type
@@ -1859,8 +1865,9 @@ from ((with focus_filter as (select pm.mission_id focus_id
            left join topic_filter on topic_filter.topic_id = topic.id
        group by focus_topic.secondary_mission_area_id, topic.id, topic.sub_category, topic_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr, k12stu, k12hr
        order by focus_id,topic_name)) focus_topic_data
-order by rec_type, focus_id, topic_id;
+order by rec_type, focus_name, topic_name;
 '''
+
 
 def editproj_addprimarymission(focusarea,projid):
     return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Primary','""" +focusarea+"""','""" +projid+"""'); """)

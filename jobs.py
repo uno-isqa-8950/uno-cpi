@@ -14,7 +14,7 @@ sql = sqlfiles
 logger=logging.getLogger("UNO CPI Application update database Batch job")
 
 #
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=4)
+@sched.scheduled_job('cron', day_of_week='mon-sun', hour=3)
 
 def scheduled_job():
     print('This job is ran every Sunday at 4 AM GMT/ 11 PM CDT.')

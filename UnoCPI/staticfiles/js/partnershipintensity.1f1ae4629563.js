@@ -133,6 +133,7 @@ var xLine = res[0];
 var yLine = res[1];
 var y_label = res[2];
 var chart_data = res[3];
+var comms = res[4];
 
 var clickdouble = {clickedOnce : false, timer : null, timeBetweenClicks : 400};
 
@@ -207,11 +208,11 @@ function updateChart () {
         var academic_year = defaultYrID;
     }
     var res = getChartData (Projects, CommunityPartners, CampusPartners, missionList, engagement_type, academic_year, comm_type, college_name, campus_partner, weitz_cec_part, legislative_value, y_axis);
-    xLine = res[0];
-    yLine = res[1];
-    y_label = res[2];
-    chart_data = res[3];
-    comms = res[4];
+    var xLine = res[0];
+    var yLine = res[1];
+    var y_label = res[2];
+    var chart_data = res[3];
+    var comms = res[4];
 
     chart.update({
        "xAxis":{

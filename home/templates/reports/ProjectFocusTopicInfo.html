@@ -50,7 +50,7 @@ $(document).ready(function(){
             <br><br>
 
                <div class="text-center">
-                   <h3 class="heading">Focus Areas Report</h3>
+                   <h3 class="heading">Focus Areas With Topic Details</h3>
                </div>
 
             <div class="card snippet-card">
@@ -67,7 +67,7 @@ $(document).ready(function(){
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'primary_focus_topic_info' %}' " value="Reset Filters" >
 
 
 
@@ -304,13 +304,13 @@ $(document).ready(function(){
                 <td><b>
                     {% if  focus.community_count  < 1 %}
                         {{focus.community_count}}
-                        {% else %}<a href="{% url 'communityfromMissionReport' focus.focus_id%}?comm_ids={{ focus.comm_list }}" target="_blank" class="class1">{{focus.community_count}}</a>
+                        {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ focus.comm_id_list }}" target="_blank" class="class1">{{focus.community_count}}</a>
                     {% endif %}
                 </b></td>
                 <td><b>
                     {% if  focus.project_count  < 1 %}
                         {{focus.project_count}}
-                        {% else %}<a href="{% url 'projectsfromMissionReport' focus.focus_id%}?proj_id_list={{ focus.project_name_ids }}" target="_blank" class="class1">{{focus.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ focus.proj_id_list }}" target="_blank" class="class1">{{focus.project_count}}</a>
                     {% endif %}
                 </b></td>
                 <td><b>
@@ -326,17 +326,17 @@ $(document).ready(function(){
         {% for topic in focus_topic_list %}
         {%  if topic.rec_type == 'Topic' and topic.focus_id == focus.focus_id %}
             <tr>
-                <td>{{topic.topic_name}}</td>
+                <td><div style="padding-left: 2em;">{{topic.topic_name}}</div></td>
                 <td>
                     {% if  topic.community_count  < 1 %}
                         {{topic.community_count}}
-                        {% else %}<a href="{% url 'communityfromMissionReport' topic.focus_id%}?comm_ids={{ topic.comm_list }}" target="_blank" class="class1">{{topic.community_count}}</a>
+                        {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ topic.comm_id_list }}" target="_blank" class="class1">{{topic.community_count}}</a>
                     {% endif %}
                 </td>
                 <td>
                     {% if  topic.project_count  < 1 %}
                         {{topic.project_count}}
-                        {% else %}<a href="{% url 'projectsfromMissionReport' topic.focus_id%}?proj_id_list={{ topic.project_name_ids }}" target="_blank" class="class1">{{topic.project_count}}</a>
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ topic.proj_id_list }}" target="_blank" class="class1">{{topic.project_count}}</a>
                     {% endif %}
                 </td>
                 <td><b>
@@ -353,52 +353,20 @@ $(document).ready(function(){
         </tbody>
         {% endif %}
         {% endfor %}
-        {% comment %}
-        ******** ADD LOGIC IN VIEW TO CALC TOTALS
         <tbody>
             <tr>
                 <td><b>Total</b></td>
-                <td><b>{{ focus_comm_total }}</b></td>
-                <td><b>{{ focus_proj_total }}</b></td>
-                <td><b>{{ focus_students_total }}</b></td>
-                <td><b>{{ focus_hours_total }}</b></td>
+                <td><b>{{ rpt_total_comm_partners }}</b></td>
+                <td><b>{{ rpt_total_projects }}</b></td>
+                <td><b>{{ rpt_total_camp_partners }}</b></td>
+                <td><b>{{ rpt_total_uno_students }}</b></td>
+                <td><b>{{ rpt_total_uno_hours }}</b></td>
+                <td><b>{{ rpt_total_k12_students }}</b></td>
+                <td><b>{{ rpt_total_k12_hours }}</b></td>
             </tr>
         </tbody>
-        {% endcomment %}
-{% comment %}
-<tbody>
-   {% for f in focus_list %}
-        <tr>
-            <td style="color: {{ f.focus_color }};"><span style="color: black;" data-toggle="tooltip" title="{{ f.focus_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> {{ f.focus_area }}</td>
-            <td>
-                {% if  f.project_count  < 1 %}
-                {{f.project_count}}
-                {% else %}
-                <a href="{% url 'showAllProjects' %}?proj_id_list={{ f.project_id_list }}" target="_blank" class="class1">{{f.project_count}}</a>
-                {% endif %}</td>
-
-            <td>
-                 {% if  f.community_count  < 1 %}
-                {{f.community_count}}
-                {% else %}
-                <a href="{% url 'communitypublicreport' %}?comm_ids={{ f.comm_id_list }}" target="_blank" class="class1">{{ f.community_count }}</a>
-                {% endif %}
-            </td>
-            <td>{{ f.campus_count }}</td>
-            <td>{{f.total_uno_students}}</td>
-            <td>{{f.total_uno_hours}}</td>
-        </tr>
-    {% endfor %}
-{#        <tr>#}
-{#            <td><b>Total</b></td>#}
-{#            <td><b>{{ proj_total }}</b></td>#}
-{#            <td><b>{{ comm_total }}</b></td>#}
-{#            <td><b>{{ camp_total }}</b></td>#}
-{#            <td><b>{{ students_total }}</b></td>#}
-{#            <td><b>{{ hours_total }}</b></td>#}
-{#        </tr>#}
-</tbody>
-{% endcomment %}
+            </tr>
+        </tbody>
 </table>
         </div>
     </div>

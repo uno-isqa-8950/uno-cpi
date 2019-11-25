@@ -981,7 +981,7 @@ select distinct p.project_name
                             inner join projects_academicyear pa on p.academic_year_id = pa.id
                             left join projects_academicyear ea on p.end_academic_year_id = ea.id
                             inner join projects_status ps on p.status_id = ps.id
-                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_activitytype a on p.activity_type_id = a.id
                             left join projects_projectsubcategory psub on psub.project_name_id = p.id
                             left join projects_subcategory s on psub.sub_category_id = s.id
                             left join projects_status status on status.id = p.status_id

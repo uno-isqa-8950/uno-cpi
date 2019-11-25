@@ -143,10 +143,10 @@ $(document).ready(function(){
                     {% endfor %} Engagement Types
                 </label>
                 <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                    <option value="" disabled selected hidden></option>
                     <option> All </option>
-                    {% for engagement_type in engagement_filter.form.engagement_type %}
-                        {{engagement_type}}
+                    <option value {% if engagement_id == 0 %} selected {% endif %}>---------</option>
+                    {% for e in engagement_filter %}
+                        <option value={{e.id}} {% if engagement_id == e.id %} selected {% endif %}>{{e.name}}</option>
                     {% endfor %}
                 </select>
             </div>

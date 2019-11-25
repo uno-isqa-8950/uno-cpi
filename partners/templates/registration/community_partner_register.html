@@ -116,7 +116,6 @@ width:93%!important;
 </script>
 <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
- {% create_project_forms %}
 
 <form action="." onfocusout="return validateForm()"  method="post">
     {{ formset_primary_mission.management_form }}
@@ -419,7 +418,7 @@ width:93%!important;
 
 
 
-
+</div>
 
 
 </form>
@@ -479,16 +478,15 @@ $(document).ready(function() {
                 //     return false
                 // }
                 if ($("#id_online_only").is(':checked')) {
+                    $('#id_country').val('');
+                    $('#id_state').val('');
+                    $('#id_city').val('');
+                    $('#id_zip').val('');
+
                     if ($('#id_website_url').val() === '') {
                         alert("Please Provide Your Website URL.");
                         return false
                     }
-                    // else {
-                    //     var maxl = $('#id_website_url').val().length;
-                    //     if (($('#id_website_url').val().substr(maxl - 4, maxl) != '.com')) {
-                    //         $('#id_website_url').val($('#id_website_url').val() + '.com');
-                    //     }
-                    // }
                 }
                 // if($('#physically_located').is(':checked')) {
 

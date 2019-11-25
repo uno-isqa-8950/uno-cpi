@@ -3705,7 +3705,7 @@ def checkProject(request):
 
                 data_list.append(
                     {"projectName": obj[0].split("(")[0], "communityPartner": obj[1], "campusPartner": obj[3],
-                     "academicYear": obj[2], 'flagBit': flag})
+                     "academicYear": obj[2], "project_ids": obj[4],  'flagBit': flag})
 
             return render(request, 'projects/checkProject.html',
                           {'data_list': data_list, "projectName": projectName, 'flagBit': flag,
@@ -3724,7 +3724,7 @@ def checkProject(request):
         else:
 
             data_list.append({"projectName": "", "communityPartner": "", "campusPartner": "",
-                              "academicYear": "", 'flagBit': flag})
+                              "academicYear": "", "project_ids": "", 'flagBit': flag})
             return render(request, 'projects/checkProject.html',
                           {'data_list': data_list, "projectName": projectName, 'flagBit': flag,
                            'data_definition': data_definition,

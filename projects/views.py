@@ -290,7 +290,6 @@ def getEngagemetActivityList(request):
     return JsonResponse(data)
 
 
-
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)

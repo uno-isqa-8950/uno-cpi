@@ -410,8 +410,10 @@ def primary_focus_topic_info(request):
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
     # campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
 
-    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
+    engagement_filter_qs = EngagementType.objects.all()
+    eng_project_filter = [{'name': e.name, 'id': e.id} for e in engagement_filter_qs]
 
+    college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
     college_unit_filter = request.GET.get('college_name', None)
     if college_unit_filter is None or college_unit_filter == "All" or college_unit_filter == '':
         college_unit_cond = '%'
@@ -500,11 +502,16 @@ def primary_focus_topic_info(request):
         cec_camp_part_cond = 'Current'
 
     engagement_filter = request.GET.get('engagement_type', None)
-    #print('engagement_filter: ' + str(engagement_filter))
+    if engagement_filter is None or engagement_filter == "All" or engagement_filter == '':
+        engagement_cond = '%'
+        engagement_id = -1
+    else:
+        engagement_cond = engagement_filter
+        engagement_id = int(engagement_filter)
 
-    params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+    params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond, engagement_cond,
               academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond,
-              mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
+              mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond, engagement_cond,
               academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
     cursor.execute(sql.primaryFocusTopic_report_sql, params)
@@ -561,9 +568,10 @@ def primary_focus_topic_info(request):
 
     return render(request, 'reports/ProjectFocusTopicInfo.html',
                    {'college_filter': college_filter, 'missions_filter': missions_filter,
-                    'engagement_filter': engagement_filter, 'year_filter': year_filter, 'focus_topic_list': data_list,
+                    'engagement_filter': eng_project_filter, 'engagement_id': engagement_id,
+                    'year_filter': year_filter, 'focus_topic_list': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
-                    'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices,
+                    'campus_filter': campus_project_filter, 'campus_id': campus_id, 'cec_part_choices': cec_part_choices,
                     'rpt_total_comm_partners': rpt_total_comm_partners, 'rpt_total_camp_partners': rpt_total_camp_partners,
                     'rpt_total_projects': rpt_total_projects,
                     'rpt_total_uno_students': rpt_total_uno_students, 'rpt_total_uno_hours': rpt_total_uno_hours,
@@ -852,11 +860,62 @@ def engagement_info(request):
         cec_comm_part_cond = '%'
         cec_camp_part_cond = 'Current'
 
-    params = [mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-              academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+    # params = [community_type_cond, cec_comm_part_cond, mission_type_cond,  campus_partner_cond, college_unit_cond,
+    #           academic_start_year_cond, academic_end_year_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    cursor.execute(sql.engagement_types_report_sql, params)
+    engagement_start = "with eng_type_filter as (select e.name engagement_type \
+                  , p.engagement_type_id eng_id \
+                  , count(distinct p.project_name) Projects \
+                  , array_agg(distinct p.id) projects_id \
+                  , count(distinct pcomm.community_partner_id) CommPartners \
+                  , array_agg(distinct pcomm.community_partner_id) CommPartners_id \
+                  , count(distinct pcamp.campus_partner_id) CampPartners \
+                  , sum(p.total_uno_students) numberofunostudents \
+                  , sum(p.total_uno_hours) unostudentshours \
+                   from projects_engagementtype e \
+                   left join projects_project p on p.engagement_type_id = e.id \
+                   left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
+                   left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
+                   left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
+                   left join projects_status s on  p.status_id = s.id \
+                   left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
+                   left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
+                   where s.name != 'Drafts' \
+                      and pm.mission_id::text like '"+ mission_type_cond +"' \
+                        and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"' \
+                        and c.college_name_id::text like '"+ college_unit_cond +"' \
+                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"') \
+                        and ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
+                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
+    clause_query=" "
+    if community_type_cond !='%':
 
+        clause_query += " and comm.community_type_id::text like '"+ community_type_cond +"'"
+
+    if cec_comm_part_cond != '%':
+        clause_query +=  " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '"+ cec_comm_part_cond +"')"
+
+
+
+    query_end = engagement_start + clause_query + " group by engagement_type, eng_id \
+                order by engagement_type) \
+                Select distinct eng.name eng_type \
+                      , eng.description eng_desc \
+                     , COALESCE(eng_type_filter.Projects, 0) proj \
+                     , eng_type_filter.projects_id proj_ids \
+                     , COALESCE(eng_type_filter.CommPartners, 0) comm \
+                     , eng_type_filter.CommPartners_id comm_id \
+                     , COALESCE(eng_type_filter.CampPartners, 0) camp \
+                     , COALESCE(eng_type_filter.numberofunostudents, 0) unostu \
+                     , COALESCE(eng_type_filter.unostudentshours, 0) unohr \
+                 from projects_engagementtype eng \
+                    left join eng_type_filter on eng.id = eng_type_filter.eng_id \
+                group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr \
+                order by eng_type;"
+
+    print("Final query: ", query_end)
+    # cursor.execute(sql.engagement_types_report_sql, params)
+    cursor.execute(query_end)
     #cec_part_choices = CecPartChoiceForm()
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
@@ -893,6 +952,7 @@ def engagement_info(request):
                     'year_filter': year_filter, 'engagement_List': data_list,
                     'data_definition':data_definition, 'communityPartners' : communityPartners ,
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
+
 
 
 # Chart for projects with mission areas

@@ -522,12 +522,18 @@ def primary_focus_topic_info(request):
 
     for obj in cursor.fetchall():
         comm_ids = obj[12]
+        print('comm_ids---',comm_ids)
+
         proj_ids = obj[10]
+        print('proj_ids---',proj_ids)
 
         proj_idList = ''
         comm_idList = ''
 
         if proj_ids is not None:
+            if None in proj_ids:
+                proj_ids.pop(-1)
+            print('project list --',len(proj_ids))
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
@@ -537,6 +543,10 @@ def primary_focus_topic_info(request):
                         name_count = name_count + 1
 
         if comm_ids is not None:
+            if None in comm_ids:
+                comm_ids.pop(-1)
+            print('comm_ids list --',len(comm_ids))
+
             name_count = 0
             if len(comm_ids) > 0:
                 for i in comm_ids:

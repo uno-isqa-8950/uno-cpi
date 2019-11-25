@@ -473,7 +473,10 @@ $(document).ready(function(){
        // searching:false,
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel', 'pdf'],
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel', 'pdf'],
            aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  , {"bSearchable": false}]
        }
    });

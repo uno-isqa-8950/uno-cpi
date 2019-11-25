@@ -576,6 +576,7 @@ table{
         {% endfor %}
     <!--Code for Pagination -->
 </div>
+<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
 <div class="row" style="float:right; padding-right: 10px">
 {% if cards.has_other_pages %}
 

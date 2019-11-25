@@ -229,7 +229,7 @@ label {
 {% for project in data_list %}
                       <tr id="tablerows">
                        <td>{{project.academicYear}}</td>
-                       <td><a href="/allProjects?p_name= + {{projectName}}"  class="class1" target="_blank" >{{project.projectName}}</a></td>
+                       <td><a href="{% url 'projectspublicreport' %}?proj_id_list={{ project.project_ids }}" target="_blank" class="class1">{{project.projectName}}</a></td>
                           <td>{{ project.communityPartner }} </td>
                           <td>{{ project.campusPartner }}</td>
                           </tr>

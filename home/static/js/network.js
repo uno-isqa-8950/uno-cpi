@@ -373,7 +373,7 @@ tooltip: {
         nullFormat:'N/A',
         style: {fontFamily: "Arial Narrow"},
         formatter: function (point) {
-             tooltext='Name: <b>' + this.point.id +'<br></br>'+ this.point.projects
+             tooltext= this.point.id +'<br></br>'+ this.point.projects
             // style:{fontWeight:"bold",color:"black",fontSize:15, fontFamily: "Arial Narrow"},
             return  tooltext
 

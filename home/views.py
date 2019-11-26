@@ -2030,6 +2030,8 @@ def issueaddress(request):
     print(" min year ", min_year)
 
     MissionObject = json.loads(charts_missions)
+    user_role = request.user.is_superuser
+    # print("super user ",user_role)
 
     missionList = []
     for m in MissionObject:
@@ -2122,5 +2124,5 @@ def issueaddress(request):
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
                     'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year} )
+                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year,"user_role":user_role} )
 

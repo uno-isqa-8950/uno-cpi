@@ -373,7 +373,7 @@ tooltip: {
         nullFormat:'N/A',
         style: {fontFamily: "Arial Narrow"},
         formatter: function (point) {
-             tooltext='Name: <b>' + this.point.id +'<br></br>'+ this.point.projects
+             tooltext= this.point.id +'<br></br>'+ this.point.projects
             // style:{fontWeight:"bold",color:"black",fontSize:15, fontFamily: "Arial Narrow"},
             return  tooltext
 
@@ -407,8 +407,11 @@ tooltip: {
     ]
 })
 
-function updatechart(){
 
+
+
+function updatechart(){
+setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -445,4 +448,5 @@ function updatechart(){
         ]
 });
 
-}
+
+}, 0.0001)};

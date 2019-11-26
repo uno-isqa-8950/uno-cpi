@@ -936,6 +936,9 @@ def engagement_info(request):
         comm_idList = ''
         if proj_ids is not None:
             name_count = 0
+            if None in proj_ids:
+                proj_ids.pop(-1)
+                
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     proj_idList = proj_idList + str(i)
@@ -945,6 +948,9 @@ def engagement_info(request):
 
         if comm_ids is not None:
             name_count = 0
+            if None in comm_ids:
+                comm_ids.pop(-1)
+
             if len(comm_ids) > 0:
                 for i in comm_ids:
                     comm_idList = comm_idList + str(i)
@@ -2040,6 +2046,8 @@ def issueaddress(request):
     print(" min year ", min_year)
 
     MissionObject = json.loads(charts_missions)
+    user_role = request.user.is_superuser
+    # print("super user ",user_role)
 
     missionList = []
     for m in MissionObject:
@@ -2132,5 +2140,5 @@ def issueaddress(request):
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
                     'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year} )
+                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year,"user_role":user_role} )
 

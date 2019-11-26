@@ -102,7 +102,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Community Partner Types" ' + 'class="selectCommType"' + 'value="' + 'All Community Partner Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Partner Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community organization Types" ' + 'class="selectCommType"' + 'value="' + 'All Community organization Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community organization Types</b></a>' + "<br>";
 for (var i = 0; i < CommunityType.length; i++) {
     var commType = CommunityType[i];
     var color = colorCodeObject[commType];
@@ -248,10 +248,10 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Community Partner Types", "All Focus Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
+    defaultFilterValues = ["All Community organization Types", "All Focus Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
     // Object to identify filters set by the user
     filters = {
-        "selectCommType":       "All Community Partner Types",
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
@@ -308,17 +308,17 @@ function attachMessage(marker, partner_name,district_number,project_number,city,
                          '<tr><td><span style="font-weight:bold">Total Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Focus Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-                        '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
                         
         if(commCecStatus == 'Current'){
-            commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+            commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
                         'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
         if(commCecStatus == 'Former'){
-         commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+         commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
                         'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
                         
@@ -550,7 +550,7 @@ valueFilter.addEventListener("keyup", function (e) {
 function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
-        "selectCommType":       "All Community Partner Types",
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",
@@ -576,7 +576,7 @@ function resetFiltersOnSearchComm (){
 
 $("#reset").click(function () {
     const defaultFilterObject = {
-        "selectCommType":       "All Community Partner Types",
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
         "selectYear":           "All Academic Years",

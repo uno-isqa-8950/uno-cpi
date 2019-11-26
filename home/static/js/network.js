@@ -407,8 +407,11 @@ tooltip: {
     ]
 })
 
-function updatechart(){
 
+
+
+function updatechart(){
+setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -445,4 +448,5 @@ function updatechart(){
         ]
 });
 
-}
+
+}, 0.0001)};

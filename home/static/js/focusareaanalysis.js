@@ -139,17 +139,20 @@ var to_json_data=[]
 var missionarealist=[]
 var subdrill=[]
     for (m in Missionarea) {
-        var mission_id=Missionarea[m].id;
+        var mission_id = Missionarea[m].id;
         missionarealist.push(Missionarea[m].name);
         // console.log(" mission id and name",mission_id)
         var startyearprojects = startprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
-        var from_project_count=startyearprojects.length
-        var endyearprojects=endprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
-        var to_project_count=endyearprojects.length
-        var mid=Missionarea.indexOf(Missionarea[m])
+        var from_project_count = startyearprojects.length
+        var endyearprojects = endprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
+        var to_project_count = endyearprojects.length
+        var mid = Missionarea.indexOf(Missionarea[m])
         // console.log(" from_project_count,to_project_count ", from_project_count,to_project_count )
-        if(from_project_count > to_project_count) {
-            var per=Math.round(((from_project_count-to_project_count)/from_project_count)*100)
+        if (from_project_count < to_project_count) {
+            if(from_project_count ==0){
+                var per = Math.round(( to_project_count/to_project_count) * 100)
+            }else{
+            var per = Math.round(((to_project_count-from_project_count ) / from_project_count) * 100)}
             // console.log("red")
             res = {
                 "name": Missionarea[m].name,
@@ -157,13 +160,16 @@ var subdrill=[]
                 "x2": to_project_count,
                 "y": mid,
                 "drilldown": Missionarea[m].name,
-                "color": "red",
-                "per":per
+                "color": "turquoise",
+                "per": per
             }
         }
-            else {
-                // console.log("non red")
-            var per=Math.round(((to_project_count-from_project_count)/from_project_count)*100)
+        else {
+            // console.log("non red")
+            if(to_project_count == 0){
+                var per = Math.round(-(from_project_count/from_project_count ) * 100)
+            } else{
+            var per = Math.round(((to_project_count-from_project_count) / from_project_count) * 100)}
             // console.log(" per ",per)
             res = {
                 "name": Missionarea[m].name,
@@ -171,62 +177,66 @@ var subdrill=[]
                 "x2": to_project_count,
                 "y": mid,
                 "drilldown": Missionarea[m].name,
-                "color": "turquoise",
-                "per":per
+                "color": "red",
+                "per": per
             }
         }
 
-            resfrom = {"x": from_project_count,"y":mid,"drilldown":Missionarea[m].name}
-            resto = {"x": to_project_count,"y":mid,"drilldown":Missionarea[m].name}
+        resfrom = {"x": from_project_count, "y": mid, "drilldown": Missionarea[m].name}
+        resto = {"x": to_project_count, "y": mid, "drilldown": Missionarea[m].name}
 
-            json_data.push(res)
-            from_json_data.push(resfrom)
-            to_json_data.push(resto)
-         subcategory=[]
-         var mission_sub=mission_subcategories_json.find(d => d.mission_area_name == Missionarea[m].name).subcategories
-        if (mission_sub.length !=0){
-        mission_sub.forEach(function(feature){
-               var res={'id':feature.subcategory_id,'name':feature.subcategory_name}
-               subcategory.push(res)
-            subcategory=subcategory.sort((a,b)=>(a.name <b.name ? 1: -1))
-            // console.log("sorted subcategory",subcategory)
-        })}
+        json_data.push(res)
+        from_json_data.push(resfrom)
+        to_json_data.push(resto)
+        subcategory = []
+        var mission_sub = mission_subcategories_json.find(d => d.mission_area_name == Missionarea[m].name).subcategories
+        if (mission_sub.length != 0) {
+            mission_sub.forEach(function (feature) {
+                var res = {'id': feature.subcategory_id, 'name': feature.subcategory_name}
+                subcategory.push(res)
+                subcategory = subcategory.sort((a, b) => (a.name < b.name ? 1 : -1))
+                // console.log("sorted subcategory",subcategory)
+            })
+        }
         // console.log("Missionarea[m].name ",Missionarea[m].name,"-------------",subcategory)
-        subcategorylist=[]
-        drilldata=[]
-
-        for(sc in subcategory) {
-            var subcatid = subcategory[sc].id
-            subcategorylist.push(subcategory[sc].name)
-            sid = subcategory.indexOf(subcategory[sc])
-            /*
-            var from_project_mission_sub_ids = startyearprojects.filter(d => d.subcategories.subcategory_id === parseInt(subcatid));
-            var from_subcat_counts = from_project_mission_sub_ids.length
-            var to_project_mission_sub_ids = endyearprojects.filter(d => d.subcategories.subcategory_id === parseInt(subcatid));
-            var to_subcat_counts = to_project_mission_sub_ids.length
-            */
-            var from_project_mission_sub_ids = startyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
-            var from_subcat_counts = from_project_mission_sub_ids.length
-            var to_project_mission_sub_ids = endyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
-            var to_subcat_counts = to_project_mission_sub_ids.length
-            // var mid = Missionarea.indexOf(m)
-            if (from_subcat_counts > to_subcat_counts) {
-                var per= Math.round(((from_subcat_counts-to_subcat_counts)/from_subcat_counts)*100)
-                var drill = {
-                    "name": subcategory[sc].name, "x": from_subcat_counts,
-                    "x2": to_subcat_counts, "y": sid, "color": "red","per":per
+        subcategorylist = []
+        drilldata = []
+        if ($('#user').val() === 'True') {
+            for (sc in subcategory) {
+                var subcatid = subcategory[sc].id
+                subcategorylist.push(subcategory[sc].name)
+                sid = subcategory.indexOf(subcategory[sc])
+                var from_project_mission_sub_ids = startyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
+                var from_subcat_counts = from_project_mission_sub_ids.length
+                var to_project_mission_sub_ids = endyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
+                var to_subcat_counts = to_project_mission_sub_ids.length
+                // var mid = Missionarea.indexOf(m)
+                if (from_subcat_counts < to_subcat_counts) {
+                    if(from_subcat_counts==0){
+                        var per = Math.round((( to_subcat_counts/to_subcat_counts) ) * 100)
+                    } else{
+                    var per = Math.round(((to_subcat_counts-from_subcat_counts) / from_subcat_counts) * 100)}
+                    var drill = {
+                        "name": subcategory[sc].name, "x": from_subcat_counts,
+                        "x2": to_subcat_counts, "y": sid, "color": "turquoise", "per": per
+                    }
                 }
+
+                else {
+                    if(to_subcat_counts==0){
+                        var per = Math.round(((- from_subcat_counts/from_subcat_counts) ) * 100)
+                    }
+                    else{
+                    var per = Math.round(((to_subcat_counts-from_subcat_counts ) / from_subcat_counts) * 100)}
+                    var drill = {
+                        "name": subcategory[sc].name, "x": from_subcat_counts,
+                        "x2": to_subcat_counts, "y": sid, "color": "red", "per": per
+                    }
+                }
+
+                drilldata.push(drill)
             }
 
-            else {
-                var per= Math.round(((from_subcat_counts-to_subcat_counts)/from_subcat_counts)*100)
-               var  drill = {
-                    "name": subcategory[sc].name, "x": from_subcat_counts,
-                    "x2": to_subcat_counts, "y": sid, "color": "turquoise","per":per
-                }
-            }
-
-            drilldata.push(drill)}
             // console.log("drilldata",drilldata)
             drilled = {
                 "type": "xrange",
@@ -240,7 +250,7 @@ var subdrill=[]
             // console.log("subdrill",subdrill)
 
             // console.log("Missionarea.length",Missionarea.length)
-        if(mid == (Missionarea.length-1)){
+            if (mid == (Missionarea.length - 1)) {
                 // console.log(" last one")
                 yaxis = {
                     'id': mid + 1,
@@ -248,29 +258,47 @@ var subdrill=[]
                     // # 'min':1,
                     // # 'max':len(subcategorylist)-1,
                     // # 'tickInterval':1.0,
-                    'title': {'text': 'Focus Area',
-                              'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
+                    'title': {
+                        'text': 'Focus Area',
+                        'style': {
+                            'fontFamily': 'Arial Narrow',
+                            'fontWeight': 'bold',
+                            'color': 'black',
+                            'fontSize': '15px'
+                        }
+                    },
                     'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-                    'categories': subcategorylist}}
-          else{
-            yaxis={
-            'id':mid+1,
-            'type': 'category',
-            // # 'min':1,
-            // # 'max':len(subcategorylist)-1,
-            // # 'tickInterval':1.0,
-            'title': {'text': '',
-                      'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-            'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-            'categories': subcategorylist}}
+                    'categories': subcategorylist
+                }
+            }
+            else {
+                yaxis = {
+                    'id': mid + 1,
+                    'type': 'category',
+                    // # 'min':1,
+                    // # 'max':len(subcategorylist)-1,
+                    // # 'tickInterval':1.0,
+                    'title': {
+                        'text': '',
+                        'style': {
+                            'fontFamily': 'Arial Narrow',
+                            'fontWeight': 'bold',
+                            'color': 'black',
+                            'fontSize': '15px'
+                        }
+                    },
+                    'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+                    'categories': subcategorylist
+                }
+            }
             // console.log(" ya xis ",yaxis)
 
             secondary_y_axis.push(yaxis)
 
 
+        }
+        // console.log("secondary_y_axis",secondary_y_axis)
     }
- // console.log("secondary_y_axis",secondary_y_axis)
-
   var   primary_axis={
                 'id':0,
                 'type': 'category',

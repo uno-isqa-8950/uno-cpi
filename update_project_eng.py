@@ -28,6 +28,7 @@ try:
     activityTypeDict_SL.append({'oldValue':'Course','newValue':'Course'})
     activityTypeDict_SL.append({'oldValue':'Unpaid Services','newValue':'Other'})
     activityTypeDict_SL.append({'oldValue':'General Activity','newValue':'Course'})
+    #activityTypeDict_SL.append({'oldValue':'','newValue':'Course'})
     
     for x in activityTypeDict_SL:
       print(x['oldValue'],x['newValue'])
@@ -39,6 +40,12 @@ try:
          (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
       print('query--',query)
       cursor.execute(query)
+      query_1 = "update projects_project set activity_type_id = \
+        (select a.id from projects_activitytype as a where a.name = 'Course') \
+        where engagement_type_id = \
+        (select e.id from projects_engagementtype as e where e.name = 'Service Learning') \
+         and activity_type_id is null"
+      cursor.execute(query_1)
       connection.commit()
 
     activityTypeDict_AH = []
@@ -116,6 +123,7 @@ try:
     activityTypeDict_VL.append({"oldValue":'Unpaid Services',"newValue":'Other'})
     activityTypeDict_VL.append({"oldValue":'Course',"newValue":'Service Activity'})
     activityTypeDict_VL.append({"oldValue":'General Activity',"newValue":'Service Activity'})
+    #activityTypeDict_VL.append({"oldValue":'',"newValue":'Service Activity'})
 
     for x in activityTypeDict_VL:
       print(x['oldValue'],x['newValue'])
@@ -127,6 +135,12 @@ try:
          (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
       print('query--',query_VL)
       cursor.execute(query_VL)
+      query_VL_1 = "update projects_project set activity_type_id = \
+        (select a.id from projects_activitytype as a where a.name = 'Service Activity') \
+        where engagement_type_id = \
+        (select e.id from projects_engagementtype as e where e.name = 'Volunteering') \
+         and activity_type_id is null"
+      cursor.execute(query_VL_1)
       connection.commit()
 
 except (psycopg2.Error) as error:

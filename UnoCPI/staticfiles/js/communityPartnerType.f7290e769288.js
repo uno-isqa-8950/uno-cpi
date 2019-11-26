@@ -1,14 +1,11 @@
-//*********************************** Get mapbox API and get data from HTML *****************************************************
+//*********************************** Get data from HTML *****************************************************
 
-// mapboxgl.accessToken = 'pk.eyJ1IjoidW5vY3BpZGV2dGVhbSIsImEiOiJjanJiZTk2cjkwNjZ5M3l0OGNlNWZqYm91In0.vPmkC3MFDrTlBk-ntUFruA';
-// var colorcode = ['#27ffcb', '#65dc1e', '#1743f3', '#ba55d3', '#e55e5e', '#29234b'] --old code
 // const colorCodeObject = {
-//     "Economic Sufficiency":         "#27ffcb",
-//     "Educational Support" :         "#65dc1e",
-//     "Environmental Stewardship":    "#1743f3",
-//     "Health and Wellness":          "#ba55d3",
-//     "International Service":        "#e55e5e",
-//     "Social Justice":               "#29234b"
+//     "Business":"#27ffcb",
+//     "Government Agency" :"#65dc1e",
+//     "Higher Education Institution":"#1743f3",
+//     "K-12":"#ba55d3",
+//     "Nonprofit":"#e55e5e",
 // }
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
 var districtData = JSON.parse(document.getElementById('district-data').textContent);
@@ -19,15 +16,15 @@ var communityData = JSON.parse(document.getElementById('commPartner-data').textC
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 
 const colorCodeObject = {
-    [Missionarea[0]]:         "#01B8AA",
-    [Missionarea[1]]:         "#374649",
-    [Missionarea[2]]:    "#FD625E",
-    [Missionarea[3]]:          "#8AD4EB",
-    [Missionarea[4]]:        "#FE9666",
-    [Missionarea[5]]:       "#A66999",
-    [Missionarea[6]]:       "#3599B8",
-    [Missionarea[7]]:       "#DFBFBF",
-    [Missionarea[8]]:       "#1743f3"
+    [CommunityType[0]]:         "#01B8AA",
+    [CommunityType[1]]:         "#374649",
+    [CommunityType[2]]:    "#FD625E",
+    [CommunityType[3]]:          "#8AD4EB",
+    [CommunityType[4]]:        "#FE9666",
+    [CommunityType[5]]:       "#A66999",
+    [CommunityType[6]]:       "#3599B8",
+    [CommunityType[7]]:       "#DFBFBF",
+    [CommunityType[8]]:       "#1743f3"
 }
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
@@ -38,11 +35,12 @@ communityData.features.forEach(function(feature) {
     count++;
 })
 //*********************************** Load the map *****************************************************
+
 var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
-    zoom: 7,
+    zoom: 4,
     minZoom: 3,
     // maxZoom: 13,
     fullscreenControl: false,
@@ -102,19 +100,15 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 ]
 });
 
-
-
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Focus Areas" ' + 'class="selectMission"' + 'value="' + 'All Focus Areas"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Focus Areas</b></a>' + "<br>";
-for (var i = 0; i < Missionarea.length; i++) {
-    var mission = Missionarea[i];
-    var missionName = mission.split(':')[0];
-    var missionColor = mission.split(':')[1];
-    var color = missionColor;
-    select += `<a href="#"  id="${missionName.valueOf()}" class="selectMission" value="${missionName.valueOf()}"><span style="background-color: ${color}"></span><b>${missionName.toString()}</b></a>` + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community organization Types" ' + 'class="selectCommType"' + 'value="' + 'All Community organization Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community organization Types</b></a>' + "<br>";
+for (var i = 0; i < CommunityType.length; i++) {
+    var commType = CommunityType[i];
+    var color = colorCodeObject[commType];
+    select += `<a href="#"  id="${commType.valueOf()}" class="selectCommType" value="${commType.valueOf()}"><span style="background-color: ${color}"></span><b>${commType.toString()}</b></a>` + "<br>";
 }
-$('#missionAreaFilters').html(select);
+$('#commTypeFilters').html(select);
 //*********************************** Add the districts *****************************************************
 
 var select1 = '';
@@ -127,11 +121,13 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community organization Types' + '</option>';
-for (i = 0; i < CommunityType.length; i++) {
-    select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
+select2 += '<option value="' + "All Focus Areas" + '" selected="selected">' + 'All Focus Areas' + '</option>';
+for (i = 0; i < Missionarea.length; i++) {
+    var mission = Missionarea[i];
+    var missionName = mission.split(':')[0];
+    select2 += '<option value="' + missionName + '">' + missionName + '</option>';
 }
-$('#selectCommtype').html(select2);
+$('#selectMission').html(select2);
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 
 var select3 = '';
@@ -179,14 +175,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         data: districtData,
     });
 
-     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
 
-    //To DO :If any district is selected highlight it
-    map.data.setStyle({
-        fillColor: "#fee8c8",
-        fillOpacity: 0.4,
-        strokeWeight: 0.2
-    })
 
 
 // circle added to the map
@@ -210,11 +199,12 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     var city = communityData.features
     var projects = communityData.features
     var comm_cec_status = communityData.features
+    // var markers =[];
     for (i=0; i<communityData.features.length; i++) {
         var selectDistrict = communityData.features[i].properties["Legislative District Number"]
         var selectYear = communityData.features[i].properties["Academic Year"]
         var engagementType = communityData.features[i].properties["Engagement Type"]
-        var selectCommtype = communityData.features[i].properties["CommunityType"]
+        var selectCommType = communityData.features[i].properties["CommunityType"]
         var selectMission = communityData.features[i].properties["Mission Area"]
         var selectCampus = communityData.features[i].properties["Campus Partner"]
         var yearTest = communityData.features[i].properties["yeartest"]
@@ -229,11 +219,11 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
             },
             map: map,
             icon: circle, // set the icon here
-            fillColor: missionColor(selectMission),
+            fillColor: commTypeColor(selectCommType),
             selectDistrict: selectDistrict,
             selectYear: selectYear,
             selectMission: selectMission,
-            selectCommtype: selectCommtype,
+            selectCommType: selectCommType,
             selectCampus: selectCampus,
             yearTest: yearTest,
             campusTest: campusTest,
@@ -243,19 +233,10 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         });
 
         oms.addMarker(marker);
-       function missionColor(mission) {
-        var assignColor = '';
-            for (var i = 0; i < Missionarea.length; i++) {
-                var missiondtl = Missionarea[i];
-                var missionName = missiondtl.split(':')[0];
-                var missionColor = missiondtl.split(':')[1];
-                if(mission == missionName){
-                    assignColor = missionColor;
-                }
-            }
-            return circle.fillColor = assignColor;
+        function commTypeColor(commType) {
+             return circle.fillColor = colorCodeObject[commType];
         }
-        attachMessage(marker, partner_name[i].properties['CommunityPartner'],
+        attachMessage(marker, partner_name[i].properties['CommunityPartner'],district_number[i].properties['Legislative District Number'],
             project_number[i].properties['Number of projects'],city[i].properties['City'],
             miss_name[i].properties["Mission Area"], comm_name[i].properties["CommunityType"],
             campus_partner[i].properties["Campus Partner"],
@@ -267,23 +248,22 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Focus Areas", "All Campus Partners", "All Community organization Types", "All Legislative Districts", "All Academic Years", "All Colleges and Main Units"];
+    defaultFilterValues = ["All Community organization Types", "All Focus Areas", "All Campus Partners", "All Academic Years", "All Colleges and Main Units",  "All Legislative Districts"];
     // Object to identify filters set by the user
     filters = {
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community organization Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
 
-});
+})
 
 var mcOptions = {
     maxZoom: 15,
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
-    averageCenter: true,
     styles: [{
         height: 53,
         url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
@@ -311,15 +291,16 @@ var mcOptions = {
         }]
 };
 
+
 var openedInfoWindow = null;
 var rightclickwindow = null;
 
 // function to call the infowindow on clicking markers
-function attachMessage(marker, partner_name,project_number,city,miss_name, comm_name, campus_partner,academic_year,website,projects,commCecStatus) {
+function attachMessage(marker, partner_name,district_number,project_number,city,miss_name, comm_name, campus_partner,academic_year,website, projects,commCecStatus) {
     var infowindow = new google.maps.InfoWindow();
-
-    google.maps.event.addListener(marker, 'click', function() {
-       var commInnerHtml = '';
+    google.maps.event.addListener(marker, 'click', function () {
+        //if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+         var commInnerHtml = '';
        var commBodyHtml = '';
        var commCecHtml = '';
  
@@ -333,11 +314,11 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
                         '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
                         
         if(commCecStatus == 'Current'){
-            commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+            commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
                         'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
         if(commCecStatus == 'Former'){
-         commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
+         commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
                         'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
         }
                         
@@ -346,19 +327,19 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         }
         commInnerHtml = commHeadHtml + commCecHtml + commBodyHtml;
 
-        if (openedInfoWindow != null) openedInfoWindow.close();  // <-- changed this
+        if (openedInfoWindow != null) openedInfoWindow.close(); 
         infowindow.setContent(commInnerHtml);
         infowindow.open(map, marker);
         // map.setZoom(16);
         map.panTo(this.getPosition());
         // added next 4 lines
         openedInfoWindow = infowindow;
-        google.maps.event.addListener(infowindow, 'closeclick', function() {
+        google.maps.event.addListener(infowindow, 'closeclick', function () {
             openedInfoWindow = null;
         });
     });
     google.maps.event.addListener(marker, 'rightclick', function() {
-          var projectHtml = ''
+        var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
         '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
@@ -396,51 +377,9 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
     });
 }
 
-
 // To prevent Info window opening on the first click on spiderfier
 oms.addListener('spiderfy', function(markers) {
-    infowindow.close(map);
-})
-
-var states = new Array();
-var selectDistrict = document.getElementById('selectDistrict');
-selectDistrict.addEventListener("change", function (e) {
-    var value = e.target.value.trim()
-    // var value=value1.split("Legislative District")[1]
-    value = parseInt(value)
-    // console.log(value1, value)
-    if (isNaN(value)) {
-        for (var k=0; k<states.length; k++) {
-            states[k].setMap(null);
-        }
-    } else {
-        var coords = []
-        for (var k=0; k<states.length; k++) {
-            states[k].setMap(null);
-        }
-        for (i = 0; i < districtData.features.length; i++) {
-            if (value == districtData.features[i].id) {
-                for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
-                    coords.push({
-                        lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
-                        lng: parseFloat(districtData.features[i].geometry['coordinates'][0][j][0])
-                    });
-                }
-            }
-        }
-        var state = new google.maps.Polygon({
-            paths: coords,
-            strokeColor: '#fe911d',
-            strokeOpacity: 0.8,
-            strokeWeight: 1,
-            fillColor: '#fe911d',
-            fillOpacity: 0.25,
-        });
-
-        states.push(state)
-        state.setMap(map)
-
-    }
+  infowindow.close();
 })
 
 // Check if a marker already exists in a cluster
@@ -529,7 +468,6 @@ selectCollege_tag.addEventListener("change", function(event) {
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });
-
 // Create a wrapper div around all the filters and a change event listener
 // when any of the filters are changed
 const selectFilters = document.getElementById('state-legend');
@@ -539,27 +477,26 @@ selectFilters.addEventListener("change", function(event) {
         return
     }
     else {
-    const selectFilterChildren = Array.from(selectFilters.children);
+        const selectFilterChildren = Array.from(selectFilters.children);
 
-    selectFilterChildren.forEach((child) => {
-        // Set each filter's value
-        if (child.id !== "missionAreaFilters" && child.id !== "selectCollege") {
-            mapFilter(child.id, child.value);
-        }
-    });
-    filterMarkers();
-    $('#totalnumber').html(getClusterSize());
+        selectFilterChildren.forEach((child) => {
+            // Set each filter's value
+            if (child.id !== "commTypeFilters" && child.id !== "selectCollege") {
+                mapFilter(child.id, child.value);
+            }
+        });
+        filterMarkers();
+        $('#totalnumber').html(getClusterSize());
     }
      $('#totalnumber').html(getClusterSize());
 });
 
-var missionAreaFilters = Array.from(document.getElementsByClassName("selectMission"));
-for (let missionAreaFilter of missionAreaFilters) {
-    
-    missionAreaFilter.addEventListener("click", function(event) {
+var commTypeFilters = Array.from(document.getElementsByClassName("selectCommType"));
+for (let communityFilter of commTypeFilters) {
+    communityFilter.addEventListener("click", function(event) {
         document.getElementById("valueFilter").value = "";
-        let value = missionAreaFilter.textContent;
-        mapFilter("selectMission", value);
+        let value = communityFilter.textContent;
+        mapFilter("selectCommType", value);
         filterMarkers();
         $('#totalnumber').html(getClusterSize());
     });
@@ -584,7 +521,6 @@ valueFilter.addEventListener("keydown", function (e) {
 valueFilter.addEventListener("keyup", function (e) {
     //get the input value
     var value = e.target.value.trim().toLowerCase();
-
     markerCluster.clearMarkers();
     if (value == "") {
         for (var i = 0; i < markers.length; i++) {
@@ -614,20 +550,17 @@ valueFilter.addEventListener("keyup", function (e) {
 function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community organization Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);
     }
-    for (var k=0; k<states.length; k++) {
-            states[k].setMap(null);
-        }
 
     var select3 = '';
     select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
@@ -635,6 +568,7 @@ function resetFiltersOnSearchComm (){
         select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
     }
     $('#selectCampus').html(select3);
+
 
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
@@ -642,21 +576,18 @@ function resetFiltersOnSearchComm (){
 
 $("#reset").click(function () {
     const defaultFilterObject = {
+        "selectCommType":       "All Community organization Types",
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community organization Types",
-        "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
-        "selectCollege":        "All Colleges and Main Units"
+        "selectCollege":        "All Colleges and Main Units",
+        "selectDistrict":       "All Legislative Districts"
     };
     valueFilter.value = '';
     Object.assign(filters, defaultFilterObject);
     for (const filter in filters) {
         $('#' + filter).val(`${filters[filter]}`);
     }
-    for (var k=0; k<states.length; k++) {
-            states[k].setMap(null);
-        }
 
     var select3 = '';
     select3 += '<option value="' + "All Campus Partners" + '" selected="selected">' + 'All Campus Partners' + '</option>';
@@ -664,6 +595,7 @@ $("#reset").click(function () {
         select3 += '<option value= "' + CampusPartnerlist[i].name + '">' + CampusPartnerlist[i].name + '</option>';
     }
     $('#selectCampus').html(select3);
+
 
     filterMarkers();
     $('#totalnumber').html(getClusterSize());

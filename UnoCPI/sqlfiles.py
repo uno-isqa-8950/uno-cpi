@@ -942,7 +942,7 @@ order by p.project_name;
 #This query is for myprojects for campus partners and community partners
 
 my_projects="""
-select p.project_name
+select distinct p.project_name
                           ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
@@ -1014,7 +1014,7 @@ select p.project_name
 
 
 my_drafts="""
-select p.project_name
+select distinct p.project_name
                           ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
@@ -1104,7 +1104,7 @@ missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
 
 def showSelectedProjects(project_name_list):
-	return ( """select  p.project_name 
+	return ( """select distinct p.project_name 
                                 , array_agg(distinct hm.mission_name) mission_area 
                                 , array_agg(distinct pc.name) CommPartners 
                                 , array_agg(distinct c.name) CampPartners 

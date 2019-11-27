@@ -330,18 +330,7 @@ var chart=Highcharts.chart('container', {
     },
 
     plotOptions: {
-        // series: {
-            // node: {
-            //     states: {
-            //         hover:{
-            //             linkWidth:10
-            //         },
-            //         inactive: {
-            //             color:{opacity: 0}
-            //         }
-            //     }
-            // }
-        // },
+
         networkgraph: {
             allowPointSelect: true,
             cursor: 'pointer',
@@ -354,14 +343,29 @@ var chart=Highcharts.chart('container', {
                 linkLength: 100,
                 linkWidth: 1
             },
-            // node:{
-            //     states:
-            //         {
-            //             active:{
-            //                 opacity:0
-            //             }
-            //         }
-            // }
+             marker:{
+            		states:{
+           						 hover:{
+            								radius:7,
+              								},
+            					// inactive:{
+            					// 			radius:1,
+                                //
+            					// 				}
+           						 }
+            },
+
+            states: {
+                inactive: {
+                    linkColor:'black',
+                    linkWidth:10,
+                    linkOpacity:0
+                					},
+                hover:{
+                 linkColor:'black',
+                 linkWidth:100,
+                }
+            }
 
         },
 
@@ -373,7 +377,7 @@ tooltip: {
         nullFormat:'N/A',
         style: {fontFamily: "Arial Narrow"},
         formatter: function (point) {
-             tooltext='Name: <b>' + this.point.id +'<br></br>'+ this.point.projects
+             tooltext= '<b>'+this.point.id +'</b>'+'<br></br>'+ this.point.projects
             // style:{fontWeight:"bold",color:"black",fontSize:15, fontFamily: "Arial Narrow"},
             return  tooltext
 
@@ -386,17 +390,8 @@ tooltip: {
         // linkedTo: ':previous',
         dataLabels: {
             enabled: false,
-            // textPath:'<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>',
             linkFormat: ''
         },
-    //      point: {
-    //   events: {
-    //      function(point) {
-    //       point.hovered.opacity(1)
-    //          point.inactive.opacity(0)
-    //     }
-    //   }
-    // },
         data: chart_data,
         nodes:nodedata,
         legendIndex:1,
@@ -407,8 +402,11 @@ tooltip: {
     ]
 })
 
-function updatechart(){
 
+
+
+function updatechart(){
+setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -445,4 +443,5 @@ function updatechart(){
         ]
 });
 
-}
+
+}, 0.0001)};

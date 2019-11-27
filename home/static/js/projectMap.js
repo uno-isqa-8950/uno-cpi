@@ -136,7 +136,7 @@ $('#selectMission').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select6 = '';
-select6 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
+select6 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community organization Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select6 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -278,7 +278,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Engagement Types", "All Focus Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
+    defaultFilterValues = ["All Engagement Types", "All Focus Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community organization Types","All Legislative Districts","All Academic Years",];
     // Object to identify filters set by the user
     filters = {
         "selectEngagement":     "All Engagement Types",
@@ -286,7 +286,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
@@ -333,9 +333,9 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
     google.maps.event.addListener(marker, 'click', function() {
         if (openedInfoWindow != null) openedInfoWindow.close();
         infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Focus Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner.join(" | ") + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type.join(" | ")  + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Organization Type: </span>&nbsp; </td><td>' + comm_partner_type.join(" | ")  + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
@@ -573,7 +573,7 @@ function resetFiltersOnSearchComm (){
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
@@ -603,7 +603,7 @@ $("#reset").click(function () {
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };

@@ -230,7 +230,7 @@
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
         <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectprivatetableview' %}' " value="Reset Filters" >
-<input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport'; " value="Card View" >
+<input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport/?{{ parameters }}'; " value="Card View" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -408,6 +408,7 @@
         </div>
     </div>
                         <div class="box">
+                           
                     <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                         <tr>

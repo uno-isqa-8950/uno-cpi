@@ -875,7 +875,7 @@ def engagement_info(request):
     cursor = connection.cursor()
     engagement_start = "with eng_type_filter as (select e.name engagement_type \
                   , p.engagement_type_id eng_id \
-                  , count(distinct p.project_name) Projects \
+                  , count(p.project_name) Projects \
                   , array_agg(distinct p.id) projects_id \
                   , count(distinct pcomm.community_partner_id) CommPartners \
                   , array_agg(distinct pcomm.community_partner_id) CommPartners_id \
@@ -887,16 +887,23 @@ def engagement_info(request):
                    left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
-                   left join projects_status s on  p.status_id = s.id \
+                   left join projects_status s on  p.status_id = s.id and s.name != 'Drafts' \
                    left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
-                   where s.name != 'Drafts' \
-                      and pm.mission_id::text like '"+ mission_type_cond +"' \
-                        and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"' \
-                        and c.college_name_id::text like '"+ college_unit_cond +"' \
-                        and ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
+                   where  ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
+
     clause_query=" "
+    if mission_type_cond !='%':
+        clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"
+
+    if campus_partner_cond !='%':
+        clause_query +=" and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"'"
+
+    if college_unit_cond !='%':
+        clause_query += " and c.college_name_id::text like '"+ college_unit_cond +"'"
+
+
     if cec_camp_part_cond != '%':
         clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 

@@ -875,7 +875,7 @@ def engagement_info(request):
     cursor = connection.cursor()
     engagement_start = "with eng_type_filter as (select e.name engagement_type \
                   , p.engagement_type_id eng_id \
-                  , count(p.project_name) Projects \
+                  , count(distinct p.project_name) Projects \
                   , array_agg(distinct p.id) projects_id \
                   , count(distinct pcomm.community_partner_id) CommPartners \
                   , array_agg(distinct pcomm.community_partner_id) CommPartners_id \

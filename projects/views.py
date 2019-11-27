@@ -1144,7 +1144,7 @@ def showAllProjects(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select  p.project_name \
+    project_start_query = "select distinct  p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1428,7 +1428,7 @@ def projectstablePublicReport(request):
     # params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
     #           K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select  p.project_name \
+    project_start_query = "select distinct p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1685,7 +1685,7 @@ def projectsPublicReport(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select  p.project_name \
+    project_start_query = "select distinct p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1950,7 +1950,7 @@ def projectsPrivateReport(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select  p.project_name \
+    project_start_query = "select distinct  p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -2205,7 +2205,7 @@ def projectstablePrivateReport(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select  p.project_name \
+    project_start_query = "select distinct p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \

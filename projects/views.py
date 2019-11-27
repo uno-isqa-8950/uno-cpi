@@ -1785,10 +1785,12 @@ def projectsPublicReport(request):
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_public_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards, 'parameters':parameters})
 
 
 # project private card and table view starts here
@@ -2036,10 +2038,12 @@ def projectsPrivateReport(request):
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_private_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards, 'parameters':parameters})
 
 @login_required()
 def projectstablePrivateReport(request):

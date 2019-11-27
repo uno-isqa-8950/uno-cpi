@@ -28,7 +28,7 @@ try:
     activityTypeDict_SL.append({'oldValue':'Course','newValue':'Course'})
     activityTypeDict_SL.append({'oldValue':'Unpaid Services','newValue':'Other'})
     activityTypeDict_SL.append({'oldValue':'General Activity','newValue':'Course'})
-    #activityTypeDict_SL.append({'oldValue':'','newValue':'Course'})
+    activityTypeDict_SL.append({'oldValue':'Event / Exhibit / Performance','newValue':'Course'})
     
     for x in activityTypeDict_SL:
       print(x['oldValue'],x['newValue'])
@@ -40,17 +40,16 @@ try:
          (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
       print('query--',query)
       cursor.execute(query)
-      query_1 = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = 'Course') \
-        where engagement_type_id = \
-        (select e.id from projects_engagementtype as e where e.name = 'Service Learning') \
-         and activity_type_id is null"
-      cursor.execute(query_1)
+      
       connection.commit()
 
     activityTypeDict_AH = []
     activityTypeDict_AH.append({"oldValue":'Unpaid Services',"newValue":'Other'})
     activityTypeDict_AH.append({"oldValue":'Course',"newValue":'Other'})
+    activityTypeDict_AH.append({"oldValue":'Event / Exhibit / Performance',"newValue":'Other'})
+    activityTypeDict_AH.append({"oldValue":'Capstone',"newValue":'Other'})
+    activityTypeDict_AH.append({"oldValue":'Workshop',"newValue":'Other'})
+    activityTypeDict_AH.append({"oldValue":'Internships',"newValue":'Other'})
 
     for x in activityTypeDict_AH:
       print(x['oldValue'],x['newValue'])
@@ -68,6 +67,9 @@ try:
     activityTypeDict_CM.append({"oldValue":'Unpaid Services',"newValue":'Other'})
     activityTypeDict_CM.append({"oldValue":'Course',"newValue":'Other'})
     activityTypeDict_CM.append({"oldValue":'General Activity',"newValue":'Other'})
+    activityTypeDict_CM.append({"oldValue":'Contract Services',"newValue":'Other'})
+    activityTypeDict_CM.append({"oldValue":'Training / Workshop / Presentation',"newValue":'Other'})
+    activityTypeDict_CM.append({"oldValue":'Event / Exhibit / Performance',"newValue":'Other'})
 
     for x in activityTypeDict_CM:
       print(x['oldValue'],x['newValue'])
@@ -84,6 +86,10 @@ try:
     activityTypeDict_ER = []
     activityTypeDict_ER.append({"oldValue":'Unpaid Services',"newValue":'Other'})
     activityTypeDict_ER.append({"oldValue":'Course',"newValue":'Other'})
+    activityTypeDict_ER.append({"oldValue":'Contract Services',"newValue":'Other'})
+    activityTypeDict_ER.append({"oldValue":'Mentoring',"newValue":'Other'})
+    activityTypeDict_ER.append({"oldValue":'Workshop',"newValue":'Other'})
+    activityTypeDict_ER.append({"oldValue":'Internships',"newValue":'Other'})
 
     for x in activityTypeDict_ER:
       print(x['oldValue'],x['newValue'])
@@ -105,7 +111,9 @@ try:
     activityTypeDict_KR.append({"oldValue":'Unpaid Services',"newValue":'Other'})
     activityTypeDict_KR.append({"oldValue":'Event / Exhibit / Performance',"newValue":'Community-oriented lecture/event'})
     activityTypeDict_KR.append({"oldValue":'Contract Services',"newValue":'Specialized Service Contract'})
-    activityTypeDict_KR.append({"oldValue":'Training / Workshop / Presentation',"newValue":'Training / Workshop'})
+    activityTypeDict_KR.append({"oldValue":'Training / Workshop / Presentation',"newValue":'Workshop'})
+    activityTypeDict_KR.append({"oldValue":'Service Activity',"newValue":'Workshop'})
+    activityTypeDict_KR.append({"oldValue":'Student Research',"newValue":'Workshop'})
 
     for x in activityTypeDict_KR:
       print(x['oldValue'],x['newValue'])
@@ -120,10 +128,14 @@ try:
       connection.commit()
 
     activityTypeDict_VL = []
-    activityTypeDict_VL.append({"oldValue":'Unpaid Services',"newValue":'Other'})
-    activityTypeDict_VL.append({"oldValue":'Course',"newValue":'Service Activity'})
+    activityTypeDict_VL.append({"oldValue":'Unpaid Services',"newValue":'Service Activity'})
+    activityTypeDict_VL.append({"oldValue":'Course',"newValue":'Other'})
     activityTypeDict_VL.append({"oldValue":'General Activity',"newValue":'Service Activity'})
-    #activityTypeDict_VL.append({"oldValue":'',"newValue":'Service Activity'})
+    activityTypeDict_VL.append({"oldValue":'Contract Services',"newValue":'Other'})
+    activityTypeDict_VL.append({"oldValue":'Workshop',"newValue":'Other'})
+    activityTypeDict_VL.append({"oldValue":'Training / Workshop / Presentation',"newValue":'Other'})
+    activityTypeDict_VL.append({"oldValue":'Meeting / Gathering',"newValue":'Other'})
+   
 
     for x in activityTypeDict_VL:
       print(x['oldValue'],x['newValue'])
@@ -135,12 +147,7 @@ try:
          (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
       print('query--',query_VL)
       cursor.execute(query_VL)
-      query_VL_1 = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = 'Service Activity') \
-        where engagement_type_id = \
-        (select e.id from projects_engagementtype as e where e.name = 'Volunteering') \
-         and activity_type_id is null"
-      cursor.execute(query_VL_1)
+     
       connection.commit()
 
 except (psycopg2.Error) as error:

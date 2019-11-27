@@ -1192,10 +1192,11 @@ def showAllProjects(request):
                                     and c.college_name_id::text like '" + college_unit_cond +"' \
                                     and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                     and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) \
-                                    and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
-
+                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
     clause_query = ""
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1466,11 +1467,13 @@ def projectstablePublicReport(request):
                                        and c.college_name_id::text like '" + college_unit_cond + "' \
                                        and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str( academic_end_year_cond) + ")) "
+
 
     clause_query = ""
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1711,11 +1714,11 @@ def projectsPublicReport(request):
                                        and c.college_name_id::text like '" + college_unit_cond + "' \
                                        and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
-
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str( academic_end_year_cond) + ")) "
     clause_query = ""
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
+
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1967,11 +1970,11 @@ def projectsPrivateReport(request):
                                        and c.college_name_id::text like '" + college_unit_cond + "' \
                                        and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str( academic_end_year_cond) + ")) "
 
     clause_query = ""
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -2214,10 +2217,11 @@ def projectstablePrivateReport(request):
                                        and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
-
+        academic_end_year_cond) + ")) "
     clause_query = ""
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"

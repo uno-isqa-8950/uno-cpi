@@ -894,12 +894,13 @@ def engagement_info(request):
                       and pm.mission_id::text like '"+ mission_type_cond +"' \
                         and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"' \
                         and c.college_name_id::text like '"+ college_unit_cond +"' \
-                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"') \
                         and ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
     clause_query=" "
-    if community_type_cond !='%':
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
+    if community_type_cond !='%':
         clause_query += " and comm.community_type_id::text like '"+ community_type_cond +"'"
 
     if cec_comm_part_cond != '%':

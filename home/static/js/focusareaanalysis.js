@@ -199,9 +199,15 @@ var subdrill=[]
             var subcatid = subcategory[sc].id
             subcategorylist.push(subcategory[sc].name)
             sid = subcategory.indexOf(subcategory[sc])
+            /*
             var from_project_mission_sub_ids = startyearprojects.filter(d => d.subcategories.subcategory_id === parseInt(subcatid));
             var from_subcat_counts = from_project_mission_sub_ids.length
             var to_project_mission_sub_ids = endyearprojects.filter(d => d.subcategories.subcategory_id === parseInt(subcatid));
+            var to_subcat_counts = to_project_mission_sub_ids.length
+            */
+            var from_project_mission_sub_ids = startyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
+            var from_subcat_counts = from_project_mission_sub_ids.length
+            var to_project_mission_sub_ids = endyearprojects.filter(d => d.subcategories.includes(parseInt(subcatid)));
             var to_subcat_counts = to_project_mission_sub_ids.length
             // var mid = Missionarea.indexOf(m)
             if (from_subcat_counts > to_subcat_counts) {

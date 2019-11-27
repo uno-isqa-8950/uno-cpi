@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load wagtailcore_tags wagtailimages_tags %}
 {% load staticfiles %}
 <html lang="en">
 <head>
@@ -192,6 +193,12 @@
 
 
 <!--{#<div>#}-->
+{% image page.image original as image %}
+        <div>
+    
+            <img src="{{image.url}}" class="hero" style="width: 100%;"/>
+    
+</div> 
 <div class="container">
 
 {% block content %}
@@ -213,8 +220,8 @@
                  <p>
                   <span><a class="fnone" style="font-size: 12px;">
                         <script type="text/JavaScript">
-			                    document.write("&copy; "+new Date().getFullYear());
-		                </script>, </a></span><span class="break"></span>
+                                document.write("&copy; "+new Date().getFullYear());
+                        </script>, </a></span><span class="break"></span>
 
                 <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
                 </a></span></p>

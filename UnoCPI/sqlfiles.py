@@ -971,7 +971,7 @@ select distinct p.project_name
                             ,p.other_activity_type act_type
                             ,p.other_sub_category other_subCat
                         from projects_project p
-                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' 
                           left join home_missionarea hm on hm.id = m.mission_id
                           left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
@@ -981,7 +981,7 @@ select distinct p.project_name
                             inner join projects_academicyear pa on p.academic_year_id = pa.id
                             left join projects_academicyear ea on p.end_academic_year_id = ea.id
                             inner join projects_status ps on p.status_id = ps.id
-                            inner join projects_activitytype a on p.activity_type_id = a.id
+                            left join projects_activitytype a on p.activity_type_id = a.id
                             left join projects_projectsubcategory psub on psub.project_name_id = p.id
                             left join projects_subcategory s on psub.sub_category_id = s.id
                             left join projects_status status on status.id = p.status_id

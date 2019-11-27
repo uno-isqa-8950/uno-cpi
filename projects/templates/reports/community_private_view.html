@@ -393,7 +393,10 @@ $(document).ready(function(){
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: ['csv', 'excel', 'pdf']
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel', 'pdf']
        },
        aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": false}, {"bSearchable": true}]
    });

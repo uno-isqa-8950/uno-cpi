@@ -397,7 +397,8 @@ select distinct p.project_name
                             , act_type
                         order by pa.academic_year desc;
 """
-                    
+
+
 
 selected_projects_sql = """select distinct p.project_name
                           ,array_agg(distinct m.mission_type||': '||hm.mission_name) mission_area

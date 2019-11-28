@@ -2297,6 +2297,9 @@ def projectstablePrivateReport(request):
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
 
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+
     if cec_comm_part_cond != '%':
         clause_query += " and  pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 

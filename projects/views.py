@@ -1465,7 +1465,7 @@ def projectstablePublicReport(request):
     # params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
     #           K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select distinct p.project_name \
+    project_start_query = "select  distinct p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1765,11 +1765,6 @@ def projectsPublicReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \
@@ -2039,11 +2034,6 @@ def projectsPrivateReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \
@@ -2303,11 +2293,6 @@ def projectstablePrivateReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \

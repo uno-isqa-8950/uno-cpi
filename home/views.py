@@ -873,9 +873,9 @@ def engagement_info(request):
     # params = [community_type_cond, cec_comm_part_cond, mission_type_cond,  campus_partner_cond, college_unit_cond,
     #           academic_start_year_cond, academic_end_year_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    engagement_start = "with eng_type_filter as (select e.name engagement_type \
-                  , p.engagement_type_id eng_id \
-                  , count(p.project_name) Projects \
+    engagement_start = "with eng_type_filter as (select \
+                   p.engagement_type_id eng_id \
+                  , count(distinct p.project_name) Projects \
                   , array_agg(distinct p.id) projects_id \
                   , count(distinct pcomm.community_partner_id) CommPartners \
                   , array_agg(distinct pcomm.community_partner_id) CommPartners_id \
@@ -883,16 +883,16 @@ def engagement_info(request):
                   , sum(p.total_uno_students) numberofunostudents \
                   , sum(p.total_uno_hours) unostudentshours \
                    from projects_engagementtype e \
-                   left join projects_project p on p.engagement_type_id = e.id \
+                   join projects_project p on p.engagement_type_id = e.id \
                    left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
-                   left join projects_status s on  p.status_id = s.id and s.name != 'Drafts' \
+                   left join projects_status s on  p.status_id = s.id \
                    left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
-                   where  ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
+                   where  s.name != 'Drafts'  and " \
+                       "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
-
     clause_query=" "
     if mission_type_cond !='%':
         clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"
@@ -915,8 +915,8 @@ def engagement_info(request):
 
 
 
-    query_end = engagement_start + clause_query + " group by engagement_type, eng_id \
-                order by engagement_type) \
+    query_end = engagement_start + clause_query + " group by eng_id \
+                order by eng_id) \
                 Select distinct eng.name eng_type \
                       , eng.description eng_desc \
                      , COALESCE(eng_type_filter.Projects, 0) proj \

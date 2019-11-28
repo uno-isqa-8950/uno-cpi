@@ -887,12 +887,12 @@ def engagement_info(request):
                    left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
-                   left join projects_status s on  p.status_id = s.id and s.name != 'Drafts' \
+                   left join projects_status s on  p.status_id = s.id \
                    left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
-                   where  ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
+                   where  s.name != 'Drafts'  and " \
+                       "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
-
     clause_query=" "
     if mission_type_cond !='%':
         clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"

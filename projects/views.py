@@ -140,9 +140,11 @@ def communitypartnerproject(request):
 
 
 def ajax_load_project(request):
-    project_name = request.GET.get('name', None)
+    name = request.GET.get('name')
+    project_year = request.GET.get('year')
+    projectnameandyear = name+': '+ project_year
     data = {
-        'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
+        'is_taken': Project.objects.filter(project_name__icontains=projectnameandyear).exists()
     }
     return JsonResponse(data)
 

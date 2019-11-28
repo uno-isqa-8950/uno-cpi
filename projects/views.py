@@ -140,9 +140,18 @@ def communitypartnerproject(request):
 
 
 def ajax_load_project(request):
-    project_name = request.GET.get('name', None)
+    name = request.GET.get('name')
+    project_year = request.GET.get('year')
+    projectnameandyear = name+': '+ project_year
+    # project_list = Project.objects.all();
+    # yearandname = project_list.project_name +': '+ str(project_list.academic_year)
+    # print (yearandname)
+    # print (projectnameandyear)
+    # is_taken = 'is_taken'
+    # if(projectnameandyear == yearandname):
     data = {
-        'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
+        'is_taken': Project.objects.filter(project_name__icontains=projectnameandyear).exists()
+        # 'is_taken':is_taken
     }
     return JsonResponse(data)
 

@@ -1077,6 +1077,9 @@ $('#update').show;
         var elmForm = $("#form-step-" + stepNumber);
         if (stepDirection === 'forward') {
             if (stepNumber === 0) {
+                var projectname = $("#id_project_name").val();
+                var academicyear = $("#id_semester").val();
+                var projectandyear = projectname + academicyear;
                 $('.sw-btn-prev').show();
                 $('.sw-btn-next').show();
                 if (($("#id_project_name").val() === '')) {

@@ -774,19 +774,19 @@
 <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
     $('#smartwizard').smartWizard({
-        theme:'arrows',
+        theme: 'arrows',
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        showStepURLhash:true,
-        contentCache:true,
+        showStepURLhash: true,
+        contentCache: true,
         toolbarSettings: {
             // toolbarPosition:'top',
-            toolbarButtonPosition:'right',
-            showNextButton:'true',
-            showPreviousButton:'true',
+            toolbarButtonPosition: 'right',
+            showNextButton: 'true',
+            showPreviousButton: 'true',
             // toolbarExtraButtons: [
             //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
             //         if (confirm("Are you sure?")){
@@ -797,16 +797,57 @@ $(document).ready(function(){
             // ]
         }
     });
-        $('#cancel').on('click', function (e) {
-                        e.preventDefault();
-            if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
-                      window.location = '/checkProject';
-                    }
-        });
+    $('#cancel').on('click', function (e) {
+        e.preventDefault();
+        if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
+            window.location = '/checkProject';
+        }
+    });
+$("#id_academic_year").change(function () {
+    var projectname = $("#id_project_name").val();
+    var academicyear = $("#id_academic_year option:selected").text();
+    var projectandyear = projectname +': '+ academicyear;
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': projectname,
+            'year': academicyear
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                // alert("A project with this name already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+                document.getElementById("id_academic_year").style.borderColor = "red";
+            }
+        }
+    });
+});
+
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 var elmForm = $("#form-step-"+stepNumber);
 if(stepDirection === 'forward') {
     if (stepNumber === 0) {
+    var projectname = $("#id_project_name").val();
+    var academicyear = $("#id_academic_year option:selected").text();
+    var projectandyear = projectname +': '+ academicyear;
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': projectname,
+            'year': academicyear
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                // alert("A project with this name already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+                document.getElementById("id_academic_year").style.borderColor = "red";
+            }
+        }
+    });
         if(($("#id_project_name").val() === '')){
             alert("Project Name Required");
             return false
@@ -815,11 +856,6 @@ if(stepDirection === 'forward') {
             alert("Engagement Type Required");
             return false
         }
-        // var selectedactivityval = $('#id_populate_activity option:selected').val();
-        // if( selectedactivityval === "0" ){
-        //     alert("Please Select Activity type.");
-        //     return false
-        // }
           if($('#otheracttype').val() !="" ){
               alert('Add Other Activity Type');
               var html = "Add Other Activity Type.";
@@ -1036,24 +1072,24 @@ var options = $('.sub_category-row').find('select option');
         o.value = arr[i].v;
         $(o).text(arr[i].t);
     });
-$("#id_project_name").change(function (e) {
-    e.preventDefault()
-    var name = $(this).val();
-    $.ajax({
-        url: "/SuggestProject/",
-        data: {
-            'name': name
-        },
-        dataType: 'json',
-        success: function (data) {
-            if (data.is_taken) {
-                // alert("A project with this name already exists");
-                document.getElementById("id_project_name").value = ("");
-                document.getElementById("id_project_name").style.borderColor = "red";
-            }
-        }
-    });
-});
+// $("#id_project_name").change(function (e) {
+//     e.preventDefault();
+//     var name = $(this).val();
+//     $.ajax({
+//         url: "/SuggestProject/",
+//         data: {
+//             'name': name
+//         },
+//         dataType: 'json',
+//         success: function (data) {
+//             if (data.is_taken) {
+//                 alert("A project with this name already exists");
+                // document.getElementById("id_project_name").value = ("");
+                // document.getElementById("id_project_name").style.borderColor = "red";
+            // }
+        // }
+    // });
+// });
 });
 </script>
 <br><br><br><br><br><br><br><br><br><br>

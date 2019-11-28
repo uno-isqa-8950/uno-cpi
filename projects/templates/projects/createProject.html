@@ -824,11 +824,7 @@ $("#id_academic_year").change(function () {
         }
     });
 });
-
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber === 0) {
+$("#id_project_name").change(function () {
     var projectname = $("#id_project_name").val();
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
@@ -848,6 +844,12 @@ if(stepDirection === 'forward') {
             }
         }
     });
+});
+
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+var elmForm = $("#form-step-"+stepNumber);
+if(stepDirection === 'forward') {
+    if (stepNumber === 0) {
         if(($("#id_project_name").val() === '')){
             alert("Project Name Required");
             return false
@@ -866,10 +868,16 @@ if(stepDirection === 'forward') {
             alert("Project Description Required");
             return false
         }
-        if(($("#id_semester").val() === '')){
+        if(($("#id_semester").val() === '')) {
             alert("Project Start Semester Required");
             return false
         }
+        if($("#id_academic_year").val() === ''){
+              alert("Project Start academic year Required");
+            return false
+        }
+
+
          var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();
                 if(fromacademicyear === ''){

@@ -331,6 +331,7 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
+                proj.save()
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -405,7 +406,6 @@ def createProject(request):
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
-
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
                     fulladdress = proj.address_line1 + ' ' + proj.city
                     geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
@@ -430,6 +430,7 @@ def createProject(request):
                             proj.county = properties2['properties']['NAME']
                             proj.median_household_income = properties2['properties']['Income']
                             proj.save()
+                proj.save()
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)

@@ -893,7 +893,6 @@ def engagement_info(request):
                    where  s.name != 'Drafts'  and " \
                        "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
-
     clause_query=" "
     if mission_type_cond !='%':
         clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"

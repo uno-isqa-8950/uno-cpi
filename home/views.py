@@ -879,8 +879,6 @@ def engagement_info(request):
                   , count(distinct pcomm.community_partner_id) CommPartners \
                   , array_agg(distinct pcomm.community_partner_id) CommPartners_id \
                   , count(distinct pcamp.campus_partner_id) CampPartners \
-                  , sum(p.total_uno_students) numberofunostudents \
-                  , sum(p.total_uno_hours) unostudentshours \
                    from projects_engagementtype e \
                    join projects_project p on p.engagement_type_id = e.id \
                    left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
@@ -923,11 +921,9 @@ def engagement_info(request):
                      , COALESCE(eng_type_filter.CommPartners, 0) comm \
                      , eng_type_filter.CommPartners_id comm_id \
                      , COALESCE(eng_type_filter.CampPartners, 0) camp \
-                     , COALESCE(eng_type_filter.numberofunostudents, 0) unostu \
-                     , COALESCE(eng_type_filter.unostudentshours, 0) unohr \
                  from projects_engagementtype eng \
                     left join eng_type_filter on eng.id = eng_type_filter.eng_id \
-                group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr \
+                group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp \
                 order by eng_type;"
 
     print("Final query: ", query_end)
@@ -941,6 +937,8 @@ def engagement_info(request):
         proj_ids = obj[3]
         proj_idList = ''
         comm_idList = ''
+        sum_uno_students = 0
+        sum_uno_hours = 0
         if proj_ids is not None:
             name_count = 0
             if None in proj_ids:
@@ -948,6 +946,10 @@ def engagement_info(request):
                 
             if len(proj_ids) > 0:
                 for i in proj_ids:
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id="+ str(i))
+                    for obj1 in cursor.fetchall():
+                        sum_uno_students = sum_uno_students + obj1[0]
+                        sum_uno_hours = sum_uno_hours + obj1[1]
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
@@ -966,8 +968,8 @@ def engagement_info(request):
                         name_count = name_count + 1
 
         data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
-                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": obj[7],
-                          "total_uno_hours": obj[8]})
+                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": sum_uno_students,
+                          "total_uno_hours": sum_uno_hours})
 
 
     return render(request, 'reports/EngagementTypeReport.html',

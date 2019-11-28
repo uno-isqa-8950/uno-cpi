@@ -210,7 +210,7 @@
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
         <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectspublictableview' %}' " value="Reset Filters" >
-<input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectspublicreport'; " value="Card View" >
+<input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectspublicreport?{{ parameters }}'; " value="Card View" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",

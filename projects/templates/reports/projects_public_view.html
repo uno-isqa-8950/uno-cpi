@@ -282,7 +282,7 @@ table{
                 false
             );
         </script>
-       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/projectspublictableview'; " value="Table View" >
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/projectspublictableview/?{{ parameters }}'; " value="Table View" >
        <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
        <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
@@ -581,20 +581,20 @@ table{
 {% if cards.has_other_pages %}
 
     {% if cards.has_previous %}
-        <a class="btn btn-secondary" href="?page=1">First</a>
-        <a class="btn btn-secondary" href="?page={{ cards.previous_page_number }}">Previous</a>
+        <a class="btn btn-secondary" href="?{{ parameters }}&page=1">First</a>
+        <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.previous_page_number }}">Previous</a>
 
     {% endif %}
     {% for num in cards.paginator.page_range %}
       {% if cards.number == num %}
-        <a class="btn btn-secondary"href="?page={{ num }}">{{ num }}</a>
+        <a class="btn btn-secondary active" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
-         <a class="btn btn-secondary" href="?page={{ num }}">{{ num }}</a>
+         <a class="btn btn-secondary" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% endif %}
     {% endfor %}
     {% if cards.has_next %}
-      <a class="btn btn-secondary" href="?page={{ cards.next_page_number }}">Next</a>
-      <a class="btn btn-secondary" href="?page={{ cards.paginator.num_pages }}">Last</a>
+      <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.next_page_number }}">Next</a>
+      <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.paginator.num_pages }}">Last</a>
 
     {% endif %}
 

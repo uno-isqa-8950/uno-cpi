@@ -182,8 +182,8 @@ var subdrill=[]
             }
         }
 
-        resfrom = {"name": Missionarea[m].name,"x": from_project_count, "y": mid, "drilldown": Missionarea[m].name}
-        resto = {"name": Missionarea[m].name,"x": to_project_count, "y": mid, "drilldown": Missionarea[m].name}
+        resfrom = {"x": from_project_count, "y": mid, "drilldown": Missionarea[m].name}
+        resto = {"x": to_project_count, "y": mid, "drilldown": Missionarea[m].name}
 
         json_data.push(res)
         from_json_data.push(resfrom)
@@ -303,7 +303,7 @@ var subdrill=[]
                 'id':0,
                 'type': 'category',
                 'title': {'text': '',
-                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px', "fontFamily": "Arial Narrow"}},
+                          'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
                 'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
                 'categories': missionarealist,
             }
@@ -325,7 +325,7 @@ var subdrill=[]
         'color': 'blue',
         'type': 'scatter'}
   var   project_over_academic_years = {
-      'name': 'Analysis Start - End Years',
+      'name': 'No of Projects ',
       'data': json_data,
       'type': 'xrange',
       'showInLegend': false,
@@ -404,7 +404,7 @@ var Decrease=res[6]
                 'tooltip': {
                     'style': {'fontFamily': 'Arial Narrow'},
                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br> Growth/Decrease: {point.per} %'
+                    'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br> Growth/Decrease: {point.per} %'
                 }
             },
 
@@ -418,7 +418,7 @@ var Decrease=res[6]
         'tooltip': {
             'style': {'fontFamily': 'Arial Narrow'},
         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-        'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> ProjectCount:{point.x}<span></span>'
+        'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
                  },
         'legend': {
             'layout': 'horizontal',

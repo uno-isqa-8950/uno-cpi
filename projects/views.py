@@ -140,9 +140,11 @@ def communitypartnerproject(request):
 
 
 def ajax_load_project(request):
-    project_name = request.GET.get('name', None)
+    name = request.GET.get('name')
+    project_year = request.GET.get('year')
+    projectnameandyear = name+': '+ project_year
     data = {
-        'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
+        'is_taken': Project.objects.filter(project_name__icontains=projectnameandyear).exists()
     }
     return JsonResponse(data)
 
@@ -397,29 +399,35 @@ def createProject(request):
             elif stat == 'Active':
 
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                    fulladdress = proj.address_line1 + ' ' + proj.city
-                    geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                    proj.latitude = geocode_result[0]['geometry']['location']['lat']
-                    proj.longitude = geocode_result[0]['geometry']['location']['lng']
-                    #### checking lat and long are incorrect
-                    if (proj.latitude == '0') or (proj.longitude == '0'):
+                    try:
+                        fulladdress = proj.address_line1 + ' ' + proj.city
+                        geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                        proj.latitude = geocode_result[0]['geometry']['location']['lat']
+                        proj.longitude = geocode_result[0]['geometry']['location']['lng']
+                        #### checking lat and long are incorrect
+                        if (proj.latitude == '0') or (proj.longitude == '0'):
+                            proj.save()
+
                         proj.save()
 
-                    proj.save()
-                    coord = Point([proj.longitude, proj.latitude])
-                    for i in range(len(district)):  # iterate through a list of district polygons
-                        property = district[i]
-                        polygon = shape(property['geometry'])  # get the polygons
-                        if polygon.contains(coord):  # check if a partner is in a polygon
-                            proj.legislative_district = property["id"]  # assign the district number to a partner
-                            proj.save()
-                    for m in range(len(countyData)):  # iterate through the County Geojson
-                        properties2 = countyData[m]
-                        polygon = shape(properties2['geometry'])  # get the polygon
-                        if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                            proj.county = properties2['properties']['NAME']
-                            proj.median_household_income = properties2['properties']['Income']
-                            proj.save()
+                        coord = Point([proj.longitude, proj.latitude])
+
+                        for i in range(len(district)):  # iterate through a list of district polygons
+                            property = district[i]
+                            polygon = shape(property['geometry'])  # get the polygons
+                            if polygon.contains(coord):  # check if a partner is in a polygon
+                                proj.legislative_district = property["id"]  # assign the district number to a partner
+                                proj.save()
+                        for m in range(len(countyData)):  # iterate through the County Geojson
+                            properties2 = countyData[m]
+                            polygon = shape(properties2['geometry'])  # get the polygon
+                            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                                proj.county = properties2['properties']['NAME']
+                                proj.median_household_income = properties2['properties']['Income']
+                                proj.save()
+                    except:
+                        proj.save()
+
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -653,6 +661,34 @@ def editProject(request, pk):
 
                     return HttpResponseRedirect("/myDrafts")
                 else:
+                    address = instances.address_line1
+                    if (address != 'N/A' and address != ''): # check if a community partner's address is there
+                        try:
+                            fulladdress = instances.address_line1 + ' ' + instances.city
+                            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                            instances.latitude = geocode_result[0]['geometry']['location']['lat']
+                            instances.longitude = geocode_result[0]['geometry']['location']['lng']
+                            #### checking lat and long are incorrect
+                            if (instances.latitude == '0') or (instances.longitude == '0'):
+                                instances.save()
+
+                            instances.save()
+                            coord = Point([instances.longitude, instances.latitude])
+                            for i in range(len(district)):  # iterate through a list of district polygons
+                                property = district[i]
+                                polygon = shape(property['geometry'])  # get the polygons
+                                if polygon.contains(coord):  # check if a partner is in a polygon
+                                    instances.legislative_district = property["id"]  # assign the district number to a partner
+                                    instances.save()
+                            for m in range(len(countyData)):  # iterate through the County Geojson
+                                properties2 = countyData[m]
+                                polygon = shape(properties2['geometry'])  # get the polygon
+                                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                                    instances.county = properties2['properties']['NAME']
+                                    instances.median_household_income = properties2['properties']['Income']
+                                    instances.save()
+                        except:
+                            instances.save()
                     instances.save()
                     # pm = formset_missiondetails.save()
                     compar = formset_comm_details.save()
@@ -735,10 +771,11 @@ def editProject(request, pk):
                                     }
 
                             projects_list.append(data)
+                if request.user.is_superuser == True:
+                    return HttpResponseRedirect('/allProjects')
+                else:
+                    return HttpResponseRedirect('/myProjects')
 
-                    return HttpResponseRedirect("/allProjects")
-
-                # return render(request, 'projects/myProjects.html', {'project': projects_list})
 
     else:
 
@@ -1143,7 +1180,7 @@ def showAllProjects(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select distinct p.project_name \
+    project_start_query = "select distinct  p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1183,18 +1220,29 @@ def showAllProjects(request):
                                 left join projects_activitytype a on p.activity_type_id = a.id \
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id \
                                 left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id \
-                                where status.name != 'Drafts' \
-                                    and e.id::text like '"+ eng_type_cond +"' \
-                                    and m.mission_id::text like '"+ mission_type_cond + "' \
-                                    and pp2.campus_partner_id::text like '" + campus_partner_cond +"' \
-                                    and c.college_name_id::text like '" + college_unit_cond +"' \
-                                    and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
-                                    and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) \
-                                    and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
-
+                                left join projects_status status on status.id = p.status_id  \
+                                where status.name !='Drafts' and \
+                                ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
     clause_query = ""
+    if eng_type_cond !='%':
+        clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
+
+    if  mission_type_cond !='%':
+        clause_query += " and m.mission_id::text like '"+ mission_type_cond + "'"
+
+    if campus_partner_cond !='%':
+        clause_query += " and pp2.campus_partner_id::text like '" + campus_partner_cond +"'"
+
+    if college_unit_cond != '%':
+        clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
+
+    if K12_filter_cond !='%':
+        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1417,59 +1465,69 @@ def projectstablePublicReport(request):
     # params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
     #           K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select distinct p.project_name \
-                                   , array_agg(distinct hm.mission_name) mission_area \
-                                   , array_agg(distinct pc.name) CommPartners \
-                                   , array_agg(distinct c.name) CampPartners \
-                                   , array_agg(distinct e.name) engagement_type \
-                                   , pa.academic_year \
-                                   , p.semester \
-                                   , status.name status \
-                                   , case when p.start_date is null then 'None' end start_date \
-                                   , case when p.end_date is null then 'None' end end_date \
-                                   , p.outcomes \
-                                   , p.total_uno_students \
-                                   , p.total_uno_hours \
-                                   , p.total_uno_faculty \
-                                   , p.total_k12_students \
-                                   , p.total_k12_hours \
-                                   , p.total_other_community_members \
-                                   , a.name activity_type \
-                                   , p.description \
-                                   , p.project_type project_type \
-                                   , p.end_semester end_semester \
-                                   , ea.academic_year end_academic_year \
-                                   , array_agg(distinct s.sub_category) sub_category \
-                                   , p.campus_lead_staff campus_lead_staff \
-                                   , hm.mission_image_url mission_image \
-                                   , p.other_activity_type act_type \
-                                   , p.other_sub_category other_subCat \
-                                   from projects_project p \
-                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
-                                   left join home_missionarea hm on hm.id = m.mission_id \
-                                   left join projects_engagementtype e on e.id = p.engagement_type_id \
-                                   left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
-                                   left join partners_communitypartner pc on pp.community_partner_id = pc.id \
-                                   left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
-                                   left join partners_campuspartner c on pp2.campus_partner_id = c.id \
-                                   left join projects_academicyear pa on p.academic_year_id = pa.id \
-                                   left join projects_academicyear ea on p.end_academic_year_id = ea.id \
-                                   left join projects_activitytype a on p.activity_type_id = a.id \
-                                   left join projects_projectsubcategory psub on psub.project_name_id = p.id \
-                                   left join projects_subcategory s on psub.sub_category_id = s.id \
-                                   left join projects_status status on status.id = p.status_id \
-                                   where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
-                                       and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
-
+    project_start_query = "select  distinct p.project_name \
+                                , array_agg(distinct hm.mission_name) mission_area \
+                                , array_agg(distinct pc.name) CommPartners \
+                                , array_agg(distinct c.name) CampPartners \
+                                , array_agg(distinct e.name) engagement_type \
+                                , pa.academic_year \
+                                , p.semester \
+                                , status.name status \
+                                , case when p.start_date is null then 'None' end start_date \
+                                , case when p.end_date is null then 'None' end end_date \
+                                , p.outcomes \
+                                , p.total_uno_students \
+                                , p.total_uno_hours \
+                                , p.total_uno_faculty \
+                                , p.total_k12_students \
+                                , p.total_k12_hours \
+                                , p.total_other_community_members \
+                                , a.name activity_type \
+                                , p.description \
+                                , p.project_type project_type \
+                                , p.end_semester end_semester \
+                                , ea.academic_year end_academic_year \
+                                , array_agg(distinct s.sub_category) sub_category \
+                                , p.campus_lead_staff campus_lead_staff \
+                                , hm.mission_image_url mission_image \
+                                , p.other_activity_type act_type \
+                                , p.other_sub_category other_subCat \
+                                from projects_project p \
+                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                left join home_missionarea hm on hm.id = m.mission_id \
+                                left join projects_engagementtype e on e.id = p.engagement_type_id \
+                                left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
+                                left join partners_communitypartner pc on pp.community_partner_id = pc.id \
+                                left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
+                                left join partners_campuspartner c on pp2.campus_partner_id = c.id \
+                                left join projects_academicyear pa on p.academic_year_id = pa.id \
+                                left join projects_academicyear ea on p.end_academic_year_id = ea.id \
+                                left join projects_activitytype a on p.activity_type_id = a.id \
+                                left join projects_projectsubcategory psub on psub.project_name_id = p.id \
+                                left join projects_subcategory s on psub.sub_category_id = s.id \
+                                left join projects_status status on status.id = p.status_id   \
+                                where status.name !='Drafts'\
+                                and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
     clause_query = ""
+    if eng_type_cond !='%':
+        clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
+
+    if  mission_type_cond !='%':
+        clause_query += " and m.mission_id::text like '"+ mission_type_cond + "'"
+
+    if campus_partner_cond !='%':
+        clause_query += " and pp2.campus_partner_id::text like '" + campus_partner_cond +"'"
+
+    if college_unit_cond != '%':
+        clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
+
+    if K12_filter_cond !='%':
+        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1477,29 +1535,29 @@ def projectstablePublicReport(request):
     if cec_comm_part_cond != '%':
         clause_query += " and  pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
-    project_end_query = project_start_query + clause_query + " group by p.project_name \
-                                     , pa.academic_year \
-                                     , p.semester \
-                                     , status.name \
-                                     , p.start_date \
-                                     , p.end_date \
-                                     , p.outcomes \
-                                     , p.total_uno_students \
-                                     , p.total_uno_hours \
-                                     , p.total_uno_faculty \
-                                     , p.total_k12_students \
-                                     , p.total_k12_hours \
-                                     , p.total_other_community_members \
-                                     , a.name \
-                                     , p.description \
-                                     , project_type \
-                                     , end_semester \
-                                     , end_academic_year \
-                                     , campus_lead_staff \
-                                     , mission_image \
-                                     , act_type \
-                                     , other_subCat \
-                                     order by pa.academic_year desc; "
+    project_end_query = project_start_query + clause_query +" group by p.project_name \
+                                  , pa.academic_year \
+                                  , p.semester \
+                                  , status.name \
+                                  , p.start_date \
+                                  , p.end_date \
+                                  , p.outcomes \
+                                  , p.total_uno_students \
+                                  , p.total_uno_hours \
+                                  , p.total_uno_faculty \
+                                  , p.total_k12_students \
+                                  , p.total_k12_hours \
+                                  , p.total_other_community_members \
+                                  , a.name \
+                                  , p.description \
+                                  , project_type \
+                                  , end_semester \
+                                  , end_academic_year \
+                                  , campus_lead_staff \
+                                  , mission_image \
+                                  , act_type \
+                                  , other_subCat \
+                                  order by pa.academic_year desc; "
     # cursor.execute(sql.all_projects_sql, params)
     cursor.execute(project_end_query)
 
@@ -1532,10 +1590,13 @@ def projectstablePublicReport(request):
              "total_k12_hours": obj[15], "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
              "project_type": obj[19], "end_semester": obj[20], "end_academic_year": obj[21], "sub_category": obj[22],
              "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
+    page = request.GET.get('page', 1)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectspublictableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter,'parameters':parameters})
 
 
 
@@ -1704,17 +1765,30 @@ def projectsPublicReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \
                                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
     clause_query = ""
+    if eng_type_cond !='%':
+        clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
+
+    if  mission_type_cond !='%':
+        clause_query += " and m.mission_id::text like '"+ mission_type_cond + "'"
+
+    if campus_partner_cond !='%':
+        clause_query += " and pp2.campus_partner_id::text like '" + campus_partner_cond +"'"
+
+    if college_unit_cond != '%':
+        clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
+
+    if K12_filter_cond !='%':
+        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1722,31 +1796,29 @@ def projectsPublicReport(request):
     if cec_comm_part_cond != '%':
         clause_query += " and  pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
-    project_end_query = project_start_query + clause_query + " group by p.project_name \
-                                     , pa.academic_year \
-                                     , p.semester \
-                                     , status.name \
-                                     , p.start_date \
-                                     , p.end_date \
-                                     , p.outcomes \
-                                     , p.total_uno_students \
-                                     , p.total_uno_hours \
-                                     , p.total_uno_faculty \
-                                     , p.total_k12_students \
-                                     , p.total_k12_hours \
-                                     , p.total_other_community_members \
-                                     , a.name \
-                                     , p.description \
-                                     , project_type \
-                                     , end_semester \
-                                     , end_academic_year \
-                                     , campus_lead_staff \
-                                     , mission_image \
-                                     , act_type \
-                                     , other_subCat \
-                                     order by pa.academic_year desc; "
-    # cursor.execute(sql.all_projects_sql, params)
-    print("project public report query -- ",project_end_query)
+    project_end_query = project_start_query + clause_query +" group by p.project_name \
+                                  , pa.academic_year \
+                                  , p.semester \
+                                  , status.name \
+                                  , p.start_date \
+                                  , p.end_date \
+                                  , p.outcomes \
+                                  , p.total_uno_students \
+                                  , p.total_uno_hours \
+                                  , p.total_uno_faculty \
+                                  , p.total_k12_students \
+                                  , p.total_k12_hours \
+                                  , p.total_other_community_members \
+                                  , a.name \
+                                  , p.description \
+                                  , project_type \
+                                  , end_semester \
+                                  , end_academic_year \
+                                  , campus_lead_staff \
+                                  , mission_image \
+                                  , act_type \
+                                  , other_subCat \
+                                  order by pa.academic_year desc; "
     cursor.execute(project_end_query)
 
 
@@ -1785,10 +1857,12 @@ def projectsPublicReport(request):
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_public_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards, 'parameters':parameters})
 
 
 # project private card and table view starts here
@@ -1960,17 +2034,30 @@ def projectsPrivateReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \
                                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
     clause_query = ""
+    if eng_type_cond !='%':
+        clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
+
+    if  mission_type_cond !='%':
+        clause_query += " and m.mission_id::text like '"+ mission_type_cond + "'"
+
+    if campus_partner_cond !='%':
+        clause_query += " and pp2.campus_partner_id::text like '" + campus_partner_cond +"'"
+
+    if college_unit_cond != '%':
+        clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
+
+    if K12_filter_cond !='%':
+        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -1978,31 +2065,29 @@ def projectsPrivateReport(request):
     if cec_comm_part_cond != '%':
         clause_query += " and  pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
-    project_end_query = project_start_query + clause_query + " group by p.project_name \
-                                     , pa.academic_year \
-                                     , p.semester \
-                                     , status.name \
-                                     , p.start_date \
-                                     , p.end_date \
-                                     , p.outcomes \
-                                     , p.total_uno_students \
-                                     , p.total_uno_hours \
-                                     , p.total_uno_faculty \
-                                     , p.total_k12_students \
-                                     , p.total_k12_hours \
-                                     , p.total_other_community_members \
-                                     , a.name \
-                                     , p.description \
-                                     , project_type \
-                                     , end_semester \
-                                     , end_academic_year \
-                                     , campus_lead_staff \
-                                     , mission_image \
-                                     , act_type \
-                                     , other_subCat \
-                                     order by pa.academic_year desc; "
-    # cursor.execute(sql.all_projects_sql, params)
-    print("project private report query -- ",project_end_query)
+    project_end_query = project_start_query + clause_query +" group by p.project_name \
+                                  , pa.academic_year \
+                                  , p.semester \
+                                  , status.name \
+                                  , p.start_date \
+                                  , p.end_date \
+                                  , p.outcomes \
+                                  , p.total_uno_students \
+                                  , p.total_uno_hours \
+                                  , p.total_uno_faculty \
+                                  , p.total_k12_students \
+                                  , p.total_k12_hours \
+                                  , p.total_other_community_members \
+                                  , a.name \
+                                  , p.description \
+                                  , project_type \
+                                  , end_semester \
+                                  , end_academic_year \
+                                  , campus_lead_staff \
+                                  , mission_image \
+                                  , act_type \
+                                  , other_subCat \
+                                  order by pa.academic_year desc; "
     cursor.execute(project_end_query)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -2036,10 +2121,12 @@ def projectsPrivateReport(request):
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_private_view.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter, 'cards':cards, 'parameters':parameters})
 
 @login_required()
 def projectstablePrivateReport(request):
@@ -2206,17 +2293,30 @@ def projectstablePrivateReport(request):
                                    left join projects_subcategory s on psub.sub_category_id = s.id \
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
-                                       and e.id::text like '" + eng_type_cond + "' \
-                                       and m.mission_id::text like '" + mission_type_cond + "' \
-                                       and pp2.campus_partner_id::text like '" + campus_partner_cond + "' \
-                                       and c.college_name_id::text like '" + college_unit_cond + "' \
-                                       and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
         academic_end_year_cond) + ")) \
                                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
     clause_query = ""
+    if eng_type_cond !='%':
+        clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
+
+    if  mission_type_cond !='%':
+        clause_query += " and m.mission_id::text like '"+ mission_type_cond + "'"
+
+    if campus_partner_cond !='%':
+        clause_query += " and pp2.campus_partner_id::text like '" + campus_partner_cond +"'"
+
+    if college_unit_cond != '%':
+        clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
+
+    if K12_filter_cond !='%':
+        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
 
     if community_type_cond != '%':
         clause_query += " and pc.community_type_id::text like '" + community_type_cond + "'"
@@ -2224,30 +2324,29 @@ def projectstablePrivateReport(request):
     if cec_comm_part_cond != '%':
         clause_query += " and  pc.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
-    project_end_query = project_start_query + clause_query + " group by p.project_name \
-                                     , pa.academic_year \
-                                     , p.semester \
-                                     , status.name \
-                                     , p.start_date \
-                                     , p.end_date \
-                                     , p.outcomes \
-                                     , p.total_uno_students \
-                                     , p.total_uno_hours \
-                                     , p.total_uno_faculty \
-                                     , p.total_k12_students \
-                                     , p.total_k12_hours \
-                                     , p.total_other_community_members \
-                                     , a.name \
-                                     , p.description \
-                                     , project_type \
-                                     , end_semester \
-                                     , end_academic_year \
-                                     , campus_lead_staff \
-                                     , mission_image \
-                                     , act_type \
-                                     , other_subCat \
-                                     order by pa.academic_year desc; "
-    # cursor.execute(sql.all_projects_sql, params)
+    project_end_query = project_start_query + clause_query +" group by p.project_name \
+                                  , pa.academic_year \
+                                  , p.semester \
+                                  , status.name \
+                                  , p.start_date \
+                                  , p.end_date \
+                                  , p.outcomes \
+                                  , p.total_uno_students \
+                                  , p.total_uno_hours \
+                                  , p.total_uno_faculty \
+                                  , p.total_k12_students \
+                                  , p.total_k12_hours \
+                                  , p.total_other_community_members \
+                                  , a.name \
+                                  , p.description \
+                                  , project_type \
+                                  , end_semester \
+                                  , end_academic_year \
+                                  , campus_lead_staff \
+                                  , mission_image \
+                                  , act_type \
+                                  , other_subCat \
+                                  order by pa.academic_year desc; "
     cursor.execute(project_end_query)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -2273,10 +2372,13 @@ def projectstablePrivateReport(request):
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26] })
+    page = request.GET.get('page', 1)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectsprivatetableview.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter})
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,'projects': project_filter,'parameters':parameters})
 
 
 #Project private reports card and table view end here.

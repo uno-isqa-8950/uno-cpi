@@ -873,33 +873,38 @@ def engagement_info(request):
     # params = [community_type_cond, cec_comm_part_cond, mission_type_cond,  campus_partner_cond, college_unit_cond,
     #           academic_start_year_cond, academic_end_year_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    engagement_start = "with eng_type_filter as (select e.name engagement_type \
-                  , p.engagement_type_id eng_id \
+    engagement_start = "with eng_type_filter as (select p.engagement_type_id eng_id \
                   , count(distinct p.project_name) Projects \
                   , array_agg(distinct p.id) projects_id \
                   , count(distinct pcomm.community_partner_id) CommPartners \
                   , array_agg(distinct pcomm.community_partner_id) CommPartners_id \
                   , count(distinct pcamp.campus_partner_id) CampPartners \
-                  , sum(p.total_uno_students) numberofunostudents \
-                  , sum(p.total_uno_hours) unostudentshours \
                    from projects_engagementtype e \
-                   left join projects_project p on p.engagement_type_id = e.id \
+                   join projects_project p on p.engagement_type_id = e.id \
                    left join projects_projectcampuspartner pcamp on p.id = pcamp.project_name_id \
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
                    left join projects_status s on  p.status_id = s.id \
                    left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
-                   where s.name != 'Drafts' \
-                      and pm.mission_id::text like '"+ mission_type_cond +"' \
-                        and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"' \
-                        and c.college_name_id::text like '"+ college_unit_cond +"' \
-                        and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"') \
-                        and ((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
+                   where  s.name != 'Drafts'  and " \
+                       "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
                             (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
     clause_query=" "
-    if community_type_cond !='%':
+    if mission_type_cond !='%':
+        clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"
 
+    if campus_partner_cond !='%':
+        clause_query +=" and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"'"
+
+    if college_unit_cond !='%':
+        clause_query += " and c.college_name_id::text like '"+ college_unit_cond +"'"
+
+
+    if cec_camp_part_cond != '%':
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
+
+    if community_type_cond !='%':
         clause_query += " and comm.community_type_id::text like '"+ community_type_cond +"'"
 
     if cec_comm_part_cond != '%':
@@ -907,8 +912,8 @@ def engagement_info(request):
 
 
 
-    query_end = engagement_start + clause_query + " group by engagement_type, eng_id \
-                order by engagement_type) \
+    query_end = engagement_start + clause_query + " group by eng_id \
+                order by eng_id) \
                 Select distinct eng.name eng_type \
                       , eng.description eng_desc \
                      , COALESCE(eng_type_filter.Projects, 0) proj \
@@ -916,11 +921,9 @@ def engagement_info(request):
                      , COALESCE(eng_type_filter.CommPartners, 0) comm \
                      , eng_type_filter.CommPartners_id comm_id \
                      , COALESCE(eng_type_filter.CampPartners, 0) camp \
-                     , COALESCE(eng_type_filter.numberofunostudents, 0) unostu \
-                     , COALESCE(eng_type_filter.unostudentshours, 0) unohr \
                  from projects_engagementtype eng \
                     left join eng_type_filter on eng.id = eng_type_filter.eng_id \
-                group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp, unostu, unohr \
+                group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp \
                 order by eng_type;"
 
     print("Final query: ", query_end)
@@ -934,10 +937,19 @@ def engagement_info(request):
         proj_ids = obj[3]
         proj_idList = ''
         comm_idList = ''
+        sum_uno_students = 0
+        sum_uno_hours = 0
         if proj_ids is not None:
             name_count = 0
+            if None in proj_ids:
+                proj_ids.pop(-1)
+                
             if len(proj_ids) > 0:
                 for i in proj_ids:
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id="+ str(i))
+                    for obj1 in cursor.fetchall():
+                        sum_uno_students = sum_uno_students + obj1[0]
+                        sum_uno_hours = sum_uno_hours + obj1[1]
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
@@ -945,6 +957,9 @@ def engagement_info(request):
 
         if comm_ids is not None:
             name_count = 0
+            if None in comm_ids:
+                comm_ids.pop(-1)
+
             if len(comm_ids) > 0:
                 for i in comm_ids:
                     comm_idList = comm_idList + str(i)
@@ -953,8 +968,8 @@ def engagement_info(request):
                         name_count = name_count + 1
 
         data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
-                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": obj[7],
-                          "total_uno_hours": obj[8]})
+                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": sum_uno_students,
+                          "total_uno_hours": sum_uno_hours})
 
 
     return render(request, 'reports/EngagementTypeReport.html',
@@ -2040,6 +2055,8 @@ def issueaddress(request):
     print(" min year ", min_year)
 
     MissionObject = json.loads(charts_missions)
+    user_role = request.user.is_superuser
+    # print("super user ",user_role)
 
     missionList = []
     for m in MissionObject:
@@ -2132,5 +2149,5 @@ def issueaddress(request):
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
                     'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year} )
+                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year,"user_role":user_role} )
 

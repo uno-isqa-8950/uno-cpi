@@ -19,18 +19,32 @@ var projects_json = JSON.parse(document.getElementById('projects_json').textCont
 // console.log(" initial load of projects_json",projects_json)
 var max_year = JSON.parse(document.getElementById('max_year').textContent);
 var max_yr_id = JSON.parse(document.getElementById('max_yr_id').textContent);
-// alert(max_yr_id);
+var allCamps = JSON.parse(document.getElementById("campusfilter").textContent);
 
 
-// // alert(Missionarea0]);
-//
-// function getUrlVars() {
-//     var vars = {};
-//     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-//         vars[key] = value;
-//     });
-//     return vars;
-// }
+
+
+function updateCampus() {
+    // var allCamps = JSON.parse(document.getElementById("campusfilter").textContent);
+    var college_name = $('#id_college_name option:selected').val();
+    console.log(" college_name",college_name)
+    // var campus_filter = JSON.parse(document.getElementById("campusfilter").textContent);
+    // console.log("campusfilter",allCamps)
+
+    if (!not_set.includes(college_name)) {
+        var campus_filter = allCamps.filter(d => d.college === parseInt(college_name));
+    } else {
+        var campus_filter = allCamps;
+    }
+     console.log("campusfilter after drilled ",campus_filter)
+    var select = document.getElementById("id_campus_partner");
+    console.log("select",select)
+    select.options.length = 0;
+    select.options[select.options.length] = new Option('All', 'All');
+    for(campus in campus_filter) {
+        select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
+    }
+}
 
 
 function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_partner_json,mission_subcategories_json,projects_json,max_yr_id,max_year,
@@ -444,4 +458,5 @@ setTimeout(function(){
 });
 
 
-}, 0.0001)};
+}, 0.0001)
+}

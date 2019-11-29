@@ -3169,17 +3169,24 @@ def communityPrivateReport(request):
         print('proj ids--',obj[6])
         proj_ids = obj[6]
         proj_idList = ''
+        sum_uno_students = 0
+        sum_uno_hours = 0
         if proj_ids is not None:
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
+                    cursor.execute(
+                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
+                    for obj1 in cursor.fetchall():
+                        sum_uno_students = sum_uno_students + obj1[0]
+                        sum_uno_hours = sum_uno_hours + obj1[1]
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
-                          "unostudentshours": obj[4], "website": obj[5], "proj_id_list": proj_idList, "CommStatus": obj[7]})
+        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": sum_uno_students,
+                          "unostudentshours": sum_uno_hours, "website": obj[4], "proj_id_list": proj_idList, "CommStatus": obj[6]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,

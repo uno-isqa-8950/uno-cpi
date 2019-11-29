@@ -1523,9 +1523,7 @@ order by p.project_name;
 community_private_report = """
 select pc.name commpartners
   ,array_agg(distinct hm.mission_name) mission
-  ,COALESCE (count(distinct p.project_name),0) Projects
-  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
-  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  ,count(distinct p.project_name) Projects
   , pc.website_url website
   , array_agg(distinct p.id) ProjectID
   , pc.partner_status_id CommStatus

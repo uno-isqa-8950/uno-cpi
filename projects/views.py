@@ -3130,8 +3130,8 @@ def communityPrivateReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        print('proj ids--',obj[6])
-        proj_ids = obj[6]
+        print('proj ids--',obj[4])
+        proj_ids = obj[4]
         proj_idList = ''
         sum_uno_students = 0
         sum_uno_hours = 0
@@ -3139,8 +3139,7 @@ def communityPrivateReport(request):
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute(
-                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -3150,7 +3149,7 @@ def communityPrivateReport(request):
                         name_count = name_count + 1
 
         data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": sum_uno_students,
-                          "unostudentshours": sum_uno_hours, "website": obj[4], "proj_id_list": proj_idList, "CommStatus": obj[6]})
+                          "unostudentshours": sum_uno_hours, "website": obj[3], "proj_id_list": proj_idList, "CommStatus": obj[5]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,

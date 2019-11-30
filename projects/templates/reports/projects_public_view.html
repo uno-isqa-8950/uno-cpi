@@ -5,6 +5,31 @@
 {% block content %}
 
 <style>
+
+    /*.logo-frame{*/
+
+/*width: auto ;*/
+  /*max-width: 100% ;*/
+  /*height: auto ;*/
+
+    /*}*/
+
+    @media screen and (max-width: 1024px){
+        img {
+            width:80px;
+            height:80px;
+        }
+        .bottom-card{
+        margin-left:4rem;
+    }
+
+
+    }
+
+
+    ul{
+        padding-inline-start:15px;
+    }
 /*.select2-hidden-accessible{*/
           /*width:85%;*/
         /*border:2px solid #aaa;*/
@@ -223,7 +248,7 @@
         padding-top: 25px;
     }
     .media-heading{
-        line-height: 0.5 !important;
+        line-height: 1.5 !important;
     }
 b{
     font-size: 15px;
@@ -463,7 +488,7 @@ table{
 
                     <div class="media">
                         <a class="media-left" aria-label="">
-                            <div class="logo-frame" style="padding-right: 12px;">
+                            <div class="logo-frame">
                                 <img src="{{project.mission_image}}" alt="Mission Area Image"
                                      class="logo"
                                      width="130" height="130" alt="">
@@ -471,111 +496,118 @@ table{
                         </a>
                         <div class="media-body">
                             <div class="card-toptext">
-                            {% for projmisn in project.projmisn %}
-                            <h6 class="media-subheading" >
-                                <i>{{ projmisn}}{% endfor %}</i>
-                                <span id="academic_year"><i>{{ project.academic_year }}</i></span>
-                            </h6>
+                                {% for projmisn in project.projmisn %}
+                                <h6 class="media-subheading" >
+                                    <i>{{ projmisn}}{% endfor %}</i>
+                                    <span id="academic_year"><i>{{ project.academic_year }}</i></span>
+                                </h6>
                             </div>
 
                             <div class="projectname">
-                            <h4 class="media-heading " >
-                                {{ project.name }}
-                            </h4>
-                                </div>
+                                <h4 class="media-heading " >
+                                    {{ project.name }}
+                                </h4>
+                            </div>
 
-                            <div class="flex-container">
-    <div style="width: 100%">
-      <p><b> Community Partners: </b> </p>
-      {% for comm_part in project.comm_part %} <li>{{comm_part}}</li> {% endfor %}
-    </div>
-    <div style="width: 100%">
-      <p><b>Campus Partners:</b></p>
-      {% for camp_part in project.camp_part %} <li>{{camp_part}}</li> {% endfor %}
-</div>
-</div>
-                            </p></div>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <p><b> Community Partners: </b> </p>
+                                    {% for comm_part in project.comm_part %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <p><b>Campus Partners:</b></p>
+                                    {% for camp_part in project.camp_part %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
+                                </div>
+                            </div>
+
+                            <div>
+
+
+                            </div>
+
+
+                            </div>
                     </div>
                 </a>
             </div>
 
 
 
-<div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
+            <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
 
 
 
-    <p>
-    <table style="margin-left: 137px; ">
-
-       <tr>
-                        <td>
-                            <b>Engagement Type :</b>
-                            {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
-                        </td>
-                        <td>
-                            <b> Activity Type :</b> {{ project.activityType}}
-                        </td>
-                        <td>
-                            <b> Start Semester :</b> {{ project.semester}}
-                        </td>
-                    </tr>
-                    <tr>
-
-                        <td>
-                            <b> End Semester :</b> {{ project.end_semester }}
-                        </td>
-                        <td>
-                            <b> Start Academic Year :</b> {{ project.academic_year}}
-                        </td>
-                        <td>
-                            <b> End Academic Year :</b> {{ project.end_academic_year }}
-                        </td>
-                    </tr>
 
 
+                <div class="row bottom-card">
 
-</table>
-        <div style="margin-left: 137px">
-            <b>Other Activity Type:</b>
-            {% if project.activityType == 'Other' %}
-            {% if project.other_activity_type|length > 0%}
-            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-            {%else%}
-            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
-            {%endif%}
-            {%else%}
-            None
-            {%endif%}
+                    <div class="col-sm-12 col-lg-4">
+                        <b>Engagement Type :</b>
+                        {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        <b> Activity Type :</b> {{ project.activityType}}
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        <b> Start Semester :</b> {{ project.semester}}
+                    </div>
 
-        </div>
 
-    <div style="margin-left: 137px"><b> Topics : </b>
-        {% if project.sub_category|length > 0%}
-        {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-        {%else%}
-        {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
-        {%endif%}
-    </div>
-    <div style="margin-left: 137px"><b> Other Topics : </b>
+                    <div class="col-sm-12 col-lg-4">
+                        <b> End Semester :</b> {{ project.end_semester }}
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        <b> Start Academic Year :</b> {{ project.academic_year}}
+                    </div>
+                    <div class="col-sm-12 col-lg-4">
+                        <b> End Academic Year :</b> {{ project.end_academic_year }}
+                    </div>
 
-        {% if project.other_sub_category|length > 0%}
-        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-        {%else%}
-        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
-        {%endif%}
+                    <div class="col-sm-12">
+                    <b>Other Activity Type:</b>
+                    {% if project.activityType == 'Other' %}
+                    {% if project.other_activity_type|length > 0%}
+                    {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                    {%else%}
+                    {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+                    {%endif%}
+                    {%else%}
+                    None
+                    {%endif%}
+                    </div>
 
-    </div>
-    <br>
-    <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
-    </p>
+
+                    <div class="col-sm-12">
+                    <b> Topics : </b>
+                    {% if project.sub_category|length > 0%}
+                    {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                    {%else%}
+                    {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+                    {%endif%}
+                    </div>
+
+                     <div class="col-sm-12">
+                    <b> Other Topics : </b>
+
+                    {% if project.other_sub_category|length > 0%}
+                    {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                    {%else%}
+                    {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+                    {%endif%}
+                     </div>
+
+
+                    <div class="col-sm-12">
+                        <b> Description :</b> {{ project.description }}
+                    </div></div>
 
             </div>
 
-</div>
+        </div>
         {% endfor %}
-    <!--Code for Pagination -->
-</div>
+        <!--Code for Pagination -->
+    </div>
+
 <span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
 <div class="row" style="float:right; padding-right: 10px">
 {% if cards.has_other_pages %}

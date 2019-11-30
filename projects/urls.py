@@ -7,7 +7,7 @@ from django.conf.urls import url
 urlpatterns = [
     path('communitypartnerproject/', views.communitypartnerproject, name='communitypartnerproject'),
     url(r'^project/(?P<pk>\d+)/edit/$', views.editProject, name='editProject'),
-    url(r'^createProject/$', views.createProject, name='createProject'),
+    url(r'^create-Project/$', views.createProject, name='createProject'),
     url(r'^SuggestProject/$', views.ajax_load_project, name='ajax_load_project'),
     # path('SuggestProject/', views.ajax_load_project, name='ajax_load_project'),
     url(r'^projectadd/$', views.project_total_Add, name='projectadd'),
@@ -25,7 +25,7 @@ urlpatterns = [
     path('projectsprivatereport/', views.projectsPrivateReport, name='projectsprivatereport'),
     path('project-private-table-view/',views.projectstablePrivateReport,name='projectprivatetableview'),
     path('communityprivatereport/', views.communityPrivateReport, name='communityprivatereport'),
-    path('checkProject/', views.checkProject, name='checkProject'),
+    path('check-Project/', views.checkProject, name='checkProject'),
     url(r'^saveFocusArea/$',views.saveFocusArea, name='saveFocusArea'),
     url(r'^saveProjectAndRegister/$',views.saveProjectAndRegister, name='saveProjectAndRegister'),
     url(r'^getEngagemetActivityList/$',views.getEngagemetActivityList, name='getEngagemetActivityList'),

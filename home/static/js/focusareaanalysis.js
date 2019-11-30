@@ -476,3 +476,21 @@ function updatechart(){
 
 
 }
+
+
+function updateCampus() {
+    var allCamps = JSON.parse(document.getElementById('campus_filter').textContent);
+    console.log(" all camps ",allCamps)
+    var college_name = $('#id_college_name option:selected').val();
+    if (!not_set.includes(college_name)) {
+        var campus_filter = allCamps.filter(d => d.college === parseInt(college_name));
+    } else {
+        var campus_filter = allCamps;
+    }
+    var select = document.getElementById("id_campus_partner");
+    select.options.length = 0;
+    select.options[select.options.length] = new Option('All', 'All');
+    for(campus in campus_filter) {
+        select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
+    }
+}

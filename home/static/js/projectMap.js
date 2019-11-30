@@ -115,7 +115,7 @@ $('#selectDistrict').html(select2);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Engagement Types" ' + 'class="selectEngagement"' + 'value="' + 'All Engagement Types"><span style="background-color: #ffffff; border: 1px solid #ffffff"></span><b>All Engagement Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Engagement Types" ' + 'class="selectEngagement"' + 'value="' + 'All Engagement Types"><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Engagement Types</b></a>' + "<br>";
 for (var i = 0; i < Engagement.length; i++) {
     var engagement = Engagement[i]
     var color = colorCodeObject[engagement];
@@ -127,7 +127,7 @@ $('#engagementFilters').html(select);
 
 // *********************************** Dynamically add the legends *****************************************************
 var select1 = '';
-select1 += '<option value="' + "All Mission Areas" + '" selected="selected">' + 'All Mission Areas' + '</option>';
+select1 += '<option value="' + "All Focus Areas" + '" selected="selected">' + 'All Focus Areas' + '</option>';
 for (i = 0; i < Missionarea.length; i++) {
     select1 += '<option value="' + Missionarea[i] + '">' + Missionarea[i] + '</option>';
 }
@@ -136,7 +136,7 @@ $('#selectMission').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select6 = '';
-select6 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
+select6 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community organization Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select6 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -278,15 +278,15 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     markerCluster = new MarkerClusterer(map, markers,mcOptions);
 
      // Default value array for all filters
-    defaultFilterValues = ["All Engagement Types", "All Mission Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community Partner Types","All Legislative Districts","All Academic Years",];
+    defaultFilterValues = ["All Engagement Types", "All Focus Areas","All Colleges and Main Units", "All Campus Partners","All Community Partners", "All Community organization Types","All Legislative Districts","All Academic Years",];
     // Object to identify filters set by the user
     filters = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
@@ -300,27 +300,27 @@ var mcOptions = {
     averageCenter: true,
     styles: [{
         height: 53,
-        url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 66,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 66
         },
         {
             height: 78,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 78
         },
         {
             height: 90,
-            url: "https://uno-cpi-local.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
             width: 90
         }]
 };
@@ -333,9 +333,9 @@ function attachMessage(marker, projectName, missionArea,comm_partner, comm_partn
     google.maps.event.addListener(marker, 'click', function() {
         if (openedInfoWindow != null) openedInfoWindow.close();
         infowindow.setContent('<tr><td><span style="font-weight:bold">Project Name:</span>&nbsp;&nbsp; </td><td>' + projectName.toString().split(":")[0] + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Mission Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Focus Areas: </span>&nbsp; </td><td>' + missionArea + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Community Partners: </span>&nbsp; </td><td>' + comm_partner.join(" | ") + '</td></tr><br />' +
-            '<tr><td><span style="font-weight:bold">Community Partner Type: </span>&nbsp; </td><td>' + comm_partner_type.join(" | ")  + '</td></tr><br />' +
+            '<tr><td><span style="font-weight:bold">Community Organization Type: </span>&nbsp; </td><td>' + comm_partner_type.join(" | ")  + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campus_partner.join(" | ") + '&nbsp;&nbsp;</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + academic_year.join(" | ")  + '</td></tr><br />' +
             '<tr><td><span style="font-weight:bold">Engagement Type: </span>&nbsp; </td><td>' + eng_type + '</td></tr>')
@@ -513,6 +513,7 @@ selectFilters.addEventListener("change", function(event) {
 var engagementFilters = Array.from(document.getElementsByClassName("selectEngagement"));
 for (let engageFilter of engagementFilters) {
     engageFilter.addEventListener("click", function(event) {
+        document.getElementById("valueFilter").value = "";
         let value = engageFilter.textContent;
         mapFilter("selectEngagement", value);
         filterMarkers();
@@ -568,11 +569,11 @@ function resetFiltersOnSearchComm (){
 
     const defaultFilterObject = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };
@@ -598,11 +599,11 @@ function resetFiltersOnSearchComm (){
 $("#reset").click(function () {
     const defaultFilterObject = {
         "selectEngagement":     "All Engagement Types",
-        "selectMission":        "All Mission Areas",
+        "selectMission":        "All Focus Areas",
         "selectCollege":        "All Colleges and Main Units",
         "selectCampus":         "All Campus Partners",
         "selectCommunity":      "All Community Partners",
-        "selectCommunityType":  "All Community Partner Types",
+        "selectCommunityType":  "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years"
     };

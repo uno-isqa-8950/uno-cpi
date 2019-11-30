@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load wagtailcore_tags wagtailimages_tags %}
 {% load staticfiles %}
 <html lang="en">
 <head>
@@ -39,7 +40,7 @@
 
 
 </head>
-<body>
+<body onload="noBack();" >
 
 <!-- Navbar Begins -->
 
@@ -58,7 +59,7 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                     <a class="dropdown-item" href="/communityPartner">Community Partners</a>
                     <a class="dropdown-item" href="/legislativeDistrict">Legislative District</a>
-                    <a class="dropdown-item" href="/communityPartnerType">Community Partner Type</a>
+                    <a class="dropdown-item" href="/communityPartnerType">Community Organization Type</a>
                     <a class="dropdown-item" href="/projectMap">Projects</a>
                 </div>
             </li>
@@ -83,16 +84,21 @@
                             {% endif %}
                         </ul>
                     </li>
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/missionchart">Focus Areas</a>
-                            <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                            <a class="dropdown-item" href="/issueaddress">Issues Addressed Analysis</a>
-                            <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a>
-                            <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
-                            <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
-                        </ul>
-                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item" href="/missionchart">Focus Areas</a>
+                                <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+                                <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a>
+                                    {% if  user.is_superuser %}
+                                    <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a>
+
+                                <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
+                                        {% endif %}
+                                <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
+                            </ul>
+                        </li>
+                    {% endif %}
                 </ul>
             </li>
 
@@ -188,6 +194,12 @@
 
 
 <!--{#<div>#}-->
+{% image page.image original as image %}
+        <div>
+    
+            <img src="{{image.url}}" class="hero" style="width: 100%;"/>
+    
+</div> 
 <div class="container">
 
 {% block content %}
@@ -203,17 +215,16 @@
                 <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px;padding-bottom:10px; text-align: left;">
-                <span><a class="fleft" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">User Manual</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-commitment-to-community-engagement/guidelines.pdf" target="_blank">CPI Guidelines</a></span>
-                <span><a class="fnone" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                <span><a class="fleft" style="text-decoration:underline"; href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline"; href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <!--<br>-->
                  <p>
                   <span><a class="fnone" style="font-size: 12px;">
                         <script type="text/JavaScript">
-			                    document.write("&copy; "+new Date().getFullYear());
-		                </script>, </a></span><span class="break"></span>
+                                document.write("&copy; "+new Date().getFullYear());
+                        </script>, </a></span><span class="break"></span>
 
-                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initative (CEPI)
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
                 </a></span></p>
                  <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,

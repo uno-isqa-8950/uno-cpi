@@ -317,22 +317,19 @@
 <form action="." onfocusout="return validateForm()" method ="post">
      <input type="hidden" name="projectId" value="{{ projectId }}">
     <div class = "container-fluid">
-
+<br>
+        <br>
         <div class="row justify-content-md-center">
             <div class="col-lg-12 col-md-12">
-                <div class = "panel panel-default">
-                    <div class="panel-heading text-center">
-                        <h4 style="margin:auto;padding: 13px">Campus Partner Registration</h4>
-                    </div>
+                                <div class=" text-center"><h3 class="heading">Campus Partner Registration</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
 
-                    <div class="panel-body">
-                        <div class="card" style="padding: 10px; border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-                                <div class="container">
-                                    {% cam_part_regs %}
-                                </div>
-                             </div>
-
+                                   {% cam_part_regs %}
+    </div>
+</div>
                         {% csrf_token %}
+                <div class="box">
                         <div id="smartwizard">
                             <ul>
                                 <li><a href="#step-1">Campus partner details</a></li>
@@ -344,7 +341,15 @@
                                         <div class ="row">
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <label for="id_name" class="col-sm-4">Campus Partner Name</label>
+                                                    <label for="id_name" class="col-sm-4">
+  {% for data_definition in data_definition %}
+                                                       {% if data_definition.id == 1%}
+                                                          <span tabindex="-1" data-toggle="tooltip"
+                                                                title="{{ data_definition.description }}" class="float" >
+                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                           {% endif %}
+                                                        {% endfor %}
+                                                    Campus Partner Name</label>
                                                     <div class="col-sm-7">
                                                         {{ campus_partner_form.name}}
                                                         {% if campus_partner_form.name.errors %} {% for error in campus_partner_form.name.errors %}
@@ -434,13 +439,6 @@
 
                                 </div>
                             </div>
-
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     <div class ="container-fluid">
         <div class="row centered" id="termsdiv">
                                     <p><input type="checkbox" id="terms">
@@ -457,8 +455,10 @@
                                     <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
 
                                 </div>
-
-
+    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 </form>

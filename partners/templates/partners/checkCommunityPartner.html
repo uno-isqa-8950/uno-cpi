@@ -101,10 +101,12 @@
                     </div>
 
 <!--                </div>-->
-                                     <div style="float: left;margin-left: -10px;"  id="node1-id" style="display: none"></div>
-         <div style="float: left;margin-left: -5px;"  id="button-id" style="display: none"></div>
+                <div class="row" style="margin-top:-30px; margin-left:-10px;margin-bottom:0px">
+                <div id="node1-id" ></div>
+         <div   id="button-id"></div>
+                </div>
          <div>
-            <div class="panel-body">&emsp;
+            <div class="panel-body" style="margin-top: -40px;margin-left: 10px;width: 100%">&emsp;
                 <div class="justify-content-md-center" id="node-id" style="margin-left: -10px;"></div>
             </div>
      </div>
@@ -203,7 +205,7 @@ valueFilter.addEventListener("keydown", function (e) {
                         mylist += '<table>';
                         document.getElementById('node-id').innerHTML =
                                     '<br>' +
-                                    '<tr><td><label style="text-align:justify;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.<label</td></tr><br><br>' +
+                                    '<tr><td><label style="text-align:justify;">The following organizations are already registered as UNO community partners. Please ensure that the community partner that you intent to register is not in this list.</label></td></tr><br><br>' +
                                     {#'<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ project_db[i].toString().split('(')[0] +'</td></tr>';#}
                                     {#'<table class="table table-hover table-sm table-bordered">' +#}
                                     {#'<tr><th>Community Partner</th></tr>' +#}
@@ -234,7 +236,7 @@ valueFilter.addEventListener("keydown", function (e) {
                                     <!--document.getElementById('nodel-id'). innerHTML = "";-->
                                     document.getElementById('button-id').innerHTML =
                                         '<br>' +
-                                        '<tr><td><label style="text-align:justify;">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
+                                        '<tr><td><label style="text-align:justify; padding-left:10px;padding-top:20px">This community organization is currently not listed as a UNO community partner in this database. Please click on ‘Register the Community Partner’ and proceed with the registration.</b></label> </td></tr><br /><br />' +
                                         '<tr><td><a class="btn btn-secondary" id="lnk-register_partner"  role="button" data-toggle="tooltip" title="Click on this button to register new community partner"> Register the Community Partner</a></td></tr>'
                                     document.getElementById("lnk-register_partner").setAttribute("href","/partners/registerCommunityPartner?name=" + PartnerName);
                                 }

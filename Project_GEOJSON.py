@@ -40,12 +40,13 @@ pro.state as State, pro.zip as Zip ,pro.longitude as longitude, pro.latitude as 
 pro.legislative_district as legislative_district \
 FROM projects_project pro  \
 join projects_projectmission  mis on pro.id = mis.project_name_id \
-join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
+join projects_status ps on ps.id = pro.status_id \
 where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
 and pro.longitude is not null \
 and pro.longitude is not null \
+and ps.name != 'Drafts' \
 and lower(mis.mission_type)='primary'",con=conn)
 
 ##Get all the Campus Partners and College Names
@@ -59,7 +60,7 @@ df = pd.read_sql_query("select pro.project_name, \
     from projects_project pro \
     left join projects_projectcampuspartner procamp on pro.id = procamp.project_name_id \
     join partners_campuspartner pc on procamp.campus_partner_id = pc.id \
-    join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts'\
+    join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
     join university_college uc on pc.college_name_id = uc.id  \
     left join projects_projectcommunitypartner pp on pro.id = pp.project_name_id \
     left join partners_communitypartner p on pp.community_partner_id = p.id \
@@ -208,9 +209,9 @@ s3 = boto3.resource('s3',
          aws_secret_access_key= ACCESS_KEY)
 
 if len(df_projects) == 0:
-    print("Project GEOJSON file NOT written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    print("Project GEOJSON file NOT written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    logger.info("Partner GEOJSON file NOT written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
 else:
     s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson').put(Body=format(jsonstring))
-    print("Project GEOJSON file written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
-    logger.info("Project GEOJSON file written having total records of " +repr(len(df))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    print("Project GEOJSON file written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))
+    logger.info("Project GEOJSON file written having total records of " +repr(len(df_projects))+" in S3 bucket "+settings.AWS_STORAGE_BUCKET_NAME +" at " +str(currentDT))

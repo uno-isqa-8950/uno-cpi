@@ -39,16 +39,15 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     if (not_set.includes(academic_year)) {
         // alert(academic_year)
-        academic_year = max_yr_id
         var projects_json = projects_json.filter(d => d.years.includes(max_yr_id));
-        // console.log("filtered academic_year", projects_json)
+        // console.log("filtered default academic_year", projects_json)
     }
 
 
     if (!not_set.includes(academic_year)) {
         // alert(academic_year)
         var projects_json = projects_json.filter(d => d.years.includes(parseInt(academic_year)));
-        // console.log("filtered academic_year"+ projects_json)
+        // console.log("filtered academic_year", projects_json)
     }
 
 
@@ -58,9 +57,9 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
 
     }
-    if (not_set.includes(engagement_type) && engagement_type != 'All') {
+    if (not_set.includes(engagement_type) && engagement_type == 'All') {
         // console.log(" projects" + engagement_type)
-        var projects_json = projects_json.filter(d => d.engagement_type.engagement_type_name == 'Knowledge and Resource Sharing');
+        var projects_json = projects_json
 
     }
 
@@ -73,7 +72,12 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     if (not_set.includes(comm_type) && comm_type != 'All') {
         var community_partner_json = community_partner_json.filter(d => d.community_type.community_type_name == 'Nonprofit');
+        // console.log(" default community type",community_partner_json)
 
+    }
+    if (not_set.includes(comm_type) && comm_type == 'All') {
+        var community_partner_json = community_partner_json;
+        // console.log(" all  community type",community_partner_json)
 
     }
 
@@ -100,8 +104,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         // console.log("community_partner",community_partner)
         var projects_json = projects_json.filter(d => d.community_partner_ids.includes(parseInt(community_partner)));
         var community_partner_json = community_partner_json.filter(d => d.community_partner_id== parseInt(community_partner));
-        console.log("filtered projects for cp areas", projects_json)
-        console.log("filtered partners  for cp areas", community_partner_json)
+        // console.log("filtered projects for cp areas", projects_json)
+        // console.log("filtered partners  for cp areas", community_partner_json)
     }
 // need to add weitzpart status in json
     if (!not_set.includes(weitz_cec_part)) {
@@ -149,10 +153,29 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                 var camppartnrprojects = projects_json.filter(d => d.campus_partner_ids.includes(parseInt(campid)));
                 // var x = Object.keys(camppartnrprojects)
 
+                var commpartnerslist=[]
+                            // console.log("commpprojects",commpprojects)
+                            camppartnrprojects.forEach(function(feature){
+                                   var cc=feature.community_partner_ids
+                                // console.log(" cc",cc)
+                                   if (cc.length>0){
+                                       for (x in cc){
+                                           // console.log(" id of cc",cc[x])
+                                           if (!commpartnerslist.includes(cc[x])){
+                                               commpartnerslist.push(cc[x])
+
+                                           }
+                                       }
+                                   }
+                               })
+
+
                 camppartnrprojects.forEach(function (feature1) {
 
                     // if (camppartnrprojects != 0) {
                     var camp = feature["campus_partner_name"]
+
+
                     // var cp={"from":Collegenames[coll].cname,"to":feature["campus_partner_name"]}
                     res2 = {'from': college, 'to': camp}
                     if (!chart_data.find(o => o.from === college && o.to === camp)) {
@@ -163,7 +186,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                         'id': camp,
                         'color': 'black',
                         'marker': {'symbol': 'triangle'},
-                        'projects': 'Projects:' + camppartnrprojects.length
+                        'projects': 'Projects:' + camppartnrprojects.length +'<br></br>'+'Community Partner Engagement :'+ commpartnerslist.length
                     }
                     if (!nodedata.find(o => o.id === college)) {
                         nodedata.push(node)
@@ -186,6 +209,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
                     commps = Array.from(commps)
 
+
                     // console.log("community partners filtered for a campus partner", commps, "camp", camp)
                     if (!commps.length == 0) {
                         for (c in commps) {
@@ -195,7 +219,27 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                             mission_obj = mission_subcategories_json.find(d => d.mission_area_id == mission_id)
                             mission_name = mission_obj.mission_area_name
                             // alert("mission_obj"+mission_name)
+                            commpprojects=projects_json.filter(d => d.community_partner_ids.includes(community.community_partner_id))
+                            // console.log("commpprojects ",commpprojects.length)
+                            var campspartnerslist=[]
+                            // console.log("commpprojects",commpprojects)
+                            commpprojects.forEach(function(feature){
+                                   var cc=feature.campus_partner_ids
+                                // console.log(" cc",cc)
+                                   if (cc.length>0){
+                                       for (x in cc){
+                                           // console.log(" id of cc",cc[x])
+                                           if (!campspartnerslist.includes(cc[x])){
+                                               campspartnerslist.push(cc[x])
 
+                                           }
+                                       }
+                                   }
+                               })
+
+                                // for (cc in proj.filter(d=>d.campus_partner_ids))
+
+                             // console.log("campspartnerslist",campspartnerslist.length)
                             res3 = {'from': camp, 'to': community.community_partner_name, 'p': commps.length}
                             // console.log("final",res3)
                             if (!chart_data.find(o => o.from === camp && o.to === community.community_partner_name)) {
@@ -210,7 +254,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
                                     // 'radius': commps.length
                                 },
-                                'projects': 'Projects:' + commps.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name
+                                'projects': 'Projects:' + commpprojects.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name + '<br></br>'+'Campus Partner Engagement: <b></b>'+ campspartnerslist.length
                                 // tooltip: {useHTML: true,
                                 // format:'<b>Name: {%id%} ${this.Node.name}</b><br><b> projects[${this.point.projects}]</b>'}
                             }
@@ -246,7 +290,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     document.getElementById('text').innerHTML = titletext;
 
-    console.log(titletext)
+    // console.log(titletext)
 // document.getElementById("text").innerHTML = titletext;
 
 
@@ -263,48 +307,77 @@ var chart=Highcharts.chart('container', {
         zoomType: 'xy'
     },
 // renderTo: 'container',
-    title:{
-        text:"",
-        style:{},
+    title: {
+        text: "",
+        style: {},
         // align:right
     },
 
-        legend: {
-        enabled:true,
-                    title:{
-                        text: "",
-                        style:{fontWeight:"bold",color:"black",fontSize:15, fontFamily: "Arial Narrow"},
-                    },
-
-                    box:{
-                        visibility: true,
-                    },
-            // border: 'black',
-            stroke: 'black',
-            strokeWidth: 10,
-
+    legend: {
+        enabled: true,
+        title: {
+            text: "",
+            style: {fontWeight: "bold", color: "black", fontSize: 15, fontFamily: "Arial Narrow"},
         },
 
+        box: {
+            visibility: true,
+        },
+        // border: 'black',
+        stroke: 'black',
+        strokeWidth: 10,
+
+    },
+
     plotOptions: {
+
         networkgraph: {
-            allowPointSelect:true,
+            allowPointSelect: true,
             cursor: 'pointer',
             turboThreshold: 0,
             initialPositions: 'bottom',
-            cropThreshold:500,
+            cropThreshold: 500,
             layoutAlgorithm: {
                 enableSimulation: false,
                 integration: 'verlet',
                 linkLength: 100,
-                linkWidth:1
+                linkWidth: 1
+            },
+             marker:{
+            		states:{
+           						 hover:{
+            								radius:7,
+              								},
+            					// inactive:{
+            					// 			radius:1,
+                                //
+            					// 				}
+           						 }
+            },
+
+            states: {
+                inactive: {
+                    linkColor:'black',
+                    linkWidth:10,
+                    linkOpacity:0
+                					},
+                hover:{
+                 linkColor:'black',
+                 linkWidth:100,
+                }
             }
-        }
+
+        },
+
     },
+
+
+
 tooltip: {
         nullFormat:'N/A',
         style: {fontFamily: "Arial Narrow"},
         formatter: function (point) {
-             tooltext='Name: <b>' + this.point.id +'<br></br>'+ this.point.projects
+             tooltext= '<b>'+this.point.id +'</b>'+'<br></br>'+ this.point.projects
             // style:{fontWeight:"bold",color:"black",fontSize:15, fontFamily: "Arial Narrow"},
             return  tooltext
 
@@ -317,7 +390,6 @@ tooltip: {
         // linkedTo: ':previous',
         dataLabels: {
             enabled: false,
-            // textPath:'<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>',
             linkFormat: ''
         },
         data: chart_data,
@@ -330,8 +402,11 @@ tooltip: {
     ]
 })
 
-function updatechart(){
 
+
+
+function updatechart(){
+setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -368,4 +443,5 @@ function updatechart(){
         ]
 });
 
-}
+
+}, 0.0001)};

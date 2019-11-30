@@ -3,8 +3,6 @@
 
 
 <style>
-
-
         .form-control
     {
         width:85%;
@@ -19,7 +17,6 @@
     }
     A.class1 {color:red;}
     A.class1:link  {text-decoration: underline; color: red;}
-
     .select2{
         width: 70%!important;
         border-radius: 2px;
@@ -41,7 +38,6 @@ label {
         max-width: 1500px;
     }
 }
-
 </style>
 <br><br>
             <div class="row justify-content-md-center">
@@ -92,7 +88,11 @@ label {
                         {% endfor %} Academic Years
                     </label>
                     <select id="academicYear" name="academicYear" >
-                        <option>All </option>
+                        <option></option>
+                        {% if acad_id == -1%}
+                            <option selected>All</option>
+                        {% endif %}
+                        <option>All</option>
                         {% for sem in academic_yr_filter %}
                         <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
                         {% endfor %}
@@ -106,10 +106,14 @@ label {
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         {% endif %}
-                    {% endfor %} Community Organization Types
+                    {% endfor %} Community Partners
                 </label>
-                    <select id="communityPartner" name="communityPartner" CompValue=" ">
-                        <option>All </option>
+                    <select id="communityPartner" name="communityPartner" >
+                        <option></option>
+                        {% if communityPartner_id == -1%}
+                            <option selected>All</option>
+                        {% endif %}
+                        <option>All</option>
                         {% for comm in Community_filter %}
                         <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %}>{{comm.name}} </option>
                         {% endfor %}
@@ -125,8 +129,12 @@ label {
                         {% endif %}
                     {% endfor %}Campus Partners
                     </label>
-                    <select id="campuspartner" name="campusPartner" CampValue=" ">
-                        <option>All </option>
+                    <select id="campuspartner" name="campusPartner" >
+                        <option></option>
+                        {% if campusPartner_id == -1%}
+                            <option selected>All</option>
+                        {% endif %}
+                        <option>All</option>
                        {% for campus in campus_filter %}
                         <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
                         {% endfor %}
@@ -221,7 +229,7 @@ label {
 {% for project in data_list %}
                       <tr id="tablerows">
                        <td>{{project.academicYear}}</td>
-                       <td><a href="/allProjects?p_name= + {{projectName}}"  class="class1" target="_blank" >{{project.projectName}}</a></td>
+                       <td><a href="{% url 'projectspublicreport' %}?proj_id_list={{ project.project_ids }}" target="_blank" class="class1">{{project.projectName}}</a></td>
                           <td>{{ project.communityPartner }} </td>
                           <td>{{ project.campusPartner }}</td>
                           </tr>
@@ -251,7 +259,6 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
 <script>
         document.getElementById('node1-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
-
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
@@ -284,7 +291,6 @@ $('.label').append(label);
             '                                {% endif %}' +
             '                             {% endfor %} Campus Partner(s)</th>';
         $('#example').find('thead').append(html);
-
         </script>
 
 
@@ -296,7 +302,6 @@ $('.label').append(label);
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
-
                             document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
         </script>
@@ -311,8 +316,13 @@ $('.label').append(label);
 <script>
 $(document).ready(function(){
     $('#projectName').attr({placeholder: 'Project Name',width:'70%'});
-    $('#communityPartner').select2({placeholder: 'All Community Organization Types',width: '225px'});
-    $('#academicYear').select2({placeholder: 'All Academic Years',width: '225px'});
+    $('#communityPartner').select2({placeholder: 'All Community Partners',width: '225px'});
+  //   $('#communityPartner').select2({  placeholder: {
+  //   id: '-1', // the value of the option
+  //   text: 'All Community Building Partners'
+  // }
+// });
+    $('#academicYear').select2({placeholder: 'Previous Academic Year',width: '225px'});
     $('#campuspartner').select2({placeholder: 'All Campus Partners',width: '225px'});
     });
 // submit when enter-Parimita
@@ -352,11 +362,7 @@ $(document).on('input', '.clearable', function(){
        });
 </script>
 
-<script>
-     $(function () {
-                        $('[data-toggle="popover"]').popover()
-                    })
-</script>
+
 <script>
             $(document).ready(function(){
               $('[data-toggle="tooltip"]').tooltip();

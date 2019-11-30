@@ -344,7 +344,15 @@
                                         <div class ="row">
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <label for="id_name" class="col-sm-4">Campus Partner Name</label>
+                                                    <label for="id_name" class="col-sm-4">
+                                                        {% for data_definition in data_definition %}
+                                                       {% if data_definition.id == 1%}
+                                                          <span tabindex="-1" data-toggle="tooltip"
+                                                                title="{{ data_definition.description }}" class="float" >
+                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                           {% endif %}
+                                                        {% endfor %}
+                                                        Campus Partner Name</label>
                                                     <div class="col-sm-7">
                                                         {{ campus_partner_form.name}}
                                                         {% if campus_partner_form.name.errors %} {% for error in campus_partner_form.name.errors %}
@@ -354,7 +362,15 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <label for="id_college_name" class="col-sm-4">College or Main Unit</label>
+                                                    <label for="id_college_name" class="col-sm-4">
+                                                        {% for data_definition in data_definition %}
+                                                       {% if data_definition.id == 43%}
+                                                          <span tabindex="-1" data-toggle="tooltip"
+                                                                title="{{ data_definition.description }}" class="float" >
+                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                           {% endif %}
+                                                        {% endfor %}
+                                                        College or Main Unit</label>
                                                     <div class="col">
                                                         {{ campus_partner_form.college_name}}
                                                         {% if campus_partner_form.college_name.errors %} {% for error in campus_partner_form.name.errors %}
@@ -461,12 +477,14 @@
 </div>
     </div>
 
+        </div>
+    </div>
 </form>
 
 
 
 
-<br><br>
+<br><br><br><br><br><br><br><br>
 {% block selectizeForm %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 {#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>#}
@@ -907,18 +925,10 @@
 </script>
 
 <script>
-    $(function () {
-        $('[data-toggle="popover"]').popover()
-    })
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
 </script>
-
-
-
-
-
-
-
-
 <script type="text/javascript">
 $(document).ready(function() {
     $('#smartwizard').smartWizard({

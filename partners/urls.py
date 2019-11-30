@@ -4,8 +4,8 @@ from . import views
 app_name = 'partners'
 
 urlpatterns = [
-     path('registerCampusPartner/', views.registerCampusPartner, name='registerCampusPartner'),
-     path('registerCommunityPartner/', views.registerCommunityPartner, name='registerCommunityPartner'),
+     path('register-Campus-Partner/', views.registerCampusPartner, name='registerCampusPartner'),
+     path('register-Community-Partner/', views.registerCommunityPartner, name='registerCommunityPartner'),
      path('profile/userprofile/', views.userProfile, name='userprofile'),
      path('profile/userprofileupdate/', views.userProfileUpdate,name='userprofileupdate'),
      path('profile/orgprofile/', views.orgProfile, name='orgprofile'),
@@ -18,6 +18,6 @@ urlpatterns = [
      path('SuggestCampus/', views.ajax_load_campus, name='ajax_load_campus'),
      path('registerCampusPartnerForProject/', views.registerCampusPartner_forprojects, name='registerCampusPartnerforprojects'),
      path('registerCommunityPartnerForProject/', views.registerCommunityPartner_forprojects, name='registerCommPartnerforprojects'),
-     path('checkCommunityPartner/', views.checkCommunityPartner, name='checkCommunityPartner')
+     path('check-Community-Partner/', views.checkCommunityPartner, name='checkCommunityPartner')
 
 ]

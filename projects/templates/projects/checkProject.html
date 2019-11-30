@@ -262,7 +262,7 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
-                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+                            document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
 var label = '<label style="margin-left: 15px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
 $('.label').append(label);
         var html='<th>                        {% for data_definition in data_definition %}\n' +
@@ -302,7 +302,7 @@ $('.label').append(label);
         var projectName = $('#projectName').val();
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
-                            document.getElementById("lnk-create_project").setAttribute("href","/createProject?p_name=" + projectName);
+                            document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
         document.getElementById("tablerows").style.display = "none";
         </script>
 {% endif %}

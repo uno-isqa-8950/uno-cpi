@@ -941,10 +941,11 @@ def project_partner_info_public(request):
                     , COALESCE(mission_filter.CampPartners, 0) camp \
                     , COALESCE(mission_comm_filter.CommParnters, 0) comm \
                     , mission_comm_filter.comms_id comm_ids \
+                    , hm.mission_color color \
                     from home_missionarea hm \
                     left join mission_filter on hm.id = mission_filter.mission_id \
                     left join mission_comm_filter on hm.id = mission_comm_filter.mission_id \
-                    group by mission_area, description, proj, proj_ids, camp, comm, comm_ids \
+                    group by mission_area, description, proj, proj_ids, camp, comm, comm_ids, color \
                     order by mission_area;"
 
     print("Final query: ", query_end)
@@ -988,7 +989,7 @@ def project_partner_info_public(request):
 
         data_list.append({"mission_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
                             "campus_count": obj[4], "community_count": obj[5], "comm_id_list": comm_idList,
-                            "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours})
+                            "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours, 'focus_color': obj[7]})
 
         proj_total = proj_total + obj[2]
         comm_total = comm_total + obj[5]

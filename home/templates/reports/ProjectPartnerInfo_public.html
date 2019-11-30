@@ -231,7 +231,7 @@
                         <tbody>
                             {% for m in mission_list %}
                             <tr>
-                                <td>{{m.mission_name}}</td>
+                                <td><a style="color: {{ m.focus_color }}">{{m.mission_name}}</a></td>
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}

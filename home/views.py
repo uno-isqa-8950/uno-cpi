@@ -105,6 +105,9 @@ def districtGEO():
     district = geojson["features"]
     return district
 
+def resourceData(request):
+    resources = Resource.objects.filter(isAccessible=1)
+    return {'resources': resources}
 
 def home(request):
     return render(request, 'home/communityPartner.html',

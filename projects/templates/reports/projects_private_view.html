@@ -624,6 +624,7 @@ table{
 </div>
 <span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
 <div class="row" style="float:right; padding-right: 10px">
+
 {% if cards.has_other_pages %}
 
     {% if cards.has_previous %}
@@ -633,7 +634,7 @@ table{
     {% endif %}
     {% for num in cards.paginator.page_range %}
       {% if cards.number == num %}
-        <a class="btn btn-secondary"href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+        <a class="btn btn-secondary active "href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
          <a class="btn btn-secondary" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% endif %}

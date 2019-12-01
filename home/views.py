@@ -2197,20 +2197,9 @@ def networkanalysis(request):
     # else:
     #     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
-    college_value = request.GET.get('college_name', None)
-    if college_value is None or college_value == "All" or college_value == '':
-        campus_filter_qs = CampusPartner.objects.all()
-    else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-
-    campus_id = request.GET.get('campus_partner')
-    if campus_id == "All":
-        campus_id = -1
-    if (campus_id is None or campus_id == ''):
-        campus_id = 0
-    else:
-        campus_id = int(campus_id)
+    campus_filter_qs = CampusPartner.objects.all()
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
+    # print(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@",campus_filter)
 
     legislative_choices = []
     legislative_search = ''
@@ -2245,7 +2234,7 @@ def networkanalysis(request):
                    'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'max_year':max_year,
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
-                    'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
+                    'college_filter': college_filter,'k12_choices': k12_choices,
                     'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter} )
 
 
@@ -2332,20 +2321,11 @@ def issueaddress(request):
     # else:
     #     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
-    college_value = request.GET.get('college_name', None)
-    if college_value is None or college_value == "All" or college_value == '':
-        campus_filter_qs = CampusPartner.objects.all()
-    else:
-        campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-    campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-    campus_id = request.GET.get('campus_partner')
-    if campus_id == "All":
-        campus_id = -1
-    if (campus_id is None or campus_id == ''):
-        campus_id = 0
-    else:
-        campus_id = int(campus_id)
+    campus_filter_qs = CampusPartner.objects.all()
+    campus_filter = [{'name': m.name, 'id': m.id,'college':m.college_name_id} for m in campus_filter_qs]
+
+
 
     legislative_choices = []
     legislative_search = ''
@@ -2380,6 +2360,6 @@ def issueaddress(request):
                    'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'min_yr_id':min_yr_id,
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
-                    'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,'campus_id': campus_id,
+                    'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,
                     'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year,"user_role":user_role} )
 

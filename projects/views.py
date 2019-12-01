@@ -140,9 +140,11 @@ def communitypartnerproject(request):
 
 
 def ajax_load_project(request):
-    project_name = request.GET.get('name', None)
+    name = request.GET.get('name')
+    project_year = request.GET.get('year')
+    projectnameandyear = name+': '+ project_year
     data = {
-        'is_taken': Project.objects.filter(project_name__iexact=project_name).exists()
+        'is_taken': Project.objects.filter(project_name__icontains=projectnameandyear).exists()
     }
     return JsonResponse(data)
 
@@ -290,7 +292,6 @@ def getEngagemetActivityList(request):
     return JsonResponse(data)
 
 
-
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
@@ -398,29 +399,35 @@ def createProject(request):
             elif stat == 'Active':
 
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                    fulladdress = proj.address_line1 + ' ' + proj.city
-                    geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                    proj.latitude = geocode_result[0]['geometry']['location']['lat']
-                    proj.longitude = geocode_result[0]['geometry']['location']['lng']
-                    #### checking lat and long are incorrect
-                    if (proj.latitude == '0') or (proj.longitude == '0'):
+                    try:
+                        fulladdress = proj.address_line1 + ' ' + proj.city
+                        geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                        proj.latitude = geocode_result[0]['geometry']['location']['lat']
+                        proj.longitude = geocode_result[0]['geometry']['location']['lng']
+                        #### checking lat and long are incorrect
+                        if (proj.latitude == '0') or (proj.longitude == '0'):
+                            proj.save()
+
                         proj.save()
 
-                    proj.save()
-                    coord = Point([proj.longitude, proj.latitude])
-                    for i in range(len(district)):  # iterate through a list of district polygons
-                        property = district[i]
-                        polygon = shape(property['geometry'])  # get the polygons
-                        if polygon.contains(coord):  # check if a partner is in a polygon
-                            proj.legislative_district = property["id"]  # assign the district number to a partner
-                            proj.save()
-                    for m in range(len(countyData)):  # iterate through the County Geojson
-                        properties2 = countyData[m]
-                        polygon = shape(properties2['geometry'])  # get the polygon
-                        if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                            proj.county = properties2['properties']['NAME']
-                            proj.median_household_income = properties2['properties']['Income']
-                            proj.save()
+                        coord = Point([proj.longitude, proj.latitude])
+
+                        for i in range(len(district)):  # iterate through a list of district polygons
+                            property = district[i]
+                            polygon = shape(property['geometry'])  # get the polygons
+                            if polygon.contains(coord):  # check if a partner is in a polygon
+                                proj.legislative_district = property["id"]  # assign the district number to a partner
+                                proj.save()
+                        for m in range(len(countyData)):  # iterate through the County Geojson
+                            properties2 = countyData[m]
+                            polygon = shape(properties2['geometry'])  # get the polygon
+                            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                                proj.county = properties2['properties']['NAME']
+                                proj.median_household_income = properties2['properties']['Income']
+                                proj.save()
+                    except:
+                        proj.save()
+
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -654,6 +661,34 @@ def editProject(request, pk):
 
                     return HttpResponseRedirect("/myDrafts")
                 else:
+                    address = instances.address_line1
+                    if (address != 'N/A' and address != ''): # check if a community partner's address is there
+                        try:
+                            fulladdress = instances.address_line1 + ' ' + instances.city
+                            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
+                            instances.latitude = geocode_result[0]['geometry']['location']['lat']
+                            instances.longitude = geocode_result[0]['geometry']['location']['lng']
+                            #### checking lat and long are incorrect
+                            if (instances.latitude == '0') or (instances.longitude == '0'):
+                                instances.save()
+
+                            instances.save()
+                            coord = Point([instances.longitude, instances.latitude])
+                            for i in range(len(district)):  # iterate through a list of district polygons
+                                property = district[i]
+                                polygon = shape(property['geometry'])  # get the polygons
+                                if polygon.contains(coord):  # check if a partner is in a polygon
+                                    instances.legislative_district = property["id"]  # assign the district number to a partner
+                                    instances.save()
+                            for m in range(len(countyData)):  # iterate through the County Geojson
+                                properties2 = countyData[m]
+                                polygon = shape(properties2['geometry'])  # get the polygon
+                                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
+                                    instances.county = properties2['properties']['NAME']
+                                    instances.median_household_income = properties2['properties']['Income']
+                                    instances.save()
+                        except:
+                            instances.save()
                     instances.save()
                     # pm = formset_missiondetails.save()
                     compar = formset_comm_details.save()
@@ -736,10 +771,11 @@ def editProject(request, pk):
                                     }
 
                             projects_list.append(data)
+                if request.user.is_superuser == True:
+                    return HttpResponseRedirect('/allProjects')
+                else:
+                    return HttpResponseRedirect('/myProjects')
 
-                    return HttpResponseRedirect("/allProjects")
-
-                # return render(request, 'projects/myProjects.html', {'project': projects_list})
 
     else:
 

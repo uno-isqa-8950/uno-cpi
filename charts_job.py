@@ -7,14 +7,14 @@ import os
 
 # import charts_campuspartner_json,charts_communitypartner_json,charts_missionsubcat_json,charts_project_json
 
-sched = BlockingScheduler()
-sched1 = BackgroundScheduler()
+#sched = BlockingScheduler()
+#sched1 = BackgroundScheduler()
 
 logger=logging.getLogger("UNO CPI Application Charts Batch job")
 
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=2)
+#@sched.scheduled_job('cron', day_of_week='mon-sun', hour=2)
 
-def scheduled_job():
+def main():
     print('This job is run every day at  GMT/ 11 PM CDT.')
     projectScript = 'python charts_project_json.py'
     communityScript = 'python charts_communitypartner_json.py'
@@ -33,4 +33,5 @@ def scheduled_job():
     print("Start mission script")
     os.system(missionScript)
     print("End mission script")
-sched.start()
+
+main()

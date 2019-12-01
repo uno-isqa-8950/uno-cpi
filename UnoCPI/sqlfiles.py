@@ -1145,8 +1145,8 @@ def showSelectedProjects(project_name_list):
                                 left join projects_activitytype a on p.activity_type_id = a.id 
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id 
                                 left join projects_subcategory s on psub.sub_category_id = s.id 
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts' 
-                                where p.id in """+str(project_name_list)+"""
+                                left join projects_status status on status.id = p.status_id 
+                                where status.name !='Drafts' and  p.id in """+str(project_name_list)+"""
                         group by p.project_name 
                                   , pa.academic_year \
                                   , p.semester 

@@ -72,7 +72,7 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                         <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/projectInfo">Focus Areas</a>
+                            <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a>
                             <a class="dropdown-item" href="/engageType">Engagement Types</a>
 {#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                             {% if  user.is_authenticated %}
@@ -89,11 +89,12 @@
                             <ul class="dropdown-menu">
                                 <a class="dropdown-item" href="/missionchart">Focus Areas</a>
                                 <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                                <a class="dropdown-item" href="/issueaddress">Issues Addressed Analysis</a>
+                                <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a>
                                     {% if  user.is_superuser %}
                                     <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a>
-                                    {% endif %}
+
                                 <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
+                                        {% endif %}
                                 <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
                             </ul>
                         </li>
@@ -111,7 +112,7 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
                         <a class="dropdown-item" href='/myProjects/'>My Project</a>
-                        <a class="dropdown-item" href='/checkProject/'>Create Project</a>
+                        <a class="dropdown-item" href='/check-Project/'>Create Project</a>
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
@@ -128,7 +129,7 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
-                        <a class="dropdown-item" href='/checkProject/'>Create Project</a>
+                        <a class="dropdown-item" href='/check-Project/'>Create Project</a>
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>

@@ -942,7 +942,7 @@ order by p.project_name;
 #This query is for myprojects for campus partners and community partners
 
 my_projects="""
-select p.project_name
+select distinct p.project_name
                           ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
@@ -1014,7 +1014,7 @@ select p.project_name
 
 
 my_drafts="""
-select p.project_name
+select distinct p.project_name
                           ,array_agg(distinct hm.mission_name) mission_area
                           ,array_agg(distinct pc.name) CommPartners
                             ,array_agg(distinct c.name) CampPartners
@@ -1104,7 +1104,7 @@ missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
 
 def showSelectedProjects(project_name_list):
-	return ( """select  p.project_name 
+	return ( """select distinct p.project_name 
                                 , array_agg(distinct hm.mission_name) mission_area 
                                 , array_agg(distinct pc.name) CommPartners 
                                 , array_agg(distinct c.name) CampPartners 
@@ -1144,8 +1144,8 @@ def showSelectedProjects(project_name_list):
                                 left join projects_activitytype a on p.activity_type_id = a.id 
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id 
                                 left join projects_subcategory s on psub.sub_category_id = s.id 
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts' 
-                                where p.id in """+str(project_name_list)+"""
+                                left join projects_status status on status.id = p.status_id 
+                                where status.name !='Drafts' and  p.id in """+str(project_name_list)+"""
                         group by p.project_name 
                                   , pa.academic_year \
                                   , p.semester 
@@ -1523,9 +1523,7 @@ order by p.project_name;
 community_private_report = """
 select pc.name commpartners
   ,array_agg(distinct hm.mission_name) mission
-  ,COALESCE (count(distinct p.project_name),0) Projects
-  ,COALESCE (sum(p.total_uno_students),0) numberofunostudents
-  ,COALESCE (sum(p.total_uno_hours),0) unostudentshours
+  ,count(distinct p.project_name) Projects
   , pc.website_url website
   , array_agg(distinct p.id) ProjectID
   , pc.partner_status_id CommStatus

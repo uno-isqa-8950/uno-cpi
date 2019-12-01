@@ -816,7 +816,7 @@ $("#id_academic_year").change(function () {
         dataType: 'json',
         success: function (data) {
             if (data.is_taken) {
-                // alert("A project with this name already exists");
+                alert("A project with this name and year already exists");
                 document.getElementById("id_project_name").value = ("");
                 document.getElementById("id_project_name").style.borderColor = "red";
                 document.getElementById("id_academic_year").style.borderColor = "red";
@@ -837,7 +837,7 @@ $("#id_project_name").change(function () {
         dataType: 'json',
         success: function (data) {
             if (data.is_taken) {
-                // alert("A project with this name already exists");
+                alert("A project with this name and year already exists");
                 document.getElementById("id_project_name").value = ("");
                 document.getElementById("id_project_name").style.borderColor = "red";
                 document.getElementById("id_academic_year").style.borderColor = "red";

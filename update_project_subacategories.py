@@ -18,6 +18,7 @@ def read_content():
     wb = xlrd.open_workbook(FILENAME) 
     sheet = wb.sheet_by_index(0) 
     sheet.cell_value(0, 0) 
+    total_proj_count = 0
     #for i in range(1,2): 
     for i in range(sheet.nrows): 
       project = {}
@@ -33,8 +34,10 @@ def read_content():
       if str(project['name']) == 'Projects' and str(project['mission']) == 'Mission Areas':
         print('skip the header')
       else:
+        total_proj_count = total_proj_count + 1
         projects.append(project)      
   
+    print(str(total_proj_count), " read projects")
     return projects
 
 # function to open add investment page to add investment details.
@@ -194,7 +197,15 @@ def addInvestments():
                             print('mapping already exists')
                           else:                            
                             currdate =datetime.datetime.now()
-                            cursor.execute("insert into projects_projectsubcategory (sub_category_id,project_name_id,created_date,updated_date) VALUES (%s, %s, %s,%s)",(str(subCatId),str(projectId),str(currdate),str(currdate)))
+                            select_max_subid = "select max(id) from projects_projectsubcategory"
+                            subPrimaryId = 0
+                            cursor.execute(select_max_subid)
+                            for id in cursor.fetchall():
+                              subPrimaryId = id[0]
+
+                            subPrimaryId = subPrimaryId + 1
+                            cursor.execute("insert into projects_projectsubcategory \
+                              (id, sub_category_id,project_name_id,created_date,updated_date) VALUES (%s, %s, %s, %s,%s)",(str(subPrimaryId),str(subCatId),str(projectId),str(currdate),str(currdate)))
                             connection.commit()
                       
                       if subMissnId !=0:
@@ -205,19 +216,30 @@ def addInvestments():
                           if len(missionresult) >0:
                             print('mission mapping already exists')
                           else:
+                            select_max_id = "select max(id) from projects_projectmission"
+                            misnId = 0
+                            cursor.execute(select_max_id)
+                            for id in cursor.fetchall():
+                              misnId = id[0]
+
+                            misnId = misnId + 1
                             insert_project_other_mission = "insert into projects_projectmission( \
-                            mission_type,mission_id,project_name_id) values('Other',"+str(subMissnId)+","+str(projectId)+")"
+                            mission_type,id,mission_id,project_name_id) values('Other',"+str(misnId)+","+str(subMissnId)+","+str(projectId)+")"
                             #print('insert_project_other_mission --',insert_project_other_mission)
                             cursor.execute(insert_project_other_mission)
                             connection.commit()
                       else:
-                          othersubCat.append(subcat_name)                        
-                          update_proj_other_sub_desc = "update projects_project \
-                          set other_sub_category = %s where id = %s"
-                          #print('tuple(othersubCat)--',othersubCat)
-                          #print('update_proj_other_sub_desc --',update_proj_other_sub_desc)
-                          cursor.execute(update_proj_other_sub_desc,(othersubCat,projectId))
-                          connection.commit()
+                          if othersubCat is None or othersubCat == '':
+                             othersubCat= []
+
+                          if subcat_name is not None:
+                              othersubCat.append(subcat_name)                        
+                              update_proj_other_sub_desc = "update projects_project \
+                              set other_sub_category = %s where id = %s"
+                              #print('tuple(othersubCat)--',othersubCat)
+                              #print('update_proj_other_sub_desc --',update_proj_other_sub_desc)
+                              cursor.execute(update_proj_other_sub_desc,(othersubCat,projectId))
+                              connection.commit()
 
                       proj_count = proj_count +1
                       print(str(proj_name) + " has been updated with "+str(subcat_name))
@@ -231,7 +253,7 @@ def addInvestments():
 
 
         print(str(proj_count) + " has been updated")
-        print(str(proj_notfound) + " has not been updated")
+        print(str(proj_notfound) + " not found in database")
         print(str(proj_nosubCat) + " has not sub sub_category")
         cursor.close()
         connection.close()

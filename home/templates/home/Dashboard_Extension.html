@@ -185,6 +185,20 @@ margin-top:15px;
 {#                </div>#}
                 </li>
 {#               {% endif %}#}
+
+            <li class=" nav-item dropdown">
+                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    <i class="fa fa-tasks fa-x"></i>
+                    Resources
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    {% for r in resources %}
+                        <a class="dropdown-item" href="{{r.resource_link}}" target="_blank">{{r.resource_descr}}</a>
+                    {% endfor %}
+                </div>
+            </li>
+
                 {% if user.is_authenticated and user.is_superuser  %}
 
 

@@ -72,6 +72,7 @@ p {
     color: White;
     transition: all 0.3s;
     padding:10px;
+    padding-top:35px;
     /*opacity: .9;*/
     display: flex; flex-direction: row;    display: -moz-box;
     display: -webkit-flexbox;

@@ -1072,11 +1072,57 @@ $('#update').show;
                       window.location = '/checkProject';
                     }
         });
+    //----------------------project name and year validation---------------------
+    $("#id_academic_year").change(function () {
+    var projectname = $("#id_project_name").val();
+    var academicyear = $("#id_academic_year option:selected").text();
+    var projectandyear = projectname +': '+ academicyear;
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': projectname,
+            'year': academicyear
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                // alert("A project with this name already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+                document.getElementById("id_academic_year").style.borderColor = "red";
+            }
+        }
+    });
+});
+$("#id_project_name").change(function () {
+    var projectname = $("#id_project_name").val();
+    var academicyear = $("#id_academic_year option:selected").text();
+    var projectandyear = projectname +': '+ academicyear;
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': projectname,
+            'year': academicyear
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                // alert("A project with this name already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+                document.getElementById("id_academic_year").style.borderColor = "red";
+            }
+        }
+    });
+});
     //----------------------form wizard each step validation---------------------------
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
         var elmForm = $("#form-step-" + stepNumber);
         if (stepDirection === 'forward') {
             if (stepNumber === 0) {
+                var projectname = $("#id_project_name").val();
+                var academicyear = $("#id_semester").val();
+                var projectandyear = projectname + academicyear;
                 $('.sw-btn-prev').show();
                 $('.sw-btn-next').show();
                 if (($("#id_project_name").val() === '')) {

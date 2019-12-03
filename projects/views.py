@@ -323,6 +323,7 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
+                proj.save()
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -397,7 +398,7 @@ def createProject(request):
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
-
+                proj.save()
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
                     try:
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -1220,8 +1221,9 @@ def showAllProjects(request):
                                 left join projects_activitytype a on p.activity_type_id = a.id \
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id \
                                 left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts'  \
-                                where ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                left join projects_status status on status.id = p.status_id  \
+                                where status.name !='Drafts' and \
+                                ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                         (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
     clause_query = ""
     if eng_type_cond !='%':
@@ -1464,7 +1466,7 @@ def projectstablePublicReport(request):
     # params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
     #           K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select distinct p.project_name \
+    project_start_query = "select  distinct p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
                                 , array_agg(distinct pc.name) CommPartners \
                                 , array_agg(distinct c.name) CampPartners \
@@ -1504,8 +1506,9 @@ def projectstablePublicReport(request):
                                 left join projects_activitytype a on p.activity_type_id = a.id \
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id \
                                 left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts'  \
-                                where ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                left join projects_status status on status.id = p.status_id   \
+                                where status.name !='Drafts'\
+                                and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
                                         (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
     clause_query = ""
     if eng_type_cond !='%':
@@ -1722,48 +1725,52 @@ def projectsPublicReport(request):
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
     project_start_query = "select distinct p.project_name \
-                                , array_agg(distinct hm.mission_name) mission_area \
-                                , array_agg(distinct pc.name) CommPartners \
-                                , array_agg(distinct c.name) CampPartners \
-                                , array_agg(distinct e.name) engagement_type \
-                                , pa.academic_year \
-                                , p.semester \
-                                , status.name status \
-                                , case when p.start_date is null then 'None' end start_date \
-                                , case when p.end_date is null then 'None' end end_date \
-                                , p.outcomes \
-                                , p.total_uno_students \
-                                , p.total_uno_hours \
-                                , p.total_uno_faculty \
-                                , p.total_k12_students \
-                                , p.total_k12_hours \
-                                , p.total_other_community_members \
-                                , a.name activity_type \
-                                , p.description \
-                                , p.project_type project_type \
-                                , p.end_semester end_semester \
-                                , ea.academic_year end_academic_year \
-                                , array_agg(distinct s.sub_category) sub_category \
-                                , p.campus_lead_staff campus_lead_staff \
-                                , hm.mission_image_url mission_image \
-                                , p.other_activity_type act_type \
-                                , p.other_sub_category other_subCat \
-                                from projects_project p \
-                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
-                                left join home_missionarea hm on hm.id = m.mission_id \
-                                left join projects_engagementtype e on e.id = p.engagement_type_id \
-                                left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
-                                left join partners_communitypartner pc on pp.community_partner_id = pc.id \
-                                left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
-                                left join partners_campuspartner c on pp2.campus_partner_id = c.id \
-                                left join projects_academicyear pa on p.academic_year_id = pa.id \
-                                left join projects_academicyear ea on p.end_academic_year_id = ea.id \
-                                left join projects_activitytype a on p.activity_type_id = a.id \
-                                left join projects_projectsubcategory psub on psub.project_name_id = p.id \
-                                left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts'  \
-                                where ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
+                                   , array_agg(distinct hm.mission_name) mission_area \
+                                   , array_agg(distinct pc.name) CommPartners \
+                                   , array_agg(distinct c.name) CampPartners \
+                                   , array_agg(distinct e.name) engagement_type \
+                                   , pa.academic_year \
+                                   , p.semester \
+                                   , status.name status \
+                                   , case when p.start_date is null then 'None' end start_date \
+                                   , case when p.end_date is null then 'None' end end_date \
+                                   , p.outcomes \
+                                   , p.total_uno_students \
+                                   , p.total_uno_hours \
+                                   , p.total_uno_faculty \
+                                   , p.total_k12_students \
+                                   , p.total_k12_hours \
+                                   , p.total_other_community_members \
+                                   , a.name activity_type \
+                                   , p.description \
+                                   , p.project_type project_type \
+                                   , p.end_semester end_semester \
+                                   , ea.academic_year end_academic_year \
+                                   , array_agg(distinct s.sub_category) sub_category \
+                                   , p.campus_lead_staff campus_lead_staff \
+                                   , hm.mission_image_url mission_image \
+                                   , p.other_activity_type act_type \
+                                   , p.other_sub_category other_subCat \
+                                   from projects_project p \
+                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   left join home_missionarea hm on hm.id = m.mission_id \
+                                   left join projects_engagementtype e on e.id = p.engagement_type_id \
+                                   left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
+                                   left join partners_communitypartner pc on pp.community_partner_id = pc.id \
+                                   left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
+                                   left join partners_campuspartner c on pp2.campus_partner_id = c.id \
+                                   left join projects_academicyear pa on p.academic_year_id = pa.id \
+                                   left join projects_academicyear ea on p.end_academic_year_id = ea.id \
+                                   left join projects_activitytype a on p.activity_type_id = a.id \
+                                   left join projects_projectsubcategory psub on psub.project_name_id = p.id \
+                                   left join projects_subcategory s on psub.sub_category_id = s.id \
+                                   left join projects_status status on status.id = p.status_id \
+                                   where status.name != 'Drafts' \
+                                       and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
+        academic_end_year_cond) + ")) \
+                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+
     clause_query = ""
     if eng_type_cond !='%':
         clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
@@ -1986,49 +1993,53 @@ def projectsPrivateReport(request):
     params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
-    project_start_query = "select distinct  p.project_name \
-                                , array_agg(distinct hm.mission_name) mission_area \
-                                , array_agg(distinct pc.name) CommPartners \
-                                , array_agg(distinct c.name) CampPartners \
-                                , array_agg(distinct e.name) engagement_type \
-                                , pa.academic_year \
-                                , p.semester \
-                                , status.name status \
-                                , case when p.start_date is null then 'None' end start_date \
-                                , case when p.end_date is null then 'None' end end_date \
-                                , p.outcomes \
-                                , p.total_uno_students \
-                                , p.total_uno_hours \
-                                , p.total_uno_faculty \
-                                , p.total_k12_students \
-                                , p.total_k12_hours \
-                                , p.total_other_community_members \
-                                , a.name activity_type \
-                                , p.description \
-                                , p.project_type project_type \
-                                , p.end_semester end_semester \
-                                , ea.academic_year end_academic_year \
-                                , array_agg(distinct s.sub_category) sub_category \
-                                , p.campus_lead_staff campus_lead_staff \
-                                , hm.mission_image_url mission_image \
-                                , p.other_activity_type act_type \
-                                , p.other_sub_category other_subCat \
-                                from projects_project p \
-                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
-                                left join home_missionarea hm on hm.id = m.mission_id \
-                                left join projects_engagementtype e on e.id = p.engagement_type_id \
-                                left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
-                                left join partners_communitypartner pc on pp.community_partner_id = pc.id \
-                                left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
-                                left join partners_campuspartner c on pp2.campus_partner_id = c.id \
-                                left join projects_academicyear pa on p.academic_year_id = pa.id \
-                                left join projects_academicyear ea on p.end_academic_year_id = ea.id \
-                                left join projects_activitytype a on p.activity_type_id = a.id \
-                                left join projects_projectsubcategory psub on psub.project_name_id = p.id \
-                                left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts'  \
-                                where ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
+    project_start_query = "select distinct p.project_name \
+                                   , array_agg(distinct hm.mission_name) mission_area \
+                                   , array_agg(distinct pc.name) CommPartners \
+                                   , array_agg(distinct c.name) CampPartners \
+                                   , array_agg(distinct e.name) engagement_type \
+                                   , pa.academic_year \
+                                   , p.semester \
+                                   , status.name status \
+                                   , case when p.start_date is null then 'None' end start_date \
+                                   , case when p.end_date is null then 'None' end end_date \
+                                   , p.outcomes \
+                                   , p.total_uno_students \
+                                   , p.total_uno_hours \
+                                   , p.total_uno_faculty \
+                                   , p.total_k12_students \
+                                   , p.total_k12_hours \
+                                   , p.total_other_community_members \
+                                   , a.name activity_type \
+                                   , p.description \
+                                   , p.project_type project_type \
+                                   , p.end_semester end_semester \
+                                   , ea.academic_year end_academic_year \
+                                   , array_agg(distinct s.sub_category) sub_category \
+                                   , p.campus_lead_staff campus_lead_staff \
+                                   , hm.mission_image_url mission_image \
+                                   , p.other_activity_type act_type \
+                                   , p.other_sub_category other_subCat \
+                                   from projects_project p \
+                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   left join home_missionarea hm on hm.id = m.mission_id \
+                                   left join projects_engagementtype e on e.id = p.engagement_type_id \
+                                   left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
+                                   left join partners_communitypartner pc on pp.community_partner_id = pc.id \
+                                   left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
+                                   left join partners_campuspartner c on pp2.campus_partner_id = c.id \
+                                   left join projects_academicyear pa on p.academic_year_id = pa.id \
+                                   left join projects_academicyear ea on p.end_academic_year_id = ea.id \
+                                   left join projects_activitytype a on p.activity_type_id = a.id \
+                                   left join projects_projectsubcategory psub on psub.project_name_id = p.id \
+                                   left join projects_subcategory s on psub.sub_category_id = s.id \
+                                   left join projects_status status on status.id = p.status_id \
+                                   where status.name != 'Drafts' \
+                                       and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
+        academic_end_year_cond) + ")) \
+                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+
     clause_query = ""
     if eng_type_cond !='%':
         clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
@@ -2242,48 +2253,52 @@ def projectstablePrivateReport(request):
               K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
     project_start_query = "select distinct p.project_name \
-                                , array_agg(distinct hm.mission_name) mission_area \
-                                , array_agg(distinct pc.name) CommPartners \
-                                , array_agg(distinct c.name) CampPartners \
-                                , array_agg(distinct e.name) engagement_type \
-                                , pa.academic_year \
-                                , p.semester \
-                                , status.name status \
-                                , case when p.start_date is null then 'None' end start_date \
-                                , case when p.end_date is null then 'None' end end_date \
-                                , p.outcomes \
-                                , p.total_uno_students \
-                                , p.total_uno_hours \
-                                , p.total_uno_faculty \
-                                , p.total_k12_students \
-                                , p.total_k12_hours \
-                                , p.total_other_community_members \
-                                , a.name activity_type \
-                                , p.description \
-                                , p.project_type project_type \
-                                , p.end_semester end_semester \
-                                , ea.academic_year end_academic_year \
-                                , array_agg(distinct s.sub_category) sub_category \
-                                , p.campus_lead_staff campus_lead_staff \
-                                , hm.mission_image_url mission_image \
-                                , p.other_activity_type act_type \
-                                , p.other_sub_category other_subCat \
-                                from projects_project p \
-                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
-                                left join home_missionarea hm on hm.id = m.mission_id \
-                                left join projects_engagementtype e on e.id = p.engagement_type_id \
-                                left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
-                                left join partners_communitypartner pc on pp.community_partner_id = pc.id \
-                                left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
-                                left join partners_campuspartner c on pp2.campus_partner_id = c.id \
-                                left join projects_academicyear pa on p.academic_year_id = pa.id \
-                                left join projects_academicyear ea on p.end_academic_year_id = ea.id \
-                                left join projects_activitytype a on p.activity_type_id = a.id \
-                                left join projects_projectsubcategory psub on psub.project_name_id = p.id \
-                                left join projects_subcategory s on psub.sub_category_id = s.id \
-                                left join projects_status status on status.id = p.status_id and status.name !='Drafts'  \
-                                where ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                        (COALESCE(p.end_academic_year_id, p.academic_year_id) >= "+ str(academic_end_year_cond)+")) "
+                                   , array_agg(distinct hm.mission_name) mission_area \
+                                   , array_agg(distinct pc.name) CommPartners \
+                                   , array_agg(distinct c.name) CampPartners \
+                                   , array_agg(distinct e.name) engagement_type \
+                                   , pa.academic_year \
+                                   , p.semester \
+                                   , status.name status \
+                                   , case when p.start_date is null then 'None' end start_date \
+                                   , case when p.end_date is null then 'None' end end_date \
+                                   , p.outcomes \
+                                   , p.total_uno_students \
+                                   , p.total_uno_hours \
+                                   , p.total_uno_faculty \
+                                   , p.total_k12_students \
+                                   , p.total_k12_hours \
+                                   , p.total_other_community_members \
+                                   , a.name activity_type \
+                                   , p.description \
+                                   , p.project_type project_type \
+                                   , p.end_semester end_semester \
+                                   , ea.academic_year end_academic_year \
+                                   , array_agg(distinct s.sub_category) sub_category \
+                                   , p.campus_lead_staff campus_lead_staff \
+                                   , hm.mission_image_url mission_image \
+                                   , p.other_activity_type act_type \
+                                   , p.other_sub_category other_subCat \
+                                   from projects_project p \
+                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   left join home_missionarea hm on hm.id = m.mission_id \
+                                   left join projects_engagementtype e on e.id = p.engagement_type_id \
+                                   left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
+                                   left join partners_communitypartner pc on pp.community_partner_id = pc.id \
+                                   left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id \
+                                   left join partners_campuspartner c on pp2.campus_partner_id = c.id \
+                                   left join projects_academicyear pa on p.academic_year_id = pa.id \
+                                   left join projects_academicyear ea on p.end_academic_year_id = ea.id \
+                                   left join projects_activitytype a on p.activity_type_id = a.id \
+                                   left join projects_projectsubcategory psub on psub.project_name_id = p.id \
+                                   left join projects_subcategory s on psub.sub_category_id = s.id \
+                                   left join projects_status status on status.id = p.status_id \
+                                   where status.name != 'Drafts' \
+                                       and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
+        academic_end_year_cond) + ")) \
+                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+
     clause_query = ""
     if eng_type_cond !='%':
         clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
@@ -3152,20 +3167,26 @@ def communityPrivateReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        print('proj ids--',obj[6])
-        proj_ids = obj[6]
+        print('proj ids--',obj[4])
+        proj_ids = obj[4]
         proj_idList = ''
+        sum_uno_students = 0
+        sum_uno_hours = 0
         if proj_ids is not None:
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
+                    for obj1 in cursor.fetchall():
+                        sum_uno_students = sum_uno_students + obj1[0]
+                        sum_uno_hours = sum_uno_hours + obj1[1]
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
-                          "unostudentshours": obj[4], "website": obj[5], "proj_id_list": proj_idList, "CommStatus": obj[7]})
+        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": sum_uno_students,
+                          "unostudentshours": sum_uno_hours, "website": obj[3], "proj_id_list": proj_idList, "CommStatus": obj[5]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,

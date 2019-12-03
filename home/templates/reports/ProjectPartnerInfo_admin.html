@@ -6,27 +6,20 @@
     A.class1:link  {text-decoration: underline; color: #b60000;}
 </style>
 
-<div class="loader" id =loading></div>
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Focus Areas Report</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="center">
-                    {% miss_areas %}
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+<div class="row justify-content-md-center">
+            <div class="col-xl-12 col-md-12 col-sm-12">
+                <br><br>
+<!--                <div class = "panel panel-default" style="width:100%;margin-top: 50px" >-->
+                    <div class=" text-center"><h3 class="heading">Focus Areas Report</h3></div>
+
+                            <div class="card snippet-card">
+                                <div class="text-snippet">
+                                     {% miss_areas %}
+                                </div>
+                             </div>
 
 
-<div class="container">
-    <div class="card" style="padding: 10px;">
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
@@ -56,7 +49,7 @@
 })
   </script>
 <!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+        <div class="box">
             <div class="collapse show" id="collapseExample">
                     <form class="form-inline" role="form" id="filters-form" method="get">
                              <div class="col-lg-4 col-md-5 form-group ">
@@ -177,8 +170,8 @@
 
 
                 <!--div class="card" style="margin-top:10px;padding:5px;box-shadow: 5px 7px 7px 5px grey;"-->
-                <div style="margin-top:15px;">
-                    <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                <div class="box" style="margin-top:15px;">
+                    <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                             <tr>
                             <th>

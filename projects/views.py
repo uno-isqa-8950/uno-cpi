@@ -1878,6 +1878,10 @@ def projectsPublicReport(request):
 
 @login_required()
 def projectsPrivateReport(request):
+    print('proj_per_page--', proj_per_page)
+    proj_per_page_cnt = 5
+    if proj_per_page is not None:
+         proj_per_page_cnt = proj_per_page.description
     selectedprojectId = request.GET.get('proj_id_list', None)
     print('selectedprojectId--',selectedprojectId)
 
@@ -2123,7 +2127,7 @@ def projectsPrivateReport(request):
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
     page = request.GET.get('page', 1)
-    paginator = Paginator(projects_list, 5)
+    paginator = Paginator(projects_list, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:

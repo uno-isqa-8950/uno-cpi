@@ -72,7 +72,11 @@
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
                         <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/projectInfo">Focus Areas</a>
+                            {%  if user.is_superuser %}
+                                <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a>
+                            {%  else %}
+                                <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a>
+                            {% endif %}
                             <a class="dropdown-item" href="/engageType">Engagement Types</a>
 {#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
                             {% if  user.is_authenticated %}
@@ -146,6 +150,19 @@
 
             <li class=" nav-item dropdown">
                 <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+            </li>
+
+            <li class=" nav-item dropdown">
+                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    <i class="fa fa-tasks fa-x"></i>
+                    Resources
+                    <span class="caret"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                    {% for r in resources %}
+                        <a class="dropdown-item" href="{{r.resource_link}}" target="_blank">{{r.resource_descr}}</a>
+                    {% endfor %}
+                </div>
             </li>
 
             {% if user.is_authenticated and user.is_superuser  %}

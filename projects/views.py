@@ -323,6 +323,7 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
+                proj.save()
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -397,7 +398,7 @@ def createProject(request):
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
-
+                proj.save()
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
                     try:
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -3166,20 +3167,26 @@ def communityPrivateReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        print('proj ids--',obj[6])
-        proj_ids = obj[6]
+        print('proj ids--',obj[4])
+        proj_ids = obj[4]
         proj_idList = ''
+        sum_uno_students = 0
+        sum_uno_hours = 0
         if proj_ids is not None:
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
+                    for obj1 in cursor.fetchall():
+                        sum_uno_students = sum_uno_students + obj1[0]
+                        sum_uno_hours = sum_uno_hours + obj1[1]
                     proj_idList = proj_idList + str(i)
                     if name_count < len(proj_ids) - 1:
                         proj_idList = proj_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": obj[3],
-                          "unostudentshours": obj[4], "website": obj[5], "proj_id_list": proj_idList, "CommStatus": obj[7]})
+        data_list.append({"CommunityName": obj[0], "mission":obj[1],"Projects": obj[2], "numberofunostudents": sum_uno_students,
+                          "unostudentshours": sum_uno_hours, "website": obj[3], "proj_id_list": proj_idList, "CommStatus": obj[5]})
 
     return render(request, 'reports/community_private_view.html', {'college_filter': college_partner_filter,'project_filter': project_filter,'data_definition':data_definition,
                                                                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,

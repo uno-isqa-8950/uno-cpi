@@ -11,6 +11,45 @@
             border: 1px;
         box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
         }
+
+         @media screen and (max-width: 1200px) {
+        img {
+            width: 80px;
+            height: 80px;
+        }
+
+        .bottom-card {
+            margin-left: 4rem;
+        }
+        .card-header
+        {
+            padding-left:0.5rem;
+        }
+        .logo-frame{
+            margin-right:8px;
+        }
+           .paginate{
+            text-align: left;
+        }
+    }
+
+    @media screen and (min-width:1200px){
+
+        .bottom-card{
+            margin-left:8rem;
+        }
+        .logo-frame{
+            margin-right:12px;
+        }
+        .paginate{
+            text-align: right;
+        }
+    }
+
+
+    ul{
+        padding-inline-start:15px;
+    }
 /*.select2-hidden-accessible{*/
           /*width:85%;*/
         /*border:2px solid #aaa;*/
@@ -93,11 +132,7 @@
 
     }
 
-    @media (min-width: 1200px) {
-        .container {
-            max-width: 1330px;
-        }
-    }
+
 
     .form-control
     {
@@ -229,7 +264,7 @@
         padding-top: 25px;
     }
     .media-heading{
-        line-height: 0.5 !important;
+        line-height: 1.5 !important;
     }
 b{
     font-size: 15px;
@@ -469,7 +504,7 @@ table{
 
                     <div class="media">
                         <a class="media-left" aria-label="">
-                            <div class="logo-frame" style="padding-right: 12px;">
+                            <div class="logo-frame">
                                 <img src="{{project.mission_image}}" alt="Mission Area Image"
                                      class="logo"
                                      width="130" height="130" alt="">
@@ -490,26 +525,20 @@ table{
                             </h4>
                                 </div>
 
-                            <div class="flex-container">
-  <div style="width: 100%">
-      <p><b> Community Partners: </b> </p>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <p><b> Community Partners: </b> </p>
+                                    {% for comm_part in project.comm_part %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
+                                </div>
 
-      {% for comm_part in project.comm_part %} <li>{{comm_part}}</li> {% endfor %}
+                                <div class="col-md-6 col-sm-12">
+                                    <p><b>Campus Partners:</b></p>
+                                    {% for camp_part in project.camp_part %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
+                                </div>
 
+                            </div>
 
-
-  </div>
-  <div style="width: 100%">
-      <p><b>Campus Partners:</b></p>
-      {% for camp_part in project.camp_part %} <li>{{camp_part}}</li> {% endfor %}
-
-
-
-  </div>
-
-</div>
-
-                            </p></div>
+                            </div>
                     </div>
 
 
@@ -522,108 +551,105 @@ table{
 
 
 
-    <p>
-    <table style="margin-left: 137px; ">
+<div class="row bottom-card">
 
-       <tr>
-                        <td>
-                            <b>Engagement Type :</b>
-                            {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
-                        </td>
-                        <td>
-                            <b> Activity Type :</b> {{ project.activityType}}
-                        </td>
-                        <td>
-                            <b> Start Semester :</b> {{ project.semester}}
-                        </td>
-                    </tr>
-                    <tr>
 
-                        <td>
-                            <b> End Semester :</b> {{ project.end_semester }}
-                        </td>
-                        <td>
-                            <b> Start Academic Year :</b> {{ project.academic_year}}
-                        </td>
-                        <td>
-                            <b> End Academic Year :</b> {{ project.end_academic_year }}
-                        </td>
-                    </tr>
-    <tr>
-        <td>
+        <div class="col-sm-12 col-lg-4">
+            <b>Engagement Type :</b>
+            {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <b> Activity Type :</b> {{ project.activityType}}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <b> Start Semester :</b> {{ project.semester}}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <b> End Semester :</b> {{ project.end_semester }}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <b> Start Academic Year :</b> {{ project.academic_year}}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
+            <b> End Academic Year :</b> {{ project.end_academic_year }}
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
             <b> Total UNO Students : </b> {{project.total_uno_students}}
-        </td>
-        <td>
+        </div>
+
+        <div class="col-sm-12 col-lg-4">
             <b>UNO Student Hours : </b> {{project.total_uno_hours}}
+        </div>
 
-        </td>
-        <td><b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</td>
+        <div class="col-sm-12 col-lg-4">
+            <b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</div>
 
-    </tr>
-    <tr>
+        <div class="col-sm-12 col-lg-4"> <b>Total K-12 Students : </b> {{project.total_k12_students}}</div>
 
-        <td> <b>Total K-12 Students : </b> {{project.total_k12_students}}</td>
-        <td><b>Total K-12 Hours : </b> {{project.total_k12_hours}}</td>
+        <div class="col-sm-12 col-lg-4"><b>Total K-12 Hours : </b> {{project.total_k12_hours}}</div>
 
-
-    </tr>
-
-
-</table>
-
-
-   <div style="margin-left: 137px">
+        <div class="col-sm-12">
             <b>Campus Lead Staff : </b>
-          {% if project.campus_lead_staff|length == 0%} None {%endif%}
-          {% if project.campus_lead_staff|length > 0%}
-          {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-          {%else%}
-          {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
-          {%endif%}
-   </div>
-     <div style="margin-left: 137px">
+            {% if project.campus_lead_staff|length == 0%} None {%endif%}
+            {% if project.campus_lead_staff|length > 0%}
+            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+            {%endif%}
+        </div>
+
+        <div class="col-sm-12">
             <b>Other Activity Type:</b>
-           {% if project.activityType == 'Other' %}
-           {% if project.other_activity_type|length > 0%}
-           {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-           {%else%}
-           {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
-           {%endif%}
-           {%else%}
-           None
-           {%endif%}
-     </div>
-    <div style="margin-left: 137px"><b> Topics : </b>
-        {% if project.sub_category|length > 0%}
-        {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-        {%else%}
-        {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
-        {%endif%}
+            {% if project.activityType == 'Other' %}
+            {% if project.other_activity_type|length > 0%}
+            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+            {%endif%}
+            {%else%}
+            None
+            {%endif%}
+        </div>
+
+        <div class="col-sm-12"><b> Topics : </b>
+            {% if project.sub_category|length > 0%}
+            {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+            {%endif%}
+        </div>
+
+        <div class="col-sm-12"><b> Other Topics : </b>
+
+            {% if project.other_sub_category|length > 0%}
+            {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+            {%endif%}
+
+        </div>
+
+        <div class="col-sm-12"><b> Description :</b> {{ project.description }}</div>
+
+
     </div>
-    <div style="margin-left: 137px"><b> Other Topics : </b>
-
-        {% if project.other_sub_category|length > 0%}
-        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-        {%else%}
-        {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
-        {%endif%}
-
-    </div>
-
-    <br>
-    <div style="margin-left: 137px"><b> Description :</b> {{ project.description }}</div>
-    </p>
-
-            </div>
+</div>
 
 </div>
         {% endfor %}
 </div>
 <!--Code for Pagination -->
-
+<div class="row">
+<div class="col-lg-6 col-sm-12">
+Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}
 </div>
-<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>
-<div class="row" style="float:right; padding-right: 10px">
+<div class="col-lg-6 col-sm-12 paginate">
 
 {% if cards.has_other_pages %}
 
@@ -647,11 +673,11 @@ table{
 
 {% endif %}
 </div>
+</div>
 
 </div>
     <br><br>
 {% endblock %}
-
 
 {% block selectizeForm %}
 

@@ -896,7 +896,7 @@ def project_partner_info_public(request):
 
     if eng_type_cond != '%':
         project_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
-        community_clause_query = " and p.engagement_type_id::text like '" + eng_type_cond + "'"
+        community_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
 
     if campus_partner_cond != '%':
         project_clause_query += " and pcamp.campus_partner_id::text like '" + campus_partner_cond + "'"
@@ -911,12 +911,13 @@ def project_partner_info_public(request):
         community_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
     if community_type_cond != '%':
-        project_clause_query += " and comm.community_type_id::text like '" + community_type_cond + "'"
-        community_clause_query = " and cp.community_type_id::text like '" + community_type_cond + "'"
+        project_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
+        community_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
 
     if cec_comm_part_cond != '%':
-        project_clause_query += " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
+        project_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
         community_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
+
 
     peoject_query_end = project_start + project_clause_query + " group by mission_id \
                                                                 order by mission_id),"
@@ -1161,14 +1162,14 @@ def project_partner_info_admin(request):
         subCat_clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
     if community_type_cond != '%':
-        project_clause_query += " and comm.community_type_id::text like '" + community_type_cond + "'"
+        project_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
         community_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
-        subCat_clause_query += " and cp.community_type_id::text like '" + community_type_cond + "'"
+        subCat_clause_query += " and comm.community_type_id::text like '" + community_type_cond + "'"
 
     if cec_comm_part_cond != '%':
-        project_clause_query += " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
+        project_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
         community_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
-        subCat_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
+        subCat_clause_query += " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
     peoject_query_end = project_start + project_clause_query + " group by mission_id \
                                                                 order by mission_id),"

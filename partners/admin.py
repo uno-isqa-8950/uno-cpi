@@ -119,7 +119,7 @@ class CecPartActiveYrsResource(resources.ModelResource):
     class Meta:
         model = CecPartActiveYrs
         fields = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
-
+        import_id_fields = ['id','start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner']
 
 class CecPartActiveYrsList(SimpleHistoryAdmin, ImportExportModelAdmin):
     list_display = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')

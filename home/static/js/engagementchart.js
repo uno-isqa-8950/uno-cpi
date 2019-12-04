@@ -117,7 +117,7 @@ var chart = Highcharts.chart('container',{
       "min":0,
       "max":max},
    "plotOptions":{
-      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"8px", "fontFamily": "Arial Narrow"}}}},
+      "bar":{"dataLabels":{"enabled":"true","style":{"fontSize":"10px", "fontFamily": "Arial Narrow"}}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",

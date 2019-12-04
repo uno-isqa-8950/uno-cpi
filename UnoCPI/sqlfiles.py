@@ -1131,7 +1131,8 @@ def showSelectedProjects(project_name_list):
                                 , p.campus_lead_staff campus_lead_staff 
                                 , hm.mission_image_url mission_image 
                                 , p.other_activity_type act_type 
-                                , p.other_sub_category other_subCat 
+                                , p.other_sub_category other_subCat
+                                , array_agg(distinct s.sub_category_tags) sub_tags
                                 from projects_project p 
                                 left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' 
                                 left join home_missionarea hm on hm.id = m.mission_id 

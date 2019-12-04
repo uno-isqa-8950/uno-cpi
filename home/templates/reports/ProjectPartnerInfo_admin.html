@@ -5,6 +5,13 @@
     A.class1 {color:#b60000;}
     A.class1:link  {text-decoration: underline; color: #b60000;}
 </style>
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
+  </script>
 
 
 <div class="row justify-content-md-center">
@@ -71,14 +78,14 @@
             </div>
 
                             <div class="col-lg-4 col-md-5 form-group">
-                                <label for="engagement_type"> Engagement Types
+                                <label for="engagement_type">
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 31%}
-                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                         <span tabindex="-1" data-toggle="tooltip"
+                                         title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         {% endif %}
-                                    {% endfor %}
+                                    {% endfor %}Engagement Types
                                 </label>
                                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -90,14 +97,14 @@
                             </div>
 
                             <div class="col-lg-4 col-md-5 form-group">
-                                <label for="community_type"> Community Partner Types
+                                <label for="community_type">
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 33%}
-                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                  <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         {% endif %}
-                                    {% endfor %}
+                                    {% endfor %}Community Organization Types
                                 </label>
                                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -108,14 +115,14 @@
                             </div>
 
                             <div class="col-lg-4 col-md-5 form-group">
-                                <label for="college-name">Colleges and Main Units
+                                           <label for="college-name">
                                        {% for data_definition in data_definition %}
                                         {% if data_definition.id == 43%}
-                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                     <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         {% endif %}
-                                    {% endfor %}
+                                    {% endfor %}College and Main Units
                                 </label>
                                     <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                                         <option> All </option>
@@ -126,14 +133,14 @@
                             </div>
 
                             <div class="col-lg-4 col-md-5 form-group">
-                                <label for="campus_partner"> Campus Partners
+                                   <label for="campus_partner">
                                 {% for data_definition in data_definition %}
                                         {% if data_definition.id == 1%}
-                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         {% endif %}
-                                    {% endfor %}
+                                    {% endfor %}Campus Partners
                                 </label>
                                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                         <option value="" disabled selected hidden></option>
@@ -147,14 +154,14 @@
 
                             <div class="col-lg-4 col-md-5 form-group">
 
-                                <label for="weitz_cec_part"> CEC Community Building Partners
+                            <label for="weitz_cec_part">
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 27%}
-                                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         {% endif %}
-                                    {% endfor %}
+                                    {% endfor %}CEC Building Partners
                                 </label>
                                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                                         <option value="" disabled selected hidden></option>
@@ -176,7 +183,7 @@
                             <tr>
                             <th>
                                 {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 12%}
+                                    {% if data_definition.id == 3%}
                                         <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Focus Areas</span>
                                     {% endif %}
@@ -184,7 +191,7 @@
                             </th>
                             <th>
                                 {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 12%}
+                                    {% if data_definition.id == 46%}
                                         <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partners</span>
                                     {% endif %}
@@ -192,7 +199,7 @@
                             </th>
                             <th>
                                 {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 12%}
+                                    {% if data_definition.id == 47%}
                                         <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Projects </span>
                                     {% endif %}
@@ -209,7 +216,7 @@
                                 </th>
                             <th>
                                 {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 12%}
+                                    {% if data_definition.id == 48%}
                                         <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students </span>
                                     {% endif %}
@@ -217,7 +224,7 @@
                             </th>
                             <th>
                                                                 {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 12%}
+                                    {% if data_definition.id == 49%}
                                         <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students Hours </span>
                                     {% endif %}
@@ -226,7 +233,7 @@
 
                             <th>
             {% for data_definition in data_definition %}
-                {% if data_definition.id == 12%}
+                {% if data_definition.id == 66%}
                     <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Students</span>
@@ -235,7 +242,7 @@
         </th>
         <th>
              {% for data_definition in data_definition %}
-                {% if data_definition.id == 12%}
+                {% if data_definition.id == 67%}
                     <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Hours</span>
@@ -410,9 +417,6 @@ $(document).ready(function(){
 
 
 
-
-{% block js %}
-
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
@@ -456,5 +460,10 @@ $(document).on('input', '.clearable', function(){
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
 </script>
-{% endblock %}
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
+
 

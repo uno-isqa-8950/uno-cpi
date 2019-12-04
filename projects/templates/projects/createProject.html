@@ -790,7 +790,7 @@ $(document).ready(function() {
             // toolbarExtraButtons: [
             //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
             //         if (confirm("Are you sure?")){
-            //           window.location = '/check-Project';
+            //           window.location = '/checkProject';
             //         }
             //     }),
             //
@@ -800,7 +800,7 @@ $(document).ready(function() {
     $('#cancel').on('click', function (e) {
         e.preventDefault();
         if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
-            window.location = '/check-Project';
+            window.location = '/checkProject';
         }
     });
 $("#id_academic_year").change(function () {

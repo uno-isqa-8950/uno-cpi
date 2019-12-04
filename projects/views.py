@@ -1149,10 +1149,10 @@ def showAllProjects(request):
         K12_filter_cond = '%'
 
     elif K12_filter == 'Yes':
-        K12_filter_cond = 'true'
+        K12_filter_cond = 't'
 
     elif K12_filter == 'No':
-        K12_filter_cond = 'false'
+        K12_filter_cond = 'f'
 
     cec_part_init_selection = "All"
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -1207,6 +1207,7 @@ def showAllProjects(request):
                                 , hm.mission_image_url mission_image \
                                 , p.other_activity_type act_type \
                                 , p.other_sub_category other_subCat \
+                                , array_agg(s.sub_category_tags) sub_tags \
                                 from projects_project p \
                                 left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                 left join home_missionarea hm on hm.id = m.mission_id \
@@ -1238,7 +1239,7 @@ def showAllProjects(request):
         clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
 
     if K12_filter_cond !='%':
-        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+        clause_query +=" and p.k12_flag ='" + K12_filter_cond + "'"
 
 
     if cec_camp_part_cond != '%':
@@ -1305,7 +1306,7 @@ def showAllProjects(request):
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
+                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition, "missions": missions, "communityPartners": communityPartners,
                    'campus_filter': campus_filter, 'college_filter': campusPartners, 'campus_id': campus_id,
                    'k12_choices': k12_choices, 'k12_selection': k12_selection,
@@ -1434,10 +1435,10 @@ def projectstablePublicReport(request):
         K12_filter_cond = '%'
 
     elif K12_filter == 'Yes':
-        K12_filter_cond = 'true'
+        K12_filter_cond = 't'
 
     elif K12_filter == 'No':
-        K12_filter_cond = 'false'
+        K12_filter_cond = 'f'
 
     cec_part_init_selection = "All"
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -1492,6 +1493,7 @@ def projectstablePublicReport(request):
                                 , hm.mission_image_url mission_image \
                                 , p.other_activity_type act_type \
                                 , p.other_sub_category other_subCat \
+                                , array_agg(s.sub_category_tags) sub_tags \
                                 from projects_project p \
                                 left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                 left join home_missionarea hm on hm.id = m.mission_id \
@@ -1523,7 +1525,7 @@ def projectstablePublicReport(request):
         clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
 
     if K12_filter_cond !='%':
-        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+        clause_query +=" and p.k12_flag = '" + K12_filter_cond + "'"
 
 
     if cec_camp_part_cond != '%':
@@ -1589,7 +1591,7 @@ def projectstablePublicReport(request):
              "total_uno_students": obj[11], "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
              "total_k12_hours": obj[15], "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
              "project_type": obj[19], "end_semester": obj[20], "end_academic_year": obj[21], "sub_category": obj[22],
-             "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
+             "campus_lead_staff": obj[23], "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     page = request.GET.get('page', 1)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
@@ -1692,10 +1694,10 @@ def projectsPublicReport(request):
         K12_filter_cond = '%'
 
     elif K12_filter == 'Yes':
-        K12_filter_cond = 'true'
+        K12_filter_cond = 't'
 
     elif K12_filter == 'No':
-        K12_filter_cond = 'false'
+        K12_filter_cond = 'f'
 
     cec_part_init_selection = "All"
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -1750,6 +1752,7 @@ def projectsPublicReport(request):
                                    , hm.mission_image_url mission_image \
                                    , p.other_activity_type act_type \
                                    , p.other_sub_category other_subCat \
+                                   , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
                                    left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
@@ -1784,7 +1787,7 @@ def projectsPublicReport(request):
         clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
 
     if K12_filter_cond !='%':
-        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+        clause_query +=" and p.k12_flag = '" + K12_filter_cond + "'"
 
 
     if cec_camp_part_cond != '%':
@@ -1848,7 +1851,7 @@ def projectsPublicReport(request):
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
+                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     page = request.GET.get('page', 1)
     paginator = Paginator(projects_list, 5)
     try:
@@ -1961,10 +1964,10 @@ def projectsPrivateReport(request):
         K12_filter_cond = '%'
 
     elif K12_filter == 'Yes':
-        K12_filter_cond = 'true'
+        K12_filter_cond = 't'
 
     elif K12_filter == 'No':
-        K12_filter_cond = 'false'
+        K12_filter_cond = 'f'
 
     cec_part_init_selection = "All"
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -2019,6 +2022,7 @@ def projectsPrivateReport(request):
                                    , hm.mission_image_url mission_image \
                                    , p.other_activity_type act_type \
                                    , p.other_sub_category other_subCat \
+                                   , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
                                    left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
@@ -2053,7 +2057,7 @@ def projectsPrivateReport(request):
         clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
 
     if K12_filter_cond !='%':
-        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+        clause_query +=" and p.k12_flag = '" + K12_filter_cond + "'"
 
 
     if cec_camp_part_cond != '%':
@@ -2112,7 +2116,7 @@ def projectsPrivateReport(request):
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26]})
+                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     page = request.GET.get('page', 1)
     paginator = Paginator(projects_list, 5)
     try:
@@ -2220,10 +2224,10 @@ def projectstablePrivateReport(request):
         K12_filter_cond = '%'
 
     elif K12_filter == 'Yes':
-        K12_filter_cond = 'true'
+        K12_filter_cond = 't'
 
     elif K12_filter == 'No':
-        K12_filter_cond = 'false'
+        K12_filter_cond = 'f'
 
     cec_part_init_selection = "All"
     cec_part_selection = request.GET.get('weitz_cec_part', None)
@@ -2278,6 +2282,7 @@ def projectstablePrivateReport(request):
                                    , hm.mission_image_url mission_image \
                                    , p.other_activity_type act_type \
                                    , p.other_sub_category other_subCat \
+                                   , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
                                    left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
@@ -2312,7 +2317,7 @@ def projectstablePrivateReport(request):
         clause_query +=" and c.college_name_id::text like '" + college_unit_cond +"' "
 
     if K12_filter_cond !='%':
-        clause_query +=" and COALESCE(p.k12_flag::text, 'no') LIKE '" + K12_filter_cond + "'"
+        clause_query +=" and p.k12_flag = '" + K12_filter_cond + "'"
 
 
     if community_type_cond != '%':
@@ -2371,7 +2376,7 @@ def projectstablePrivateReport(request):
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
                               "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18], "project_type": obj[19]
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
-                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26] })
+                               "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27] })
     page = request.GET.get('page', 1)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()

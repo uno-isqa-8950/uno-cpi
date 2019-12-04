@@ -25,7 +25,7 @@ cursor = conn.cursor()
 dirname = os.path.dirname(__file__)
 mission_file = os.path.join(dirname,'home/static/charts_json/mission_subcategories.json')
 
-q = "SELECT id, mission_name, mission_color " \
+q = "SELECT id, mission_name, mission_color, description " \
     "FROM home_missionarea ;"
 cursor.execute(q)
 missions = cursor.fetchall()
@@ -42,7 +42,7 @@ for m in missions:
     for s in subcats:
         res = {'subcategory_id': s[0], 'subcategory_name':s[1]}
         subs.append(res)
-    res = {'mission_area_id': m[0], 'mission_area_name': m[1], 'mission_color': m[2], 'subcategories': subs}
+    res = {'mission_area_id': m[0], 'mission_area_name': m[1], 'mission_color': m[2], 'mission_descr': m[3], 'subcategories': subs}
     json_data.append(res)
 jsonstring = pd.io.json.dumps(json_data)
 

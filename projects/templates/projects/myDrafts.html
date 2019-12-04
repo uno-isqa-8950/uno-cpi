@@ -115,29 +115,22 @@
                                                     <span tabindex="-1" data-toggle="tooltip" data-placement="left"
                                                           title="{{ data_definition.description }}" class="float" >
                                                           <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                                {% endif %} {% endfor %}Activity Type
+                                                {% endif %} {% endfor %}Activity Types
                                                 </th>
-                                                <th class="none">Academic Year</th>
-                                                <th class="none">Semester</th>
-                                                <th class="none"> Status </th>
-                                                <th class="none"> Start Date </th>
-                                                <th class="none"> End Date </th>
-                                                <th class="none"> Outcomes</th>
-                                                <th class="none"> Number of UNO Students</th>
-                                                <th class="none"> Number of UNO Students Hours</th>
-                                                <th class="none"> Number of UNO Faculty/Staff</th>
-                                                <th class="none"> Number of K12 Students</th>
-                                                <th class="none"> Number of K12 Students Hours </th>
-                                                <th class="none"> Number of Other Participants</th>
-
-                                                <th class="none">Description</th>
                                                 <th class="none">Project Type</th>
-                                                <th class="none">End Semester</th>
-                                                <th class="none">End Academic Year</th>
-                                                <th class="none">Sub Category</th>
+                                                <th class="none">Start Semester</th>
+                                                <th class="none"> Start Academic Year </th>
+                                                <th class="none"> End Semester </th>
+                                                <th class="none"> End Academic Year </th>
+                                                <th class="none"> Total UNO Students</th>
+                                                <th class="none"> UNO Students Hours</th>
+                                                <th class="none"> Total UNO Faculty/Staff</th>
+                                                <th class="none"> Total K-12 Students </th>
+                                                <th class="none"> K-12 Student Hours</th>
+                                                <th class="none">Total Number of Other Participants</th>
+                                                <th class="none">Description</th>
+                                                <th class="none">Topics</th>
                                                 <th class="none">Campus Lead Staff</th>
-                                                <th class="none">Other Activity Type</th>
-                                                <th class="none">Other Sub Categories</th>
                                                 <th class="none">Action</th>
                                             </tr>
                                         </thead>
@@ -150,45 +143,27 @@
                                                 <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                                                 <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
                                                  <td>{{ project.activityType }}</td>
-                                                <td>{{ project.academic_year }}</td>
+                                                <td>{{ project.project_type }}</td>
                                                 <td>{{ project.semester}}</td>
-                                                <td>{{ project.status }}</td>
-                                                <td>{{ project.startDate }}</td>
-                                                <td>{{ project.endDate }}</td>
-                                                <td>{{ project.outcomes }}</td>
+                                                <td>{{ project.academic_year }}</td>
+                                                <td>{{ project.end_semester }}</td>
+                                                <td>{{ project.end_academic_year }}</td>
                                                 <td>{{project.total_uno_students}}</td>
                                                 <td>{{project.total_uno_hours}}</td>
                                                 <td>{{project.total_uno_faculty}}</td>
                                                 <td>{{project.total_k12_students}}</td>
                                                 <td>{{project.total_k12_hours}}</td>
                                                 <td>{{project.total_other_community_members}}</td>
-
                                                 <td>{{ project.description }}</td>
-                                                <td>{{ project.project_type }}</td>
-                                                <td>{{ project.end_semester }}</td>
-                                                <td>{{ project.end_academic_year }}</td>
-                                            <td>
+                                                       <td>
                                 {% for sub_category in project.sub_category %}{{sub_category}}{% endfor %}</td>
 
                             <td>
+
                                 {%if campus_lead_staff > 1%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%},
                                 {%else%}
                                 {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
-                                {%endif%}
-                            </td>
-                                <td>
-                                {%if other_activity_type > 1%}
-                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %},
-                                {%else%}
-                                {% for other_activity_type in project.other_activity_type %}{{other_activity_type}}{% endfor %}
-                                {%endif%}
-                            </td>
-                                             <td>
-                                {%if other_sub_category > 1%}
-                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %},
-                                {%else%}
-                                {% for other_sub_category in project.other_sub_category %}{{other_sub_category}}{% endfor %}
                                 {%endif%}
                             </td>
                                                 <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;">Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>

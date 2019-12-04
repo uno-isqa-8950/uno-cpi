@@ -1573,7 +1573,7 @@ def missionchart(request):
 
     missionList = []
     for m in MissionObject:
-        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color']}
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'], 'mission_descr': m['mission_descr']}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
@@ -2616,10 +2616,9 @@ def issueaddress(request):
 
     missionList = []
     for m in MissionObject:
-        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color']}
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'], 'mission_descr': m['mission_descr']}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'],reverse=True)
-
 
     # community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
 

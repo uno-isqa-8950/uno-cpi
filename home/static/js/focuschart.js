@@ -72,14 +72,18 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     var communitySeries = [];
     var missionCategories = [];
     for (m in missionList) {
+        var missionLabel = '';
+        var missionLabel = missionLabel.concat('<span tabindex="-1" data-toggle="tooltip" data-placement="right" title="',missionList[m].mission_descr,'" class="float" > <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> ',missionList[m].name);
+        missionCategories.push(missionLabel);
         var missionID = missionList[m].id;
-        missionCategories.push(missionList[m].name);
+        // missionCategories.push(missionList[m].name);
         var projs = Projects.filter(d => d.primary_mission_area.mission_id === parseInt(missionID));
         var comms = CommunityPartners.filter(d => d.primary_mission_id === parseInt(missionID));
         projSeries.push(projs.length);
         communitySeries.push(comms.length);
     }
     var max = Math.max(...projSeries.concat(communitySeries)) +5;
+    console.log(missionCategories);
 
     return [missionCategories, projSeries, communitySeries, max];
 }
@@ -101,6 +105,7 @@ var chart = Highcharts.chart('container', {
          "style":{ "fontWeight":"bold", "color":"black", "fontSize":"15px", "fontFamily": "Arial Narrow" }},
       "categories": missionCategories,
       "labels":{
+         "useHTML": true,
          "style":{ "color":"black", "fontSize":"13px", "fontFamily": "Arial Narrow" }}},
    "yAxis":{
       "allowDecimals":false,
@@ -113,7 +118,7 @@ var chart = Highcharts.chart('container', {
       "bar":{
          "dataLabels":{
             "enabled":"true",
-            "style":{ "fontSize":"9px", "fontFamily": "Arial Narrow" }}}},
+            "style":{ "fontSize":"10px", "fontFamily": "Arial Narrow" }}}},
    "legend":{
       "layout":"horizontal",
       "align":"right",

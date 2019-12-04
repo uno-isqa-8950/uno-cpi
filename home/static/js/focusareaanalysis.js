@@ -3,26 +3,16 @@
 var not_set = [undefined, "All", ''];
 
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
-
 var Collegenames = JSON.parse(document.getElementById('Collegenames').textContent);
-
-// console.log("campus partner chart data ",Collegenames)
-// campus_partner_json,community_partner_json,mission_subcategories_json,projects_json
 var campus_partner_json = JSON.parse(document.getElementById('campus_partner_json').textContent);
-     // console.log("PARTNERS",campus_partner_json);
-
 var community_partner_json = JSON.parse(document.getElementById('community_partner_json').textContent);
 var community_partner_json2 = JSON.parse(document.getElementById('community_partner_json').textContent);
 var mission_subcategories_json = JSON.parse(document.getElementById('mission_subcategories_json').textContent);
 var projects_json = JSON.parse(document.getElementById('projects_json').textContent);
-
-// console.log(" initial load of projects_json",projects_json)
 var max_year = JSON.parse(document.getElementById('max_year').textContent);
 var max_yr_id = JSON.parse(document.getElementById('max_yr_id').textContent);
 var min_year = JSON.parse(document.getElementById('min_year').textContent);
 var min_yr_id = JSON.parse(document.getElementById('min_yr_id').textContent);
-
-console.log(max_yr_id,min_yr_id)
 
 function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_partner_json,mission_subcategories_json,projects_json,max_yr_id,max_year,min_yr_id,min_year,
                        academic_year,endacademic_year,engagement_type, college_name, campus_partner,weitz_cec_part,comm_type,legislative) {
@@ -124,7 +114,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
     // console.log("projects_json_count chart data ", projects_json_count)
 
     if (startprojects.length == 0 && endprojects.length == 0) {
-        alert("Sorry, There are no Projects matching your selection criteria");
+        alert("Sorry, there are no projects matching your filter criteria");
     }
 
 
@@ -140,7 +130,9 @@ var missionarealist=[]
 var subdrill=[]
     for (m in Missionarea) {
         var mission_id = Missionarea[m].id;
-        missionarealist.push(Missionarea[m].name);
+        var missionLabel = '';
+        var missionLabel = missionLabel.concat('<span tabindex="-1" data-toggle="tooltip" data-placement="right" title="',Missionarea[m].mission_descr,'" class="float" > <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> ',Missionarea[m].name);
+        missionarealist.push(missionLabel);
         // console.log(" mission id and name",mission_id)
         var startyearprojects = startprojects.filter(d => d.primary_mission_area.mission_id === parseInt(mission_id));
         var from_project_count = startyearprojects.length
@@ -299,12 +291,13 @@ var subdrill=[]
         }
         // console.log("secondary_y_axis",secondary_y_axis)
     }
+
   var   primary_axis={
                 'id':0,
                 'type': 'category',
                 'title': {'text': '',
                           'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px', "fontFamily": "Arial Narrow"}},
-                'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
+                'labels': {"useHTML": true, 'style': {'color': 'black', 'fontSize': '13px'}},
                 'categories': missionarealist,
             }
     Yaxis.push(primary_axis)

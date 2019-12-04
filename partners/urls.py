@@ -16,8 +16,8 @@ urlpatterns = [
 	 path('SuggestCommunity/', views.ajax_load_community, name='ajax_load_community'),
      # path('SuggestAcronym/', views.ajax_load_community_acronym, name='ajax_load_community_acronym'),
      path('SuggestCampus/', views.ajax_load_campus, name='ajax_load_campus'),
-     path('registerCampusPartnerForProject/', views.registerCampusPartner_forprojects, name='registerCampusPartnerforprojects'),
-     path('registerCommunityPartnerForProject/', views.registerCommunityPartner_forprojects, name='registerCommPartnerforprojects'),
+     path('register-Campus-Partner-For-Project/', views.registerCampusPartner_forprojects, name='registerCampusPartnerforprojects'),
+     path('register-Community-Partner-For-Project/', views.registerCommunityPartner_forprojects, name='registerCommPartnerforprojects'),
      path('check-Community-Partner/', views.checkCommunityPartner, name='checkCommunityPartner')
 
 ]

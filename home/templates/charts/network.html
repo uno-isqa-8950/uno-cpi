@@ -139,12 +139,16 @@ align-self: flex-end;
                          Academic Years
                     </label>
                     <select id="id_academicyear" name="academic_year" onchange="updatechart()">
+                        {%  if user.is_superuser %}
+                        <option>All</option>
+                        {%  endif %}
                         <option>
                             {% for sem in project_filter.form.academic_year %}
 {#                         <option value={{sem}} {% if sem == max_yr_id  %} selected {% endif %}>{{sem}}</option>#}
                                 {{ sem }}
                             {% endfor %}
                         </option>
+
                     </select>
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
@@ -214,7 +218,9 @@ align-self: flex-end;
                             Campus Partners
                         </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="updatechart()">
+
                                 <option> All </option>
+
                                 <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                                     {% for campus in campus_filter %}
                                         <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>

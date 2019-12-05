@@ -51,7 +51,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                        academic_year,engagement_type, mission,comm_type, college_name,campus_partner,weitz_cec_part,legislative,community_partner  ) {
 
 
-    if (not_set.includes(academic_year)) {
+    if (not_set.includes(academic_year) && academic_year!='All' ) {
         // alert(academic_year)
         var projects_json = projects_json.filter(d => d.years.includes(max_yr_id));
         // console.log("filtered default academic_year", projects_json)
@@ -168,21 +168,39 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                 // var x = Object.keys(camppartnrprojects)
 
                 var commpartnerslist=[]
-                            // console.log("commpprojects",commpprojects)
+                var filteredcommlist=[]
+
+
+                for (var i = 0; i < community_partner_json.length; i++) {
+                    if (!filteredcommlist.includes(community_partner_json[i].community_partner_id) ) {
+                        filteredcommlist.push(community_partner_json[i].community_partner_id);
+                    }
+                }
+
+                            // console.log("commpprojects----------------filteredcommlist-",filteredcommlist)
                             camppartnrprojects.forEach(function(feature){
                                    var cc=feature.community_partner_ids
                                 // console.log(" cc",cc)
                                    if (cc.length>0){
                                        for (x in cc){
-                                           // console.log(" id of cc",cc[x])
+                                           // console.log(" id of cc",cc[x], " list ",filteredcommlist[x])
                                            if (!commpartnerslist.includes(cc[x])){
                                                commpartnerslist.push(cc[x])
-
-                                           }
+                                                                                 }
                                        }
                                    }
                                })
 
+                var cop=[]
+                            for (c in commpartnerslist){
+                                if(filteredcommlist.includes(commpartnerslist[c])){
+                                    cop.push(commpartnerslist[c])
+                                }
+                            }
+
+                console.log("commpprojects----------------filteredcommlist-",filteredcommlist)
+                console.log("commpprojects----------------commpartnerslist-",commpartnerslist)
+                console.log("commpprojects----------------cop-",cop)
 
                 camppartnrprojects.forEach(function (feature1) {
 
@@ -200,7 +218,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                         'id': camp,
                         'color': 'black',
                         'marker': {'symbol': 'triangle'},
-                        'projects': 'Projects:' + camppartnrprojects.length +'<br></br>'+'Community Partner Engagement :'+ commpartnerslist.length
+                        'projects': 'Projects:' + camppartnrprojects.length +'<br></br>'+'Community Partner Engagement :'+ cop.length
                     }
                     if (!nodedata.find(o => o.id === college)) {
                         nodedata.push(node)
@@ -250,6 +268,22 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                                        }
                                    }
                                })
+                            var campsfinal=[]
+                            campus_partner_json.forEach(function (feature4) {
+                                var cp=feature4.campus_partner_id
+                                if(!campsfinal.includes(cp)){
+                                    campsfinal.push(cp)
+                                }
+
+                            })
+                            var cp=[]
+                            for (c in campspartnerslist){
+                                if(campsfinal.includes(campspartnerslist[c])){
+                                    cp.push(campspartnerslist[c])
+                                }
+                            }
+
+
 
                                 // for (cc in proj.filter(d=>d.campus_partner_ids))
 
@@ -268,7 +302,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
                                     // 'radius': commps.length
                                 },
-                                'projects': 'Projects:' + commpprojects.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name + '<br></br>'+'Campus Partner Engagement: <b></b>'+ campspartnerslist.length
+                                'projects': 'Projects:' + commpprojects.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name + '<br></br>'+'Campus Partner Engagement: <b></b>'+ cp.length
                                 // tooltip: {useHTML: true,
                                 // format:'<b>Name: {%id%} ${this.Node.name}</b><br><b> projects[${this.point.projects}]</b>'}
                             }

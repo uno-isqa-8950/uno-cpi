@@ -47,10 +47,19 @@
             text-align: right;
         }
     }
+  .card-body {
 
+        padding-top: 0;
+
+    }
+    .card-header {
+
+        padding-bottom: 0;
+    }
 
     ul{
         padding-inline-start:15px;
+        margin-bottom:0;
     }
 /*.select2-hidden-accessible{*/
           /*width:85%;*/
@@ -242,7 +251,6 @@
     .card-toptext{
         width: 100%;
         float: left;
-        padding-bottom: 10px;
     }
     .flex-container {
         display: flex;
@@ -525,11 +533,11 @@
 
                             <div class="row">
                                 <div class="col-md-6 col-sm-12">
-                                    <p><b> Community Partners: </b> </p>
+                                    <b> Community Partners: </b>
                                     {% for comm_part in project.comm_part %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
                                 </div>
                                 <div class="col-md-6 col-sm-12">
-                                    <p><b>Campus Partners:</b></p>
+                                    <b>Campus Partners:</b>
                                     {% for camp_part in project.camp_part %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
                                 </div>
                             </div>
@@ -564,27 +572,36 @@
 
 
                     <div class="col-sm-12 col-lg-4">
-                        <b> End Semester :</b> {{ project.end_semester }}
+                        <b> End Semester :</b>
+                        {% if project.end_semester is None %}
+                        {%else%}
+                        {{ project.end_semester }}
+                        {%endif%}
                     </div>
                     <div class="col-sm-12 col-lg-4">
                         <b> Start Academic Year :</b> {{ project.academic_year}}
                     </div>
                     <div class="col-sm-12 col-lg-4">
-                        <b> End Academic Year :</b> {{ project.end_academic_year }}
+
+                        <b> End Academic Year :</b>
+                        {%if project.end_academic_year is None%}
+                        {%else%}
+                        {{ project.end_academic_year }}
+                        {%endif%}
                     </div>
 
-                    <div class="col-sm-12">
-                    <b>Other Activity Type:</b>
-                    {% if project.activityType == 'Other' %}
-                    {% if project.other_activity_type|length > 0%}
-                    {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                    {%else%}
-                    {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
-                    {%endif%}
-                    {%else%}
-                    None
-                    {%endif%}
-                    </div>
+                    <!--<div class="col-sm-12">-->
+                    <!--<b>Other Activity Type:</b>-->
+                    <!--{% if project.activityType == 'Other' %}-->
+                    <!--{% if project.other_activity_type|length > 0%}-->
+                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+                    <!--{%else%}-->
+                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}-->
+                    <!--{%endif%}-->
+                    <!--{%else%}-->
+                    <!--None-->
+                    <!--{%endif%}-->
+                    <!--</div>-->
 
 
                     <div class="col-sm-12">
@@ -596,15 +613,15 @@
                     {%endif%}
                     </div>
 
-                     <div class="col-sm-12">
-                    <b> Other Topics : </b>
+                     <!--<div class="col-sm-12">-->
+                    <!--<b> Other Topics : </b>-->
 
-                    {% if project.other_sub_category|length > 0%}
-                    {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                    {%else%}
-                    {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
-                    {%endif%}
-                     </div>
+                    <!--{% if project.other_sub_category|length > 0%}-->
+                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+                    <!--{%else%}-->
+                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}-->
+                    <!--{%endif%}-->
+                     <!--</div>-->
 
 
                     <div class="col-sm-12">

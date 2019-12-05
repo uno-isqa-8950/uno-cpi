@@ -2163,10 +2163,10 @@ def issueaddress(request):
     # print(year_ids[1])
     # print(year_names[1])
     # max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
-    max_yr_id=year_ids[0]
-    min_yr_id=year_ids[1]
-    max_year = year_names[0]
-    min_year=year_names[1]
+    max_yr_id=year_ids[1]
+    min_yr_id=year_ids[2]
+    max_year = year_names[1]
+    min_year=year_names[2]
     print(" max year ",max_year)
     print(" min year ", min_year)
 

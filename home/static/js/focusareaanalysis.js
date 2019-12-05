@@ -396,8 +396,9 @@ var Decrease=res[6]
                 },'colorByPoint': false,
                 'tooltip': {
                     'style': {'fontFamily': 'Arial Narrow'},
-                    'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br> Growth/Decrease: {point.per} %'
+                    // 'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+                    "headerFormat": "",
+                    'pointFormat': '<span>{point.name}</span><br> Analysis Start Year Projects: <b>{point.x}</b><br>Analysis End Year Projects: <b>{point.x2}</b><br> Growth/Decrease: <b>{point.per}%</b>'
                 }
             },
 
@@ -410,8 +411,9 @@ var Decrease=res[6]
         },
         'tooltip': {
             'style': {'fontFamily': 'Arial Narrow'},
-        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-        'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> ProjectCount:{point.x}<span></span>'
+        // 'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+            "headerFormat": "",
+        'pointFormat': '<span>{point.name}</span><br> Projects: <b>{point.x}</b><span></span>'
                  },
         'legend': {
             'layout': 'horizontal',

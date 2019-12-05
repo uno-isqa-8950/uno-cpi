@@ -35,11 +35,7 @@
     {
         float:right;
     }
-       @media (min-width: 1200px) {
-        .container {
-            max-width: 1330px;
-        }
-    }
+
 .panel {
   margin-bottom: 20px;
   background-color: #ffffff;
@@ -71,11 +67,6 @@
         line-height: 0px !important;
     }
 
-    @media (min-width: 1200px) {
-        .container {
-            max-width: 1330px;
-        }
-    }
 
     /*.form-control*/
     /*{*/
@@ -500,6 +491,8 @@
 
 <script type="text/javascript">
    $(document).ready(function() {
+
+
    $('#example').DataTable({
        dom: 'B<"clear">lftpi',
        buttons: {
@@ -532,6 +525,7 @@
         "oSearch": {"bSmart": false},
         // "scrollY": "none",
         // "scrollCollapse": false
+       responsive:true
    });
        $('#example_filter').find('input').addClass('clearable');
        function tog(v){return v?'addClass':'removeClass';}

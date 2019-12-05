@@ -323,6 +323,7 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
+                proj.save()
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -397,7 +398,7 @@ def createProject(request):
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
-
+                proj.save()
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
                     try:
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -1468,6 +1469,13 @@ def projectstablePublicReport(request):
 
 
 def projectsPublicReport(request):
+    proj_per_page_cnt = 5
+    proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
+    if proj_per_page is not None:
+        proj_per_page_cnt = proj_per_page.description
+
+    print('proj_per_page_cnt--',proj_per_page_cnt)
+
     selectedprojectId = request.GET.get('proj_id_list', None)
     print('selectedprojectId--',selectedprojectId)
     data_definition=DataDefinition.objects.all()
@@ -1727,7 +1735,7 @@ def projectsPublicReport(request):
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     page = request.GET.get('page', 1)
-    paginator = Paginator(projects_list, 5)
+    paginator = Paginator(projects_list, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -1747,6 +1755,11 @@ def projectsPublicReport(request):
 
 @login_required()
 def projectsPrivateReport(request):
+    proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
+    print('proj_per_page--', proj_per_page)
+    proj_per_page_cnt = 5
+    if proj_per_page is not None:
+         proj_per_page_cnt = proj_per_page.description
     selectedprojectId = request.GET.get('proj_id_list', None)
 
     data_definition=DataDefinition.objects.all()
@@ -1999,7 +2012,7 @@ def projectsPrivateReport(request):
                               , "end_semester": obj[20], "end_academic_year" : obj[21], "sub_category" : obj[22], "campus_lead_staff": obj[23],
                                "mission_image": obj[24], "other_activity_type": obj[25], "other_sub_category": obj[26], "sub_tags": obj[27]})
     page = request.GET.get('page', 1)
-    paginator = Paginator(projects_list, 5)
+    paginator = Paginator(projects_list, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:

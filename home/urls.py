@@ -4,7 +4,7 @@ from django.urls import path
 from django.conf.urls.static import static
 from . import views
 from django.conf import settings
-
+from django.conf.urls import url
 
 urlpatterns = [
 
@@ -43,5 +43,6 @@ urlpatterns = [
    path('communityPartnerType', views.googlemapdata, name='googlemap'),
    path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),
    path('inviteCommPartner/<str:uidb64>/<str:token>', views.registerCommPartner, name='inviteCommPartner'),
-   path('inviteCommPartner/done/<str:pk>/', views.commPartnerResetPassword, name='commPartnerResetPassword')
+   path('inviteCommPartner/done/<str:pk>/', views.commPartnerResetPassword, name='commPartnerResetPassword'),
+   url(r'^uploadSubCategoires/(?P<pk>\d+)/$',views.uploadProjectSub,name='uploadProjectSub')
 ]

@@ -40,8 +40,14 @@
     <div>
         <div id="step-1">
             <div id="form-step-0">
-
-                <div class="row" style="margin-top: 20px;">
+<div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 71%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
+                <div class="row">
                 <div class="col-md-6">
                     <div class="row">
                         {% for data_definition in data_definition %}
@@ -107,7 +113,8 @@
                                                     <div class="col-md-1">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
+                                                <i class="fa fa-plus-square fa-2x" data-toggle="tooltip"
+                                                             title="Click to add given value" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
                                             </div>
                                             </div>
                                                 </div>
@@ -244,7 +251,7 @@
                     </div>
                 <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
-                    <i class="fa fa-plus"></i> Student Information
+                    <i class="fa fa-plus"></i> Participant Information
                     </button>
 
                     <div id="studentinfo" class= "panel-collapse collapse">
@@ -301,7 +308,7 @@
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                             {% endif %}
                                                         {% endfor %}
-                                                    UNO Faculty/Staff Hours</label>
+                                                    Toatal UNO Faculty/Staff Hours</label>
                                                     <div class="col-sm-6">
                                                 {{ project.total_uno_faculty}}
                                                     </div>
@@ -347,7 +354,7 @@
                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                           {% endif %}
                                                     {% endfor %}
-                                                    Total number of K-12 Students:</label>
+                                                    Total number of K-12 Students</label>
                                                  <div class="col-sm-6">
                                                 {{ project.total_k12_students}}
                                                  </div>
@@ -367,7 +374,7 @@
                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                           {% endif %}
                                                     {% endfor %}
-                                                    Total number of K-12 Hours:</label>
+                                                    Total number of K-12 Hours</label>
                                                  <div class="col-sm-6">
                                                 {{ project.total_k12_hours}}
                                                  </div>
@@ -391,23 +398,19 @@
         </div>
 
         <div id="step-2">
-<!--{{ communitypartner }}-->
+
+
             {% for form2 in formset2 %}
 
-            <div class="row"><br></div>
-<!--                <button type="button" class="collapsible card-header" id="communitybutton" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#communityinfo">-->
-<!--                    <i class="fa fa-minus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">-->
-<!--                                              {% for data_definition in data_definition %}-->
-<!--                                              {% if data_definition.id == 2%} Community Partner Information-->
-
-<!--                                          {% endif %}-->
-<!--                                          {% endfor %}-->
-<!--                                          </span>-->
-<!--                    </button>-->
-
+<div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 72%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
                     <div id="communityinfo" class= "panel-collapse collapse">
                                     <div class="panel-body">
-                                        <br>
                                         <div class="row centered" ><span class="addcommerror" style="color: #b60000"></span> </div>
                                             <div class="row community-row">
                                                 <div class="col-md-3">
@@ -433,7 +436,8 @@
                                             </div>
 
                                         <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row"  data-toggle="tooltip"
+                                                             title="Click to add Selected value" style="padding-top:8px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
 
@@ -449,7 +453,6 @@
 
             {% for form3 in formset3 %}
 
-            <div class="row"><br></div>
                 <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo">
     <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
 
@@ -458,8 +461,15 @@
                                 </span>
 </button>
 <div id="campusinfo" class= "panel-collapse collapse">
+    <div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 73%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
                                     <div class="panel-body">
-                                        <br>
+
                                         <div class="row centered"><span class="addcamperror" style="color: #b60000"></span> </div>
                                         <div class="row campus-row">
                                             <div class="col-md-3">
@@ -484,7 +494,8 @@
                                         </div>
                                         <div class="col-md-1">
                                             <div class="input-group-append" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row"  data-toggle="tooltip"
+                                                             title="Click to add selected value" style="padding-top:8px" aria-hidden="true"></i>
                                             </div>
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
@@ -503,8 +514,14 @@
     <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
 </button>
 <div id="leadstaffinfo" class= "panel-collapse collapse">
+    <div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 74%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
                                     <div class="panel-body">
-                                        <br>
                                         <div class="row centered"><span class="addnameerror" style="color: #b60000"></span> </div>
                                        <div class="row">
 
@@ -524,7 +541,8 @@
                                                     <div class="col-md-1 centered">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px"  data-toggle="tooltip"
+                                                             title="Click to add given value" id="submitname" aria-hidden="true"></i>
                                             </div>
                                             </div>
                                                 </div>
@@ -552,7 +570,13 @@
 
         <div id="step-3">
              {% for form in formset %}
-            <div class="row"><br></div>
+            <div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 75%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
             <div class="row">
                 <div class="col-md-3">
                     <label style="padding-top:8px">
@@ -600,7 +624,8 @@
                     </div>
                 <div class="col-md-1">
                     <div class="input-group-append" >
-                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row"  data-toggle="tooltip"
+                                                             title="Click to add selected value" style="padding-top:8px" aria-hidden="true"></i>
                     </div>
                 </div>
                 </div>
@@ -621,7 +646,8 @@
                                                     <div class="col-md-1">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" data-toggle="tooltip"
+                                                               title="Click to add given value" id="addsubcat" aria-hidden="true"></i>
                                             </div>
                                             </div>
                                                 </div>
@@ -640,13 +666,15 @@
  </div>
         </div>
         <div id="step-4">
-            <div class="row"><br></div>
-                             <!--<button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
-    <!--<i class="fa fa-plus"></i> Address-->
-<!--</button>-->
+<div class="row" style="margin: 10px;">
+      {% for data_definition in data_definition %}
+                        {% if data_definition.id == 76%}
+    <p style="font-size: 18px">  {{ data_definition.description }}</p>
+                        {% endif %}
+                        {% endfor %}
+</div>
 <div id="contactinfo" class= "panel-collapse collapse show">
                                     <div class="panel-body">
-                                        <br>
 
                                         <div class="row">
 
@@ -774,19 +802,19 @@
 <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
 <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
 <script type="text/javascript">
-$(document).ready(function(){
+$(document).ready(function() {
     $('#smartwizard').smartWizard({
-        theme:'arrows',
+        theme: 'arrows',
         transitionEffect: 'fade',
         transitionSpeed: '400',
         // usehash: false,
-        showStepURLhash:true,
-        contentCache:true,
+        showStepURLhash: true,
+        contentCache: true,
         toolbarSettings: {
             // toolbarPosition:'top',
-            toolbarButtonPosition:'right',
-            showNextButton:'true',
-            showPreviousButton:'true',
+            toolbarButtonPosition: 'right',
+            showNextButton: 'true',
+            showPreviousButton: 'true',
             // toolbarExtraButtons: [
             //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
             //         if (confirm("Are you sure?")){
@@ -797,13 +825,13 @@ $(document).ready(function(){
             // ]
         }
     });
-        $('#cancel').on('click', function (e) {
-                        e.preventDefault();
-            if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
-                      window.location = '/checkProject';
-                    }
-        });
-    $("#id_academic_year").change(function () {
+    $('#cancel').on('click', function (e) {
+        e.preventDefault();
+        if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
+            window.location = '/checkProject';
+        }
+    });
+$("#id_academic_year").change(function () {
     var projectname = $("#id_project_name").val();
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
@@ -816,7 +844,7 @@ $(document).ready(function(){
         dataType: 'json',
         success: function (data) {
             if (data.is_taken) {
-                // alert("A project with this name already exists");
+                alert("A project with this name and year already exists");
                 document.getElementById("id_project_name").value = ("");
                 document.getElementById("id_project_name").style.borderColor = "red";
                 document.getElementById("id_academic_year").style.borderColor = "red";
@@ -824,6 +852,28 @@ $(document).ready(function(){
         }
     });
 });
+$("#id_project_name").change(function () {
+    var projectname = $("#id_project_name").val();
+    var academicyear = $("#id_academic_year option:selected").text();
+    var projectandyear = projectname +': '+ academicyear;
+    $.ajax({
+        url: "/SuggestProject/",
+        data: {
+            'name': projectname,
+            'year': academicyear
+        },
+        dataType: 'json',
+        success: function (data) {
+            if (data.is_taken) {
+                alert("A project with this name and year already exists");
+                document.getElementById("id_project_name").value = ("");
+                document.getElementById("id_project_name").style.borderColor = "red";
+                document.getElementById("id_academic_year").style.borderColor = "red";
+            }
+        }
+    });
+});
+
     $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
 var elmForm = $("#form-step-"+stepNumber);
 if(stepDirection === 'forward') {
@@ -836,11 +886,6 @@ if(stepDirection === 'forward') {
             alert("Engagement Type Required");
             return false
         }
-        // var selectedactivityval = $('#id_populate_activity option:selected').val();
-        // if( selectedactivityval === "0" ){
-        //     alert("Please Select Activity type.");
-        //     return false
-        // }
           if($('#otheracttype').val() !="" ){
               alert('Add Other Activity Type');
               var html = "Add Other Activity Type.";
@@ -851,10 +896,16 @@ if(stepDirection === 'forward') {
             alert("Project Description Required");
             return false
         }
-        if(($("#id_semester").val() === '')){
+        if(($("#id_semester").val() === '')) {
             alert("Project Start Semester Required");
             return false
         }
+        if($("#id_academic_year").val() === ''){
+              alert("Project Start academic year Required");
+            return false
+        }
+
+
          var fromacademicyear=$("#id_academic_year").val();
                 var toacademicyear=$("#id_end_academic_year").val();
                 if(fromacademicyear === ''){
@@ -876,15 +927,15 @@ if(stepDirection === 'forward') {
         var communitylast = $('.community-row:last').find(':selected').text();
         var campuslast = $('.campus-row:last').find(':selected').text();
         if(communitylast !='---------' && communitylast != ""){
-            alert('Add selected Community Partner');
-            var html = "Add selected Community Partner";
+            alert('Add selected Community Partner or clear selection');
+            var html = "Add selected Community Partner or clear selection";
                     $('.addcommerror').append(html);
             // $('.community-row:last').find('select').val(' ');
             return false;
         }
         if(campuslast !='---------' && campuslast != ""){
-            alert('Add selected Campus Partner');
-            var html = "Add selected Campus Partner";
+            alert('Add selected Campus Partner or clear selection');
+            var html = "Add selected Campus Partner or clear selection";
                     $('.addcamperror').append(html);
             return false;
         }
@@ -906,13 +957,13 @@ if(stepDirection === 'forward') {
     if (stepNumber === 2) {
         var subcatlast = $('.sub_category-row:last').find(':selected').text();
         if(subcatlast !='---------' && subcatlast != ""){
-            alert('Add selected Topic');
+            alert('Add selected Topic or clear selection');
             var html = "Add selected Topic.";
                     $('.addcaterror').append(html);
             return false;
         }
          if($('#othersubcat').val() !=""){
-             alert('Add Other Topic');
+             alert('Add Other Topic or clear');
              var html = "Add Other Topic";
                     $('.addothercaterror').append(html);
             return false;
@@ -1057,7 +1108,24 @@ var options = $('.sub_category-row').find('select option');
         o.value = arr[i].v;
         $(o).text(arr[i].t);
     });
-
+// $("#id_project_name").change(function (e) {
+//     e.preventDefault();
+//     var name = $(this).val();
+//     $.ajax({
+//         url: "/SuggestProject/",
+//         data: {
+//             'name': name
+//         },
+//         dataType: 'json',
+//         success: function (data) {
+//             if (data.is_taken) {
+//                 alert("A project with this name already exists");
+                // document.getElementById("id_project_name").value = ("");
+                // document.getElementById("id_project_name").style.borderColor = "red";
+            // }
+        // }
+    // });
+// });
 });
 </script>
 <br><br><br><br><br><br><br><br><br><br>
@@ -1263,7 +1331,7 @@ $("#id_registerCommAndSave").click(function (){
         },
         dataType: 'json',
         success: function (data) {
-           window.location = '/partners/registerCommunityPartnerForProject/?projectId='+data.save_projectId
+           window.location = '/partners/register-Community-Partner-For-Project/?projectId='+data.save_projectId
         }
     });
  }
@@ -1303,7 +1371,7 @@ $("#id_registerCampusAndSave").click(function (){
         },
         dataType: 'json',
         success: function (data) {
-           window.location = '/partners/registerCampusPartnerForProject/?projectId='+data.save_projectId
+           window.location = '/partners/register-Campus-Partner-For-Project/?projectId='+data.save_projectId
         }
     });
  }

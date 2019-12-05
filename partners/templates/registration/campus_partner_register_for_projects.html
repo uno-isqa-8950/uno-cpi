@@ -315,7 +315,7 @@
 
 
 <form action="." onfocusout="return validateForm()" method ="post">
-     <input type="hidden" name="projectId" value="{{ projectId }}">
+     <input type="hidden" id="projectId" name="projectId" value="{{ projectId }}">
     <div class = "container-fluid">
 <br>
         <br>
@@ -944,8 +944,9 @@ $(document).ready(function() {
 
     $('#cancel').on('click', function (e) {
         e.preventDefault()
+        var projectid = $('#projectId').val();
         if (confirm("Are you sure?")){
-            window.location = '/partners';
+            window.location = /project/'+projectid+'/edit/;
         }
     });
 

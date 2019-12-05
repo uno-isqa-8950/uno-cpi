@@ -234,7 +234,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
                         'id': camp,
                         'color': 'black',
                         'marker': {'symbol': 'triangle'},
-                        'projects': 'Projects:' + camppartnrprojects.length +'<br></br>'+'Community Partner Engagement :'+ cop.length
+                        'projects': 'Projects: ' + '<b>'+camppartnrprojects.length+'</b>' +'<br></br>'+'Community Partner Engagement: '+'<b>' + cop.length+'</b>'
                     }
                     if (!nodedata.find(o => o.id === college)) {
                         nodedata.push(node)
@@ -310,7 +310,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
                                     // 'radius': commps.length
                                 },
-                                'projects': 'Projects:' + commpprojects.length + '<br></br>' + 'Focus Area: <b></b>' + mission_name + '<br></br>'+'Campus Partner Engagement: <b></b>'+ cp.length
+                                'projects': 'Projects: '+'<b>' + commpprojects.length +'</b>'+ '<br></br>' + 'Focus Area : '+ mission_name + '<br></br>'+'Campus Partner Engagement: '+'<b>'+ cp.length+'</b>'
                                 // tooltip: {useHTML: true,
                                 // format:'<b>Name: {%id%} ${this.Node.name}</b><br><b> projects[${this.point.projects}]</b>'}
                             }

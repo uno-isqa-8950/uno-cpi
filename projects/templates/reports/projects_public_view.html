@@ -559,31 +559,33 @@
 
                 <div class="row bottom-card">
 
-                    <div class="col-sm-12 col-lg-4">
-                        <b>Engagement Type :</b>
+                    <div class="col-sm-12 col-lg-6">
+                        <b>Engagement Type:</b>
                         {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
                     </div>
-                    <div class="col-sm-12 col-lg-4">
-                        <b> Activity Type :</b> {{ project.activityType}}
+                      <div class="col-sm-12 col-lg-6">
+                        <b> Start Academic Year:</b> {{ project.academic_year}}
                     </div>
-                    <div class="col-sm-12 col-lg-4">
-                        <b> Start Semester :</b> {{ project.semester}}
+                    <div class="col-sm-12 col-lg-6">
+                        <b> Activity Type:</b>
+                        {% if project.activityType is None %}
+                        {%else%}
+                        {{ project.activityType}}
+                        {%endif%}
                     </div>
-
-
-                    <div class="col-sm-12 col-lg-4">
-                        <b> End Semester :</b>
+                    <div class="col-sm-12 col-lg-6">
+                        <b> End Semester:</b>
                         {% if project.end_semester is None %}
                         {%else%}
                         {{ project.end_semester }}
                         {%endif%}
                     </div>
-                    <div class="col-sm-12 col-lg-4">
-                        <b> Start Academic Year :</b> {{ project.academic_year}}
+                    <div class="col-sm-12 col-lg-6">
+                        <b> Start Semester:</b> {{ project.semester}}
                     </div>
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="col-sm-12 col-lg-6">
 
-                        <b> End Academic Year :</b>
+                        <b> End Academic Year:</b>
                         {%if project.end_academic_year is None%}
                         {%else%}
                         {{ project.end_academic_year }}
@@ -604,8 +606,8 @@
                     <!--</div>-->
 
 
-                    <div class="col-sm-12">
-                    <b> Topics : </b>
+                    <div class="col-sm-12 col-lg-12">
+                    <b> Topics: </b>
                     {% if project.sub_category|length > 0%}
                     {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                     {%else%}
@@ -624,8 +626,9 @@
                      <!--</div>-->
 
 
-                    <div class="col-sm-12">
-                        <b> Description :</b> {{ project.description }}
+                    <div class="col-sm-12 col-lg-12">
+                        <hr>
+                        <b> Description:</b> {{ project.description }}
                     </div></div>
 
             </div>

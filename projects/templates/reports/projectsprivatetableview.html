@@ -425,7 +425,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %} {% endfor %}Campus Partners
                             </th>
-                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 31%}
+                            <th class="none">{% for data_definition in data_definition %}{% if data_definition.id == 31%}
                                 <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -447,6 +447,7 @@
                             <th class="none">Topics</th>
                             <th class="none">Other Topics</th>
                             <th class="none">Description</th>
+                            <th class="none">Subtags</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -511,6 +512,7 @@
 
                             </td>
                             <td>{{ project.description }}</td>
+                            <td>{{project.sub_tags}}</td>
 
                         </tr>
                         {% endfor %}
@@ -565,6 +567,11 @@
        ]
        },
        columnDefs: [
+           {
+                "targets": [21],
+                "visible": false,
+                "searchable": true
+            },
 
            { responsivePriority: 10001, targets: 10 },
            { responsivePriority: 10001, targets: 11 },

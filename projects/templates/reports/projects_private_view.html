@@ -563,55 +563,71 @@ table{
 
 
         <div class="col-sm-12 col-lg-6">
-            <b>Engagement Type :</b>
+            <b>Engagement Type:</b>
             {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
         </div>
 
         <div class="col-sm-12 col-lg-6">
-            <b> Activity Type :</b> {{ project.activityType}}
+            <b> Total UNO Students: </b> {{project.total_uno_students}}
+        </div>
+
+
+        <div class="col-sm-12 col-lg-6">
+            <b> Activity Type:</b>
+            {% if project.activityType is None %}
+            {%else%}
+            {{ project.activityType}}
+            {%endif%}
         </div>
 
         <div class="col-sm-12 col-lg-6">
-            <b> Start Semester :</b> {{ project.semester}}
+            <b>UNO Student Hours: </b> {{project.total_uno_hours}}
         </div>
 
+
         <div class="col-sm-12 col-lg-6">
-            <b> End Semester :</b>
+            <b> Start Semester:</b> {{ project.semester}}
+        </div>
+        <div class="col-sm-12 col-lg-6"> <b>Total K-12 Students: </b> {{project.total_k12_students}}</div>
+
+        <div class="col-sm-12 col-lg-6">
+            <b> Start Academic Year:</b> {{ project.academic_year}}
+        </div>
+        <div class="col-sm-12 col-lg-6"><b>K-12 Student Hours: </b> {{project.total_k12_hours}}</div>
+        <div class="col-sm-12 col-lg-6">
+            <b> End Semester:</b>
             {% if project.end_semester is None %}
             {%else%}
             {{ project.end_semester }}
             {%endif%}
         </div>
 
-        <div class="col-sm-12 col-lg-6">
-            <b> Start Academic Year :</b> {{ project.academic_year}}
+        <div class = "col-sm-12 col-lg-6">
+            <b>Total Number of Other Participants:</b>
+            {{project.total_other_community_members}}
         </div>
 
         <div class="col-sm-12 col-lg-6">
-            <b> End Academic Year :</b>
+            <b> End Academic Year:</b>
             {% if project.end_academic_year is None %}
             {%else%}
             {{ project.end_academic_year }}
             {%endif%}
         </div>
 
-        <div class="col-sm-12 col-lg-6">
-            <b> Total UNO Students : </b> {{project.total_uno_students}}
-        </div>
 
-        <div class="col-sm-12 col-lg-6">
-            <b>UNO Student Hours : </b> {{project.total_uno_hours}}
-        </div>
 
-        <div class="col-sm-12 col-lg-6">
-            <b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</div>
 
-        <div class="col-sm-12 col-lg-6"> <b>Total K-12 Students : </b> {{project.total_k12_students}}</div>
 
-        <div class="col-sm-12 col-lg-6"><b>Total K-12 Hours : </b> {{project.total_k12_hours}}</div>
+        <!--<div class="col-sm-12 col-lg-6">-->
+            <!--<b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</div>-->
+
+
+
+
 
         <div class="col-sm-12">
-            <b>Campus Lead Staff : </b>
+            <b>Campus Lead: </b>
             {% if project.campus_lead_staff|length > 0%}
             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
             {%else%}
@@ -633,19 +649,11 @@ table{
         <!--</div>-->
 
         <div class="col-sm-12"><b> Topics: </b>
-
-
-
-            {% for sub_category in project.sub_category %} {% if project.sub_category is None %} ' ' {%else%} {{sub_category}}{%endif%}{% endfor%}
-
-
-
-            <!--{% if project.sub_category|length > 0%}-->
-            <!--{% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
-            <!--{%else%}-->
-            <!--{% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}-->
-            <!--{%endif%}-->
-
+            {% if project.sub_category|length > 0%}
+            {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+            {%else%}
+            {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+            {%endif%}
         </div>
 
         <!--<div class="col-sm-12"><b> Other Topics : </b>-->

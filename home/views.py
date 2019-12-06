@@ -72,14 +72,14 @@ s3 = boto3.resource('s3',
 
 # Read JSON files for charts
 
-charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
-charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
-charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
-charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
-charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
-charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
-charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
-charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+# charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+# charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+# charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+# charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+# charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+# charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+# charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+# charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
 
 #read Partner.geojson from s3
 #content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
@@ -1570,6 +1570,14 @@ def missionchart(request):
     campus_filter_qs = CampusPartner.objects.all()
     campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1649,6 +1657,14 @@ def partnershipintensity(request):
     # MissionObject = json.load(static_charts_missions)
 #########################
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1700,6 +1716,12 @@ def trendreport(request):
         res = {'id': y.id, 'name': y.academic_year}
         yearList.append(res)
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1736,6 +1758,12 @@ def EngagementType_Chart(request):
         engagementList.append(res)
     engagementList = sorted(engagementList, key=lambda i: i['name'])
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)

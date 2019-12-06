@@ -140,7 +140,7 @@ align-self: flex-end;
                         {% endfor %}
                          Academic Years
                     </label>
-                    <select id="id_academicyear" name="academic_year" onchange="onload=function(){ document.getElementById('loading').style.display = 'none' };updatechart()">
+                    <select id="id_academicyear" name="academic_year" onchange="updatechart()">
                         {%  if user.is_superuser %}
                         <option>All</option>
                         {%  endif %}
@@ -470,10 +470,10 @@ $(document).ready(function(){
 });
 </script>
 <script language="javascript" type="text/javascript">
+    {#onload=function(){ document.getElementById("loading").style.display = "none" }#}
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
-    {#document.onload = function(){ document.getElementById("loading").style.display = "none" }#}
-    {#window.onload = updatechart();#}
+
 </script>
 <script>
             $(document).ready(function(){

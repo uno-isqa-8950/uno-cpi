@@ -95,6 +95,8 @@ align-self: flex-end;
  </style>
     <br>
     <br>
+
+<div class="loader" id =loading></div>
    <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
                                               <div class=" text-center"><h3 class="heading">Network Analysis Chart</h3></div>
@@ -138,7 +140,7 @@ align-self: flex-end;
                         {% endfor %}
                          Academic Years
                     </label>
-                    <select id="id_academicyear" name="academic_year" onchange="updatechart()">
+                    <select id="id_academicyear" name="academic_year" onchange="onload=function(){ document.getElementById('loading').style.display = 'none' };updatechart()">
                         {%  if user.is_superuser %}
                         <option>All</option>
                         {%  endif %}
@@ -406,10 +408,10 @@ $(document).ready(function(){
                                         }});
     $('#id_academicyear').select2({placeholder: ' {{  max_year }}',width: '75%',
                         sorter: function(data) {
-        console.log(data)
+        {#console.log(data)#}
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
-                                                console.log(a)
+                                                {#console.log(a)#}
                                                 a = a;
                                                 b = b;
                                                 if (a > b) {
@@ -470,6 +472,8 @@ $(document).ready(function(){
 <script language="javascript" type="text/javascript">
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
+    {#document.onload = function(){ document.getElementById("loading").style.display = "none" }#}
+    {#window.onload = updatechart();#}
 </script>
 <script>
             $(document).ready(function(){

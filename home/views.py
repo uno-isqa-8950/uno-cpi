@@ -2017,11 +2017,20 @@ def chartjsons():
 @login_required()
 def networkanalysis(request):
     data_definition = DataDefinition.objects.all()
-    chartJsonData = chartjsons()
-    campus_partner_json=chartJsonData[0]
-    community_partner_json=chartJsonData[1]
-    mission_subcategories_json=chartJsonData[2]
-    projects_json=chartJsonData[3]
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+
+    campus_partner_json = json.loads(charts_campuses)
+    community_partner_json = json.loads(charts_communities)
+    mission_subcategories_json = json.loads(charts_missions)
+    projects_json = json.loads(charts_projects)
+
     # print(" project json ",projects_json)
     CollegeNamelist = []
     for e in College.objects.all():
@@ -2135,13 +2144,20 @@ def networkanalysis(request):
 ###Focus Area Analysis Chart
 def issueaddress(request):
     data_definition = DataDefinition.objects.all()
-    chartJsonData = chartjsons()
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
 
-    campus_partner_json=chartJsonData[0]
-    community_partner_json=chartJsonData[1]
-    mission_subcategories_json=chartJsonData[2]
-    projects_json=chartJsonData[3]
-    # print(" project json ",projects_json)
+    campus_partner_json = json.loads(charts_campuses)
+    community_partner_json = json.loads(charts_communities)
+    mission_subcategories_json = json.loads(charts_missions)
+    projects_json = json.loads(charts_projects)
+
     CollegeNamelist=[]
     for e in College.objects.all():
         if(str(e.college_name) not in CollegeNamelist):

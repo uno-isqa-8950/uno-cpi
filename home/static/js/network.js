@@ -462,10 +462,6 @@ tooltip: {
 
 
 function updatechart(){
-    var x = document.getElementById("loading");
-  if (x.style.display === "none") {
-    x.style.display = "block";
-  }
 setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
@@ -502,8 +498,7 @@ setTimeout(function(){
         }
         ]
 })
-// x.style.display = "none";
-$('#loading').hide();
-}, 0.0001)
 
+
+}, 0.0001)
 }

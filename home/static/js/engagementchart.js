@@ -76,7 +76,9 @@ function getChartData(engagementList, Projects, CommunityPartners, CampusPartner
     var camp_data = [];
     var engagements = [];
     for (e in engagementList) {
-        engagements.push(engagementList[e].name);
+        var engLabel = '';
+        var engLabel = engLabel.concat('<span tabindex="-1" data-toggle="tooltip" data-placement="right" title="',engagementList[e].description,'" class="float" > <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> ',engagementList[e].name);
+        engagements.push(engLabel);
         var EngProjects = Projects.filter(d => d.engagement_type.engagement_type_id === parseInt(engagementList[e].id));
 
         var filt = get_filter_set(EngProjects, CommunityPartners, CampusPartners, academic_year, mission, comm_type, college_name, campus_partner, weitz_cec_part);
@@ -108,7 +110,7 @@ var chart = Highcharts.chart('container',{
       "title":{"text":"Engagement Types",
          "style":{"fontWeight":"bold","color":"black","fontSize":"15px", "fontFamily": "Arial Narrow"}},
       "categories": engagements,
-      "labels":{"style":{"color":"black","fontSize":"13px", "fontFamily": "Arial Narrow"}}},
+      "labels":{"useHTML": true, "style":{"color":"black","fontSize":"13px", "fontFamily": "Arial Narrow"}}},
    "yAxis":{
       "allowDecimals":false,
       "title":{

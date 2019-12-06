@@ -95,6 +95,8 @@ align-self: flex-end;
  </style>
     <br>
     <br>
+
+<div class="loader" id =loading></div>
    <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
                                               <div class=" text-center"><h3 class="heading">Network Analysis Chart</h3></div>
@@ -219,9 +221,8 @@ align-self: flex-end;
                         </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="updatechart()">
 
-                                <option> All </option>
-
                                 <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+                            <option>All</option>
                                     {% for campus in campus_filter %}
                                         <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
                                     {% endfor %}
@@ -265,7 +266,7 @@ align-self: flex-end;
                     <div class="col-lg-4 col-md-5 form-group ">
                         <label for="legislative_value" >
                             {% for data_definition in data_definition %}
-                                {% if data_definition.id == 52%}
+                                {% if data_definition.id == 68%}
                             <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
@@ -310,7 +311,7 @@ align-self: flex-end;
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}Focus Areas
+                        {% endfor %}Project Focus Areas
                     </label>
                     <select class="form-control" id="id_mission" name="mission" onchange="updatechart()">
                         <option> All </option>
@@ -378,7 +379,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%'});
                                         {#sorter: function(data) {#}
                                         {#    /* Sort data using lowercase comparison */#}
                                         {#    return data.sort(function (a, b) {#}
@@ -390,8 +391,7 @@ $(document).ready(function(){
                                         {#            return -1;#}
                                         {#        }#}
                                         {#        return 0;#}
-                                        {#    })};#}
-                                        });
+                                        {#    })};});#}
       $('#id_community_partner').select2({placeholder: 'All Community Partners',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -408,10 +408,10 @@ $(document).ready(function(){
                                         }});
     $('#id_academicyear').select2({placeholder: ' {{  max_year }}',width: '75%',
                         sorter: function(data) {
-        console.log(data)
+        {#console.log(data)#}
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
-                                                console.log(a)
+                                                {#console.log(a)#}
                                                 a = a;
                                                 b = b;
                                                 if (a > b) {
@@ -470,8 +470,10 @@ $(document).ready(function(){
 });
 </script>
 <script language="javascript" type="text/javascript">
+    {#onload=function(){ document.getElementById("loading").style.display = "none" }#}
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }
+
 </script>
 <script>
             $(document).ready(function(){

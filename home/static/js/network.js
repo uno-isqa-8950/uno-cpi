@@ -93,7 +93,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
 
     }
     if (!not_set.includes(legislative)) {
-        var community_partner_json = community_partner_json.filter(d => d.legislative_district === parseInt(legislative.split("+")[2]));
+        var community_partner_json = community_partner_json.filter(d => d.legislative_district === parseInt(legislative.split(" ")[2]));
     }
     if (weitz_cec_part == 'CURR_COMM') {
         var community_partner_json = community_partner_json.filter(d => d.cec_partner.cec_partner_status === "Current");

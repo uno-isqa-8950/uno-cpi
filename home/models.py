@@ -849,6 +849,7 @@ class Resource (models.Model):
     resource_descr = models.CharField(max_length=250, blank=True, null=False)
     resource_link = models.CharField(max_length=250, blank=True, null=False)
     isAccessible = models.BooleanField(default=True)
+    listing_order = models.IntegerField(default='0')
     #updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     updated_date = models.DateField(default=timezone.now)
     created_date = models.DateTimeField(default=timezone.now)

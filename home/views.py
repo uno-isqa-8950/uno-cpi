@@ -1560,9 +1560,9 @@ def missionchart(request):
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if cec_part_selection is None:
-        cec_part_selection = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    # if cec_part_selection is None:
+        # cec_part_selection = cec_part_init_selection
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())

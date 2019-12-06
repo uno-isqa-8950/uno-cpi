@@ -193,8 +193,9 @@
                             Campus Partners
                         </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="updatechart()">
-                                <option> All </option>
+
                                 <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+                            <option> All </option>
                                     {% for campus in campus_filter %}
                                         <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
                                     {% endfor %}
@@ -240,7 +241,7 @@
                     <div class="col-lg-4 col-md-5 form-group ">
                         <label for="legislative_value" >
                             {% for data_definition in data_definition %}
-                                {% if data_definition.id == 52%}
+                                {% if data_definition.id == 68%}
                             <span tabindex="-1" data-toggle="tooltip"
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>

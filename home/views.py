@@ -1732,7 +1732,7 @@ def EngagementType_Chart(request):
     engagements = EngagementType.objects.all()
     engagementList = []
     for e in engagements:
-        res = {'id': e.id, 'name': e.name}
+        res = {'id': e.id, 'name': e.name, 'description': e.description}
         engagementList.append(res)
     engagementList = sorted(engagementList, key=lambda i: i['name'])
 

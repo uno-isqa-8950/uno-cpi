@@ -21,6 +21,7 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     if (!not_set.includes(college_name)) {
         var CampusPartners = CampusPartners.filter(d => d.college.college_name_id === parseInt(college_name));
     }
+
     if (!not_set.includes(campus_partner)) {
         var CampusPartners = CampusPartners.filter(d => d.campus_partner_id === parseInt(campus_partner));
     }
@@ -35,8 +36,9 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     if (!not_set.includes(comm_type)) {
         var CommunityPartners = CommunityPartners.filter(d => d.community_type.community_type_id === parseInt(comm_type));
     }
+
     if (!not_set.includes(legislative_value)) {
-        var CommunityPartners = CommunityPartners.filter(d => d.legislative_district === parseInt(legislative_value.split("+")[2]));
+        var CommunityPartners = CommunityPartners.filter(d => d.legislative_district === parseInt(legislative_value.split(" ")[2]));
     }
     if (weitz_cec_part == 'CURR_COMM') {
         var CommunityPartners = CommunityPartners.filter(d => d.cec_partner.cec_partner_status === "Current");
@@ -67,6 +69,10 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
     if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(comm_type) || !not_set.includes(legislative_value) || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
         var CampusPartners = CampusPartners.filter(d => projectCampus.has(d.campus_partner_id));
     }
+    var campers = [];
+    CampusPartners.forEach(function(feature) {
+        campers.push(feature["campus_partner_id"]);
+    });
     if (not_set.includes(y_axis)) {
        var y_axis = "campus";
     }
@@ -100,9 +106,12 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
                 feature["subcategories"].forEach(item => y_items.add(item));
              } else if (y_axis === "campus") {
                 y_label = "Number of Campus Partners";
-                feature["campus_partner_ids"].forEach(item => y_items.add(item));
+                var thisCamp = [];
+                feature["campus_partner_ids"].forEach(item => thisCamp.push(item));
+                let intersection = thisCamp.filter(x => campers.includes(x));
+                intersection.forEach(item => y_items.add(item));
              }
-          })
+          });
           var y = y_items.size;
           if (y_axis === "score") {
              var y = y + comm_mission_count.size;
@@ -110,12 +119,19 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
           y_vars.push(y);
           var comm = {"name": feature["community_partner_name"], "x": x, "y":y};
           data.push(comm);
-       })
+       });
        var mission_comms = {"name":missionList[m].name, "color":color, "data":data};
        chart_data.push(mission_comms);
     }
-    var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
-    var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
+    // var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
+    // var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
+    const median = arr => {
+      const mid = Math.floor(arr.length / 2),
+        nums = [...arr].sort((a, b) => a - b);
+      return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+    };
+    var xLine = median(x_vars);
+    var yLine = median(y_vars);
 
     var select = document.getElementById("id_community_partner");
     select.options.length = 2;
@@ -187,7 +203,7 @@ var chart = Highcharts.chart('container', {
          "tooltip":{
             "style": {"fontFamily": "Arial Narrow", "pointerEvents": "auto"},
             "headerFormat": "",
-            "pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}
+            "pointFormat":"<b>{point.name}</b><br>Projects: <b>{point.x}</b> <br>"+y_label+": <b>{point.y}</b><br><i>Double click on point to exclude it from the dataset</i>"}
       }},
    "responsive":{"rules":[{"condition":{"maxWidth":500},
             "chartOptions":{"legend":{"layout":"horizontal","align":"center","verticalAlign":"bottom"}}}]},
@@ -223,44 +239,9 @@ function updateChart () {
              { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
        "plotOptions":{
           "scatter":{
-             "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: {point.x} <br>"+y_label+": {point.y}<br><i>Double click on point to exclude it from the dataset</i>"}}},
+             "tooltip":{"pointFormat":"<b>{point.name}</b><br>Projects: <b>{point.x}</b> <br>"+y_label+": <b>{point.y}</b><br><i>Double click on point to exclude it from the dataset</i>"}}},
        "series":chart_data
     });
-
-    // var selectedComm = $('#id_community_partner option:selected').val();
-    // var selectCom = comms.filter(d => d.community_partner_id == selectedComm);
-    // if (not_set.includes(selectedComm)) {
-    //     chart.update({
-    //        "xAxis":{
-    //           "plotLines":[
-    //              { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-    //        "yAxis":{
-    //           "plotLines":[
-    //              { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" }]},
-    //     });
-    // } else if (selectCom.length) {
-    //     var selected = selectCom[0].community_partner_name;
-    //     for (c in chart_data) {
-    //         if (chart_data[c].data.length) {
-    //             for (d in chart_data[c].data) {
-    //                 if (chart_data[c].data[d].name === selected) {
-    //                     chart.update({
-    //                        "xAxis":{
-    //                           "plotLines":[
-    //                              { "value":xLine, "dashStyle":"dash", "width":2, "color":"#d33" },
-    //                              { "value":chart_data[c].data[d].x, "width":2, "color":"#d33" }]},
-    //                        "yAxis":{
-    //                           "plotLines":[
-    //                              { "value":yLine, "dashStyle":"dash", "width":2, "color":"#d33" },
-    //                              { "value":chart_data[c].data[d].y, "width":2, "color":"#d33" }]},
-    //                     });
-    //                 }
-    //             }
-    //         }
-    //     }
-    // } else {
-    //     alert("The selected community partner does not exist for the filters selected");
-    // }
 }
 
 function getCommunityCroasshairs () {

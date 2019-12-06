@@ -58,9 +58,10 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
     }
 
     if (!not_set.includes(legislative)) {
-        var startprojects = startprojects.filter(d => d.legislative_district == parseInt(legislative));
-        var endprojects = endprojects.filter(d => d.legislative_district == parseInt(legislative));
-        // console.log("filtered mission areas", projects_json)
+          var community_partner_json = community_partner_json.filter(d => d.legislative_district === parseInt(legislative.split(" ")[2]));
+        // var startprojects = startprojects.filter(d => d.legislative_district == parseInt(legislative));
+        // var endprojects = endprojects.filter(d => d.legislative_district == parseInt(legislative));
+        console.log("filtered community_partner_json legislative", community_partner_json)
     }
 
         if (weitz_cec_part == 'CURR_CAMP') {
@@ -85,6 +86,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         })
         var startprojects = startprojects.filter(d => d.campus_partner_ids.some(r => camps.includes(r)));
         var endprojects = endprojects.filter(d => d.campus_partner_ids.some(r => camps.includes(r)));
+        console.log(" filterd projects based on campus partners startprojects",startprojects)
+         console.log(" filterd projects based on campus partners startprojects",endprojects)
     }
 
         if (weitz_cec_part == 'CURR_COMM') {
@@ -98,13 +101,15 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         var community_partner_json = community_partner_json.filter(d => d.community_type.community_type_id == (comm_type));
         // console.log("filtered comm_type", community_partner_json)
     }
-    if (!not_set.includes(comm_type) || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
+    if (!not_set.includes(comm_type) || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part) || !not_set.includes(legislative)) {
         comms = [];
         community_partner_json.forEach(function (feature) {
             comms.push(feature["community_partner_id"]);
         })
         var startprojects = startprojects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
          var endprojects = endprojects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
+         console.log(" filterd projects based on community partners startprojects",startprojects)
+         console.log(" filterd projects based on community partners startprojects",endprojects)
     }
 
 
@@ -396,8 +401,9 @@ var Decrease=res[6]
                 },'colorByPoint': false,
                 'tooltip': {
                     'style': {'fontFamily': 'Arial Narrow'},
-                    'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-                    'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br> Growth/Decrease: {point.per} %'
+                    // 'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+                    "headerFormat": "",
+                    'pointFormat': '<span>{point.name}</span><br> Analysis Start Year Projects: <b>{point.x}</b><br>Analysis End Year Projects: <b>{point.x2}</b><br> Growth/Decrease: <b>{point.per}%</b>'
                 }
             },
 
@@ -410,8 +416,9 @@ var Decrease=res[6]
         },
         'tooltip': {
             'style': {'fontFamily': 'Arial Narrow'},
-        'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-        'pointFormat': '<span style="color:{point.color}"><b>{point.name}</b></span><br> ProjectCount:{point.x}<span></span>'
+        // 'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
+            "headerFormat": "",
+        'pointFormat': '<span>{point.name}</span><br> Projects: <b>{point.x}</b><span></span>'
                  },
         'legend': {
             'layout': 'horizontal',

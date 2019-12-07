@@ -1912,7 +1912,7 @@ def projectsPrivateReport(request):
                                    , p.other_sub_category other_subCat \
                                    , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
-                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
                                    left join projects_engagementtype e on e.id = p.engagement_type_id \
                                    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \

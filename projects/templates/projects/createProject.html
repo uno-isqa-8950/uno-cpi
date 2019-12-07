@@ -113,8 +113,10 @@
                                                     <div class="col-md-1">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" data-toggle="tooltip"
-                                                             title="Click to add given value" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
+                                                    <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add Selected value" class="float"  data-placement="right" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
+                                                    </span>
                                             </div>
                                             </div>
                                                 </div>
@@ -298,26 +300,24 @@
                                             </div>
                                         </div>
                                          <div class="row">
-                                            <div class="col">
-                                                 <div class="row">
-                                                <label for="id_uno_students" class="col-sm-5">
-                                                    {% for data_definition in data_definition %}
-                                                           {% if data_definition.id == 63%}
-                                                             <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{{ data_definition.description }}" class="float" >
-                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    Toatal UNO Faculty/Staff Hours</label>
-                                                    <div class="col-sm-6">
-                                                {{ project.total_uno_faculty}}
-                                                    </div>
-                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-                                            </div>
-                                            </div>
-                                            <div class="col">
+<!--                                            <div cl
+ass="col">-->
+<!--                                                 <div class="row">-->
+<!--                                                <label for="id_uno_students" class="col-sm-5">-->
+<!--                                                    {% for data_definition in data_definition %}-->
+<!--                                                           {% if data_definition.id == 63%}-->
+<!--                                                             <span tabindex="-1" data-toggle="tooltip"-->
+<!--                                                             title="{{ data_definition.description }}" class="float" >-->
+<!--                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>-->
+<!--                                                            {% endif %}-->
+<!--                                                        {% endfor %}-->
+<!--                                                    Toatal UNO Faculty/Staff Hours</label>-->
+<!--                                                    <div class="col-sm-6">-->
+<!--                                                {{ project.total_uno_faculty}}-->
+<!--                                                    </div>-->
+<!--                                            </div>-->
+<!--                                            </div>-->
+                                            <div class="col-md-6">
                                                 <div class="row">
                                                 <label for="id_uno_hours" class="col-sm-5">
                                                     {% for data_definition in data_definition %}
@@ -419,7 +419,7 @@
                                                     {% for data_definition in data_definition %}
                                                            {% if data_definition.id == 2%}
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{{ data_definition.description }}" class="float" >
+                                                             title="{{ data_definition.description }}" class="float">
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                             {% endif %}
                                                         {% endfor %}
@@ -436,8 +436,10 @@
                                             </div>
 
                                         <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row"  data-toggle="tooltip"
-                                                             title="Click to add Selected value" style="padding-top:8px; " aria-hidden="true"></i>
+                                             <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add Selected value" class="float" data-placement="right" >
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
+                                             </span>
                                             </div>
                                         </div>
 
@@ -494,8 +496,10 @@
                                         </div>
                                         <div class="col-md-1">
                                             <div class="input-group-append" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row"  data-toggle="tooltip"
-                                                             title="Click to add selected value" style="padding-top:8px" aria-hidden="true"></i>
+                                                <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add selected value" class="float"  data-placement="right" >
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
+                                                </span>
                                             </div>
 <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                             </div>
@@ -541,8 +545,10 @@
                                                     <div class="col-md-1 centered">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px"  data-toggle="tooltip"
-                                                             title="Click to add given value" id="submitname" aria-hidden="true"></i>
+                                                    <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add given value" class="float" data-placement="right" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                                    </span>
                                             </div>
                                             </div>
                                                 </div>
@@ -624,8 +630,10 @@
                     </div>
                 <div class="col-md-1">
                     <div class="input-group-append" >
-                        <i class="fa fa-plus-square fa-2x add-sub_category-row"  data-toggle="tooltip"
-                                                             title="Click to add selected value" style="padding-top:8px" aria-hidden="true"></i>
+                        <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add selected value" class="float"  data-placement="right">
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
+                        </span>
                     </div>
                 </div>
                 </div>
@@ -646,8 +654,10 @@
                                                     <div class="col-md-1">
 <!--                                                        <div><br></div>-->
                                                 <div class="input-group-append" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" data-toggle="tooltip"
-                                                               title="Click to add given value" id="addsubcat" aria-hidden="true"></i>
+                                                    <span tabindex="-1" data-toggle="tooltip"
+                                                             title="Click to add given value" class="float"  data-placement="right"  >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
+                                                    </span>
                                             </div>
                                             </div>
                                                 </div>
@@ -767,7 +777,7 @@
 
                  <div class="row centered" id="termsdiv">
                 <p><input type="checkbox" id="terms">
-                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
                                <div class="row centered" style="margin-top:30px;">
@@ -828,7 +838,7 @@ $(document).ready(function() {
     $('#cancel').on('click', function (e) {
         e.preventDefault();
         if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
-            window.location = '/checkProject';
+            window.location = '/check-Project';
         }
     });
 $("#id_academic_year").change(function () {
@@ -1676,12 +1686,11 @@ $(document).ready(function(){
 </script>
 
 <style>
+
 label{
   cursor: pointer;
 }
-/*.tooltip{*/
-/*  display:none;  border: 1px solid red;*/
-/*}*/
+
 label:hover .tooltip{
   display:inline-block;
 }
@@ -1745,14 +1754,6 @@ input[id=othersubcat]{
   /*border-color:grey;*/
   /*box-shadow:0 0 8px 0 grey;*/
 }
-    .fade{
-        color: black;
-        display: block;
-        opacity: 100;
-    }
-    .fade:not(.show){
-        opacity: 5;
-    }
 </style>
 <!--    Commenting out script per ticket #551
         Removing HTML validations as Validation Messages are coded in forms.py file
@@ -1874,9 +1875,5 @@ $('#submit').click(function () {
     $('[data-toggle="tooltip"]').tooltip();
 });
 </script>
-<script>
-$(function () {
-         $('[data-toggle="popover"]').popover()
-     })
-</script>
+
 {% endblock %}

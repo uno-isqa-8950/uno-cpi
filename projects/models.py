@@ -197,7 +197,7 @@ class Status(models.Model):
 
 class EngagementType(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=255, null=True, blank=True)
+    description = models.CharField(max_length=1500, null=True, blank=True)
     history = HistoricalRecords()
 
     def __str__(self):

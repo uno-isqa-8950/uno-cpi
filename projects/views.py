@@ -664,6 +664,7 @@ def editProject(request, pk):
                 else:
                     address = instances.address_line1
                     if (address != 'N/A' and address != ''): # check if a community partner's address is there
+                        instances.address_update_flag = 'True'
                         try:
                             fulladdress = instances.address_line1 + ' ' + instances.city
                             geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
@@ -1149,13 +1150,15 @@ def showAllProjects(request):
     for obj in cursor.fetchall():
         proj_names = obj[0]
         name = ''
-        try:
-            Projectname = proj_names.split(':')
-        except ValueError:
-            name = Projectname
-        else:
+        Projectname = proj_names.split(':')
+        if len(Projectname) >= 2 and Projectname[1]:
             for i in range(0, len(Projectname) - 1):
                 name += Projectname[i]
+
+        else:
+            for i in Projectname:
+                name = name + str(i)
+
         projects_list.append({"name": name, "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
                               "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
@@ -1443,13 +1446,15 @@ def projectstablePublicReport(request):
     for obj in cursor.fetchall():
         proj_names = obj[0]
         name = ''
-        try:
-            Projectname = proj_names.split(':')
-        except ValueError:
-            name = Projectname
-        else:
+        Projectname = proj_names.split(':')
+        if len(Projectname) >= 2 and Projectname[1]:
             for i in range(0, len(Projectname) - 1):
                 name += Projectname[i]
+
+        else:
+            for i in Projectname:
+                name = name + str(i)
+        print("Project name ------ ", name)
         projects_list.append(
             {"name": name, "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
              "engagementType": obj[4], "academic_year": obj[5], "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
@@ -1595,8 +1600,6 @@ def projectsPublicReport(request):
         cec_comm_part_cond = '%'
         cec_camp_part_cond = 'Current'
 
-    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
     cursor = connection.cursor()
     project_start_query = "select distinct p.project_name \
                                    , array_agg(distinct hm.mission_name) mission_area \
@@ -1642,9 +1645,7 @@ def projectsPublicReport(request):
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(academic_end_year_cond) + ")) "
 
     clause_query = ""
     if eng_type_cond !='%':
@@ -1721,13 +1722,15 @@ def projectsPublicReport(request):
     for obj in cursor.fetchall():
         proj_names = obj[0]
         name = ''
-        try:
-            Projectname = proj_names.split(':')
-        except ValueError:
-            name = Projectname
-        else:
+        Projectname = proj_names.split(':')
+        if len(Projectname) >= 2 and Projectname[1]:
             for i in range(0, len(Projectname) - 1):
                 name += Projectname[i]
+
+        else:
+            for i in Projectname:
+                name = name + str(i)
+        print("Project name ------ ", name)
         projects_list.append({"name": name, "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
                               "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
@@ -1924,9 +1927,7 @@ def projectsPrivateReport(request):
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(academic_end_year_cond) + ")) "
 
     clause_query = ""
     if eng_type_cond !='%':
@@ -1998,13 +1999,14 @@ def projectsPrivateReport(request):
     for obj in cursor.fetchall():
         proj_names = obj[0]
         name = ''
-        try:
-            Projectname = proj_names.split(':')
-        except ValueError:
-            name = Projectname
-        else:
+        Projectname = proj_names.split(':')
+        if len(Projectname) >= 2 and Projectname[1]:
             for i in range(0, len(Projectname) - 1):
                 name += Projectname[i]
+
+        else:
+            for i in Projectname:
+                name = name + str(i)
         projects_list.append({"name": name, "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
                               "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],
@@ -2194,11 +2196,9 @@ def projectstablePrivateReport(request):
                                    left join projects_status status on status.id = p.status_id \
                                    where status.name != 'Drafts' \
                                        and ((p.academic_year_id <= " + str(academic_start_year_cond) + ") AND \
-                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(
-        academic_end_year_cond) + ")) \
-                                       and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
+                                           (COALESCE(p.end_academic_year_id, p.academic_year_id) >= " + str(academic_end_year_cond) + ")) "
 
-    clause_query = ""
+    clause_query = " "
     if eng_type_cond !='%':
         clause_query +=" and e.id::text like '"+ eng_type_cond +"'"
 
@@ -2268,13 +2268,16 @@ def projectstablePrivateReport(request):
     for obj in cursor.fetchall():
         proj_names = obj[0]
         name = ''
-        try:
-            Projectname = proj_names.split(':')
-        except ValueError:
-            name = Projectname
-        else:
+        Projectname = proj_names.split(':')
+        if len(Projectname) >= 2 and Projectname[1]:
             for i in range(0, len(Projectname) - 1):
                 name += Projectname[i]
+
+        else:
+            for i in Projectname:
+                name = name + str(i)
+
+        print ("Project name is-----", name)
         projects_list.append({"name": name, "projmisn": obj[1],"comm_part": obj[2], "camp_part": obj[3],"engagementType": obj[4], "academic_year": obj[5],
                               "semester": obj[6], "status": obj[7],"startDate": obj[8], "endDate": obj[9],"outcomes": obj[10], "total_uno_students": obj[11],
                               "total_uno_hours": obj[12], "total_uno_faculty": obj[13],"total_k12_students": obj[14], "total_k12_hours": obj[15],

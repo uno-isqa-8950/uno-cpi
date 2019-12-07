@@ -109,7 +109,7 @@ def districtGEO():
     return district
 
 def resourceData(request):
-    resources = Resource.objects.filter(isAccessible=1)
+    resources = Resource.objects.filter(isAccessible=1).order_by('listing_order')
     return {'resources': resources}
 
 def home(request):
@@ -1550,7 +1550,6 @@ def engagement_info(request):
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
 
 
-
 # Chart for projects with mission areas
 @login_required()
 def missionchart(request):
@@ -1560,9 +1559,9 @@ def missionchart(request):
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if cec_part_selection is None:
-        cec_part_selection = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    # if cec_part_selection is None:
+        # cec_part_selection = cec_part_init_selection
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())

@@ -64,6 +64,10 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         var projects_json = projects_json.filter(d => d.years.includes(parseInt(academic_year)));
     }
 
+    if (!not_set.includes(mission)) {
+        var projects_json = projects_json.filter(d => d.primary_mission_area.mission_id === (parseInt(mission)));
+    }
+
     if (weitz_cec_part == 'CURR_CAMP') {
         var campus_partner_json = campus_partner_json.filter(d => d.cec_partner.cec_partner_status === "Current");
     }

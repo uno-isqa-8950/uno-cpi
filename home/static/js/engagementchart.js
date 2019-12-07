@@ -164,8 +164,7 @@ function updateCampus() {
         var campus_filter = allCamps;
     }
     var select = document.getElementById("id_campus_partner");
-    select.options.length = 0;
-    select.options[select.options.length] = new Option('All', 'All');
+    select.options.length = 2;
     for(campus in campus_filter) {
         select.options[select.options.length] = new Option(campus_filter[campus].name, campus_filter[campus].id);
     }

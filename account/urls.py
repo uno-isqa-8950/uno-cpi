@@ -8,6 +8,6 @@ app_name = 'account'
 urlpatterns = [
     # post_views
 
-    path('loginPage/', views.user_login, name='loginPage'),
+    path('login-Page/', views.user_login, name='loginPage'),
 
 ]

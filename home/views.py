@@ -72,14 +72,14 @@ s3 = boto3.resource('s3',
 
 # Read JSON files for charts
 
-charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
-charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
-charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
-charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
-charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
-charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
-charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
-charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+# charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+# charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+# charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+# charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+# charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+# charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+# charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+# charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
 
 #read Partner.geojson from s3
 #content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
@@ -1456,7 +1456,7 @@ def engagement_info(request):
                    left join projects_projectcommunitypartner pcomm on p.id = pcomm.project_name_id \
                    left join partners_communitypartner comm on pcomm.community_partner_id = comm.id  \
                    left join projects_status s on  p.status_id = s.id \
-                   left join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
+                   join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
                    where  s.name != 'Drafts'  and " \
                        "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
@@ -1570,6 +1570,14 @@ def missionchart(request):
     campus_filter_qs = CampusPartner.objects.all()
     campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1649,6 +1657,14 @@ def partnershipintensity(request):
     # MissionObject = json.load(static_charts_missions)
 #########################
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1700,6 +1716,12 @@ def trendreport(request):
         res = {'id': y.id, 'name': y.academic_year}
         yearList.append(res)
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1732,10 +1754,16 @@ def EngagementType_Chart(request):
     engagements = EngagementType.objects.all()
     engagementList = []
     for e in engagements:
-        res = {'id': e.id, 'name': e.name}
+        res = {'id': e.id, 'name': e.name, 'description': e.description}
         engagementList.append(res)
     engagementList = sorted(engagementList, key=lambda i: i['name'])
 
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
     Projects = json.loads(charts_projects)
     CommunityPartners = json.loads(charts_communities)
     CampusPartners = json.loads(charts_campuses)
@@ -1989,462 +2017,6 @@ def commPartnerResetPassword(request,pk):
     return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })
 
 
-#
-# #Issue Address Analysis Chart
-# @login_required()
-# def issueaddress(request):
-#
-#     missions =[]
-#     for m in  MissionArea.objects.all():
-#         res={'id':m.id,'name':m.mission_name,'color': m.mission_color}
-#         missions.append(res)
-#     missions=sorted(missions,key=lambda i:i['name'],reverse=True)
-#     # print("sorted mission list",missions)
-#     missionarealist = list()
-#     for m in missions:
-#         missionarealist.append(m['name'])
-#     # print("mission_area1",missionarealist)
-#     subcategory = []
-#     y=[]
-#
-#     data_definition = DataDefinition.objects.all()
-#     json_data=[]
-#     from_json_data=[]
-#     to_json_data=[]
-#
-#     yrs = []
-#     yrid=[]
-#     acad_years = AcademicYear.objects.all()
-#     for e in acad_years:
-#         yrs.append(e.academic_year)
-#         yrid.append(e.id)
-#     max_yr_id = max(yrid)
-#     min_yr_id = min(yrid)
-#     # max_yr= [p.academic_year for p in (AcademicYear.objects.filter(id=max_yr_id))]
-#     max_year=yrs[len(yrs)-1]
-#     # min_yr = [p.academic_year for p in (AcademicYear.objects.filter(id=(max_yr_id-1)))]
-#     min_year=yrs[len(yrs)-2]
-#     # print(" min yaer",min_year," ma yaer ",max_year)
-#
-#     b = request.GET.get('academic_year', None)
-#     ba = request.GET.get('end_academic_year', None)
-#
-#     if ((b == '' or b == None) and (ba == '' or ba == None)):
-#         start = max_yr_id - 1
-#         end = max_yr_id
-#     elif ((b == '' or b == None) and (ba != '')):
-#         start = min_yr_id
-#         end = ba
-#     elif ((ba == '' or ba == None) and (b != '')):
-#         end = max_yr_id
-#         start = b
-#     else:
-#         start = b
-#         end = ba
-#     start = int(start)
-#     end = int(end)
-#
-#     print(" start ",start)
-#     print(" end ", end)
-#     from_project_filter = FromProjectFilter(request.GET, queryset=Project.objects.filter())
-#     from_start = list(range(min_yr_id, (start + 1)))
-#     from_end = list(range(start, (max_yr_id + 1)))
-#     print(" from start and from end ", from_start,from_end )
-#     to_project_filter = ToProjectFilter(request.GET, queryset=Project.objects.all())
-#     to_start = list(range(min_yr_id, (end + 1)))
-#     to_end = list(range(end, (max_yr_id + 1)))
-#     print(" to start and from end ", to_start, to_end)
-#     from_project_count_data = list()
-#     to_project_count_data = list()
-#     from_subcat_count=list()
-#     to_subcat_count=list()
-#     subdrill = []
-#     from_subcat_counts=[]
-#     to_subcat_counts=[]
-#
-#
-#
-#     cp=CecPartnerStatus.objects.all()
-#     status=[]
-#     for c in cp:
-#         res={'id':c.id,'status':c.name}
-#         status.append(res)
-#         if c.name=='Current':
-#             Current=c.id
-#         if c.name=='Former':
-#             Former=c.id
-#         if c.name=='Never':
-#             Never=c.id
-#
-#
-#
-#
-#     #set cec partner flag on template choices field
-#     weitz_cec_part = request.GET.get('weitz_cec_part', None)
-#     # cec_part_init_selection = "All"
-#     if weitz_cec_part is None or weitz_cec_part == "All" or weitz_cec_part == '':
-#             ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#             ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
-#     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': weitz_cec_part})
-#
-#     # print("weitz_cec_part",weitz_cec_part)
-#     if weitz_cec_part == "All":
-#         ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#         ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
-#         # print(" all ",ceccommunityPartners,ceccampuspartners )
-#     if weitz_cec_part == "CURR_CAMP" :
-#         ceccampuspartners= [d.id for d in (CampusPartner.objects.filter(cec_partner_status=Current))]
-#         ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#         # print(" cec partner with current ",ceccampuspartners)
-#     if weitz_cec_part == "FORMER_CAMP" :
-#         ceccampuspartners = [d.id for d in (CampusPartner.objects.filter(cec_partner_status=Former))]
-#         ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#         # print(" cec partner with former ", ceccampuspartners)
-#     if weitz_cec_part == "CURR_COMM" :
-#         ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
-#             cec_partner_status=Current))
-#         ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
-#         # print(" cec comm partner with current ", ceccommunityPartners)
-#     if weitz_cec_part == "FORMER_COMM" :
-#         ceccommunityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
-#             cec_partner_status=Former))
-#         ceccampuspartners = [d.id for d in (CampusPartner.objects.all())]
-#         # print(" cec comm partner with former ", ceccommunityPartners)
-#
-#
-#
-#     ceccampus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-#         campus_partner_id__in=ceccampuspartners))
-#     cec_campus_project_filter_ids = [project.project_name_id for project in ceccampus_project_filter.qs]
-#
-#     cec_community_filtered_ids = [community.id for community in ceccommunityPartners.qs]
-#     cec_comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
-#         community_partner_id__in=cec_community_filtered_ids))
-#     cec_comm_proj_filtered_ids = [project.project_name_id for project in cec_comm_filter.qs]
-#
-#     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-#     college_filtered_ids = [campus.id for campus in college_filter.qs]
-#
-#     campus_project_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.filter(
-#         campus_partner_id__in=college_filtered_ids))
-#     campus_project_filter_ids = [project.project_name_id for project in campus_project_filter.qs]
-#
-#     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
-#     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
-#     campus_filtered_ids=list(set(campus_filtered_ids).intersection(cec_campus_project_filter_ids))
-#
-#     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-#     projects = Project.objects.all()
-#
-#     engagement_type = request.GET.get('engagement_type', None)
-#     if engagement_type is None or engagement_type == "All" or engagement_type == '':
-#         projects = Project.objects.all()
-#     else:
-#         projects = Project.objects.filter(engagement_type=engagement_type)
-#
-#     project_filtered_ids = [project.id for project in projects]
-#
-#
-#
-#     legislative_choices = []
-#     legislative_search = ''
-#     legislative_selection = request.GET.get('legislative_value', None)
-#
-#     if legislative_selection is None:
-#         legislative_selection = 'All'
-#
-#     # legislative_choices.append('All')
-#     for i in range(1, 50):
-#         legistalive_val = 'Legislative District ' + str(i)
-#         legislative_choices.append(legistalive_val)
-#
-#     if legislative_selection is not None and legislative_selection != 'All':
-#         legislative_search = legislative_selection.split(" ")[2]
-#
-#     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
-#         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-#         # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
-#     else:
-#         # print(" checking legislative district, ",legislative_search)
-#         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
-#             legislative_district=legislative_search))
-#         # print(" count",communityPartners.__sizeof__())
-#         # project_filter = ProjectFilter(request.GET,
-#         #                                queryset=Project.objects.filter(legislative_district=legislative_search))
-#
-#     community_filtered_ids = [community.id for community in communityPartners.qs]
-#     # print(" no. of partner",len(community_filtered_ids))
-#
-#
-#     comm_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.filter(
-#         community_partner_id__in=community_filtered_ids))
-#     comm_proj_filtered_ids = [project.project_name_id for project in comm_filter.qs]
-#
-#     comm_proj_filtered_ids=list(set(comm_proj_filtered_ids).intersection(cec_comm_proj_filtered_ids))
-#
-#
-#     proj1_ids = list(set(campus_filtered_ids).intersection(project_filtered_ids))
-#     proj2_ids = list(set(campus_project_filter_ids).intersection(proj1_ids))
-#     project_ids = list(set(proj2_ids).intersection(comm_proj_filtered_ids))
-#
-#     a = request.GET.get('engagement_type', None)
-#     c = request.GET.get('campus_partner', None)
-#     d = request.GET.get('college_name', None)
-#     # b = request.GET.get('academic_year', None)
-#     # ba = request.GET.get('end_academic_year', None)
-#     e = request.GET.get('community_type', None)
-#     f = request.GET.get('weitz_cec_part', None)
-#
-#     if a is None or a == "All" or a == '':
-#         if b is None or b == "All" or b == '':
-#             if ba is None or ba == "All" or ba == '':
-#                 if c is None or c == "All" or c == '':
-#                     if d is None or d == "All" or d == '':
-#                         if f is None or f == "All" or f == '':
-#                             if e is None or e == "All" or e == '':
-#                                 project_ids = project_filtered_ids
-#
-#     secondary_y_axis=[]
-#     Yaxis=[]
-#     for m in missions:
-#             y=[]
-#             subcategory=[]
-#             for s in MissionSubCategory.objects.filter(secondary_mission_area_id=m["id"]).values("sub_category_id"):
-#                 if (s["sub_category_id"] not in y):
-#                     y.append(s["sub_category_id"])
-#             # print(" sub category ids for mission 1", y)
-#             for sc in SubCategory.objects.filter(id__in=y):
-#                 res = {'id': sc.id, 'name': sc.sub_category}
-#                 subcategory.append(res)
-#             subcategory = sorted(subcategory, key=lambda i: i['name'],reverse=True)
-#             subcategorylist = []
-#             for sc in subcategory:
-#                 subcategorylist.append(sc['name'])
-#             mid = next((index for (index, d) in enumerate(missions) if d["name"] == m['name']),None)
-#             if f is None or f == "All" or f == '':
-#                 if e is None or e == "All" or e == '':
-#                     project_ids = proj2_ids
-#             project_count1 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year=None).filter(id__in=project_ids)
-#             project_count2 = Project.objects.filter(academic_year__in=from_start).filter(end_academic_year__in=from_end).filter(id__in=project_ids)
-#             project_count3 = project_count1 | project_count2
-#             from_project_ids = []
-#             for c in project_count3:
-#                 from_project_ids.append (c.id)
-#             print("from_project_ids ",from_project_ids)
-#             from_project_count_ids = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(project_name_id__in=from_project_ids)
-#             fromids=[]
-#             for c in from_project_count_ids:
-#                 # if c.project_name_id not in fromids:
-#                    fromids.append(c.project_name_id)
-#             from_project_count = len(fromids)
-#             print("from_project_count_ids ", from_project_count_ids)
-#
-#             project_count4 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year=None).filter(id__in=project_ids)
-#             project_count5 = Project.objects.filter(academic_year__in=to_start).filter(end_academic_year__in=to_end).filter(id__in=project_ids)
-#             project_count6 = project_count4 | project_count5
-#             to_project_ids = []
-#             for c in project_count6:
-#                 to_project_ids.append (c.id)
-#             print("to_project_ids",to_project_ids)
-#             to_project_count_ids = ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(project_name_id__in=to_project_ids)
-#             toids=[]
-#             for c in to_project_count_ids:
-#                 # if c.project_name_id not in fromids:
-#                 toids.append(c.project_name_id)
-#             to_project_count=len(toids)
-#                 # ProjectMission.objects.filter(mission=m['id']).filter(mission_type='Primary').filter(
-#                 # project_name_id__in=to_project_ids).count()
-#             print("to_project_count_ids ", to_project_count_ids)
-#             x1=[pm.project_name_id for pm in from_project_count_ids]
-#             x=[]
-#             for id in x1:
-#                 if id not in x:
-#                     x.append(id)
-#             y1 = [pm.project_name_id for pm in to_project_count_ids]
-#             y=[]
-#             for id in y1:
-#                 if id not in y:
-#                     y.append(id)
-#             print(" from_project_count_ids ids",x)
-#             print(" to_project_count_ids  ids", y)
-#
-#             drilldata=[]
-#             if request.user.is_superuser:
-#                 for sc in subcategory:
-#                     sid = next((index for (index, d) in enumerate(subcategory) if d["name"] == sc['name']), None)
-#                     from_project_mission_sub_ids=ProjectSubCategory.objects.filter(project_name_id__in=x).filter(sub_category_id=sc['id']).count()
-#                     to_project_mission_sub_ids = ProjectSubCategory.objects.filter(project_name_id__in=y).filter(
-#                         sub_category_id=sc['id']).count()
-#                     from_subcat_counts.append(from_project_mission_sub_ids)
-#                     to_subcat_counts.append(to_project_mission_sub_ids)
-#                     if(from_project_mission_sub_ids>to_project_mission_sub_ids):
-#                         drill = {"name":sc['name'],"x": from_project_mission_sub_ids,
-#                              "x2": to_project_mission_sub_ids, "y": sid ,"color":"red"}
-#                     else:
-#                         drill = {"name":sc['name'],"x": from_project_mission_sub_ids,
-#                                  "x2": to_project_mission_sub_ids, "y":sid ,"color":"turquoise"}
-#                     drilldata.append(drill)
-#                 drilled = {"type":"xrange","name": m['name'], "id": m['name'], "yAxis": mid+1 ,"data": drilldata}
-#                 subdrill.append(drilled)
-#             from_project_count_data.append(from_project_count)
-#             to_project_count_data.append(to_project_count)
-#             if(from_project_count > to_project_count):
-#                 res = {"name":m['name'],"x": from_project_count, "x2": to_project_count, "y":mid, "drilldown":m['name'],"color":"red"}
-#             else:
-#                 res = {"name": m['name'], "x": from_project_count, "x2": to_project_count, "y": mid ,
-#                        "drilldown": m['name'], "color": "turquoise"}
-#             resfrom = {"x": from_project_count,"y":mid,"drilldown":m['name']}
-#             resto = {"x": to_project_count,"y":mid,"drilldown":m['name']}
-#
-#             json_data.append(res)
-#             from_json_data.append(resfrom)
-#             to_json_data.append(resto)
-#             # print(" mid value ",mid," lemngt ",len(missions))
-#             yaxis={
-#             'id':mid+1,
-#             'type': 'category',
-#             # 'min':1,
-#             # 'max':len(subcategorylist)-1,
-#             # 'tickInterval':1.0,
-#             'title': {'text': '',
-#                       'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-#             'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-#             'categories': subcategorylist}
-#             if(mid== len(missions)-1):
-#                 yaxis = {
-#                     'id': mid + 1,
-#                     'type': 'category',
-#                     # 'min':1,
-#                     # 'max':len(subcategorylist)-1,
-#                     # 'tickInterval':1.0,
-#                     'title': {'text': 'Focus Area',
-#                               'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-#                     'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-#                     'categories': subcategorylist}
-#             secondary_y_axis.append(yaxis)
-#
-#     primary_axis={  # Primary Axis for Mission Areas
-#                 'id':0,
-#                 'type': 'category',
-#                 'title': {'text': '',
-#                           'style': {'fontWeight': 'bold', 'color': 'black', 'fontSize': '15px'}},
-#                 'labels': {'style': {'color': 'black', 'fontSize': '13px'}},
-#                 'categories': missionarealist,
-#             }
-#     Yaxis.append(primary_axis)
-#     for axis in secondary_y_axis:
-#         if(axis not in Yaxis):
-#             Yaxis.append(axis)
-#
-#     # print(" yxis value in category ",Yaxis)
-#     Academic_Year = {
-#         'name': 'Analysis Start Year',
-#         'data': from_json_data,
-#         'color': 'teal',
-#         'type': 'scatter'}
-#     End_Academic_Year = {
-#         'name': 'Analysis Comparison (End) Year',
-#         'data': to_json_data,
-#         'color': 'blue',
-#         'type': 'scatter'}
-#     project_over_academic_years = {
-#         'name': 'No of Projects ',
-#         'data': json_data,
-#         'type':'xrange',
-#         'showInLegend':False,
-#         'marker':{
-#             'enabled':True
-#         }
-#         # 'color': 'turquoise'
-#                 }
-#
-#
-#     dumbellchart = {
-#
-#        'title': '',
-#         'xAxis': {'allowDecimals': False, 'title': {'text': 'Projects ',
-#                                                     'style': {'fontFamily':'Arial Narrow','fontWeight': 'bold', 'color': 'black',
-#                                                               'fontSize': '15px'}}},
-#         'yAxis':Yaxis,
-#         'plotOptions': {
-#             'xrange': {
-#                 'pointWidth': 4,
-#                 'dataLabels': {
-#                     'enabled': True,
-#                     'inside':False,
-#                     'style': {
-#                         'fontSize': '6px'
-#                     },
-#                     'marker':{
-#                     'linewidth':'4px',
-#                     }
-#
-#                 },'colorByPoint': False,
-#                 'tooltip': {
-#                     'style': {'fontFamily': 'Arial Narrow'},
-#                     'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-#                     'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> FromYearProjectCount:{point.x}<br>ToYearProjectCount:{point.x2}<br>'
-#                 }
-#             },
-#
-#             'scatter': {
-#                 'marker': {
-#                     'radius': 6,
-#                     'symbol': 'circle'
-#                 }
-#             }
-#         },
-#         'tooltip': {
-#             'style': {'fontFamily': 'Arial Narrow'},
-#         'headerFormat': '<span style="font-size:11px">{series.name}</span><br>',
-#         'pointFormat': '<span style="color:{point.color}">{point.name}</span><br> ProjectCount:{point.x}<span></span> '
-#                  },
-#         'legend': {
-#             'layout': 'horizontal',
-#             'align': 'right',
-#             'verticalAlign': 'top',
-#             'x': -10,
-#             'y': 10,
-#             'borderWidth': 1,
-#             'backgroundColor': '#FFFFFF',
-#             'shadow': 'true',
-#             'itemStyle': {'fontFamily': 'Arial Narrow'},
-#             'backgroundColor': '#FFFFFF', "shadow": 'true'
-#         },
-#
-#
-#         'series': [project_over_academic_years, Academic_Year, End_Academic_Year],
-#         'drilldown':{
-#             'series': subdrill,
-#         }
-#
-#     }
-#     college_value = request.GET.get('college_name', None)
-#     if college_value is None or college_value == "All" or college_value == '':
-#         campus_filter_qs = CampusPartner.objects.all()
-#     else:
-#         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_value)
-#     campus_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
-#
-#     campus_id = request.GET.get('campus_partner')
-#     if campus_id == "All":
-#         campus_id = -1
-#     if (campus_id is None or campus_id == ''):
-#         campus_id = 0
-#     else:
-#         campus_id = int(campus_id)
-#
-#     dump = json.dumps(dumbellchart)
-#     return render(request, 'charts/issueaddressanalysis.html',
-#                       {'dumbellchart': dump, 'from_project_filter': from_project_filter,'project_filter':project_filter,
-#                        'to_project_filter': to_project_filter,
-#                        'data_definition': data_definition,
-#                        'campus_filter': campus_filter, 'communityPartners': communityPartners,
-#                        'college_filter': college_filter, 'campus_id': campus_id,'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
-#                         'max_year':max_year,'min_year':min_year,'cec_part_choices': cec_part_choices})
-#
-#
-
 
 
 ##### Get the Chart JSONS for network Analysis ##############
@@ -2473,17 +2045,26 @@ def chartjsons():
 @login_required()
 def networkanalysis(request):
     data_definition = DataDefinition.objects.all()
-    geojsonData = GEOJSON2()
-    chartJsonData = chartjsons()
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
 
-    Campuspartner = geojsonData[4]
-    Communitypartner = geojsonData[3]
-    #data = geojsonData[0]
-    campus_partner_json=chartJsonData[0]
-    community_partner_json=chartJsonData[1]
-    mission_subcategories_json=chartJsonData[2]
-    projects_json=chartJsonData[3]
+    campus_partner_json = json.loads(charts_campuses)
+    community_partner_json = json.loads(charts_communities)
+    mission_subcategories_json = json.loads(charts_missions)
+    projects_json = json.loads(charts_projects)
+
     # print(" project json ",projects_json)
+    CollegeNamelist = []
+    for e in College.objects.all():
+        if (str(e.college_name) not in CollegeNamelist):
+            if (str(e.college_name) != "N/A"):
+                CollegeNamelist.append({'cname': str(e.college_name), 'id': e.id})
     yrs = []
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
@@ -2577,7 +2158,7 @@ def networkanalysis(request):
 
 
     return render(request, 'charts/network.html',
-                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames': (geojsonData[7]),
+                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames':CollegeNamelist,
                    'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'max_year':max_year,
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
@@ -2591,16 +2172,25 @@ def networkanalysis(request):
 ###Focus Area Analysis Chart
 def issueaddress(request):
     data_definition = DataDefinition.objects.all()
-    geojsonData = GEOJSON2()
-    chartJsonData = chartjsons()
-    Campuspartner = geojsonData[4]
-    Communitypartner = geojsonData[3]
-    #data = geojsonData[0]
-    campus_partner_json=chartJsonData[0]
-    community_partner_json=chartJsonData[1]
-    mission_subcategories_json=chartJsonData[2]
-    projects_json=chartJsonData[3]
-    # print(" project json ",projects_json)
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+
+    campus_partner_json = json.loads(charts_campuses)
+    community_partner_json = json.loads(charts_communities)
+    mission_subcategories_json = json.loads(charts_missions)
+    projects_json = json.loads(charts_projects)
+
+    CollegeNamelist=[]
+    for e in College.objects.all():
+        if(str(e.college_name) not in CollegeNamelist):
+            if (str(e.college_name) != "N/A"):
+                CollegeNamelist.append({'cname':str(e.college_name), 'id':e.id})
     yrs = []
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
@@ -2617,10 +2207,10 @@ def issueaddress(request):
     # print(year_ids[1])
     # print(year_names[1])
     # max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
-    max_yr_id=year_ids[0]
-    min_yr_id=year_ids[1]
-    max_year = year_names[0]
-    min_year=year_names[1]
+    max_yr_id=year_ids[1]
+    min_yr_id=year_ids[2]
+    max_year = year_names[1]
+    min_year=year_names[2]
     print(" max year ",max_year)
     print(" min year ", min_year)
 
@@ -2704,7 +2294,7 @@ def issueaddress(request):
 
 
     return render(request, 'charts/focusareaanalaysis.html',
-                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames': (geojsonData[7]),
+                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames':CollegeNamelist,
                    'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'min_yr_id':min_yr_id,
                    'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
                     'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,

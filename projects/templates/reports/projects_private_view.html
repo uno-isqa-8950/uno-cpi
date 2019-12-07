@@ -480,7 +480,7 @@ table{
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}K12 Involvement
+                        {% endfor %}K-12 Involvement
                     </label>
                     <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
@@ -566,12 +566,6 @@ table{
             <b>Engagement Type:</b>
             {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
         </div>
-
-        <div class="col-sm-12 col-lg-6">
-            <b> Total UNO Students: </b> {{project.total_uno_students}}
-        </div>
-
-
         <div class="col-sm-12 col-lg-6">
             <b> Activity Type:</b>
             {% if project.activityType is None %}
@@ -580,20 +574,22 @@ table{
             {%endif%}
         </div>
 
-        <div class="col-sm-12 col-lg-6">
-            <b>UNO Student Hours: </b> {{project.total_uno_hours}}
-        </div>
-
 
         <div class="col-sm-12 col-lg-6">
             <b> Start Semester:</b> {{ project.semester}}
         </div>
-        <div class="col-sm-12 col-lg-6"> <b>Total K-12 Students: </b> {{project.total_k12_students}}</div>
+     <div class="col-sm-12 col-lg-6">
+            <b> Total UNO Students: </b> {{project.total_uno_students}}
+        </div>
+
 
         <div class="col-sm-12 col-lg-6">
             <b> Start Academic Year:</b> {{ project.academic_year}}
         </div>
-        <div class="col-sm-12 col-lg-6"><b>K-12 Student Hours: </b> {{project.total_k12_hours}}</div>
+     <div class="col-sm-12 col-lg-6">
+            <b>UNO Student Hours: </b> {{project.total_uno_hours}}
+        </div>
+
         <div class="col-sm-12 col-lg-6">
             <b> End Semester:</b>
             {% if project.end_semester is None %}
@@ -601,38 +597,31 @@ table{
             {{ project.end_semester }}
             {%endif%}
         </div>
+    <div class="col-sm-12 col-lg-6"> <b>Total K-12 Students: </b> {{project.total_k12_students}}</div>
 
-        <div class = "col-sm-12 col-lg-6">
-            <b>Total Number of Other Participants:</b>
-            {{project.total_other_community_members}}
-        </div>
-
-        <div class="col-sm-12 col-lg-6">
+     <div class="col-sm-12 col-lg-6">
             <b> End Academic Year:</b>
             {% if project.end_academic_year is None %}
             {%else%}
             {{ project.end_academic_year }}
             {%endif%}
         </div>
-
-
-
-
+    <div class="col-sm-12 col-lg-6"><b>K-12 Student Hours: </b> {{project.total_k12_hours}}</div>
 
         <!--<div class="col-sm-12 col-lg-6">-->
             <!--<b>UNO Faculty/Staff Hours:</b>{{project.total_uno_faculty}}</div>-->
 
-
-
-
-
-        <div class="col-sm-12">
-            <b>Campus Lead: </b>
+        <div class="col-sm-12 col-lg-6">
+            <b>Campus Leads: </b>
             {% if project.campus_lead_staff|length > 0%}
             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
             {%else%}
             {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
             {%endif%}
+        </div>
+        <div class = "col-sm-12 col-lg-6">
+            <b>Total Number of Other Participants:</b>
+            {{project.total_other_community_members}}
         </div>
 
         <!--<div class="col-sm-12">-->
@@ -778,7 +767,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_k12_flag').select2({placeholder: 'All K12 Involvement',width: '75%'});
+    $('#id_k12_flag').select2({placeholder: 'All K-12 Involvement',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {

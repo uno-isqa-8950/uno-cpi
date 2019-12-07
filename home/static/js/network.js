@@ -1,5 +1,4 @@
 // //*********************************** Get data from HTML Network Chart *****************************************************
-
 var not_set = [undefined, "All", ''];
 
 var Missionarea = JSON.parse(document.getElementById('missionlist').textContent);
@@ -455,6 +454,8 @@ tooltip: {
 
 function updatechart(){
 setTimeout(function(){
+    // var update = done;
+    // document.getElementById("loading").style.display = "block"
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -464,12 +465,14 @@ setTimeout(function(){
     var weitz_cec_part =  $('#id_weitz_cec_part option:selected').val();
     var community_partner=$('#id_community_partner option:selected').val();
     var legislative=$('#id_legislative_value option:selected').val();
+     $('#loading').show();
     var not_set = [undefined, "All", ''];
-
+ // document.getElementById("loading").style.display = "block"
     var res=getchartdata(Missionarea,Collegenames,campus_partner_json,community_partner_json,mission_subcategories_json,projects_json,max_yr_id,max_year,
         academic_year,engagement_type,mission,comm_type, college_name, campus_partner,weitz_cec_part,legislative,community_partner)
     var chartdata_updated=res[0]
     var nodedata_updated=res[1]
+
     chart.update({
         series: [{
             name:'Network Graph',
@@ -490,7 +493,7 @@ setTimeout(function(){
         }
         ]
 });
-
-
+    $('#loading').hide();
 }, 0.0001)
+
 }

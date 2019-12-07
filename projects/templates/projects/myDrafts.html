@@ -117,6 +117,7 @@
                                                           <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                                 {% endif %} {% endfor %}Activity Types
                                                 </th>
+                                                <th class="none">Other Activity Types</th>
                                                 <th class="none">Start Semester</th>
                                                 <th class="none"> Start Academic Year </th>
                                                 <th class="none"> End Semester </th>
@@ -126,8 +127,9 @@
                                                 <th class="none"> Total K-12 Students </th>
                                                 <th class="none"> K-12 Student Hours</th>
                                                 <th class="none">Total Number of Other Participants</th>
+                                                <th class="none">Campus Lead(s)</th>
                                                 <th class="none">Topics</th>
-                                                <th class="none">Campus Lead Staff</th>
+                                                <th class="none">Other Topics</th>
                                                 <th class="none">Description</th>
                                                 <th class="none">Action</th>
                                             </tr>
@@ -141,7 +143,19 @@
                                                 <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                                                 <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
                                                  <td>{{ project.activityType }}</td>
+                                                 <td>
 
+                                {% if project.activityType == 'Other' %}
+                                {% if project.other_activity_type|length > 0%}
+                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                                {%else%}
+                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+                                {%endif%}
+                                {%else%}
+                                 None
+                                {%endif%}
+
+                            </td>
                                                 <td>{{ project.semester}}</td>
                                                 <td>{{ project.academic_year }}</td>
                                                 <td>{{ project.end_semester }}</td>
@@ -152,20 +166,25 @@
                                                 <td>{{project.total_k12_hours}}</td>
                                                 <td>{{project.total_other_community_members}}</td>
                                                 <td>
+
+                                {%if campus_lead_staff > 1%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {%else%}
+                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {%endif%}
+                            </td>
+                                                <td>
                                 {% if project.sub_category|length > 0%}
                                 {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
                                 {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
                                 {%endif%}
                             </td>
-
-
-                            <td>
-
-                                {%if campus_lead_staff > 1%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                            <td>
+                                {% if project.other_sub_category|length > 0%}
+                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
                                 {%else%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
                                 {%endif%}
                             </td>
                                             <td>{{ project.description }}</td>

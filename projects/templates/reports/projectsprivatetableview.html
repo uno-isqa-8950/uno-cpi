@@ -470,9 +470,16 @@
                             <td>
 
                                 {% if project.other_activity_type|length > 0%}
-                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+                                {% for other_activity_type in project.other_activity_type %}
+                                    {% if other_activity_type is None %}
+
+                                    {% else %}
+                                        {{other_activity_type}}
+                                           {% if forloop.last %}
+                                           {% else %},
+                                           {% endif %}
+                                    {%endif%}
+                                {% endfor%}
                                 {%endif%}
 
                             </td>
@@ -499,29 +506,67 @@
                             <td>
 
                                 {% if project.campus_lead_staff|length > 0%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {% for campus_lead_staff in project.campus_lead_staff %}
+                                     {% if campus_lead_staff is None %}
+
+                                      {% else %}
+                                         {{campus_lead_staff}}
+                                            {% if forloop.last %}
+                                            {% else %},
+                                            {% endif %}
+                                      {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
                               <td>
                                 {% if project.sub_category|length > 0%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+                                {% for sub_category in project.sub_category %}
+                                     {% if sub_category is None %}
+
+                                     {% else %}
+                                         {{sub_category}}
+                                             {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                     {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
                             <td>
                                 {% if project.other_sub_category|length > 0%}
-                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+                                {% for other_sub_category in project.other_sub_category %}
+                                     {% if other_sub_category is None %}
+
+                                     {% else %}
+                                         {{other_sub_category}}
+                                             {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                     {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
+                            <td>
+                             {% if project.description is None %}
 
+                             {% else %}
+                             {{ project.description }}
+                             {%endif%}
+                            </td>
+                            <td>
+                                {% if project.sub_tags|length > 0%}
+                                {% for sub_tags in project.sub_tags %}
+                                   {% if sub_tags is None %}
 
-                            <td>{{ project.description }}</td>
-                            <td>{{project.sub_tags}}</td>
+                                   {% else %}
+                                      {{project.sub_tags}}
+                                          {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                   {% endif %}
+                                {% endfor%}
+                                {%endif%}
+                            </td>
 
                         </tr>
                         {% endfor %}
@@ -562,7 +607,7 @@
        name: 'primary',
        buttons: [{
            extend: 'csv',
-           title:'Community Engagement Partnership Initiative',
+           title:'Community Engagement Partnership Initiative-Projects Report',
            text:'Excel',
            exportOptions: {
                     columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
@@ -571,8 +616,8 @@
 
            {
             extend : 'pdfHtml5',
-               title:'Community Engagement Partnership Initiative',
-            messageTop:'Projects report',
+            title:'Community Engagement Partnership Initiative-Projects Report',
+            messageTop:'Projects Report',
              exportOptions: {
                     columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
                 },
@@ -594,25 +639,8 @@
                 "searchable": true
             },
            // // hiding uno faculty hours
-           //    {
-           //      "targets": [14],
-           //      "visible": false,
-           //      "searchable": false
-           //  },
-           // //hiding other activity type
-           //   {
-           //      "targets": [6],
-           //      "visible": false,
-           //      "searchable": false
-           //  },
-           // //hiding other topics
-           //   {
-           //      "targets": [8],
-           //      "visible": false,
-           //      "searchable": false
-           //  },
              {
-                "targets": [15],
+                "targets": [13],
                 "visible": false,
                 "searchable": false
             },

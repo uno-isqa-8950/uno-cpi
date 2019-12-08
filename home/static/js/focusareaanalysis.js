@@ -17,37 +17,37 @@ var min_yr_id = JSON.parse(document.getElementById('min_yr_id').textContent);
 function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_partner_json,mission_subcategories_json,projects_json,max_yr_id,max_year,min_yr_id,min_year,
                        academic_year,endacademic_year,engagement_type, college_name, campus_partner,weitz_cec_part,comm_type,legislative) {
 
-    console.log(academic_year," ---",endacademic_year)
+    // console.log(academic_year," ---",endacademic_year)
 
 
         if (not_set.includes(academic_year)) {
         // alert(academic_year)
-            console.log(academic_year," ----------->",min_yr_id)
+        //     console.log("academic year",academic_year," default acad id----------->",min_yr_id)
         var startprojects = projects_json.filter(d => d.years.includes(parseInt(min_yr_id)));
-        console.log("filtered academic_year default ",startprojects)
+        // console.log("filtered academic_year default ",startprojects)
        }
 
 
         if (!not_set.includes(academic_year)) {
         // alert(academic_year)
         var startprojects = projects_json.filter(d => d.years.includes(parseInt(academic_year)));
-        console.log("filtered academic_year selected year ",startprojects)
+        // console.log("filtered academic_year selected year ",startprojects)
        }
 
 
     // console.log(" end aca year ",endacademic_year)
     if (not_set.includes(endacademic_year)) {
-        console.log(endacademic_year," ----------->",max_yr_id)
+        // console.log("end academic year",endacademic_year,"default end id ----------->",max_yr_id)
         var endprojects = projects_json.filter(d => d.years.includes(parseInt(max_yr_id)));
-        console.log("filtered end academic_year default", endprojects)
+        // console.log("filtered end academic_year default", endprojects)
     }
 
 
-    console.log(" end aca year ",endacademic_year)
+
     if (!not_set.includes(endacademic_year)) {
         // alert(academic_year)
         var endprojects = projects_json.filter(d => d.years.includes(parseInt(endacademic_year)));
-        console.log("filtered end academic_year for selected ", endprojects)
+        // console.log("filtered end academic_year for selected ", endprojects)
     }
 
 
@@ -61,7 +61,7 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
           var community_partner_json = community_partner_json.filter(d => d.legislative_district === parseInt(legislative.split(" ")[2]));
         // var startprojects = startprojects.filter(d => d.legislative_district == parseInt(legislative));
         // var endprojects = endprojects.filter(d => d.legislative_district == parseInt(legislative));
-        console.log("filtered community_partner_json legislative", community_partner_json)
+        // console.log("filtered community_partner_json legislative", community_partner_json)
     }
 
         if (weitz_cec_part == 'CURR_CAMP') {
@@ -86,8 +86,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         })
         var startprojects = startprojects.filter(d => d.campus_partner_ids.some(r => camps.includes(r)));
         var endprojects = endprojects.filter(d => d.campus_partner_ids.some(r => camps.includes(r)));
-        console.log(" filterd projects based on campus partners startprojects",startprojects)
-         console.log(" filterd projects based on campus partners startprojects",endprojects)
+        // console.log(" filterd projects based on campus partners startprojects",startprojects)
+        //  console.log(" filterd projects based on campus partners startprojects",endprojects)
     }
 
         if (weitz_cec_part == 'CURR_COMM') {
@@ -108,8 +108,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         })
         var startprojects = startprojects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
          var endprojects = endprojects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
-         console.log(" filterd projects based on community partners startprojects",startprojects)
-         console.log(" filterd projects based on community partners startprojects",endprojects)
+         // console.log(" filterd projects based on community partners startprojects",startprojects)
+         // console.log(" filterd projects based on community partners startprojects",endprojects)
     }
 
 
@@ -119,12 +119,12 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
     // console.log("projects_json_count chart data ", projects_json_count)
 
     if (startprojects.length == 0 && endprojects.length == 0) {
-        alert("Sorry, there are no projects matching your filter criteria");
+        alert("There are no projects associated with your selection criteria.");
     }
 
 
-console.log("startprojects after filtwrs ",startprojects)
-console.log("endprojects after filters",endprojects)
+// console.log("startprojects after filtwrs ",startprojects)
+// console.log("endprojects after filters",endprojects)
 
 var secondary_y_axis=[]
 var Yaxis=[]
@@ -480,7 +480,7 @@ function updatechart(){
 
 function updateCampus() {
     var allCamps = JSON.parse(document.getElementById('campus_filter').textContent);
-    console.log(" all camps ",allCamps)
+    // console.log(" all camps ",allCamps)
     var college_name = $('#id_college_name option:selected').val();
     if (!not_set.includes(college_name)) {
         var campus_filter = allCamps.filter(d => d.college === parseInt(college_name));

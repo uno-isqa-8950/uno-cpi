@@ -263,7 +263,7 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
         document.getElementById('button-id').innerHTML =
                             '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
                             document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
-var label = '<label style="margin-left: 15px">The following projects are already registered. Please ensure that the project that you intent to create is not in this list.</label>';
+var label = '<label style="margin-left: 15px">The following projects have already been created. Please ensure that the project you wish to create is not in this list. Note that unused  filters will automatically search based on the set defaults.</label>';
 $('.label').append(label);
         var html='<th>                        {% for data_definition in data_definition %}\n' +
             '                            {% if data_definition.id == 32%}\n' +
@@ -283,13 +283,13 @@ $('.label').append(label);
             '                          title="{{ data_definition.description }}" class="float" >\n' +
             '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
             '                        {% endif %}\n' +
-            '                    {% endfor %} Community Organization Type(s)</th><th> {% for data_definition in data_definition %}\n' +
+            '                    {% endfor %} Community Organization Types</th><th> {% for data_definition in data_definition %}\n' +
             '                                {% if data_definition.id == 1%}\n' +
             '                                  <span tabindex="-1" data-toggle="tooltip" ' +
             '                                      title="{{ data_definition.description }}" class="float" >' +
             '                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>\n' +
             '                                {% endif %}' +
-            '                             {% endfor %} Campus Partner(s)</th>';
+            '                             {% endfor %} Campus Partners</th>';
         $('#example').find('thead').append(html);
         </script>
 
@@ -322,7 +322,7 @@ $(document).ready(function(){
   //   text: 'All Community Building Partners'
   // }
 // });
-    $('#academicYear').select2({placeholder: 'Previous Academic Year',width: '225px'});
+    $('#academicYear').select2({placeholder: 'All Academic Years',width: '225px'});
     $('#campuspartner').select2({placeholder: 'All Campus Partners',width: '225px'});
     });
 // submit when enter-Parimita

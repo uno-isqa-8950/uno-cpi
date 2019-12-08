@@ -428,27 +428,76 @@
                             <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                             <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                             <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
-                            <td>{{ project.activityType }}</td>
+                            <td>
+                                {% if project.activityType is None %}
+                                {%else%}
+                                {{ project.activityType }}
+                                {%endif%}
+                            </td>
                             <td>{{ project.semester}}</td>
                             <td>{{ project.academic_year }}</td>
-                            <td>{{ project.end_semester }}</td>
-                            <td>{{ project.end_academic_year }}</td>
+                            <td>
+                                {% if project.end_semester is None %}
+                                {%else%}
+                                {{ project.end_semester }}
+                                {%endif%}
+                            </td>
+                            <td>
+                                {% if project.end_academic_year is None %}
+                                {%else%}
+                                {{ project.end_academic_year }}
+                                {%endif%}
+                            </td>
                             <td>
                                 {% if project.sub_category|length > 0%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+                                {% for sub_category in project.sub_category %}
+                                     {% if sub_category is None %}
+
+                                     {% else %}
+                                         {{sub_category}}
+                                             {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                     {% endif %}
+                                {%endfor%}
                                 {%endif%}
                             </td>
-                            <td >{{ project.description }}</td>
+                            <td >
+                               {% if project.description is None %}
+
+                               {% else %}
+                               {{ project.description }}
+                               {%endif%}
+
+                            </td>
                             <td>
                                 {% if project.campus_lead_staff|length > 0%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {% for campus_lead_staff in project.campus_lead_staff %}
+                                     {% if campus_lead_staff is None %}
+
+                                      {% else %}
+                                         {{campus_lead_staff}}
+                                            {% if forloop.last %}
+                                            {% else %},
+                                            {% endif %}
+                                      {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
-                            <td>{{project.sub_tags}}</td>
+                            <td>
+                                {% if project.sub_tags|length > 0%}
+                                {% for sub_tags in project.sub_tags %}
+                                   {% if sub_tags is None %}
+
+                                   {% else %}
+                                      {{project.sub_tags}}
+                                          {% if forloop.last %}
+                                          {% else %},
+                                          {% endif %}
+                                   {% endif %}
+                                {%endfor%}
+                                {%endif%}
+                            </td>
                         </tr>
                         {% endfor %}
                         </tbody>
@@ -484,15 +533,15 @@
        buttons: [{
            extend: 'csv',
            text:'Excel',
-           title:'Community Engagement Partnership Initiative',
+           title:'Community Engagement Partnership Initiative-Projects Report',
             exportOptions: {
                     columns:[0,1,2,3,4,5,6,7,8,9,10,11]
                 }
        },
            {
          extend : 'pdfHtml5',
-         title:'Community Engagement Partnership Initiative',
-         messageTop:'Projects report',
+         title:'Community Engagement Partnership Initiative-Projects Report',
+         messageTop:'Projects Report',
          orientation : 'landscape',
          pageSize : 'A2',
          text : 'PDF',

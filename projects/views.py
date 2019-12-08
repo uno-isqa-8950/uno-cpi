@@ -97,47 +97,6 @@ def communitypartnerproject(request):
              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
     return render(request, 'projects/community_partner_projects.html', {'project': projects_list,'data_definition':data_definition})
 
-#Old Code for My Projects Page
-
-# @login_required()
-# def myProjects(request):
-#     projects_list=[]
-#     camp_part_names=[]
-#     data_definition=DataDefinition.objects.all()
-#     # Get the campus partner id's related to the user
-#     camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
-#     for c in camp_part_user:
-#         p = c.campus_partner_id
-#         # get all the project names base on the campus partner id
-#         proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id = p))
-#         for f in proj_camp:
-#             k=list(Project.objects.filter(id = f.project_name_id))
-#             for x in k:
-#              projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-#              cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-#              proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-#              for proj_camp_par in proj_camp_par:
-#                 camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-#
-#                 camp_part_names.append(camp_part)
-#              list_camp_part_names = camp_part_names
-#              camp_part_names = []
-#
-#              data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,
-#                 'activityType': x.activity_type, 'academic_year': x.academic_year,
-#                 'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,'description':x.description,
-#                 'startDate': x.start_date,
-#                 'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-#                 'total_uno_hours': x.total_uno_hours,
-#                 'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-#                 'total_uno_faculty': x.total_uno_faculty,
-#                 'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-#                 'total_economic_impact': x.total_economic_impact,'projmisn': projmisn, 'cp': cp, 'camp_part':list_camp_part_names
-#                  }
-#
-#              projects_list.append(data)
-#     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
-
 
 def ajax_load_project(request):
     name = request.GET.get('name')
@@ -854,49 +813,6 @@ def editProject(request, pk):
 
 
 
-# @login_required()
-# def showAllProjects(request):
-#
-#     data_definition=DataDefinition.objects.all()
-#
-#     projects_list = []
-#
-#     if request.method == "GET":
-#
-#         # To get list of all Projects frm the Database
-#         projects = list(Project.objects.all())
-#
-#         for x in projects:
-#
-#             # Finding the Mission of each project from ProjectMission Table
-#             projmisn =ProjectMission.objects.filter(project_name_id=x.id).values('mission__mission_name','mission_type')
-#
-#             # Finding the Community Partner of each Project from ProjectCommunityPartner Table
-#             proj_comm_par = ProjectCommunityPartner.objects.filter(project_name_id=x.id).values_list('community_partner__name', flat=True)
-#
-#             # Finding the Campus Partner of each Project from ProjectCampusPartner Table
-#             proj_camp_par = ProjectCampusPartner.objects.filter(project_name_id=x.id).values_list('campus_partner__name',flat=True)
-#
-#             data = {'pk': x.pk, 'name': x.project_name.split(":")[0], 'engagementType': x.engagement_type,'academic_year' : x.academic_year,
-#                     'activityType': x.activity_type,
-#                     'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-#                     'description': x.description,
-#                     'startDate': x.start_date,
-#                     'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-#                     'total_uno_hours': x.total_uno_hours,
-#                     'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-#                     'total_uno_faculty': x.total_uno_faculty,
-#                     'total_other_community_members': x.total_other_community_members, 'outcomes': x.outcomes,
-#                     'total_economic_impact': x.total_economic_impact, 'projmisn': projmisn, 'comm_part': proj_comm_par,
-#                     'camp_part': proj_camp_par
-#                     }
-#             projects_list.append(data)
-#
-#     return render(request, 'projects/allProjects.html', {'project': projects_list, 'data_definition':data_definition})
-
-
-
-#Show all projects login view
 
 
 @login_required()
@@ -1024,8 +940,7 @@ def showAllProjects(request):
         cec_comm_part_cond = '%'
         cec_camp_part_cond = 'Current'
 
-    params = [eng_type_cond, mission_type_cond, community_type_cond, campus_partner_cond, college_unit_cond,
-              K12_filter_cond, academic_start_year_cond, academic_end_year_cond, cec_comm_part_cond, cec_camp_part_cond]
+
     cursor = connection.cursor()
     project_start_query = "select distinct  p.project_name \
                                 , array_agg(distinct hm.mission_name) mission_area \
@@ -1056,7 +971,7 @@ def showAllProjects(request):
                                 , p.other_sub_category other_subCat \
                                 , array_agg(s.sub_category_tags) sub_tags \
                                 from projects_project p \
-                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                 left join home_missionarea hm on hm.id = m.mission_id \
                                 left join projects_engagementtype e on e.id = p.engagement_type_id \
                                 left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
@@ -1354,7 +1269,7 @@ def projectstablePublicReport(request):
                                 , p.other_sub_category other_subCat \
                                 , array_agg(s.sub_category_tags) sub_tags \
                                 from projects_project p \
-                                left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                 left join home_missionarea hm on hm.id = m.mission_id \
                                 left join projects_engagementtype e on e.id = p.engagement_type_id \
                                 left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
@@ -1630,7 +1545,7 @@ def projectsPublicReport(request):
                                    , p.other_sub_category other_subCat \
                                    , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
-                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
                                    left join projects_engagementtype e on e.id = p.engagement_type_id \
                                    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \
@@ -2183,7 +2098,7 @@ def projectstablePrivateReport(request):
                                    , p.other_sub_category other_subCat \
                                    , array_agg(s.sub_category_tags) sub_tags \
                                    from projects_project p \
-                                   left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
+                                   join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type) = 'primary' \
                                    left join home_missionarea hm on hm.id = m.mission_id \
                                    left join projects_engagementtype e on e.id = p.engagement_type_id \
                                    left join projects_projectcommunitypartner pp on p.id = pp.project_name_id \

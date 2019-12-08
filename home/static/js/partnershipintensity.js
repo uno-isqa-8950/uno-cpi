@@ -123,15 +123,15 @@ function getChartData (Projects, CommunityPartners, CampusPartners, missionList,
        var mission_comms = {"name":missionList[m].name, "color":color, "data":data};
        chart_data.push(mission_comms);
     }
-    // var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
-    // var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
-    const median = arr => {
-      const mid = Math.floor(arr.length / 2),
-        nums = [...arr].sort((a, b) => a - b);
-      return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
-    };
-    var xLine = median(x_vars);
-    var yLine = median(y_vars);
+    var xLine = (Math.min(...x_vars)+Math.max(...x_vars))/2;
+    var yLine = (Math.min(...y_vars)+Math.max(...y_vars))/2;
+    // const median = arr => {
+    //   const mid = Math.floor(arr.length / 2),
+    //     nums = [...arr].sort((a, b) => a - b);
+    //   return arr.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
+    // };
+    // var xLine = median(x_vars);
+    // var yLine = median(y_vars);
 
     var select = document.getElementById("id_community_partner");
     select.options.length = 2;

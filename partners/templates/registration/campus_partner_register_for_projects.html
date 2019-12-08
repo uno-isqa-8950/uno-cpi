@@ -372,14 +372,7 @@
                                 </div>
                                 <div id="step-2">
                                     <div class="row"><br></div>
-<!--                                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#contactinfo">-->
-<!--                                        <i class="fa fa-plus"></i>-->
-<!--                                        {% for data_definition in data_definition %}-->
-<!--                                        {% if data_definition.id == 34%}-->
-<!--                                        <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float" >Point of Contact Information</span>-->
-<!--                                        {% endif %}-->
-<!--                                        {% endfor %}-->
-<!--                                    </button>-->
+
                                     {{ formset.management_form }}
                                     {% for form in formset %}
                                     <div id="contactinfo" class= "panel-collapse collapse show">
@@ -404,13 +397,6 @@
                                                             <label style="padding-top: 13px">Email <span style="color:red;">*</span></label>
 
                                                 <span style="padding-left: 25px">{{ form.email_id|bootstrap }}</span>
-
-
-
-
-
-
-
 
                                                 <div class="col" style="padding-left: 30px">
                                                     <!--<button class="add-form-row" style="background-color: white; border:none;border-color: white"><i class=" centered fa fa-plus-square fa-2x"></i> </button>-->
@@ -460,9 +446,7 @@
             </div>
         </div>
     </div>
-
 </form>
-
 
 
 
@@ -946,7 +930,7 @@ $(document).ready(function() {
         e.preventDefault()
         var projectid = $('#projectId').val();
         if (confirm("Are you sure?")){
-            window.location = /project/'+projectid+'/edit/;
+            window.location = '/project/'+projectid+'/edit/';
         }
     });
 

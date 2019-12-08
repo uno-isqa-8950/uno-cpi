@@ -592,3 +592,133 @@ $("#reset").click(function () {
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });
+
+
+var not_set = [undefined, "All", '', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+var missionAreaList = JSON.parse(document.getElementById('missionAreaList').textContent);
+var CommunityPartners = JSON.parse(document.getElementById('CommunityPartners').textContent);
+var Projects = JSON.parse(document.getElementById('Projects').textContent);
+var CampusPartners = JSON.parse(document.getElementById('CampusPartners').textContent);
+
+function getMapData (map, Projects, CommunityPartners, CampusPartners, missionAreaList, academic_year, comm_type, college_name, campus_partner, legislative_value) {
+    var circle = {
+        path: google.maps.SymbolPath.CIRCLE,
+        fillOpacity: 0.6,
+        strokeOpacity: 1,
+        scale: 8,
+        strokeColor: 'white',
+        strokeWeight: 1.5
+    };
+
+    if (!not_set.includes(academic_year)) {
+        var Projects = Projects.filter(d => d.years.includes(parseInt(academic_year)));
+    }
+
+    if (!not_set.includes(college_name)) {
+        var CampusPartners = CampusPartners.filter(d => d.college.college_name_id === parseInt(college_name));
+    }
+    if (!not_set.includes(campus_partner)) {
+        var CampusPartners = CampusPartners.filter(d => d.campus_partner_id === parseInt(campus_partner));
+    }
+    if (!not_set.includes(college_name) || !not_set.includes(campus_partner)) {
+        camps = [];
+        CampusPartners.forEach(function (feature) {
+            camps.push(feature["campus_partner_id"]);
+        });
+        var Projects = Projects.filter(d => d.campus_partner_ids.some(r => camps.includes(r)));
+    }
+
+    if (!not_set.includes(comm_type)) {
+        var CommunityPartners = CommunityPartners.filter(d => d.community_type.community_type_id === parseInt(comm_type));
+    }
+    if (!not_set.includes(legislative_value)) {
+        var CommunityPartners = CommunityPartners.filter(d => d.legislative_district === parseInt(legislative_value.split(" ")[2]));
+    }
+    if (!not_set.includes(comm_type) || !not_set.includes(legislative_value)) {
+        comms = [];
+        CommunityPartners.forEach(function (feature) {
+            comms.push(feature["community_partner_id"]);
+        });
+        var Projects = Projects.filter(d => d.community_partner_ids.some(r => comms.includes(r)));
+    }
+
+    var projectCommunities = new Set();
+    var projectCampus = new Set();
+    Projects.forEach(function(feature) {
+        if (feature["community_partner_ids"].length != 0) {
+            feature["community_partner_ids"].forEach(item => projectCommunities.add(item));
+        }
+        feature["campus_partner_ids"].forEach(item => projectCampus.add(item));
+    });
+
+    if (!not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner)) {
+        var CommunityPartners = CommunityPartners.filter(d => projectCommunities.has(d.community_partner_id));
+    }
+    if (!not_set.includes(academic_year) || !not_set.includes(comm_type) || !not_set.includes(legislative_value)) {
+        var CampusPartners = CampusPartners.filter(d => projectCampus.has(d.campus_partner_id));
+    }
+    var campers = [];
+    CampusPartners.forEach(function(feature) {
+        campers.push(feature["campus_partner_id"]);
+    });
+
+    var chart_data = [];
+    for (m in missionAreaList) {
+       var color = missionAreaList[m].color;
+       var communities = CommunityPartners.filter(d => d.primary_mission_id === missionAreaList[m].id);
+
+       communities.forEach(function(feature) {
+          var projs = Projects.filter(d => d.community_partner_ids.includes(feature["community_partner_id"]));
+          var projCount = projs.length;
+          var cams = new Set();
+          var campuses = new Set();
+          var years = new Set();
+          var colleges = new Set();
+          projs.forEach(function(feature) {
+            feature["years"].forEach(item => years.add(item));
+            var thisCamp = [];
+            feature["campus_partner_ids"].forEach(item => thisCamp.push(item));
+            let intersection = thisCamp.filter(x => campers.includes(x));
+            intersection.forEach(item => cams.add(item));
+            var projCamp = CampusPartners.filter(d => intersection.includes(d.campus_partner_id));
+            projCamp.forEach(function(feature) {
+                campuses.add(feature["campus_partner_name"]);
+                colleges.add(feature["college"]["college_name"]);
+            });
+          });
+          var communityMarker = {
+            position: {
+                lat: parseFloat(feature["lat"])+ (Math.random() -.5) / 25000,
+                lng: parseFloat(feature["lng"])+ (Math.random() -.5) / 25000
+            },
+            map: map,
+            icon: circle, // set the icon here
+            fillColor: color,
+            selectDistrict: feature["legislative_district"],
+            selectYear: years,
+            selectMission: missionAreaList[m].name,
+            selectCommtype: feature["community_type"]["community_type_name"],
+            selectCampus: Array.from(campuses),
+            yearTest: 0,
+            campusTest: 0,
+            commPartnerName: feature["community_partner_name"],
+            communityPartnerInputFilter: feature["community_partner_name"],
+            selectCollege: Array.from(colleges)
+          };
+          // console.log(communityMarker);
+          var marker = new google.maps.Marker(communityMarker);
+       });
+    }
+}
+
+getMapData (map, Projects, CommunityPartners, CampusPartners, missionAreaList, '', '', '', '', '');
+
+function updateMap () {
+    var academic_year = $('#selectYear option:selected').val();
+    var comm_type = $('#selectCommtype option:selected').val();
+    var college_name = $('#selectCollege option:selected').val();
+    var campus_partner = $('#selectCampus option:selected').val();
+    var legislative_value = $('#selectDistrict option:selected').val();
+
+    getMapData (map, Projects, CommunityPartners, CampusPartners, missionAreaList, academic_year, comm_type, college_name, campus_partner, legislative_value);
+}

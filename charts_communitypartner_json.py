@@ -10,12 +10,13 @@ from UnoCPI import settings
 currentDT = datetime.datetime.now()
 logger=logging.getLogger("UNO CPI Application")
 #setup connection to database
-conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
-                              password=settings.DATABASES['default']['PASSWORD'],
-                              host=settings.DATABASES['default']['HOST'],
-                              port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+conn = psycopg2.connect("dbname = 'UNO_CPI_DEV' user = 'postgres' host = 'localhost' password = 'horcrux'")
+# conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
+#                               password=settings.DATABASES['default']['PASSWORD'],
+#                               host=settings.DATABASES['default']['HOST'],
+#                               port=settings.DATABASES['default']['PORT'],
+#                               database=settings.DATABASES['default']['NAME'],
+#                               sslmode="require")
 if (conn):
     logger.info("Connection Successful!")
 else:
@@ -28,7 +29,8 @@ community_file = os.path.join(dirname,'home/static/charts_json/community_partner
 q = "SELECT comm.id, comm.name, legislative_district, community_type_id, type.community_type, " \
     "	cec_partner_status_id, cec.name, miss.mission_area_id, " \
     "(select array_to_string (array (select mission_area_id from partners_communitypartnermission " \
-    "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids) " \
+    "	where community_partner_id = comm.id and mission_type = 'Secondary'), ', ') as sec_mission_ids), " \
+    "latitude, longitude " \
     "FROM partners_communitypartner comm " \
     "LEFT JOIN partners_communitytype type " \
     "	ON comm.community_type_id = type.id " \
@@ -56,7 +58,7 @@ for c in communities:
         sec_mission_ids = []
     res = {'community_partner_id': c[0], 'community_partner_name': c[1], 'legislative_district': c[2],
            'community_type': type, 'cec_partner': cec_partner,
-           'primary_mission_id': c[7], 'secondary_mission_ids': sec_mission_ids}
+           'primary_mission_id': c[7], 'secondary_mission_ids': sec_mission_ids, 'lat':c[9], 'lng':c[10]}
     comms.append(res)
 jsonstring = pd.io.json.dumps(comms)
 

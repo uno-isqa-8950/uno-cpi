@@ -442,11 +442,11 @@
             <div id='state-legend'>
                 <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
                 </div>
-                <select style="margin-top:10px;" id="selectCommtype" class="selectCommtype"></select>
-                <select id="selectCollege" class="selectCollege"></select>
-                <select id="selectCampus" class="selectCampus"></select>
-                <select id="selectYear" class="selectYear"></select>
-                <select  id="selectDistrict" class="selectDistrict"></select>
+                <select style="margin-top:10px;" id="selectCommtype" class="selectCommtype" onchange="updateMap()"></select>
+                <select id="selectCollege" class="selectCollege" onchange="updateMap()"></select>
+                <select id="selectCampus" class="selectCampus" onchange="updateMap()"></select>
+                <select id="selectYear" class="selectYear" onchange="updateMap()"></select>
+                <select  id="selectDistrict" class="selectDistrict" onchange="updateMap()"></select>
             </div>
                 <div style="padding-top:10px;border-top: 1px solid grey;">
                     <input id='valueFilter' type='text' placeholder='Search Community Partner' />
@@ -503,6 +503,12 @@
                                 {{ Campuspartner | json_script:"campusPartner-list"}}
                                 {{ year | json_script:"year-list" }}
                                 {{ College | json_script:"collegename-list"}}
+        {{ Projects | json_script:"Projects"}}
+        {{ CommunityPartners | json_script:"CommunityPartners"}}
+        {{ CampusPartners | json_script:"CampusPartners"}}
+        {{ missionAreaList | json_script:"missionAreaList"}}
+        {{ campus_filter | json_script:"campus_filter"}}
+        {{ defaultYrID | json_script:"defaultYrID"}}
                             </div>
                         </div>
                     </div>

@@ -1919,6 +1919,26 @@ def googlepartnerdata(request):
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
     print('sorted(map_json_data[1]---',sorted(map_json_data[1]))
+
+    charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
+    charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
+    charts_community_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/community_partners.json')
+    charts_communities = charts_community_obj.get()['Body'].read().decode('utf-8')
+    charts_campus_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/campus_partners.json')
+    charts_campuses = charts_campus_obj.get()['Body'].read().decode('utf-8')
+    charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
+    charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
+    Projects = json.loads(charts_projects)
+    CommunityPartners = json.loads(charts_communities)
+    CampusPartners = json.loads(charts_campuses)
+    MissionObject = json.loads(charts_missions)
+
+    missionAreaList = []
+    for m in MissionObject:
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color']}
+        missionAreaList.append(res)
+    missionAreaList = sorted(missionAreaList, key=lambda i: i['name'])
+
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
                    'Missionlist': sorted(map_json_data[1]),
@@ -1926,7 +1946,8 @@ def googlepartnerdata(request):
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
                    'year': map_json_data[4],'data_definition':data_definition,
-                   'College': (College) #k sorted
+                   'College': (College), #k sorted
+                   'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners, 'missionAreaList':missionAreaList
                    }
                   )
 

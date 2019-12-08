@@ -374,8 +374,20 @@ $(document).ready(function(){
        name: 'primary',
        buttons: [{
            extend: 'csv',
-           text:'Excel'
-       }, 'excel', 'pdf'],
+           text:'Excel',
+           title:'Community Engagement Partnership Initiative-Engagement Types Report'
+       },
+           {
+           extend : 'pdfHtml5',
+            title:'Community Engagement Partnership Initiative-Engagement Types Report',
+            messageTop:'Engagement Types Report',
+            orientation : 'landscape',
+            pageSize : 'A4',
+            text : 'PDF',
+            titleAttr : 'PDF'
+           }
+
+       ],
            aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  , {"bSearchable": false}]
        }
    });

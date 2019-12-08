@@ -611,11 +611,18 @@
 
                     <div class="col-sm-12 col-lg-12">
                     <b> Topics: </b>
-                    {% if project.sub_category|length > 0%}
-                    {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                    {%else%}
-                    {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
-                    {%endif%}
+                        {% if project.sub_category|length > 0%}
+                        {% for sub_category in project.sub_category %}
+                           {% if sub_category is None %}
+
+                           {% else %}
+                              {{sub_category}}
+                                 {% if forloop.last %}
+                                 {% else %},
+                                 {% endif %}
+                           {% endif %}
+                        {% endfor%}
+                        {%endif%}
                     </div>
 
                      <!--<div class="col-sm-12">-->
@@ -631,7 +638,12 @@
 
                     <div class="col-sm-12 col-lg-12">
                         <hr>
-                        <b> Description:</b> {{ project.description }}
+                        <b> Description:</b>
+                         {% if project.description is None %}
+
+                         {% else %}
+                         {{ project.description }}
+                         {%endif%}
                     </div></div>
 
             </div>

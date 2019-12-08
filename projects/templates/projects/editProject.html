@@ -521,7 +521,7 @@ label[for=id_campus-0-campus_partner]:after{
                                             </div>
                                         </div>
                                            <div class="row">
-                                            <div class="col">
+                                                  <div class="col" style="display: none">
                                                  <div class="row">
                                                 <label for="id_uno_students" class="col-sm-5">
                                                     {% for data_definition in data_definition %}
@@ -531,16 +531,13 @@ label[for=id_campus-0-campus_partner]:after{
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                             {% endif %}
                                                         {% endfor %}
-                                                    Total UNO Faculty/Staff Hours</label>
+                                                    Toatal UNO Faculty/Staff Hours</label>
                                                     <div class="col-sm-6">
                                                 {{ project.total_uno_faculty}}
                                                     </div>
-                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
                                             </div>
                                             </div>
-                                            <div class="col">
+                                            <div class="col-md-6">
                                                 <div class="row">
                                                 <label for="id_uno_hours" class="col-sm-5">
                                                     {% for data_definition in data_definition %}
@@ -938,7 +935,7 @@ label[for=id_campus-0-campus_partner]:after{
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                              <label class="col-sm-4">State </label>
+                                              <label class="col-sm-4">State/Province </label>
                                             <div class="col-sm-7">
                                             {{ project.state }}
                                             </div>
@@ -991,7 +988,7 @@ label[for=id_campus-0-campus_partner]:after{
 
                  <div class="row centered" id="termsdiv">
                 <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
-                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a>
+                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
                                <div class="row centered" style="margin-top:30px;">
@@ -1092,7 +1089,7 @@ $('#update').show;
         $('#cancel').on('click', function (e) {
             e.preventDefault();
             if (confirm("You will be redirected back to the search project page and the changes will be lost. Are you sure, you want to cancel editing project?")) {
-                      window.location = '/checkProject';
+                      window.location = '/check-Project';
                     }
         });
     //----------------------project name and year validation---------------------
@@ -1599,7 +1596,7 @@ $("#id_registerCommAndSave").click(function (){
         },
         dataType: 'json',
         success: function (data) {
-           window.location = '/partners/registerCommunityPartnerForProject/?projectId='+data.save_projectId
+           window.location = '/partners/register-Community-Partner-For-Project/?projectId='+data.save_projectId
         }
     });
  }
@@ -1641,7 +1638,7 @@ $("#id_registerCampusAndSave").click(function (){
         },
         dataType: 'json',
         success: function (data) {
-           window.location = '/partners/registerCampusPartnerForProject/?projectId='+data.save_projectId
+           window.location = '/partners/register-Campus-Partner-For-Project/?projectId='+data.save_projectId
         }
     });
  }
@@ -1716,7 +1713,7 @@ function cloneMore(selector, prefix) {
                  $("#" + prefix + "-fields").append(html);
                  // });
              }
-             if(selectedcommunity === 'Others'){
+             if(selectedcommunity === 'Other'){
                  $('#othersubinput').show();
              }
              // else{
@@ -1928,7 +1925,7 @@ $(document).on('click', '.remove-sub_category_edit-row', function(e){
                  $("#sub_category_edit-fields").append(html);
              }
              subcategory_ids.push(selectedcatval);
-             if(selectedcat === 'Others'){
+             if(selectedcat === 'Other'){
                  $('#othersubinput').show();
              }
         }

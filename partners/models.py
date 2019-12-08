@@ -34,6 +34,7 @@ class CommunityPartner(models.Model):
                                            verbose_name="Community CEC Partner Status",default=3)
     legislative_district = models.IntegerField(null=True, blank=True)
     median_household_income = models.IntegerField(null=True, blank=True)
+    address_update_flag = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     class Meta:

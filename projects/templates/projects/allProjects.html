@@ -388,7 +388,7 @@ $(document).ready(function(){
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}K12 Involvement
+                        {% endfor %}K-12 Involvement
                     </label>
                     <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
@@ -562,11 +562,13 @@ $(document).ready(function(){
        name: 'primary',
        buttons: [{
            extend: 'csv',
-           text:'Excel'
-       }, 'excel',
+           text:'Excel',
+           title:'Community Engagement Partnership Initiative-Projects Report-All Projects'
+       },
         {
          extend : 'pdfHtml5',
-         messageTop:'All projects report',
+         title:'Community Engagement Partnership Initiative-All Projects',
+         messageTop:'All Projects',
          orientation : 'landscape',
          pageSize : 'A2',
          text : 'PDF',
@@ -709,7 +711,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_k12_flag').select2({placeholder: 'All K12 Involvement',width: '75%'});
+    $('#id_k12_flag').select2({placeholder: 'All K-12 Involvement',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {

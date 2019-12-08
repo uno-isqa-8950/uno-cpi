@@ -109,7 +109,7 @@ def districtGEO():
     return district
 
 def resourceData(request):
-    resources = Resource.objects.filter(isAccessible=1)
+    resources = Resource.objects.filter(isAccessible=1).order_by('listing_order')
     return {'resources': resources}
 
 def home(request):
@@ -1550,7 +1550,6 @@ def engagement_info(request):
                     'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
 
 
-
 # Chart for projects with mission areas
 @login_required()
 def missionchart(request):
@@ -1560,9 +1559,9 @@ def missionchart(request):
 
     #set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    cec_part_init_selection = "All"
-    if cec_part_selection is None:
-        cec_part_selection = cec_part_init_selection
+    # cec_part_init_selection = "All"
+    # if cec_part_selection is None:
+        # cec_part_selection = cec_part_init_selection
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
@@ -2319,6 +2318,12 @@ def read_project_content():
       project['eng'] = sheet.cell_value(i, 5)
       project['strt_acd_yr'] = sheet.cell_value(i, 6)
       project['strt_sem'] = sheet.cell_value(i, 7)
+      project['no_uno_students'] = sheet.cell_value(i, 12)
+      project['no_uno_students_hrs'] = sheet.cell_value(i, 13)
+      project['no_k12_students'] = sheet.cell_value(i, 15)
+      project['no_k12_students_hrs'] = sheet.cell_value(i, 16)
+      project['act_type'] = sheet.cell_value(i, 18)
+
 
       print(str(project['name']), str(project['mission']))
       if str(project['name']) == 'Projects' and str(project['mission']) == 'Mission Areas':
@@ -2381,6 +2386,11 @@ def uploadProjectSub(request,pk):
         total_project_count = total_project_count + 1
         #print('project--',x) 
         mission_name = x['mission']
+        unoStds = int(x['no_uno_students'])
+        unostdHrs = int(x['no_uno_students_hrs'])
+        unoK12std = int(x['no_k12_students'])
+        unok12Hrs = int(x['no_k12_students_hrs'])
+        act_type = x['act_type']
         print('before split mission_name --',mission_name)
         mission_name = str(mission_name).split(':')[1]
         #print('after split mission_name --',mission_name)
@@ -2431,7 +2441,7 @@ def uploadProjectSub(request,pk):
         othersubCat = []
         print('subcat_name--',subcat_name)
 
-        if subcat_name is not None and subcat_name != '':
+        if subcat_name is not None and subcat_name != '' and subcat_name != 'None':
                 
             select_proj="select distinct p.id, p.other_sub_category \
             from projects_project p , \
@@ -2446,13 +2456,17 @@ def uploadProjectSub(request,pk):
             pcomm.community_partner_id in (select id from partners_communitypartner where name in "+comm_name_list+") \
             and p.academic_year_id = (select id from projects_academicyear where academic_year = '"+str(acd_yr)+"') and \
             p.engagement_type_id = (select id from projects_engagementtype where name ='"+str(engName)+"') \
-            and p.project_name like '"+str(proj_name).strip()+"%' and upper(p.semester) = '"+str(start_sem)+"'"
+            and p.project_name like '"+str(proj_name).strip()+"%' and upper(p.semester) = '"+str(start_sem)+"' \
+            and p.activity_type_id in (select id from projects_activitytype at where name = '"+str(act_type)+"') \
+            and p.total_uno_students =" +str(unoStds)+ " and p.total_uno_hours ="+str(unostdHrs)+" \
+            and p.total_k12_students = "+str(unoK12std)+"  and p.total_k12_hours = "+str(unok12Hrs)+"" 
            
-            #print('select_proj---',select_proj)
+            print('select_proj---',select_proj)
             cursor.execute(select_proj)#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
             print('proj_result--',proj_result)
             if proj_result is not None and len(proj_result) >0:
+                print('length of proj_result--',len(proj_result))
                 for obj in proj_result:
                   print('project id --',obj[0])
                   projectId = obj[0]
@@ -2516,7 +2530,7 @@ def uploadProjectSub(request,pk):
                             if othersubCat is None or othersubCat == '':
                                 othersubCat= []
 
-                            if subcat_name is not None:
+                            if subcat_name is not None and subcat_name != '':
                                 othersubCat.append(subcat_name)                        
                                 update_proj_other_sub_desc = "update projects_project \
                                 set other_sub_category = %s where id = %s"

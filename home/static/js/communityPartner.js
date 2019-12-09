@@ -403,6 +403,7 @@ function mapFilter(id, value) {
 function getSetFilterOptions() {
     var returnArray = [];
     for (option in filters) {
+
         if (!defaultFilterValues.includes(filters[option])) {
             returnArray.push(option);
         }
@@ -487,6 +488,7 @@ for (let missionAreaFilter of missionAreaFilters) {
     missionAreaFilter.addEventListener("click", function(event) {
         document.getElementById("valueFilter").value = "";
         let value = missionAreaFilter.textContent;
+        
         mapFilter("selectMission", value);
         filterMarkers();
         $('#totalnumber').html(getClusterSize());

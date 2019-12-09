@@ -18,17 +18,6 @@ var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list')
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
 
-const colorCodeObject = {
-    [Missionarea[0]]:         "#01B8AA",
-    [Missionarea[1]]:         "#374649",
-    [Missionarea[2]]:    "#FD625E",
-    [Missionarea[3]]:          "#8AD4EB",
-    [Missionarea[4]]:        "#FE9666",
-    [Missionarea[5]]:       "#A66999",
-    [Missionarea[6]]:       "#3599B8",
-    [Missionarea[7]]:       "#DFBFBF",
-    [Missionarea[8]]:       "#1743f3"
-}
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
 communityData.features.forEach(function(feature) {

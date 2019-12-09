@@ -1095,6 +1095,9 @@ $('#update').show;
     //----------------------project name and year validation---------------------
     $("#id_academic_year").change(function () {
     var projectname = $("#id_project_name").val();
+    if(projectname !=''){
+        projectname = projectname.trim();
+    }
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
@@ -1116,6 +1119,9 @@ $('#update').show;
 });
 $("#id_project_name").change(function () {
     var projectname = $("#id_project_name").val();
+    if(projectname !=''){
+        projectname = projectname.trim();
+    }
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
@@ -2111,10 +2117,16 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-     if (($("#id_project_name").val() === '')) {
-         alert("Project Name Required");
-                    return false
-                }
+projName = $("#id_project_name").val();
+    if (projName != ''){
+        projName = projName.trim();
+    }
+
+    if(projName === '' ){
+        alert("Project Name Required ");
+        return false;
+    }
+   
                 if (($("#id_engagement_type").val() === '')) {
                     alert("Engagement Type Required");
                     return false

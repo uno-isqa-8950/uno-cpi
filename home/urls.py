@@ -44,5 +44,6 @@ urlpatterns = [
    path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),
    path('inviteCommPartner/<str:uidb64>/<str:token>', views.registerCommPartner, name='inviteCommPartner'),
    path('inviteCommPartner/done/<str:pk>/', views.commPartnerResetPassword, name='commPartnerResetPassword'),
-   url(r'^uploadSubCategoires/(?P<pk>\d+)/$',views.uploadProjectSub,name='uploadProjectSub')
+   url(r'^uploadSubCategoires/(?P<pk>\d+)/$',views.uploadProjectSub,name='uploadProjectSub'),
+   url(r'^deleteProjSub/$',views.removeExistingProjSub,name='removeExistingProjSub')
 ]

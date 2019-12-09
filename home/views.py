@@ -2288,7 +2288,6 @@ def uploadProjectSub(request,pk):
             and p.academic_year_id = (select id from projects_academicyear where academic_year = '"+str(acd_yr)+"') and \
             p.engagement_type_id = (select id from projects_engagementtype where name ='"+str(engName)+"') \
             and p.project_name like '"+str(proj_name).strip()+"%' and upper(p.semester) = '"+str(start_sem)+"' \
-            and p.activity_type_id in (select id from projects_activitytype at where name = '"+str(act_type)+"') \
             and p.total_uno_students =" +str(unoStds)+ " and p.total_uno_hours ="+str(unostdHrs)+" \
             and p.total_k12_students = "+str(unoK12std)+"  and p.total_k12_hours = "+str(unok12Hrs)+"" 
            

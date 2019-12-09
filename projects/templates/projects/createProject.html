@@ -842,6 +842,9 @@ $(document).ready(function() {
     });
 $("#id_academic_year").change(function () {
     var projectname = $("#id_project_name").val();
+    if(projectname !=''){
+        projectname = projectname.trim();
+    }
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
@@ -863,6 +866,9 @@ $("#id_academic_year").change(function () {
 });
 $("#id_project_name").change(function () {
     var projectname = $("#id_project_name").val();
+    if(projectname !=''){
+        projectname = projectname.trim();
+    }
     var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
@@ -1813,7 +1819,12 @@ $(document).ready(function () {
 $('#draft').click(function(){
     $('#id_status option[value=5]').attr('selected','selected');
 console.log('draft');
-    if(($("#id_project_name").val() === '') ){
+    projName = $("#id_project_name").val();
+    if (projName != ''){
+        projName = projName.trim();
+    }
+
+    if(projName === '' ){
         alert("Project Name Required ");
         return false;
     }

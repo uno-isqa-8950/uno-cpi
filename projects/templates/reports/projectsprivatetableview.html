@@ -381,7 +381,7 @@
                           title="{{ data_definition.description }}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}K12 Involvement
+                        {% endfor %}K-12 Involvement
                     </label>
                     <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
@@ -405,7 +405,7 @@
                                 <span tabindex="-1" data-toggle="tooltip" data-placement="right"
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %} {% endfor %}Projects
+                                {% endif %} {% endfor %}Project
                             </th>
                             <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
@@ -425,28 +425,31 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                 {% endif %} {% endfor %}Campus Partners
                             </th>
-                            <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
-                          title="{{ data_definition.description }}" class="float" >
-                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %} {% endfor %}Engagement Types
-                            </th>
-                            <th class="none">Activity Type</th>
-                            <th class="none">Other Activity Type</th>
-                            <th class="none">Academic Year</th>
-                            <th class="none">End Academic Year</th>
-                            <th class="none">Semester</th>
-                            <th class="none">End Semester </th>
-                            <th class="none">Total UNO Students</th>
-                            <th class="none">UNO Students Hours</th>
-                            <th class="none">UNO Faculty/Staff Hours</th>
-                            <th class="none">Total number of K-12 Students</th>
-                            <th class="none">Total number of K-12 Hours</th>
-                            <th class="none">Total number of Other Participants</th>
-                            <th class="none">Campus Lead Staff</th>
-                            <th class="none">Topics</th>
-                            <th class="none">Other Topics</th>
-                            <th class="none">Description</th>
+                            <!--<th class="none">{% for data_definition in data_definition %}{% if data_definition.id == 31%}-->
+                                <!--<span tabindex="-1" data-toggle="tooltip" data-placement="bottom"-->
+                          <!--title="{{ data_definition.description }}" class="float" >-->
+                                            <!--<i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>-->
+                                <!--{% endif %} {% endfor %}Engagement Types-->
+                            <!--</th>-->
+                            <th class="none">Engagement Type:</th>
+                            <th class="none">Activity Type:</th>
+                            <th class="none">Other Activity Type:</th>
+
+                            <th class="none">Start Semester:</th>
+                            <th class="none">Start Academic Year:</th>
+                            <th class="none">End Semester:</th>
+                            <th class="none">End Academic Year:</th>
+                            <th class="none">Total UNO Students:</th>
+                            <th class="none">UNO Students Hours:</th>
+                            <th class="none">UNO Faculty/Staff Hours:</th>
+                            <th class="none">Total K-12 Students:</th>
+                            <th class="none">K-12 Student Hours:</th>
+                            <th class="none">Total Number of Other Participants:</th>
+                            <th class="none">Campus Leads:</th>
+                            <th class="none">Topics:</th>
+                            <th class="none">Other Topics:</th>
+                            <th class="none">Description:</th>
+                            <th class="none">Subtags:</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -458,59 +461,112 @@
                             <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                             <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
                             <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
-                            <td>{{ project.activityType }}</td>
+                            <td>
+                                {% if project.activityType is None %}
+                                {%else%}
+                                {{ project.activityType }}
+                                {%endif%}
+                            </td>
                             <td>
 
-                                {% if project.activityType == 'Other' %}
                                 {% if project.other_activity_type|length > 0%}
-                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
-                                {%endif%}
-                                {%else%}
-                                 None
+                                {% for other_activity_type in project.other_activity_type %}
+                                    {% if other_activity_type is None %}
+
+                                    {% else %}
+                                        {{other_activity_type}}
+                                           {% if forloop.last %}
+                                           {% else %},
+                                           {% endif %}
+                                    {%endif%}
+                                {% endfor%}
                                 {%endif%}
 
                             </td>
-                            <td>{{ project.academic_year }}</td>
-                            <td>{{ project.end_academic_year }}</td>
+
                             <td>{{ project.semester}}</td>
-                            <td>{{ project.end_semester }}</td>
+                            <td>{{ project.academic_year }}</td>
+                            <td>
+                                {% if project.end_semester is None %}
+                                {%else%}
+                                {{ project.end_semester }}
+                                {%endif%}
+                            </td>
+                            <td>{% if project.end_academic_year is None %}
+                                {%else%}
+                                {{ project.end_academic_year }}
+                                {%endif%}
+                            </td>
                             <td>{{project.total_uno_students}}</td>
                             <td>{{project.total_uno_hours}}</td>
                             <td>{{project.total_uno_faculty}}</td>
                             <td>{{project.total_k12_students}}</td>
                             <td>{{project.total_k12_hours}}</td>
                             <td>{{project.total_other_community_members}}</td>
-
-
                             <td>
-                                {% if project.campus_lead_staff|length == 0%} None {%endif%}
+
                                 {% if project.campus_lead_staff|length > 0%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for campus_lead_staff in project.campus_lead_staff %} {{campus_lead_staff}}{% endfor%}
+                                {% for campus_lead_staff in project.campus_lead_staff %}
+                                     {% if campus_lead_staff is None %}
+
+                                      {% else %}
+                                         {{campus_lead_staff}}
+                                            {% if forloop.last %}
+                                            {% else %},
+                                            {% endif %}
+                                      {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
-                            <td>
+                              <td>
                                 {% if project.sub_category|length > 0%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for sub_category in project.sub_category %} {{sub_category}}{% endfor%}
+                                {% for sub_category in project.sub_category %}
+                                     {% if sub_category is None %}
+
+                                     {% else %}
+                                         {{sub_category}}
+                                             {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                     {% endif %}
+                                {% endfor%}
                                 {%endif%}
                             </td>
                             <td>
-
                                 {% if project.other_sub_category|length > 0%}
-                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
-                                {%else%}
-                                {% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}
+                                {% for other_sub_category in project.other_sub_category %}
+                                     {% if other_sub_category is None %}
+
+                                     {% else %}
+                                         {{other_sub_category}}
+                                             {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                     {% endif %}
+                                {% endfor%}
                                 {%endif%}
-
-
-
                             </td>
-                            <td>{{ project.description }}</td>
+                            <td>
+                             {% if project.description is None %}
+
+                             {% else %}
+                             {{ project.description }}
+                             {%endif%}
+                            </td>
+                            <td>
+                                {% if project.sub_tags|length > 0%}
+                                {% for sub_tags in project.sub_tags %}
+                                   {% if sub_tags is None %}
+
+                                   {% else %}
+                                      {{sub_tags}}
+                                          {% if forloop.last %}
+                                             {% else %},
+                                             {% endif %}
+                                   {% endif %}
+                                {% endfor%}
+                                {%endif%}
+                            </td>
 
                         </tr>
                         {% endfor %}
@@ -546,18 +602,29 @@
 
           $('#example').DataTable({
        dom: 'B<"clear">lftpi',
+
        buttons: {
        name: 'primary',
        buttons: [{
            extend: 'csv',
-           text:'Excel'
-       }, 'excel',
+           title:'Community Engagement Partnership Initiative-Projects Report',
+           text:'Excel',
+           exportOptions: {
+                    columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                }
+       },
 
            {
             extend : 'pdfHtml5',
-            messageTop:'Projects report',
+            title:'Community Engagement Partnership Initiative-Projects Report',
+            messageTop:'Projects Report',
+             exportOptions: {
+                    columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                },
+
+
             orientation : 'landscape',
-            pageSize : 'A2',
+            pageSize : 'A1',
             text : 'PDF',
             titleAttr : 'PDF'
            }
@@ -565,12 +632,22 @@
        ]
        },
        columnDefs: [
+           // hiding tags from column 21 and making it searchable in the data table
+           {
+                "targets": [21],
+                "visible": false,
+                "searchable": true
+            },
+           // // hiding uno faculty hours
+             {
+                "targets": [13],
+                "visible": false,
+                "searchable": false
+            },
 
-           { responsivePriority: 10001, targets: 10 },
-           { responsivePriority: 10001, targets: 11 },
-           { responsivePriority: 10001, targets: 12 },
-           { responsivePriority: 10001, targets: 13 },
-           { responsivePriority: 10001, targets: 14 },
+
+
+
            {"width": "21.5%","targets":[0,1,2,3,4,5,6]}
 
 
@@ -580,6 +657,8 @@
         // "scrollY": "none",
         // "scrollCollapse": false
    });
+
+
        $('#example_filter').find('input').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
 $(document).on('input', '.clearable', function(){
@@ -699,7 +778,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_k12_flag').select2({placeholder: 'All K12 Involvement',width: '75%'});
+    $('#id_k12_flag').select2({placeholder: 'All K-12 Involvement',width: '75%'});
     $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {

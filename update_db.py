@@ -21,6 +21,7 @@ try:
     print("Executing Community Partner status inactive")
 
     #UPDATE Community partner to show status 'Inactive' from newly added Partner Status Table
+  
     update_comm_partner_status_to_inactive_from_table= """Update partners_communitypartner
                                                           Set partner_status_id =(select id from partners_partnerstatus
                                                           where name = 'Inactive')
@@ -105,7 +106,7 @@ try:
                                                               where name = 'Never')
                                                               Where id in (select id
                                                               from partners_communitypartner
-                                                              where weitz_cec_part='No');"""
+                                                              where weitz_cec_part='No' or weitz_cec_part = 'False');"""
 
     # create a temp table with all projects start and end dates
     cursor.execute(update_comm_partner_cec_status_to_former_from_table)
@@ -134,7 +135,7 @@ try:
                                                               where name = 'Never')
                                                               Where id in (select id
                                                               from partners_campuspartner
-                                                              where weitz_cec_part='No');"""
+                                                              where weitz_cec_part='No' or weitz_cec_part = 'False');"""
 
     # create a temp table with all projects start and end dates
     cursor.execute(update_comm_partner_cec_status_to_former_from_table)

@@ -316,10 +316,23 @@ $(document).ready(function(){
        dom: 'B<"clear">lftpi',
        buttons: {
        name: 'primary',
-       buttons: [{
+       buttons: [
+          {
            extend: 'csv',
-           text:'Excel'
-       }, 'excel', 'pdf']
+           text:'Excel',
+           title:'Community Engagement Partnership Initiative-Community Partners Reports'
+       },
+            {
+           extend : 'pdfHtml5',
+            title:'Community Engagement Partnership Initiative-Community Partners Reports',
+            messageTop:'Community Partners Reports',
+            orientation : 'landscape',
+            pageSize : 'A3',
+            text : 'PDF',
+            titleAttr : 'PDF'
+           }
+
+       ]
        },
        aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false} ]
    });

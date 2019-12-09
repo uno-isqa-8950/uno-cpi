@@ -64,6 +64,10 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         var projects_json = projects_json.filter(d => d.years.includes(parseInt(academic_year)));
     }
 
+    if (!not_set.includes(mission)) {
+        var projects_json = projects_json.filter(d => d.primary_mission_area.mission_id === (parseInt(mission)));
+    }
+
     if (weitz_cec_part == 'CURR_CAMP') {
         var campus_partner_json = campus_partner_json.filter(d => d.cec_partner.cec_partner_status === "Current");
     }
@@ -127,10 +131,10 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
         feature["campus_partner_ids"].forEach(item => projectCampus.add(item));
     })
 
-    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner) || ['CURR_CAMP', 'FORMER_CAMP'].includes(weitz_cec_part)) {
+    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner) || !not_set.includes(legislative) || ['CURR_CAMP', 'FORMER_CAMP'].includes(weitz_cec_part)) {
         var community_partner_json = community_partner_json.filter(d => projectCommunities.has(d.community_partner_id));
     }
-    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(comm_type) || !not_set.includes(legislative) || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
+    if (!not_set.includes(engagement_type) || !not_set.includes(academic_year) || !not_set.includes(comm_type)  || ['CURR_COMM', 'FORMER_COMM'].includes(weitz_cec_part)) {
         var campus_partner_json = campus_partner_json.filter(d => projectCampus.has(d.campus_partner_id));
     }
 
@@ -462,6 +466,10 @@ tooltip: {
 
 
 function updatechart(){
+       var x = document.getElementById("loading");
+  if (x.style.display === "none") {
+    x.style.display = "block";
+  }
 setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
@@ -499,6 +507,7 @@ setTimeout(function(){
         ]
 })
 
-
+// x.style.display = "none";
+$('#loading').hide();
 }, 0.0001)
 }

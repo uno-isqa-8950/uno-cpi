@@ -1044,7 +1044,7 @@ select distinct p.project_name
                             ,p.other_sub_category other_subCat
             
                         from projects_project p
-                          left join projects_projectmission m on p.id = m.project_name_id
+                          left join projects_projectmission m on p.id = m.project_name_id and lower(m.mission_type)='primary'
                           left join home_missionarea hm on hm.id = m.mission_id
                           left join projects_engagementtype e on e.id = p.engagement_type_id
                             left join projects_projectcommunitypartner pp on p.id = pp.project_name_id

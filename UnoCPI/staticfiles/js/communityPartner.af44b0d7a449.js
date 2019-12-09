@@ -245,7 +245,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     filters = {
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community organization Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"

@@ -245,7 +245,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     filters = {
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community organization Types",
+        "selectCommtype":       "All Community Partner Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -403,7 +403,6 @@ function mapFilter(id, value) {
 function getSetFilterOptions() {
     var returnArray = [];
     for (option in filters) {
-
         if (!defaultFilterValues.includes(filters[option])) {
             returnArray.push(option);
         }
@@ -488,7 +487,7 @@ for (let missionAreaFilter of missionAreaFilters) {
     missionAreaFilter.addEventListener("click", function(event) {
         document.getElementById("valueFilter").value = "";
         let value = missionAreaFilter.textContent;
-        
+        alert('value--'+value)
         mapFilter("selectMission", value);
         filterMarkers();
         $('#totalnumber').html(getClusterSize());

@@ -167,8 +167,9 @@ margin-top:15px;
 <!-- Navbar Begins -->
 
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>
+    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>
+<!--    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>-->
+<!--    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>-->
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
     <div class="collapse navbar-collapse" id="target">
         <ul class="navbar-nav ml-auto">
@@ -323,46 +324,42 @@ margin-top:15px;
 
 
 
-
-<footer >
+<footer id="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/index.php">UNIVERSITY POLICIES</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/privacy-policy.php">PRIVACY POLICY</a></span><br>
                 <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
           </div>
-
-          <div class="col-sm-6" style="margin-top:10px;text-align: left;"><hr>
-                <span><a class="fcenter" href="https://www.google.com/maps/place/University+of+Nebraska+Omaha/@41.2582497,-96.0107049,15z/data=!4m5!3m4!1s0x0:0x4dbea6a55857784f!8m2!3d41.2582497!4d-96.0107049">
-                       University of Nebraska Omaha,<span class="break"></span>
-                       6001 Dodge Street,<span class="break"></span>
-                       Omaha, NE, 68182 &nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>
-                      </a></span><br>
-                <span><a class="fleft" style="font-size: 12px;">
+             <div class="col-sm-6" style="margin-top:8px;padding-bottom:10px; text-align: left;">
+                <span><a class="fleft" style="text-decoration:underline" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                 <!--<br>-->
+                 <p>
+                  <span><a class="fnone" style="font-size: 12px;">
                         <script type="text/JavaScript">
-			                    document.write("&copy; "+new Date().getFullYear());
-		                </script></a></span><span class="break"></span>
-                <span><a class="fleft" style="font-size: 12px;" href="https://www.unomaha.edu/emergency/index.php">Emergency Information Alert</a></span><span class="break"></span>
-                <span><a class="fleft" style="font-size: 12px; border-right:0" href="https://www.unomaha.edu/report-a-concern/index.php">Report an Incident or Concern</a></span>
-          </div>
+                                document.write("&copy; "+new Date().getFullYear());
+                        </script>, </a></span><span class="break"></span>
 
-          <div class="col-sm-2" style="margin-top:8px; text-align: left;">
-                <span><a class="fright" href="mailto:partnerships@unomaha.edu">CONTACT US</a></span>
-                <span><a class="fright" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">USER MANUAL</a></span>
-          </div>
-
-          <div class="footertext"><hr></div>
-
-          <div class="footertext" style="line-height:1"><a style="color:#BABABA; font-size:10px;">
-                The University of Nebraska does not discriminate based on race,
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
+                </a></span></p>
+                 <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
                 color, ethnicity, national origin, sex, pregnancy, sexual orientation,
                 gender identity, religion, disability, age, genetic information,
                 veteran status, marital status, and/or political affiliation in its programs,
-                activities, or employment. Learn more about Equity, Access and Diversity.</a>
-          </div>
+                activities, or employment. Learn more about Equity, Access and Diversity.</p>
+             </div>
 
-          <div class="footertext"><hr></div>
+          <!--<div class="footertext"></div>-->
+<!---->
+          <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
+          <!--</div>-->
+<!---->
+          <!--<div class="footertext"></div>-->
         </div>
       </div>
 </footer>

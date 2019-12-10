@@ -28,7 +28,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
+<style>
+    @media screen and (max-width:1200px){
+    .navbar-custom{
+        font-size: 0.688em;
+    }
 
+    }
+</style>
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138745579-1"></script>
 <script>
@@ -45,8 +52,9 @@
 <!-- Navbar Begins -->
 
 <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
+    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>
+<!--    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>-->
+<!--    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>-->
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
     <div class="collapse navbar-collapse" id="target">
         <ul class="navbar-nav ml-auto">

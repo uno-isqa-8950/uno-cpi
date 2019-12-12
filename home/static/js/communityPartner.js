@@ -595,7 +595,7 @@ $("#reset").click(function () {
     $('#totalnumber').html(getClusterSize());
 });
 
-function getMapData (CommunityPartners, comm_type, legislative_value, academic_year, college_name, campus_partner) {
+function getMapData (CommunityPartners, comm_type, legislative_value, academic_year, college_name, campus_partner, search) {
     CommunityPartners = CommunityPartners.features;
     var not_set = [undefined, "All", '', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
     if (!not_set.includes(comm_type)) {
@@ -603,6 +603,9 @@ function getMapData (CommunityPartners, comm_type, legislative_value, academic_y
     }
     if (!not_set.includes(legislative_value)) {
         var CommunityPartners = CommunityPartners.filter(d => d.properties["Legislative District Number"] == legislative_value);
+    }
+    if (!not_set.includes(search)) {
+        var CommunityPartners = CommunityPartners.filter(d => d.properties.CommunityPartner.includes(search));
     }
 
     var indexList = new Set();

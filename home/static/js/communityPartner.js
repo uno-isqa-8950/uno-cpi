@@ -594,3 +594,48 @@ $("#reset").click(function () {
     filterMarkers();
     $('#totalnumber').html(getClusterSize());
 });
+
+function getMapData (CommunityPartners, comm_type, legislative_value, academic_year, college_name, campus_partner) {
+    CommunityPartners = CommunityPartners.features;
+    var not_set = [undefined, "All", '', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+    if (!not_set.includes(comm_type)) {
+        var CommunityPartners = CommunityPartners.filter(d => d.properties.CommunityType == comm_type);
+    }
+    if (!not_set.includes(legislative_value)) {
+        var CommunityPartners = CommunityPartners.filter(d => d.properties["Legislative District Number"] == legislative_value);
+    }
+
+    var indexList = new Set();
+    if (!not_set.includes(academic_year)) {
+        CommunityPartners.forEach(function(feature, index, object) {
+            var Projects = feature["communityprojects"].filter(d => d.academicYear.includes(academic_year));
+            if (Projects.length == 0) {indexList.add(index);}
+            feature["communityprojects"] = Projects;
+        });
+    }
+    if (!not_set.includes(college_name)) {
+        CommunityPartners.forEach(function(feature, index, object) {
+            var Projects = feature["communityprojects"].filter(d => d.collegeNames.includes(college_name));
+            // console.log(Projects);
+            if (Projects.length == 0) {indexList.add(index);}
+            feature["communityprojects"] = Projects;
+        });
+    }
+    if (!not_set.includes(campus_partner)) {
+        CommunityPartners.forEach(function(feature, index, object) {
+            var Projects = feature["communityprojects"].filter(d => d.campuspartner.includes(campus_partner));
+            if (Projects.length == 0) {indexList.add(index);}
+            feature["communityprojects"] = Projects;
+        });
+    }
+
+    if (!not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner)) {
+        let keys = Object.keys(CommunityPartners);
+        var indexList = Array.from(indexList).sort();
+        for (i in indexList) {
+            delete CommunityPartners[keys[indexList[i]]];
+        }
+    }
+    var CommunityPartners = { "type": "FeatureCollection", "features":CommunityPartners};
+    return CommunityPartners;
+}

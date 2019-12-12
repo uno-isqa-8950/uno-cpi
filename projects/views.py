@@ -276,7 +276,10 @@ def createProject(request):
             else:
                 project.k12_flag = False
             proj = project.save()
-            proj.project_name = proj.project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            project_name = proj.project_name.strip()
+            print(project_name)
+            proj.project_name = project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
+            print(proj.project_name)
             eng = str(proj.engagement_type)
             address = proj.address_line1
             stat = str(proj.status)

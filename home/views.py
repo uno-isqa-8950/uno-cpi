@@ -1876,7 +1876,6 @@ def networkanalysis(request):
     mission_subcategories_json = json.loads(charts_missions)
     projects_json = json.loads(charts_projects)
 
-    # print(" project json ",projects_json)
     CollegeNamelist = []
     for e in College.objects.all():
         if (str(e.college_name) not in CollegeNamelist):
@@ -1887,7 +1886,6 @@ def networkanalysis(request):
     for e in acad_years:
         res={'id':e.id,'year':e.academic_year}
         yrs.append(res)
-    # max_yr_id = max(yrs)
     acyear = sorted(yrs, key=lambda i: i['year'], reverse=True)
 
     year_ids=[]
@@ -1895,27 +1893,19 @@ def networkanalysis(request):
     for e in acyear:
         year_ids.append(e['id'])
         year_names.append(e['year'])
-    # print(year_ids[1])
-    # print(year_names[1])
-    # max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
     max_yr_id=year_ids[1]
     max_year = year_names[1]
-    print(" ma year ",max_year)
-    print(" ma year ", max_yr_id)
-
     missionList = []
     for m in MissionArea.objects.all():
         res = {'id': m.id, 'name': m.mission_name, 'color': m.mission_color}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
-    # community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
 
     mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.order_by('academic_year'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
-    # campus_partner_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filter = ProjectCampusFilter(request.GET, queryset=ProjectCampusPartner.objects.all())
     campus_filtered_ids = [project.project_name_id for project in campus_filter.qs]
 
@@ -1939,12 +1929,9 @@ def networkanalysis(request):
     elif k12_selection == 'No':
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
 
-    # else:
-    #     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
     campus_filter_qs = CampusPartner.objects.all()
     campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
-    # print(" @@@@@@@@@@@@@@@@@@@@@@@@@@@@@",campus_filter)
 
     legislative_choices = []
     legislative_search = ''
@@ -1953,7 +1940,7 @@ def networkanalysis(request):
     if legislative_selection is None:
         legislative_selection = 'All'
 
-    # legislative_choices.append('All')
+
     for i in range(1, 50):
         legistalive_val = 'Legislative District ' + str(i)
         legislative_choices.append(legistalive_val)
@@ -1963,12 +1950,9 @@ def networkanalysis(request):
 
     if legislative_selection is None or legislative_selection == "All" or legislative_selection == '':
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
-        # project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     else:
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
             legislative_district=legislative_search))
-        # project_filter = ProjectFilter(request.GET,
-        #                                queryset=Project.objects.filter(legislative_district=legislative_search))
 
 
 

@@ -457,9 +457,12 @@
                         {% for project in project %}
                         <tr>
                             <td>{{ project.name }}</td>
-                            <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
-                            <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
-                            <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
+                            <td> {% for projmisn in project.projmisn %} {{ projmisn}}{% if forloop.last %}
+                                           {% else %},{% endif %}{% endfor %} </td>
+                            <td> {% for comm_part in project.comm_part %} {{comm_part}} {% if forloop.last %}
+                                           {% else %};{% endif %} {% endfor %} </td>
+                            <td> {% for camp_part in project.camp_part %} {{camp_part}} {% if forloop.last %}
+                                           {% else %};{% endif %} {% endfor %} </td>
                             <td> {% for engagementType in project.engagementType %} {{ engagementType }} {% endfor %} </td>
                             <td>
                                 {% if project.activityType is None %}
@@ -559,7 +562,7 @@
                                    {% if sub_tags is None %}
 
                                    {% else %}
-                                      {{project.sub_tags}}
+                                      {{sub_tags}}
                                           {% if forloop.last %}
                                              {% else %},
                                              {% endif %}
@@ -624,7 +627,7 @@
 
 
             orientation : 'landscape',
-            pageSize : 'A2',
+            pageSize : 'A1',
             text : 'PDF',
             titleAttr : 'PDF'
            }
@@ -657,6 +660,8 @@
         // "scrollY": "none",
         // "scrollCollapse": false
    });
+
+
        $('#example_filter').find('input').addClass('clearable');
                function tog(v){return v?'addClass':'removeClass';}
 $(document).on('input', '.clearable', function(){

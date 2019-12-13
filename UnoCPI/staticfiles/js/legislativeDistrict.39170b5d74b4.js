@@ -116,7 +116,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community Organization Types' + '</option>';
+select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community organization Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }

@@ -107,7 +107,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community organization Types' + '</option>';
+select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community Organization Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -245,7 +245,7 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
     filters = {
         "selectMission":        "All Focus Areas",
         "selectCampus":         "All Campus Partners",
-        "selectCommtype":       "All Community Partner Types",
+        "selectCommtype":       "All Community organization Types",
         "selectDistrict":       "All Legislative Districts",
         "selectYear":           "All Academic Years",
         "selectCollege":        "All Colleges and Main Units"
@@ -403,6 +403,7 @@ function mapFilter(id, value) {
 function getSetFilterOptions() {
     var returnArray = [];
     for (option in filters) {
+
         if (!defaultFilterValues.includes(filters[option])) {
             returnArray.push(option);
         }
@@ -487,6 +488,7 @@ for (let missionAreaFilter of missionAreaFilters) {
     missionAreaFilter.addEventListener("click", function(event) {
         document.getElementById("valueFilter").value = "";
         let value = missionAreaFilter.textContent;
+        
         mapFilter("selectMission", value);
         filterMarkers();
         $('#totalnumber').html(getClusterSize());

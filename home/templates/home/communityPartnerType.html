@@ -496,16 +496,16 @@
 
                 <!--</select>-->
                 <!--div id="sidebar"-->
-                <select  style="margin-top:10px;" id="selectMission" class="selectMission"></select>
-                <select id="selectCollege" class="selectCollege"></select>
-                <select id="selectCampus" class="selectCampus"></select>
-                <select id="selectYear" class="selectYear"></select>
-                <select id="selectDistrict" class="selectDistrict"></select>
+                <select  style="margin-top:10px;" id="selectMission"  onchange="filterData(this.id,false);" class="selectMission"></select>
+                <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
+                <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
+                <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
+                <select id="selectDistrict" onchange="filterData(this.id,false);" class="selectDistrict"></select>
                
 
             </div>
              <div style="padding-top:10px;border-top: 1px solid grey;">
-                    <input id='valueFilter' type='text' placeholder='Search Community Partner' />
+                    <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
                 </div>
             </div>
 

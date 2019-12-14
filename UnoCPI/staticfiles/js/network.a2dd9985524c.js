@@ -408,7 +408,7 @@ function updatechart(){
   if (x.style.display === "none") {
     x.style.display = "block";
   }
-setTimeout(function(){
+//setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -436,5 +436,5 @@ setTimeout(function(){
 })
 console.log("i updated the chart")
 $('#loading').hide();
-}, 0.0001)
+//}, 0.0001)
 }

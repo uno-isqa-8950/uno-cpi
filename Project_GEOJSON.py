@@ -23,8 +23,8 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+                              database=settings.DATABASES['default']['NAME'])
+                              #sslmode="require")
 
 if (conn):
     cursor = conn.cursor()
@@ -34,7 +34,7 @@ else:
 
 logger.info("Get all the Community Partners from the Database")
 ##Get Projects from the database
-df_projects = pd.read_sql_query("select  project_name, pro.address_line1 as Address_Line1,\
+df_projects = pd.read_sql_query("select distinct project_name, pro.address_line1 as Address_Line1,\
 mis.mission_type, pro.description,pro.city as City, \
 pro.state as State, pro.zip as Zip ,pro.longitude as longitude, pro.latitude as latitude, \
 pro.legislative_district as legislative_district \
@@ -67,7 +67,7 @@ df = pd.read_sql_query("select pro.project_name, \
     left join projects_activitytype pa on pro.activity_type_id = pa.id \
     left join projects_engagementtype pe on pro.engagement_type_id = pe.id \
     left join projects_academicyear a on pro.academic_year_id = a.id \
-    left join projects_projectmission pp2 on pro.id = pp2.project_name_id \
+    left join projects_projectmission pp2 on pro.id = pp2.project_name_id and lower(pp2.mission_type)='primary' \
     join home_missionarea hm on pp2.mission_id = hm.id \
     left join partners_communitytype c on p.community_type_id = c.id \
     left join partners_cecpartnerstatus ces on p.cec_partner_status_id = ces.id",con=conn)
@@ -102,8 +102,6 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            print('property["properties"]--',property["properties"]["id"])
-            print('legislative_district--from database,',legislative_district)
             feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
     
     yearlist = []
@@ -144,7 +142,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 cursor.execute("select academic_year from projects_academicyear \
                     where id < (select id from projects_academicyear where academic_year = '"+str(end_academic_year[n])+"') \
                     and id > (select id from projects_academicyear where academic_year = '"+str(academicYear[n])+"')")
-                conn.commit()
+                #conn.commit()
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:
                     for obj in academicList:
@@ -165,8 +163,16 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
             if (engagementType[n] not in engagementTypeList):
                 engagementTypeList.append(engagementType[n])
 
-    print('yearlist--',yearlist)
-    feature['properties']['Project Name'] = Projectname
+    projname = ''
+    try:
+        ProjectFullname = Projectname.split(':')
+    except ValueError:
+        projname = ProjectFullname
+    else:
+        for i in range(0,len(ProjectFullname)-1):
+            projname += ProjectFullname[i]
+             
+    feature['properties']['Project Name'] = projname
     feature['properties']['Engagement Type'] = engagementTypeList
     feature['properties']['Activity Type'] = activityTypeList
     feature['properties']['Description'] = Description

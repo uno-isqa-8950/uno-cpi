@@ -435,15 +435,15 @@ color: #d71920;
         <div id='state-legend'>
             <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
-            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict"></select>
-            <select id="selectCommtype" class="selectCommtype"></select>
-            <select id="selectCollege" class="selectCollege"></select>
-            <select id="selectCampus" class="selectCampus"></select>
-            <select id="selectYear" class="selectYear"></select>
+            <select style="margin-top:10px;" onchange="filterData(this.id,false);" id="selectDistrict" class="selectDistrict"></select>
+            <select id="selectCommtype" onchange="filterData(this.id,false);" class="selectCommtype"></select>
+            <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
+            <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
+            <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
            
         </div>
          <div style="padding-top:10px;border-top: 1px solid grey;">
-                <input id='valueFilter' type='text' placeholder='Search Community Partner' />
+                <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
             </div>
         </div>
 

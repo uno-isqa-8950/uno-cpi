@@ -40,11 +40,11 @@ function updateCampus() {
 function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_partner_json,mission_subcategories_json,projects_json,max_yr_id,max_year,
                        academic_year,engagement_type, mission,comm_type, college_name,campus_partner,weitz_cec_part,legislative,community_partner  ) {
 
-    // if ( academic_year =='All' ) {
-    //
-    //     var projects_json = projects_json;
-    //
-    // }
+    if ( academic_year =='All' ) {
+
+        var projects_json = projects_json;
+
+    }
      if ( comm_type == 'All') {
         var community_partner_json = community_partner_json ;
     }
@@ -52,8 +52,8 @@ function  getchartdata(Missionarea,Collegenames,campus_partner_json,community_pa
     if (!not_set.includes(engagement_type)) {
         var projects_json = projects_json.filter(d => d.engagement_type.engagement_type_id === parseInt(engagement_type));
     }
-    // if (not_set.includes(academic_year) && academic_year!='All' ) {
-    if (not_set.includes(academic_year) ) {
+    if (not_set.includes(academic_year) && academic_year!='All' ) {
+
         var projects_json = projects_json.filter(d => d.years.includes(max_yr_id));
 
     }
@@ -312,12 +312,6 @@ var chart=Highcharts.chart('container', {
         type: 'networkgraph',
         zoomType: 'xy'
     },
-     boost: {
-                    enabled: true,
-                    seriesThreshold: 1,
-                    useGPUTranslations: true,
-                    usePreallocated: true,
-                },
     title: {
         text: "",
         style: {},
@@ -414,7 +408,7 @@ function updatechart(){
   if (x.style.display === "none") {
     x.style.display = "block";
   }
-setTimeout(function(){
+//setTimeout(function(){
     var academic_year =  $('#id_academicyear option:selected').val();
     var engagement_type = $('#id_engagement_type option:selected').val();
     var mission =  $('#id_mission option:selected').val();
@@ -442,5 +436,5 @@ setTimeout(function(){
 })
 console.log("i updated the chart")
 $('#loading').hide();
-}, 0.0001)
+//}, 0.0001)
 }

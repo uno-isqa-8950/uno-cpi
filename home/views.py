@@ -528,10 +528,8 @@ def primary_focus_topic_info(request):
 
     for obj in cursor.fetchall():
         comm_ids = obj[12]
-        print('comm_ids---',comm_ids)
 
         proj_ids = obj[10]
-        print('proj_ids---',proj_ids)
 
         proj_idList = ''
         comm_idList = ''
@@ -539,7 +537,7 @@ def primary_focus_topic_info(request):
         if proj_ids is not None:
             if None in proj_ids:
                 proj_ids.pop(-1)
-            print('project list --',len(proj_ids))
+
             name_count = 0
             if len(proj_ids) > 0:
                 for i in proj_ids:
@@ -551,7 +549,6 @@ def primary_focus_topic_info(request):
         if comm_ids is not None:
             if None in comm_ids:
                 comm_ids.pop(-1)
-            print('comm_ids list --',len(comm_ids))
 
             name_count = 0
             if len(comm_ids) > 0:
@@ -1109,7 +1106,6 @@ def project_partner_info_admin(request):
         cursor.execute(subCat_query_end)
         for sub_obj in cursor.fetchall():
             sub_proj_ids = sub_obj[2]
-            print ("sub proj ids ---- : ", sub_proj_ids)
             sub_proj_idList = ''
             sub_sum_uno_students = 0
             sub_sum_uno_hours = 0
@@ -1315,7 +1311,6 @@ def engagement_info(request):
                 group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp \
                 order by eng_type;"
 
-    print("Final query: ", query_end)
     # cursor.execute(sql.engagement_types_report_sql, params)
     cursor.execute(query_end)
     #cec_part_choices = CecPartChoiceForm()
@@ -1736,7 +1731,6 @@ def googlepartnerdata(request):
     data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID2.geojson')
     district = json.load(json_data)
-    print('sorted(map_json_data[1]---',sorted(map_json_data[1]))
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
                    'Missionlist': sorted(map_json_data[1]),
@@ -2012,9 +2006,7 @@ def issueaddress(request):
     min_yr_id=year_ids[2]
     max_year = year_names[1]
     min_year=year_names[2]
-    print(" max year ",max_year)
-    print(" min year ", min_year)
-
+    
     MissionObject = json.loads(charts_missions)
     user_role = request.user.is_superuser
     # print("super user ",user_role)
@@ -2139,15 +2131,12 @@ def read_project_content():
       project['no_k12_students_hrs'] = sheet.cell_value(i, 16)
       project['act_type'] = sheet.cell_value(i, 18)
 
-
-      print(str(project['name']), str(project['mission']))
       if str(project['name']) == 'Projects' and str(project['mission']) == 'Mission Areas':
         print('skip the header')
       else:
         total_proj_count = total_proj_count + 1
         projects.append(project)      
-  
-    print(str(total_proj_count), " read projects")
+
     return projects
 
 
@@ -2184,8 +2173,7 @@ def uploadProjectSub(request,pk):
     proj_nosubCat = 0
     total_project_count = 0
     cursor = connection.cursor()
-    print('index---',index)
-    print('len(projects)---',len(projects))
+
     startIndex = 0
     endIndex = 0
     if index is not None:
@@ -2194,8 +2182,7 @@ def uploadProjectSub(request,pk):
                 endIndex = startIndex + 100            
         else:
             endIndex = len(projects)        
-    print('startIndex',str(startIndex))
-    print('endIndex',str(endIndex))
+
     for i in range(startIndex,endIndex):
         x = projects[i]
         total_project_count = total_project_count + 1
@@ -2206,12 +2193,11 @@ def uploadProjectSub(request,pk):
         unoK12std = int(x['no_k12_students'])
         unok12Hrs = int(x['no_k12_students_hrs'])
         act_type = x['act_type']
-        print('before split mission_name --',mission_name)
         mission_name = str(mission_name).split(':')[1]
         #print('after split mission_name --',mission_name)
         proj_name = x['name']
         proj_name = str(proj_name).replace("'","''")
-        print('proj_name--',proj_name)
+
         subcat_name = x['subcat']
         subcat_name = str(subcat_name).replace("'","''")
         acd_yr = x['strt_acd_yr']
@@ -2254,7 +2240,6 @@ def uploadProjectSub(request,pk):
         subCatId = 0
         subMissnId = 0
         othersubCat = []
-        print('subcat_name--',subcat_name)
 
         if subcat_name is not None and subcat_name != '' and subcat_name != 'None':
                 
@@ -2275,18 +2260,13 @@ def uploadProjectSub(request,pk):
             and p.total_uno_students =" +str(unoStds)+ " and p.total_uno_hours ="+str(unostdHrs)+" \
             and p.total_k12_students = "+str(unoK12std)+"  and p.total_k12_hours = "+str(unok12Hrs)+"" 
            
-            print('select_proj---',select_proj)
             cursor.execute(select_proj)#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
-            print('proj_result--',proj_result)
             if proj_result is not None and len(proj_result) >0:
-                print('length of proj_result--',len(proj_result))
+
                 for obj in proj_result:
-                  print('project id --',obj[0])
                   projectId = obj[0]
                   othersubCat = obj[1]
-                  print('othersubCat--',othersubCat)
-                  print('projectId--',projectId)
 
                   if projectId !=0:
                         select_subcat = "select id from projects_subcategory where upper(sub_category) ='"+str(subcat_name).upper()+"'"
@@ -2296,24 +2276,20 @@ def uploadProjectSub(request,pk):
                             #print('subCatId --',obj[0])
                             subCatId = obj[0]
 
-                        print('subCatId -111-',subCatId)
                         if subCatId !=0:
                             select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id ="+str(subCatId)+""
                             #print('select_subcat_msn---',select_subcat_msn)
                             cursor.execute(select_subcat_msn)
                             for obj in cursor.fetchall():
-                                print('subMissnId --',obj[0])
                                 subMissnId = obj[0]
                         else:
                             select_other_subcat = "select id from projects_subcategory where upper(sub_category) ='OTHER'"
                             #print('select_other_subcat---',select_other_subcat)
                             cursor.execute(select_other_subcat)
                             for obj in cursor.fetchall():
-                                print('sub other cat id --',obj[0])
                                 subCatId = obj[0]
 
-                        print('subCatId -222-',subCatId)
-                        print('subMissnId--',subMissnId)
+
                         if subCatId != 0:
                             proj_subcatExist = "select id from projects_projectsubcategory \
                             where sub_category_id ="+str(subCatId)+" and project_name_id ="+str(projectId)

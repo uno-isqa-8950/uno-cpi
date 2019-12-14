@@ -141,9 +141,9 @@ align-self: flex-end;
                          Academic Years
                     </label>
                     <select id="id_academicyear" name="academic_year" onchange="updatechart()">
-                        {%  if user.is_superuser %}
-                        <option>All</option>
-                        {%  endif %}
+{#                        {%  if user.is_superuser %}#}
+{#                        <option>All</option>#}
+{#                        {%  endif %}#}
                         <option>
                             {% for sem in project_filter.form.academic_year %}
 {#                         <option value={{sem}} {% if sem == max_yr_id  %} selected {% endif %}>{{sem}}</option>#}
@@ -340,6 +340,7 @@ align-self: flex-end;
     {{ max_yr_id| json_script:"max_yr_id" }}
     {{ campus_filter| json_script:"campusfilter" }}
         <script src="https://code.highcharts.com/highcharts.src.js"></script>
+        <script src="https://code.highcharts.com/modules/boost.js"></script>
         <script src="https://code.highcharts.com/modules/networkgraph.js"></script>
         <script type="text/javascript" src='{% static "js/network.js" %}'></script>
     </div>

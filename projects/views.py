@@ -158,7 +158,6 @@ def saveProjectAndRegister(request):
     if engagement_type != '' and engagement_type is not None:
         project.engagement_type = EngagementType.objects.get(id=engagement_type)
 
-    print('activity_type--',activity_type)
     if activity_type != '' and activity_type != '0' and activity_type is not None:
         project.activity_type = ActivityType.objects.get(id=activity_type)
 
@@ -212,8 +211,7 @@ def saveProjectAndRegister(request):
 def saveFocusArea(request):
     selectedfocusarea = request.GET.get('focusarea')
     projectid = request.GET.get('projectId')
-    print('selected focus area ajax--', selectedfocusarea)
-    print('selected focus area ajax--', projectid)
+
     try:
         test = ProjectMission.objects.get(project_name_id=projectid, mission_type='Primary')
     except ProjectMission.DoesNotExist:
@@ -231,21 +229,16 @@ def saveFocusArea(request):
 
 def getEngagemetActivityList(request):
     selectedEngagement = request.GET.get('selectedEngagement')
-    print('selectedEngagement--',selectedEngagement)
     activityList = []
     if selectedEngagement is not None:
         engagementObj = EngagementType.objects.get(name=selectedEngagement)
-        print("engagemenet Id--",engagementObj.id)
         eng_act_obj = EngagementActivityType.objects.all().filter(EngagementTypeName=engagementObj)
-        print('eng_act_obj--',eng_act_obj)
         for act in eng_act_obj:
-            print('act obj---',act.ActivityTypeName)
             actObj = ActivityType.objects.get(name=act.ActivityTypeName)
             activityList.append( {"name": actObj.name, "id": actObj.id})
 
         
-    print('activityList---',activityList)
-    
+   
     data = {'activityList' : activityList}
     return JsonResponse(data)
 
@@ -277,9 +270,9 @@ def createProject(request):
                 project.k12_flag = False
             proj = project.save()
             project_name = proj.project_name.strip()
-            print(project_name)
+
             proj.project_name = project_name + ": " + str(proj.academic_year) + " (" + str(proj.id) + ")"
-            print(proj.project_name)
+
             eng = str(proj.engagement_type)
             address = proj.address_line1
             stat = str(proj.status)
@@ -301,7 +294,7 @@ def createProject(request):
                     cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
                     rows = cursor.fetchall()
                     for mission in rows:
-                        print(mission[0])
+
                         id = str(mission[0])
                         cursor = connection.cursor()
                         cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
@@ -509,7 +502,6 @@ def editProject(request, pk):
     sub_category_edit = inlineformset_factory(Project, ProjectSubCategory, extra=0, min_num=1, can_delete=True,
                                               form=AddSubCategoryForm)
     data_definition = DataDefinition.objects.all()
-    print('print input to edit')
 
     if request.method == 'POST':
         # cache.clear()
@@ -529,11 +521,9 @@ def editProject(request, pk):
                                                       prefix='sub_category_edit')
 
             if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
-                print('in valid')
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(
                     instances.academic_year) + " (" + pk + ")"
-                print (instances.project_name)
                 stat = str(instances.status)
                 if stat == 'Drafts':
                     instances.save()
@@ -557,15 +547,12 @@ def editProject(request, pk):
                         sc.project_name = instances
                         sc.save()
                         subcategory = str(sc.sub_category);
-                        print(subcategory)
                         cursor = connection.cursor()
                         cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
                         rows = cursor.fetchall()
-                        print(rows)
                         # print(rows[0])
                         # projmission = projectmission.save()
                         for mission in rows:
-                            print(mission[0])
                             id = str(mission[0])
                             # print(id)
                             cursor = connection.cursor()
@@ -670,15 +657,13 @@ def editProject(request, pk):
                         sc.project_name = instances
                         sc.save()
                         subcategory = str(sc.sub_category);
-                        print(subcategory)
                         cursor = connection.cursor()
                         cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
                         rows = cursor.fetchall()
-                        print(rows)
+
                         # print(rows[0])
                         # projmission = projectmission.save()
                         for mission in rows:
-                            print(mission[0])
                             id = str(mission[0])
                             # print(id)
                             cursor = connection.cursor()
@@ -743,16 +728,16 @@ def editProject(request, pk):
     else:
 
         proj_edit = Project.objects.get(id=pk)
-        print('proj_edit--', proj_edit)
+
         engagementObj = proj_edit.engagement_type
-        print('selected engagemenet type--', engagementObj)
+
         selectedActivity = proj_edit.activity_type
-        print('selected activity type--', selectedActivity)
+
         eng_act_obj = EngagementActivityType.objects.all().filter(EngagementTypeName=engagementObj)
-        print('eng_act_obj--', eng_act_obj)
+
         activityList = []
         for act in eng_act_obj:
-            print('act obj---', act.ActivityTypeName)
+
             actObj = ActivityType.objects.get(name=act.ActivityTypeName)
             # activityList.append({"name": actObj.name, "id": actObj.id})
             if str(actObj.name)== str(selectedActivity):
@@ -760,7 +745,7 @@ def editProject(request, pk):
                 activityList.append({"name": actObj.name, "id": actObj.id, "selected":selected})
             else:
                 activityList.append({"name": actObj.name, "id": actObj.id})
-        print (activityList)
+
             # for x in proj_edit:
         x = proj_edit
         project = ProjectForm2(request.POST or None, instance=x)
@@ -820,7 +805,7 @@ def editProject(request, pk):
 @login_required()
 def showAllProjects(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
-    print('selectedprojectId--',selectedprojectId)
+
     data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')
@@ -893,8 +878,7 @@ def showAllProjects(request):
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-    print("default_yr_id---", default_yr_id)
-    print ("max_yr ---", max_yr_id)
+
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
         academic_end_year_cond = int(default_yr_id)
@@ -906,8 +890,6 @@ def showAllProjects(request):
         academic_start_year_cond = int(academic_year_filter)
         academic_end_year_cond = int(academic_year_filter)
 
-    print("academic_start_year_cond----", academic_start_year_cond)
-    print("academic_end_year_cond---", academic_end_year_cond)
 
     K12_filter = request.GET.get('k12_flag', None)
     if K12_filter is None or K12_filter == "All" or K12_filter == '':
@@ -1044,19 +1026,15 @@ def showAllProjects(request):
 
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
-    print("CEC partner condition: ", cec_part_selection)
-
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
-            print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
                        params=None)
            # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "("+str(selectedprojectId)+")"
-            print('project_name_list--',projId)
             cursor.execute(sqlfiles.showSelectedProjects(projId),
                        params=None)
             #cursor.execute(sql.search_projects_sql,project_name_list)
@@ -1120,7 +1098,7 @@ def SearchForProjectAdd(request,pk):
 #New view for project public table and card view
 def projectstablePublicReport(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
-    print('selectedprojectId--',selectedprojectId)
+
     data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')
@@ -1341,18 +1319,17 @@ def projectstablePublicReport(request):
 
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
-    print("CEC partner condition: ", cec_part_selection)
 
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
-            print('project_name_list: ', str(tuple(project_name_list)))
+
             cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
                            params=None)
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
-            print('project_name_list--', projId)
+
             cursor.execute(sqlfiles.showSelectedProjects(projId),
                            params=None)
             # cursor.execute(sql.search_projects_sql,project_name_list)
@@ -1371,7 +1348,7 @@ def projectstablePublicReport(request):
         else:
             for i in Projectname:
                 name = name + str(i)
-        print("Project name ------ ", name)
+
         projects_list.append(
             {"name": name, "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
              "engagementType": obj[4], "academic_year": obj[5], "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
@@ -1396,10 +1373,9 @@ def projectsPublicReport(request):
     if proj_per_page is not None:
         proj_per_page_cnt = proj_per_page.description
 
-    print('proj_per_page_cnt--',proj_per_page_cnt)
 
     selectedprojectId = request.GET.get('proj_id_list', None)
-    print('selectedprojectId--',selectedprojectId)
+
     data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')
@@ -2328,7 +2304,6 @@ def communityPublicReport(request):
         cec_part_cond = 'Former'
 
     if comm_ids is not None:
-        print('list connn id --',len(comm_ids))
         params = []       
         if comm_ids.find(",") != -1:
             comm_list = comm_ids.split(",")
@@ -2350,7 +2325,6 @@ def communityPublicReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        print('project ids--',obj[6])
         proj_ids = obj[6]
         proj_idList = ''
         if proj_ids is not None:
@@ -2493,7 +2467,6 @@ def communityPrivateReport(request):
     cec_part_choices = OommCecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
-        print('proj ids--',obj[4])
         proj_ids = obj[4]
         proj_idList = ''
         sum_uno_students = 0
@@ -2594,8 +2567,7 @@ def checkProject(request):
         #  acad_id = str(acad)
         # # acad_id = [m.id for m in academic_filter_qs]
         #  print(acad_id)
-        print(academicYear)
-        print(sqlfiles.checkProjectsql(projectName, commpart_filter, campusPartner, academic_start_year_cond, academic_end_year_cond ))
+
         cursor = connection.cursor()
         cursor.execute(sqlfiles.checkProjectsql(projectName, commpart_filter, camp_filter, academic_start_year_cond,academic_end_year_cond ),
                        params=None)
@@ -2767,15 +2739,12 @@ def project_total_Add(request):
             proj_campus_form = formset3.save(commit=False)
             for k in proj_comm_form:
                 k.project_name = proj
-                print("in add comm")
-                print(k.project_name)
-                print(k.total_hours, k.total_people)
+
                 k.save()
 
             for cat in sub_cat_form:
                 cat.project_name = proj
-                print("in add sub category")
-                print(cat.project_name)
+
                 cat.save()
 
             for form in mission_form:
@@ -2796,15 +2765,12 @@ def project_total_Add(request):
             t = 0
             for c in proj_campus_form:
                 c.project_name = proj
-                print('totalhrs')
-                print(c.total_hours, c.total_people)
                 c.save()
                 # init = proj.total_uno_hours
                 t += c.total_hours * c.total_people
-                print(t)
                 proj.total_uno_hours = t
                 proj.save()
-                print(c.total_hours)
+
             projects_list = []
             camp_part_names = []
             p = 0

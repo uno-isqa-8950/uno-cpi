@@ -385,23 +385,27 @@ $(document).ready(function(){
     $("#id_endacademicyear").change(function () {
         var fromacademicyear=$("#id_academicyear").val();
         var toacademicyear=$("#id_endacademicyear").val();
-        if (toacademicyear<fromacademicyear ){
-            alert("Please Select To Academic Year Greater Than From AcademicYear");
-            $("#id_endacademicyear").val('')
-            $("#id_academicyear").val('')
+        if(fromacademicyear ==''){
+            var fromacademicyear={{min_yr_id}}
+
         }
-        if(fromacademicyear=''){}
+            if (toacademicyear < fromacademicyear) {
+                alert("Please Select Analysis End Year Greater Than or Equal to Analysis Start Year");
+                $("#id_endacademicyear").val('')
+                $("#id_academicyear").val('')
+            }
     })
     $("#id_academicyear").change(function () {
         var fromacademicyear=$("#id_academicyear").val();
         var toacademicyear=$("#id_endacademicyear").val();
-        if (toacademicyear!='') {
-            if (fromacademicyear > toacademicyear || toacademicyear<fromacademicyear) {
-                alert("Please Select From Academic Year Lower Than To AcademicYear");
+        if(toacademicyear == '' ){
+            var toacademicyear={{max_yr_id}}
+        }
+         if (fromacademicyear > toacademicyear) {
+                alert("Please Select Analysis Start Year Lower Than or Equal to Analysis End Year");
                 $("#id_endacademicyear").val('')
                 $("#id_academicyear").val('')
             }
-        }
     })
     </script>
 {% endblock %}

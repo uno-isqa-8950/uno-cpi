@@ -102,7 +102,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Community organization Types" ' + 'class="selectCommType"' + 'value="' + 'All Community organization Types"' + 'onclick="filterData(this.id, true)"'+'><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community organization Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community organization Types" ' + 'class="selectCommType"' + 'value="' + 'All Community organization Types"' + 'onclick="filterData(this.id, true)"'+'><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Organization Types</b></a>' + "<br>";
 for (var i = 0; i < CommunityType.length; i++) {
     var commType = CommunityType[i];
     var color = colorCodeObject[commType];

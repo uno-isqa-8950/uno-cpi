@@ -55,7 +55,7 @@ join projects_status ps on ps.id = pro.status_id and ps.name != 'Drafts' \
 where \
 (pro.address_line1 not in ('','NA','N/A','None') \
 and pro.city not in ('','NA','N/A','None') and pro.state not in ('','NA','N/A','None')) \
-and (pro.longitude is null or pro.longitude is null or pro.legislative_district is null \
+and (pro.longitude is null or pro.latitude is null \
 or pro.address_update_flag = 't') \
 and lower(mis.mission_type)='primary'",con=conn)
 print('before checking project query')

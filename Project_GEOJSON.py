@@ -23,8 +23,8 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               password=settings.DATABASES['default']['PASSWORD'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
-                              database=settings.DATABASES['default']['NAME'])
-                              #sslmode="require")
+                              database=settings.DATABASES['default']['NAME'],
+                              sslmode="require")
 
 if (conn):
     cursor = conn.cursor()
@@ -45,7 +45,7 @@ where \
 (pro.address_line1 not in ('','NA','N/A') \
 or pro.city not in ('','NA','N/A') or pro.state not in ('','NA','N/A')) \
 and pro.longitude is not null \
-and pro.longitude is not null \
+and pro.latitude is not null \
 and ps.name != 'Drafts' \
 and lower(mis.mission_type)='primary'",con=conn)
 

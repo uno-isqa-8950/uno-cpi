@@ -57,7 +57,7 @@ dfCommunity = pd.read_sql_query(
     pc.city not in ('','NA','N/A','None') and \
     pc.state not in ('','NA','N/A','None')) \
     and (pc.latitude is null or pc.longitude is null \
-    or pc.legislative_district is null or pc.address_update_flag = 't' ) \
+    or pc.address_update_flag = 't' ) \
     and lower(p.mission_type) = 'primary'",con=conn)
 
 print(repr(len(dfCommunity)) +" Partners fetched from the Database on " + str(currentDT))
@@ -66,6 +66,7 @@ if len(dfCommunity) == 0:
     logger.critical("No Community Partners fetched from the Database while updating lang and lng on " + str(currentDT))
 else:
     cursor = conn.cursor()
+    #print('project name',dfCommunity['Community_Partner'])
     logger.info(repr(len(dfCommunity)) + "Community Partners are in the Database while updating lang and lng on " + str(currentDT))
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)

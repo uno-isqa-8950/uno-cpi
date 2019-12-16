@@ -7,16 +7,16 @@ import os
 
 import Update_Partner, Update_Project
 
-sched = BlockingScheduler()
-sched1 = BackgroundScheduler()
+#sched = BlockingScheduler()
+#sched1 = BackgroundScheduler()
 # Initializing the sql files
 sql = sqlfiles
 logger=logging.getLogger("UNO CPI Application update database Batch job")
 
 #
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=3)
+#@sched.scheduled_job('cron', day_of_week='mon-sun', hour=3)
 
-def scheduled_job():
+def main():
     print('This job is ran every Sunday at 4 AM GMT/ 11 PM CDT.')
     updateProject = 'python Update_Project.py'
 
@@ -89,4 +89,4 @@ def scheduled_job():
             print("Postgres SQL connection is closed")
 
 
-sched.start()
+main()

@@ -7,16 +7,16 @@ import os
 
 import Project_GEOJSON,Partner_GEOJSON
 
-sched = BlockingScheduler()
-sched1 = BackgroundScheduler()
+#sched = BlockingScheduler()
+#sched1 = BackgroundScheduler()
 # Initializing the sql files
 
 logger=logging.getLogger("UNO CPI Application Create MAPS json Batch job")
 
 #
-@sched.scheduled_job('cron', day_of_week='mon-sun', hour=1)
+#@sched.scheduled_job('cron', day_of_week='mon-sun', hour=1)
 
-def scheduled_job():
+def main():
     print('This job is ran every day at 1:30 AM CST/ 12:30 AM CDT.')
     project = 'python Project_GEOJSON.py'
     partner = 'python Partner_GEOJSON.py'
@@ -30,4 +30,4 @@ def scheduled_job():
     os.system(partner)
     print("End create partner geo json script")     
 
-sched.start()
+main()

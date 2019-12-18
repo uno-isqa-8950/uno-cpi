@@ -57,7 +57,7 @@ def myProjects(request):
     #camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
     #proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
     #project_ids = [project.project_name_id for project in proj_camp]
-    getProjectIds = "select project.id \
+    getProjectIds = "select distinct project.id \
      from \
      projects_project as project, \
      projects_projectcampuspartner as projectcampus \

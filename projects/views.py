@@ -53,11 +53,28 @@ def communitypartnerhome(request):
 def myProjects(request):
     projects_list=[]
     data_definition=DataDefinition.objects.all()
-    camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
-    camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
-    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
-    project_ids = [project.project_name_id for project in proj_camp]
+    #camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
+    #camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
+    #proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
+    #project_ids = [project.project_name_id for project in proj_camp]
+    getProjectIds = "select project.id \
+     from \
+     projects_project as project, \
+     projects_projectcampuspartner as projectcampus \
+     where \
+     projectcampus.campus_partner_id in \
+     (select pc.id from partners_campuspartner pc, partners_campuspartneruser as cu \
+     where pc.id = cu.campus_partner_id \
+     and cu.user_id = "+str(request.user.id)+" \
+     ) \
+     and projectcampus.project_name_id = project.id"
+
     cursor = connection.cursor()
+    #print('getProjectIds---',getProjectIds)
+    cursor.execute(getProjectIds)
+    projectIdResult = cursor.fetchall()
+    project_ids = [obj[0] for obj in projectIdResult]
+    #print('project_ids---',project_ids)
     cursor.execute(sql.my_projects, [project_ids])
     for obj in cursor.fetchall():
         projects_list.append(
@@ -72,7 +89,7 @@ def myProjects(request):
                 , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
              "campus_lead_staff": obj[24],
              "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category":obj[27]})
-
+    cursor.close()
     return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition':data_definition})
 
 @login_required()
@@ -308,47 +325,7 @@ def createProject(request):
                     c.project_name = proj
                     c.save()
                     proj.save()
-                projects_list = []
-                camp_part_names = []
-                p = 0
-                # Get the campus partner id related to the user
-                camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-                for c in camp_part_user:
-                    p = c.campus_partner_id
-                # get all the project names base on the campus partner id
-                proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-                for f in proj_camp:
-                    k = list(Project.objects.filter(id=f.project_name_id))
-                    for x in k:
-                        projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                        sub = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
-                        cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                        proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-                        for proj_camp_par in proj_camp_par:
-                            camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                            camp_part_names.append(camp_part)
-                        list_camp_part_names = camp_part_names
-                        camp_part_names = []
-                        data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                'activityType': x.activity_type, 'academic_year': x.academic_year,
-                                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                                'description': x.description,
-                                'startDate': x.start_date,
-                                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                                'total_uno_hours': x.total_uno_hours,
-                                'total_k12_students': x.total_k12_students,
-                                'total_k12_hours': x.total_k12_hours,
-                                'total_uno_faculty': x.total_uno_faculty,
-                                'total_other_community_members': x.total_other_community_members,
-                                'outcomes': x.outcomes,
-                                'total_economic_impact': x.total_economic_impact,
-                                'campus_lead_staff': x.campus_lead_staff,
-                                'other_activity_type': x.other_activity_type,
-                                'projmisn': projmisn, 'cp': cp,
-                                'sub': sub,
-                                'camp_part': list_camp_part_names,
-                                }
-                        projects_list.append(data)
+                
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
@@ -414,45 +391,7 @@ def createProject(request):
                     c.save()
                     proj.save()
 
-                projects_list = []
-                camp_part_names = []
-                p = 0
-                # Get the campus partner id related to the user
-                camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-                for c in camp_part_user:
-                    p = c.campus_partner_id
-                # get all the project names base on the campus partner id
-                proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-                for f in proj_camp:
-                    k = list(Project.objects.filter(id=f.project_name_id))
-                    for x in k:
-                        projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                        sub = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
-                        cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                        proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-                        for proj_camp_par in proj_camp_par:
-                            camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                            camp_part_names.append(camp_part)
-                        list_camp_part_names = camp_part_names
-                        camp_part_names = []
-                        data = {'pk': x.pk, 'name': x.project_name, 'engagementType': x.engagement_type,
-                                'activityType': x.activity_type, 'academic_year': x.academic_year,
-                                'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                                'description': x.description,
-                                'startDate': x.start_date,
-                                'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                                'total_uno_hours': x.total_uno_hours,
-                                'total_k12_students': x.total_k12_students,
-                                'total_k12_hours': x.total_k12_hours,
-                                'total_uno_faculty': x.total_uno_faculty,
-                                'total_other_community_members': x.total_other_community_members,
-                                'outcomes': x.outcomes, 'other_activity_type': x.other_activity_type,
-                                'total_economic_impact': x.total_economic_impact,
-                                'campus_lead_staff': x.campus_lead_staff, 'projmisn': projmisn, 'cp': cp,
-                                'sub': sub,
-                                'camp_part': list_camp_part_names,
-                                }
-                        projects_list.append(data)
+                
                     # return render(request, 'projects/adminconfirmAddProject.html', {'project': projects_list})
             if request.user.is_superuser == True:
                 return HttpResponseRedirect('/adminsubmit_project_done')
@@ -557,58 +496,9 @@ def editProject(request, pk):
                             # print(id)
                             cursor = connection.cursor()
                             cursor.execute(sqlfiles.createproj_addothermission(id, str(pk)), params=None)
-                    projects_list = []
-                    camp_part_names = []
-                    course_list = []
-                    # Get the campus partner id related to the user
-                    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-                    for c in camp_part_user:
-                        p = c.campus_partner_id
-
-                        # get all the project names base on the campus partner id
-                        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-                        for f in proj_camp:
-                            k = list(Project.objects.filter(id=f.project_name_id))
-
-                            tot_hours = 0
-                            for x in k:
-
-                                # projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                                proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-                                subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
-                                for proj_camp_par in proj_camp_par:
-                                    camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                                    # tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
-                                    # total_project_hours += proj_camp_par.total_hours
-                                    # x.total_uno_hours = tot_hours
-                                    # x.total_uno_students += proj_camp_par.total_people
-                                    x.save()
-                                    camp_part_names.append(camp_part)
-                            list_camp_part_names = camp_part_names
-                            camp_part_names = []
-
-                            data = {'pk': x.pk, 'name': x.project_name.split(":")[0],
-                                    'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
-                                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                                    'description': x.description,
-                                    'startDate': x.start_date,
-                                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                                    'total_uno_hours': x.total_uno_hours,
-                                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                                    'total_uno_faculty': x.total_uno_faculty,
-                                    'other_activity_type': x.other_activity_type,
-                                    'total_other_community_members': x.total_other_community_members,
-                                    'outcomes': x.outcomes,
-                                    'total_economic_impact': x.total_economic_impact, 'cp': cp,
-                                    'subc': subc,
-                                    'camp_part': list_camp_part_names,
-                                    }
-
-                            projects_list.append(data)
-
-                    return HttpResponseRedirect("/myDrafts")
+                    
+                    #return HttpResponseRedirect("/myDrafts")
+                    return HttpResponseRedirect('/draft-project-done')
                 else:
                     address = instances.address_line1
                     if (address != 'N/A' and address != ''): # check if a community partner's address is there
@@ -668,61 +558,13 @@ def editProject(request, pk):
                             # print(id)
                             cursor = connection.cursor()
                             cursor.execute(sqlfiles.createproj_addothermission(id, str(pk)), params=None)
-                    projects_list = []
-                    camp_part_names = []
-                    course_list = []
-                    # Get the campus partner id related to the user
-                    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-                    for c in camp_part_user:
-                        p = c.campus_partner_id
-
-                        # get all the project names base on the campus partner id
-                        proj_camp = list(ProjectCampusPartner.objects.filter(campus_partner_id=p))
-                        for f in proj_camp:
-                            k = list(Project.objects.filter(id=f.project_name_id))
-
-                            tot_hours = 0
-                            for x in k:
-
-                                # projmisn = list(ProjectMission.objects.filter(project_name_id=x.id))
-                                cp = list(ProjectCommunityPartner.objects.filter(project_name_id=x.id))
-                                proj_camp_par = list(ProjectCampusPartner.objects.filter(project_name_id=x.id))
-                                subc = list(ProjectSubCategory.objects.filter(project_name_id=x.id))
-                                for proj_camp_par in proj_camp_par:
-                                    camp_part = CampusPartner.objects.get(id=proj_camp_par.campus_partner_id)
-                                    # tot_hours += proj_camp_par.total_hours * proj_camp_par.total_people
-                                    # total_project_hours += proj_camp_par.total_hours
-                                    # x.total_uno_hours = tot_hours
-                                    # x.total_uno_students += proj_camp_par.total_people
-                                    x.save()
-                                    camp_part_names.append(camp_part)
-                            list_camp_part_names = camp_part_names
-                            camp_part_names = []
-
-                            data = {'pk': x.pk, 'name': x.project_name.split(":")[0],
-                                    'engagementType': x.engagement_type,
-                                    'activityType': x.activity_type, 'academic_year': x.academic_year,
-                                    'facilitator': x.facilitator, 'semester': x.semester, 'status': x.status,
-                                    'description': x.description,
-                                    'startDate': x.start_date,
-                                    'endDate': x.end_date, 'total_uno_students': x.total_uno_students,
-                                    'total_uno_hours': x.total_uno_hours,
-                                    'total_k12_students': x.total_k12_students, 'total_k12_hours': x.total_k12_hours,
-                                    'total_uno_faculty': x.total_uno_faculty,
-                                    'total_other_community_members': x.total_other_community_members,
-                                    'outcomes': x.outcomes, 'other_activity_type': x.other_activity_type,
-                                    'total_economic_impact': x.total_economic_impact,
-                                    # 'projmisn': projmisn,
-                                    'cp': cp,
-                                    'subc': subc,
-                                    'camp_part': list_camp_part_names,
-                                    }
-
-                            projects_list.append(data)
+                    
                 if request.user.is_superuser == True:
-                    return HttpResponseRedirect('/allProjects')
+                    #return HttpResponseRedirect('/allProjects')
+                    return HttpResponseRedirect('/adminsubmit_project_done')
                 else:
-                    return HttpResponseRedirect('/myProjects')
+                    #return HttpResponseRedirect('/myProjects')
+                    return HttpResponseRedirect('/submit-project-done')
 
 
     else:

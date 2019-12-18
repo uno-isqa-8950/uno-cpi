@@ -1331,6 +1331,10 @@ if (stepNumber === 1) {
             'focusarea': document.getElementById("id_mission_area").value,
             'projectId':document.getElementById('id_projectId').value
         },
+        dataType: 'json',
+        success: function (data) {
+           console.log(data)
+        }
     });
        }
     });

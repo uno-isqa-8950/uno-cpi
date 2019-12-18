@@ -211,7 +211,7 @@ def saveProjectAndRegister(request):
 def saveFocusArea(request):
     selectedfocusarea = request.GET.get('focusarea')
     projectid = request.GET.get('projectId')
-
+    print('selectedfocusarea--',selectedfocusarea)
     try:
         test = ProjectMission.objects.get(project_name_id=projectid, mission_type='Primary')
     except ProjectMission.DoesNotExist:
@@ -224,8 +224,8 @@ def saveFocusArea(request):
         cursor = connection.cursor()
         cursor.execute(sqlfiles.editproj_addprimarymission(str(selectedfocusarea), str(projectid)), params=None)
 
-
-    return projectid
+    data = {'projectid' : projectid}
+    return JsonResponse(data)
 
 def getEngagemetActivityList(request):
     selectedEngagement = request.GET.get('selectedEngagement')

@@ -75,14 +75,12 @@ border-bottom: 4px solid #e22626;
         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-globe"></span> Register <span class="caret"></span></a>
 
       </li>
-      {% endif %}
-
-      {% if user.is_authenticated %}
-      <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li>
-      {% else %}
-      <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-      {% endif %}
-    </ul>
+                    {% endif %} {% if user.is_authenticated %} {% if 'unomaha.edu' in user.email %}
+                    <li><a class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a></li> {% else %}
+                    <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li> {% endif %} {% else %}
+                    <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    {% endif %}
+                </ul>
 
 
 

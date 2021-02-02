@@ -198,11 +198,11 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        {% if not user.is_superuser  %}
-                            <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
-                            <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
-                        {% endif %}
-                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
+                        {% if not user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
+                        <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a> {% endif %} {% if 'unomaha.edu' in user.email or 'UNOMAHA.EDU' in user.email %}
+                        <a class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>{% endif %}
                     </div>
                 </li>
             {% else %}

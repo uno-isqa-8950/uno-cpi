@@ -54,8 +54,7 @@ def user_login(request):
             user = None
             emailInput = cd['email']
             print(samlDict.items())
-            #saml_idp = samlDict[emailDomain]
-            
+            #saml_idp = samlDict[emailDomain]            
             #print('saml_idp--',samlDict[emailDomain])
             if emailDomain in samlDict:
                 print('emaildomain check--',emailDomain)  

@@ -25,18 +25,21 @@ samlDict = {
 }
 # Create your views here.
 def verifySamlSettingJson():
-
+    setupJson = "false"
     jsonFile = open(settings.SAML_FOLDER+"/settings.json", "r") # Open the JSON file for reading
     data = json.load(jsonFile) # Read the JSON into the buffer
     jsonFile.close() # Close the JSON file
 
     saml_host = settings.SAML_HOST_URL
+    print('saml_host--'+saml_host)
     data['sp']['assertionConsumerService']['url'] = saml_host+'account/?acs'
     data['sp']['singleLogoutService']['url'] = saml_host+'account/?sls'
 
     jsonFile = open(settings.SAML_FOLDER+"/settings.json", "w+")
     jsonFile.write(json.dumps(data))
-    jsonFile.close()  
+    jsonFile.close() 
+    setupJson = "true" 
+    return setupJson 
 
 
 def user_login(request):
@@ -62,8 +65,10 @@ def user_login(request):
                 saml_idp = samlDict[emailDomain]
                 print('saml_idp--',saml_idp)
                 settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
-                if (settings.APP_ENV != 'PROD'):
-                    verifySamlSettingJson()
+                print('settings.APP_ENV--'+settings.APP_ENV)
+                if (settings.APP_ENV is not 'PROD'):
+                    setupJson = verifySamlSettingJson()
+                print('setupJson--'+setupJson)
 
                 return redirect(settings.SAML_HOST_URL+"account/?sso")
 

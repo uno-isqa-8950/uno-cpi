@@ -1,8 +1,1 @@
-libxml2-dev
-libxml2
 libxmlsec1-dev
-libxmlsec1
-libxmlsec1-openssl
-build-essential
-libxml2-utils
-xmlsec1

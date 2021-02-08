@@ -38,3 +38,4 @@ django-session-security==2.6.5
 
 pylibmc==1.5.1
 pytest
+python3-saml

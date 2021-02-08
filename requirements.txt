@@ -38,3 +38,4 @@ pylibmc==1.5.1
 pytest
 xmlsec
 python3-saml
+xlrd==2.0.1

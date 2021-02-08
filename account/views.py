@@ -69,6 +69,7 @@ def user_login(request):
                 if (settings.APP_ENV is not 'PROD'):
                     setupJson = verifySamlSettingJson()
                 print('setupJson--'+setupJson)
+                print('settings.SAML_FOLDER--'+settings.SAML_FOLDER)
 
                 return redirect(settings.SAML_HOST_URL+"account/?sso")
 

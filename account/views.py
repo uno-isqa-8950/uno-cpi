@@ -234,6 +234,7 @@ def index(request):
 
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
+        print("errors-111-",errors)
         not_auth_warn = not auth.is_authenticated()
 
         if not errors:
@@ -249,6 +250,7 @@ def index(request):
                     if checkEmail:
                         return redirectUNOUser(request,unoAtt[x])
         else:
+            print("errors-222-",errors)
             redirectUNOUser(request,None)
         
     elif 'sls' in req['get_data']:

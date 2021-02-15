@@ -16,6 +16,7 @@ from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from home.models import *
 import os
 import json 
+import re
 
 
 samlDict = {
@@ -25,6 +26,7 @@ samlDict = {
 }
 # Create your views here.
 def verifySamlSettingJson():
+
     setupJson = "false"
     jsonFile = open(settings.SAML_FOLDER+"/settings.json", "r") # Open the JSON file for reading
     data = json.load(jsonFile) # Read the JSON into the buffer
@@ -39,7 +41,7 @@ def verifySamlSettingJson():
     jsonFile.write(json.dumps(data))
     jsonFile.close() 
     setupJson = "true" 
-    return setupJson 
+    return setupJson
 
 
 def user_login(request):
@@ -57,8 +59,7 @@ def user_login(request):
             user = None
             emailInput = cd['email']
             print(samlDict.items())
-            #saml_idp = samlDict[emailDomain]            
-            #print('saml_idp--',samlDict[emailDomain])
+
             if emailDomain in samlDict:
                 print('emaildomain check--',emailDomain)  
                 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
@@ -69,8 +70,6 @@ def user_login(request):
                 if (settings.APP_ENV is not 'PROD'):
                     setupJson = verifySamlSettingJson()
                 print('setupJson--'+setupJson)
-                print('settings.SAML_FOLDER--'+settings.SAML_FOLDER)
-
                 return redirect(settings.SAML_HOST_URL+"account/?sso")
 
             else:
@@ -169,6 +168,26 @@ def prepare_django_request(request):
     }
     return result
 
+def isValidEmail(emailAdd):
+    print("emailAdd--", emailAdd)
+    emailAddVal = ""
+    validEmailAdd = False
+
+    if(emailAdd is not None):
+        emailAddVal =  emailAdd[0]
+    
+    regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
+    if(re.search(regex,emailAddVal)):  
+        print("Valid Email")  
+        if(emailAdd != 'alumni@unomaha.edu'):
+            validEmailAdd = True
+        else:
+            validEmailAdd = False
+    else:  
+        print("Invalid Email") 
+        validEmailAdd = False
+    return validEmailAdd
+
 
 def index(request):
     req = prepare_django_request(request)
@@ -208,6 +227,7 @@ def index(request):
         # request.session['LogoutRequestID'] = auth.get_last_request_id()
         #return HttpResponseRedirect(slo_built_url)
     elif 'acs' in req['get_data']:
+
         request_id = None
         if 'AuthNRequestID' in request.session:
             request_id = request.session['AuthNRequestID']
@@ -220,21 +240,19 @@ def index(request):
             if 'AuthNRequestID' in request.session:
                 del request.session['AuthNRequestID']
 
-            #emailDomain = 'unomaha.edu'
-            nameKey = 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6'
             if auth.get_attributes() is not None:
                 unoAtt = auth.get_attributes()
-                userEmail = unoAtt[nameKey]
-                return redirectUNOUser(request,userEmail)
+                for x in unoAtt:
+                    print("userEmail--",unoAtt[x])
+                    checkEmail = isValidEmail(unoAtt[x])
+                    print("checkEmail--",checkEmail)
+                    if checkEmail:
+                        return redirectUNOUser(request,unoAtt[x])
         else:
             redirectUNOUser(request,None)
-        '''    
-        elif auth.get_settings().is_debug_active():
-                error_reason = auth.get_last_error_reason()
-        '''
+        
     elif 'sls' in req['get_data']:
         print('in sls--')
-        #logout(request)
         
         request_id = None
         if 'LogoutRequestID' in request.session:

@@ -229,6 +229,7 @@ def index(request):
     elif 'acs' in req['get_data']:
 
         request_id = None
+        print(" current url--", OneLogin_Saml2_Utils.get_self_url_no_query(req))
         if 'AuthNRequestID' in request.session:
             request_id = request.session['AuthNRequestID']
 

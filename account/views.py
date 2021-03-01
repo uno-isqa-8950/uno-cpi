@@ -55,23 +55,20 @@ def user_login(request):
             
             print('print email--',emailInput)
             print('print emailDomain--',emailDomain)
-            print('print password--',cd['password'])
+
             user = None
             emailInput = cd['email']
-            print(samlDict.items())
 
             if emailDomain in samlDict:
                 print('emaildomain check--',emailDomain)  
                 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
                 saml_idp = samlDict[emailDomain]
-                print('saml_idp--',saml_idp)
                 settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
                 print('settings.APP_ENV--'+settings.APP_ENV)
                 if (settings.APP_ENV is not 'PROD'):
                     setupJson = verifySamlSettingJson()
                 print('setupJson--'+setupJson)
                 return redirect(settings.SAML_HOST_URL+"account/?sso")
-
             else:
                 user = authenticate(request, email=cd['email'], password=cd['password'])
 
@@ -114,7 +111,6 @@ def logout_view(request):
 
 
 def redirectUNOUser(request,key):
-
     if key is not None:
         useremail = key[0]
         try:
@@ -124,24 +120,19 @@ def redirectUNOUser(request,key):
 
         if user is not None:
             if user.is_campuspartner:
-                print('user.is_campuspartner--',user.is_campuspartner)
                 login(request, user)
                 response = redirect('/myProjects')
-                print('response--',response)
                 return response
             elif user.is_communitypartner:
-                print('user.is_communitypartner--',user.is_communitypartner)
                 login(request, user)
                 response = redirect('/communitypartnerproject')
                 return response
             elif user.is_superuser:
-                print('user.is_superuser--',user.is_superuser)
                 login(request, user)
                 response = redirect('/Admin-Home')
                 return response
         else:
-            print('User is not enrolled as campus partner')
-            messages.error(request, 'User is not enrolled as campus partner')
+            messages.error(request, 'User is not enrolled as CEPI User.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
         print('Error in SAML response, try again with valid credentials.')
@@ -159,7 +150,9 @@ def prepare_django_request(request):
         'https': 'on' if request.is_secure() else 'off',
         'http_host': request.META['HTTP_HOST'],
         'script_name': request.META['PATH_INFO'],
-        'server_port': '443',#request.META['SERVER_PORT'],
+        #'server_port': request.META['SERVER_PORT'], # uncomment this line for local run
+        'server_port': '443', # uncomment this line for dev, cat and prod env.
+        'server_port': request.META['SERVER_PORT'],
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy(),
         # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
@@ -178,11 +171,8 @@ def isValidEmail(emailAdd):
     
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
     if(re.search(regex,emailAddVal)):  
-        print("Valid Email")  
-        if(emailAdd != 'alumni@unomaha.edu'):
-            validEmailAdd = True
-        else:
-            validEmailAdd = False
+        print("Valid Email")
+        validEmailAdd = True          
     else:  
         print("Invalid Email") 
         validEmailAdd = False
@@ -206,7 +196,6 @@ def index(request):
         return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('attrs')
         return HttpResponseRedirect(auth.login(return_to))
     elif 'slo' in req['get_data']:
-        print('in slo--')
         name_id = session_index = name_id_format = name_id_nq = name_id_spnq = None
         if 'samlNameId' in request.session:
             name_id = request.session['samlNameId']
@@ -218,7 +207,6 @@ def index(request):
             name_id_nq = request.session['samlNameIdNameQualifier']
         if 'samlNameIdSPNameQualifier' in request.session:
             name_id_spnq = request.session['samlNameIdSPNameQualifier']
-        print('in slo-22-')
         logout(request)
         return HttpResponseRedirect(auth.logout(name_id=name_id, session_index=session_index, nq=name_id_nq, name_id_format=name_id_format, spnq=name_id_spnq))
 
@@ -229,13 +217,12 @@ def index(request):
     elif 'acs' in req['get_data']:
 
         request_id = None
-        print(" current url--", OneLogin_Saml2_Utils.get_self_url_no_query(req))
         if 'AuthNRequestID' in request.session:
             request_id = request.session['AuthNRequestID']
 
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
-        print("errors-111-",errors)
+        print("errors-in saml response-",errors)
         not_auth_warn = not auth.is_authenticated()
 
         if not errors:
@@ -244,29 +231,23 @@ def index(request):
 
             if auth.get_attributes() is not None:
                 unoAtt = auth.get_attributes()
-                for x in unoAtt:
-                    print("userEmail--",unoAtt[x])
-                    checkEmail = isValidEmail(unoAtt[x])
-                    print("checkEmail--",checkEmail)
-                    if checkEmail:
-                        return redirectUNOUser(request,unoAtt[x])
+                userEmail = unoAtt['urn:oid:0.9.2342.19200300.100.1.3']
+                print("user email--",userEmail)
+                checkEmail = isValidEmail(userEmail)
+                if checkEmail:
+                    return redirectUNOUser(request,userEmail)                
         else:
-            print("errors-222-",errors)
+            print("errors-in saml response--",errors)
             redirectUNOUser(request,None)
         
     elif 'sls' in req['get_data']:
-        print('in sls--')
         
         request_id = None
         if 'LogoutRequestID' in request.session:
             request_id = request.session['LogoutRequestID']
-        print('in sls--11')
         dscb = lambda: request.session.flush()
-        print('in sls--22',request_id)
         url = auth.process_slo(request_id=request_id, delete_session_cb=dscb)
-        print('url--',url)
         errors = auth.get_errors()
-        print('errors--',errors)
         if len(errors) == 0:
             if url is not None:
                 return HttpResponseRedirect(url)

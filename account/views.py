@@ -152,7 +152,6 @@ def prepare_django_request(request):
         'script_name': request.META['PATH_INFO'],
         #'server_port': request.META['SERVER_PORT'], # uncomment this line for local run
         'server_port': '443', # uncomment this line for dev, cat and prod env.
-        'server_port': request.META['SERVER_PORT'],
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy(),
         # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144

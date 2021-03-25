@@ -48,7 +48,6 @@ def user_login(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
         if form.is_valid():
-            #emailDomain = 'unomaha.edu'
             cd = form.cleaned_data
             emailInput = cd['email']
             emailDomain = emailInput.split('@')[1]
@@ -58,20 +57,32 @@ def user_login(request):
 
             user = None
             emailInput = cd['email']
-
+            # check if email domain exists in dict, perform user validation and redirect to SSO else perform app authentication
             if emailDomain in samlDict:
                 print('emaildomain check--',emailDomain)  
-                BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
-                saml_idp = samlDict[emailDomain]
-                settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
-                print('settings.APP_ENV--'+settings.APP_ENV)
-                if (settings.APP_ENV is not 'PROD'):
-                    setupJson = verifySamlSettingJson()
-                print('setupJson--'+setupJson)
-                return redirect(settings.SAML_HOST_URL+"account/?sso")
+                #check if email id exists in CEPI database 
+                try:
+                    user = get_user_model().objects.get(email=emailInput)
+                except get_user_model().DoesNotExist:
+                    user = None
+                # redirect valid user to SSO page else redirect to login page with error message
+                if user is not None:
+                    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+                    saml_idp = samlDict[emailDomain]
+                    # set the appropriate SAML folder based on required IDP for respective email domain
+                    settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
+                    print('settings.APP_ENV--'+settings.APP_ENV)
+                    # reassign the url in settings json based on enviornment running on, 
+                    # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
+                    setupJson = verifySamlSettingJson()                    
+                    print('setupJson--'+setupJson)
+                    return redirect(settings.SAML_HOST_URL+"account/?sso")
+                else:
+                    messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
+                    return render(request, 'registration/login.html', {'form': form})
             else:
                 user = authenticate(request, email=cd['email'], password=cd['password'])
-
+                
             if user is not None:
                 if user.is_campuspartner:
                     login(request, user)
@@ -86,7 +97,7 @@ def user_login(request):
                     response = redirect('/Admin-Home')
                     return response
             else:
-                messages.error(request, 'Email or Password is incorrect')
+                messages.error(request, 'Email or Password is incorrect or contact system administration.')
                 return render(request, 'registration/login.html', {'form': form})
                 #return HttpResponse('Invalid Credentials')
     else:
@@ -132,11 +143,11 @@ def redirectUNOUser(request,key):
                 response = redirect('/Admin-Home')
                 return response
         else:
-            messages.error(request, 'User is not enrolled as CEPI User.')
+            messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
-        print('Error in SAML response, try again with valid credentials.')
-        messages.error(request, 'Error in SAML response, try again with valid credentials.')
+        print('Error in SAML response, Please ccontact system administration.')
+        messages.error(request, 'Error in SAML response, Please ccontact system administration.')
         return render(request,'registration/login.html', {'form': LoginForm()})
 
 

@@ -267,7 +267,6 @@ def orgProfile(request):
         #     mission['mission_area'] = str(MissionArea.objects.only('mission_name').get(id = mission['mission_area_id']))
 
         return render(request, 'partners/community_partner_org_profile.html', {"final":final})
-
     elif request.user.is_campuspartner:
         campus_user = CampusPartnerUser.objects.filter(user=request.user.id)
         campus_partner=[]
@@ -276,7 +275,16 @@ def orgProfile(request):
             campus_partner.extend(campus_partner1)
             final = campus_partner
         return render(request, 'partners/campus_partner_org_profile.html', {"final":final})
-
+    elif request.user.is_superuser: 
+        # adding both campus and community partner in list for superuser to make it work 
+        # or else link will get error after switching from Campus/community drop down to Admin view
+        campus_partner1 = CampusPartner.objects.all()
+        community_partner = CommunityPartner.objects.all()
+        all_partner=[]
+        all_partner.extend(campus_partner1)
+        all_partner.extend(community_partner)
+        final = community_partner
+        return render(request, 'partners/campus_partner_org_profile.html', {"final":final})
 
 # Campus and Community Partner org Update Profile
 @login_required

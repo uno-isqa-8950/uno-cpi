@@ -85,7 +85,7 @@
                                 {% if user.is_superuser %}
                                 <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a> {% else %}
                                 <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
-                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {# <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#} {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
                                 <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
                                 <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
                                 <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
@@ -121,8 +121,7 @@
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-                {#
-                <li class="nav-item">#} {# <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#} {# </li>#} {% endif %} {% if user.is_authenticated and user.is_superuser %}
+                {% endif %} {% if user.is_authenticated and user.is_superuser %}
                 <li class=" nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-tasks fa-x"></i> Projects
@@ -134,8 +133,7 @@
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-                {#
-                <li class="nav-item">#} {# <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#} {# </li>#} {% endif %} {% if user.is_communitypartner %}
+                {% endif %} {% if user.is_communitypartner %}
                 <li class="nav-item">
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
@@ -163,7 +161,8 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href='/Admin-frame/'>Admin View</a> {# <a class="dropdown-item" href='/uploadProject/'>Import Data</a>#}
+                        <a class="dropdown-item" href='/Admin-frame/'>Admin View</a>
+                        <!-- <a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
                         <a class="dropdown-item" href='/cms/'>CMS</a>
                         <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
                         <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>
@@ -252,13 +251,7 @@
     <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
     <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
     <script type="text/javascript" src='{% static "js/jquery.smartWizard.min.js" %}'></script>
-    {#
-    <!-- Script to Activate the Carousel -->#}
-    <!--    <script>-->
-    <!--         $('.carousel').carousel({-->
-    <!--        interval: 5000 //changes the speed#}-->
-    <!--    });-->
-    <!--    </script>-->
+
 
 
     {% block additionalCSS %} {% endblock %} {% block js1 %} {% endblock %} {% block js %} {% endblock %} {% block custom_js %}

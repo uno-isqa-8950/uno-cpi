@@ -87,7 +87,7 @@
                         <a class="dropdown-item" href="/community-Partner">Community Partners</a>
                         <a class="dropdown-item" href="/legislative-District">Legislative District</a>
                         <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
-                        <a class="dropdown-item" href="/project-Map">Projects</a> {# {% if user.is_superuser or user.is_campuspartner %}#} {# <a class="dropdown-item" href="/projectmap">Projects</a>#} {# {% endif %}#}
+                        <a class="dropdown-item" href="/project-Map">Projects</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown">
@@ -102,8 +102,7 @@
                                 {% if user.is_superuser %}
                                 <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a> {% else %}
                                 <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
-                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {# <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#} {% if not user.is_authenticated or user.is_communitypartner
-                                %}
+                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if not user.is_authenticated or user.is_communitypartner %}
                                 <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                                 <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% else %}
                                 <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
@@ -152,11 +151,7 @@
                 </li>
                 {% endif %} {% if not user.is_authenticated %}
                 <li class=" nav-item dropdown">
-                    {# <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">#}
-{#                        <i class="fa fa-handshake-o"></i>Partners#}
-{#                        <span class="caret"></span>#}
-                          <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a> {# </a>#} {#
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">#} {# <a class="dropdown-item" href="{% url 'partners:registerCampusPartner' %}">Campus Partner</a>#} {# <a class="dropdown-item" href='/partners/registerCommunityPartner/'>Community Partner</a>#} {# </div>#}
+                    <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
                 </li>
                 {% endif %}
 
@@ -182,8 +177,9 @@
                     </a>
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        {# <a class="dropdown-item" href="#">About us CMS</a>#}
-                        <a class="dropdown-item" href='/Admin-frame/'>Admin View</a> {# <a class="dropdown-item" href='/uploadProject/'>Import Data</a>#}
+                        <!-- <a class="dropdown-item" href="#">About us CMS</a>-->
+                        <a class="dropdown-item" href='/Admin-frame/'>Admin View</a>
+                        <!-- <a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
                         <a class="dropdown-item" href='/cms/'>CMS</a>
                         <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
                         <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>

@@ -21,8 +21,8 @@ import re
 
 samlDict = {
   "unomaha.edu": "uno",
-  "unml.edu": "unml",
-  "nebraska.edu": "neb"
+  #"unml.edu": "unml",
+  #"nebraska.edu": "neb"
 }
 # Create your views here.
 def verifySamlSettingJson():

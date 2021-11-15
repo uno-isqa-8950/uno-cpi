@@ -2,14 +2,14 @@ UNO CPI
 #UNO Community Partnership Intiative 
 
 The official repository of the Community Partnership initiative(UNO) Project for the Fall 2018 and Spring 2019 Capstone classes at the University of Nebraska at Omaha Written in Python/Django
-    •	Python Version 3.7 
-    •	Django Version 2.1.1
-    •	PostgressSql Version 10.5
+    •	Python Version 3.9
+    •	Django Version 3.2.8
+    •	PostgresSQL Version 13
 
 
 #Getting Started:
 1.	Install Python from https://www.python.org/downloads/
-2.	pip install Django==2.1.1
+2.	pip install Django==3.2.8
 3.	pip install -r requirements.txt
 
 
@@ -21,6 +21,6 @@ navigate to the folder containing manage.py and run the following commands in or
 
 
 #Test Server:
-navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page..
+navigate to the folder containing manage.py and run the following command. python manage.py runserver navigate to http://127.0.0.1:8000/ to go to the home page.
 
 

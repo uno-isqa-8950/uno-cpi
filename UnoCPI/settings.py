@@ -79,7 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
+    # 'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'crum.CurrentRequestUserMiddleware',
@@ -239,6 +239,12 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
 SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
 APP_ENV = os.environ.get('APP_ENV')
+
+# when using other websites that track visitors or use their iframe on your website.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+# Necessary to show Iframe from your own server (such as PDFs on your website)
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 try:
     from .local_settings import *

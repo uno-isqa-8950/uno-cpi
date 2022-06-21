@@ -41,7 +41,7 @@ jmespath==0.10.0
 l18n==2020.6.1
 lxml==4.6.3
 MarkupPy==1.14
-numpy==1.21.3
+numpy==1.22.0
 odfpy==1.4.1
 openpyxl==3.0.9
 packaging==21.0

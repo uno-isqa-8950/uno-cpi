@@ -13,7 +13,7 @@ colorama==0.4.4
 defusedxml==0.7.1
 diff-match-patch==20200713
 dj-database-url==0.5.0
-Django==3.2.8
+Django==3.2.15
 django-bootstrap-form==3.4
 django-crum==0.7.9
 django-discover-runner==1.0

@@ -9,8 +9,7 @@ The official repository of the Community Partnership initiative(UNO) Project for
 
 #Getting Started:
 1.	Install Python from https://www.python.org/downloads/
-2.	pip install Django==3.2.8
-3.	pip install -r requirements.txt
+2.	pip install -r requirements.txt
 
 
 #Database Migration:

@@ -1,5 +1,3 @@
-from collections import Sized
-
 from projects.models import Project, ProjectCommunityPartner, ProjectMission
 from django.forms import ModelForm, ModelChoiceField
 from django.db.models import Max

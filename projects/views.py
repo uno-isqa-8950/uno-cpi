@@ -2411,9 +2411,13 @@ def checkProject(request):
         #  print(acad_id)
 
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.checkProjectsql(projectName, commpart_filter, camp_filter, academic_start_year_cond,academic_end_year_cond ),
-                       params=None)
+
+        # The % are wildcard characters. So if a project is named %test% then it would find any project with test in it. ie. thistest hitesthi
+        cursor.execute(sqlfiles.checkProjectsql(), ( "%" + projectName + "%", "%" +commpart_filter + "%", "%" +camp_filter + "%", academic_start_year_cond , academic_end_year_cond,))
+
+
         rows = cursor.fetchall()
+
         # print(rows[0][0])
         if (rows != []):
 

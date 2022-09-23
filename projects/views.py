@@ -642,12 +642,8 @@ def editProject(request, pk):
 
 
 
-
-
-@login_required()
 def showAllProjects(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
-
     data_definition=DataDefinition.objects.all()
     missions = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     status_draft = Status.objects.filter(name='Drafts')

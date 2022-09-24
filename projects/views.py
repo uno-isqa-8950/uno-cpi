@@ -641,7 +641,7 @@ def editProject(request, pk):
                                                              'data_definition':data_definition})
 
 
-
+@login_required()
 def showAllProjects(request):
     selectedprojectId = request.GET.get('proj_id_list', None)
     data_definition=DataDefinition.objects.all()

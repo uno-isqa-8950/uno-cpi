@@ -61,8 +61,12 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=3&community_type=&college_name=&campus_partner=&engagement_type=" >
-                                <div class="cardheading">
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=3&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=3&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
+                            <div class="cardheading">
                                 <h3>ECONOMIC IMPACT</h3>
                                 </div>
                                 <blog.img>
@@ -75,7 +79,11 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=1&community_type=&college_name=&campus_partner=&engagement_type=" >
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=1&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=1&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
                                 <div class="cardheading">
                                 <h3>EDUCATIONAL SUPPORT</h3>
                                 </div>
@@ -89,8 +97,12 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=5&community_type=&college_name=&campus_partner=&engagement_type=" >
-                                <div class="cardheading">
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=5&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=5&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
+                          <div class="cardheading">
                                 <h3>INTERNATIONAL SERVICE</h3>
                                 </div>
                                 <blog.img>
@@ -103,8 +115,12 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=4&community_type=&college_name=&campus_partner=&engagement_type=" >
-                                <div class="cardheading">
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=4&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=4&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
+                        <div class="cardheading">
                                 <h3>SOCIAL JUSTICE</h3>
                                 </div>
                                 <blog.img>
@@ -117,8 +133,12 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=6&community_type=&college_name=&campus_partner=&engagement_type=" >
-                                <div class="cardheading">
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=6&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=6&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
+                        <div class="cardheading">
                                 <h3>ENVIRONMENTAL STEWARDSHIP</h3>
                                 </div>
                                 <blog.img>
@@ -131,7 +151,11 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/feature-3/health-and-wellness/" >
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=2&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=2&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
                                 <div class="cardheading">
                                 <h3>HEALTH AND WELLNESS</h3>
                                 </div>
@@ -145,8 +169,12 @@
                     <div class="cardhomepage ">
 <!--                        <li class="col-md-3" style="padding-bottom: 15px;align-content: center;display: inline-block;margin:auto;" >-->
                     <li class="z-depth">
-                        <a href="/allProjects/?academic_year=&mission=8&community_type=&college_name=&campus_partner=&engagement_type=" >
-                                <div class="cardheading">
+                        {% if user.is_authenticated %}
+                            <a href="/projectsprivatereport/?academic_year=All&mission=8&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% else %}
+                            <a href="/projectspublicreport/?academic_year=All&mission=8&community_type=&college_name=&campus_partner=&engagement_type=">
+                        {% endif %}
+                        <div class="cardheading">
                                 <h3>ARTS, CULTURE & HUMANITIES</h3>
                                 </div>
                                 <blog.img>

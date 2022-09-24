@@ -77,7 +77,7 @@ class CampusPartner(models.Model):
     weitz_cec_part = models.CharField(max_length=6, choices=TRUE_FALSE_CHOICES, default='No')
     cec_partner_status = models.ForeignKey('CecPartnerStatus',on_delete=models.CASCADE, null=True, blank=True, default=3,
                                            verbose_name="Campus CEC Partner Status")
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(default=True)
     partner_status = models.ForeignKey('PartnerStatus', max_length=30, on_delete=models.SET_NULL, null=True, blank=True,
                                        verbose_name="Campus Partner Status")
     history = HistoricalRecords()

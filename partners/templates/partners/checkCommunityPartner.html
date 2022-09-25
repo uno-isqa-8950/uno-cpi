@@ -81,7 +81,7 @@
                     <div class="box">
                         <br><br>
 <!--                        <label style="text-align: center">Enter text to search community partner</label>-->
-                        <form method="POST" onsubmit="return false">{% csrf_token %}
+                        <form id="checkcommunityPartners" method="POST" onsubmit="return false">{% csrf_token %}
                             <div class="row">
                                 <div class="col-md-8">
                             <input style="margin-left: 0%" width="" id="partner_name" type="text" name="name_field" value="" required>

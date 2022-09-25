@@ -72,7 +72,7 @@
             </div>
 
             <div class="box">
-                <form action='.' method="post">
+                <form id="loginForm" action='.' method="post">
                     {% csrf_token %}
                     <!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
                     <label><b>Email</b></label>
@@ -82,7 +82,7 @@
                     <input id="password_input" class="input" type="password" name="password" placeholder="Password" required><br>
                     <div class="row justify-content-md-center">
                         <div class="col-xs-1 center-block text-center" style="border: none">
-                            <p><button type="submit" class="btn btn-secondary" style="font-size:1.1em;">
+                            <p><button id="btnLogin" type="submit" class="btn btn-secondary" style="font-size:1.1em;">
                                         Login</button></p><br>
                         </div>
                     </div>

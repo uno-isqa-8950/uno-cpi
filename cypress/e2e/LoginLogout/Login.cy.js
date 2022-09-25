@@ -29,30 +29,3 @@ describe('Login to the app', () => {
         cy.get('#loginForm').submit()
     })
 })
-
-describe('Logout of the app', () => {
-    it('visits the form', () => {
-        cy.visit('http://127.0.0.1:8000/')
-    })
-
-    it('visits the login form', () => {
-        cy.get('#login').click()
-    })
-
-    it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
-    })
-
-    it('requires password name', () => {
-        cy.get('#password_input').type('CPITesting123')
-    })
-
-    it('can submit a valid form', () => {
-        cy.get('#loginForm').submit()
-    })
-
-    it('visits the logout form', () => {
-        cy.get('#accountinfo').click()
-        cy.get("#logout").click()
-    })
-})

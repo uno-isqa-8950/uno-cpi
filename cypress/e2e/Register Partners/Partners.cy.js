@@ -4,7 +4,6 @@ function random_Text_Alpha_Numeric() {
 
     for (var i = 0; i < 10; i++)
       text += possible.charAt(Math.floor(Math.random() * possible.length));
-
     return text;
 }
 
@@ -18,6 +17,7 @@ beforeEach(() => {
 })
 
 describe('Partners', () => {
+    var randomPartnerName = random_Text_Alpha_Numeric();
     it('visits the form', () => {
         cy.visit('http://127.0.0.1:8000/')
     })
@@ -31,8 +31,7 @@ describe('Partners', () => {
     })
 
     it('Search', () => {
-
-        cy.get('#partner_name').type(random_Text_Alpha_Numeric())
+        cy.get('#partner_name').type(randomPartnerName)
         cy.get('#next').click()
     })
 
@@ -58,6 +57,33 @@ describe('Partners', () => {
         cy.get('#terms').click()
         cy.get('#submit').click()
     })
+
+    it('visits the login form', () => {
+        cy.get('#partners').click()
+    })
+
+    it('Register Campus Partner', () => {
+        cy.get('#btn_reg_campus_partner').click()
+    })
+
+    it('Add Campus Partner Name', () => {
+        cy.get('#id_name').type(randomPartnerName)
+        cy.get('#select2-id_college_name-container').click()
+        cy.get('#select2-id_college_name-results').then(($li)=>{
+             cy.wrap($li).contains("Academic Affairs").click();
+         })
+        cy.get(".sw-btn-next").click()
+    })
+
+    it('Contact Information', () => {
+        cy.get('#id_form-0-first_name').type("Paul")
+        cy.get('#id_form-0-last_name').type("Golden")
+        cy.get('#id_form-0-email_id').type("PGolden@unomaha.edu")
+        cy.get('.add-form-row').click();
+        cy.get('#terms').click();
+        cy.get('#submit').click();
+    })
+
 })
 
 

@@ -217,7 +217,7 @@ def registerCampusPartnerUser(request):
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.is_active = False
+            new_user.is_active = True
             new_user.is_campuspartner = True
             new_user.save()
 

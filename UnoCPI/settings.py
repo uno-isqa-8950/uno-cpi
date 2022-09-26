@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'storages',
-    'crispy_forms',
     'django.contrib.admin',
     ]
 

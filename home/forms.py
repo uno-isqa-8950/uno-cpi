@@ -3,7 +3,7 @@ from django.core.files.images import get_image_dimensions
 from django.forms import ModelForm, TextInput
 from django.db.transaction import commit
 import re
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 # importing models in forms.py
 from university.models import *

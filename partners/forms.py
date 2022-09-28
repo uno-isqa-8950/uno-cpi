@@ -121,7 +121,7 @@ class CommunityPartnerForm(forms.ModelForm):
 
         }
         widgets = {
-            'city': forms.TextInput(attrs={'class': 'nonumbers'}),
+            # 'city': forms.TextInput(attrs={'class': 'nonumbers'}),
             'state': forms.TextInput(attrs={'class': 'nonumbers'}),
             'country': forms.TextInput(attrs={'class': 'nonumbers'}),
             'zip': forms.TextInput(attrs={'class': 'noalpha'}),

@@ -1171,7 +1171,7 @@ def showSelectedProjects(project_name_list):
                                   , other_subCat 
                                   order by pa.academic_year desc;""" )
 
-def checkProjectsql(projectName, comPartner, campPartner, academic_start_year_cond, academic_end_year_cond):
+def checkProjectsql():
     return ("""SELECT  distinct p.project_name as project_names, 
                         array_agg(distinct pc.name) As pcnames,
                                         pa.academic_year, 
@@ -1183,16 +1183,14 @@ left join projects_projectcommunitypartner pp on p.id = pp.project_name_id
                             left join projects_projectcampuspartner pp2 on p.id = pp2.project_name_id
                             left join partners_campuspartner c on pp2.campus_partner_id = c.id
                             inner join projects_academicyear pa on p.academic_year_id = pa.id
-                            where lower(p.project_name) LIKE '%""" + projectName.lower() + """%'
-                            AND pc.name LIKE '%""" + comPartner + """%'
-                            AND c.name LIKE '%""" + campPartner + """%'
-                            AND (p.academic_year_id <= """ + str(academic_start_year_cond) + """
-                            AND (COALESCE(p.end_academic_year_id,p.academic_year_id) >= """ + str(academic_end_year_cond) + """))
+                            where lower(p.project_name) LIKE %s
+                            AND pc.name LIKE %s
+                            AND c.name LIKE %s
+                            AND (p.academic_year_id <= %s
+                            AND (COALESCE(p.end_academic_year_id,p.academic_year_id) >= %s))
 GROUP BY project_names, pa.academic_year, p.id
 ORDER BY pa.academic_year DESC;
 """)
-
-
 
 projects_report_filter = """
 select p.project_name

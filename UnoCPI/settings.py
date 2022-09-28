@@ -36,13 +36,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account',
     'home',
     'partners',
     'projects',
@@ -67,6 +66,7 @@ INSTALLED_APPS = [
     'modelcluster',
     'taggit',
     'storages',
+    'django.contrib.admin',
     ]
 
 
@@ -247,6 +247,6 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 try:
-    from .local_settings import *
+    from local_settings import *
 except ImportError:
     pass

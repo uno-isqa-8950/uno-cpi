@@ -94,10 +94,10 @@ input[type=password]{
 		<form action='.' method="post">
             {% csrf_token %}
              <label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br>
-			<input class="input" type="text" name="username"   placeholder="Username" />
+			<input id="txtLoginEmail" class="input" type="text" name="username" placeholder="Username" />
 
 			<br>
-			<input class="input" type="password" name="password" placeholder="Password" /><br>
+			<input id="txtLoginPassword" class="input" type="password" name="password" placeholder="Password" /><br>
             <p><input type="submit" value="Log in" class="login-button1"></p>
             			<a href='/password_reset/' class="forget">Forgot Password?</a><br>
 

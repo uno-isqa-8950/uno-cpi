@@ -13,12 +13,12 @@ from django.template.loader import render_to_string
 from django.http import HttpResponse
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode
+from django.utils.http import url_has_allowed_host_and_scheme
 from .tokens import account_activation_token
 from django.contrib.auth import get_user_model, login, update_session_auth_hash
 from django.contrib.auth.forms import SetPasswordForm
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.utils.http import url_has_allowed_host_and_scheme
 from django.core.mail import EmailMessage
 from collections import OrderedDict
 import sys
@@ -217,7 +217,7 @@ def registerCampusPartnerUser(request):
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])
-            new_user.is_active = False
+            new_user.is_active = True
             new_user.is_campuspartner = True
             new_user.save()
 
@@ -230,7 +230,7 @@ def registerCampusPartnerUser(request):
             message = render_to_string('account/acc_active_email.html', {
                 'user': new_user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'uid': url_has_allowed_host_and_scheme(force_bytes(new_user.pk)).decode(),
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
@@ -246,7 +246,7 @@ def registerCampusPartnerUser(request):
 
 def activate(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(url_has_allowed_host_and_scheme(uidb64))
         user = User.objects.get(pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
@@ -1788,7 +1788,7 @@ def invitecommunityPartnerUser(request):
             message = render_to_string('account/CommunityPartner_Invite_email.html', {
                 'user': new_user,
                 'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(new_user.pk)).decode(),
+                'uid': url_has_allowed_host_and_scheme(force_bytes(new_user.pk)).decode(),
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
@@ -1800,7 +1800,7 @@ def invitecommunityPartnerUser(request):
 
 def registerCommPartner(request, uidb64, token):
     try:
-        uid = force_text(urlsafe_base64_decode(uidb64))
+        uid = force_str(url_has_allowed_host_and_scheme(uidb64))
         user = get_object_or_404(User,pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None

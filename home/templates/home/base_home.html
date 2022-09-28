@@ -59,7 +59,7 @@
         <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
         <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
         <div class="collapse navbar-collapse" id="target">
-            <ul class="navbar-nav ml-auto">
+            <ul id="navigationList" class="navbar-nav ml-auto">
 
                 <li class=" nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
@@ -140,7 +140,7 @@
                 {% endif %}
 
                 <li class=" nav-item dropdown">
-                    <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                    <a id="partners" class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
                 </li>
 
                 <li class=" nav-item dropdown">
@@ -171,7 +171,7 @@
                     </div>
                 </li>
                 {% endif %} {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
-                <li class="nav-item dropdown">
+                <li id="accountinfo" class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                         {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
                         {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
@@ -180,13 +180,13 @@
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         {% if not user.is_superuser %}
                         <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a> {% endif %} {% if 'unomaha.edu' in user.email or 'UNOMAHA.EDU' in user.email %}
-                        <a class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
-                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>{% endif %}
+                        <a id="login" class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
+                        <a id="logout" class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>{% endif %}
                     </div>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
+                    <a id="login" class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
                 </li>
                 {% endif %}
 

@@ -16,7 +16,7 @@ Including another URLconf
 
 from django.contrib import admin
 from account import views
-from django.contrib.auth import views as authviews
+from django.contrib.auth import views as auth_views
 from account.forms import EmailValidationOnForgotPassword
 
 from django.urls import path, re_path, include
@@ -32,7 +32,7 @@ urlpatterns = [
     path('admin/login/', views.user_login, name = 'adminlogin'),
     path('', include('home.urls')),
     path('partners/', include('partners.urls')),
-    path('password_reset/', authviews.PasswordResetView.as_view(form_class=EmailValidationOnForgotPassword), name='password_reset'),
+    path('password_reset/', auth_views.PasswordResetView.as_view(form_class=EmailValidationOnForgotPassword), name='password_reset'),
     path('', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('', include('projects.urls')),

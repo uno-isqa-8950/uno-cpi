@@ -53,7 +53,7 @@ coverage.xml
 
 # Django stuff:
 *.log
-UnoCPI/local_settings.py
+local_settings.py
 db.sqlite3
 
 # Flask stuff:

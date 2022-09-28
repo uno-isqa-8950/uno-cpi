@@ -27,7 +27,7 @@ SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 # SECURITY WARNING: don't run with debug turned on in production!
 SECURE_SSL_REDIRECT = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', False)
 
 
 ALLOWED_HOSTS = ['*']
@@ -247,6 +247,6 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 try:
-    from .local_settings import *
+    from local_settings import *
 except ImportError:
     pass

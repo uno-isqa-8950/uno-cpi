@@ -2701,6 +2701,11 @@ def drafts_delete(request,pk):
     draft_delete.delete()
     return HttpResponseRedirect("/myDrafts")
 
+@login_required()
+def projects_delete(request,pk):
+    projects_delete = get_object_or_404(Project, pk=pk)
+    projects_delete.delete()
+    return HttpResponseRedirect("/myProjects")
 
 def draft_project_done(request):
     return render(request, 'projects/draftadd_done.html')

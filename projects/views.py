@@ -78,7 +78,7 @@ def myProjects(request):
     cursor.execute(sql.my_projects, [project_ids])
     for obj in cursor.fetchall():
         projects_list.append(
-            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
+            {"name": obj[0].split("(")[0]+obj[5], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
              "engagementType": obj[4], "academic_year": obj[5],
              "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
              "total_uno_students": obj[11],

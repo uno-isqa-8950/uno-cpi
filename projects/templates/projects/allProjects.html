@@ -469,7 +469,7 @@ $(document).ready(function(){
 
                         {% for project in project %}
                         <tr>
-                            <td>{{ project.name }} ({{ project.semester}}, {{ project.academic_year }})</td>
+                            <td>{{ project.name }} ({{ project.semester}})</td>
                             <td> {% for projmisn in project.projmisn %} {{ projmisn}}{% if forloop.last %}
                                            {% else %},{% endif %}{% endfor %} </td>
                             <td> {% for comm_part in project.comm_part %} {{comm_part}}{% if forloop.last %}

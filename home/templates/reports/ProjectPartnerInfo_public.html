@@ -295,71 +295,6 @@ $(document).ready(function(){
 <br> <br> <br>
 {% endblock %}
 
-
-{% block js %}
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-
-    <script type="text/javascript">
-       $(document).ready(function() {
-       $('#example').DataTable({
-           dom: 'B<"clear">ft',
-           <!--To remove search function from mission area report-->
-           // searching:false,
-           buttons: {
-           name: 'primary',
-           buttons: [{
-               extend: 'csv',
-               text:'Excel',
-               title:'Focus Areas Report',
-                exportOptions: {
-                        columns:[0,1,2,3,4,5,6,7]
-                    }
-           },
-               {
-             extend : 'pdfHtml5',
-             title:'Community Engagement Partnership Initiative-Focus Areas Report',
-             messageTop:'Focus Areas Report',
-             pageSize : 'A2',
-             text : 'PDF',
-             titleAttr : 'PDF',
-                      exportOptions: {
-                        columns:[0,1,2,3,4,5,6,7]
-                    }
-               }]
-           },
-           // ordering:false
-       });
-        $('#example_filter').find('input').addClass('clearable');
-        function tog(v){
-            return v?'addClass':'removeClass';
-        }
-        $(document).on('input', '.clearable', function(){
-            $(this)[tog(this.value)]('x');
-        }).on('mousemove', '.x', function( e ){
-            $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-        }).on('touchstart click', '.onX', function( ev ){
-            ev.preventDefault();
-            $(this).removeClass('x onX').val('').change();
-            $('#example').DataTable().destroy();
-            $('#example').DataTable().draw();
-            $('#example_filter').find('input').addClass('clearable');
-        });
-
-    });
-    </script>
-
-    <script language="javascript" type="text/javascript">
-        console.log(" im in loader stopper");
-        window.onload = function(){ document.getElementById("loading").style.display = "none" }
-    </script>
-
-{% endblock %}
-
-
 {% block selectizeForm %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
@@ -447,6 +382,70 @@ $(document).ready(function(){
     // $('#id_median_household_income').select2({placeholder: 'Household Income',});
 });
 </script>
+{% endblock %}
+
+
+{% block js %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+    <script type="text/javascript">
+       $(document).ready(function() {
+       $('#example').DataTable({
+           dom: 'B<"clear">ft',
+           <!--To remove search function from mission area report-->
+           // searching:false,
+           buttons: {
+           name: 'primary',
+           buttons: [{
+               extend: 'csv',
+               text:'Excel',
+               title:'Focus Areas Report',
+                exportOptions: {
+                        columns:[0,1,2,3,4,5,6,7]
+                    }
+           },
+               {
+             extend : 'pdfHtml5',
+             title:'Community Engagement Partnership Initiative-Focus Areas Report',
+             messageTop:'Focus Areas Report',
+             pageSize : 'A2',
+             text : 'PDF',
+             titleAttr : 'PDF',
+                      exportOptions: {
+                        columns:[0,1,2,3,4,5,6,7]
+                    }
+               }]
+           },
+           // ordering:false
+       });
+        $('#example_filter').find('input').addClass('clearable');
+        function tog(v){
+            return v?'addClass':'removeClass';
+        }
+        $(document).on('input', '.clearable', function(){
+            $(this)[tog(this.value)]('x');
+        }).on('mousemove', '.x', function( e ){
+            $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+        }).on('touchstart click', '.onX', function( ev ){
+            ev.preventDefault();
+            $(this).removeClass('x onX').val('').change();
+            $('#example').DataTable().destroy();
+            $('#example').DataTable().draw();
+            $('#example_filter').find('input').addClass('clearable');
+        });
+
+    });
+    </script>
+
+    <script language="javascript" type="text/javascript">
+        console.log(" im in loader stopper");
+        window.onload = function(){ document.getElementById("loading").style.display = "none" }
+    </script>
+
 {% endblock %}
 
 

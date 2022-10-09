@@ -122,8 +122,7 @@ def MapHome(request):
                   {'MapHome': MapHome})
 
 def thanks(request):
-    return render(request, 'home/thanks.html',
-                  {'thank': thanks})
+    return render(request, 'home/thanks.html')
 
 
 def partners(request):
@@ -186,26 +185,6 @@ def signup(request):
 def signupuser(request):
     return render(request, 'home/registration/signupuser.html', {'signupuser': signupuser})
 
-def recentchanges(request):
-    #project app
-    recent_project = Project.history.all().order_by('-history_date')[:100]
-    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:100]
-    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:100]
-    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:100]
-    #partner app
-    recent_campus = CampusPartner.history.all().order_by('-history_date')[:100]
-    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:100]
-    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:100]
-    #users and contacts
-    # recent_user = User.history.all().order_by('-history_date')[:100]
-    recent_contact = Contact.history.all().order_by('-history_date')[:50]
-
-    return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
-                                                        'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
-
-                                                        'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
-                                                        'recent_contact':recent_contact})
-
 def registerCampusPartnerUser(request):
     data = []
     for object in CampusPartner.objects.order_by('name'):
@@ -213,7 +192,6 @@ def registerCampusPartnerUser(request):
     if request.method == 'POST':
         user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
-
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.set_password(user_form.cleaned_data['password'])

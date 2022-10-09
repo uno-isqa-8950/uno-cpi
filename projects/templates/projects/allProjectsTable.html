@@ -151,7 +151,7 @@ label, .btn-default
 
                                 {% for project in project %}
                                 <tr>
-                                    <td>{{ project.name }} ({{ project.semester}})</td>
+                                    <td>{{ project.name }} ({{ project.semester}}, {{ project.academic_year }})</td>
 {#                                    <td>{% for projmisn in project.projmisn %}#}
 {#                                    <b>{{ projmisn.mission_type}} : </b>{{ projmisn.mission__mission_name}}<br> <br>{% endfor %} </td>#}
                                     <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>

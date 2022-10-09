@@ -395,8 +395,9 @@
             </form>
         </div>
     </div>
-                        <div class="box">
-                           
+
+    <div class="box">
+
                     <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                         <tr>
@@ -405,7 +406,7 @@
                                 <span tabindex="-1" data-toggle="tooltip" data-placement="right"
                           title="{{ data_definition.description }}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %} {% endfor %}Project
+                                {% endif %} {% endfor %}Projects
                             </th>
                             <th class="all">{% for data_definition in data_definition %}{% if data_definition.id == 3%}
                                 <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
@@ -456,7 +457,7 @@
 
                         {% for project in project %}
                         <tr>
-                            <td>{{ project.name }} ({{ project.semester}})</td>
+                            <td>{{ project.name }} ({{ project.semester}}, {{ project.academic_year }})</td>
                             <td> {% for projmisn in project.projmisn %} {{ projmisn}}{% if forloop.last %}
                                            {% else %},{% endif %}{% endfor %} </td>
                             <td> {% for comm_part in project.comm_part %} {{comm_part}} {% if forloop.last %}
@@ -605,7 +606,6 @@
 
           $('#example').DataTable({
        dom: 'B<"clear">lftpi',
-
        buttons: {
        name: 'primary',
        buttons: [{
@@ -648,11 +648,7 @@
                 "searchable": false
             },
 
-
-
-
            {"width": "21.5%","targets":[0,1,2,3,4,5,6]}
-
 
         ],
        /*added below line to disable smart search so that exact word entered is serached*/

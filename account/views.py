@@ -94,7 +94,7 @@ def user_login(request):
                     return response
                 elif user.is_superuser:
                     login(request, user)
-                    response = redirect('/Admin-Home')
+                    response = redirect('/Admin-frame')
                     return response
             else:
                 messages.error(request, 'Email or Password is incorrect or contact system administration.')
@@ -114,7 +114,7 @@ def CommunityHome(request):
 
 
 def admin(request):
-    return render(request, "home/admin_frame.html",{'admin': admin})
+    return render(request, 'home/admin_frame.html')
 
 
 def logout_view(request):
@@ -140,7 +140,7 @@ def redirectUNOUser(request,key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect('/Admin-Home')
+                response = redirect("/Admin-frame")
                 return response
         else:
             messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')

@@ -1,7 +1,6 @@
-
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined'))
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
         {
             return false
         }
@@ -22,7 +21,7 @@ describe('Login to the app', () => {
     })
 
     it('requires password name', () => {
-        cy.get('#password_input').type('CPITesting123')
+        cy.get('#password_input').type('CEPITesting123')
     })
 
     it('can submit a valid form', () => {

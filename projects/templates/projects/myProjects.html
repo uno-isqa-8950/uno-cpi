@@ -142,7 +142,7 @@
                                         <tbody>
                                             {% for project in project %}
                                             <tr>
-                                                <td>{{ project.name }}</td>
+                                                <td>{{ project.name }} ({{ project.semester}}, {{ project.academic_year }})</td>
                                                 <td> {% for projmisn in project.projmisn %} {{ projmisn}}<br> <br>{% endfor %} </td>
                                                 <td> {% for comm_part in project.comm_part %} {{comm_part}} <br> <br> {% endfor %} </td>
                                                 <td> {% for camp_part in project.camp_part %} {{camp_part}} <br> <br> {% endfor %} </td>
@@ -193,7 +193,7 @@
                                 {%endif%}
                             </td>
                                             <td>{{ project.description }}</td>
-                                                <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-primary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> </td>
+                                                <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'projects_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
                                            </tr>
                                             {% endfor %}
                                         </tbody>
@@ -276,8 +276,16 @@ $(document).on('input', '.clearable', function(){
     } );
 
  </script>
-
-
+    <script type="text/javascript">
+function myConfirm() {
+  var result = confirm("Are you sure you want to delete this Project?");
+  if (result==true) {
+   return true;
+  } else {
+   return false;
+  }
+}
+</script>
 <script language="javascript" type="text/javascript">
     console.log(" im in loader stopper");
     window.onload = function(){ document.getElementById("loading").style.display = "none" }

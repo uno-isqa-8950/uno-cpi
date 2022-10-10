@@ -1,4 +1,3 @@
-
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined'))
@@ -8,7 +7,11 @@ beforeEach(() => {
     })
 })
 
-describe('Logout of the app', () => {
+beforeEach(() => {
+    Cypress.Cookies.preserveOnce('csrftoken');
+});
+
+describe('Password Reset', () => {
     it('visits the form', () => {
         cy.visit('http://127.0.0.1:8000/')
     })
@@ -21,18 +24,16 @@ describe('Logout of the app', () => {
         cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
     })
 
-    it('requires password name', () => {
-        cy.get('#password_input').type('CEPITesting123')
+    it('forgot password', () => {
+        cy.get('#nonUnoForgotPwd').click()
     })
 
-    it('can submit a valid form', () => {
-        cy.get('#loginForm').submit()
+    it('require email', () => {
+        cy.get('#id_email').type('shwetap1002@gmail.com')
     })
 
-    it('visits the logout form', () => {
-        cy.wait(200)
-        cy.get('#accountinfo').click()
-        cy.wait(200)
-        cy.get("#logout").click()
+    it('send email', () => {
+        cy.get('#passwordReset').submit()
+        cy.get('div').should('contain', 'Check your email')
     })
 })

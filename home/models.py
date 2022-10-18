@@ -12,6 +12,7 @@ from .blocks import BaseStreamBlock
 from wagtail.contrib.routable_page.models import RoutablePageMixin, route
 from wagtail.snippets.models import register_snippet
 from simple_history.models import HistoricalRecords
+from django.utils import timezone
 
 class HomePage(Page):
 
@@ -327,10 +328,10 @@ class Contact(models.Model):
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    work_phone= models.CharField(max_length=14)
+    work_phone= models.CharField(max_length=14, blank=True, null=True)
     cell_phone= models.CharField(blank=True,null= True, max_length=14)
     email_id = models.EmailField(unique=False)
-    contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select')
+    contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select', null=True, blank=True)
     community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,null=True,blank=True)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True, blank=True)
     history = HistoricalRecords()
@@ -344,10 +345,12 @@ class Contact(models.Model):
 
 class MissionArea (models.Model):
     mission_name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True,max_length=1500)
+    mission_image_url = models.URLField(max_length=300, blank=True)
+    mission_color = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return str(self.mission_name)
+        return '%s' % (self.mission_name)
 
 
 class HouseholdIncome(models.Model):
@@ -659,6 +662,21 @@ class Create_Projects_Form_Snippet(models.Model):
         verbose_name = "Create Projects Form Snippet"
 
 @register_snippet
+class edit_Projects_Form_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def __str__(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Edit Projects Form Snippet"
+
+
+@register_snippet
 class Register_Community_Partner_Form_Snippet(models.Model):
     text = models.CharField(max_length=1250)
 
@@ -825,3 +843,86 @@ class Password_Reset_Done_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Password Reset Done_Snippet"
+
+
+class Resource (models.Model):
+    resource_descr = models.CharField(max_length=250, blank=True, null=False)
+    resource_link = models.CharField(max_length=250, blank=True, null=False)
+    isAccessible = models.BooleanField(default=True)
+    listing_order = models.IntegerField(default='0')
+    #updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    updated_date = models.DateField(default=timezone.now)
+    created_date = models.DateTimeField(default=timezone.now)
+    history = HistoricalRecords()
+
+    def created(self):
+        self.created_date = timezone.now()
+        self.save()
+
+    def updated(self):
+        self.updated_date = timezone.now()
+        self.save()
+
+    def __str__(self):
+        return str(self.resource_descr)
+
+
+@register_snippet
+class Issue_Address_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Issue Address Analysis  Charts Snippet"
+
+
+@register_snippet
+class TrendReport_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Trend Report Chart Snippet"
+
+
+
+@register_snippet
+class Network_Analysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def str(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Network Analysis Charts Snippet"
+
+
+@register_snippet
+class PartnershipIntensityAnalysis_Chart_Snippet(models.Model):
+    text = models.CharField(max_length=1250)
+
+    panels = [
+        FieldPanel('text'),
+    ]
+
+    def _str_(self):
+        return self.text
+
+    class Meta:
+        verbose_name = "Partnership Intensity Analysis Chart Snippet"

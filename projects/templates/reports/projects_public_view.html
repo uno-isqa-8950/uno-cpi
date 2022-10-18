@@ -1,187 +1,378 @@
-{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-    {% load wagtailcore_tags register_tags %}
+{% extends 'home/base_home.html' %}
+{% load static %}
+{% load wagtailcore_tags register_tags %}
 
-<!--link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"-->
-
+{% block content %}
 
 <style>
-    #loading
-    {
-        position: absolute;
-        left: 50%;
-        top: 50%;
-        z-index: 1;
-        width: 150px;
-        height: 150px;
-        margin: -75px 0 0 -75px;
-        border: 16px solid #f3f3f3;
-        border-bottom: 16px solid red;
-        border-top: 16px solid gray;
-        border-radius: 50%;
-        width: 80px;
-        height: 80px;
-        -webkit-animation: spin 2s linear infinite;
-        animation: spin 2s linear infinite;
-    }
 
-    /* Safari */
-    @-webkit-keyframes spin
-    {
-        0% { -webkit-transform: rotate(0deg); }
-        100% { -webkit-transform: rotate(360deg); }
-    }
+    /*.logo-frame{*/
 
-    @keyframes spin
-    {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
-    }
+/*width: auto ;*/
+  /*max-width: 100% ;*/
+  /*height: auto ;*/
 
-    .form-inline label
-    {
-        font-weight:bold;
-        text-align:left;
-        margin-bottom:10px;
-        display:inline;
-        margin-left:22px;
-    }
+    /*}*/
 
-     .select2-container--default .select2-selection--single
-     {
-        margin-left:22px;
-        width:100%;
-     }
+    @media screen and (max-width: 1200px) {
+        img {
+            width: 80px;
+            height: 80px;
+        }
 
-
-    .select2-container--open .select2-dropdown--below
-    {
-        width:100%;
-        margin-left:22px;
-    }
-
-    .form-inline .form-group
-    {
-        display:inline-grid;
-        margin-bottom:30px;
-        margin-top:10px;
-    }
-
-    .hideContent {
-        overflow: hidden;
-        height: 4.5em;
-    }
-
-    .showContent {
-        height: auto;
-    }
-
-    .page-item.active .page-link
-    {
-    background-color: #333333;
-    border-color: #333333;
-    }
-
-    .page-link
-    {
-    color:#333333;
-    }
-
-    .page-link:hover
-    {
-    color:grey;
-    }
-
-    div.layout {
-      text-align: center;
-    }
-
-    div.center {
-      text-align: center;
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-.select2-selection__placeholder{
-        font-size: small;
-    }
-    @media only screen and (max-width: 768px)
-    {
-        div.dataTables_wrapper div.dataTables_length label
+        .bottom-card {
+            margin-left: 4rem;
+        }
+        .card-header
         {
-            float:left;
-            margin-left:50px;
+            padding-left:0.5rem;
         }
-        #example_length select{width:35%;}
-
-        label{
-            font-size: small;
+        .logo-frame{
+            margin-right:8px;
         }
+        .paginate{
+            text-align: left;
+        }
+    }
 
+    @media screen and (min-width:1200px){
+
+        .bottom-card{
+            margin-left:8rem;
+        }
+        .logo-frame{
+            margin-right:12px;
+        }
+         .paginate{
+            text-align: right;
+        }
+    }
+  .card-body {
+
+        padding-top: 0;
+
+    }
+    .card-header {
+
+        padding-bottom: 0;
+    }
+
+    ul{
+        padding-inline-start:15px;
+        margin-bottom:0;
+    }
+/*.select2-hidden-accessible{*/
+          /*width:85%;*/
+        /*border:2px solid #aaa;*/
+        /*border-radius:4px;*/
+        /*margin:10px 0 8px 4px;*/
+        /*outline:none;*/
+        /*padding:3px;*/
+        /*box-sizing:border-box;*/
+        /*transition:.3s;*/
+        /*margin-left: 22px;*/
+/*}*/
+  /*.select2-container .select2-selection--single*/
+/*{*/
+   /*height:38px;*/
+    /*margin-left:5px;*/
+    /*border-radius: 0px;*/
+/*}*/
+
+/*.select2-container--default .select2-selection--single*/
+/*{*/
+   /*border: 1px solid #aaa;*/
+   /*margin-top:8px;*/
+/*}*/
+
+/*.select2-container--default .select2-selection--single .select2-selection__arrow*/
+/*{*/
+   /*top:12px;*/
+/*}*/
+
+/*.select2-container--default .select2-selection--single:focus*/
+/*{*/
+  /*border-color:gray;*/
+  /*!*box-shadow:0 0 8px 0 grey;*!*/
+/*}*/
+
+/*.select2-container--default .select2-selection--single .select2-selection__rendered {*/
+    /*line-height: 32px;*/
+/*}*/
+    .card-header {
+        background-color: rgba(0,0,0,0);
+        border-bottom: none;
+
+    }
+    .accordion .card-header:after {
+        font-family: 'FontAwesome';
+        content: "\f146";
+        /*margin-left: 55px;*/
+            font-size: 20px;
+    }
+
+    .accordion .card-header.collapsed:after {
+        /* symbol for "collapsed" panels */
+        content: "\f0fe";
+        font-size: 20px;
+
+    }
+    .projectcard{
+        border: none;
+        margin-top: 20px;
+        margin-bottom: 20px !important;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+    .project-body{
+        border: none;
+        margin-top: 0 !important;
+        margin-bottom: 8px;
+    }
+    .card-body {
+        border: none;
+        margin-top: 0 !important;
+        margin-bottom: 8px;
+    }
+    .heading{
+        color:black;
+        font-size: 30px;
+        line-height: 0px !important;
+        padding-bottom: 15px;
+        padding-top: 60px;
+
+    }
+
+
+    .form-control
+    {
+        width:85%;
+        border:2px solid #aaa;
+        border-radius:4px;
+        margin:10px 0 8px 4px;
+        outline:none;
+        padding:3px;
+        box-sizing:border-box;
+        transition:.3s;
+        margin-left: 22px;
+    }
+    .select
+    body{
+        background-color: rgba(0,0,0,.03);
+    }
+
+    input[type=text], [type=password], [type=email], [type=url] {
+        width: 30%;
+        color: #444;
+        border: 2px solid #aaa;
+        border-radius: 4px;
+        line-height: 28px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin: 10px 0 8px 4px;
+        margin-top: 10px;
+        margin-right: 0px;
+        margin-bottom: 8px;
+        margin-left: 22px;
+        padding-left: 8px;
+        padding-right: 20px;
+        font-size: 16px;
+        font-family: "Arial Narrow", sans-serif;
+        box-sizing: border-box;
+        margin-left: 12px;
+        margin: 10px 0 8px 4px;
+        outline: none;
+        box-sizing: border-box;
+        transition: .3s;
+
+
+
+    }
+    .button-row-elements
+    {
+        width: 100%;
+        float: left;
+        padding:0;
+        margin-bottom: 15px;
+    }
+    .button-row-elements button{
+        display:inline-block;
+    }
+    #Searchboxtext{
+        float:right;
+    }
+
+    .filter-card{
+        border-top-color: rgba(0, 0, 0, 0.12);
+        border-top-style: solid;
+        border-top-width: 1px;
+        border-right-color: rgba(0, 0, 0, 0.12);
+        border-right-style: solid;
+        border-right-width: 1px;
+        border-bottom-color: rgba(0, 0, 0, 0.12);
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        border-left-color: rgba(0, 0, 0, 0.12);
+        border-left-style: solid;
+        border-left-width: 1px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+
+    }
+    .text-snippet{
+        text-align: left;
+    }
+    .snippet-card{
+        margin-top: 20px;
+        padding-top:10px;
+        padding-bottom:10px;
+        margin-bottom: 10px;
+        border-left: none;
+        border-right:none;
+        margin-left: 25px;
+        margin-right: 25px;
+        border-radius:0px;
+        background-color: transparent;
+
+    }
+
+    .projectname{
+        line-height: 0 !important;
+    }
+
+    .media-body{
+        width: 100%;
+        float: left;
+    }
+    #academic_year{
+        float:right;
+    }
+    .card-toptext{
+        width: 100%;
+        float: left;
+    }
+    .flex-container {
+        display: flex;
+        justify-content: space-around;
+        background-color: #FFFFFF;
+
+    }
+  .flex-container p{
+       line-height: 0px !important;
+      font-size:1vw;
+   }
+
+    .flex-container > div {
+        background-color: #FFFFFF;
+        width: 100%;
+        text-align: left;
+        line-height: 30px;
+        font-size: 15px;
+        flex-wrap:wrap;
+        padding-top: 25px;
+    }
+    .media-heading{
+        line-height: 1.5 !important;
+    }
+    b{
+        font-size: 15px;
+    }
+
+
+@media (min-width: 576px){}
+    .form-inline .form-control {
+        width: 85%;
+
+    }
+
+.btn-secondary{
+        margin: 2px;
+}
+.buttons-csv{
+        margin:2px;
     }
 </style>
 
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 
-
-<div class="loader" id =loading></div>
-<div class="container">
-    <div class="row justify-content-md-center">
-        <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class = "panel-default" style="width:100%">
-               <div class="card" style="padding: 5px;margin-top:50px;background-color:#333;">
-                   <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;"><h4 style="line-height:.8em;padding-top:10px;">Report: Projects</h4></b></label>
-               </div>
-            </div>
-            <div class="card" style="padding: 10px;">
-                <div class="container">
-                    {% pub_projs %}
-                </div>
-            </div>
-        </div>
+<div class=" text-center"><h4 class="heading">Projects Report</h4></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+        {% pub_projs %}
     </div>
 </div>
-<div class="container">
-    <div class="card" style="padding: 10px;">
-        <!-- Collapse buttons -->
-        <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'projectspublicreport' %}' " value="Reset Filters" >
 
-            <script type="text/javascript">
-                document.getElementById("btn").addEventListener(
+<div class="container-fluid">
+
+
+    <div class="container button-row-elements">
+
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+               aria-expanded="false" aria-controls="collapseExample" style="margin: 0;" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectspublicreport' %}' " value="Reset Filters" >
+
+        <script type="text/javascript">
+            document.getElementById("btn").addEventListener(
                 "click",
                 function(event) {
-                if (event.target.value === "Hide Filters") {
-                    event.target.value = "Show Filters";
-                } else {
+                    if (event.target.value === "Hide Filters") {
+                        event.target.value = "Show Filters";
+                    } else {
                         event.target.value = "Hide Filters";
-                        }
+                    }
                 },
                 false
-                );
-            </script>
+            );
+        </script>
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/projectspublictableview/?{{ parameters }}'; " value="Table View" >
+       <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
+       <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
-        </div>
+    </div>
+
+
 <!-- / Collapse buttons -->
-
-<!-- Collapsible element -->
-        <div class="card" style="border: 2px solid #C3C3C3;">
+    <div class="card filter-card">
         <div class="collapse show" id="collapseExample">
-
             <form class="form-inline" id="filters-form" method="get">
 
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="mission"> Project Mission Areas
 
+                <div class="col-lg-4 col-md-5 form-group">
+
+                    <label for="academic_year">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 32%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}Academic Years
+                    </label>
+                    <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                        <option> All </option>
+                        {% for sem in projects.form.academic_year %}
+                            {{sem}}
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-5 form-group">
+
+                    <label for="mission">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 3%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}
+                        {% endfor %}Project Focus Areas
                     </label>
-                    <select class="form-control" id="id_mission" name="mission" onchange="this.form.submit()">
+                    <select  id="id_mission" name="mission" onchange="this.form.submit()">
                         <option> All </option>
                         {% for mission in missions.form.mission %}
                             {{mission}}
@@ -190,34 +381,16 @@
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year"> Engagement Types
-                         {% for data_definition in data_definition %}
-                            {% if data_definition.id == 31%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for engagement in projects.form.engagement_type %}
-                            {{engagement}}
-                        {% endfor %}
-                    </select>
-                </div>
-
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="community_type"> Community Partner Types
+                    <label for="community_type">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 33%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}
+                        {% endfor %}Community Organization Types
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select id="id_community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
                         {% for community_type in communityPartners.form.community_type %}
                             {{community_type}}
@@ -226,221 +399,301 @@
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="college_name"> Colleges and Main Units
-                         {% for data_definition in data_definition %}
+
+                    <label for="college_name">
+                        {% for data_definition in data_definition %}
                             {% if data_definition.id == 43%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}
+                        {% endfor %}College and Main Units
                     </label>
-                    <select class="form-control" id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
                         <option> All </option>
                         {% for college in college_filter.form.college_name %}
                             {{college}}
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="campus_partner"> Campus Partners
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
-                        <option> All </option>
-                        <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
-                        {% for campus in campus_filter %}
-                            <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
-                        {% endfor %}
+                <label for="campus_partner">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 1%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}Campus Partners
+                </label>
+                    <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <option > All </option>
+                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+
+                    {% for campus in campus_filter %}
+                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                    {% endfor %}
                     </select>
                 </div>
 
                 <div class="col-lg-4 col-md-5 form-group">
-                    <label for="weitz_cec_part"> CEC Community Building Partners
+                    <label for="weitz_cec_part">
                         {% for data_definition in data_definition %}
                             {% if data_definition.id == 27%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                             {% endif %}
-                        {% endfor %}
+                        {% endfor %}CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="engagement_type">
+                         {% for data_definition in data_definition %}
+                            {% if data_definition.id == 31%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}Engagement Types
+                    </label>
+                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                         <option> All </option>
-                        {% for weitz_cec_part in communityPartners.form.weitz_cec_part %}
-                            {{weitz_cec_part}}
+                        {% for engagement in projects.form.engagement_type %}
+                            {{engagement}}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-lg-4 col-md-5 form-group">
+                    <label for="k12_flag">
+                        {% for data_definition in data_definition %}
+                            {% if data_definition.id == 12%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                            {% endif %}
+                        {% endfor %}K-12 Involvement
+                    </label>
+                    <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                        <option value="" disabled selected hidden></option>
+                        {% for k12_flag in k12_choices.k12_choice %}
+                            {{ k12_flag }}
                         {% endfor %}
                     </select>
                 </div>
 
-                <div class="col-lg-4 col-md-5 form-group">
-                    <label for="academic_year"> Academic Years
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                    </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
-                        <option> All </option>
-                        {% for sem in projects.form.academic_year %}
-                            {{sem}}
-                        {% endfor %}
-                    </select>
-                </div>
 
             </form>
-</div>
-</div>
-<div style="margin-top:15px;">
-        <table  id="example" class="table table-bordered table-striped dt-responsive overflow-wrap:break-word" style="width:100%">
-            <thead>
+        </div>
+    </div>
 
-            <tr>
-                <th>Projects
-                    {% for data_definition in data_definition %}
-                    {% if data_definition.id == 30%}
-                        <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                              data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                    {% endif %}
-                    {% endfor%}
-                </th>
-                <th>Community Partners
-                      {% for data_definition in data_definition %}
-                            {% if data_definition.id == 2%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                </th>
-                <th>Campus Partners
-                      {% for data_definition in data_definition %}
-                            {% if data_definition.id == 1%}
-                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
-                </th>
-                <th>Engagement Types
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 31%}
-                            <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
-                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for project in projectsData %}
-            <tr>
-                <td>{{project.projectName}}</td>
-                <td>
-                    <div class="content hideContent">
-                    {% for communitypartner in project.communityPartner %} {{ communitypartner }} <br><br> {% endfor %}
-                    </div>
-                    <div class="show-more">
-                        {% if project.communityPartner|length > 1 %}
-                        <a href="#" style="color:#d71920">Show more</a>
-                        {% endif %}
-                    </div>
-                </td>
-                <td>
-                    <div class="content hideContent">
-                        {% for campuspartner in project.campusPartner %} {{ campuspartner }} <br><br> {% endfor %}
-                    </div>
-                    <div class="show-more">
-                        {% if project.campusPartner|length > 1 %}
-                        <a href="#" style="color:#d71920">Show more</a>
-                        {% endif %}
-                    </div>
-                </td>
-                <td>{{project.engagementType}}</td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-       </div></div><br><br><br>
 
-        <br>
+    <!--Project list starts from here -->
+
+    <div id="accordion" class="accordion">
+        {% for project in cards %}
+
+
+        <div class="card mb-0 projectcard">
+
+
+            <div class="card-header collapsed" data-toggle="collapse" href="#collapse-{{ forloop.counter }}">
+
+                <a class="card-title">
+
+
+                    <div class="media">
+                        <a class="media-left" aria-label="">
+                            <div class="logo-frame">
+                                <img src="{{project.mission_image}}" alt="Mission Area Image"
+                                     class="logo"
+                                     width="130" height="130" alt="">
+                            </div>
+                        </a>
+                        <div class="media-body">
+                            <div class="card-toptext">
+                                {% for projmisn in project.projmisn %}
+                                <h6 class="media-subheading" >
+                                    <i>{{ projmisn}}{% endfor %}</i>
+                                    <span id="academic_year"><i>{{ project.academic_year }}</i></span>
+                                </h6>
+                            </div>
+
+                            <div class="projectname">
+                                <h4 class="media-heading " >
+                                    {{ project.name }} ({{ project.semester}}, {{ project.academic_year }})
+                                </h4>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 col-sm-12">
+                                    <b> Community Partners: </b>
+                                    {% for comm_part in project.comm_part %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
+                                </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <b>Campus Partners:</b>
+                                    {% for camp_part in project.camp_part %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
+                                </div>
+                            </div>
+
+                            <div>
+
+
+                            </div>
+
+
+                            </div>
+                    </div>
+                </a>
+            </div>
+
+
+
+            <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
+
+                <div class="row bottom-card">
+
+                    <div class="col-sm-12 col-lg-6">
+                        <b>Engagement Type:</b>
+                        {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <b> Activity Type:</b>
+                        {% if project.activityType is None %}
+                        {%else%}
+                        {{ project.activityType}}
+                        {%endif%}
+                    </div>
+                    <div class="col-sm-12 col-lg-6">
+                        <b> Start Semester:</b> {{ project.semester}}
+                    </div>
+                     <div class="col-sm-12 col-lg-6">
+                        <b> End Semester:</b>
+                        {% if project.end_semester is None %}
+                        {%else%}
+                        {{ project.end_semester }}
+                        {%endif%}
+                    </div>
+                      <div class="col-sm-12 col-lg-6">
+                        <b> Start Academic Year:</b> {{ project.academic_year}}
+                    </div>
+
+
+                    <div class="col-sm-12 col-lg-6">
+
+                        <b> End Academic Year:</b>
+                        {%if project.end_academic_year is None%}
+                        {%else%}
+                        {{ project.end_academic_year }}
+                        {%endif%}
+                    </div>
+
+
+                    <!--<div class="col-sm-12">-->
+                    <!--<b>Other Activity Type:</b>-->
+                    <!--{% if project.activityType == 'Other' %}-->
+                    <!--{% if project.other_activity_type|length > 0%}-->
+                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+                    <!--{%else%}-->
+                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}-->
+                    <!--{%endif%}-->
+                    <!--{%else%}-->
+                    <!--None-->
+                    <!--{%endif%}-->
+                    <!--</div>-->
+
+
+                    <div class="col-sm-12 col-lg-12">
+                    <b> Topics: </b>
+                        {% if project.sub_category|length > 0%}
+                        {% for sub_category in project.sub_category %}
+                           {% if sub_category is None %}
+
+                           {% else %}
+                              {{sub_category}}
+                                 {% if forloop.last %}
+                                 {% else %},
+                                 {% endif %}
+                           {% endif %}
+                        {% endfor%}
+                        {%endif%}
+                    </div>
+
+                     <!--<div class="col-sm-12">-->
+                    <!--<b> Other Topics : </b>-->
+
+                    <!--{% if project.other_sub_category|length > 0%}-->
+                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+                    <!--{%else%}-->
+                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}-->
+                    <!--{%endif%}-->
+                     <!--</div>-->
+
+
+                    <div class="col-sm-12 col-lg-12">
+                        <hr>
+                        <b> Description:</b>
+                         {% if project.description is None %}
+
+                         {% else %}
+                         {{ project.description }}
+                         {%endif%}
+                    </div></div>
+
+            </div>
+
+        </div>
+        {% endfor %}
+        <!--Code for Pagination -->
+    </div>
+
+<div class="row">
+<!--<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>-->
+<div class="col-lg-6 col-sm-12"> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</div>
+<!--<div class="row" style="float:right; padding-right: 10px">-->
+    <div class="col-lg-6 col-sm-12 paginate">
+{% if cards.has_other_pages %}
+
+    {% if cards.has_previous %}
+        <a class="btn btn-secondary" href="?{{ parameters }}&page=1">First</a>
+        <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.previous_page_number }}">Previous</a>
+
+    {% endif %}
+    {% for num in cards.paginator.page_range %}
+      {% if cards.number == num %}
+        <a class="btn btn-secondary active" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+      {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
+         <a class="btn btn-secondary" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+      {% endif %}
+    {% endfor %}
+    {% if cards.has_next %}
+      <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.next_page_number }}">Next</a>
+      <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.paginator.num_pages }}">Last</a>
+
+    {% endif %}
+
+{% endif %}
 </div>
+    </div>
+
+</div>
+    <br><br>
 {% endblock %}
 
-{% block custom_js %}
-
-<script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-<script type="text/javascript">
-$(".show-more a").on("click", function(e) {
-  e.preventDefault();
-  var $this = $(this);
-  var $content = $this.parent().prev("div.content");
-  var linkText = $this.text().toUpperCase();
-
-  if (linkText === "SHOW MORE") {
-    linkText = "Show less";
-    $content.switchClass("hideContent", "showContent", 400);
-  } else {
-    linkText = "Show more";
-    $content.switchClass("showContent", "hideContent", 400);
-  };
-
-  $this.text(linkText);
-});
-</script>
-{% endblock %}
-
-{% block js %}
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-
-<script type="text/javascript">
-   $(document).ready(function() {
-   $('#example').DataTable({
-       dom: 'B<"clear">lftpi',
-       buttons: {
-       name: 'primary',
-       buttons: ['csv', 'excel', 'pdf']
-       }
-   });
-
-   } );
-</script>
-    <script type="text/javascript">
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip({
-        placement : 'top'
-    });
-});
-</script>
-
-<script language="javascript" type="text/javascript">
-    console.log(" im in loader stopper");
-    window.onload = function(){ document.getElementById("loading").style.display = "none" }
-</script>
 
 {% block selectizeForm %}
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
 <script>
 $(document).ready(function(){
-
 
     $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
                                         sorter: function(data) {
@@ -456,7 +709,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_community_type').select2({placeholder: 'All Community Partners',width: '75%',
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
                                         sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -470,9 +723,10 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_academic_year').select2({placeholder: 'All Academic Years',width: '75%'});
-    $('#id_weitz_cec_part').select2({placeholder: 'CEC Community Building Partner',width: '75%'});
-    $('#id_mission').select2({placeholder: 'All Mission Areas',width: '75%',
+    $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '85%'});
+    $('#id_mission').select2({
+        placeholder: 'All Project Focus Areas', width: '85%',
                                 sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -486,7 +740,7 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-    $('#id_college_name').select2({placeholder: 'All Colleges and Main Units',width: '75%',
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
                                     sorter: function(data) {
                                             /* Sort data using lowercase comparison */
                                             return data.sort(function (a, b) {
@@ -500,6 +754,8 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
+    $('#id_k12_flag').select2({placeholder: 'All K-12 Involvement',width: '75%'});
+    $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
     $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
                                       sorter: function(data) {
                                             /* Sort data using lowercase comparison */
@@ -514,50 +770,11 @@ $(document).ready(function(){
                                                 return 0;
                                             });
                                         }});
-});
+    });
 </script>
-{% endblock %}
-
-
-<style>
-
-    .btn-group{float:left;, labels:"Export"}
-    #example_length{float:left; margin:0 0 0 0px;}
-    #example_length select{width:50%;}
-
-
-    div.dataTables_wrapper div.dataTables_length label
-    {
-    margin-left:30px;
-    }
-
-
-    div.dataTables_wrapper div.dataTables_filter label
-    {
-    float:right;
-    }
-
-
-    @media (max-width: 900px)
-    {
-    div.dataTables_wrapper div.dataTables_length label
-    {
-        float:left;
-        margin-left:50px;
-    }
-    #example_length select{width:35%;}
-    }
-
-    div.dataTables_wrapper div.dataTables_paginate
-    {
-        float:right;
-    }
-
-</style>
-    <script>
-        $(function () {
-            $('[data-toggle="popover"]').popover()
-        })
-    </script>
-
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
 {% endblock %}

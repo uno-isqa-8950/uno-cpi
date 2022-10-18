@@ -1,0 +1,502 @@
+{% extends 'home/base_home.html' %} {% load static %} {% block content %}
+    {% load wagtailcore_tags register_tags %}
+
+<style>
+    A.class1 {color:#b60000;}
+    A.class1:link  {text-decoration: underline; color:#b60000;}
+    .fade{
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+  .fade:not(.show){
+      display: block;
+      opacity: 100;
+      word-wrap: break-word;
+      text-align: left;
+      max-width: 300px;
+      width: 300px;
+      min-width: 0px;
+
+    }
+
+.tooltip-inner {
+    display: block;
+    opacity: 100;
+    word-wrap: break-word;
+    text-align: left;
+    max-width: 300px;
+    width: 300px;
+    min-width: 0px;
+}
+</style>
+    <script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip({
+        placement : 'top'
+    });
+});
+  </script>
+
+<div class="loader" id =loading></div>
+<div class="container">
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <br><br>
+
+               <div class="text-center">
+                   <h3 class="heading">Focus Areas With Topic Details</h3>
+               </div>
+
+            <div class="card snippet-card">
+                <div class="container text-snippet">
+                    {% miss_areas %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <div class="container">
+
+        <!-- Collapse buttons -->
+        <div>
+            <input type="button" id="hidefilterbtn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            aria-expanded="false" aria-controls="collapseExample" />
+            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'primary_focus_topic_info' %}' " value="Reset Filters" >
+
+
+
+
+            <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
+                "click",
+                function(event) {
+                if (event.target.value === "Hide Filters") {
+                    event.target.value = "Show Filters";
+                } else {
+                        event.target.value = "Hide Filters";
+                        }
+                },
+                false
+                );
+            </script>
+
+        </div>
+    <!-- / Collapse buttons -->
+
+<!-- Collapsible element -->
+        <div class ="box">
+
+        <div class="collapse show" id="collapseExample">
+
+        	<!--<div class="row">-->
+            <form class="form-inline" role="form" id="filters-form" method="get">
+
+            <div class="col-lg-4 col-md-5 form-group ">
+                <label for="academic_year">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 32%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %}  Academic Years
+                </label>
+                <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <option> All </option>
+                    {% for sem in year_filter.form.academic_year %}
+                        {{sem}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-5 form-group ">
+                <label for="community_type">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 33%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} Community Organization Types
+                </label>
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <option> All </option>
+                            {% for community_type in communityPartners.form.community_type %}
+                                {{community_type}}
+                            {% endfor %}
+                    </select>
+            </div>
+                <div class="col-lg-4 col-md-5 form-group">
+
+                <label for="engagement_type">
+                    {% for data_definition in data_definition %}
+                    {% if data_definition.id == 31%}
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                          <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    {% endif %}
+                    {% endfor %} Engagement Types
+                </label>
+                <select class="form-control" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <option> All </option>
+                    <option value {% if engagement_id == 0 %} selected {% endif %}>---------</option>
+                    {% for e in engagement_filter %}
+                        <option value={{e.id}} {% if engagement_id == e.id %} selected {% endif %}>{{e.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+                <div class="col-lg-4 col-md-5 form-group ">
+                <label for="college_name">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 43%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} College and Main Units
+                </label>
+                <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <option> All </option>
+                    {% for college in college_filter.form.college_name %}
+                        {{college}}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-lg-4 col-md-5 form-group ">
+                <label for="campus_partner">
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 1%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                              title="{{ data_definition.description }}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} Campus Partners
+                </label>
+                <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <option value="" disabled selected hidden></option>
+                    <option> All </option>
+                    <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+                    {% for campus in campus_filter %}
+                        <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="col-lg-4 col-md-5 form-group ">
+
+                <label for="weitz_cec_part">
+
+                    {% for data_definition in data_definition %}
+                        {% if data_definition.id == 27%}
+                            <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        {% endif %}
+                    {% endfor %} CEC Building Partners
+                </label>
+                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                   <option value="" disabled selected hidden></option>
+                     {% for cec_choice in cec_part_choices.cec_choice %}
+                            {{ cec_choice }}
+                        {% endfor %}
+
+                    </select>
+            </div>
+            </form>
+       </div>
+
+        </div>
+<br>
+    <div class ="box">
+    <div style="margin-top:15px;">
+<table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+    <thead>
+    <tr>
+        <th>
+            {% for data_definition in data_definition %}
+                    {% if data_definition.id == 3%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i>  Focus Area</span>
+                    {% endif %}
+                {% endfor %}
+        </th>
+        <th>
+              {% for data_definition in data_definition %}
+                    {% if data_definition.id == 46%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partners</span>
+                    {% endif %}
+                {% endfor %}
+        </th>
+        <th>
+             {% for data_definition in data_definition %}
+                    {% if data_definition.id == 47%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Projects</span>
+                    {% endif %}
+                {% endfor %}
+        </th>
+        <th>
+             {% for data_definition in data_definition %}
+                    {% if data_definition.id == 50%}
+                        <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Campus Partners</span>
+                    {% endif %}
+                {% endfor %}
+        </th>
+        <th>
+            {% for data_definition in data_definition %}
+                {% if data_definition.id == 48%}
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students</span>
+                {% endif %}
+            {% endfor %}
+        </th>
+        <th>
+             {% for data_definition in data_definition %}
+                {% if data_definition.id == 49%}
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Hours</span>
+                {% endif %}
+            {% endfor %}
+        </th>
+        <th>
+            {% for data_definition in data_definition %}
+                {% if data_definition.id == 12%}
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Students</span>
+                {% endif %}
+            {% endfor %}
+        </th>
+        <th>
+             {% for data_definition in data_definition %}
+                {% if data_definition.id == 12%}
+                    <span tabindex="-1" data-toggle="tooltip"
+                          title="{{ data_definition.description }}" class="float" >
+                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Hours</span>
+                {% endif %}
+            {% endfor %}
+        </th>
+
+  </tr>
+    <thead>
+        {% for focus in focus_topic_list %}
+        {% if focus.rec_type == 'Focus' %}
+        <tbody class="labels">
+            <tr>
+                <td><b>
+                    <span data-toggle="tooltip" title="{{ focus.focus_desc }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+<!--                    <a data-toggle="collapse" href="#topics{{m.id}}"> {{ m.mission_name }}</a>-->
+                    <a style="color: {{ focus.focus_color }}" data-toggle="collapse" href="#topics{{focus.focus_id}}">{{focus.focus_name}}</a>
+                </b></td>
+                <td><b>
+                    {% if  focus.community_count  < 1 %}
+                        {{focus.community_count}}
+                        {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ focus.comm_id_list }}" target="_blank" class="class1">{{focus.community_count}}</a>
+                    {% endif %}
+                </b></td>
+                <td><b>
+                    {% if  focus.project_count  < 1 %}
+                        {{focus.project_count}}
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ focus.proj_id_list }}" target="_blank" class="class1">{{focus.project_count}}</a>
+                    {% endif %}
+                </b></td>
+                <td><b>
+                    {{focus.campus_count}}
+                </b></td>
+                <td><b>{{focus.total_uno_students}}</b></td>
+                <td><b>{{focus.total_uno_hours}}</b></td>
+                <td><b>{{focus.total_k12_students}}</b></td>
+                <td><b>{{focus.total_k12_hours}}</b></td>
+            </tr>
+        </tbody>
+        <tbody class="collapse" id="topics{{focus.focus_id}}">
+        {% for topic in focus_topic_list %}
+        {%  if topic.rec_type == 'Topic' and topic.focus_id == focus.focus_id %}
+            <tr>
+                <td><div style="padding-left: 2em;">{{topic.topic_name}}</div></td>
+                <td>
+                    {% if  topic.community_count  < 1 %}
+                        {{topic.community_count}}
+                        {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ topic.comm_id_list }}" target="_blank" class="class1">{{topic.community_count}}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if  topic.project_count  < 1 %}
+                        {{topic.project_count}}
+                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ topic.proj_id_list }}" target="_blank" class="class1">{{topic.project_count}}</a>
+                    {% endif %}
+                </td>
+                <td><b>
+                    {{topic.campus_count}}
+                </b></td>
+                <td>{{topic.total_uno_students}}</td>
+                <td>{{topic.total_uno_hours}}</td>
+                <td>{{topic.total_k12_students}}</td>
+                <td>{{topic.total_k12_hours}}</td>
+            </tr>
+        {%  endif %}
+        {% endfor %}
+
+        </tbody>
+        {% endif %}
+        {% endfor %}
+        <tbody>
+            <tr>
+                <td><b>Total</b></td>
+                <td><b>{{ rpt_total_comm_partners }}</b></td>
+                <td><b>{{ rpt_total_projects }}</b></td>
+                <td><b>{{ rpt_total_camp_partners }}</b></td>
+                <td><b>{{ rpt_total_uno_students }}</b></td>
+                <td><b>{{ rpt_total_uno_hours }}</b></td>
+                <td><b>{{ rpt_total_k12_students }}</b></td>
+                <td><b>{{ rpt_total_k12_hours }}</b></td>
+            </tr>
+        </tbody>
+            </tr>
+        </tbody>
+</table>
+        </div>
+    </div>
+    </div>
+
+<br> <br>
+{% endblock %}
+{% block selectizeForm %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+<script>
+$(document).ready(function(){
+
+
+    $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
+                                        sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+    $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+    $('#id_mission').select2({placeholder: 'All Project Focus Areas',width: '75%',
+                                    sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+    $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '75%'});
+    $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
+                                    sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+    $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
+                                    sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+    $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
+                                    sorter: function(data) {
+                                            /* Sort data using lowercase comparison */
+                                            return data.sort(function (a, b) {
+                                                a = a.text.toLowerCase();
+                                                b = b.text.toLowerCase();
+                                                if (a > b) {
+                                                    return 1;
+                                                } else if (a < b) {
+                                                    return -1;
+                                                }
+                                                return 0;
+                                            });
+                                        }});
+});
+</script>
+{% endblock %}
+
+
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">ft',
+       // searching:false,
+       buttons: {
+       name: 'primary',
+       buttons: [{
+           extend: 'csv',
+           text:'Excel'
+       }, 'excel', 'pdf'],
+           aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  , {"bSearchable": false}]
+       }
+   });
+       $('#example_filter').find('input').addClass('clearable');
+               function tog(v){return v?'addClass':'removeClass';}
+$(document).on('input', '.clearable', function(){
+    $(this)[tog(this.value)]('x');
+}).on('mousemove', '.x', function( e ){
+    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+}).on('touchstart click', '.onX', function( ev ){
+    ev.preventDefault();
+    $(this).removeClass('x onX').val('').change();
+    $('#example').DataTable().destroy();
+    $('#example').DataTable().draw();
+    $('#example_filter').find('input').addClass('clearable');
+});
+   } );
+</script>
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
+</script>
+{% endblock %}

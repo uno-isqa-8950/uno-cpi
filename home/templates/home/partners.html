@@ -1,143 +1,130 @@
-{% extends 'home/base_home.html' %} {% load staticfiles %} {% block content %}
-{% load wagtailcore_tags register_tags %}
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">#}
-    <style>
-        @media (min-width: 768px)
+{% extends 'home/base_home.html' %} {% load static %} {% block content %} {% load wagtailcore_tags register_tags %}
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<style>
+    @media (min-width: 768px) {
+        .panel {
+            width: auto;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: auto;
+            height: auto;
+            ;
+        }
+        #ab1 {
+            margin-left: auto;
+        }
+        #ab2 {
+            margin-right: auto;
+        }
+        .fa-question-circle:hover {
+            color: red;
+            horiz-align: right;
+        }
+        /*p{*/
+        /*text-align: justify;*/
+        /*margin-right: 3%;*/
+        /*font-family: Helvetica;*/
+        /*}*/
+    }
+    
+    @media only screen and (max-width: 768px) {
+        /* For mobile phones: */
         {
-            .panel
             {
-                width: auto;
-                margin-left: auto;
-                margin-right:auto;
-                margin-top:auto;
-                height: auto;;
+                width: 100%;
             }
-            #ab1
-            {
-
-                margin-left: auto;
-
-            }
-            #ab2
-            {
-
-
-                margin-right: auto;
-
-            }
-            .fa-question-circle:hover {
-                color: red;
-                horiz-align: right;
-            }
-
-            p{
-                text-align: justify;
-                margin-right: 3%;
-                font-family: Helvetica;
-            }
-
         }
-
-        @media only screen and (max-width: 768px) {
-            /* For mobile phones: */ {
-        {#width: 100%;#}
+        h4 {
+            font-size: large;
         }
-
-
-            h4{
-                font-size: large;
-            }
-
-            p{
-                font-size: small;
-            }
-            a{
-                font-size: small;
-                {#text-align: center;#}
-            }
-            a.btn.btn-secondary{
-                margin: 10%;
-                padding: 1%;
+        p {
+            font-size: small;
+        }
+        a {
+            font-size: small;
+            {
                 text-align: center;
-            {#color: #333333;#}
-                font-size: x-small;
             }
         }
-        .my-text{
-
-            font-size: x-large;
+        a.btn.btn-secondary {
+            margin: 10%;
+            padding: 1%;
             text-align: center;
-            margin-top: 15px;
-            font-family: "Times New Roman"
+            {
+                color: #333333;
+            }
+            font-size: x-small;
         }
-        .float{
-            float:revert;
-        }
-        .fa
-        {
-            font-size: 15px;
-        }
-        p
-        {
-            margin-left: 25px;
-            margin-top: 15px;
-            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-        }
-        .btn:hover {
-            color: white;
-            background: grey;
-        }
-
-    </style>
-    <br>
-        <div class="container-fluid" style="width: 100vw;
+    }
+    
+    .my-text {
+        font-size: x-large;
+        text-align: center;
+        margin-top: 15px;
+        font-family: "Times New Roman"
+    }
+    
+    .float {
+        float: revert;
+    }
+    
+    .fa {
+        font-size: 15px;
+    }
+    
+    p {
+        margin-left: 25px;
+        margin-top: 15px;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+    
+    .btn:hover {
+        color: white;
+        background: grey;
+    }
+</style>
+<br>
+<div class="container-fluid" style="width: 100vw;
   position: relative;  left: 50%; right: 50%; margin-left: -50vw; margin-right: -50vw;">
-            <div class="row">
-                <div id="ab1" class="col-xs-6 col-md-4">
-{#                    <div class = "panel-default panel-heading  text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
-                            <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
+    <div class="row">
+        <div id="ab1" class="col-xs-6 col-md-4">
+            <div style="box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);">
+                <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px">
+                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Community Partners
                                     {% for data_definition in data_definition %}{% if data_definition.id == 2 %}
                                             <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
                                         {% endif %}{% endfor %}</h4></b>
                             </label>
-                        </div>
+                </div>
 
-                        <div>
-                            <img src="{% static "img/CommunityPartner.jpg" %}" class="img-fluid" alt="My Community Partner" width=100% height=100%/>
-                        </div>
-                        <div style="text-align: center;">
-                            {% comm_parts %}
-{#                            <p> A Community Partner is a an organization, who are associated in carrying out projects pertaining to varied mission areas.</p>#}
-
-                             <div class="col text-center">
-                                <div class="card" style="border:none">
-                                    <form action="{% url 'partners:checkCommunityPartner' %}" >
-                                    <button id="myButton" type="submit" class="btn btn-custom">   <i class="fa fa-users" aria-hidden="true"></i>
+                <div>
+                    <img src="{% static "img/CommunityPartner.jpg" %}" class="img-fluid" alt="My Community Partner" width=100% height=100%/>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                {% comm_parts %}
+                <div class="col text-center" style="margin-top: 20px">
+                    <form action="{% url 'partners:checkCommunityPartner' %}">
+                        <button id="btn_reg_community_partner" type="submit" class="btn btn-secondary">
                                        Register Community Partner</button><br><br>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="rich-text" >
-                                {% comm_part_users %}
-    {#                            <p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>#}
-                                {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
-                                    <a style="color: #d71920;font-family: Helvetica"  title="Registers Community Partner Users associated with a Community Partner"  href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
-                                {% endif %}
-                                <br>
-                                <br>
-                            </div>
-                        </div>
-                    </div>
-{#                </div>#}
-                <div id="ab2" class="col-xs-6 col-md-4">
-{#                    <div class = "panel-default text-center">#}
-                        <div class="card" style="padding: 2%;margin-top:10%;background-color:#333;">
-                            <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
+                    </form>
+                </div>
+
+                <div class="rich-text">
+                    {% comm_part_users %}
+                    <!--<p> A Community Partner User is a an individual associated with the Community Partner. To register as a Community Partner User on this website, kindly get in touch with one of the Campus Partner</p>-->
+
+                </div>
+            </div>
+
+        </div>
+        <div id="ab2" class="col-xs-6 col-md-4">
+            <div style="box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);">
+                <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px;">
+                    <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
                                     {% for data_definition in data_definition %}
                                         {% if data_definition.id == 1 %}
@@ -145,36 +132,36 @@
                                         {% endif %}{% endfor %}</h4></b>
                             </label>
 
-                        </div>
-                        <div>
-                            <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
-                        </div>
-                        <div style="text-align: center;">
-                                {% cam_parts %}<div class="col text-center">
-                                <div class="card" style="border:none">
-                                    <form action="{% url 'partners:registerCampusPartner' %}" >
-                                    <button id="myButton1" type="submit" class="btn btn-custom">   <i class="fa fa-users" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <img src="{% static "img/CEC-CampusPartner.jpg" %}" class="img-fluid" alt="My Campus Partner" width=100% height=100%/>
+                </div>
+            </div>
+            <div style="text-align: center;">
+                {% cam_parts %}
+                <div class="col text-center">
+                    <div style="border:none;margin-top: 20px">
+                        <form action="{% url 'partners:registerCampusPartner' %}">
+                            <button id="btn_reg_campus_partner" type="submit" class="btn btn-secondary">
                                       Register Campus Partner</button><br><br>
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="richtext-image" style="margin: auto">
-                                    {% cam_part_users %}<a style="color: #d71920;font-family: Helvetica"  title="Registers Users associated with a Campus Partner on UNO campus" href='/registerCampusPartnerUser/'>Campus Partner User Registration </a>
-                                </div>
-                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="rich-text" style="margin: auto">
+                    {% cam_part_users %}
                 </div>
             </div>
         </div>
-    <br>
-    <br>
-    <br>
-    <br>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
 
-    <script>
-        $("#partner_help").popover()
+<script>
+    $("#partner_help").popover()
 
-        $("#helptext").popover()
-
-    </script>
+    $("#helptext").popover()
+</script>
 {% endblock %}
-

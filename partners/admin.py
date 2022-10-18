@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission
+from .models import CommunityPartner,CommunityPartnerUser,CampusPartnerUser,  CommunityType,  CampusPartner, CommunityPartnerMission, CecPartActiveYrs, CecPartnerStatus, PartnerStatus
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from simple_history.admin import SimpleHistoryAdmin
@@ -10,16 +10,17 @@ class CommunityPartnerResource(resources.ModelResource):
 
     class Meta:
         model = CommunityPartner
-        fields = ('name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part')
+        fields = ('id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district','partner_status', 'cec_partner_status')
+        import_id_fields = ['id','name', 'website_url', 'community_type', 'k12_level','address_line1', 'address_line2', 'country', 'county', 'city', 'state', 'zip', 'latitude','longitude','active', 'weitz_cec_part','legislative_district','partner_status', 'cec_partner_status']
 
 class CommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     list_display = ('name', 'website_url', 'community_type', 'k12_level',
 
                      'address_line1', 'address_line2', 'country', 'county','city', 'state', 'zip', 'latitude', 'longitude',
-                    'active', 'weitz_cec_part')
+                    'active', 'weitz_cec_part','legislative_district', 'partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'county','city', 'website_url', 'active')
+    search_fields = ('name', 'county','city', 'website_url', 'active','partner_status__name', 'cec_partner_status__name')
 
     resource_class = CommunityPartnerResource
 
@@ -31,13 +32,16 @@ class CampusPartnerResource(resources.ModelResource):
 
     class Meta:
         model = CampusPartner
-        fields = ('name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system')
+        fields = ('id','name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system',
+                  'cec_partner_status', 'partner_status')
+        import_id_fields = ['id','name', 'college_name','department','weitz_cec_part','active', 'university', 'education_system','cec_partner_status', 'partner_status']
 
 class CampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
-    list_display = ('name', 'college_name','department','weitz_cec_part','active')
+    list_display = ('name', 'college_name','department','weitz_cec_part','active','partner_status', 'cec_partner_status')
 
-    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active')
+    search_fields = ('name', 'college_name__college_name','department__department_name','weitz_cec_part','active',
+                     'partner_status__name', 'cec_partner_status__name')
 
     resource_class = CampusPartnerResource
 
@@ -86,7 +90,62 @@ class CommunityPartnerMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = CommunityPartnerMissionResource
 
 
+class CecPartnerStatusResource(resources.ModelResource):
+    name = fields.Field(attribute='name', column_name="CEC Status")
+    description = fields.Field(attribute='description', column_name="CEC Status Description")
 
+    class Meta:
+        model = CecPartnerStatus
+        fields = ('id','name', 'description')
+        import_id_fields = ['id','name','description']
+
+
+class CecPartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('name', 'description')
+
+    search_fields = ('name', 'description')
+
+    resource_class = CecPartnerStatusResource
+
+
+class CecPartActiveYrsResource(resources.ModelResource):
+    start_semester = fields.Field(attribute='start_semester', column_name="CEC Partner Start Semester")
+    start_acad_year = fields.Field(attribute='start_acad_year', column_name="CEC Partner Start AY")
+    end_semester = fields.Field(attribute='end_semester', column_name="CEC Partner End Semester")
+    end_acad_year = fields.Field(attribute='end_acad_year', column_name="CEC Partner End AY")
+    comm_partner = fields.Field(attribute='comm_partner', column_name="Community Partner")
+    camp_partner = fields.Field(attribute='camp_partner', column_name="Campus Partner")
+
+    class Meta:
+        model = CecPartActiveYrs
+        fields = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+        import_id_fields = ['id','start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner']
+
+class CecPartActiveYrsList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+
+    search_fields = ('start_semester', 'start_acad_year','end_semester', 'end_acad_year','comm_partner','camp_partner')
+
+    resource_class = CecPartActiveYrsResource
+
+
+class PartnerStatusResource(resources.ModelResource):
+    name = fields.Field(attribute='name', column_name="Partner Status")
+    description = fields.Field(attribute='description', column_name="Partner Status Description")
+
+    class Meta:
+        model = PartnerStatus
+        fields = ('id','name', 'description')
+        import_id_fields = ['id','name','description']
+
+
+
+class PartnerStatusList(SimpleHistoryAdmin, ImportExportModelAdmin):
+    list_display = ('name', 'description')
+
+    search_fields = ('name', 'description')
+
+    resource_class = PartnerStatusResource
 
 # class CommunityTypeList(admin.ModelAdmin):
 #     list_display = ('community_type')
@@ -99,6 +158,6 @@ admin.site.register(CommunityType, SimpleHistoryAdmin)
 admin.site.register(CommunityPartnerMission,CommunityPartnerMissionList)
 admin.site.register(CampusPartner,CampusPartnerList)
 admin.site.register(CampusPartnerUser,CampusPartnerUserList)
-
-
-
+admin.site.register(CecPartnerStatus,CecPartnerStatusList)
+admin.site.register(CecPartActiveYrs,CecPartActiveYrsList)
+admin.site.register(PartnerStatus,PartnerStatusList)

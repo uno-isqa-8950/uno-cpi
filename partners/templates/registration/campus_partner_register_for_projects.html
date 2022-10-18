@@ -1,289 +1,828 @@
 {% extends 'home/base_home.html' %}
+{% load static %}
 {% load bootstrap %}
 {% block content %}
-
+{% load wagtailcore_tags register_tags %}
 
 <style>
+    #footer{
+        margin-top: 200px;
+    }
+    @media screen and (max-width: 768px) {
+        .select2 {
+            width: 95% !important;
+        }
+        #button-center{
+            text-align: center;
+        }
+    }
+    .select2 {
+        width:96%!important;
+    }
+    .help-block
+    {
+        display: none;
+    }
+    .select2-container--open .select2-dropdown--below
+    {
+        margin-left:25px;
+    }
+    .select2-container--open .select2-dropdown--above
+    {
+        margin-left:25px;
+    }
+    .select2-container--default .select2-selection--single
+    {
+        /*border: 2px solid #aaa;*/
+        height:35px;
+        margin-left:3%;
+        margin-right: -2%;
+        max-width: 100%;
+    }
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
 
-label[for=id_name]:after,label[for=id_college_name]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after
-{
-    content:"*" ;
-    color:red
-}
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+    .h9{
+        font-size:0.8em;
+    }
+    .btn-link{
+        font-size: small;
+    }
 
-@media (min-width: 700px)
-{
+    .panel {
+        margin-bottom: 20px;
+        background-color: #ffffff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
 
-input[name=name]
-{
-    width:93%;
-}
-}
+    .btn-link, .btn-link:hover
+    {
+        color: #d71920
+    }
+    .colpanel-default > .colpanel-heading {
+        background-color: lightgrey;
+        height: 33px;
+    }
+    .formtabfont a,i,h2{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+    .formtabfont h2:hover{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        text-decoration: underline;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+    .panel{
+        margin-bottom: 10px;
+        margin-top: 10px;
+    }
+    .icon{
+        margin-top: 33px;
+    }
+    textarea[id=id_description]{
+        height:130px;
+    }
+    label[for=id_campus-0-campus_partner]:after{
+        display: none;
+        content: " ";
+    }
+    .delicon{
+        color: red;
+    }
+    .sw-btn-prev{
+        float: left;
+    }
+    .collapsible {
+        background-color: #C1C0C0;
+        color: black;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        border: none;
+        text-align: left;
+        outline: none;
+        font-size: 15px;
+    }
+    .active, .collapsible:hover {
+        background-color: #E1E1E1;
+    }
+    .content {
+        padding: 0 18px;
+        display: none;
+        overflow: hidden;
+        background-color: #f1f1f1;
+    }
+    /*.redbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid #b60000;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.redbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: #b60000;*/
+    /*}*/
+    /*.blackbutton{*/
+        /*background-color: white; !* Green *!*/
+        /*border: 2px solid black;*/
+        /*color: black;*/
+        /*padding: 8px 16px;*/
+        /*text-align: center;*/
+        /*text-decoration: none;*/
+        /*display: inline-block;*/
+        /*font-size: 16px;*/
+        /*margin: 4px 2px;*/
+        /*-webkit-transition-duration: 0.4s; !* Safari *!*/
+        /*transition-duration: 0.4s;*/
+        /*cursor: pointer;*/
+    /*}*/
+    /*.blackbutton:hover{*/
+        /*text-decoration: underline;*/
+        /*color: white;*/
+        /*background-color: black;*/
+    /*}*/
 
-.panel {
-    margin-bottom: 20px;
-    background-color: #ffffff;
-    border: 1px solid transparent;
-    border-radius: 4px;
-    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
-}
+
+    .addbutton{
+        background-color: black;
+        border: 2px solid black;
+        color: white;
+        padding: 8px 16px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
+        cursor: pointer;
+    }
+    .addbutton:hover{
+        text-decoration: underline;
+        color: white;
+        /*background-color: black;*/
+    }
 
 
-label
-{
-    margin-left: 25px;
-    margin-top: 5px;
-    font-weight: bold;
-}
 
-.select2 {
-width:93%!important;
-}
-.help-block
-{
-    display: none;
-}
-
-.select2-container--default .select2-selection--single
-{
-    margin-left:22px;
-    width:100%
-  }
-
-.select2-container--open .select2-dropdown--below
-{
-    margin-left:22px
-}
+    .btn-red{
+        background-color: crimson; /* Green */
+        border: none;
+        color: white;
+        padding: 2px 8px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        height: 38px;
+        margin: 9px 2px;
+        -webkit-transition-duration: 0.4s; /* Safari */
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 5px;
+        float:left;
+        margin-left:25px;
+    }
+    .displaybox {
+        border: 1px black;
+        padding: 10px;
+        display: flex;
+        border-top-right-radius: 10px 5px;
+    }
+    .redborder {
+        border: 1px red;
+    }
 
 </style>
-<div class = "container">
-    <div class="row justify-content-md-center">
-		<div class="col-lg-9 col-md-10">
-            <div class = "panel panel-default">
-		        <div class="panel-heading text-center">
-                    <h4>Register: Campus Partner</h4>
-                </div>
-			        <div class="panel-body">
-                        <form action="." onfocusout="return validateForm()" method="post">
-                            {% csrf_token %}
-                                <div class="row">
-                                    <div class="col-md-12 col-lg-12">
-                                        {{ campus_partner_form.name|bootstrap }}
-                                          {% if  campus_partner_form.name.errors %} {% for error in  campus_partner_form.name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-					    			        <div class = "row">
-                                                <div class="col-lg-12 col-md-12 col-sm-12">
+
+<style>
+.form-control
+{
+    width:100%;
+    border:1px solid #aaa;
+    border-radius:0px;
+    margin:10px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 5px;
+}
+
+    input[type=text],[type=email],[type=url],input[id=id_address_line1],input[id=id_city],input[id=id_county],input[id=id_state],input[id=id_country], input[id=id_zip]
+    {
+        width:100%;
+        color:#444;
+        border:1px solid #bbbbbb;
+        border-radius:2px;
+        line-height: 28px;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin:10px 0 8px 4px;
+        padding-left:8px;
+        padding-right:20px;
+        font-size: 16px;
+        font-family: "Arial Narrow", sans-serif;
+        box-sizing:border-box;
+        height:38px;
+
+    }
+
+    label[for=id_name]:after,label[for=id_college_name]:after,label[for=id_form-0-contact_type]:after,label[for=id_form-0-email_id]:after,label[for=id_form-0-first_name]:after,label[for=id_form-0-last_name]:after,label[for=id_form-0-work_phone]:after
+    {
+        content:"*" ;
+        color:red
+    }
+
+    /*@media (min-width: 700px)*/
+    /*{*/
+
+    /*input[name=name]*/
+    /*{*/
+    /*width:93%;*/
+    /*}*/
+    /*.help-block*/
+    /*{*/
+    /*display: none;*/
+    /*}*/
+    /*}*/
+
+
+    label
+    {
+        margin-left: 25px;
+        margin-top: 5px;
+        font-weight: bold;
+    }
+
+    .select2 {
+        width:93%!important;
+    }
+    #button-center{
+        text-align: center;
+    }
+
+    .select2-container--default .select2-selection--single
+    {
+        margin-left:22px;
+        width:100%
+    }
+
+    .select2-container--open .select2-dropdown--below
+    {
+        margin-left:22px
+    }
+    .panel{
+        box-shadow: none;
+    }
+    .panel-heading{
+        padding: 0px;
+        margin: 0px;
+    }
+
+
+
+
+</style>
+
+
+<form action="." onfocusout="return validateForm()" method ="post">
+     <input type="hidden" id="projectId" name="projectId" value="{{ projectId }}">
+    <div class = "container-fluid">
+<br>
+        <br>
+        <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12">
+                                <div class=" text-center"><h3 class="heading">Campus Partner Registration</h3></div>
+<div class="card snippet-card">
+    <div class="container text-snippet">
+
+                                   {% cam_part_regs %}
+    </div>
+</div>
+                        {% csrf_token %}
+                <div class="box">
+                        <div id="smartwizard">
+                            <ul>
+                                <li><a href="#step-1">Campus partner details</a></li>
+                                <li><a href="#step-2">Contact Information</a></li>
+                            </ul>
+                            <div>
+                                <div id="step-1">
+                                    <div id="form-step-0">
+                                        <div class ="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <label for="id_name" class="col-sm-4">
+  {% for data_definition in data_definition %}
+                                                       {% if data_definition.id == 1%}
+                                                          <span tabindex="-1" data-toggle="tooltip"
+                                                                title="{{ data_definition.description }}" class="float" >
+                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                                                           {% endif %}
+                                                        {% endfor %}
+                                                    Campus Partner Name</label>
+                                                    <div class="col-sm-7">
+                                                        {{ campus_partner_form.name}}
+                                                        {% if campus_partner_form.name.errors %} {% for error in campus_partner_form.name.errors %}
+                                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                                    </div>
                                                 </div>
                                             </div>
-
-                                        <div class="row">
-                                            <div class="col-md-12 col-lg-12">
-                                                {{ campus_partner_form.college_name|bootstrap }}
-                                                {% if  campus_partner_form.college_name.errors %} {% for error in  campus_partner_form.college_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                <div class = "row">
-                                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                            <div class="col-md-6">
+                                                <div class="row">
+                                                    <label for="id_college_name" class="col-sm-4">College or Main Unit</label>
+                                                    <div class="col">
+                                                        {{ campus_partner_form.college_name}}
+                                                        {% if campus_partner_form.college_name.errors %} {% for error in campus_partner_form.name.errors %}
+                                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        {{ formset.management_form }}
-                                        {% for form in formset %}
-                                            <div class="form-row" id="contact1">
-                                                <div class="col-md-12">
-                                                    <label>Point of Contact Information</label>
-                                                </div>
-                                                <div class="input-group">
-                                                    <div class="col-md-6 col-sm-6">
-                                                        {{ form.contact_type|bootstrap }}
-                                                        {% if  form.contact_type.errors %} {% for error in  form.contact_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                    </div>
-                                                    <div class="col-md-6 col-sm-6">
-                                                        {{ form.email_id|bootstrap }}
-                                                        {% if  form.email_id.errors %} {% for error in  form.email_id.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                    </div>
-                                                </div>
-
-
-                                                        <div class="input-group">
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.first_name|bootstrap }}
-                                                                {% if  form.first_name.errors %} {% for error in  form.first_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.last_name|bootstrap }}
-                                                                {% if  form.last_name.errors %} {% for error in  form.last_name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.work_phone|bootstrap }}
-                                                                {% if  form.work_phone.errors %} {% for error in  form.work_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                            </div>
-                                                            <div class="col-md-6 col-sm-6">
-                                                                {{ form.cell_phone|bootstrap }}
-                                                                {% if  form.cell_phone.errors %} {% for error in  form.cell_phone.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
-                                                            </div>
-                                                        </div>
-                                                        <div class="input-group-append" >
-                                                            <button class="btn btn-secondary add-form-row"><i class="fa fa-plus-square"></i> Add more contacts </button>
-                                                        </div>
-                                                    </div>
-                                                {% endfor %}
-
-                            <div class="col-md-12 col-lg-12">
-                               <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" required id="terms"/>
-                                 I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank">Terms & Conditions</a> of the Community Partnership Initiative.</p>
-                            </div>
-
-                            <div class = "row justify-content-md-center">
-                                <div class="col-lg-2 col-md-3 col-sm-3">
-                                    <button type="submit" class="btn btn-custom"><i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                                        Submit</button> <br><br>
+                                    </div>
                                 </div>
-                            </div><br>
+                                <div id="step-2">
+                                    <div class="row"><br></div>
 
-                        </div></div>    </form>
+                                    {{ formset.management_form }}
+                                    {% for form in formset %}
+                                    <div id="contactinfo" class= "panel-collapse collapse show">
+                                        <div class="panel-body">
+                                            <br>
+                                            <div class="row form-row">
+
+                                                            <label style="padding-top: 13px">First Name <span style="color:red;">*</span></label>
+
+
+                                                <span style="padding-left: 25px">{{ form.first_name|bootstrap }}</span>
+
+
+
+                                                           <label style="padding-top: 13px">Last Name <span style="color:red;">*</span></label>
+
+                                                <span style="padding-left: 25px">{{ form.last_name|bootstrap }}</span>
+
+
+
+
+                                                            <label style="padding-top: 13px">Email <span style="color:red;">*</span></label>
+
+                                                <span style="padding-left: 25px">{{ form.email_id|bootstrap }}</span>
+
+                                                <div class="col" style="padding-left: 30px">
+                                                    <!--<button class="add-form-row" style="background-color: white; border:none;border-color: white"><i class=" centered fa fa-plus-square fa-2x"></i> </button>-->
+
+                                                    <button class="add-form-row  centered fa fa-plus-square fa-2x" style="background-color: white; border:none;border-color: white;padding-top: 13px;"> </button>
+                                                </div>
+                                            </div>
+                                            <div id="contact-fields">
+                                                <br>
+                                                <table class="table table-bordered table-striped">
+                                                    <thead><th>Name</th><th>Email Address</th><th>Delete Entry</th>
+                                                    </thead>
+                                                    <tbody id = "form-body">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    {% endfor %}
+
+
+<br>
+
+    </div>
+
+                                </div>
+                            </div>
+    <div class ="container-fluid">
+        <div class="row centered" id="termsdiv">
+                                    <p><input type="checkbox" id="terms">
+                                        I agree to the <a style="color: #d71920"
+                                                          href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf"
+                                                          target="_blank">Terms & Conditions</a>
+                                        of the Community Partnership Initiative.</p>
+                                </div>
+        <div class="row centered" style="margin-top:30px;">
+
+                                    <button type="submit" value="submit" name="submit" id="submit"
+                                            class="save btn btn-secondary">Submit
+                                    </button>
+                                    <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
+
+                                </div>
+    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>  <br><br>
+</form>
 
-{% endblock %}
+
+
+<br><br>
 {% block selectizeForm %}
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>#}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+{#<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>#}
 
-<script>
-$(document).ready(function(){
-  $('#id_college_name').select2(
-      {
-              placeholder: 'Select a College Name',
-                            sorter: function(data) {
-                                                        /* Sort data using lowercase comparison */
-                                                        return data.sort(function (a, b) {
-                                                            a = a.text.toLowerCase();
-                                                            b = b.text.toLowerCase();
-                                                            if (a > b) {
-                                                                return 1;
-                                                            } else if (a < b) {
-                                                                return -1;
-                                                            }
-                                                            return 0;
-                                                        });
-                                                    }}
-  );
+    <script>
+        $(document).ready(function(){
+             $('.control-label').hide();
+             $('#contact-fields').hide();
+            $('#id_college_name').select2(
+                {
+                    placeholder: 'Select a College or Main Unit',
+                    sorter: function(data) {
+                        /* Sort data using lowercase comparison */
+                        return data.sort(function (a, b) {
+                            a = a.text.toLowerCase();
+                            b = b.text.toLowerCase();
+                            if (a > b) {
+                                return 1;
+                            } else if (a < b) {
+                                return -1;
+                            }
+                            return 0;
+                        });
+                    }}
+            );
+            // $('.noalpha').attr('data-format','+1 (ddd) ddd-dddd');
+    $('.noalpha').keyup(function () {
+    this.value = this.value.replace(/[^0-9\.]/g,'');
 });
-document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+    $('.nonumbers').keyup(function () {
+    this.value = this.value.replace(/[^A-Za-z\.]/g,'');
+});
+        });
+        $('#id_name').attr('placeholder', 'Campus Partner Name');
 
-</script>
-<style>
-.select2-container .select2-selection--single
-{
-   height:38px;
-}
+          // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
 
-.select2-container--default .select2-selection--single
-{
-   border: 2px solid #aaa;
-   margin-top:8px;
-}
+    </script>
+    <style>
+        .select2-container .select2-selection--single
+        {
+            height:38px;
+            margin-left:5px;
+            border-radius: 0px;
+        }
 
-.select2-container--default .select2-selection--single .select2-selection__arrow
-{
-   top:12px;
-}
+        .select2-container--default .select2-selection--single
+        {
+            border: 1px solid #aaa;
+            margin-top:8px;
+        }
 
-.select2-container--default .select2-selection--single:focus
-{
-  border-color:grey;
-  box-shadow:0 0 8px 0 grey;
-}
+        .select2-container--default .select2-selection--single .select2-selection__arrow
+        {
+            top:12px;
+        }
 
-.select2-container--default .select2-selection--single .select2-selection__rendered {
-    line-height: 32px;
-}
-</style>
+        .select2-container--default .select2-selection--single:focus
+        {
+            border-color:grey;
+            /*box-shadow:0 0 8px 0 grey;*/
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            line-height: 32px;
+        }
+    </style>
+{% endblock %}
+
 
 {% endblock %}
 
 
- {% block custom_js %}
-{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
-<script type="text/javascript">
-function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
+
+{% block custom_js %}
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<script type="text/javascript" >
+     var contactdataarray=[];
+     var cnt = 0;
+    function updateElementIndex(el, prefix, ndx) {
+        var id_regex = new RegExp('(' + prefix + '-\\d+)');
+        var replacement = prefix + '-' + ndx;
+        if ($(el).attr('for'))
+            $(el).attr(
+                'for',
+                $(el)
+                    .attr('for')
+                    .replace(id_regex, replacement)
+            );
+        if (el.id) el.id = el.id.replace(id_regex, replacement);
+        if (el.name) el.name = el.name.replace(id_regex, replacement);
+    }
+
+    function cloneMore(selector, prefix) {
+
+        var newElement = $(selector).clone(true);
+
+        cnt++;
+        $(selector).attr('data-id', cnt);
+
+        var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+        var dataarray=[];
+        newElement.find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name) {
+
+                var type = $('#id_' + name).val();
+                dataarray.push(type);
+                contactdataarray.push(type);
+
+
+
+                    name = name.replace('-' + (total - 1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+
+                    $(this).attr({'name': name, 'id': id}).val('');
+                    $(this).css('border-color', 'gray');
+                    return;
+            }
+            var deletename= "form-"+(total-1);
+
+                var table = '<tr><td>' + dataarray[0] + ' ' + dataarray[1] + '</td><td>' + dataarray[2] +
+                    '<td align="center"><i data-id = "' + cnt + '" name="' + deletename + '" class="remove-' + prefix + '-row fa fa-lg fa-trash-o" style="color: red"></i> </td></tr>';
+                $('#contact-fields').show();
+                $("#" + prefix + "-body").append(table);
+
+
+        });
+        total++;
+
+        $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+
+        $(selector).after(newElement);
+        var conditionRow = $('.' + prefix + '-row:not(:last)');
+        conditionRow.hide();
+        conditionRow.find('.fa.add-' + prefix + '-row')
+            .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
+            .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+            .html(' ');
+
 }
-function cloneMore(selector, prefix) {
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name')
-        if(name) {
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-            var id = 'id_' + name;
-            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+
+    function deleteForm(prefix, elem) {
+        // var btn = elem.attr('name');
+        // var selected = elem.attr('data-id');
+
+        var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+        console.log('In deleteForm - total', total);
+        if (total > 1) {
+
+                var del = elem.attr('name');
+                $('#id_'+del+'-contact_type').closest('.' + prefix + '-row').remove();
+            // $('#id_'+btn).closest('.' + prefix + '-row').remove();
+            var forms = $('.' + prefix + '-row');
+            $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+            for (var i = 0, formCount = forms.length; i < formCount; i++) {
+                $(forms.get(i))
+                    .find(':input')
+                    .each(function() {
+                        updateElementIndex(this, prefix, i);
+                    });
+            }
+        }
+
+        return false;
+    }
+
+    function validateall() {
+        var valid = true;
+        var total = $( "div.form-row[data-id]" ).length;
+        if (total == 0) {
+            alert('You need to add at least one contact');
+            valid = false;
+        }
+
+        //console.log('filled forms: ' + total);
+        $('.form-row:last').find(':input').each(function () {
+            if ($(this).val() != '') {
+                alert('Please enter all the data and press + button to add contact');
+                valid = false;
+                return false;
+            }
+
+        });
+
+        return valid;
+    }
+    function validatecontact(){
+        var valid = true;
+        $('.form-row').find(':input').each(function () {
+            var name = $(this).attr('name');
+            if (name !== undefined) {
+                // if (name.includes("contact_type")){
+                //     if ($(this).val() === null) {
+                //         alert("Select Contact Type");
+                //         $(this).css("border-color","red");
+                //         valid = false;
+                //         return false;
+                //     }
+                // }
+                if (name.includes("first_name")){
+                    if ($(this).val() === '') {
+                        alert("Provide First Name");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                }
+                if(name.includes("last_name")){
+                    if ($(this).val() === '') {
+                        alert("Provide Last Name");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                }
+                if(name.includes("email_id")){
+                    if ($(this).val() === '') {
+                        alert("Provide Email Address");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                    else{
+                        var maxl = $(this).val().length;
+                        if (($(this).val().substr(maxl - 4, maxl) != '.edu')){
+                        alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
+                        $(this).css("border-color","red");
+                        valid = false;
+                        return false;
+                    }
+                    }
+                }
+
+            }
+        });
+
+        return valid;
+    }
+//     function contactsubmit(){
+//     var valid = true;
+//     $('.contact-row').find(':input').each(function () {
+//         var name = $(this).attr('name');
+//         if (name !== undefined) {
+//               if (name.includes("contact_type")){
+//                 if ($(this).val() === null) {
+//
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if (name.includes("first_name")){
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if(name.includes("last_name")){
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//             if(name.includes("email_id")) {
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 } else {
+//                     var maxl = $(this).val().length;
+//                     if (($(this).val().substr(maxl - 4, maxl) != '.edu')) {
+//                         alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
+//                         valid = false;
+//                         return false;
+//                     }
+//                 }
+//             }
+//             if(name.includes("work_phone")) {
+//                 if ($(this).val() === '') {
+//                     valid = false;
+//                     return false;
+//                 }
+//             }
+//         }
+//     });
+//
+//     return valid;
+// }
+
+
+
+
+    $(document).on('click', '.add-form-row', function(e){
+        e.preventDefault();
+        //var validinput = validateForm();
+        console.log("entering clonemore add button");
+        console.log(contactdataarray);
+
+        // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
+        //  {
+        //      console.log("success");
+        //    alert("Cannot add empty contact");
+        //
+        // }
+        // else{
+        //     console.log("entered the addition condition");
+        //      cloneMore('.form-row:last', 'form');
+        //     return true;
+        // }
+        var initialcheck = validatecontact();
+        if((initialcheck === true)) {
+            $('.error').remove();
+            cloneMore('.form-row:last', 'form');
+            return true;
         }
 
     });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.form-row:not(:last)');
-    conditionRow.find('.btn.add-form-row')
-    .removeClass('btn-success').addClass('btn-secondary')
-    .removeClass('add-form-row').addClass('remove-form-row')
-    .html('Remove');
-    return false;
-}
-function deleteForm(prefix, btn) {
-    var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-    if (total > 1){
-        btn.closest('.form-row').remove();
-        var forms = $('.form-row');
-        $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-        for (var i=0, formCount=forms.length; i<formCount; i++) {
-            $(forms.get(i)).find(':input').each(function() {
-                updateElementIndex(this, prefix, i);
-            });
-        }
-    }
-    return false;
-}
-$(document).on('click', '.add-form-row', function(e){
-    e.preventDefault();
-    cloneMore('.form-row:last', 'form');
-    return false;
-});
-$(document).on('click', '.remove-form-row', function(e){
-    e.preventDefault();
-    deleteForm('form', $(this));
-    return false;
-});
+
+    $(document).on('click', '.remove-form-row', function(e){
+        // alert('del');
+        e.preventDefault();
+        $(this).closest('tr').remove();
+        //deleteForm('form', $(this));
+        var data_id = $(this).attr('data-id');
+        $( "div.form-row[data-id='" + data_id + "']" ).remove();
+        return false;
+    });
+
 </script>
 
 
 
 
-<!--    Commenting out script per ticket #551
-        Removing HTML validations as Validation Messages are coded in forms.py file
-        -Joseph Nabity
 
 
 <script>
+    $('#submit').click(function () {
+        // alert('submit');
+        // alert("contactdataarray--"+contactdataarray.length)
+    // e.preventDefault();
+        var submitcheck = validateall();
+        if (submitcheck == true) {
 
-function validateForm() {
-    console.log("informs");
-    var id = event.target.id;
-    var name = event.target.name;
-    if (id.includes("work_phone")|| id.includes("cell_phone")){
-        phoneMask(event)
+            if ($('#terms').is(":checked")) {
+                return true;
+            }
+            else {
+                alert("Please Accept the terms and conditions before submitting");
+                return false;
+            }
         }
-    function phoneMask(event) {
+        else {
+            // alert("Add Contact Details");
+            return false;
+        }
+
+});
+
+    function validateForm() {
+        var valid = true;
+        var id = event.target.id;
+        var name = event.target.name;
+        if (id.includes("work_phone")|| id.includes("cell_phone")){
+            $('#'+id+'-error').remove();
+            phoneMask(event)
+        }
+
+            function phoneMask(event) {
     const validPhoneFormat = (/((\(\d{3}\) ?))\d{3}-\d{4}/);
     const isPhoneFormatted = validPhoneFormat.test(event.target.value);
 
@@ -295,83 +834,183 @@ function validateForm() {
         const phoneAreaCode = phoneInput.substring(0, thirdPhoneDigit);
         const phoneFirstThree = phoneInput.substring(thirdPhoneDigit, sixthPhoneDigit);
         const phoneLastFour = phoneInput.substring(sixthPhoneDigit, tenthPhoneDigit);
-        event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+        if(event.target.value) {
+            event.target.value = "(" + phoneAreaCode + ") " + phoneFirstThree + "-" + phoneLastFour;
+        }
     }
 }
-    if(id.includes("email_id")){
-    if (! /\S+@\S+/.test(document.getElementById(id).value)){
-        $('#'+id+'-error').remove();
-        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
-        document.getElementById(id).style.borderColor = "red";
-        return false;
-     }
-    else {
-       document.getElementById(id).style.borderColor = "gray";
-       $('#'+id+'-error').remove();
-       return true;
-          }
+
+        if(id.includes("first_name") || id.includes("last_name")){
+            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div class="error" style="color:red;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+                return true;
+            }
+        }
+        var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
+        if (id.includes("work_phone") || id.includes("cell_phone")) {
+            if (!(document.getElementById(id).value).match(numbers)) {
+                console.log("good test");
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div class="error" style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+
+                return true;
+            }
+        }
+
+        if(id.includes("email_id")){
+            if (! /\S+@\S+/.test(document.getElementById(id).value)){
+                $('#'+id+'-error').remove();
+                $('#'+id).after('<div class="error" style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+                document.getElementById(id).style.borderColor = "red";
+                return false;
+            }
+            else {
+                document.getElementById(id).style.borderColor = "gray";
+                $('#'+id+'-error').remove();
+
+                return true;
+            }
+
+        }
 
     }
-    var numbers = /^(\()?\d{3}(\))?(-|\s)?\d{3}(-|\s)\d{4}$/;
-    if (id.includes("work_phone") || id.includes("cell_phone")) {
-    if (!(document.getElementById(id).value).match(numbers)) {
-        console.log("good test")
-        $('#'+id+'-error').remove();
-        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-        document.getElementById(id).style.borderColor = "red";
-        return false;
-    }
-    else {
-        document.getElementById(id).style.borderColor = "gray";
-        $('#'+id+'-error').remove();
-        return true;
-         }
-    }
-    if(id.includes("first_name") || id.includes("last_name")){
-    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
-       $('#'+id+'-error').remove();
-       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
-       document.getElementById(id).style.borderColor = "red";
-       return false;
-    }
-    else {
-         document.getElementById(id).style.borderColor = "gray";
-         $('#'+id+'-error').remove();
-         return true;
-         }
-    }
-    }
+
 </script>
--->
+
+<script>
+    $(function () {
+        $('[data-toggle="popover"]').popover()
+    })
+</script>
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#smartwizard').smartWizard({
+        theme: 'arrows',
+        transitionEffect: 'fade',
+        transitionSpeed: '400',
+        showStepURLhash: false,
+        toolbarSettings: {
+            toolbarButtonPosition: 'right',
+            showNextButton: 'true',
+            showPreviousButton: 'true',
+            // toolbarExtraButtons: [
+            //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function (e) {
+            //         e.preventDefault()
+            //         if (confirm("Are you sure?")){
+            //           window.location = '/partners';
+            //         }
+            //     })
+            //
+            // ]
+        }
+    });
+
+    $('#cancel').on('click', function (e) {
+        e.preventDefault()
+        var projectid = $('#projectId').val();
+        if (confirm("Are you sure?")){
+            window.location = '/project/'+projectid+'/edit/';
+        }
+    });
+
+    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+        var elmForm = $("#form-step-"+stepNumber);
+        if(stepDirection === 'forward') {
+            if (stepNumber === 0) {
+
+                if(($("#id_name").val() === '')){
+                    alert("Please provide Partner Name to proceed.");
+                    return false
+                }
+                if( ($("#id_college_name").val() === '') ){
+                    alert("Please Select a College.");
+                    return false
+                }
+
+
+            }
+         $('#submit').show();
+            $('#termsdiv').show();
+            $('.sw-btn-prev').show();
+    $('.sw-btn-next').hide();
+
+        }
+if (stepDirection === 'backward') {
+            $('#submit').hide();
+            $('#termsdiv').hide();
+              $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
+        }
+        return true;
+    });
+    $('.sw-btn-prev').hide();
+    $('.sw-btn-next').show();
+        $('#submit').hide();
+        $('#termsdiv').hide();
+
+    $(".collapse.show").each(function(){
+        $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+    });
+        // Toggle plus minus icon on show hide of collapse element
+    $(".collapse").on('show.bs.collapse', function(){
+        $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+    }).on('hide.bs.collapse', function(){
+        $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+    });
+});
+</script>
 
 {% endblock %}
 
+
+
 {% block js %}
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 
 <script>
 
+
     $('#id_name').focus(function() {
-        $('#id_name').css('border','2px solid #aaa');
+        $('#id_name').css('border','1px solid #aaa');
     });
 
     $("#id_name").change(function () {
-      var name = $(this).val();
+        var name = $(this).val();
 
-      $.ajax({
-        url: "{% url 'partners:ajax_load_campus' %}",
-        data: {
-          'name': name
-        },
-        dataType: 'json',
-        success: function (data) {
-          if (data.is_taken) {
-            alert("A Campus Partner with this name already exists");
-            document.getElementById("id_name").value=("");
-            document.getElementById("id_name").style.borderColor="red";
-          }
-        }
-      });
+        $.ajax({
+            url: "{% url 'partners:ajax_load_campus' %}",
+            data: {
+                'name': name
+            },
+            dataType: 'json',
+            success: function (data) {
+                if (data.is_taken) {
+                    alert("A Campus Partner with this name already exists");
+                    document.getElementById("id_name").value=("");
+                    document.getElementById("id_name").style.borderColor="red";
+                }
+            }
+        });
 
     });
 

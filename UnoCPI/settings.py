@@ -13,6 +13,7 @@ from django.contrib.messages import constants as messages
 import dj_database_url
 from django.urls import reverse_lazy
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -35,13 +36,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'account',
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'account',
     'home',
     'partners',
     'projects',
@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     'import_export',
     'logentry_admin',
     'simple_history',
-
     'wagtail.contrib.forms',
     'wagtail.contrib.redirects',
     'wagtail.embeds',
@@ -63,10 +62,11 @@ INSTALLED_APPS = [
     'wagtail.search',
     'wagtail.admin',
     'wagtail.core',
-
+    'session_security',
     'modelcluster',
     'taggit',
     'storages',
+    'django.contrib.admin',
     ]
 
 
@@ -75,16 +75,21 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'wagtail.core.middleware.SiteMiddleware',
+    # 'wagtail.core.middleware.SiteMiddleware',
     'wagtail.contrib.redirects.middleware.RedirectMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    'crum.CurrentRequestUserMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'session_security.middleware.SessionSecurityMiddleware',
 ]
 
-
+SESSION_SECURITY_EXPIRE_AFTER=1800
+SESSION_SECURITY_WARN_AFTER=5
+SESSION_EXPIRE_AT_BROWSER_CLOSE=True
 ROOT_URLCONF = 'UnoCPI.urls'
 
 TEMPLATES = [
@@ -99,6 +104,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.global_settings',
+                'home.views.resourceData',
             ],
         },
     },
@@ -214,6 +220,7 @@ DEFAULT_FROM_EMAIL = 'UNO Community Partnership Initiative <partnerships@unomaha
 
 #STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 # Internationalization
 
 WAGTAIL_SITE_NAME = 'UNO-CPI'
@@ -229,8 +236,17 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
+SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
+SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
+APP_ENV = os.environ.get('APP_ENV')
+
+# when using other websites that track visitors or use their iframe on your website.
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+# Necessary to show Iframe from your own server (such as PDFs on your website)
+X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 try:
-    from .local_settings import *
+    from local_settings import *
 except ImportError:
     pass

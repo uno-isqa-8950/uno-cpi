@@ -1,4 +1,4 @@
-{% extends 'home/Dashboard_Extension.html' %} {% load staticfiles %} {% block content %}
+{% extends 'home/Dashboard_Extension.html' %} {% load static %} {% block content %}
     {#<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>#}
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
     {#<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />#}
@@ -7,7 +7,8 @@
     <style>
 
         #sidebar, .panel > .panel-heading, .panel-default > .card {
-            background-color: #333;
+            background-color: #333333;
+
         }
 
         .btn-primary
@@ -68,13 +69,13 @@
 
 
         a {
-            color: #fff;
+            color: #000000;
             text-decoration: none;
         }
 
         a:hover
         {
-            color:#fff;
+            color:#bbb;
         }
 
         {#.mapboxgl-map:-webkit-full-screen#}
@@ -99,6 +100,8 @@
             margin-left:0px;
             width:210px;
             margin-top: 0px;
+            border: 2px solid #aaa;
+            border-radius:4px;
         }
 
         select[id=selectDistrict]
@@ -233,41 +236,7 @@
         }
 
 
-        .legend {
-            {#margin-top:10px;#}
-            background-color: #bbbbbb;
-            border-radius: 10px;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.10);
-            font: 13px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            position:relative;
-            left:10px;
-            right: 10px;
-            padding: 10px;
-            color: white;
-            width:230px;
-        }
 
-        .legend h4 {
-            margin: 0 0 5px;
-            color: white;
-            font-size: 14px;
-        }
-
-        .legend div span {
-            border-radius: 100%;
-            display: inline-block;
-            height: 13px;
-            margin-right: 10px;
-            width: 13px;
-        }
-
-        .legend-key {
-            display: inline-block;
-            border-radius: 20%;
-            width: 10px;
-            height: 10px;
-            margin-right: 5px;
-        }
 
         .filter-ctrl {
             position: absolute;
@@ -278,7 +247,7 @@
         }
 
         .filter-ctrl input[type=number] {
-            font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+            font: 12px/20px 'Arial Narrow', sans-serif;
             width: 100%;
             border: 0;
             background-color: #fff;
@@ -292,7 +261,7 @@
         }
 
         .heading {
-            background: #fff;
+            background: #888888;
             border-bottom: 1px solid #eee;
             height: 60px;
             line-height: 60px;
@@ -386,115 +355,49 @@
 
         .card
         {
+
             border-radius:0px;
+        }
+        .nodragger{
+        margin:0px;
+        padding-right:0px;
+        padding-left:0px;
+        }
+        .cardopacity
+        {
+            opacity:20%;
+        }
+        .transbox
+        {
+        margin: 30px;
+        background-color: #bbb;
+        border: 1px solid <b></b>lack;
+        opacity: 60%;
+        filter: alpha(opacity=70); /* For IE8 and earlier */
         }
     .fa{
     font-size: 15px;
 
     }
-
-     @media (max-width:575px) {
-    .fleft, .fright {
-        border:none!important;
-    }
-          label {
-        font-size: 14px;
-    }
-}
-
-    .footertext {
-        margin-top:8px;
-        margin-left: 165px;
-        width: 100%;
-        text-align: left;
-        margin-right: 165px;
-    }
-
-    hr {
-      display: block;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-      margin-left: auto;
-      margin-right: auto;
-      border:0;
-      border-top: 1px solid;
-      color:#BABABA
-    }
-
-    .fleft {
-        color:#BABABA!important;
-        border: solid;
-        border-width: 1px;
-        border-top: 0;
-        border-bottom:0;
-        border-left:0;
-        padding: 2px 6px;
-        font-size:10px;
-        display: inline-block;
-    }
-
-    .fright {
-        color:#BABABA;
-        border: solid;
-        border-width: 1px;
-        border-top: 0;
-        border-bottom:0;
-        border-right:0;
-        padding: 2px 6px;
-        font-size:10px;
-        display: inline-block;
-    }
-
-    .fcenter {
-        color:#BABABA;
-        font-size:12px;
-    }
-
-    .fleft:hover, .fright:hover, .fcenter:hover{
-        color:white !important;
-        text-decoration: none;
-    }
-
-    .break {
-        display: inline;
-    }
-
-    @media (max-width: 992px) {
-    .col-sm-2 {
-        margin-left: 0!important;
-    }
-    .footertext {
-        margin-left: 15px!important;
-        margin-right: 15px!important;
-    }
-    .break {
-        display: block!important;
-    }
-
-    .fimg {
-        width:100%!important;
-
-    }
-}
+          body {
+            background: #333333;
+        }
 
     </style>
 
     <div class="wrapper">
-        <nav id="sidebar" style="height: 115%">
-            <div class="row" style="border-bottom: 1px solid grey; height:60px;">
-                <div class="col-lg-6 col-md-6">
-                    <h3 style="padding:15px;text-align:left; font-size:25px;">Filters</h3>
+        <nav id="sidebar" style="height: 110%;margin-top:-5px;">
+            <div class="row" style="height:30px;">
+                <div class="col-lg-4 col-md-4">
+                    <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
-                <div class="col-lg-6 col-md-6" style="padding:15px;">
-                    <button type="button" class="btn btn-primary" style="margin-left:10px;" id="reset">
-                        Reset
-                    </button>
+                <div class="col-lg-8 col-md-8" style="text-align:right;">
+                    <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
-            <div id='state-legend' class='legend'>
-                <h4>Engagement Type</h4>
-                <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
-                </div>
+             <div class='legend'>
+            <div id='state-legend'>
+                <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;"></div>
                 <select style="margin-top:10px;"  id="selectMission" class="selectMission"></select>
                 <select id="selectCollege" class="selectCollege"></select>
                 <select id="selectCampus" class="selectCampus"></select>
@@ -502,7 +405,9 @@
                 <select id="selectCommunityType" class="selectCommunityType"></select>
                 <select id="selectDistrict" class="selectDistrict"></select>
                 <select id="selectYear" class="selectYear"></select>
-                <div style="padding-top:10px;border-top: 1px solid grey;">
+                
+            </div>
+            <div style="padding-top:10px;border-top: 1px solid grey;">
                     <input id='valueFilter' type='text' placeholder='Search Projects' />
                 </div>
             </div>
@@ -513,22 +418,24 @@
 
             <div class = "container-fluid" style="margin-top:78px;">
                 <div class="row justify-content-md-center">
-                    <div class="col-xl-12 col-md-12 col-sm-12">
-                        <div class="card" style="padding: 5px;background-color:#333;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
+                    <div class="nodragger col-xl-12 col-md-12 col-sm-12">
+                    <div>
+                         <div class="card"  style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow', sans-serif;text-align:center;">
                             <div class="row">
                                 <div class="col-lg-1 col-md-1">
-                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"></i>
+                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"> </i>
                                         <span></span>
                                     </button>
 
+
                                 </div>
 
-                                <div class="col-lg-4 col-md-5">
-                                    <div style="box-sizing: border-box;padding:5px;">
-                                        <label><b>Maps: Projects</b> {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
-                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
-                                        {% endif %}{% endfor %}
-                                        </label>
+                                <div class="col-lg-4 col-md-5" style="text-align: left">
+                                    <div style="box-sizing: border-box;padding:5px;opacity:1.0;">
+                                         {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
+                                        <label style="text-align: left"><b>Projects Map</b></label>
+                                          {% endif %}{% endfor %}
+
                                     </div>
                                 </div>
                                 <div class="col-lg-7 col-md-6">
@@ -539,7 +446,18 @@
                                     </div>
                                 </div>
                             </div>
+                              <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col" style="text-align: left;font-size: 18px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
+                                {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
+                                        <span style="text-align: left">{{ data_definition.description }}</span>
+                                            {% endif %}{% endfor %}
+                            </div>
+                            </div>
                         </div>
+                    </div>
+
+
                     </div>
                     <head>
                         <title>Simple Map</title>
@@ -580,48 +498,46 @@
                 </div>
             </div>
 
-        <footer >
-              <div class="container-fluid">
-                <div class="row">
-                  <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                        <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/index.php">UNIVERSITY POLICIES</a></span>
-                        <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/privacy-policy.php">PRIVACY POLICY</a></span><br>
-                        <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
-                  </div>
+       <footer id="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
+                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+          </div>
+             <div class="col-sm-6" style="margin-top:8px; text-align: left;">
+v                <span><a class="fleft" style="text-decoration:underline" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                 <!--<br>-->
+                 <p>
+                  <span><a class="fnone" style="font-size: 12px;">
+                        <script type="text/JavaScript">
+			                    document.write("&copy; "+new Date().getFullYear());
+		                </script>, </a></span><span class="break"></span>
 
-                  <div class="col-sm-6" style="margin-top:10px;text-align: left;"><hr>
-                        <span><a class="fcenter" href="https://www.google.com/maps/place/University+of+Nebraska+Omaha/@41.2582497,-96.0107049,15z/data=!4m5!3m4!1s0x0:0x4dbea6a55857784f!8m2!3d41.2582497!4d-96.0107049">
-                               University of Nebraska Omaha,<span class="break"></span>
-                               6001 Dodge Street,<span class="break"></span>
-                               Omaha, NE, 68182 &nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>
-                              </a></span><br>
-                        <span><a class="fleft" style="font-size: 12px;">
-                                <script type="text/JavaScript">
-                                        document.write("&copy; "+new Date().getFullYear());
-                                </script></a></span><span class="break"></span>
-                        <span><a class="fleft" style="font-size: 12px;" href="https://www.unomaha.edu/emergency/index.php">Emergency Information Alert</a></span><span class="break"></span>
-                        <span><a class="fleft" style="font-size: 12px; border-right:0" href="https://www.unomaha.edu/report-a-concern/index.php">Report an Incident or Concern</a></span>
-                  </div>
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
+                </a></span>
+                 </p>
+                 <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
+                color, ethnicity, national origin, sex, pregnancy, sexual orientation,
+                gender identity, religion, disability, age, genetic information,
+                veteran status, marital status, and/or political affiliation in its programs,
+                activities, or employment. Learn more about Equity, Access and Diversity.</p>
+             </div>
 
-                  <div class="col-sm-2" style="margin-top:8px; text-align: left;">
-                        <span><a class="fright" href="mailto:partnerships@unomaha.edu">CONTACT US</a></span>
-                        <span><a class="fright" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">USER MANUAL</a></span>
-                  </div>
-
-                  <div class="footertext"><hr></div>
-
-                  <div class="footertext" style="line-height:1"><a style="color:#BABABA; font-size:10px;">
-                        The University of Nebraska does not discriminate based on race,
-                        color, ethnicity, national origin, sex, pregnancy, sexual orientation,
-                        gender identity, religion, disability, age, genetic information,
-                        veteran status, marital status, and/or political affiliation in its programs,
-                        activities, or employment. Learn more about Equity, Access and Diversity.</a>
-                  </div>
-
-                  <div class="footertext"><hr></div>
-                </div>
-              </div>
-        </footer>
+          <!--<div class="footertext"></div>-->
+<!---->
+          <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
+          <!--</div>-->
+<!---->
+          <!--<div class="footertext"></div>-->
+        </div>
+      </div>
+</footer>
 
         </div>
 

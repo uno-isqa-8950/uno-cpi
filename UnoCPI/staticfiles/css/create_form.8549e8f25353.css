@@ -1,0 +1,213 @@
+ @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+      #button-center{
+          text-align: center;
+      }
+}
+    .select2 {
+        width:96%!important;
+    }
+  .help-block
+  {
+     display: none;
+  }
+.select2-container--open .select2-dropdown--below
+    {
+       margin-left:25px;
+    }
+.select2-container--open .select2-dropdown--above
+    {
+       margin-left:25px;
+    }
+.select2-container--default .select2-selection--single
+{
+    /*border: 2px solid #aaa;*/
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+    .h9{
+        font-size:0.8em;
+    }
+    .btn-link{
+        font-size: small;
+    }
+
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+   .btn-link, .btn-link:hover
+   {
+   color: #d71920
+   }
+.colpanel-default > .colpanel-heading {
+        background-color: lightgrey;
+    height: 33px;
+    }
+    .formtabfont a,h2{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+    .formtabfont h2:hover{
+        font-family: "Arial Narrow", sans-serif;
+        color: black;
+        text-decoration: underline;
+        padding: 0;
+        align-content: center;
+        /*background-color: lightgrey;*/
+    }
+.panel{
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+.icon{
+    margin-top: 33px;
+}
+textarea[id=id_description]{
+    height:130px;
+}
+label[for=id_campus-0-campus_partner]:after{
+    display: none;
+    content: " ";
+}
+.delicon{
+    color: red;
+}
+      .form-control{
+          margin: 5px;
+          width:100%
+      }
+      .sw-btn-prev{
+          float: left;
+      }
+      .collapsible {
+  background-color: #C1C0C0;
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+.active, .collapsible:hover {
+  background-color: #E1E1E1;
+}
+.content {
+  padding: 0 18px;
+  display: none;
+  overflow: hidden;
+  background-color: #f1f1f1;
+}
+ .redbutton{
+          background-color: white; /* Green */
+  border: 2px solid #b60000;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .redbutton:hover{
+          text-decoration: underline;
+          color: white;
+          background-color: #b60000;
+      }
+      .blackbutton{
+          background-color: white; /* Green */
+  border: 2px solid black;
+  color: black;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .blackbutton:hover{
+          text-decoration: underline;
+          color: white;
+          background-color: black;
+      }
+
+
+      .addbutton{
+          background-color: black;
+  border: 2px solid black;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s;
+  transition-duration: 0.4s;
+  cursor: pointer;
+      }
+      .addbutton:hover{
+          text-decoration: underline;
+          color: white;
+          /*background-color: black;*/
+      }
+
+
+
+      .btn-red{
+          background-color: crimson; /* Green */
+  border: none;
+  color: white;
+  padding: 2px 8px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+          height: 38px;
+  margin: 9px 10px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+          border-radius: 5px;
+          margin-left:25px;
+      }
+      .displaybox {
+  border: 1px black;
+  padding: 10px;
+display: flex;
+  border-top-right-radius: 10px 5px;
+}
+            .redborder {
+  border: 1px red;
+}

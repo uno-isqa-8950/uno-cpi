@@ -16,6 +16,9 @@ Including another URLconf
 
 from django.contrib import admin
 from account import views
+from django.contrib.auth import views as auth_views
+from account.forms import EmailValidationOnForgotPassword
+
 from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -29,6 +32,7 @@ urlpatterns = [
     path('admin/login/', views.user_login, name = 'adminlogin'),
     path('', include('home.urls')),
     path('partners/', include('partners.urls')),
+    path('password_reset/', auth_views.PasswordResetView.as_view(form_class=EmailValidationOnForgotPassword), name='password_reset'),
     path('', include('django.contrib.auth.urls')),
     path('account/', include('account.urls')),
     path('', include('projects.urls')),
@@ -36,5 +40,8 @@ urlpatterns = [
     re_path(r'^documents/', include(wagtaildocs_urls)),
     re_path(r'^pages/', include(wagtail_urls)),
     re_path(r'', include(wagtail_urls)),
+    path(r'session_security/', include('session_security.urls')),
+
+
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -3,7 +3,7 @@ from django.core.files.images import get_image_dimensions
 from django.forms import ModelForm, TextInput
 from django.db.transaction import commit
 import re
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import UserCreationForm
 # importing models in forms.py
 from university.models import *
@@ -14,6 +14,32 @@ from home.models import Contact, MissionArea, HouseholdIncome
 from projects.models import Project, EngagementType, ActivityType, Status, ProjectCampusPartner, \
     ProjectCommunityPartner, ProjectMission, AcademicYear
 
+intensity_y_choices = [
+    ('campus', 'Number of Campus Partners'),
+    ('years', 'Years of Engagement'),
+    ('engagement', 'Number of Engagement Types'),
+    ('score', 'Interdisciplinary Score')]
+class YChoiceForm(forms.Form):
+    y_choice = forms.ChoiceField(label="Y Choices", choices=intensity_y_choices, required=False)
+
+STATE_CHOICES = [
+    ('AL', 'Alabama'), ('AZ', 'Arizona'), ('AR', 'Arkansas'), ('CA', 'California'),
+     ('CO', 'Colorado'), ('CT', 'Connecticut'), ('DE', 'Delaware'),
+     ('DC', 'District of Columbia'), ('FL', 'Florida'), ('GA', 'Georgia'), ('ID', 'Idaho'),
+     ('IL', 'Illinois'), ('IN', 'Indiana'), ('IA', 'Iowa'), ('KS', 'Kansas'),
+     ('KY', 'Kentucky'), ('LA', 'Louisiana'), ('ME', 'Maine'), ('MD', 'Maryland'),
+     ('MA', 'Massachusetts'), ('MI', 'Michigan'), ('MN', 'Minnesota'), ('MS', 'Mississippi'),
+     ('MO', 'Missouri'), ('MT', 'Montana'), ('NE', 'Nebraska'), ('NV', 'Nevada'),
+     ('NH', 'New Hampshire'), ('NJ', 'New Jersey'), ('NM', 'New Mexico'), ('NY', 'New York'),
+     ('NC', 'North Carolina'), ('ND', 'North Dakota'), ('OH', 'Ohio'), ('OK', 'Oklahoma'),
+     ('OR', 'Oregon'), ('PA', 'Pennsylvania'), ('RI', 'Rhode Island'), ('SC', 'South Carolina'),
+     ('SD', 'South Dakota'), ('TN', 'Tennessee'), ('TX', 'Texas'), ('UT', 'Utah'),
+     ('VT', 'Vermont'), ('VA', 'Virginia'), ('WA', 'Washington'), ('WV', 'West Virginia'),
+     ('WI', 'Wisconsin'), ('WY', 'Wyoming')]
+
+
+class StateChoiceForm(forms.Form):
+    state_choice = forms.ChoiceField(label="State Choices", choices=STATE_CHOICES, required=False)
 
 class CampusPartnerUserForm(forms.ModelForm):
 

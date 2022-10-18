@@ -5,11 +5,12 @@ from home.models import Community_Partner_Snippet, Community_Partner_User_Snippe
     Engagement_Types_Report_Snippet, Mission_Areas_Chart_Snippet, Mission_Areas_Report_Snippet, \
     Register_Campus_Partner_Snippet, Register_Campus_Partner_User_Snippet, Register_Community_Partner_Snippet, \
     Register_Community_Partner_User_Snippet, All_Projects_Snippet, Create_Projects_Snippet, My_Projects_Snippet, \
-    Community_Partner_Project_Snippet, Create_Projects_Form_Snippet, Login_Snippet, Logout_Snippet, \
+    Community_Partner_Project_Snippet, Create_Projects_Form_Snippet,edit_Projects_Form_Snippet, Login_Snippet, Logout_Snippet, \
     Partners_Organizatiion_Profile_Contacts_Snippet, Partners_Organizatiion_Profile_Partners_Add_Snippet, \
     Partners_Organizatiion_Profile_Partners_Update_Snippet, Partners_Organizatiion_Profile_Snippet, \
     Partners_User_Profile_Snippet, Partners_User_Profile_Update_Snippet, Password_Reset_Done_Snippet, \
-    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet
+    Password_Reset_Snippet, Register_Community_Partner_Form_Snippet, TrendReport_Chart_Snippet,Issue_Address_Chart_Snippet,Network_Analysis_Chart_Snippet, \
+	PartnershipIntensityAnalysis_Chart_Snippet
 
 register = template.Library()
 
@@ -91,12 +92,42 @@ def eng_charts(context):
         'request': context['request'],
     }
 
+@register.inclusion_tag('tags/trendreport_chart_snippet.html', takes_context=True)
+def trend_charts(context):
+    return {
+        'trend_charts': TrendReport_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+@register.inclusion_tag('tags/partnershipintensityanalysis_chart_snippet.html', takes_context=True)
+def partnershipintensityanalysis_charts(context):
+    return {
+        'partnershipintensityanalysis_charts': PartnershipIntensityAnalysis_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
 @register.inclusion_tag('tags/mission_areas_chart_snippet.html', takes_context=True)
 def miss_charts(context):
     return {
         'miss_charts': Mission_Areas_Chart_Snippet.objects.all(),
         'request': context['request'],
     }
+
+@register.inclusion_tag('tags/issue_address_chart_snippet.html', takes_context=True)
+def iss_charts(context):
+    return {
+        'iss_charts': Issue_Address_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+
+@register.inclusion_tag('tags/network_analysis_chart_snippet.html', takes_context=True)
+def network_charts(context):
+    return {
+        'network_charts': Network_Analysis_Chart_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+
 
 @register.inclusion_tag('tags/register_campus_partner_snippet.html', takes_context=True)
 def cam_part_regs(context):
@@ -151,6 +182,13 @@ def create_projects(context):
 def create_project_forms(context):
     return {
         'create_project_forms': Create_Projects_Form_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/edit_project_form_snippet.html', takes_context=True)
+def edit_project_forms(context):
+    return {
+        'edit_project_forms': edit_Projects_Form_Snippet.objects.all(),
         'request': context['request'],
     }
 
@@ -235,5 +273,12 @@ def pass_resets(context):
 def pass_dones(context):
     return {
         'pass_dones': Password_Reset_Done_Snippet.objects.all(),
+        'request': context['request'],
+    }
+
+@register.inclusion_tag('tags/my_drafts_snippet.html', takes_context=True)
+def my_drafts(context):
+    return {
+        'my_drafts': My_Projects_Snippet.objects.all(),
         'request': context['request'],
     }

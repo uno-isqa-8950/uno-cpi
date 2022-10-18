@@ -1,408 +1,294 @@
-<!DOCTYPE html>
-{% load staticfiles %}
+<!DOCTYPE html> {% load wagtailcore_tags wagtailimages_tags %} {% load static %}
 <html lang="en">
+
 <head>
     <title>Community Partnership Initiative</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link href="{% static 'css/base_home.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Header.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Navigation.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/about.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/footer.css' %}" rel="stylesheet" type="text/css">
     <link href="{% static 'css/Panel.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/create_form.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/smart_wizard_theme_arrows.min.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="{% static 'css/Contact.css' %}" rel="stylesheet" type="text/css">
 
+    <style>
+        @media screen and (max-width:1200px) {
+            .navbar-custom {
+                font-size: 0.674em;
+            }
+        }
+    </style>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-138745579-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-138745579-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
-
- gtag('config', 'UA-138745579-1');
-</script>
-
-
-<style>
-
-#brand
-{
-margin-left:15px;
-margin-top:15px;
-}
-.dropdown-submenu{
-    position: relative;
-}
-.dropdown-submenu a::after{
-    transform: rotate(-90deg);
-    position: absolute;
-    right: 3px;
-    top: 40%;
-}
-.dropdown-submenu:hover .dropdown-menu, .dropdown-submenu:focus .dropdown-menu{
-    display: flex;
-    flex-direction: column;
-    position: absolute !important;
-    margin-top: -30px;
-    left: 100%;
-}
-@media (max-width: 992px) {
-    .dropdown-menu{
-        width: 50%;
-    }
-    .dropdown-menu .dropdown-submenu{
-        width: auto;
-    }
-    .col-sm-2 {
-        margin-left: 0!important;
-    }
-    .footertext {
-        margin-left: 15px!important;
-        margin-right: 15px!important;
-    }
-    .break {
-        display: block!important;
-    }
-
-    .fimg {
-        width:100%!important;
-
-    }
-    .himg{
-        width:90%;
-        height:90%;
-    }
-}
-
-    .btn-link {
-        font-size: small;
-        color: white;
-    }
-
-    .btn, .panel > .panel-heading, .panel-default > .card, .panel-default > .panel-heading {
-        background-image: none;
-        background-color: #333;
-    }
-
-    @media (max-width:575px) {
-    .fleft, .fright {
-        border:none!important;
-    }
-}
-
-    @media (max-width:710px) {
-    .himg{
-        width:70%;
-        height:70%;
-    }
-}
-
-    .footertext {
-        margin-top:8px;
-        margin-left: 165px;
-        width: 100%;
-        text-align: left;
-        margin-right: 165px;
-    }
-
-    hr {
-      display: block;
-      margin-top: 0.5em;
-      margin-bottom: 0.5em;
-      margin-left: auto;
-      margin-right: auto;
-      border:0;
-      border-top: 1px solid;
-      color:#BABABA
-    }
-
-    .fleft {
-        color:#BABABA!important;
-        border: solid;
-        border-width: 1px;
-        border-top: 0;
-        border-bottom:0;
-        border-left:0;
-        padding: 2px 6px;
-        font-size:10px;
-        display: inline-block;
-    }
-
-    .fright {
-        color:#BABABA;
-        border: solid;
-        border-width: 1px;
-        border-top: 0;
-        border-bottom:0;
-        border-right:0;
-        padding: 2px 6px;
-        font-size:10px;
-        display: inline-block;
-    }
-
-    .fcenter {
-        color:#BABABA;
-        font-size:12px;
-    }
-
-    .fleft:hover, .fright:hover, .fcenter:hover{
-        color:white !important;
-        text-decoration: none;
-    }
-
-    .break {
-        display: inline;
-    }
-
-    @media only screen and (max-width: 768px){
-    a {
-        font-size: small;
-    }}
-
-
-</style>
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+        gtag('config', 'UA-138745579-1');
+    </script>
 
 
 </head>
-<body>
 
-<!-- Navbar Begins -->
+<body onload="noBack();">
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-    <a class ="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Partnership Initiative</b></a>
-    <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
-    <div class="collapse navbar-collapse" id="target">
-        <ul class="navbar-nav ml-auto">
+    <!-- Navbar Begins -->
 
-            <li class=" nav-item dropdown">
-                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-globe"></i>Maps
-                    <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/communityPartner">Community Partners</a>
-                    <a class="dropdown-item" href="/legislativeDistrict">Legislative District</a>
-                    <a class="dropdown-item" href="/communityPartnerType">Community Partner Type</a>
-                    <a class="dropdown-item" href="/projectMap">Projects</a>
-                </div>
-            </li>
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
+        <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
+        <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
+        <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
+        <div class="collapse navbar-collapse" id="target">
+            <ul id="navigationList" class="navbar-nav ml-auto">
 
-            <li class="nav-item dropdown">
-                <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-line-chart"></i>Analytics
-                    <span class="caret"></span>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/projectInfo">Mission Areas</a>
-                            <a class="dropdown-item" href="/engageType">Engagement Types</a>
-{#                            <a class="dropdown-item" href="/countProjectCP">Unique Projects, Community Partners</a>#}
-                            {% if  user.is_authenticated %}
-                                <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
-                            {% else %}
-                                <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a>
-                            {% endif %}
-                        </ul>
-                    </li>
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
-                        <ul class="dropdown-menu">
-                            <a class="dropdown-item" href="/missionchart">Mission Areas</a>
-                            <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-
-            {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
                 <li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-tasks fa-x"></i>
-                            Projects
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-globe"></i>Maps
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        <a class="dropdown-item" href="/community-Partner">Community Partners</a>
+                        <a class="dropdown-item" href="/legislative-District">Legislative District</a>
+                        <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
+                        <a class="dropdown-item" href="/project-Map">Projects</a>
+                    </div>
+                </li>
+
+                <li class="nav-item dropdown">
+                    <a id="analyticnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-line-chart"></i>Analytics
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
+                            <ul class="dropdown-menu">
+                                {% if user.is_superuser %}
+                                <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a> {% else %}
+                                <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
+                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
+                                <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
+                                <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
+                            </ul>
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
+                            <ul class="dropdown-menu">
+                                <a class="dropdown-item" href="/missionchart">Focus Areas</a>
+                                <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+                                <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
+                                <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
+                                <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
+
+                                <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
+                            </ul>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </li>
+
+                {% if user.is_authenticated and user.is_campuspartner %}
+                <li class=" nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-tasks fa-x"></i> Projects
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
                         <a class="dropdown-item" href='/myProjects/'>My Project</a>
-                        <a class="dropdown-item" href='/checkProject/'>Create Project</a>
+                        <a class="dropdown-item" href='/check-Project/'>Create Project</a>
+                        <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-{#                <li class="nav-item">#}
-{#                <a class="nav-link" href='/registerCommunityPartnerUser/'><i class="fa fa-user-plus"></i>Community Partner User</a>#}
-{#                </li>#}
-            {% endif %}
-
-            {% if user.is_communitypartner %}
-                <li class="nav-item">
-                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
-                </li>
-            {% endif %}
-
-            <li class=" nav-item dropdown">
-                <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
-            </li>
-
-            {% if user.is_authenticated and user.is_superuser  %}
+                {% endif %} {% if user.is_authenticated and user.is_superuser %}
                 <li class=" nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-cogs"></i>
-                            Administrator
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-tasks fa-x"></i> Projects
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href= '/Adminframe/'>Admin View</a>
-{#                        <a class="dropdown-item" href='/uploadProject/'>Import Data</a>#}
-                        <a class="dropdown-item" href='/cms/'>CMS</a>
-                        <a class="dropdown-item" href='/recentchanges/'>Audit Logs</a>
+                        <a class="dropdown-item" href="/allProjects/">All Projects</a>
+                        <a class="dropdown-item" href='/check-Project/'>Create Project</a>
+                        <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-            {% endif %}
+                {% endif %} {% if user.is_communitypartner %}
+                <li class="nav-item">
+                    <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
+                </li>
+                {% endif %}
 
-            {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner  %}
-                <li class="nav-item dropdown">
-                    <a class= "nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
+                <li class=" nav-item dropdown">
+                    <a id="partners" class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                </li>
+
+                <li class=" nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-external-link"></i> Resources
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        {% for r in resources %}
+                        <a class="dropdown-item" href="{{r.resource_link}}" target="_blank">{{r.resource_descr}}</a> {% endfor %}
+                    </div>
+                </li>
+
+                {% if user.is_authenticated and user.is_superuser %}
+                <li class=" nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-cogs"></i> Administrator
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        <a class="dropdown-item" href='/Admin-frame/'>Admin View</a>
+                        <!-- <a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
+                        <a class="dropdown-item" href='/cms/'>CMS</a>
+                        <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
+                        <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>
+                        <a class="dropdown-item" href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
+                        <a class="dropdown-item" href='/register-Campus-Partner-User/'>Campus Partner User Registration </a>
+                    </div>
+                </li>
+                {% endif %} {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
+                <li id="accountinfo" class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                         {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
                         {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        {% if not user.is_superuser  %}
-                            <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a>
-                            <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><i class="fa fa-university"></i>Organization</a>
-                        {% endif %}
-                            <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>
+                        {% if not user.is_superuser %}
+                        <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a> {% endif %} {% if 'unomaha.edu' in user.email or 'UNOMAHA.EDU' in user.email %}
+                        <a id="login" class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
+                        <a id="logout" class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>{% endif %}
                     </div>
                 </li>
-            {% else %}
+                {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
+                    <a id="login" class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
                 </li>
-            {% endif %}
+                {% endif %}
 
-        </ul>
-    </div>
-</nav>
-
-<!-- Navbar ends-->
-
-
-
-{#<div>#}
-<div class="container">
-
-{% block content %}
-
-{% endblock %}
-
-</div>
-
-
-
-<!--Footer Begins here-->
-
-{% block footer %}
-
-<footer id="footer">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/index.php">UNIVERSITY POLICIES</a></span>
-                <span><a class="fleft" href="https://www.unomaha.edu/campus-policies/privacy-policy.php">PRIVACY POLICY</a></span><br>
-                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
-          </div>
-
-          <div class="col-sm-6" style="margin-top:10px;text-align: left;"><hr>
-                <span><a class="fcenter" href="https://www.google.com/maps/place/University+of+Nebraska+Omaha/@41.2582497,-96.0107049,15z/data=!4m5!3m4!1s0x0:0x4dbea6a55857784f!8m2!3d41.2582497!4d-96.0107049">
-                       University of Nebraska Omaha,<span class="break"></span>
-                       6001 Dodge Street,<span class="break"></span>
-                       Omaha, NE, 68182 &nbsp;<i class="fa fa-map-marker" aria-hidden="true"></i>
-                      </a></span><br>
-                <span><a class="fleft" style="font-size: 12px;">
-                        <script type="text/JavaScript">
-			                    document.write("&copy; "+new Date().getFullYear());
-		                </script></a></span><span class="break"></span>
-                <span><a class="fleft" style="font-size: 12px;" href="https://www.unomaha.edu/emergency/index.php">Emergency Information Alert</a></span><span class="break"></span>
-                <span><a class="fleft" style="font-size: 12px; border-right:0" href="https://www.unomaha.edu/report-a-concern/index.php">Report an Incident or Concern</a></span>
-          </div>
-
-          <div class="col-sm-2" style="margin-top:8px; text-align: left;">
-                <span><a class="fright" href="mailto:partnerships@unomaha.edu">CONTACT US</a></span>
-                <span><a class="fright" href="https://unocpi.s3.amazonaws.com/documents/User_Manual.pdf" target="_blank">USER MANUAL</a></span>
-          </div>
-
-          <div class="footertext"><hr></div>
-
-          <div class="footertext" style="line-height:1"><a style="color:#BABABA; font-size:10px;">
-                The University of Nebraska does not discriminate based on race,
-                color, ethnicity, national origin, sex, pregnancy, sexual orientation,
-                gender identity, religion, disability, age, genetic information,
-                veteran status, marital status, and/or political affiliation in its programs,
-                activities, or employment. Learn more about Equity, Access and Diversity.</a>
-          </div>
-
-          <div class="footertext"><hr></div>
+            </ul>
         </div>
-      </div>
-</footer>
+    </nav>
+
+    <!-- Navbar ends-->
+    <!--{% image page.image original as image %}-->
+    <!--<div>-->
+
+    <!--<img src="{{image.url}}" class="hero" style="width: 100%;"/>-->
+
+    <!--</div>-->
+
+    <div class="container">
+
+        {% block content %} {% endblock %}
+
+    </div>
+
+    <footer id="footer">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
+                    <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+                </div>
+                <div class="col-sm-6" style="margin-top:8px;padding-bottom:10px; text-align: left;">
+                    <span><a class="fleft" style="text-decoration:underline" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
+                    <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                    <!--<br>-->
+                    <p>
+                        <span><a class="fnone" style="font-size: 12px;">
+                        <script type="text/JavaScript">
+                                document.write("&copy; "+new Date().getFullYear());
+                        </script>, </a></span><span class="break"></span>
+
+                        <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
+                </a></span></p>
+                    <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race, color, ethnicity, national origin, sex, pregnancy, sexual orientation, gender identity, religion, disability, age, genetic information, veteran status, marital status,
+                        and/or political affiliation in its programs, activities, or employment. Learn more about Equity, Access and Diversity.</p>
+                </div>
+
+                <!--<div class="footertext"></div>-->
+                <!---->
+                <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
+                <!--</div>-->
+                <!---->
+                <!--<div class="footertext"></div>-->
+            </div>
+        </div>
+    </footer>
+
+    <!-- Footer Ends Here-->
+
+    <!-- JavaScript -->
+    <script type="text/javascript" src='{% static "js/jquery-1.10.2.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/bootstrap.js" %}'></script>
+    <script type="text/javascript" src='{% static "js/jquery.smartWizard.min.js" %}'></script>
 
 
 
-<!-- Footer Ends Here-->
-{% block additionalCSS %} {% endblock %}
-{% block js1 %} {% endblock %}
-{% block js %} {% endblock %}
-{% block custom_js %}
+    {% block additionalCSS %} {% endblock %} {% block js1 %} {% endblock %} {% block js %} {% endblock %} {% block custom_js %}
     <script>
-    $(window).bind("load", function() {
+        $(window).bind("load", function() {
 
-       var footerTop = 0,
-           $footer = $("#footer");
+            var footerTop = 0,
+                $footer = $("#footer");
 
-       positionFooter();
+            positionFooter();
 
-       function positionFooter() {
-                footerTop = ($(document).height()-$("body").height())+"px";
+            function positionFooter() {
+                footerTop = ($(document).height() - $("body").height()) + "px";
 
 
-               if ( ($("body").height()) < $(document).height()) {
-                   $footer.css({
+                if (($("body").height()) < $(document).height()) {
+                    $footer.css({
                         position: "relative"
-                   }).animate({
+                    }).animate({
                         top: footerTop
-                   })
-               } else {
-                   $footer.css({
+                    })
+                } else {
+                    $footer.css({
                         position: "static"
-                   })
-               }
+                    })
+                }
 
-       }
+            }
 
-       $(window)
-               .scroll(positionFooter)
-               .resize(positionFooter)
+            $(window)
+                .scroll(positionFooter)
+                .resize(positionFooter)
 
-    });
+        });
     </script>
 
-{% endblock %}
-
-{% endblock %}
-{% block selectizeForm %}{% endblock %}
-
-
+    {% endblock %} {% block selectizeForm %}{% endblock %}
 </body>
+
 </html>

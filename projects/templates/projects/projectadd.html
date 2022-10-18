@@ -101,7 +101,7 @@
                                 <div class="form-group">
                                     {{ project.project_name.errors }}
                                     <label for="id_project_name">Project Name</label>
-                                    {{ project.project_name }}
+                                    {{ project.project_name }} {{ project.academic_year }}
                                 </div>
 
                                 <div class="form-group">
@@ -167,11 +167,11 @@
 
                                 <div class="col-lg-12">
                                     <p class = h9>Couldn't find your Campus Partner or Community Partner? Please Register your Partner before creating a New Project.</p>
-                                    <a class="btn btn-link" href="/partners/registerCampusPartnerForProject"  style="color: #d71920; background:none;"
+                                    <a class="btn btn-link" href="/partners/register-Campus-Partner-For-Project"  style="color: #d71920; background:none;"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
                                                                 ' Are you sure you want to register a New Campus Partner?')">Register a New Campus Partner</a>
-                                    <a class="btn btn-link" href="/partners/registerCommunityPartnerForProject" style="color: #d71920;background:none;"
+                                    <a class="btn btn-link" href="/partners/register-Community-Partner-For-Project" style="color: #d71920;background:none;"
                                        onclick="return confirm('You will be redirected to page where you can register your partner. ' +
                                                                 'Upon Submission of the registration form, you will be redirected back to this page to create a new project.'+
                                                                 ' Are you sure you want to register a New Community Partner?')">Register a New Community Partner</a>

@@ -1,0 +1,8 @@
+import '../LoginLogout/Login.cy.js'
+import '../Register Partners/Partners.cy'
+import '../Analytics/Reports/Focus_Area.cy'
+import '../Analytics/Reports/Engagement_Types.cy'
+import '../Analytics/Reports/Community_Partner.cy'
+import '../Analytics/Reports/Project.cy'
+import '../LoginLogout/Logout.cy.js'
+import '../PasswordReset/PasswordReset.cy.js'

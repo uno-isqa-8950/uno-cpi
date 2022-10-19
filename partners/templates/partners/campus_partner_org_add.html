@@ -96,6 +96,11 @@ width:100%;
     -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
 }
+div.a {
+  word-wrap: break-word;
+  text-align: center;
+}
+
 </style>
 
 <div class = "container">
@@ -105,7 +110,7 @@ width:100%;
     <div class="panel-heading text-center"><h4>Add Organization to your Profile</h4></div>
       <div class="panel-body"><br><br>
       <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
-          <div class="container">
+          <div class="a">
               {% part_org_prof_adds %}
            </div>
       </div>

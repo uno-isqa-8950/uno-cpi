@@ -142,17 +142,17 @@ def addInvestments():
                 projects_projectcampuspartner pcam, \
                 projects_projectcommunitypartner pcomm \
                 where p.id = pm.project_name_id and pm.mission_type = 'Primary' \
-                and pm.mission_id = (select id from home_missionarea m where mission_name = '"+str(mission_name).strip()+"') \
+                and pm.mission_id = (select id from home_missionarea m where mission_name = '%s') \
                 and p.id = pcam.project_name_id and \
-                pcam.campus_partner_id in (select id from partners_campuspartner where name in "+camp_name_list+") \
+                pcam.campus_partner_id in (select id from partners_campuspartner where name in %s) \
                 and p.id = pcomm.project_name_id and \
-                pcomm.community_partner_id in (select id from partners_communitypartner where name in "+comm_name_list+") \
-                and p.academic_year_id = (select id from projects_academicyear where academic_year = '"+str(acd_yr)+"') and \
-                p.engagement_type_id = (select id from projects_engagementtype where name ='"+str(engName)+"') \
-                and p.project_name like '"+str(proj_name).strip()+"%'"
+                pcomm.community_partner_id in (select id from partners_communitypartner where name in %s) \
+                and p.academic_year_id = (select id from projects_academicyear where academic_year = '%s') and \
+                p.engagement_type_id = (select id from projects_engagementtype where name ='%s') \
+                and p.project_name like '%s'"
                
                 #print('select_proj---',select_proj)
-                cursor.execute(select_proj)#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
+                cursor.execute(select_proj, (str(mission_name).strip(), camp_name_list, comm_name_list, str(acd_yr), str(engName), str(proj_name).strip()+"%", ))#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
                 
                 for obj in cursor.fetchall():
                   print('project id --',obj[0])
@@ -162,18 +162,18 @@ def addInvestments():
                   print('projectId--',projectId)
 
                 if projectId !=0:
-                      select_subcat = "select id from projects_subcategory where upper(sub_category) ='"+str(subcat_name).upper()+"'"
+                      select_subcat = "select id from projects_subcategory where upper(sub_category) ='%s'"
                       #print('select_subcat---',select_subcat)
-                      cursor.execute(select_subcat)
+                      cursor.execute(select_subcat, (str(subcat_name).upper(), ))
                       for obj in cursor.fetchall():
                         #print('subCatId --',obj[0])
                         subCatId = obj[0]
 
                       print('subCatId -111-',subCatId)
                       if subCatId !=0:
-                           select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id ="+str(subCatId)+""
+                           select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id =%s"
                            #print('select_subcat_msn---',select_subcat_msn)
-                           cursor.execute(select_subcat_msn)
+                           cursor.execute(select_subcat_msn, (str(subCatId), ))
                            for obj in cursor.fetchall():
                               print('subMissnId --',obj[0])
                               subMissnId = obj[0]
@@ -190,8 +190,8 @@ def addInvestments():
                       print('subMissnId--',subMissnId)
                       if subCatId != 0:
                           proj_subcatExist = "select id from projects_projectsubcategory \
-                          where sub_category_id ="+str(subCatId)+" and project_name_id ="+str(projectId)
-                          cursor.execute(proj_subcatExist)
+                          where sub_category_id =%s and project_name_id =%s"
+                          cursor.execute(proj_subcatExist, (str(subCatId),str(projectId), ))
                           result = cursor.fetchall()
                           if len(result) >0:
                             print('mapping already exists')
@@ -210,8 +210,8 @@ def addInvestments():
                       
                       if subMissnId !=0:
                           proj_missionExist = "select id from projects_projectmission \
-                          where mission_type = 'Other' and mission_id ="+str(subMissnId)+" and project_name_id ="+str(projectId)
-                          cursor.execute(proj_missionExist)
+                          where mission_type = 'Other' and mission_id =%s and project_name_id =%s"
+                          cursor.execute(proj_missionExist, (str(subMissnId), str(projectId), ))
                           missionresult = cursor.fetchall()
                           if len(missionresult) >0:
                             print('mission mapping already exists')
@@ -224,9 +224,9 @@ def addInvestments():
 
                             misnId = misnId + 1
                             insert_project_other_mission = "insert into projects_projectmission( \
-                            mission_type,id,mission_id,project_name_id) values('Other',"+str(misnId)+","+str(subMissnId)+","+str(projectId)+")"
+                            mission_type,id,mission_id,project_name_id) values('Other',%s,%s,%s)"
                             #print('insert_project_other_mission --',insert_project_other_mission)
-                            cursor.execute(insert_project_other_mission)
+                            cursor.execute(insert_project_other_mission, (str(misnId), str(subMissnId), str(projectId), ))
                             connection.commit()
                       else:
                           if othersubCat is None or othersubCat == '':

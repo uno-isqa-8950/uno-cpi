@@ -68,13 +68,13 @@ def myProjects(request):
      projectcampus.campus_partner_id in \
      (select pc.id from partners_campuspartner pc, partners_campuspartneruser as cu \
      where pc.id = cu.campus_partner_id \
-     and cu.user_id = " + str(request.user.id) + " \
+     and cu.user_id = %s \
      ) \
      and projectcampus.project_name_id = project.id"
 
     cursor = connection.cursor()
     # print('getProjectIds---',getProjectIds)
-    cursor.execute(getProjectIds)
+    cursor.execute(getProjectIds, (str(request.user.id),))
     projectIdResult = cursor.fetchall()
     project_ids = [obj[0] for obj in projectIdResult]
     # print('project_ids---',project_ids)
@@ -242,10 +242,10 @@ def saveFocusArea(request):
 
     if test is not None:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_updateprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+        cursor.execute(sqlfiles.editproj_updateprimarymission(),(str(selectedfocusarea), str(projectid), str(projectid), ))
     else:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_addprimarymission(str(selectedfocusarea), str(projectid)), params=None)
+        cursor.execute(sqlfiles.editproj_addprimarymission(), (str(selectedfocusarea), str(projectid), ))
 
     data = {'projectid': projectid}
     return JsonResponse(data)
@@ -313,12 +313,12 @@ def createProject(request):
                     cat.save()
                     subcategory = str(cat.sub_category);
                     cursor = connection.cursor()
-                    cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                    cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
                     rows = cursor.fetchall()
                     for mission in rows:
                         id = str(mission[0])
                         cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
+                        cursor.execute(sqlfiles.createproj_addothermission(), (id, str(proj.id), ))
                 for form in mission_form:
                     form.project_name = proj
                     form.mission_type = 'Primary'
@@ -377,12 +377,12 @@ def createProject(request):
                     cat.save()
                     subcategory = str(cat.sub_category);
                     cursor = connection.cursor()
-                    cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                    cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
                     rows = cursor.fetchall()
                     for mission in rows:
                         id = str(mission[0])
                         cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_addothermission(id, str(proj.id)), params=None)
+                        cursor.execute(sqlfiles.createproj_addothermission(), (id, str(proj.id), ))
 
                 for form in mission_form:
                     form.project_name = proj
@@ -490,7 +490,7 @@ def editProject(request, pk):
                         sc.save()
                         subcategory = str(sc.sub_category);
                         cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
                         rows = cursor.fetchall()
                         # print(rows[0])
                         # projmission = projectmission.save()
@@ -498,7 +498,7 @@ def editProject(request, pk):
                             id = str(mission[0])
                             # print(id)
                             cursor = connection.cursor()
-                            cursor.execute(sqlfiles.createproj_addothermission(id, str(pk)), params=None)
+                            cursor.execute(sqlfiles.createproj_addothermission(), (id, str(pk),))
 
                     # return HttpResponseRedirect("/myDrafts")
                     return HttpResponseRedirect('/draft-project-done')
@@ -552,7 +552,7 @@ def editProject(request, pk):
                         sc.save()
                         subcategory = str(sc.sub_category);
                         cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_othermission(subcategory), params=None)
+                        cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
                         rows = cursor.fetchall()
 
                         # print(rows[0])
@@ -561,7 +561,7 @@ def editProject(request, pk):
                             id = str(mission[0])
                             # print(id)
                             cursor = connection.cursor()
-                            cursor.execute(sqlfiles.createproj_addothermission(id, str(pk)), params=None)
+                            cursor.execute(sqlfiles.createproj_addothermission(), (id, str(pk), ))
 
                 if request.user.is_superuser == True:
                     # return HttpResponseRedirect('/allProjects')
@@ -868,13 +868,11 @@ def showAllProjects(request):
     if selectedprojectId is not None:
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
-            cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(), (str(tuple(project_name_list)),))
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
-            cursor.execute(sqlfiles.showSelectedProjects(projId),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(), (str(projId),))
             # cursor.execute(sql.search_projects_sql,project_name_list)
     # else:
     #
@@ -1169,14 +1167,14 @@ def projectstablePublicReport(request):
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
 
-            cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(tuple(project_name_list)),))
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
 
-            cursor.execute(sqlfiles.showSelectedProjects(projId),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(projId), ))
             # cursor.execute(sql.search_projects_sql,project_name_list)
     # else:
     #
@@ -1447,14 +1445,14 @@ def projectsPublicReport(request):
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
-            cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(tuple(project_name_list)), ))
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
             print('project_name_list--', projId)
-            cursor.execute(sqlfiles.showSelectedProjects(projId),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(projId), ))
             # cursor.execute(sql.search_projects_sql,project_name_list)
     # else:
     #
@@ -1738,14 +1736,14 @@ def projectsPrivateReport(request):
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
-            cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(tuple(project_name_list)), ))
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
             print('project_name_list--', projId)
-            cursor.execute(sqlfiles.showSelectedProjects(projId),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(projId)), )
 
     for obj in cursor.fetchall():
         proj_names = obj[0]
@@ -2018,14 +2016,14 @@ def projectstablePrivateReport(request):
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             print('project_name_list: ', str(tuple(project_name_list)))
-            cursor.execute(sqlfiles.showSelectedProjects(tuple(project_name_list)),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(tuple(project_name_list)), ))
         # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
             print('project_name_list--', projId)
-            cursor.execute(sqlfiles.showSelectedProjects(projId),
-                           params=None)
+            cursor.execute(sqlfiles.showSelectedProjects(),
+                           (str(projId), ))
 
     for obj in cursor.fetchall():
         proj_names = obj[0]
@@ -2354,7 +2352,7 @@ def communityPrivateReport(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute(
-                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=" + str(i))
+                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]

@@ -770,7 +770,7 @@ def project_partner_info_public(request):
 
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=" + str(i))
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1024,7 +1024,7 @@ def project_partner_info_admin(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                    from projects_project p where p.id=" + str(i))
+                                    from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1097,7 +1097,7 @@ def project_partner_info_admin(request):
                 if len(sub_proj_ids) > 0:
                     for ids in sub_proj_ids:
                         cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                 from projects_project p where p.id=" + str(ids))
+                                 from projects_project p where p.id=%s", (str(ids), ))
                         for obj_sum in cursor.fetchall():
                             sub_sum_uno_students = sub_sum_uno_students + obj_sum[0]
                             sub_sum_uno_hours = sub_sum_uno_hours + obj_sum[1]
@@ -1309,7 +1309,7 @@ def engagement_info(request):
                 
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id="+ str(i))
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -2232,18 +2232,18 @@ def uploadProjectSub(request,pk):
             projects_projectcampuspartner pcam, \
             projects_projectcommunitypartner pcomm \
             where p.id = pm.project_name_id and pm.mission_type = 'Primary' \
-            and pm.mission_id = (select id from home_missionarea m where mission_name = '"+str(mission_name).strip()+"') \
+            and pm.mission_id = (select id from home_missionarea m where mission_name = '%s') \
             and p.id = pcam.project_name_id and \
-            pcam.campus_partner_id in (select id from partners_campuspartner where name in "+camp_name_list+") \
+            pcam.campus_partner_id in (select id from partners_campuspartner where name in %s) \
             and p.id = pcomm.project_name_id and \
-            pcomm.community_partner_id in (select id from partners_communitypartner where name in "+comm_name_list+") \
-            and p.academic_year_id = (select id from projects_academicyear where academic_year = '"+str(acd_yr)+"') and \
-            p.engagement_type_id = (select id from projects_engagementtype where name ='"+str(engName)+"') \
-            and p.project_name like '"+str(proj_name).strip()+"%' and upper(p.semester) = '"+str(start_sem)+"' \
-            and p.total_uno_students =" +str(unoStds)+ " and p.total_uno_hours ="+str(unostdHrs)+" \
-            and p.total_k12_students = "+str(unoK12std)+"  and p.total_k12_hours = "+str(unok12Hrs)+"" 
+            pcomm.community_partner_id in (select id from partners_communitypartner where name in %s) \
+            and p.academic_year_id = (select id from projects_academicyear where academic_year = '%s') and \
+            p.engagement_type_id = (select id from projects_engagementtype where name ='%s') \
+            and p.project_name like '%s' and upper(p.semester) = '%s' \
+            and p.total_uno_students =%s and p.total_uno_hours =%s \
+            and p.total_k12_students = %s  and p.total_k12_hours = %s" 
            
-            cursor.execute(select_proj)#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
+            cursor.execute(select_proj, (str(mission_name).strip(),camp_name_list,comm_name_list, str(acd_yr), str(engName), str(proj_name).strip()+"%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std), str(unok12Hrs), ))#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
             if proj_result is not None and len(proj_result) >0:
 
@@ -2252,17 +2252,17 @@ def uploadProjectSub(request,pk):
                   othersubCat = obj[1]
 
                   if projectId !=0:
-                        select_subcat = "select id from projects_subcategory where upper(sub_category) ='"+str(subcat_name).upper()+"'"
+                        select_subcat = "select id from projects_subcategory where upper(sub_category) ='%s'"
                         #print('select_subcat---',select_subcat)
-                        cursor.execute(select_subcat)
+                        cursor.execute(select_subcat, (str(subcat_name).upper(), ))
                         for obj in cursor.fetchall():
                             #print('subCatId --',obj[0])
                             subCatId = obj[0]
 
                         if subCatId !=0:
-                            select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id ="+str(subCatId)+""
+                            select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id =%s"
                             #print('select_subcat_msn---',select_subcat_msn)
-                            cursor.execute(select_subcat_msn)
+                            cursor.execute(select_subcat_msn, (str(subCatId), ))
                             for obj in cursor.fetchall():
                                 subMissnId = obj[0]
                         else:
@@ -2275,8 +2275,8 @@ def uploadProjectSub(request,pk):
 
                         if subCatId != 0:
                             proj_subcatExist = "select id from projects_projectsubcategory \
-                            where sub_category_id ="+str(subCatId)+" and project_name_id ="+str(projectId)
-                            cursor.execute(proj_subcatExist)
+                            where sub_category_id =%s and project_name_id =%s"
+                            cursor.execute(proj_subcatExist, (str(subCatId), str(projectId), ))
                             result = cursor.fetchall()
                             if len(result) >0:
                                 print('mapping already exists')
@@ -2289,8 +2289,8 @@ def uploadProjectSub(request,pk):
                   
                         if subMissnId !=0:
                             proj_missionExist = "select id from projects_projectmission \
-                            where mission_type = 'Other' and mission_id ="+str(subMissnId)+" and project_name_id ="+str(projectId)
-                            cursor.execute(proj_missionExist)
+                            where mission_type = 'Other' and mission_id =%s and project_name_id =%s"
+                            cursor.execute(proj_missionExist, (str(subMissnId), str(projectId), ))
                             missionresult = cursor.fetchall()
                             if len(missionresult) >0:
                                 print('mission mapping already exists')

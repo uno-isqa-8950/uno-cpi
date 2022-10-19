@@ -1,3 +1,4 @@
+import bleach
 import json
 import logging
 from django.db.models import Count, Q
@@ -1564,29 +1565,31 @@ def EngagementType_Chart(request):
                   'engagementList':engagementList, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection, 'defaultYrID':defaultYrID,
                   'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners})
 
-
+# The bleach library is used to make the content HTML safe. This was added to stop XSS on the maps.
 def GEOJSON():
     # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
     #     with open('home/static/GEOJSON/Partner.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    print("Starting GEOJSON Function")
     content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
     partner_geojson_load = content_object_partner.get()['Body'].read().decode('utf-8')
+    partner_geojson_load = bleach.clean(partner_geojson_load)
     collection = json.loads(partner_geojson_load)
     mission_list = MissionArea.objects.all()
-    mission_list = [str(m.mission_name) +':'+str(m.mission_color) for m in mission_list]
+    mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
-    CommTypelist = [m.community_type for m in CommTypelist]
+    CommTypelist = [bleach.clean(m.community_type) for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [{'name':m.name, 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    CampusPartnerlist = [{'name':bleach.clean(m.name), 'c_id':m.college_name_id} for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
-    collegeNamelist = [{'cname': m.college_name, 'id': m.id} for m in collegeName_list]
+    collegeNamelist = [{'cname': bleach.clean(m.college_name), 'id': m.id} for m in collegeName_list]
     yearlist=[]
     for year in AcademicYear.objects.all():
-        yearlist.append(year.academic_year)
+        yearlist.append(bleach.clean(year.academic_year))
     commPartnerlist = CommunityPartner.objects.all()
-    commPartnerlist = [m.name for m in commPartnerlist]
+    commPartnerlist = [bleach.clean(m.name) for m in commPartnerlist]
     return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist), (collegeNamelist))
 
@@ -1612,14 +1615,16 @@ def countyData(request):
                   )
 
 
-
+# The bleach library is used to make the content HTML safe. This was added to stop XSS on the maps.
 def GEOJSON2():
     # if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
     #     with open('home/static/GEOJSON/Project.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
-    #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    #     collection = geojson1  # assign it the collection variable to avoid changing the other 
+    print("Starting GEOJSON2 Function")
     content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
     project_geojson_load = content_object_project.get()['Body'].read().decode('utf-8')
+    project_geojson_load = bleach.clean(project_geojson_load)
     collection = json.loads(project_geojson_load)
     Missionlist = []  ## a placeholder array of unique mission areas
     Engagementlist = []
@@ -1630,29 +1635,29 @@ def GEOJSON2():
     CollegeNamelist = []
 
     for e in CommunityType.objects.all():
-        if (str(e.community_type) not in CommunityPartnerTypelist):
-            CommunityPartnerTypelist.append(str(e.community_type))
+        if (bleach.clean(str(e.community_type)) not in CommunityPartnerTypelist):
+            CommunityPartnerTypelist.append(bleach.clean(str(e.community_type)))
 
     for e in College.objects.all():
-        if(str(e.college_name) not in CollegeNamelist):
+        if(bleach.clean(str(e.college_name)) not in CollegeNamelist):
             if (str(e.college_name) != "N/A"):
-                CollegeNamelist.append({'cname':str(e.college_name), 'id':e.id})
+                CollegeNamelist.append({'cname':bleach.clean(str(e.college_name)), 'id':e.id})
 
 
     for year in AcademicYear.objects.all():
-        Academicyearlist.append(year.academic_year)
+        Academicyearlist.append(bleach.clean(year.academic_year))
 
     for mission in MissionArea.objects.all():
-        Missionlist.append(mission.mission_name)
+        Missionlist.append(bleach.clean(mission.mission_name))
 
     for engagement in EngagementType.objects.all():
-        Engagementlist.append(engagement.name)
+        Engagementlist.append(bleach.clean(engagement.name))
 
     for communitypart in CommunityPartner.objects.all():
-        CommunityPartnerlist.append(communitypart.name)
+        CommunityPartnerlist.append(bleach.clean(communitypart.name))
 
     for campuspart in CampusPartner.objects.all():
-        CampusPartnerlist.append({'name': campuspart.name, 'c_id': campuspart.college_name_id})
+        CampusPartnerlist.append({'name': bleach.clean(campuspart.name), 'c_id': campuspart.college_name_id})
 
 
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),

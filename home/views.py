@@ -229,7 +229,9 @@ def registerCampusPartnerUser(request):
             message = render_to_string('account/acc_active_email.html', {
                 'user': new_user,
                 'domain': current_site.domain,
-                'uid': url_has_allowed_host_and_scheme(force_bytes(new_user.pk)).decode(),
+                #'uid': url_has_allowed_host_and_scheme(force_bytes(new_user.pk)).decode(),
+                #revert to above later
+                'uid': True,
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email

@@ -1,11 +1,17 @@
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 # from django.utils import six
 
-class TokenGenerator(PasswordResetTokenGenerator):
-    def _make_hash_value(self, user, timestamp):
-        return (
-            six.text_type(user.pk) + six.text_type(timestamp) +
-            six.text_type(user.is_active)
-        )
+# class TokenGenerator(PasswordResetTokenGenerator):
+#   def _make_hash_value(self, user, timestamp):
+#      return (
 
-account_activation_token = TokenGenerator()
+# six.text_type(user.pk) + six.text_type(timestamp) +
+# six.text_type(user.is_active)
+# )
+
+
+# account_activation_token = TokenGenerator()
+
+#comment this out and uncomment above except for import six line after Sprint 3
+account_activation_token = PasswordResetTokenGenerator()

@@ -33,13 +33,13 @@ try:
     for x in activityTypeDict_SL:
       print(x['oldValue'],x['newValue'])
       query = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Service Learning') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query)
-      cursor.execute(query)
+      cursor.execute(query, (x['newValue'],x['oldValue'], ))
       
       connection.commit()
 
@@ -54,13 +54,13 @@ try:
     for x in activityTypeDict_AH:
       print(x['oldValue'],x['newValue'])
       query_AH = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Access to Higher Education') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query_AH)
-      cursor.execute(query_AH)
+      cursor.execute(query_AH, (x['newValue'],x['oldValue'], ))
       connection.commit()
 
     activityTypeDict_CM = []
@@ -74,13 +74,13 @@ try:
     for x in activityTypeDict_CM:
       print(x['oldValue'],x['newValue'])
       query_CM = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Community-Based Learning') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query_CM)
-      cursor.execute(query_CM)
+      cursor.execute(query_CM, (x['newValue'],x['oldValue'], ))
       connection.commit()
 
     activityTypeDict_ER = []
@@ -94,13 +94,13 @@ try:
     for x in activityTypeDict_ER:
       print(x['oldValue'],x['newValue'])
       query_ER = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Engaged Research') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query_ER)
-      cursor.execute(query_ER)
+      cursor.execute(query_ER, (x['newValue'],x['oldValue'], ))
       connection.commit()
 
 
@@ -118,13 +118,13 @@ try:
     for x in activityTypeDict_KR:
       print(x['oldValue'],x['newValue'])
       query_KR = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Knowledge and Resource Sharing') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query_KR)
-      cursor.execute(query_KR)
+      cursor.execute(query_KR, (x['newValue'],x['oldValue'], ))
       connection.commit()
 
     activityTypeDict_VL = []
@@ -140,13 +140,13 @@ try:
     for x in activityTypeDict_VL:
       print(x['oldValue'],x['newValue'])
       query_VL = "update projects_project set activity_type_id = \
-        (select a.id from projects_activitytype as a where a.name = '"+x['newValue']+"') \
+        (select a.id from projects_activitytype as a where a.name = '%s') \
         where engagement_type_id = \
         (select e.id from projects_engagementtype as e where e.name = 'Volunteering') \
          and activity_type_id = \
-         (select c.id from projects_activitytype as c where c.name = '"+x['oldValue']+"')"
+         (select c.id from projects_activitytype as c where c.name = '%s')"
       print('query--',query_VL)
-      cursor.execute(query_VL)
+      cursor.execute(query_VL, (x['newValue'],x['oldValue'], ))
      
       connection.commit()
 

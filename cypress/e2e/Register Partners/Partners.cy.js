@@ -9,7 +9,7 @@ function random_Text_Alpha_Numeric() {
 
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined'))
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'document\''))
         {
             return false
         }
@@ -24,10 +24,12 @@ describe('Partners', () => {
 
     it('visits the login form', () => {
         cy.get('#partners').click()
+        cy.wait(700)
     })
 
     it('Register Community Partner', () => {
         cy.get('#btn_reg_community_partner').click()
+        cy.wait(700)
     })
 
     it('Search', () => {
@@ -56,14 +58,18 @@ describe('Partners', () => {
         cy.get('.add-mission-row').click()
         cy.get('#terms').click()
         cy.get('#submit').click()
+        cy.wait(700)
     })
 
     it('visits the login form', () => {
         cy.get('#partners').click()
+        cy.wait(700)
     })
 
     it('Register Campus Partner', () => {
+        cy.wait(700)
         cy.get('#btn_reg_campus_partner').click()
+        cy.wait(700)
     })
 
     it('Add Campus Partner Name', () => {

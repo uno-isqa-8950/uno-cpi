@@ -1,7 +1,7 @@
 {% autoescape off %}
 Hi {{ user.first_name }},
 
-You have been invited to register as a Community Partner User at UNO’s Community Partnership Initiative.
+You have been invited to register as a Community Partner User at UNO’s Community Engagement Partnership Initiative.
 
 Please click on the link below to complete the registration process:
 http://{{ domain }}{% url 'inviteCommPartner' uidb64=uid token=token %}
@@ -9,6 +9,6 @@ http://{{ domain }}{% url 'inviteCommPartner' uidb64=uid token=token %}
 Please note, this link can only be activated once.  If you have clicked the link and do not complete the registration process, please reach out to us, and we will process your request as quickly as possible.
 
 Sincerely,
-Team UNO Community Partnership Initiative
+Team UNO Community Engagement Partnership Initiative
 Email:partnerships@unomaha.edu
 {% endautoescape %}

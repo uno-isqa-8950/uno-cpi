@@ -29,9 +29,9 @@ $(document).ready(function(){
 
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="hidefilterbtn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info_admin' %}' " value="Reset Filters" >
+            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info_admin' %}' " value="Reset Filters" >
 
 
             <script type="text/javascript">
@@ -177,7 +177,8 @@ $(document).ready(function(){
 
 
                 <!--div class="card" style="margin-top:10px;padding:5px;box-shadow: 5px 7px 7px 5px grey;"-->
-                <div class="box" style="margin-top:15px;">
+                <div class="box">
+
                     <table id="example" class="table table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
                         <thead>
                             <tr>
@@ -328,7 +329,74 @@ $(document).ready(function(){
 {% endblock %}
 
 
+{% block js %}
 
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+<script type="text/javascript">
+   $(document).ready(function() {
+
+
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       buttons: {
+       name: 'primary',
+       buttons: [{
+           extend: 'csv',
+           text:'Excel',
+           title:'Focus Area Report',
+            exportOptions: {
+                    columns:[0,1,2,3,4,5,6,7]
+                }
+       },
+           {
+         extend : 'pdfHtml5',
+         title:'Community Engagement Partnership Initiative-Projects Report',
+         messageTop:'Focus Area Report',
+         orientation : 'landscape',
+         pageSize : 'A2',
+         text : 'PDF',
+         titleAttr : 'PDF',
+                  exportOptions: {
+                    columns:[0,1,2,3,4,5,6,7]
+                     }
+               }]
+           },
+           // ordering:false
+       });
+        $('#example_filter').find('input').addClass('clearable');
+        function tog(v){
+            return v?'addClass':'removeClass';
+        }
+        $(document).on('input', '.clearable', function(){
+            $(this)[tog(this.value)]('x');
+        }).on('mousemove', '.x', function( e ){
+            $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+        }).on('touchstart click', '.onX', function( ev ){
+            ev.preventDefault();
+            $(this).removeClass('x onX').val('').change();
+            $('#example').DataTable().destroy();
+            $('#example').DataTable().draw();
+            $('#example_filter').find('input').addClass('clearable');
+        });
+
+    });
+</script>
+
+<script language="javascript" type="text/javascript">
+    console.log(" im in loader stopper");
+    window.onload = function(){ document.getElementById("loading").style.display = "none" }
+</script>
+<script>
+            $(document).ready(function(){
+              $('[data-toggle="tooltip"]').tooltip();
+            });
+</script>
+
+{% endblock %}
 
 
 {% block selectizeForm %}
@@ -413,57 +481,3 @@ $(document).ready(function(){
 });
 </script>
 {% endblock %}
-
-
-
-
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
-
-
-<script type="text/javascript">
-   $(document).ready(function() {
-   $('#example').DataTable({
-       dom: 'B<"clear">ft',
-       <!--To remove search function from mission area report-->
-       // searching:false,
-       buttons: {
-       name: 'primary',
-       buttons: [{
-           extend: 'csv',
-           text:'Excel'
-       }, 'excel', 'pdf']
-       },
-       // ordering:false
-       aoColumns: [ {"bSearchable": true}, {"bSearchable": true}, {"bSearchable": false}, {"bSearchable": false} , {"bSearchable": false}  ]
-   });
-       $('#example_filter').find('input').addClass('clearable');
-               function tog(v){return v?'addClass':'removeClass';}
-$(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-}).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-}).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-    $('#example').DataTable().destroy();
-    $('#example').DataTable().draw();
-    $('#example_filter').find('input').addClass('clearable');
-});
-
-   } );
-</script>
-
-<script language="javascript" type="text/javascript">
-    console.log(" im in loader stopper");
-    window.onload = function(){ document.getElementById("loading").style.display = "none" }
-</script>
-<script>
-            $(document).ready(function(){
-              $('[data-toggle="tooltip"]').tooltip();
-            });
-</script>
-
-

@@ -1103,7 +1103,7 @@ missionareas_sql = """SELECT MA.id  FROM home_missionarea MA"""
 
 academic_sql="""SELECT min(AC.id)as min,max(AC.id)as max  FROM projects_academicyear AC"""
 
-def showSelectedProjects(project_name_list):
+def showSelectedProjects():
 	return ( """select distinct p.project_name 
                                 , array_agg(distinct hm.mission_name) mission_area 
                                 , array_agg(distinct pc.name) CommPartners 
@@ -1146,7 +1146,7 @@ def showSelectedProjects(project_name_list):
                                 left join projects_projectsubcategory psub on psub.project_name_id = p.id 
                                 left join projects_subcategory s on psub.sub_category_id = s.id 
                                 left join projects_status status on status.id = p.status_id 
-                                where status.name !='Drafts' and  p.id in """+str(project_name_list)+"""
+                                where status.name !='Drafts' and  p.id in %s
                         group by p.project_name 
                                   , pa.academic_year \
                                   , p.semester 
@@ -1744,11 +1744,11 @@ order by commpartners;
 """
 
 
-def createproj_othermission(subcategory):
-    return ( """select secondary_mission_area_id from projects_missionsubcategory pms inner join projects_subcategory ps on ps.id = pms.sub_category_id where ps.sub_category ='""" +subcategory+"""';""")
+def createproj_othermission():
+    return ( """select secondary_mission_area_id from projects_missionsubcategory pms inner join projects_subcategory ps on ps.id = pms.sub_category_id where ps.sub_category ='%s';""")
 
-def createproj_addothermission(subcategory,projid):
-    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other','""" +subcategory+"""','""" +projid+"""'); """)
+def createproj_addothermission():
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other','%s','%s'); """)
 
 
 primaryFocusTopic_report_sql='''
@@ -1876,10 +1876,10 @@ order by rec_type, focus_name, topic_name;
 '''
 
 
-def editproj_addprimarymission(focusarea,projid):
-    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Primary','""" +focusarea+"""','""" +projid+"""'); """)
+def editproj_addprimarymission():
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Primary','%s','%s'); """)
 
-def editproj_updateprimarymission(focusarea,projid):
-    return ( """update projects_projectmission set mission_id= '""" +focusarea+"""',project_name_id ='""" +projid+"""' where project_name_id ='""" +projid+"""' and mission_type = 'Primary'; """)
+def editproj_updateprimarymission():
+    return ( """update projects_projectmission set mission_id= '%s',project_name_id ='%s' where project_name_id ='%s' and mission_type = 'Primary'; """)
 
 

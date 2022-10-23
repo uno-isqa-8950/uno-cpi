@@ -1,3 +1,4 @@
+import bleach
 import json
 import logging
 from django.db.models import Count, Q
@@ -122,8 +123,7 @@ def MapHome(request):
                   {'MapHome': MapHome})
 
 def thanks(request):
-    return render(request, 'home/thanks.html',
-                  {'thank': thanks})
+    return render(request, 'home/thanks.html')
 
 
 def partners(request):
@@ -186,26 +186,6 @@ def signup(request):
 def signupuser(request):
     return render(request, 'home/registration/signupuser.html', {'signupuser': signupuser})
 
-def recentchanges(request):
-    #project app
-    recent_project = Project.history.all().order_by('-history_date')[:100]
-    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:100]
-    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:100]
-    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:100]
-    #partner app
-    recent_campus = CampusPartner.history.all().order_by('-history_date')[:100]
-    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:100]
-    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:100]
-    #users and contacts
-    # recent_user = User.history.all().order_by('-history_date')[:100]
-    recent_contact = Contact.history.all().order_by('-history_date')[:50]
-
-    return render(request, 'home/recent_changes.html', {'recent_project': recent_project, 'recent_proj_mission': recent_proj_mission,
-                                                        'recent_proj_campus': recent_proj_campus, 'recent_proj_comm': recent_proj_comm,
-
-                                                        'recent_campus': recent_campus, 'recent_comm':recent_comm, 'recent_comm_mission':recent_comm_mission,
-                                                        'recent_contact':recent_contact})
-
 def registerCampusPartnerUser(request):
     data = []
     for object in CampusPartner.objects.order_by('name'):
@@ -213,7 +193,6 @@ def registerCampusPartnerUser(request):
     if request.method == 'POST':
         user_form = CampususerForm(request.POST)
         campus_partner_user_form = CampusPartnerUserForm(request.POST)
-
         if user_form.is_valid() and campus_partner_user_form.is_valid():
             new_user = user_form.save(commit=False)
             new_user.is_active = True
@@ -792,7 +771,7 @@ def project_partner_info_public(request):
 
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=" + str(i))
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1046,7 +1025,7 @@ def project_partner_info_admin(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                    from projects_project p where p.id=" + str(i))
+                                    from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1119,7 +1098,7 @@ def project_partner_info_admin(request):
                 if len(sub_proj_ids) > 0:
                     for ids in sub_proj_ids:
                         cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                 from projects_project p where p.id=" + str(ids))
+                                 from projects_project p where p.id=%s", (str(ids), ))
                         for obj_sum in cursor.fetchall():
                             sub_sum_uno_students = sub_sum_uno_students + obj_sum[0]
                             sub_sum_uno_hours = sub_sum_uno_hours + obj_sum[1]
@@ -1331,7 +1310,7 @@ def engagement_info(request):
                 
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id="+ str(i))
+                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s", (str(i), ))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1587,29 +1566,31 @@ def EngagementType_Chart(request):
                   'engagementList':engagementList, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection, 'defaultYrID':defaultYrID,
                   'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners})
 
-
+# The bleach library is used to make the content HTML safe. This was added to stop XSS on the maps.
 def GEOJSON():
     # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
     #     with open('home/static/GEOJSON/Partner.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    print("Starting GEOJSON Function")
     content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
     partner_geojson_load = content_object_partner.get()['Body'].read().decode('utf-8')
+    partner_geojson_load = bleach.clean(partner_geojson_load)
     collection = json.loads(partner_geojson_load)
     mission_list = MissionArea.objects.all()
-    mission_list = [str(m.mission_name) +':'+str(m.mission_color) for m in mission_list]
+    mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
-    CommTypelist = [m.community_type for m in CommTypelist]
+    CommTypelist = [bleach.clean(m.community_type) for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [{'name':m.name, 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    CampusPartnerlist = [{'name':bleach.clean(m.name), 'c_id':m.college_name_id} for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
-    collegeNamelist = [{'cname': m.college_name, 'id': m.id} for m in collegeName_list]
+    collegeNamelist = [{'cname': bleach.clean(m.college_name), 'id': m.id} for m in collegeName_list]
     yearlist=[]
     for year in AcademicYear.objects.all():
-        yearlist.append(year.academic_year)
+        yearlist.append(bleach.clean(year.academic_year))
     commPartnerlist = CommunityPartner.objects.all()
-    commPartnerlist = [m.name for m in commPartnerlist]
+    commPartnerlist = [bleach.clean(m.name) for m in commPartnerlist]
     return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist), (collegeNamelist))
 
@@ -1635,14 +1616,16 @@ def countyData(request):
                   )
 
 
-
+# The bleach library is used to make the content HTML safe. This was added to stop XSS on the maps.
 def GEOJSON2():
     # if (os.path.isfile('home/static/GEOJSON/Project.geojson')):  # check if the GEOJSON is already in the DB
     #     with open('home/static/GEOJSON/Project.geojson') as f:
     #         geojson1 = json.load(f)  # get the GEOJSON
-    #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    #     collection = geojson1  # assign it the collection variable to avoid changing the other 
+    print("Starting GEOJSON2 Function")
     content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
     project_geojson_load = content_object_project.get()['Body'].read().decode('utf-8')
+    project_geojson_load = bleach.clean(project_geojson_load)
     collection = json.loads(project_geojson_load)
     Missionlist = []  ## a placeholder array of unique mission areas
     Engagementlist = []
@@ -1653,29 +1636,29 @@ def GEOJSON2():
     CollegeNamelist = []
 
     for e in CommunityType.objects.all():
-        if (str(e.community_type) not in CommunityPartnerTypelist):
-            CommunityPartnerTypelist.append(str(e.community_type))
+        if (bleach.clean(str(e.community_type)) not in CommunityPartnerTypelist):
+            CommunityPartnerTypelist.append(bleach.clean(str(e.community_type)))
 
     for e in College.objects.all():
-        if(str(e.college_name) not in CollegeNamelist):
+        if(bleach.clean(str(e.college_name)) not in CollegeNamelist):
             if (str(e.college_name) != "N/A"):
-                CollegeNamelist.append({'cname':str(e.college_name), 'id':e.id})
+                CollegeNamelist.append({'cname':bleach.clean(str(e.college_name)), 'id':e.id})
 
 
     for year in AcademicYear.objects.all():
-        Academicyearlist.append(year.academic_year)
+        Academicyearlist.append(bleach.clean(year.academic_year))
 
     for mission in MissionArea.objects.all():
-        Missionlist.append(mission.mission_name)
+        Missionlist.append(bleach.clean(mission.mission_name))
 
     for engagement in EngagementType.objects.all():
-        Engagementlist.append(engagement.name)
+        Engagementlist.append(bleach.clean(engagement.name))
 
     for communitypart in CommunityPartner.objects.all():
-        CommunityPartnerlist.append(communitypart.name)
+        CommunityPartnerlist.append(bleach.clean(communitypart.name))
 
     for campuspart in CampusPartner.objects.all():
-        CampusPartnerlist.append({'name': campuspart.name, 'c_id': campuspart.college_name_id})
+        CampusPartnerlist.append({'name': bleach.clean(campuspart.name), 'c_id': campuspart.college_name_id})
 
 
     return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
@@ -2250,18 +2233,18 @@ def uploadProjectSub(request,pk):
             projects_projectcampuspartner pcam, \
             projects_projectcommunitypartner pcomm \
             where p.id = pm.project_name_id and pm.mission_type = 'Primary' \
-            and pm.mission_id = (select id from home_missionarea m where mission_name = '"+str(mission_name).strip()+"') \
+            and pm.mission_id = (select id from home_missionarea m where mission_name = '%s') \
             and p.id = pcam.project_name_id and \
-            pcam.campus_partner_id in (select id from partners_campuspartner where name in "+camp_name_list+") \
+            pcam.campus_partner_id in (select id from partners_campuspartner where name in %s) \
             and p.id = pcomm.project_name_id and \
-            pcomm.community_partner_id in (select id from partners_communitypartner where name in "+comm_name_list+") \
-            and p.academic_year_id = (select id from projects_academicyear where academic_year = '"+str(acd_yr)+"') and \
-            p.engagement_type_id = (select id from projects_engagementtype where name ='"+str(engName)+"') \
-            and p.project_name like '"+str(proj_name).strip()+"%' and upper(p.semester) = '"+str(start_sem)+"' \
-            and p.total_uno_students =" +str(unoStds)+ " and p.total_uno_hours ="+str(unostdHrs)+" \
-            and p.total_k12_students = "+str(unoK12std)+"  and p.total_k12_hours = "+str(unok12Hrs)+"" 
+            pcomm.community_partner_id in (select id from partners_communitypartner where name in %s) \
+            and p.academic_year_id = (select id from projects_academicyear where academic_year = '%s') and \
+            p.engagement_type_id = (select id from projects_engagementtype where name ='%s') \
+            and p.project_name like '%s' and upper(p.semester) = '%s' \
+            and p.total_uno_students =%s and p.total_uno_hours =%s \
+            and p.total_k12_students = %s  and p.total_k12_hours = %s" 
            
-            cursor.execute(select_proj)#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
+            cursor.execute(select_proj, (str(mission_name).strip(),camp_name_list,comm_name_list, str(acd_yr), str(engName), str(proj_name).strip()+"%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std), str(unok12Hrs), ))#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
             if proj_result is not None and len(proj_result) >0:
 
@@ -2270,17 +2253,17 @@ def uploadProjectSub(request,pk):
                   othersubCat = obj[1]
 
                   if projectId !=0:
-                        select_subcat = "select id from projects_subcategory where upper(sub_category) ='"+str(subcat_name).upper()+"'"
+                        select_subcat = "select id from projects_subcategory where upper(sub_category) ='%s'"
                         #print('select_subcat---',select_subcat)
-                        cursor.execute(select_subcat)
+                        cursor.execute(select_subcat, (str(subcat_name).upper(), ))
                         for obj in cursor.fetchall():
                             #print('subCatId --',obj[0])
                             subCatId = obj[0]
 
                         if subCatId !=0:
-                            select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id ="+str(subCatId)+""
+                            select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id =%s"
                             #print('select_subcat_msn---',select_subcat_msn)
-                            cursor.execute(select_subcat_msn)
+                            cursor.execute(select_subcat_msn, (str(subCatId), ))
                             for obj in cursor.fetchall():
                                 subMissnId = obj[0]
                         else:
@@ -2293,8 +2276,8 @@ def uploadProjectSub(request,pk):
 
                         if subCatId != 0:
                             proj_subcatExist = "select id from projects_projectsubcategory \
-                            where sub_category_id ="+str(subCatId)+" and project_name_id ="+str(projectId)
-                            cursor.execute(proj_subcatExist)
+                            where sub_category_id =%s and project_name_id =%s"
+                            cursor.execute(proj_subcatExist, (str(subCatId), str(projectId), ))
                             result = cursor.fetchall()
                             if len(result) >0:
                                 print('mapping already exists')
@@ -2307,8 +2290,8 @@ def uploadProjectSub(request,pk):
                   
                         if subMissnId !=0:
                             proj_missionExist = "select id from projects_projectmission \
-                            where mission_type = 'Other' and mission_id ="+str(subMissnId)+" and project_name_id ="+str(projectId)
-                            cursor.execute(proj_missionExist)
+                            where mission_type = 'Other' and mission_id =%s and project_name_id =%s"
+                            cursor.execute(proj_missionExist, (str(subMissnId), str(projectId), ))
                             missionresult = cursor.fetchall()
                             if len(missionresult) >0:
                                 print('mission mapping already exists')

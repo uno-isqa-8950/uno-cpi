@@ -13,18 +13,14 @@ describe('Login to the app', () => {
     })
 
     it('visits the login form', () => {
-        cy.get('#login').click()
-    })
-
-    it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
-    })
-
-    it('requires password name', () => {
-        cy.get('#password_input').type('CEPITesting123')
-    })
-
-    it('can submit a valid form', () => {
-        cy.get('#loginForm').submit()
+        cy.get('#resourcesnav').click()
+        cy.wait(700)
     })
 })
+    /*it('Resources', () => {
+        //cy.get('#loginForm').submit()
+        cy.get('#resourcesnav').click()
+        //cy.contains('Community Engagement Roadmap').next('.dropdown-menu').then($el => {
+            //cy.wrap($el).invoke('show')
+            //cy.wrap($el).contains('Project and Partner Trends').click()
+        })*/

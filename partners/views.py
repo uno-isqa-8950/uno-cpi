@@ -354,7 +354,8 @@ def PartnerAdd(request):
         else:
             form = CommunityPartnerAddForm()
         return render(request, 'partners/community_partner_org_add.html', {'form': form})
-
+    else:
+        return redirect('/admin')
 # Shows contacts of a particular Campus Partner/Community Partner in the Organizations tab of a User
 def orgProfileContacts(request, pk):
     if request.user.is_campuspartner:

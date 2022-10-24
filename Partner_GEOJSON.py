@@ -95,13 +95,13 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
     join university_college um on um.id = pc2.college_name_id \
     join projects_engagementtype pem on p.engagement_type_id = pem.id \
     join projects_status ps on ps.id = p.status_id \
-    WHERE ps.name != 'Drafts' and ppcp.id = '"+str(commId) +"' group by  project_name, \
+    WHERE ps.name != 'Drafts' and ppcp.id = '%s' group by  project_name, \
     startyear, endyear, engagement_type"
     communityprojectsList = []
     count = 0
     yearlist = []
     campuslist = []
-    cursor.execute(get_project_sql)
+    cursor.execute(get_project_sql, (str(commId), ))
     #print('project cursor.fetchall()--',cursor.fetchall())
     projectsCount = cursor.fetchall()
     if len(projectsCount) > 0:
@@ -132,8 +132,8 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
 
             if (start_academic_year is not None and end_academic_year is not None):   
                 cursor.execute("select academic_year from projects_academicyear \
-                    where id < (select id from projects_academicyear where academic_year = '"+str(end_academic_year)+"') \
-                    and id > (select id from projects_academicyear where academic_year = '"+str(start_academic_year)+"')")
+                    where id < (select id from projects_academicyear where academic_year = '%s') \
+                    and id > (select id from projects_academicyear where academic_year = '%s')", (str(end_academic_year), str(start_academic_year),))
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:
                     for obj in academicList:

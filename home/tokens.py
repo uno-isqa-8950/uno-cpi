@@ -7,7 +7,7 @@ class TokenGenerator(PasswordResetTokenGenerator):
       return (six.text_type(user.pk) + six.text_type(timestamp) + six.text_type(user.is_active))
 
 
-# account_activation_token = TokenGenerator()
+account_activation_token = TokenGenerator()
 
 #comment this out and uncomment above except for import six line after Sprint 3
 #account_activation_token = PasswordResetTokenGenerator()

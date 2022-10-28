@@ -147,8 +147,6 @@ def redirectUNOUser(request,key):
             messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
-        logger = logging.getLogger('testlogger')
-        logger.info('This is a simple log message')
         messages.error(request, 'Error in SAML response, Please ccontact system administration.')
         return render(request,'registration/login.html', {'form': LoginForm()})
 
@@ -200,8 +198,7 @@ def index(request):
     success_slo = False
     attributes = False
     paint_logout = False
-    logger = logging.getLogger('testlogger')
-    logger.info(req['get_data'])
+    print(req['get_data'])
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login())
 
@@ -232,10 +229,12 @@ def index(request):
     elif 'acs' in req['get_data']:
         request_id = None
         if 'AuthNRequestID' in request.session:
+            print('AuthNRequestID TRUE')
             request_id = request.session['AuthNRequestID']
+        print(request_id)
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
-        print("errors-in saml response-",errors)
+        print("ERRORS IN SAML RESPONSE: ",errors)
         not_auth_warn = not auth.is_authenticated()
 
         if not errors:
@@ -250,8 +249,7 @@ def index(request):
                 if checkEmail:
                     return redirectUNOUser(request,userEmail)                
         else:
-            logger = logging.getLogger('testlogger')
-            logger.error(errors)
+            print('ERROR: ', errors)
             redirectUNOUser(request,None)
         
     elif 'sls' in req['get_data']:

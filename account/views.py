@@ -3,8 +3,6 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from .forms import LoginForm
 from django.contrib import messages
-import logging
-
 from django.conf import settings
 from django.urls import reverse
 from django.http import (HttpResponse, HttpResponseRedirect,
@@ -25,6 +23,10 @@ samlDict = {
   #"unml.edu": "unml",
   #"nebraska.edu": "neb"
 }
+
+import logging
+logger = logging.getLogger('testlogger')
+
 # Create your views here.
 def verifySamlSettingJson():
     setupJson = "false"
@@ -51,7 +53,7 @@ def user_login(request):
             cd = form.cleaned_data
             emailInput = cd['email']
             emailDomain = emailInput.split('@')[1]
-            
+
             print('print email--',emailInput)
             print('print emailDomain--',emailDomain)
 
@@ -146,7 +148,6 @@ def redirectUNOUser(request,key):
             messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
-        logger = logging.getLogger('testlogger')
         logger.info('This is a simple log message')
         messages.error(request, 'Error in SAML response, Please ccontact system administration.')
         return render(request,'registration/login.html', {'form': LoginForm()})
@@ -199,13 +200,14 @@ def index(request):
     success_slo = False
     attributes = False
     paint_logout = False
-
+    logger.info(req['get_data'])
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login())
 
     elif 'sso2' in req['get_data']:
         return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('attrs')
         return HttpResponseRedirect(auth.login(return_to))
+
     elif 'slo' in req['get_data']:
         name_id = session_index = name_id_format = name_id_nq = name_id_spnq = None
         if 'samlNameId' in request.session:
@@ -225,12 +227,11 @@ def index(request):
         # slo_built_url = auth.logout(name_id=name_id, session_index=session_index)
         # request.session['LogoutRequestID'] = auth.get_last_request_id()
         #return HttpResponseRedirect(slo_built_url)
-    elif 'acs' in req['get_data']:
 
+    elif 'acs' in req['get_data']:
         request_id = None
         if 'AuthNRequestID' in request.session:
             request_id = request.session['AuthNRequestID']
-
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
         print("errors-in saml response-",errors)
@@ -249,7 +250,7 @@ def index(request):
                     return redirectUNOUser(request,userEmail)                
         else:
             logger = logging.getLogger('testlogger')
-            logger.info("errors-in saml response--",errors)
+            logger.error(errors)
             redirectUNOUser(request,None)
         
     elif 'sls' in req['get_data']:

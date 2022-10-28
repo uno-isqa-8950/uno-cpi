@@ -25,7 +25,6 @@ samlDict = {
 }
 
 import logging
-logger = logging.getLogger('testlogger')
 
 # Create your views here.
 def verifySamlSettingJson():
@@ -148,6 +147,7 @@ def redirectUNOUser(request,key):
             messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
+        logger = logging.getLogger('testlogger')
         logger.info('This is a simple log message')
         messages.error(request, 'Error in SAML response, Please ccontact system administration.')
         return render(request,'registration/login.html', {'form': LoginForm()})
@@ -200,6 +200,7 @@ def index(request):
     success_slo = False
     attributes = False
     paint_logout = False
+    logger = logging.getLogger('testlogger')
     logger.info(req['get_data'])
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login())

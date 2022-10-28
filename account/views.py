@@ -157,6 +157,7 @@ def init_saml_auth(req):
 
 def prepare_django_request(request):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
+    print('PREPARING REQUEST')
     result = {
         'https': 'on' if request.is_secure() else 'off',
         'http_host': request.META['HTTP_HOST'],
@@ -191,6 +192,7 @@ def isValidEmail(emailAdd):
 
 def index(request):
     req = prepare_django_request(request)
+    print(req)
     auth = init_saml_auth(req)
     errors = []
     error_reason = None

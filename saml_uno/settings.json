@@ -7,7 +7,7 @@
             "url":
             "https://auth.unomaha.edu/idp/profile/SAML2/Redirect/SSO",
             "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
-            }, 
+            },
             "singleLogoutService": {
                 "url": "https://auth.unomaha.edu/idp/profile/Logout",
                 "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"

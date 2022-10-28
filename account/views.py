@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpRequest
-from django.contrib.auth import authenticate, login, logout,get_user_model
+from django.contrib.auth import authenticate, login, logout, get_user_model
 from .forms import LoginForm
 from django.contrib import messages
+
 from django.conf import settings
 from django.urls import reverse
 from django.http import (HttpResponse, HttpResponseRedirect,
@@ -14,34 +15,32 @@ from onelogin.saml2.settings import OneLogin_Saml2_Settings
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from home.models import *
 import os
-import json 
+import json
 import re
-import logging
 
 samlDict = {
-  "unomaha.edu": "uno",
-  #"unml.edu": "unml",
-  #"nebraska.edu": "neb"
+    "unomaha.edu": "uno",
+    # "unml.edu": "unml",
+    # "nebraska.edu": "neb"
 }
 
-import logging
 
 # Create your views here.
 def verifySamlSettingJson():
     setupJson = "false"
-    jsonFile = open(settings.SAML_FOLDER+"/settings.json", "r") # Open the JSON file for reading
-    data = json.load(jsonFile) # Read the JSON into the buffer
-    jsonFile.close() # Close the JSON file
+    jsonFile = open(settings.SAML_FOLDER + "/settings.json", "r")  # Open the JSON file for reading
+    data = json.load(jsonFile)  # Read the JSON into the buffer
+    jsonFile.close()  # Close the JSON file
 
     saml_host = settings.SAML_HOST_URL
-    print('saml_host--'+saml_host)
-    data['sp']['assertionConsumerService']['url'] = saml_host+'account/?acs'
-    data['sp']['singleLogoutService']['url'] = saml_host+'account/?sls'
+    print('saml_host--' + saml_host)
+    data['sp']['assertionConsumerService']['url'] = saml_host + 'account/?acs'
+    data['sp']['singleLogoutService']['url'] = saml_host + 'account/?sls'
 
-    jsonFile = open(settings.SAML_FOLDER+"/settings.json", "w+")
+    jsonFile = open(settings.SAML_FOLDER + "/settings.json", "w+")
     jsonFile.write(json.dumps(data))
-    jsonFile.close() 
-    setupJson = "true" 
+    jsonFile.close()
+    setupJson = "true"
     return setupJson
 
 
@@ -53,37 +52,38 @@ def user_login(request):
             emailInput = cd['email']
             emailDomain = emailInput.split('@')[1]
 
-            print('print email--',emailInput)
-            print('print emailDomain--',emailDomain)
+            print('print email--', emailInput)
+            print('print emailDomain--', emailDomain)
 
             user = None
             emailInput = cd['email']
             # check if email domain exists in dict, perform user validation and redirect to SSO else perform app authentication
             if emailDomain in samlDict:
-                print('emaildomain check--',emailDomain)  
-                #check if email id exists in CEPI database 
+                print('emaildomain check--', emailDomain)
+                # check if email id exists in CEPI database
                 try:
                     user = get_user_model().objects.get(email=emailInput)
                 except get_user_model().DoesNotExist:
                     user = None
                 # redirect valid user to SSO page else redirect to login page with error message
                 if user is not None:
-                    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) 
+                    BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
                     saml_idp = samlDict[emailDomain]
                     # set the appropriate SAML folder based on required IDP for respective email domain
-                    settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
-                    #print('settings.APP_ENV--'+settings.APP_ENV)
-                    # reassign the url in settings json based on enviornment running on, 
+                    settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_' + saml_idp)
+                    print('settings.APP_ENV--' + settings.APP_ENV)
+                    # reassign the url in settings json based on enviornment running on,
                     # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
-                    setupJson = verifySamlSettingJson()                    
-                    print('setupJson--'+setupJson)
-                    return redirect(settings.SAML_HOST_URL+"account/?sso")
+                    setupJson = verifySamlSettingJson()
+                    print('setupJson--' + setupJson)
+                    return redirect(settings.SAML_HOST_URL + "account/?sso")
                 else:
-                    messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
+                    messages.error(request,
+                                   'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
                     return render(request, 'registration/login.html', {'form': form})
             else:
                 user = authenticate(request, email=cd['email'], password=cd['password'])
-                
+
             if user is not None:
                 if user.is_campuspartner:
                     login(request, user)
@@ -95,12 +95,12 @@ def user_login(request):
                     return response
                 elif user.is_superuser:
                     login(request, user)
-                    response = redirect('/Admin-frame')
+                    response = redirect('/Admin-Home')
                     return response
             else:
                 messages.error(request, 'Email or Password is incorrect or contact system administration.')
                 return render(request, 'registration/login.html', {'form': form})
-                #return HttpResponse('Invalid Credentials')
+                # return HttpResponse('Invalid Credentials')
     else:
         form = LoginForm()
     return render(request, 'registration/login.html', {'form': form})
@@ -111,18 +111,18 @@ def campushome(request):
 
 
 def CommunityHome(request):
-    return render(request, 'projects/community_partner_projects.html',{'CommunityHome': CommunityHome})
+    return render(request, 'projects/community_partner_projects.html', {'CommunityHome': CommunityHome})
 
 
 def admin(request):
-    return render(request, 'home/admin_frame.html')
+    return render(request, "home/admin_frame.html", {'admin': admin})
 
 
 def logout_view(request):
     logout(request)
 
 
-def redirectUNOUser(request,key):
+def redirectUNOUser(request, key):
     if key is not None:
         useremail = key[0]
         try:
@@ -141,29 +141,31 @@ def redirectUNOUser(request,key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect("/Admin-frame")
+                response = redirect('/Admin-Home')
                 return response
         else:
-            messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
-            return render(request,'registration/login.html', {'form': LoginForm()})
+            messages.error(request,
+                           'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
+            return render(request, 'registration/login.html', {'form': LoginForm()})
     else:
+        print('Error in SAML response, Please ccontact system administration.')
         messages.error(request, 'Error in SAML response, Please ccontact system administration.')
-        return render(request,'registration/login.html', {'form': LoginForm()})
+        return render(request, 'registration/login.html', {'form': LoginForm()})
 
 
 def init_saml_auth(req):
     auth = OneLogin_Saml2_Auth(req, custom_base_path=settings.SAML_FOLDER)
     return auth
 
+
 def prepare_django_request(request):
     # If server is behind proxys or balancers use the HTTP_X_FORWARDED fields
-    print('PREPARING REQUEST')
     result = {
         'https': 'on' if request.is_secure() else 'off',
         'http_host': request.META['HTTP_HOST'],
         'script_name': request.META['PATH_INFO'],
-        #'server_port': request.META['SERVER_PORT'], # uncomment this line for local run
-        'server_port': '443', # uncomment this line for dev, cat and prod env.
+        # 'server_port': request.META['SERVER_PORT'], # uncomment this line for local run
+        'server_port': '443',  # uncomment this line for dev, cat and prod env.
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy(),
         # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
@@ -172,27 +174,27 @@ def prepare_django_request(request):
     }
     return result
 
+
 def isValidEmail(emailAdd):
     print("emailAdd--", emailAdd)
     emailAddVal = ""
     validEmailAdd = False
 
-    if(emailAdd is not None):
-        emailAddVal =  emailAdd[0]
-    
+    if (emailAdd is not None):
+        emailAddVal = emailAdd[0]
+
     regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'
-    if(re.search(regex,emailAddVal)):  
+    if (re.search(regex, emailAddVal)):
         print("Valid Email")
-        validEmailAdd = True          
-    else:  
-        print("Invalid Email") 
+        validEmailAdd = True
+    else:
+        print("Invalid Email")
         validEmailAdd = False
     return validEmailAdd
 
 
 def index(request):
     req = prepare_django_request(request)
-    print(req)
     auth = init_saml_auth(req)
     errors = []
     error_reason = None
@@ -200,14 +202,13 @@ def index(request):
     success_slo = False
     attributes = False
     paint_logout = False
-    print(req['get_data'])
+
     if 'sso' in req['get_data']:
         return HttpResponseRedirect(auth.login())
 
     elif 'sso2' in req['get_data']:
         return_to = OneLogin_Saml2_Utils.get_self_url(req) + reverse('attrs')
         return HttpResponseRedirect(auth.login(return_to))
-
     elif 'slo' in req['get_data']:
         name_id = session_index = name_id_format = name_id_nq = name_id_spnq = None
         if 'samlNameId' in request.session:
@@ -221,22 +222,23 @@ def index(request):
         if 'samlNameIdSPNameQualifier' in request.session:
             name_id_spnq = request.session['samlNameIdSPNameQualifier']
         logout(request)
-        return HttpResponseRedirect(auth.logout(name_id=name_id, session_index=session_index, nq=name_id_nq, name_id_format=name_id_format, spnq=name_id_spnq))
+        return HttpResponseRedirect(
+            auth.logout(name_id=name_id, session_index=session_index, nq=name_id_nq, name_id_format=name_id_format,
+                        spnq=name_id_spnq))
 
         # If LogoutRequest ID need to be stored in order to later validate it, do instead
         # slo_built_url = auth.logout(name_id=name_id, session_index=session_index)
         # request.session['LogoutRequestID'] = auth.get_last_request_id()
-        #return HttpResponseRedirect(slo_built_url)
-
+        # return HttpResponseRedirect(slo_built_url)
     elif 'acs' in req['get_data']:
+
         request_id = None
         if 'AuthNRequestID' in request.session:
-            print('AuthNRequestID TRUE')
             request_id = request.session['AuthNRequestID']
-        print(request_id)
+
         auth.process_response(request_id=request_id)
         errors = auth.get_errors()
-        print("ERRORS IN SAML RESPONSE: ",errors)
+        print("errors-in saml response-", errors)
         not_auth_warn = not auth.is_authenticated()
 
         if not errors:
@@ -246,16 +248,16 @@ def index(request):
             if auth.get_attributes() is not None:
                 unoAtt = auth.get_attributes()
                 userEmail = unoAtt['urn:oid:0.9.2342.19200300.100.1.3']
-                print("user email--",userEmail)
+                print("user email--", userEmail)
                 checkEmail = isValidEmail(userEmail)
                 if checkEmail:
-                    return redirectUNOUser(request,userEmail)                
+                    return redirectUNOUser(request, userEmail)
         else:
-            print('ERROR: ', errors)
-            redirectUNOUser(request,None)
-        
+            print("errors-in saml response--", errors)
+            redirectUNOUser(request, None)
+
     elif 'sls' in req['get_data']:
-        
+
         request_id = None
         if 'LogoutRequestID' in request.session:
             request_id = request.session['LogoutRequestID']
@@ -269,7 +271,7 @@ def index(request):
                 success_slo = True
         elif auth.get_settings().is_debug_active():
             error_reason = auth.get_last_error_reason()
-        
+
     if 'samlUserdata' in request.session:
         paint_logout = True
         if len(request.session['samlUserdata']) > 0:
@@ -296,8 +298,9 @@ def metadata(request):
     # req = prepare_django_request(request)
     # auth = init_saml_auth(req)
     # saml_settings = auth.get_settings()
-    print('settings.SAML_FOLDER--',settings.SAML_FOLDER)
-    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER, sp_validation_only=True)
+    print('settings.SAML_FOLDER--', settings.SAML_FOLDER)
+    saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER,
+                                            sp_validation_only=True)
     metadata = saml_settings.get_sp_metadata()
     errors = saml_settings.validate_metadata(metadata)
 

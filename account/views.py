@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import authenticate, login, logout,get_user_model
 from .forms import LoginForm
 from django.contrib import messages
+import logging
 
 from django.conf import settings
 from django.urls import reverse
@@ -17,7 +18,7 @@ from home.models import *
 import os
 import json 
 import re
-
+import logging
 
 samlDict = {
   "unomaha.edu": "uno",
@@ -26,7 +27,6 @@ samlDict = {
 }
 # Create your views here.
 def verifySamlSettingJson():
-
     setupJson = "false"
     jsonFile = open(settings.SAML_FOLDER+"/settings.json", "r") # Open the JSON file for reading
     data = json.load(jsonFile) # Read the JSON into the buffer
@@ -71,7 +71,7 @@ def user_login(request):
                     saml_idp = samlDict[emailDomain]
                     # set the appropriate SAML folder based on required IDP for respective email domain
                     settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_'+saml_idp)
-                    print('settings.APP_ENV--'+settings.APP_ENV)
+                    #print('settings.APP_ENV--'+settings.APP_ENV)
                     # reassign the url in settings json based on enviornment running on, 
                     # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
                     setupJson = verifySamlSettingJson()                    
@@ -146,7 +146,8 @@ def redirectUNOUser(request,key):
             messages.error(request, 'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
             return render(request,'registration/login.html', {'form': LoginForm()})
     else:
-        print('Error in SAML response, Please ccontact system administration.')
+        logger = logging.getLogger('testlogger')
+        logger.info('This is a simple log message')
         messages.error(request, 'Error in SAML response, Please ccontact system administration.')
         return render(request,'registration/login.html', {'form': LoginForm()})
 
@@ -247,7 +248,8 @@ def index(request):
                 if checkEmail:
                     return redirectUNOUser(request,userEmail)                
         else:
-            print("errors-in saml response--",errors)
+            logger = logging.getLogger('testlogger')
+            logger.info("errors-in saml response--",errors)
             redirectUNOUser(request,None)
         
     elif 'sls' in req['get_data']:

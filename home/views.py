@@ -1289,9 +1289,7 @@ def engagement_info(request):
                 group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp \
                 order by eng_type;"
 
-    # cursor.execute(sql.engagement_types_report_sql, params)
     cursor.execute(query_end)
-    #cec_part_choices = CecPartChoiceForm()
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():

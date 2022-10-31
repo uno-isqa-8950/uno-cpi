@@ -295,9 +295,6 @@ def attrs(request):
 
 
 def metadata(request):
-    # req = prepare_django_request(request)
-    # auth = init_saml_auth(req)
-    # saml_settings = auth.get_settings()
     print('settings.SAML_FOLDER--', settings.SAML_FOLDER)
     saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER,
                                             sp_validation_only=True)

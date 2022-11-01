@@ -95,7 +95,7 @@ def user_login(request):
                     return response
                 elif user.is_superuser:
                     login(request, user)
-                    response = redirect('/Admin-Home')
+                    response = redirect('/Admin-frame')
                     return response
             else:
                 messages.error(request, 'Email or Password is incorrect or contact system administration.')
@@ -141,7 +141,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect('/Admin-Home')
+                response = redirect('/Admin-frame')
                 return response
         else:
             messages.error(request,

@@ -95,8 +95,7 @@ def user_login(request):
                     return response
                 elif user.is_superuser:
                     login(request, user)
-                    response = redirect('/Admin-Home')
-                    return response
+                    return redirect('/')
             else:
                 messages.error(request, 'Email or Password is incorrect or contact system administration.')
                 return render(request, 'registration/login.html', {'form': form})
@@ -141,7 +140,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect('/Admin-Home')
+                response = redirect('/admin')
                 return response
         else:
             messages.error(request,
@@ -295,9 +294,6 @@ def attrs(request):
 
 
 def metadata(request):
-    # req = prepare_django_request(request)
-    # auth = init_saml_auth(req)
-    # saml_settings = auth.get_settings()
     print('settings.SAML_FOLDER--', settings.SAML_FOLDER)
     saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER,
                                             sp_validation_only=True)

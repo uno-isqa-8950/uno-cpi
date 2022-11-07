@@ -7,20 +7,26 @@ beforeEach(() => {
     })
 })
 
-describe('Login to the app', () => {
+describe('Projects', () => {
     it('visits the form', () => {
         cy.visit('http://127.0.0.1:8000/')
     })
 
     it('visits the login form', () => {
-        cy.get('#resourcesnav').click()
-        cy.wait(700)
+        cy.get('#login').click()
+    })
+
+    it('requires email', () => {
+        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
+    })
+
+    it('requires password name', () => {
+        cy.get('#password_input').type('CEPITesting123')
+    })
+
+    it('Office Of Engagement', () => {
+        cy.get('#loginForm').submit()
+        cy.get("#resourcesnav").click()
+        cy.contains('Community Engagement Roadmap').click()
     })
 })
-    /*it('Resources', () => {
-        //cy.get('#loginForm').submit()
-        cy.get('#resourcesnav').click()
-        //cy.contains('Community Engagement Roadmap').next('.dropdown-menu').then($el => {
-            //cy.wrap($el).invoke('show')
-            //cy.wrap($el).contains('Project and Partner Trends').click()
-        })*/

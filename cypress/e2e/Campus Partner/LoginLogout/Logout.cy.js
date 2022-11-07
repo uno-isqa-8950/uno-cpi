@@ -18,7 +18,7 @@ describe('Logout of the app', () => {
     })
 
     it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
+        cy.get('#email_input').type('campususer123@gmail.com{enter}')
     })
 
     it('requires password name', () => {

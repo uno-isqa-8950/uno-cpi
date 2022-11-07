@@ -59,8 +59,8 @@ import datetime
 # The imports below are for running sql queries for Charts
 from django.db import connection
 from UnoCPI import sqlfiles
-from projects.forms import K12ChoiceForm,CecPartChoiceForm
-from projects.models import AcademicYear, EngagementType
+from projects.forms import *
+from projects.models import *
 
 sql=sqlfiles
 logger = logging.getLogger(__name__)

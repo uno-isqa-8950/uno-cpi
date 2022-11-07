@@ -50,9 +50,15 @@ class Project (models.Model):
     updated_date = models.DateTimeField(auto_now_add=True)
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     project_type = models.CharField(max_length=20, choices=project_choices, default='Project')
+    subcategory = models.ManyToManyField('SubCategory')
     other_sub_category = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     other_activity_type = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
     recursive_project = models.BooleanField(default=False)
+    university = models.ForeignKey('university.University', null=True, blank=True, on_delete=models.CASCADE,
+                                   default=1)
+    mission_area = models.ManyToManyField('home.MissionArea')
+    community_partner = models.ManyToManyField('partners.CommunityPartner')
+    campus_partner = models.ManyToManyField('partners.CampusPartner')
     history = HistoricalRecords()
 
     def created(self):
@@ -75,7 +81,7 @@ class Project (models.Model):
     def __str__(self):
         return str(self.project_name)
 
-class SubCategory (models.Model):
+class SubCategory(models.Model):
     sub_category = models.CharField(max_length=30, blank=True, null=False)
     sub_category_descr = models.CharField(max_length=250, blank=True, null=True)
     sub_category_tags = models.CharField(max_length=1024, blank=True, null=True)

@@ -5,16 +5,14 @@
 {% block content %}
 
 <style>
+     .box{
+        padding: 10px;
+            background-color: white;
+            border: 1px;
+        box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
 
-    /*.logo-frame{*/
-
-/*width: auto ;*/
-  /*max-width: 100% ;*/
-  /*height: auto ;*/
-
-    /*}*/
-
-    @media screen and (max-width: 1200px) {
+         @media screen and (max-width: 1200px) {
         img {
             width: 80px;
             height: 80px;
@@ -30,7 +28,7 @@
         .logo-frame{
             margin-right:8px;
         }
-        .paginate{
+           .paginate{
             text-align: left;
         }
     }
@@ -43,7 +41,7 @@
         .logo-frame{
             margin-right:12px;
         }
-         .paginate{
+        .paginate{
             text-align: right;
         }
     }
@@ -142,6 +140,7 @@
         padding-top: 60px;
 
     }
+
 
 
     .form-control
@@ -275,10 +274,13 @@
     .media-heading{
         line-height: 1.5 !important;
     }
-    b{
-        font-size: 15px;
+b{
+    font-size: 15px;
+}
+table{
+        table-layout: fixed;
+        width: 85%;
     }
-
 
 @media (min-width: 576px){}
     .form-inline .form-control {
@@ -292,6 +294,8 @@
 .buttons-csv{
         margin:2px;
     }
+
+
 </style>
 
 <script>
@@ -303,7 +307,7 @@
 <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
-        {% pub_projs %}
+        {% priv_projs %}
     </div>
 </div>
 
@@ -313,9 +317,8 @@
     <div class="container button-row-elements">
 
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
-               aria-expanded="false" aria-controls="collapseExample" style="margin: 0;" />
-        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectspublicreport' %}' " value="Reset Filters" >
-
+               aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
+        <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
                 "click",
@@ -329,7 +332,7 @@
                 false
             );
         </script>
-       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/projectspublictableview/?{{ parameters }}'; " value="Table View" >
+       <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/project-private-table-view/?{{ parameters }}'; " value="Table View" >
        <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
        <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
@@ -340,7 +343,6 @@
     <div class="card filter-card">
         <div class="collapse show" id="collapseExample">
             <form class="form-inline" id="filters-form" method="get">
-
 
                 <div class="col-lg-4 col-md-5 form-group">
 
@@ -486,8 +488,9 @@
                             {{ k12_flag }}
                         {% endfor %}
                     </select>
+                    <b>Total Number of Other Participants:</b>
+                    {{project.total_other_community_members}}
                 </div>
-
 
             </form>
         </div>
@@ -497,6 +500,7 @@
     <!--Project list starts from here -->
 
     <div id="accordion" class="accordion">
+
         {% for project in cards %}
 
 
@@ -518,146 +522,152 @@
                         </a>
                         <div class="media-body">
                             <div class="card-toptext">
-                                {% for projmisn in project.projmisn %}
-                                <h6 class="media-subheading" >
-                                    <i>{{ projmisn}}{% endfor %}</i>
-                                    <span id="academic_year"><i>{{ project.academic_year }}</i></span>
-                                </h6>
+                            {% for projmisn in project.projmisn %}
+                            <h6 class="media-subheading" >
+                                <i>{{ projmisn}}{% endfor %}</i>
+                                <span id="academic_year"><i>{{ project.academic_year }}</i></span>
+                            </h6>
                             </div>
 
                             <div class="projectname">
-                                <h4 class="media-heading " >
-                                    {{ project.name }}
-                                </h4>
-                            </div>
+                            <h4 class="media-heading " >
+                                {{ project.name }} ({{ project.semester}}, {{ project.academic_year }})
+                            </h4>
+                                </div>
 
                             <div class="row">
-                                <div class="col-md-6 col-sm-12">
+                                <div class="col-md-6 col-lg-6 col-sm-12">
                                     <b> Community Partners: </b>
                                     {% for comm_part in project.comm_part %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
                                 </div>
-                                <div class="col-md-6 col-sm-12">
+
+                                <div class="col-md-6 col-lg-6 col-sm-12">
                                     <b>Campus Partners:</b>
                                     {% for camp_part in project.camp_part %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
                                 </div>
-                            </div>
-
-                            <div>
-
 
                             </div>
-
 
                             </div>
                     </div>
+
+
                 </a>
             </div>
 
 
 
-            <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
-
-                <div class="row bottom-card">
-
-                    <div class="col-sm-12 col-lg-6">
-                        <b>Engagement Type:</b>
-                        {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
-                    </div>
-                    <div class="col-sm-12 col-lg-6">
-                        <b> Activity Type:</b>
-                        {% if project.activityType is None %}
-                        {%else%}
-                        {{ project.activityType}}
-                        {%endif%}
-                    </div>
-                    <div class="col-sm-12 col-lg-6">
-                        <b> Start Semester:</b> {{ project.semester}}
-                    </div>
-                     <div class="col-sm-12 col-lg-6">
-                        <b> End Semester:</b>
-                        {% if project.end_semester is None %}
-                        {%else%}
-                        {{ project.end_semester }}
-                        {%endif%}
-                    </div>
-                      <div class="col-sm-12 col-lg-6">
-                        <b> Start Academic Year:</b> {{ project.academic_year}}
-                    </div>
+<div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
 
 
-                    <div class="col-sm-12 col-lg-6">
 
-                        <b> End Academic Year:</b>
-                        {%if project.end_academic_year is None%}
-                        {%else%}
-                        {{ project.end_academic_year }}
-                        {%endif%}
-                    </div>
+<div class="row bottom-card">
 
 
-                    <!--<div class="col-sm-12">-->
-                    <!--<b>Other Activity Type:</b>-->
-                    <!--{% if project.activityType == 'Other' %}-->
-                    <!--{% if project.other_activity_type|length > 0%}-->
-                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
-                    <!--{%else%}-->
-                    <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}-->
-                    <!--{%endif%}-->
-                    <!--{%else%}-->
-                    <!--None-->
-                    <!--{%endif%}-->
-                    <!--</div>-->
+        <div class="col-sm-12 col-lg-6">
+            <b>Engagement Type:</b>
+            {% for engagementType in project.engagementType %} {{engagementType}} {% endfor %}
+            <br>
+            <b> Activity Type:</b>
+            {% if project.activityType is None %}
+            {%else%}
+            {{ project.activityType}}
+            {%endif%}
+            <br>
+            <b> Topics: </b>
+            {% if project.sub_category|length > 0%}
+            {% for sub_category in project.sub_category %}
+                {% if sub_category is None %}
+
+                {% else %}
+                    {{sub_category}}
+                        {% if forloop.last %}
+                        {% else %},
+                        {% endif %}
+                {% endif %}
+            {% endfor%}
+            {%endif%}
+        </div>
+        <div class="col-sm-12 col-lg-6">
+            <b> Start Semester:</b> {{ project.semester}}
+            <br>
+            <b> Start Academic Year:</b> {{ project.academic_year}}
+            <br>
+             <b> End Semester:</b>
+            {% if project.end_semester is None %}
+            {%else%}
+            {{ project.end_semester }}
+            {%endif%}
+            <br>
+            <b> End Academic Year:</b>
+            {% if project.end_academic_year is None %}
+            {%else%}
+            {{ project.end_academic_year }}
+            {%endif%}
+        </div>
+     <div class="col-sm-12 col-lg-6">
+            <b> Total UNO Students: </b> {{project.total_uno_students}}
+            <br>
+            <b>UNO Student Hours: </b> {{project.total_uno_hours}}
+            <br>
+            <b>Total Number of Other Participants:</b>
+            {{project.total_other_community_members}}
+             </div>
+     <div class="col-sm-12 col-lg-6">
+            <br>
+            <b>Total K-12 Students: </b> {{project.total_k12_students}}
+            <br>
+            <b>K-12 Student Hours: </b> {{project.total_k12_hours}}
+     </div>
+
+        <!--<div class="col-sm-12">-->
+            <!--<b>Other Activity Type:</b>-->
+            <!--{% if project.activityType == 'Other' %}-->
+            <!--{% if project.other_activity_type|length > 0%}-->
+            <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+            <!--{%else%}-->
+            <!--{% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}-->
+            <!--{%endif%}-->
+            <!--{%else%}-->
+            <!--None-->
+            <!--{%endif%}-->
+        <!--</div>-->
 
 
-                    <div class="col-sm-12 col-lg-12">
-                    <b> Topics: </b>
-                        {% if project.sub_category|length > 0%}
-                        {% for sub_category in project.sub_category %}
-                           {% if sub_category is None %}
+        <!--<div class="col-sm-12"><b> Other Topics : </b>-->
 
-                           {% else %}
-                              {{sub_category}}
-                                 {% if forloop.last %}
-                                 {% else %},
-                                 {% endif %}
-                           {% endif %}
-                        {% endfor%}
-                        {%endif%}
-                    </div>
+            <!--{% if project.other_sub_category|length > 0%}-->
+            <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
+            <!--{%else%}-->
+            <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}-->
+            <!--{%endif%}-->
 
-                     <!--<div class="col-sm-12">-->
-                    <!--<b> Other Topics : </b>-->
+        <!--</div>-->
 
-                    <!--{% if project.other_sub_category|length > 0%}-->
-                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}-->
-                    <!--{%else%}-->
-                    <!--{% for other_sub_category in project.other_sub_category %} {{other_sub_category}}{% endfor%}-->
-                    <!--{%endif%}-->
-                     <!--</div>-->
+        <div class="col-sm-12">
+            <hr> <b> Description :</b>
+        {% if project.description is None %}
 
-
-                    <div class="col-sm-12 col-lg-12">
-                        <hr>
-                        <b> Description:</b>
-                         {% if project.description is None %}
-
-                         {% else %}
-                         {{ project.description }}
-                         {%endif%}
-                    </div></div>
-
-            </div>
+        {% else %}
+        {{ project.description }}
+        {%endif%}
 
         </div>
-        {% endfor %}
-        <!--Code for Pagination -->
-    </div>
 
+
+    </div>
+</div>
+
+</div>
+        {% endfor %}
+</div>
+<!--Code for Pagination -->
 <div class="row">
-<!--<span> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</span>-->
-<div class="col-lg-6 col-sm-12"> Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}</div>
-<!--<div class="row" style="float:right; padding-right: 10px">-->
-    <div class="col-lg-6 col-sm-12 paginate">
+<div class="col-lg-6 col-sm-12">
+Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}
+</div>
+<div class="col-lg-6 col-sm-12 paginate">
+
 {% if cards.has_other_pages %}
 
     {% if cards.has_previous %}
@@ -667,7 +677,7 @@
     {% endif %}
     {% for num in cards.paginator.page_range %}
       {% if cards.number == num %}
-        <a class="btn btn-secondary active" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+        <a class="btn btn-secondary active "href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
          <a class="btn btn-secondary" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
       {% endif %}
@@ -680,12 +690,11 @@
 
 {% endif %}
 </div>
-    </div>
+</div>
 
 </div>
     <br><br>
 {% endblock %}
-
 
 {% block selectizeForm %}
 

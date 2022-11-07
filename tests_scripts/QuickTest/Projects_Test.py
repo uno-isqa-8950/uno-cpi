@@ -28,19 +28,19 @@ class TestReports(unittest.TestCase):
             cursor = connection.cursor()
 
             # MISSION AREAS REPORT
-            cursor.execute(sql.mission_areas_report_sql)
+            # cursor.execute(sql.mission_areas_report_sql)
 
             # ENGAGEMENT TYPES REPORT
-            cursor.execute(sql.engagement_types_report_sql)
+            # cursor.execute(sql.engagement_types_report_sql)
 
             # COMMUNITY PARTNERS REPORT
-            cursor.execute(sql.comm_part_report_sql)
+            # cursor.execute(sql.comm_part_report_sql)
 
             # ALL PROJECTS REPORT
-            projects = cursor.execute(sql.all_projects_report_sql)
-            # loop to print all the data
-            for i in projects:
-                print(i)
+            # projects = cursor.execute(sql.all_projects_report_sql)
+            # # loop to print all the data
+            # for i in projects:
+            #     print(i)
 
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to Postgres SQL", error)

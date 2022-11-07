@@ -860,7 +860,6 @@ def showAllProjects(request):
                                   , act_type \
                                   , other_subCat \
                                   order by pa.academic_year desc; "
-    # cursor.execute(sql.all_projects_sql, params)
     cursor.execute(project_end_query)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -869,14 +868,9 @@ def showAllProjects(request):
         if selectedprojectId.find(",") != -1:
             project_name_list = selectedprojectId.split(",")
             cursor.execute(sqlfiles.showSelectedProjects(), (str(tuple(project_name_list)),))
-        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
             cursor.execute(sqlfiles.showSelectedProjects(), (str(projId),))
-            # cursor.execute(sql.search_projects_sql,project_name_list)
-    # else:
-    #
-    #     cursor.execute(sql.all_projects_sql)
 
     for obj in cursor.fetchall():
         proj_names = obj[0]
@@ -1158,7 +1152,6 @@ def projectstablePublicReport(request):
                                   , act_type \
                                   , other_subCat \
                                   order by pa.academic_year desc; "
-    # cursor.execute(sql.all_projects_sql, params)
     cursor.execute(project_end_query)
 
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -1169,16 +1162,11 @@ def projectstablePublicReport(request):
 
             cursor.execute(sqlfiles.showSelectedProjects(),
                            (str(tuple(project_name_list)),))
-        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
 
             cursor.execute(sqlfiles.showSelectedProjects(),
                            (str(projId), ))
-            # cursor.execute(sql.search_projects_sql,project_name_list)
-    # else:
-    #
-    #     cursor.execute(sql.all_projects_sql)
 
     for obj in cursor.fetchall():
         proj_names = obj[0]
@@ -1447,16 +1435,11 @@ def projectsPublicReport(request):
             print('project_name_list: ', str(tuple(project_name_list)))
             cursor.execute(sqlfiles.showSelectedProjects(),
                            (str(tuple(project_name_list)), ))
-        # cursor.execute(sql.search_projects_sql,str(tuple(project_name_list)))
         else:
             projId = "(" + str(selectedprojectId) + ")"
             print('project_name_list--', projId)
             cursor.execute(sqlfiles.showSelectedProjects(),
                            (str(projId), ))
-            # cursor.execute(sql.search_projects_sql,project_name_list)
-    # else:
-    #
-    #     cursor.execute(sql.all_projects_sql)
 
     for obj in cursor.fetchall():
         proj_names = obj[0]
@@ -2171,7 +2154,6 @@ def communityPublicReport(request):
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
         # cec_part_selection = cec_part_init_selection
         cec_part_cond = '%'
-        # cursor.execute(sql.projects_report, [project_ids])
     elif cec_part_selection == "CURR_COMM":
         cec_part_cond = 'Current'
 
@@ -2324,11 +2306,8 @@ def communityPrivateReport(request):
         campus_id = int(campus_partner_filter)
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
-    # cec_part_init_selection = "All"
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        # cec_part_selection = cec_part_init_selection
         cec_part_cond = '%'
-        # cursor.execute(sql.projects_report, [project_ids])
     elif cec_part_selection == "CURR_COMM":
         cec_part_cond = 'Current'
 

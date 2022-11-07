@@ -1289,9 +1289,7 @@ def engagement_info(request):
                 group by eng_type, eng_desc, proj, proj_ids, comm, comm_id, camp \
                 order by eng_type;"
 
-    # cursor.execute(sql.engagement_types_report_sql, params)
     cursor.execute(query_end)
-    #cec_part_choices = CecPartChoiceForm()
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     for obj in cursor.fetchall():
@@ -1342,7 +1340,7 @@ def engagement_info(request):
 
 
 # Chart for projects with mission areas
-@login_required()
+# @login_required()
 def missionchart(request):
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -1522,7 +1520,7 @@ def trendreport(request):
                     'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
                     'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
-@login_required()
+# @login_required()
 def EngagementType_Chart(request):
     data_definition = DataDefinition.objects.all()
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))

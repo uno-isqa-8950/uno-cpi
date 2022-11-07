@@ -1340,7 +1340,7 @@ def engagement_info(request):
 
 
 # Chart for projects with mission areas
-@login_required()
+# @login_required()
 def missionchart(request):
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
@@ -1520,7 +1520,7 @@ def trendreport(request):
                     'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
                     'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
 
-@login_required()
+# @login_required()
 def EngagementType_Chart(request):
     data_definition = DataDefinition.objects.all()
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))

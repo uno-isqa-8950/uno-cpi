@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from .forms import LoginForm
 from django.contrib import messages
@@ -18,6 +18,7 @@ import os
 import json
 import re
 
+
 samlDict = {
     "unomaha.edu": "uno",
     # "unml.edu": "unml",
@@ -27,6 +28,7 @@ samlDict = {
 
 # Create your views here.
 def verifySamlSettingJson():
+
     setupJson = "false"
     jsonFile = open(settings.SAML_FOLDER + "/settings.json", "r")  # Open the JSON file for reading
     data = json.load(jsonFile)  # Read the JSON into the buffer
@@ -70,9 +72,13 @@ def user_login(request):
                     BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
                     saml_idp = samlDict[emailDomain]
                     # set the appropriate SAML folder based on required IDP for respective email domain
+
+
                     settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_' + saml_idp)
                     print('settings.APP_ENV--' + settings.APP_ENV)
                     # reassign the url in settings json based on enviornment running on,
+
+
                     # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
                     setupJson = verifySamlSettingJson()
                     print('setupJson--' + setupJson)
@@ -95,8 +101,7 @@ def user_login(request):
                     return response
                 elif user.is_superuser:
                     login(request, user)
-                    response = redirect('/admin')
-                    return response
+                    return redirect('/')
             else:
                 messages.error(request, 'Email or Password is incorrect or contact system administration.')
                 return render(request, 'registration/login.html', {'form': form})
@@ -115,7 +120,7 @@ def CommunityHome(request):
 
 
 def admin(request):
-    return render(request, 'home/admin_frame.html')
+    return render(request, "home/admin_frame.html", {'admin': admin})
 
 
 def logout_view(request):
@@ -141,7 +146,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect("/admin")
+                response = redirect('/admin')
                 return response
         else:
             messages.error(request,
@@ -253,8 +258,8 @@ def index(request):
                 if checkEmail:
                     return redirectUNOUser(request, userEmail)
         else:
-            print("errors-in saml response--", errors)
-            redirectUNOUser(request, None)
+            print("errors-in saml response--",errors)
+            redirectUNOUser(request,None)
 
     elif 'sls' in req['get_data']:
 
@@ -295,9 +300,6 @@ def attrs(request):
 
 
 def metadata(request):
-    # req = prepare_django_request(request)
-    # auth = init_saml_auth(req)
-    # saml_settings = auth.get_settings()
     print('settings.SAML_FOLDER--', settings.SAML_FOLDER)
     saml_settings = OneLogin_Saml2_Settings(settings=None, custom_base_path=settings.SAML_FOLDER,
                                             sp_validation_only=True)

@@ -368,7 +368,7 @@ label[for=id_campus-0-campus_partner]:after{
 <!--                    </div>-->
 <!--                </div>-->
 
-                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                    <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
                     <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
                     </button>
 
@@ -473,7 +473,7 @@ label[for=id_campus-0-campus_partner]:after{
 
                     </div>
                 <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                <button type="button" id="participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
                     <i class="fa fa-plus"></i> Participant Information
                     </button>
 
@@ -649,7 +649,7 @@ label[for=id_campus-0-campus_partner]:after{
                                         {% endif %}
                                             </div>
                                                 <div class="col-md-1">
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" data-toggle="tooltip"
+                                            <i id="addCommunityPartner" class="centered fa fa-plus-square fa-2x add-community-row" data-toggle="tooltip"
                                                                title="Click to add selected value" onClick="clickCommunity()" style="padding-top:8px; " aria-hidden="true"></i>
                                             </div>
                                         </div>
@@ -667,7 +667,7 @@ label[for=id_campus-0-campus_partner]:after{
 
 
             <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo">
+                <button type="button" id ="campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo">
     <i class="fa fa-plus"></i>
                                  Campus Partner Information <span style="color:red;">*</span>
 
@@ -1749,6 +1749,7 @@ function cloneMore(selector, prefix) {
       //   $("#copy-fields").append(html);
     // var conditionlast = $('.'+prefix+'-row:last');
     // conditionlast.show();
+    conditionRow.find('#addCommunityPartner').removeClass('addCommunityPartner')
     conditionRow.find('.fa.add-' + prefix +'-row')
     .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
     .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')

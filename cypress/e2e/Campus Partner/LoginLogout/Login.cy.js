@@ -1,14 +1,13 @@
-
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined'))
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
         {
             return false
         }
     })
 })
 
-describe('Logout of the app', () => {
+describe('Login to the app', () => {
     it('visits the form', () => {
         cy.visit('http://127.0.0.1:8000/')
     })
@@ -18,7 +17,7 @@ describe('Logout of the app', () => {
     })
 
     it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
+        cy.get('#email_input').type('campususer123@gmail.com{enter}')
     })
 
     it('requires password name', () => {
@@ -27,10 +26,5 @@ describe('Logout of the app', () => {
 
     it('can submit a valid form', () => {
         cy.get('#loginForm').submit()
-    })
-
-    it('visits the logout form', () => {
-        cy.get('#accountinfo').click()
-        cy.get("#logout").click()
     })
 })

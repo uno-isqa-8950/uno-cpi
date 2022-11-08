@@ -81,9 +81,6 @@ def main():
     finally:
         # closing database connection.
         if connection:
-            #connection.commit()
-            # drop all_projects_start_and_end_date temp table
-            #cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
             cursor.close()
             connection.close()
             print("Postgres SQL connection is closed")

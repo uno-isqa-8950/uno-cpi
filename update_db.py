@@ -141,17 +141,11 @@ try:
     cursor.execute(update_comm_partner_cec_status_to_former_from_table)
     connection.commit()
     print("Completed Campus Partner CEC status Former")
-    # drop all_projects_start_and_end_date temp table
-    # cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
+
 
 except (psycopg2.Error) as error:
     print("Error while connecting to Postgres SQL", error)
-# finally:
-#     # closing database connection.
-#     if connection:
-#         connection.commit()
-#         # drop all_projects_start_and_end_date temp table
-#         cursor.execute(sql.drop_temp_table_all_projects_start_and_end_dates_sql)
+
 cursor.close()
 connection.close()
 print("Postgres SQL connection is closed")

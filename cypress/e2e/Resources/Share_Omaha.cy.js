@@ -1,14 +1,13 @@
-
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined'))
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
         {
             return false
         }
     })
 })
 
-describe('Logout of the app', () => {
+describe('Projects', () => {
     it('visits the form', () => {
         cy.visit('http://127.0.0.1:8000/')
     })
@@ -25,12 +24,9 @@ describe('Logout of the app', () => {
         cy.get('#password_input').type('CEPITesting123')
     })
 
-    it('can submit a valid form', () => {
+    it('Office Of Engagement', () => {
         cy.get('#loginForm').submit()
-    })
-
-    it('visits the logout form', () => {
-        cy.get('#accountinfo').click()
-        cy.get("#logout").click()
+        cy.get("#resourcesnav").click()
+        cy.contains('Share Omaha').click()
     })
 })

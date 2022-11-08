@@ -27,23 +27,23 @@
     #contact {
         background: #D3D3D3;
     }
-
+    
     #brand {
         margin-left: 15px;
         margin-top: 15px;
     }
-
+    
     .dropdown-submenu {
         position: relative;
     }
-
+    
     .dropdown-submenu a::after {
         transform: rotate(-90deg);
         position: absolute;
         right: 3px;
         top: 40%;
     }
-
+    
     .dropdown-submenu:hover .dropdown-menu,
     .dropdown-submenu:focus .dropdown-menu {
         display: flex;
@@ -52,7 +52,7 @@
         margin-top: -30px;
         left: 100%;
     }
-
+    
     @media (max-width: 992px) {
         .dropdown-menu {
             width: 50%;
@@ -65,20 +65,20 @@
             height: 90%;
         }
     }
-
+    
     @media (max-width:710px) {
         .himg {
             width: 70%;
             height: 70%;
         }
     }
-
+    
     @media only screen and (max-width: 768px) {
         a {
             font-size: small;
         }
     }
-
+    
     @media screen and (max-width:1200px) {
         .navbar-custom {
             font-size: 0.674em;
@@ -88,50 +88,53 @@
 
 <body>
 
-<!-- Navbar Begins -->
+    <!-- Navbar Begins -->
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
-    <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
-    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
-    <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
-    <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
-    <div class="collapse navbar-collapse" id="target">
-        <ul id="navigationList" class="navbar-nav ml-auto">
+    <nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+        <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
+        <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
+        <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha
+                <b id="cpi">Community Engagement Partnership Initiative</b></a>
+        <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
+        <div class="collapse navbar-collapse" id="target">
+            <ul class="navbar-nav ml-auto">
+                <!--li class="nav-item">
+                    <a class="nav-link" href="#"><i class="fa fa-tachometer"></i>Dashboard</a>
+                </li-->
+                <li class=" nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-globe"></i>Maps
+                        <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        <a class="dropdown-item" href="/community-Partner">Community Partners</a>
+                        <a class="dropdown-item" href="/legislative-District">Legislative District</a>
+                        <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
+                        <a class="dropdown-item" href="/project-Map">Projects</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-line-chart"></i>Analytics
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 
-            <li class=" nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-globe"></i>Maps
-                    <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/community-Partner">Community Partners</a>
-                    <a class="dropdown-item" href="/legislative-District">Legislative District</a>
-                    <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
-                    <a class="dropdown-item" href="/project-Map">Projects</a>
-                </div>
-            </li>
-
-
-            <li class="nav-item dropdown">
-                <a id="analyticnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-line-chart"></i>Analytics
-                    <span class="caret"></span>
-                </a>
-
-                <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
-                        <ul class="dropdown-menu">
-                            {% if user.is_superuser %}
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
+                            <ul class="dropdown-menu">
+                                {% if user.is_superuser %}
                                 <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a> {% else %}
                                 <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
-                            <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
-                            <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                            <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
-                            <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                            <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
-                        </ul>
-                    </li>
-                    {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
+                                <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
+                                <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
+                                <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
+
+
+                            </ul>
+                        </li>
+                        {% if user.is_authenticated %}
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
                             <ul class="dropdown-menu">
                                 <a class="dropdown-item" href="/missionchart">Focus Areas</a>
@@ -139,14 +142,17 @@
                                 <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
                                 <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
                                 <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
+
                                 <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
                             </ul>
                         </li>
-                    {% endif %}
-                </ul>
-            </li>
+                        {% endif %}
+                    </ul>
+                </li>
+                </li>
 
-            {% if user.is_campuspartner or user.is_superuser %}
+
+                {% if user.is_authenticated and user.is_campuspartner or user.is_superuser %}
                 <li class=" nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-tasks fa-x"></i> Projects
@@ -154,52 +160,56 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         <a class="dropdown-item" href="/allProjects/">All Projects</a>
-                        <a class="dropdown-item" href='/myProjects/'>My Project</a>
-                        <a class="dropdown-item" href='/check-Project/'>Create Project</a>
+                        <a class="dropdown-item" href='/myProjects/'>My Projects</a>
+                        <a class="dropdown-item" href='check-Project/'>Create Project</a>
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-            {% elif user.is_communitypartner %}
+                {% endif %} {% if user.is_communitypartner %}
+
                 <li class="nav-item">
                     <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
                 </li>
-            {% endif %}
+                {% endif %}
+                <li class=" nav-item dropdown">
+                    <a class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                </li>
 
 
-            <li class=" nav-item dropdown">
-                <a id="partners" class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
-            </li>
-
-            <li class=" nav-item dropdown">
-                <a id="resourcesnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-external-link"></i>Resources
-                    <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    {% for r in resources %}
-                        <a class="dropdown-item" href="{{r.resource_link}}" target="_blank">{{r.resource_descr}}</a> {% endfor %}
-                </div>
-            </li>
-
-            {% if user.is_superuser %}
                 <li class=" nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                        <i class="fa fa-cogs"></i>Administrator
+                        <i class="fa fa-external-link"></i> Resources
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href='/admin'>Admin View</a>
-                        <!-- <a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
-                        <a class="dropdown-item" href='/cms/'>CMS</a>
+                        {% for r in resources %}
+                        <a class="dropdown-item" href="{{r.resource_link}}" target="_blank">{{r.resource_descr}}</a> {% endfor %}
+                    </div>
+                </li>
+
+                {% if user.is_authenticated and user.is_superuser %}
+
+
+
+                <li class=" nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                        <i class="fa fa-cogs"></i> Administrator
+                        <span class="caret"></span>
+                    </a>
+
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+                        <!-- <a class="dropdown-item" href="#">About us CMS</a>-->
+                        <a class="dropdown-item" href='/admin' target="_blank">Admin View</a>
+                        <!--<a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
+                        <a class="dropdown-item" href='/cms/' target="_blank">CMS</a>
                         <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
-                        <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>
+                        <a class="dropdown-item" href='/recent-changes/'>Recent Changes</a>
                         <a class="dropdown-item" href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
                         <a class="dropdown-item" href='/register-Campus-Partner-User/'>Campus Partner User Registration </a>
                     </div>
                 </li>
-            {% endif %}
-            {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
-                <li id="accountinfo" class="nav-item dropdown">
+                {% endif %} {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                         {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
                         {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>
@@ -207,22 +217,24 @@
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
                         {% if not user.is_superuser %}
-                            <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a> {% endif %} {% if 'unomaha.edu' in user.email or 'UNOMAHA.EDU' in user.email %}
-                        <a id="login" class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
-                        <a id="logout" class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a>{% endif %}
+                        <a class="dropdown-item" href="{% url 'partners:userprofile' %}"><i class="fa fa-user"></i>User</a> {% endif %} {% if 'unomaha.edu' in user.email %}
+                        <a class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a> {% else %}
+                        <a class="dropdown-item" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i>Logout</a> {% endif %}
                     </div>
                 </li>
-            {% else %}
+                {% else %}
                 <li class="nav-item">
-                    <a id="login" class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
+                    <a class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
                 </li>
-            {% endif %}
+                {% endif %}
 
-        </ul>
-    </div>
-</nav>
+            </ul>
+        </div>
+    </nav>
 
-<!-- Navbar ends-->
+
+
+    <!-- Navbar ends-->
 
     <!--div class="container"-->
     {% block content %} {% endblock %}

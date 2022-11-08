@@ -18,6 +18,7 @@ import os
 import json
 import re
 
+
 samlDict = {
     "unomaha.edu": "uno",
     # "unml.edu": "unml",
@@ -72,9 +73,11 @@ def user_login(request):
                     saml_idp = samlDict[emailDomain]
                     # set the appropriate SAML folder based on required IDP for respective email domain
 
+
                     settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_' + saml_idp)
                     print('settings.APP_ENV--' + settings.APP_ENV)
                     # reassign the url in settings json based on enviornment running on,
+
 
                     # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
                     setupJson = verifySamlSettingJson()

@@ -89,34 +89,13 @@
 
                             <thead>
                             <tr>
-                                <th>Projects   {% for data_definition in data_definition %}{% if data_definition.id == 36%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Mission Areas{% for data_definition in data_definition %}{% if data_definition.id == 3%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Community Partners{% for data_definition in data_definition %}{% if data_definition.id == 2%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Campus Partners{% for data_definition in data_definition %}{% if data_definition.id == 1%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Engagement Types{% for data_definition in data_definition %}{% if data_definition.id == 31%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Academic Years{% for data_definition in data_definition %}{% if data_definition.id == 32%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
-                                <th>Project Status{% for data_definition in data_definition %}{% if data_definition.id == 38%}<span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                              data-content="{{ data_definition.description }}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                    {% endif %} {% endfor %}
-                                </th>
+                                <th>Projects  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Project Name (Create Project Form)' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Mission Areas  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Focus Area' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Community Partners  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Community Partner' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Campus Partners  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Campus Partner' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Engagement Types  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Engagement Types' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Academic Years  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Academic Year(s)' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
+                                <th>Project Status  <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{% get_data_definition_desc 'Project Status' %}" class="float"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span></th>
                                 <th> Semester </th>
                                 <th> Start Date </th>
                                 <th> End Date </th>

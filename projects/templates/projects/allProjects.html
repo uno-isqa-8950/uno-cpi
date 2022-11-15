@@ -461,7 +461,7 @@
                 {% for project in project %}
                     <tr>
                         <td>{{ project.project_name }}</td>
-                        <td>{{ project.mission_area }}</td>
+                        <td>{{ project.mission_area.all|join:", " }}</td>
                         <td>{{ project.community_partner.all|join:", " }}</td>
                         <td>{{ project.campus_partner.all|join:", "}}</td>
                         <td>{{ project.engagement_type}}</td>
@@ -477,9 +477,17 @@
                         <td>{{ project.total_k12_students}}</td>
                         <td>{{ project.total_k12_hours}}</td>
                         <td>{{ project.total_other_community_members}}</td>
-                        <td>{{ project.campus_lead_staff }}</td>
+                        <td>
+                            {% for sub in project.campus_lead_staff %}
+                                {{ sub }}
+                            {% endfor %}
+                        </td>
                         <td>{{ project.subcategory.all|join:", " }}</td>
-                        <td>{{ project.other_sub_category}}</td>
+                        <td>
+                            {% for sub in project.other_sub_category %}
+                                {{ sub }}
+                            {% endfor %}
+                        </td>
                         <td>{{ project.description }}</td>
                         <td></td>
                     </tr>

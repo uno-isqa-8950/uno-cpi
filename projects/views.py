@@ -1538,7 +1538,7 @@ def filter_projects(request):
         {'project':project_list,
          'data_definition': data_definition,
          'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
-         "communityPartners": communityPartners,
+         'communityPartners': communityPartners,
          'campus_filter': campus_filter,
          'college_filter': campusPartners,
          'campus_id': campus_id,

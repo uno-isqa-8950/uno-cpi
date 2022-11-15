@@ -57,13 +57,11 @@ $(document).ready(function(){
                     <form class="form-inline" role="form" id="filters-form" method="get">
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="academic_year">
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 32%}
+
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %} Academic Years
+                                        Academic Years
                                 </label>
                                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                                         <option> All </option>
@@ -75,13 +73,11 @@ $(document).ready(function(){
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="engagement_type">
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 31%}
+
                                <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Engagement Types' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}Engagement Types
+                                        Engagement Types
                                 </label>
                                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -94,13 +90,11 @@ $(document).ready(function(){
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="community_type">
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 33%}
+                                    
                                   <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Community Organization Type' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}Community Organization Types
+                                        Community Organization Types
                                 </label>
                                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -112,13 +106,11 @@ $(document).ready(function(){
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="college-name">
-                                       {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 43%}
+                                       
                                      <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'College and Main Units' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}College and Main Units
+                                        College and Main Units
                                 </label>
                                     <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                                         <option> All </option>
@@ -130,13 +122,11 @@ $(document).ready(function(){
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="campus_partner">
-                                {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 1%}
+                                
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}Campus Partners
+                                       Campus Partners
                                 </label>
                                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                         <option value="" disabled selected hidden></option>
@@ -151,13 +141,11 @@ $(document).ready(function(){
                             <div class="col-lg-4 col-md-5 form-group">
 
                                 <label for="weitz_cec_part">
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 27%}
+                                    
                                     <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'CEC Building Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}CEC Building Partners
+                                        CEC Building Partners
                                 </label>
                                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                                         <option value="" disabled selected hidden></option>
@@ -176,72 +164,56 @@ $(document).ready(function(){
                         <thead>
                            <tr>
                             <th>
-                                {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 3%}
-                                        <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
+                                
+                                        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Focus Area' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Focus Areas</span>
-                                    {% endif %}
-                                {% endfor %}
+                                    
                             </th>
                             <th>
-                                {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 46%}
-                                        <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
+                                
+                                        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Unique Community Partners' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Community Partners</span>
-                                    {% endif %}
-                                {% endfor %}
+
                             </th>
                             <th>
-                                {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 47%}
-                                        <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
+                                
+                                        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Total Projects' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Projects </span>
-                                    {% endif %}
-                                {% endfor %}
+                                    
                             </th>
                                 <th>
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 50%}
+                                    
                                             <span tabindex="-1" data-toggle="tooltip"
-                                                    title="{{ data_definition.description }}" class="float" >
+                                                    title="{% get_data_definition_desc 'Unique Campus Partners' %}" class="float" >
                                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> Campus Partners</span>
-                                        {% endif %}
-                                    {% endfor %}
+                                        
                                 </th>
                             <th>
-                                {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 48%}
-                                        <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
+                                
+                                        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'Total UNO Students' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students </span>
-                                    {% endif %}
-                                {% endfor %}
+                                    
                             </th>
                             <th>
-                                                                {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 49%}
-                                        <span tabindex="-1" data-toggle="tooltip" title="{{ data_definition.description }}" class="float" >
+                                                                
+                                        <span tabindex="-1" data-toggle="tooltip" title="{% get_data_definition_desc 'UNO Student Hours' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> UNO Students Hours </span>
-                                    {% endif %}
-                                {% endfor %}
+                                    
                             </th>
 
                             <th>
-            {% for data_definition in data_definition %}
-                {% if data_definition.id == 66%}
+            
                     <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Total K-12 Students' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Students</span>
-                {% endif %}
-            {% endfor %}
+               
         </th>
         <th>
-             {% for data_definition in data_definition %}
-                {% if data_definition.id == 67%}
+             
                     <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'K-12 Student Hours' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Hours</span>
-                {% endif %}
-            {% endfor %}
+                
         </th>
                             </tr>
                         </thead>

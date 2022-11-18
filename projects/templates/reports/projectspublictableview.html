@@ -409,7 +409,6 @@
                     <th class="none">Total K-12 Students:</th>
                     <th class="none">K-12 Student Hours:</th>
                     <th class="none">Total Number of Other Participants:</th>
-                    <th class="none">Campus Leads:</th>
                     <th class="none">Topics:</th>
                     <th class="none">Other Topics:</th>
                     <th class="none">Description:</th>
@@ -437,11 +436,6 @@
                         <td>{{ project.total_k12_students}}</td>
                         <td>{{ project.total_k12_hours}}</td>
                         <td>{{ project.total_other_community_members}}</td>
-                        <td>
-                            {% for sub in project.campus_lead_staff %}
-                                {{ sub }}
-                            {% endfor %}
-                        </td>
                         <td>{{ project.subcategory.all|join:", " }}</td>
                         <td>
                             {% for sub in project.other_sub_category %}

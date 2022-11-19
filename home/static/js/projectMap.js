@@ -196,8 +196,8 @@ google.maps.event.addListenerOnce(map, 'idle', function () {
         type: 'geojson',
         data: districtData,
     });
-    map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
-    // console.log(districtData)
+    map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
+    console.log(districtData)
 
     map.data.setStyle({
         fillColor: "#fee8c8",

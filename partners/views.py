@@ -37,7 +37,7 @@ def countyGEO():
 
 ##### Get the district GEOJSON ##############
 def districtGEO():
-    with open('home/static/GEOJSON/ID2.geojson') as f:
+    with open('home/static/GEOJSON/ID3.geojson') as f:
         geojson = json.load(f)
 
     district = geojson["features"]

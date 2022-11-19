@@ -15,7 +15,7 @@ with open('static/GEOJSON/USCounties_final.geojson') as f:
     geojson1 = json.load(f)
 county = geojson1["features"]
 #Get lat long details of all the districts within State Nebraska to get populate Legislative Districts
-with open('static/GEOJSON/ID2.geojson') as f:
+with open('static/GEOJSON/ID3.geojson') as f:
     geojson = json.load(f)
 district = geojson["features"]
 

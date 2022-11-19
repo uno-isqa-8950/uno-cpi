@@ -139,7 +139,6 @@ for (i = 0; i < CollegeName.length; i++) {
 }
 $('#selectCollege').html(select5);
 
-
 //*********************************** Load the map *****************************************************
 var markers =[];
 var oms = new OverlappingMarkerSpiderfier(map, {keepSpiderfied : true, markersWontMove : true, legWeight: 1.5});
@@ -164,7 +163,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
         data: districtData,
     });
 
-     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+     map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
 
     //To DO :If any district is selected highlight it
     map.data.setStyle({

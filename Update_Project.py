@@ -13,7 +13,7 @@ from UnoCPI import settings
 from googlemaps import Client
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 global cursor
@@ -34,7 +34,7 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
                               database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+                              sslmode="disable")
 
 if (conn):
     print("connection sucess in update project",conn)

@@ -15,7 +15,7 @@ import logging
 logger=logging.getLogger("UNO CPI RUN PROJECT GEOSON")
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Project.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 
@@ -24,7 +24,7 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
                               database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+                              sslmode="disable")
 
 if (conn):
     cursor = conn.cursor()
@@ -140,8 +140,8 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
                 print('academicYear[n]---', str(academicYear[n]))  
                 print('end_academic_year[n]---', str(end_academic_year[n]))            
                 cursor.execute("select academic_year from projects_academicyear \
-                    where id < (select id from projects_academicyear where academic_year = '%s') \
-                    and id > (select id from projects_academicyear where academic_year = '%s')", (str(end_academic_year[n]), str(academicYear[n]), ))
+                    where id < (select id from projects_academicyear where academic_year = %s) \
+                    and id > (select id from projects_academicyear where academic_year = %s)", (str(end_academic_year[n]), str(academicYear[n]), ))
                 #conn.commit()
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:

@@ -32,7 +32,7 @@ if (conn):
 else:
     logger.info("Connection Error!")
 
-logger.info("Get all the Community Partners from the Database")
+logger.info("Get all the Projects from the Database")
 ##Get Projects from the database
 df_projects = pd.read_sql_query("select distinct project_name, pro.address_line1 as Address_Line1,\
 mis.mission_type, pro.description,pro.city as City, \

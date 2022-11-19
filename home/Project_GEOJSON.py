@@ -64,7 +64,7 @@ gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 collection = {'type': 'FeatureCollection', 'features': []}
 # df['fulladdress'] = df[["address_line1", "state", "city", "zip"]].apply(lambda x: ' '.join(x.astype(str)), axis=1)
 
-with open('static/GEOJSON/ID2.geojson') as f:
+with open('static/GEOJSON/ID3.geojson') as f:
     geojson = json.load(f)
 
 district = geojson["features"]

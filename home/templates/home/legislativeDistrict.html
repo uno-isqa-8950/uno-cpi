@@ -440,7 +440,6 @@ color: #d71920;
             <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
             <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
             <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
-           
         </div>
          <div style="padding-top:10px;border-top: 1px solid grey;">
                 <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
@@ -492,6 +491,7 @@ color: #d71920;
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
                                     {{ Collegename | json_script:"college-list" }}
+
 
                                 </div>
                             </div>

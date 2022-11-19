@@ -57,7 +57,7 @@ dfCommunity = pd.read_sql_query(
     pc.city not in ('','NA','N/A','None') and \
     pc.state not in ('','NA','N/A','None')) \
     and (pc.latitude is null or pc.longitude is null \
-    or pc.address_update_flag = 't' ) \
+    or pc.address_update_flag = 'f' ) \
     and lower(p.mission_type) = 'primary'",con=conn)
 
 print(repr(len(dfCommunity)) +" Partners fetched from the Database on " + str(currentDT))
@@ -94,7 +94,7 @@ def feature_from_row(Community, Address):
             property = district[i]
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
-                legi_district = property["id"]
+                legi_district = property["properties"]["ID"]
                 print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',Address,' Community--', Community)
                 print(str(longitude)+" ,latitude:" +str(latitude), legi_district,'save')
                 logger.info("Update community partner records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,name" +str(Community))

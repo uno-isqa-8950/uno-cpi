@@ -92,7 +92,7 @@ def feature_from_row(Projectname, FullAddress):
             print(property)
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
-                legi_district = property["properties"]["ID"]
+                legi_district = property["properties"]["DISTRICT"]
                 print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
                 logger.info("Update project records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,Projectname" +str(Projectname))
                 cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Projectname)))

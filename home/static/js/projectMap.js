@@ -373,7 +373,7 @@ selectDistrict.addEventListener("change", function (e) {
             states[k].setMap(null);
         }
         for (i = 0; i < districtData.features.length; i++) {
-            if (value == districtData.features[i].id) {
+            if (value == districtData.features[i].properties["DISTRICT"]) {
                 for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
                     coords.push({
                         lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),

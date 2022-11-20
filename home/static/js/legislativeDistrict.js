@@ -406,7 +406,7 @@ function filterData(selectedField, selectType){
         $('#selectCampus').html(select3);
     }
     if (selectedField =='selectDistrict'){
-        redrawLegislativemap(legisDistVal);
+        // redrawLegislativemap(legisDistVal);
     }
     //alert('collegeObjval---'+collegeObjval);
     //alert('campusObjVal---'+campusObjVal);
@@ -414,9 +414,10 @@ function filterData(selectedField, selectType){
     resetPartnerMarkers(filteredCommunitydata);
 }
 
-function redrawLegislativemap(legisDistVal){
-    var states = new Array();
-    var value = legisDistVal.trim()
+var states = new Array();
+var selectDistrict = document.getElementById('selectDistrict');
+selectDistrict.addEventListener("change", function (e) {
+    var value = e.target.value.trim()
     // var value=value1.split("Legislative District")[1]
     value = parseInt(value)
     // console.log(value1, value)
@@ -430,7 +431,7 @@ function redrawLegislativemap(legisDistVal){
             states[k].setMap(null);
         }
         for (i = 0; i < districtData.features.length; i++) {
-            if (value == districtData.features[i].id) {
+            if (value == districtData.features[i].properties["DISTRICT"]) {
                 for (j = 0; j < districtData.features[i].geometry['coordinates'][0].length; j++) {
                     coords.push({
                         lat: parseFloat(districtData.features[i].geometry['coordinates'][0][j][1]),
@@ -450,8 +451,9 @@ function redrawLegislativemap(legisDistVal){
 
         states.push(state)
         state.setMap(map)
+
     }
-}
+})
 
 function getMapFilteredData (communityPartners, mission_value ,comm_type, legislative_value, academic_year, college_name, campus_partner, search) {
     var updatedCommunityPartners = JSON.parse(JSON.stringify(communityPartners));

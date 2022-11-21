@@ -19,7 +19,7 @@ beforeEach(() => {
 describe('Partners', () => {
     var randomPartnerName = random_Text_Alpha_Numeric();
     it('visits the form', () => {
-        cy.visit('http://127.0.0.1:8000/')
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     it('visits the login form', () => {
@@ -47,15 +47,21 @@ describe('Partners', () => {
              cy.wrap($li).contains("Nonprofit").click();
          })
         cy.get('#id_acronym').type("EHS")
+        cy.wait(700)
         cy.get('#id_website_url').type("https://www.elkhornweb.org")
+        cy.wait(700)
         cy.get('#id_online_only').click()
+        cy.wait(700)
         cy.get('.sw-btn-next').click()
     })
 
     it('Focus Area', () => {
         cy.get('#id_primary_mission-0-mission_area').select('Arts, Culture and Humanities')
+        cy.wait(700)
         cy.get('#id_mission-0-mission_area').select('Arts, Culture and Humanities')
+        cy.wait(700)
         cy.get('.add-mission-row').click()
+        cy.wait(700)
         cy.get('#terms').click()
         cy.get('#submit').click()
         cy.wait(700)
@@ -75,6 +81,7 @@ describe('Partners', () => {
     it('Add Campus Partner Name', () => {
         cy.get('#id_name').type(randomPartnerName)
         cy.get('#select2-id_college_name-container').click()
+        cy.wait(700)
         cy.get('#select2-id_college_name-results').then(($li)=>{
              cy.wrap($li).contains("Academic Affairs").click();
          })
@@ -83,8 +90,11 @@ describe('Partners', () => {
 
     it('Contact Information', () => {
         cy.get('#id_form-0-first_name').type("Paul")
+        cy.wait(700)
         cy.get('#id_form-0-last_name').type("Golden")
+        cy.wait(700)
         cy.get('#id_form-0-email_id').type("PGolden@unomaha.edu")
+        cy.wait(700)
         cy.get('.add-form-row').click();
         cy.get('#terms').click();
         cy.get('#submit').click();

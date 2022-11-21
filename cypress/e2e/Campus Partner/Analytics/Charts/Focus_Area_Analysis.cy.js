@@ -9,7 +9,7 @@ beforeEach(() => {
 
 describe('Charts Focus Area Analysis', () => {
     it('visits the form', () => {
-        cy.visit('http://127.0.0.1:8000/')
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     it('visits the login form', () => {

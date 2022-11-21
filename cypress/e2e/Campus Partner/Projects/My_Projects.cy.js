@@ -17,18 +17,18 @@ describe('Projects', () => {
     })
 
     it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
+        cy.get('#email_input').type('campususer123@gmail.com{enter}')
     })
 
     it('requires password name', () => {
         cy.get('#password_input').type('CEPITesting123')
     })
 
-    it('Project All Projects', () => {
+    it('Project My Projects', () => {
         cy.get('#loginForm').submit()
         cy.get("#projectsnav").click()
         cy.contains('My Project').click()
-        cy.contains('td', 'Ancient Mediterranean Studies Fall Lecture').click()
+        /*cy.contains('td', 'Ancient Mediterranean Studies Fall Lecture').click()
         cy.contains('td', 'Action')
             .contains('a', 'Edit')
             .click()
@@ -47,6 +47,6 @@ describe('Projects', () => {
         cy.contains('Next').click()
 
         cy.get("#terms").click()
-        cy.contains('Update').click()
+        cy.contains('Update').click()*/
     })
 })

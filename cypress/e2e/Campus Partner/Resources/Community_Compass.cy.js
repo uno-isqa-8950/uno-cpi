@@ -7,7 +7,7 @@ beforeEach(() => {
     })
 })
 
-describe('Projects', () => {
+describe('Resources', () => {
     it('visits the form', () => {
         cy.visit(Cypress.env('baseUrl'))
     })
@@ -17,14 +17,14 @@ describe('Projects', () => {
     })
 
     it('requires email', () => {
-        cy.get('#email_input').type('shwetap1002@gmail.com{enter}')
+        cy.get('#email_input').type('campususer123@gmail.com{enter}')
     })
 
     it('requires password name', () => {
         cy.get('#password_input').type('CEPITesting123')
     })
 
-    it('Office Of Engagement', () => {
+    it('Community Compass', () => {
         cy.get('#loginForm').submit()
         cy.get("#resourcesnav").click()
         cy.contains('Community Compass').click()

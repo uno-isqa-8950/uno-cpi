@@ -14,7 +14,7 @@ from googlemaps import Client
 
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'../home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'../home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'../home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'../home/static/GEOJSON/Project.geojson') #The file will be saved  locally GEOJSON
 currentDT = datetime.datetime.now()
 

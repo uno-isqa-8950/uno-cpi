@@ -12,7 +12,7 @@ with open('static/GEOJSON/K-12Partners.geojson') as json_data:
 k12partner = k12partner["features"]
 # construct point based on lon/lat returned by geocoder
 #point = Point(-96.003958, 41.242062)
-with open('static/GEOJSON/ID2.geojson') as f:
+with open('static/GEOJSON/ID3.geojson') as f:
     geojson = json.load(f)
 
 df = geojson["features"]

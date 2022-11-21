@@ -13,7 +13,7 @@ from UnoCPI import settings
 from googlemaps import Client
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 global cursor
@@ -34,7 +34,7 @@ conn =   psycopg2.connect(user=settings.DATABASES['default']['USER'],
                               host=settings.DATABASES['default']['HOST'],
                               port=settings.DATABASES['default']['PORT'],
                               database=settings.DATABASES['default']['NAME'],
-                              sslmode="require")
+                              sslmode="disable")
 
 if (conn):
     print("connection sucess in update project",conn)
@@ -56,7 +56,7 @@ where \
 (pro.address_line1 not in ('','NA','N/A','None') \
 and pro.city not in ('','NA','N/A','None') and pro.state not in ('','NA','N/A','None')) \
 and (pro.longitude is null or pro.latitude is null \
-or pro.address_update_flag = 't') \
+or pro.address_update_flag = 'f') \
 and lower(mis.mission_type)='primary'",con=conn)
 print('before checking project query')
 if len(df_projects) == 0:
@@ -89,9 +89,10 @@ def feature_from_row(Projectname, FullAddress):
         legi_district = ''
         for i in range(len(district)):  # iterate through a list of district polygons
             property = district[i]
+            print(property)
             polygon = shape(property['geometry'])  # get the polygons
             if polygon.contains(coord):  # check if a partner is in a polygon
-                legi_district = property["id"]
+                legi_district = property["properties"]["DISTRICT"]
                 print('Found legislative district', legi_district, 'for--','latitude--',latitude, ' longitude--',longitude, ' address--',FullAddress,' Projectname--', Projectname)
                 logger.info("Update project records with longitude:" + str(longitude)+" ,latitude:" +str(latitude) + " ,legislative_district:"+ str(legi_district)+" ,Projectname" +str(Projectname))
                 cursor.execute("update projects_project set longitude= %s, latitude= %s,legislative_district= %s where project_name= %s",(str(round(longitude,7)),str(round(latitude, 7)),legi_district,str(Projectname)))

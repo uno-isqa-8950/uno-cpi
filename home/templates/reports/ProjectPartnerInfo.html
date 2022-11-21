@@ -255,13 +255,11 @@ $(document).ready(function(){
                 
         </th>
         <th>
-             {% for data_definition in data_definition %}
-                {% if data_definition.id == 12%}
+             
                     <span tabindex="-1" data-toggle="tooltip"
                           title="{% get_data_definition_desc 'K-12 Schools (community partner organization type)' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Hours</span>
-                {% endif %}
-            {% endfor %}
+                
         </th>
 
   </tr>

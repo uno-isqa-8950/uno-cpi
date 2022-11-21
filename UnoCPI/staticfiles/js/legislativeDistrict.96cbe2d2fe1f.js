@@ -164,7 +164,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
         data: districtData,
     });
 
-     map.data.loadGeoJson('../../static/GEOJSON/ID2.geojson')
+     map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
 
     //To DO :If any district is selected highlight it
     map.data.setStyle({

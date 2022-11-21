@@ -40,7 +40,7 @@ def main():
                                       host=settings.DATABASES['default']['HOST'],
                                       port=settings.DATABASES['default']['PORT'],
                                       database=settings.DATABASES['default']['NAME'],
-                                      sslmode="require")
+                                      sslmode="disable")
 
         if connection:
             print("Postgres SQL Database successful connection")

@@ -20,7 +20,7 @@ AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Project.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 

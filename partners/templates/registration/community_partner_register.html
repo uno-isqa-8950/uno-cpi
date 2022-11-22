@@ -149,13 +149,11 @@ width:93%!important;
                 <div class="col-md-6">
                     <div class="row">
                     <label for="id_name" class="col-sm-4">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 2%}
+
                             <span tabindex="-1" data-toggle="tooltip"
-                            title="{{ data_definition.description }}" class="float" >
+                            title="{% get_data_definition_desc 'Community Partner' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
+
                     Community Partner Organization</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.name}}
@@ -167,13 +165,11 @@ width:93%!important;
                     <div class="col-md-6">
                     <div class="row">
                         <label for="id_name" class="col-sm-4">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 33%}
+
                             <span tabindex="-1" data-toggle="tooltip"
-                            title="{{ data_definition.description }}" class="float" >
+                            title="{% get_data_definition_desc 'Community Organization Type' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
+
                         Community Partner Type</label>
                     <div class="col">
                            {{ community_partner_form.community_type}}
@@ -188,13 +184,11 @@ width:93%!important;
                 <div class="col-md-6">
                     <div class="row">
                     <label for="id_acronym" class="col-sm-4">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 59%}
+
                              <span tabindex="-1" data-toggle="tooltip"
-                              title="{{ data_definition.description }}" class="float" >
+                              title="{% get_data_definition_desc 'Acronym' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
+
                         Acronym</label>
                     <div class="col-sm-7">
                             {{ community_partner_form.acronym}}
@@ -205,13 +199,11 @@ width:93%!important;
                     <div class="col-md-6">
                     <div class="row" id="k12input">
                     <label class="col-sm-4">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 61%}
+
                              <span tabindex="-1" data-toggle="tooltip"
-                              title="{{ data_definition.description }}" class="float" >
+                              title="{% get_data_definition_desc 'K-12 Level' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
+
                         K-12 Level</label>
                     <div class="col-sm-7">
                              {{ community_partner_form.k12_level}}
@@ -338,17 +330,15 @@ width:93%!important;
                     <br>
                     <div class="row">
                 <div class="col-md-4">
-                    {% for data_definition in data_definition %}
-                    {% if data_definition.id == 51%}
+
                     <label><span tabindex="-1" data-toggle="tooltip"
-                            title="{{ data_definition.description }}" class="float" >
+                            title="{% get_data_definition_desc 'Community Partner Focus Area (community partner registration form)' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i>
 
                                  Focus Area <span style="color:red;">*</span>
 
                                 </span></label>
-                    {% endif %}
-                                {% endfor %}
+
                 </div>
                 <div class="col-md-6">
                     {{ form.mission_area|bootstrap }}
@@ -358,13 +348,11 @@ width:93%!important;
               {% for form in formset_mission %}
             <div class="row mission-row">
                 <div class="col-md-4">
-                    {% for data_definition in data_definition %}
-                    {% if data_definition.id == 60%}
+
                     <label><span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" >
+                          title="{% get_data_definition_desc 'Other Focus Area (?)' %}" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right small" aria-hidden="true"></i>
-                          {% endif %}
-                    {% endfor %}
+
                         Other Focus Area
                     </span></label>
 

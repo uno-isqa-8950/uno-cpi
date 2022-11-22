@@ -59,8 +59,8 @@ import datetime
 # The imports below are for running sql queries for Charts
 from django.db import connection
 from UnoCPI import sqlfiles
-from projects.forms import K12ChoiceForm,CecPartChoiceForm
-from projects.models import AcademicYear, EngagementType
+from projects.forms import *
+from projects.models import *
 
 sql=sqlfiles
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ def countyGEO():
 
 ##### Get the district GEOJSON ##############
 def districtGEO():
-    with open('home/static/GEOJSON/ID2.geojson') as f:
+    with open('home/static/GEOJSON/ID3.geojson') as f:
         geojson = json.load(f)
 
     district = geojson["features"]
@@ -1667,7 +1667,7 @@ def googleprojectdata(request):
     map_json_data = GEOJSON2()
     Campuspartner = map_json_data[4]
     Communitypartner = map_json_data[3]
-    json_data = open('home/static/GEOJSON/ID2.geojson')
+    json_data = open('home/static/GEOJSON/ID3.geojson')
     district = json.load(json_data)
     data = map_json_data[0]
     return render(request, 'home/projectMap.html',
@@ -1689,7 +1689,7 @@ def googleDistrictdata(request):
     map_json_data = GEOJSON()
     Campuspartner = map_json_data[3]
     data = map_json_data[0]
-    json_data = open('home/static/GEOJSON/ID2.geojson')
+    json_data = open('home/static/GEOJSON/ID3.geojson')
     district = json.load(json_data)
     return render(request, 'home/legislativeDistrict.html',
                   {'districtData': district, 'collection': map_json_data[0],
@@ -1709,7 +1709,7 @@ def googlepartnerdata(request):
     Campuspartner = map_json_data[3]
     College = map_json_data[6]
     data = map_json_data[0]
-    json_data = open('home/static/GEOJSON/ID2.geojson')
+    json_data = open('home/static/GEOJSON/ID3.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartner.html',
                   {'collection': data, 'districtData':district,
@@ -1729,7 +1729,7 @@ def googlemapdata(request):
     Campuspartner = map_json_data[3]
     College = map_json_data[6]
     data = map_json_data[0]
-    json_data = open('home/static/GEOJSON/ID2.geojson')
+    json_data = open('home/static/GEOJSON/ID3.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartnerType.html',
                   {'collection': data, 'districtData': district,
@@ -1812,7 +1812,7 @@ def commPartnerResetPassword(request,pk):
 
 ##### Get the Chart JSONS for network Analysis ##############
 def chartjsons():
-    # with open('home/static/GEOJSON/ID2.geojson') as f:
+    # with open('home/static/GEOJSON/ID3.geojson') as f:
     #     geojson = json.load(f)
     #
     # district = geojson["features"]

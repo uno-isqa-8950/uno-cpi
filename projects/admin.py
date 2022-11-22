@@ -19,7 +19,7 @@ class ProjectResource(resources.ModelResource):
                   'k12_flag', 'total_k12_students','total_k12_hours', 'total_uno_faculty', 'total_other_community_members', 'start_date',
                   'end_date', 'other_details', 'outcomes', 'status', 'total_economic_impact', 'address_line1', 'address_line2', 
                   'country', 'city', 'state', 'zip', 'latitude', 'longitude', 'created_by', 'updated_by', 'project_type', 'other_sub_category',
-                  'recursive_project')
+                  'recursive_project', 'university', 'mission_area', 'community_partner', 'campus_partner')
 
 class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
 

@@ -79,13 +79,11 @@ label {
 
                    <div class="col-lg-4 col-md-5 form-group">
                     <label for="academic_year" style="margin-left: 8px">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
+
                         <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %} Academic Years
+                             Academic Years
                     </label>
                     <select id="academicYear" name="academicYear" >
                         <option></option>
@@ -100,13 +98,11 @@ label {
                 </div>
                      <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_type" style="margin-left: 8px">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 33%}
+                        
                           <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Community Organization Type' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %} Community Partners
+                        Community Partners
                 </label>
                     <select id="communityPartner" name="communityPartner" >
                         <option></option>
@@ -121,13 +117,11 @@ label {
                 </div>
                  <div class="col-lg-4 col-md-5 form-group">
                     <label for="campus_partner" style="margin-left: 8px">
-                    {% for data_definition in data_definition %}
-                        {% if data_definition.id == 1%}
+                    
                         <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %}Campus Partners
+                        Campus Partners
                     </label>
                     <select id="campuspartner" name="campusPartner" >
                         <option></option>
@@ -142,13 +136,11 @@ label {
                 </div>
                    <div class="col-lg-4 col-md-5 form-group">
                        <label for="projectName" style="margin-left: 8px">
-                           {% for data_definition in data_definition %}
-                            {% if data_definition.id == 36%}
+                          
                           <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        {% endif %}
-                    {% endfor %} Project Name
+                         Project Name
                  <input type="text" style="margin-left: 0px;height: 28px" name="projectName" id="projectName"  value = "{{projectName}}" >
                            </label>
                    </div>
@@ -183,42 +175,34 @@ label {
                          <tr id="tablerow">
                       {% if data_list is defined and data_list.length >= 1 %}
                           <th>Academic Year
-                           {% for data_definition in data_definition %}
-                             {% if data_definition.id == 30%}
+                           
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                                  data-content="{% get_data_definition_desc 'Community Engagement Project' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                             {% endif %}
-                           {% endfor%}
+                             
                           </th>
                           <th>Projects
 
-                           {% for data_definition in data_definition %}
-                              {% if data_definition.id == 30%}
+                           
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                  data-content="{{ data_definition.description }}" class="float" >
+                                  data-content="{% get_data_definition_desc 'Community Engagement Project' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                              {% endif %}
-                           {% endfor%}
+                              
                            </th>
                            <th>Community Partners
-                            {% for data_definition in data_definition %}
-                               {% if data_definition.id == 2%}
+                            
                                 <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
+                                      data-content="{% get_data_definition_desc 'Community Partner' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                               {% endif %}
-                            {% endfor %}
+                               
 
                             </th>
                             <th>Campus Partners
-                             {% for data_definition in data_definition %}
-                                {% if data_definition.id == 1%}
+                             
                                   <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                      data-content="{{ data_definition.description }}" class="float" >
+                                      data-content="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                             {% endfor %}
+                               
                              </th>
                           </tr>
                    </thead>
@@ -265,31 +249,31 @@ var html='<th>Academic Year</th><th>Project Name</th><th>Community Partner</th><
                             document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
 var label = '<label style="margin-left: 15px">The following projects have already been created. Please ensure that the project you wish to create is not in this list. Note that unused  filters will automatically search based on the set defaults.</label>';
 $('.label').append(label);
-        var html='<th>                        {% for data_definition in data_definition %}\n' +
-            '                            {% if data_definition.id == 32%}\n' +
+        var html='<th>                        \n' +
+            '                            \n' +
             '                        <span tabindex="-1" data-toggle="tooltip"\n' +
-            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                          title="{% get_data_definition_desc "Academic Year(s)" %}" class="float" >\n' +
             '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
-            '                            {% endif %}\n' +
-            '                        {% endfor %} Academic Year</th><th>{% for data_definition in data_definition %}\n' +
-            '                            {% if data_definition.id == 36%}\n' +
+            '                            \n' +
+            '                         Academic Year</th><th>\n' +
+            '                            \n' +
             '                          <span tabindex="-1" data-toggle="tooltip"\n' +
-            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                          title="{% get_data_definition_desc "Project Name (Create Project Form)" %}" class="float" >\n' +
             '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
-            '                        {% endif %}\n' +
-            '                    {% endfor %} Project Name</th><th> {% for data_definition in data_definition %}\n' +
-            '                            {% if data_definition.id == 33%}\n' +
+            '                        \n' +
+            '                     Project Name</th><th> \n' +
+            '                            \n' +
             '                          <span tabindex="-1" data-toggle="tooltip"\n' +
-            '                          title="{{ data_definition.description }}" class="float" >\n' +
+            '                          title="{% get_data_definition_desc "Community Organization Type" %}" class="float" >\n' +
             '                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>\n' +
-            '                        {% endif %}\n' +
-            '                    {% endfor %} Community Organization Types</th><th> {% for data_definition in data_definition %}\n' +
-            '                                {% if data_definition.id == 1%}\n' +
+            '                        \n' +
+            '                     Community Organization Types</th><th> \n' +
+            '                                \n' +
             '                                  <span tabindex="-1" data-toggle="tooltip" ' +
-            '                                      title="{{ data_definition.description }}" class="float" >' +
+            '                                      title="{% get_data_definition_desc "Campus Partner" %}" class="float" >' +
             '                                        <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>\n' +
-            '                                {% endif %}' +
-            '                             {% endfor %} Campus Partners</th>';
+            '                                ' +
+            '                              Campus Partners</th>';
         $('#example').find('thead').append(html);
         </script>
 

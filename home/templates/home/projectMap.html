@@ -1,4 +1,6 @@
 {% extends 'home/Dashboard_Extension.html' %} {% load static %} {% block content %}
+{% load register_tags %}
+
     {#<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>#}
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
     {#<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />#}
@@ -385,16 +387,17 @@
 
     </style>
 
-    <div class="wrapper">
-        <nav id="sidebar" style="height: 110%;margin-top:-5px;">
-            <div class="row" style="height:30px;">
-                <div class="col-lg-4 col-md-4">
+<div class="wrapper">
+    <nav id="sidebar" style="height: 110%;margin-top:-5px;">
+        <div class="row" style="height:30px;">
+            <div class="col-lg-4 col-md-4">
                     <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
                 <div class="col-lg-8 col-md-8" style="text-align:right;">
                     <label id="reset"><u>Reset</u></label>
                 </div>
             </div>
+
              <div class='legend'>
             <div id='state-legend'>
                 <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;"></div>
@@ -423,7 +426,7 @@
                          <div class="card"  style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow', sans-serif;text-align:center;">
                             <div class="row">
                                 <div class="col-lg-1 col-md-1">
-                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="fa fa-align-justify"> </i>
+                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
                                         <span></span>
                                     </button>
 
@@ -432,9 +435,7 @@
 
                                 <div class="col-lg-4 col-md-5" style="text-align: left">
                                     <div style="box-sizing: border-box;padding:5px;opacity:1.0;">
-                                         {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
                                         <label style="text-align: left"><b>Projects Map</b></label>
-                                          {% endif %}{% endfor %}
 
                                     </div>
                                 </div>
@@ -449,9 +450,7 @@
                               <div class="row">
                                 <div class="col-sm-1"></div>
                                 <div class="col" style="text-align: left;font-size: 18px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
-                                {% for data_definition in data_definition %}{% if data_definition.id == 44 %}
-                                        <span style="text-align: left">{{ data_definition.description }}</span>
-                                            {% endif %}{% endfor %}
+                                        <span style="text-align: left">{% get_data_definition_desc 'Maps (projects)' %}</span>
                             </div>
                             </div>
                         </div>

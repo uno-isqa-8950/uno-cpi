@@ -338,10 +338,10 @@ order by commpartners;
 """
 
 def createproj_othermission():
-    return ( """select secondary_mission_area_id from projects_missionsubcategory pms inner join projects_subcategory ps on ps.id = pms.sub_category_id where ps.sub_category ='%s';""")
+    return ("select secondary_mission_area_id from projects_missionsubcategory pms inner join projects_subcategory ps on ps.id = pms.sub_category_id where ps.sub_category = %s")
 
 def createproj_addothermission():
-    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other','%s','%s'); """)
+    return ( """insert into projects_projectmission (mission_type,mission_id,project_name_id) values ('Other',%s,%s); """)
 
 
 primaryFocusTopic_report_sql='''

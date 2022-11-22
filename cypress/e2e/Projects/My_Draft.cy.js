@@ -8,7 +8,7 @@ function random_Text_Alpha_Numeric() {
 
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')')|| err.message.includes('reading \'options\''))
         {
             return false
         }
@@ -18,7 +18,7 @@ beforeEach(() => {
 describe('Projects', () => {
     var randomPartnerName = random_Text_Alpha_Numeric();
     it('visits the form', () => {
-        cy.visit('http://127.0.0.1:8000/')
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     it('visits the login form', () => {
@@ -38,6 +38,7 @@ describe('Projects', () => {
         cy.get("#projectsnav").click()
         cy.contains('My Drafts').click()
         cy.contains('td', 'KD test').click()
+        cy.wait (1000)
         cy.contains('td', 'Action')
             .contains('a', 'Edit')
             .click()
@@ -47,21 +48,26 @@ describe('Projects', () => {
             cy.wrap($li).contains("Access to Higher Education").click()
             cy.get('#id_description').type(randomPartnerName)
         })
-
+        cy.wait (1000)
         cy.get("#projectdurationnav").click()
+        cy.wait (1000)
         cy.get('#select2-id_semester-container').click()
+        cy.wait (1000)
         cy.get('#select2-id_semester-results').then(($li) => {
             cy.wrap($li).contains("Fall").click();
         })
-
+        cy.wait (1000)
         cy.get('#select2-id_academic_year-container').click()
         cy.get('#select2-id_academic_year-results').then(($li) => {
             cy.wrap($li).contains("2019-20").click();
         })
-
+        cy.wait (1000)
         cy.get("#participantinfonav").click()
+        cy.wait (1000)
         cy.get('#id_total_uno_students').type('1')
+        cy.wait (1000)
         cy.get('#id_total_uno_hours').type('1')
+        cy.wait (1000)
         cy.get('#id_total_other_community_members').type('1')
         cy.contains('Save as Draft').click()
 

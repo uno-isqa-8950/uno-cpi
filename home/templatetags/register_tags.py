@@ -10,9 +10,27 @@ from home.models import Community_Partner_Snippet, Community_Partner_User_Snippe
     Partners_Organizatiion_Profile_Partners_Update_Snippet, Partners_Organizatiion_Profile_Snippet, \
     Partners_User_Profile_Snippet, Partners_User_Profile_Update_Snippet, Password_Reset_Done_Snippet, \
     Password_Reset_Snippet, Register_Community_Partner_Form_Snippet, TrendReport_Chart_Snippet,Issue_Address_Chart_Snippet,Network_Analysis_Chart_Snippet, \
-	PartnershipIntensityAnalysis_Chart_Snippet
+	PartnershipIntensityAnalysis_Chart_Snippet, DataDefinition
+
+from django.core.cache import cache
+
+import re
 
 register = template.Library()
+
+@register.simple_tag
+def get_data_definition_desc(def_name):
+    """Returns the description of the passed in data definition title"""
+
+    #remove dangerous characters 
+    safe_def_name =  s = ''.join(filter(str.isalnum, def_name))
+    toReturn = cache.get(safe_def_name)
+    if toReturn is None:
+        # Cache miss
+        toReturn = DataDefinition.objects.get(title__exact=def_name).description
+        # Cache for a day
+        cache.set(safe_def_name, toReturn, 86400)
+    return toReturn
 
 
 @register.inclusion_tag('tags/community_partner_snippet.html', takes_context=True)

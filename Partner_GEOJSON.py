@@ -14,7 +14,7 @@ logger=logging.getLogger("UNO CPI Application")
 
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname,'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname,'home/static/GEOJSON/ID2.geojson')
+district_file = os.path.join(dirname,'home/static/GEOJSON/ID3.geojson')
 output_filename = os.path.join(dirname,'home/static/GEOJSON/Partner.geojson') #The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 ACCESS_ID=settings.AWS_ACCESS_KEY_ID
@@ -95,7 +95,7 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
     join university_college um on um.id = pc2.college_name_id \
     join projects_engagementtype pem on p.engagement_type_id = pem.id \
     join projects_status ps on ps.id = p.status_id \
-    WHERE ps.name != 'Drafts' and ppcp.id = '%s' group by  project_name, \
+    WHERE ps.name != 'Drafts' and ppcp.id = %s group by  project_name, \
     startyear, endyear, engagement_type"
     communityprojectsList = []
     count = 0
@@ -132,8 +132,8 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
 
             if (start_academic_year is not None and end_academic_year is not None):   
                 cursor.execute("select academic_year from projects_academicyear \
-                    where id < (select id from projects_academicyear where academic_year = '%s') \
-                    and id > (select id from projects_academicyear where academic_year = '%s')", (str(end_academic_year), str(start_academic_year),))
+                    where id < (select id from projects_academicyear where academic_year = %s) \
+                    and id > (select id from projects_academicyear where academic_year = %s)", (str(end_academic_year), str(start_academic_year),))
                 academicList = cursor.fetchall()
                 if len(academicList) != 0:
                     for obj in academicList:

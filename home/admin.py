@@ -120,7 +120,7 @@ admin.site.register(HouseholdIncome, HouseholdIncomeAdmin)
 admin.site.register(DataDefinition, DataDefinitionList)
 admin.site.register(DataDefinitionGroup, DataDefinitionGroupList)
 admin.site.register(Resource, ResourceList)
-admin.site.site_header = "UNO CPI Admin"
+admin.site.site_header = "UNO CEPI Admin"
 admin.site.site_title = "Community Partnership Initiative"
 admin.site.index_title = " "
 

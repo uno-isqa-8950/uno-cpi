@@ -1,5 +1,5 @@
 {% extends 'home/Dashboard_Extension.html' %} {% load static %} {% block content %}
-
+{% load register_tags %}
 
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
     <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
@@ -470,10 +470,8 @@
                                 </div>
                                 <div class="col-lg-4 col-md-5" style="text-align: left">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                            {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
                                         <label style="text-align: left"><b>Community Partners Map</b></label>
 
-                                        {% endif %}{% endfor %}
 
                                     </div>
                                 </div>
@@ -487,9 +485,7 @@
                              <div class="row">
                                 <div class="col-sm-1"></div>
                                 <div class="col" style="text-align: left;font-size: 18px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
-                                {% for data_definition in data_definition %}{% if data_definition.id == 45 %}
-                                        <span style="text-align: left">{{ data_definition.description }}</span>
-                                            {% endif %}{% endfor %}
+                                        <span style="text-align: left">{% get_data_definition_desc 'Maps (projects)' %}</span>
                             </div>
                             </div>
                         </div>

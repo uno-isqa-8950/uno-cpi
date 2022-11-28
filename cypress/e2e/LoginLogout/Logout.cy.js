@@ -10,7 +10,7 @@ beforeEach(() => {
 
 describe('Logout of the app', () => {
     it('visits the form', () => {
-        cy.visit('http://127.0.0.1:8000/')
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     it('visits the login form', () => {
@@ -30,9 +30,7 @@ describe('Logout of the app', () => {
     })
 
     it('visits the logout form', () => {
-        cy.wait(200)
         cy.get('#accountinfo').click()
-        cy.wait(200)
         cy.get("#logout").click()
     })
 })

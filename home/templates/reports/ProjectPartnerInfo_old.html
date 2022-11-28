@@ -61,13 +61,11 @@
                     <form class="form-inline" role="form" id="filters-form" method="get">
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="academic_year"> Academic Years
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 32%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
                                         <option> All </option>
@@ -79,13 +77,11 @@
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="engagement_type"> Engagement Types
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 31%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Engagement Types' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -98,13 +94,11 @@
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="community_type"> Community Partner Types
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 33%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{{ {% get_data_definition_desc 'Community Organization Type' %} }}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                                         <option> All </option>
@@ -116,13 +110,11 @@
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="college-name">Colleges and Main Units
-                                       {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 43%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'College and Main Units' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select id="id_college_name" name="college_name" onchange="this.form.submit()">
                                         <option> All </option>
@@ -134,13 +126,11 @@
 
                             <div class="col-lg-4 col-md-5 form-group">
                                 <label for="campus_partner"> Campus Partners
-                                {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 1%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                         <option> All </option>
@@ -154,13 +144,11 @@
                             <div class="col-lg-4 col-md-5 form-group">
 
                                 <label for="weitz_cec_part"> CEC Community Building Partners
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 27%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'CEC Building Partner' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                                         <option> All </option>
@@ -173,13 +161,11 @@
 
                                 <label >Legislative Districts
 
-                                    {% for data_definition in data_definition %}
-                                    {% if data_definition.id == 52%}
+
                                     <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                        data-content="{{ data_definition.description }}" class="float">
+                                        data-content="{% get_data_definition_desc 'Status' %}" class="float">
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                    {% endif %}
-                                    {% endfor %}
+
                                 </label>
                                 <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
                                     {% for item in legislative_choices %}
@@ -200,49 +186,39 @@
                         <thead>
                             <tr>
                                 <th>Focus Areas
-                                   {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 3%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Focus Area' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </th>
                                 <th>Community Partners
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 46%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Unique Community Partners' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </th>
                                 <th>Projects
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 47%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Total Projects' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </th>
                                 <th>UNO Students
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 48%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'Total UNO Students' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </th>
                                 <th>UNO Students Hours
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 49%}
+
                                             <span tabindex="-1" data-toggle="popover" data-trigger="focus"
-                                                  data-content="{{ data_definition.description }}" class="float" >
+                                                  data-content="{% get_data_definition_desc 'UNO Student Hours' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                        {% endif %}
-                                    {% endfor %}
+
                                 </th>
                             </tr>
                         </thead>

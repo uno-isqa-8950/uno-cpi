@@ -91,7 +91,6 @@ def myProjects(request):
 @login_required()
 def communitypartnerproject(request):
     projects_list = []
-    data_definition = DataDefinition.objects.all()
     # Get the campus partner id's related to the user
     comm_part_user = CommunityPartnerUser.objects.filter(user_id=request.user.id)
     comm_part_id = comm_part_user.values_list('community_partner_id', flat=True)
@@ -109,7 +108,7 @@ def communitypartnerproject(request):
              "total_k12_hours": obj[15],
              "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
     return render(request, 'projects/community_partner_projects.html',
-                  {'project': projects_list, 'data_definition': data_definition})
+                  {'project': projects_list})
 
 
 def ajax_load_project(request):

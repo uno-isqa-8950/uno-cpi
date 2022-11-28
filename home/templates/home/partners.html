@@ -94,9 +94,9 @@
                 <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px">
                     <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Community Partners
-                                    {% for data_definition in data_definition %}{% if data_definition.id == 2 %}
-                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
-                                        {% endif %}{% endfor %}</h4></b>
+
+                                            <span id="partner_help" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{% get_data_definition_desc 'Community Partner' %}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                </h4></b>
                             </label>
                 </div>
 
@@ -126,10 +126,8 @@
                 <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px;">
                     <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
                                 <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
-                                    {% for data_definition in data_definition %}
-                                        {% if data_definition.id == 1 %}
-                                            <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{{ data_definition.description }}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
-                                        {% endif %}{% endfor %}</h4></b>
+                                            <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{% get_data_definition_desc 'Campus Partner' %}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
+                                    </h4></b>
                             </label>
 
                 </div>

@@ -1,4 +1,5 @@
 {% extends 'home/Dashboard_Extension.html' %} {% load static %} {% block content %}
+{% load register_tags %}
 
 
     <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
@@ -440,7 +441,6 @@ color: #d71920;
             <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
             <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
             <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
-           
         </div>
          <div style="padding-top:10px;border-top: 1px solid grey;">
                 <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
@@ -475,9 +475,7 @@ color: #d71920;
                                  <div class="row">
                                 <div class="col-sm-1"></div>
                                 <div class="col" style="text-align: left;font-size: 18px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
-                                {% for data_definition in data_definition %}{% if data_definition.id == 77 %}
-                                        <span style="text-align: left">{{ data_definition.description }}</span>
-                                            {% endif %}{% endfor %}
+                                        <span style="text-align: left">{% get_data_definition_desc 'Maps (legislative districts)' %}</span>
                             </div>
                             </div>
                             </div>
@@ -492,6 +490,7 @@ color: #d71920;
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
                                     {{ year | json_script:"year-list" }}
                                     {{ Collegename | json_script:"college-list" }}
+
 
                                 </div>
                             </div>

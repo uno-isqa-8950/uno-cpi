@@ -131,13 +131,9 @@ align-self: flex-end;
             <form class="form-inline" id="filters-form" method="get">
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="academicyear">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 32%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
                          Academic Years
                     </label>
                     <select id="id_academicyear" name="academic_year" onchange="updatechart()">
@@ -155,13 +151,9 @@ align-self: flex-end;
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
                         <label for="community_type">
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 33%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Community Organization Type' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                            {% endfor %}
                             Community Organization Types
                         </label>
                         <select class="form-control" id="id_community_type" name="community_type" onchange="updatechart()">
@@ -173,13 +165,9 @@ align-self: flex-end;
                     </div>
                     <div class="col-lg-4 col-md-5 form-group">
                         <label for="engagement_type">
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 31%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Engagement Types' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                            {% endfor %}
                             Engagement Types
                         </label>
                     <select id="id_engagement_type" name="engagement_type" onchange="updatechart()">
@@ -191,13 +179,9 @@ align-self: flex-end;
                     </div>
                      <div class="col-lg-4 col-md-5 form-group ">
                         <label for="college-name">
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 43%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'College and Main Units' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                            {% endfor %}
                             College and Main Units
                         </label>
                         <select id="id_college_name" name="college_name" onchange="updateCampus();updatechart()",>
@@ -210,13 +194,9 @@ align-self: flex-end;
 
                     <div class="col-lg-4 col-md-5 form-group">
                         <label for="campus_partner">
-                        {% for data_definition in data_definition %}
-                                {% if data_definition.id == 1%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                            {% endfor %}
                             Campus Partners
                         </label>
                             <select id="id_campus_partner" name="campus_partner" onchange="updatechart()">
@@ -230,13 +210,9 @@ align-self: flex-end;
                     </div>
                      <div class="col-lg-4 col-md-5 form-group">
                     <label for="weitz_cec_part">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 27%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'CEC Building Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
                         CEC  Building Partners
                     </label>
                     <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updatechart()">
@@ -249,13 +225,10 @@ align-self: flex-end;
 {#                    <div class="col-lg-4 col-md-5 form-group">#}
 {##}
 {#                    <label for="k12_flag">#}
-{#                        {% for data_definition in data_definition %}#}
-{#                            {% if data_definition.id == 12%}#}
 {#                                <span tabindex="-1" data-toggle="popover" data-trigger="focus"#}
-{#                                      data-content="{{ data_definition.description }}" class="float" >#}
+{#                                      data-content="{% get_data_definition_desc 'K-12 Schools (community partner organization type)' %}" class="float" >#}
 {#                                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>#}
-{#                            {% endif %}#}
-{#                        {% endfor %}K12 Projects#}
+{#                        K12 Projects#}
 {#                    </label>#}
 {#                    <select class="form-control" id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">#}
 {#                        {% for k12_flag in k12_choices.k12_choice %}#}
@@ -265,13 +238,9 @@ align-self: flex-end;
 {#                </div>#}
                     <div class="col-lg-4 col-md-5 form-group ">
                         <label for="legislative_value" >
-                            {% for data_definition in data_definition %}
-                                {% if data_definition.id == 68%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Legislative District' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                                {% endif %}
-                            {% endfor %}
                                     Legislative Districts
                                 </label>
                                 <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updatechart()">
@@ -285,13 +254,9 @@ align-self: flex-end;
                             </div>
               <div class="col-lg-4 col-md-5 form-group">
                     <label for="community_partner">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 2%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Community Partner' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}
                         Community Partners
                     </label>
                     <select id="id_community_partner" name="community_partner" onchange="updatechart()">
@@ -305,13 +270,10 @@ align-self: flex-end;
                 </div>
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="mission">
-                        {% for data_definition in data_definition %}
-                            {% if data_definition.id == 3%}
                             <span tabindex="-1" data-toggle="tooltip"
-                          title="{{ data_definition.description }}" class="float" >
+                          title="{% get_data_definition_desc 'Focus Area' %}" class="float" >
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
-                            {% endif %}
-                        {% endfor %}Project Focus Areas
+                            Project Focus Areas
                     </label>
                     <select class="form-control" id="id_mission" name="mission" onchange="updatechart()">
                         <option> All </option>

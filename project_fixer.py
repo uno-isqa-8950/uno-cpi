@@ -12,7 +12,7 @@ for projmis in ProjectMission.objects.all():
                 print(projmis.project_name)
                 print(proj.project_name)
                 print(projmis.mission)
-                    Project.objects.get(id=proj.id).mission_area.add(projmis.mission)
+                Project.objects.get(id=proj.id).mission_area.add(projmis.mission)
     except:
         print("An exception occurred")
 

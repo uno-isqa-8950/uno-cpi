@@ -25,9 +25,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')z8d*5_%@v!h@bl3-vl2gn@mwcd@6vlz061+b=o02jc5@2r1gg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-SECURE_SSL_REDIRECT = False
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-DEBUG = True
+SECURE_SSL_REDIRECT = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+DEBUG = os.environ.get('DEBUG', False)
 
 
 ALLOWED_HOSTS = ['*']
@@ -121,11 +121,11 @@ WSGI_APPLICATION = 'UnoCPI.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'cpi_local',#'cpi_local_db',allowed_hosts
-        'USER': 'postgres',
-        'PASSWORD': 'Testing123', # password saved at the time of postgres installatin
-        'PORT': 5432,
-        'HOST':'localhost',
+        'NAME': os.environ.get('DB_NAME'),
+        'USER': os.environ.get('DB_USER'),
+        'PASSWORD':os.environ.get('DB_PASSWORD'),
+        'HOST': os.environ.get('DB_HOST'),
+        'PORT': os.environ.get('DB_PORT'),
     }
 }
 
@@ -207,10 +207,10 @@ LOGIN_URL = reverse_lazy('account:loginPage')
 ## MEDIA_URL = '/media/'
 
 ##
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'unocepi2022capstone@gmail.com'
-EMAIL_HOST_PASSWORD = 'hdiqebazgllotkwh'
-EMAIL_PORT = 587
+EMAIL_HOST = os.environ.get('MAILGUN_SMTP_SERVER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = os.environ.get('MAILGUN_SMTP_PORT')
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'UNO Community Partnership Initiative <partnerships@unomaha.edu>'
 
@@ -226,11 +226,11 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 WAGTAIL_SITE_NAME = 'UNO-CPI'
 
 
-GOOGLE_MAPS_API_KEY = "AIzaSyAdsTPaDZDebEjW-gBr5ui5uMsNIqkRYmE"
+GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
-AWS_STORAGE_BUCKET_NAME = 'unocpi-dev'
-AWS_ACCESS_KEY_ID='AKIAI4D4ACAXMSWQUE2Q'
-AWS_SECRET_ACCESS_KEY='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'
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID=os.environ.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY=os.environ.get('AWS_SECRET_ACCESS_KEY')
 AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
 
 MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN

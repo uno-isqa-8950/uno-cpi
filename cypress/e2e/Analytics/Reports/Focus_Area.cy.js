@@ -57,6 +57,8 @@ describe('Analytic Reports', () => {
     // Hide Filters and Reset Filters
 
      it('Hide Filters', () => {
+         cy.get('.buttons-csv').click()
+        cy.get('.buttons-pdf').click()
         cy.get('#hidefilterbtn').click()
         cy.get('#resetfilterbtn').click()
      })

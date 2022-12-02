@@ -16,7 +16,7 @@ class University (models.Model):
     primary_color = models.CharField(max_length=255, default='#000000')
     secondary_color = models.CharField(max_length=255, default='#000000')
     logo = models.ImageField(default='default.jpg')
-    subdomain = models.CharField(default='Set Subdomain of tenant, i.e. unomaha', max_length=255, unique=True)
+    subdomain = models.CharField(default='Set Subdomain of tenant, i.e. unomaha', max_length=255)
     history = HistoricalRecords()
 
     def __str__(self):

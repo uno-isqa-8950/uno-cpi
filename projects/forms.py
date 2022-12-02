@@ -117,9 +117,9 @@ class ProjectForm2(ModelForm):
         model = Project
         fields = ('project_name','engagement_type','activity_type','facilitator','description','semester','total_uno_students',
                   'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
-                    'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
-                    'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
-                    'longitude','academic_year', 'end_academic_year', 'end_semester','other_sub_category','campus_lead_staff','project_type','other_activity_type')
+                  'total_uno_faculty','total_other_community_members','start_date','end_date' ,'other_details','outcomes',
+                  'status','total_economic_impact', 'address_line1' ,'country' ,'city','zip', 'state','latitude',
+                  'longitude','academic_year', 'end_academic_year', 'end_semester','other_sub_category','campus_lead_staff','project_type','other_activity_type')
         widgets = {
             'start_date': DateInput(),
             'end_date': DateInput(),
@@ -238,7 +238,7 @@ class ProjectForm2(ModelForm):
 
 class ProjectFormAdd(ModelForm):
     SEMESTER = [
-    ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
+        ("", "----------") ,  ("Fall", "Fall"), ("Spring", "Spring"), ("Summer", "Summer")]
     address_line1= forms.CharField(required=False)
     country = forms.CharField(required=False)
     city = forms.CharField(required=False)
@@ -249,9 +249,9 @@ class ProjectFormAdd(ModelForm):
     k12_flag = forms.BooleanField(required=False)
     class Meta:
         model = Project
-        fields = ('project_name','engagement_type','activity_type','project_type','description','semester',
-                    'status', 'address_line1','country','city', 'state','zip','latitude',
-                    'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
+        fields = ('project_name','engagement_type','activity_type','project_type','description','university', 'semester',
+                  'status', 'address_line1','country','city', 'state','zip','latitude',
+                  'longitude','academic_year', 'total_uno_students', 'total_uno_hours','k12_flag','total_k12_students','total_k12_hours',
                   'end_semester', 'other_sub_category', 'end_academic_year','campus_lead_staff','other_activity_type','total_uno_faculty','total_other_community_members')
         widgets = {
             'start_date': DateInput(),
@@ -262,118 +262,18 @@ class ProjectFormAdd(ModelForm):
             'project_name': 'Project Name',
             'engagement_type': 'Engagement Type',
             'activity_type': 'Activity Type',
-            # 'uno_students': 'UNO Students',
-            # 'uno_student_service_hours': 'UNO Student Service Hours',
+            'university': 'University',
             'total_uno_students': 'UNO Students',
             'total_uno_hours': 'UNO Student Service Hours',
-            # 'total_k12_students': 'Number Of K-12 Students',
-            # 'total_k12_hours': 'Number Of K-12 Hours',
-            # 'total_uno_faculty': 'Number Of UNO Faculty/Staff',
+
             'start_date': 'Project Start Date',
             'end_date': 'Project End Date',
-            # 'other_details': 'Other Important Details',
-            # 'outcomes': 'Outcomes',
+
             'address_line1': 'Address',
-            # 'total_other_community_members':  'Number Of Other Participants',
+
             'academic_year': 'Academic Year',
             'end_academic_year': 'End Academic Year',
         }
-
-    # def clean_engagement_type(self):
-    #     engagement_type = self.cleaned_data['engagement_type']
-    #
-    #     if engagement_type == "":
-    #         raise  forms.ValidationError("Please select an Engagement Type")
-    #
-    #     else:
-    #         return engagement_type
-
-    # def clean_facilitator(self):
-    #     facilitator = self.cleaned_data['facilitator']
-    #
-    #     if any(char.isdigit() for char in facilitator):
-    #         raise forms.ValidationError("Facilitator cannot have numbers")
-    #
-    #     return facilitator
-
-    # def clean_semester(self):
-    #     semester = self.cleaned_data['semester']
-    #     sem = semester.split('-')
-    #
-    #     if len(sem) < 0:
-    #         raise forms.ValidationError("Semester should contain -")
-    #     if sem[0] not in ['Fall', 'Spring', 'Summer']:
-    #         raise forms.ValidationError("Please enter Summer, Spring or Fall")
-    #
-    #     return semester
-
-    # def clean_total_uno_students(self):
-    #     total_uno_students = self.cleaned_data['total_uno_students']
-    #
-    #     if type(total_uno_students) != int :
-    #         raise forms.ValidationError("Number of Student cannot be blank.If not sure at this time please insert 0 ")
-    #     return total_uno_students
-    #
-    # def clean_total_uno_hours(self):
-    #     total_uno_hours = self.cleaned_data['total_uno_hours']
-    #
-    #     if type(total_uno_hours)  != int :
-    #         raise forms.ValidationError("Hours cannot be blank.If not sure at this time please insert 0 ")
-
-    # def clean_total_k12_students(self):
-    #     total_k12_students = self.cleaned_data['total_k12_students']
-    #
-    #     if type(total_k12_students) != int:
-    #         raise forms.ValidationError("Number of K12 Students cannot be blank.If not sure at this time please insert 0")
-    #     return total_k12_students
-    #
-    # def clean_total_k12_hours(self):
-    #     total_k12_hours = self.cleaned_data['total_k12_hours']
-    #
-    #     if type(total_k12_hours) not in [int, float]:
-    #         raise forms.ValidationError("Number of K12 Hours cannot be blank.If not sure at this time please insert 0")
-    #     return total_k12_hours
-    #
-    # def clean_total_uno_faculty(self):
-    #     total_uno_faculty = self.cleaned_data['total_uno_faculty']
-    #
-    #     if type(total_uno_faculty) != int:
-    #         raise forms.ValidationError("Faculty cannot be blank.If not sure at this time please insert 0.")
-    #     return total_uno_faculty
-    #
-    # def clean_total_other_community_members(self):
-    #     total_other_community_members = self.cleaned_data['total_other_community_members']
-    #
-    #     if type(total_other_community_members) != int:
-    #         raise forms.ValidationError("Participantscannot be blank.If not sure at this time please insert 0")
-    #     return total_other_community_members
-    #
-    # def clean_country(self):
-    #     country = self.cleaned_data['country']
-    #
-    #     if any(char.isdigit() for char in country):
-    #         raise forms.ValidationError("Country name contain numbers")
-    #     return country
-
-    # def clean_state(self):
-    #     state = self.cleaned_data['state']
-    #
-    #     if any(char.isdigit() for char in state):
-    #         raise forms.ValidationError("Invalid State Name")
-    #     return state
-
-    # def clean_city(self):
-    #     city = self.cleaned_data['city']
-    #
-    #     if any(char.isdigit() for char in city):
-    #         raise forms.ValidationError("Invalid City Name")
-    #     return city
-
-    # def clean_zip(self):
-    #     zip = self.cleaned_data['zip']
-    #     if type(zip) != int:
-    #         raise forms.ValidationError("Invalid ZIP Code")
-    #     return zip
 
 
 class ProjectMissionForm(ModelForm):
@@ -454,7 +354,7 @@ class ProjectMissionEditFormset(forms.ModelForm):
         fields = ('mission',)
         labels = {
             'mission': (' '),
-                    }
+        }
 
 class projectfocusarea(forms.ModelForm):
     class Meta:
@@ -470,7 +370,7 @@ class ProjectMissionFormset(forms.ModelForm):
         fields = ( 'mission',)
         labels = {
             'mission': (' '),
-                    }
+        }
 
 
 class ScndProjectMissionFormset(forms.ModelForm):
@@ -489,8 +389,8 @@ class ProjectSearchForm(forms.ModelForm):
         labels = {
             'project_name':('Project Name'),
 
-         }
-     # def __init__(self, *args, **kwargs):
+        }
+    # def __init__(self, *args, **kwargs):
     #     super(ProjectSearchForm, self).__init__(*args, **kwargs)
     #     self.fields['project_name'].widget = forms.TextInput(attrs={
     #         'id': 'id_project_name'})

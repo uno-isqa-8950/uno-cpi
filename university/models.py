@@ -13,6 +13,10 @@ class EducationSystem (models.Model):
 class University (models.Model):
     name = models.CharField(max_length=255, unique=True)
     education_system = models.ForeignKey(EducationSystem, on_delete=models.CASCADE)
+    primary_color = models.CharField(max_length=255, default='#000000')
+    secondary_color = models.CharField(max_length=255, default='#000000')
+    logo = models.ImageField(default='default.jpg')
+    subdomain = models.CharField(default='Set Subdomain of tenant, i.e. unomaha', max_length=255, unique=True)
     history = HistoricalRecords()
 
     def __str__(self):

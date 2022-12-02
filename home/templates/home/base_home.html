@@ -109,7 +109,7 @@
                 </ul>
             </li>
 
-            {% if user.is_authenticated and user.is_campuspartner %}
+            {% if user.is_authenticated %}
                 <li class=" nav-item dropdown">
                     <a id="projectsnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-tasks fa-x"></i> Projects
@@ -122,23 +122,7 @@
                         <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
                     </div>
                 </li>
-            {% endif %} {% if user.is_authenticated and user.is_superuser %}
-            <li class=" nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
-                    <i class="fa fa-tasks fa-x"></i> Projects
-                    <span class="caret"></span>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                    <a class="dropdown-item" href="/allProjects/">All Projects</a>
-                    <a class="dropdown-item" href='/check-Project/'>Create Project</a>
-                    <a class="dropdown-item" href='/myDrafts/'>My Drafts</a>
-                </div>
-            </li>
-        {% endif %} {% if user.is_communitypartner %}
-            <li class="nav-item">
-                <a class="nav-link" href='/communitypartnerproject/'><i class="fa fa-tasks fa-x"></i>Projects</a>
-            </li>
-        {% endif %}
+            {% endif %}
 
             <li class=" nav-item dropdown">
                 <a id="partners" class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
@@ -155,7 +139,7 @@
                 </div>
             </li>
 
-            {% if user.is_authenticated and user.is_superuser %}
+            {% if user.is_superuser %}
                 <li class=" nav-item dropdown">
                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-cogs"></i> Administrator
@@ -167,11 +151,10 @@
                         <a class="dropdown-item" href='/cms/' target="_blank">CMS</a>
                         <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
                         <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>
-                        <a class="dropdown-item" href="{% url 'invitecommunityPartnerUser' %}">Invite a Community Partner User </a>
                         <a class="dropdown-item" href='/register-Campus-Partner-User/'>Campus Partner User Registration </a>
                     </div>
                 </li>
-            {% endif %} {% if user.is_authenticated and user.is_superuser or user.is_campuspartner or user.is_communitypartner %}
+            {% endif %} {% if user.is_authenticated %}
             <li id="accountinfo" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                     {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">

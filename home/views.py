@@ -1683,6 +1683,27 @@ def googleprojectdata(request):
                    }
                   )
 
+def googlecityDistrict(request):
+    data_definition = DataDefinition.objects.all()
+    map_json_data = GEOJSON2()
+    Campuspartner = map_json_data[4]
+    Communitypartner = map_json_data[3]
+    json_data = open('home/static/GEOJSON/ID3.geojson')
+    district = json.load(json_data)
+    data = map_json_data[0]
+    #May need to rearrange this once javascript is added?
+    return render(request, 'home/cityDistrict.html',
+                  {'districtData': district, 'collection': map_json_data[0],
+                   'number': len(data['features']),
+                   'Missionlist': sorted(map_json_data[2]),
+                   'CommTypelist': sorted(map_json_data[5]),  # pass the array of unique mission areas and community types
+                   'Campuspartner': (Campuspartner),
+                   'Communitypartner': sorted(Communitypartner),
+                   'EngagementType': sorted(map_json_data[1]),
+                   'year': sorted(map_json_data[6]),'data_definition':data_definition,
+                   'Collegename': (map_json_data[7])
+                   }
+                  )
 
 def googleDistrictdata(request):
     data_definition = DataDefinition.objects.all()

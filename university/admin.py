@@ -16,7 +16,7 @@ class EducationSystemList(admin.ModelAdmin):
 
 class UniversityList(admin.ModelAdmin):
 
-    list_display = ('name', 'education_system')
+    list_display = ('name', 'education_system', 'primary_color', 'secondary_color', 'logo')
 
     search_fields = ('name', 'education_system__name')
 

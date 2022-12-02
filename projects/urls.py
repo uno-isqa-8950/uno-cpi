@@ -4,7 +4,6 @@ from . import views
 # app_name = 'projects'
 
 urlpatterns = [
-    path('communitypartnerproject/', views.communitypartnerproject, name='communitypartnerproject'),
     re_path(r'^project/(?P<pk>\d+)/edit/$', views.editProject, name='editProject'),
     re_path(r'^create-Project/$', views.createProject, name='createProject'),
     re_path(r'^SuggestProject/$', views.ajax_load_project, name='ajax_load_project'),

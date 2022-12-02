@@ -53,6 +53,7 @@ coverage.xml
 
 # Django stuff:
 *.log
+# ABSOLUTELY MUST IGNORE THIS FILE, WILL LEAK SECRET KEYS OTHERWISE
 local_settings.py
 db.sqlite3
 

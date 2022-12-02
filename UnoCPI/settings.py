@@ -225,6 +225,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WAGTAIL_SITE_NAME = 'UNO-CPI'
 
+#### DO NOT PLACE KEYS INTO THIS FILE, ONLY PLACE KEYS INTO YOUR local_settings.py FILE
 
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
@@ -239,6 +240,8 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
 SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
 APP_ENV = os.environ.get('APP_ENV')
+
+####
 
 # when using other websites that track visitors or use their iframe on your website.
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"

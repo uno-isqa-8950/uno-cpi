@@ -19,18 +19,18 @@ logger = logging.getLogger("UNO CPI Application Create MAPS json Batch job")
 
 def main():
     print('This job is ran every day at 1:30 AM CST/ 12:30 AM CDT.')
-    #project = 'python Project_GEOJSON.py'
-    #partner = 'python Partner_GEOJSON.py'
+    project = 'python Project_GEOJSON.py'
+    partner = 'python Partner_GEOJSON.py'
     city = 'python City_GEOJSON.py'
 
-    #logger.info("Start create project json")
-    #print("Start create project geo json script")
-    #os.system(project)
-    #print("End create project geo json script")
-    #logger.info("Start create partner json")
-    #print("Start create partner geo json script")
-    #os.system(partner)
-    #print("End create partner geo json script")
+    logger.info("Start create project json")
+    print("Start create project geo json script")
+    os.system(project)
+    print("End create project geo json script")
+    logger.info("Start create partner json")
+    print("Start create partner geo json script")
+    os.system(partner)
+    print("End create partner geo json script")
     logger.info("Start create city json")
     print("Start create city geo json script")
     os.system(city)

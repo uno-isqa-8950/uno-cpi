@@ -556,9 +556,6 @@ def editProject(request, pk):
 
 @login_required()
 def showAllProjects(request):
-    print(get_hostname(request))
-    print(get_tenant(request))
-    print(University.objects.get(id=1))
     return render(request, 'projects/allProjects.html',
                   filter_projects(request))
 

@@ -10,13 +10,13 @@ import psycopg2
 from django.conf import settings
 from UnoCPI import settings
 
-logger = logging.getLogger("UNO CPI Application")
+logger = logging.getLogger("UNO CPI CITY COUNCIL Application")
 
 dirname = os.path.dirname(__file__)
 county_file = os.path.join(dirname, 'home/static/GEOJSON/USCounties_final.geojson')
-district_file = os.path.join(dirname, 'home/static/GEOJSON/ID3.geojson')
+district_file = os.path.join(dirname, 'home/static/GEOJSON/CityCouncilDistricts.geojson')
 output_filename = os.path.join(dirname,
-                               'home/static/GEOJSON/Partner.geojson')  # The file will be saved under static/GEOJSON
+                               'home/static/GEOJSON/City.geojson')  # The file will be saved under static/GEOJSON
 currentDT = datetime.datetime.now()
 ACCESS_ID = settings.AWS_ACCESS_KEY_ID
 ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
@@ -27,7 +27,7 @@ s3 = boto3.resource('s3',
 with open(county_file) as f:
     geojson1 = json.load(f)
 county = geojson1["features"]
-# Get lat long details of all the districts within State Nebraska to get populate Legislative Districts
+# Get lat long details of all the districts within State Nebraska to get populate City Council Districts
 with open(district_file) as f:
     geojson = json.load(f)
 district = geojson["features"]
@@ -71,7 +71,7 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
         if polygon.contains(coord):  # check if a partner is in a polygon
             # print('property["properties"]--',property["properties"]["id"])
             # print('legislative_district--from database,',legislative_district)
-            feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
+            feature['properties']['Legislative District Number'] =   # assign the district number to a partner
     for m in range(len(county)):  # iterate through the County Geojson
         properties2 = county[m]
         polygon = shape(properties2['geometry'])  # get the polygon
@@ -212,20 +212,21 @@ if commPartnerList is not None:
                                    obj[12], obj[15], obj[9])
         collection['features'].append(feature)
     jsonstring = pd.io.json.dumps(collection)
-    logger.info("Community Partners GEOSON is written at output directory" + str(output_filename))
+    logger.info("City Council District GEOSON is written at output directory" + str(output_filename))
     with open(output_filename, 'w') as output_file:
         output_file.write(format(jsonstring))
     # print('jsonstring--',jsonstring)
-    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson').put(Body=format(jsonstring))
-    print("Partner GEOJSON file written having total records of " + repr(
+    s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/City.geojson').put(Body=format(jsonstring))
+    print("City Council District GEOJSON file written having total records of " + repr(
         len(commPartnerList)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
-    logger.info("Partner GEOJSON file written having total records of " + repr(
+    logger.info("City Council District GEOJSON file written having total records of " + repr(
         len(commPartnerList)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
 else:
-    print("Partner GEOJSON file NOT written having total records of " + repr(
+    print("City Council District GEOJSON file NOT written having total records of " + repr(
         len(commPartnerList)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
-    logger.info("Partner GEOJSON file NOT written having total records of " + repr(
+    logger.info("City Council District GEOJSON file NOT written having total records of " + repr(
         len(commPartnerList)) + " in S3 bucket " + settings.AWS_STORAGE_BUCKET_NAME + " at " + str(currentDT))
 
 cursor.close()
 conn.close()
+

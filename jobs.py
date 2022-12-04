@@ -5,7 +5,7 @@ import psycopg2
 from UnoCPI import sqlfiles,settings
 import os
 
-import Update_Partner, Update_Project
+import Update_Partner, Update_Project, Update_City
 
 #sched = BlockingScheduler()
 #sched1 = BackgroundScheduler()
@@ -22,6 +22,8 @@ def main():
 
     updatePartner = 'python Update_Partner.py'
 
+    updateCity = 'python Update_City.py'
+
     logger.info("Start update project script") 
     print("Start update project script") 
     os.system(updateProject)
@@ -30,6 +32,10 @@ def main():
     print("Start update partner script") 
     os.system(updatePartner)
     print("End update partner script") 
+
+    print("Start update city script")
+    os.system(updateCity)
+    print("End update city script")
 
     global connection
     global cursor

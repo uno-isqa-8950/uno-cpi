@@ -147,8 +147,17 @@ var defaultFilterValues = [];
 var filters = {};
 
 google.maps.event.addListenerOnce(map, 'idle', function () {
-   
+
    partnerGoogleMapfn(communityData);
+
+   map.data.loadGeoJson('../../static/GEOJSON/CityCouncilDistricts.geojson')
+
+   map.data.setStyle({
+         fillColor: "#fee8c8",
+         fillOpacity: 0.4,
+         strokeWeight: 0.2
+    })
+
 });
 
 
@@ -163,14 +172,6 @@ function partnerGoogleMapfn(modifiedcommunityData){
         data: districtData,
     });
 
-     map.data.loadGeoJson('../../static/GEOJSON/CityCouncilDistricts.geojson')
-
-    //To DO :If any district is selected highlight it
-    map.data.setStyle({
-        fillColor: "#fee8c8",
-        fillOpacity: 0.4,
-        strokeWeight: 0.2
-    })
 
 
 // circle added to the map
@@ -181,11 +182,11 @@ function partnerGoogleMapfn(modifiedcommunityData){
         scale: 8,
         strokeColor: 'white',
         strokeWeight: 1.5
-    };  
-    
+    };
+
     for (i=0; i<modifiedcommunityData.features.length; i++) {
-        if(modifiedcommunityData.features[i] != '' 
-            && modifiedcommunityData.features[i] !=null 
+        if(modifiedcommunityData.features[i] != ''
+            && modifiedcommunityData.features[i] !=null
             && modifiedcommunityData.features[i] != undefined){
         var communityType = modifiedcommunityData.features[i].properties["CommunityType"]
         var commMission = modifiedcommunityData.features[i].properties["Mission Area"]
@@ -205,7 +206,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
             map: map,
             icon: circle, // set the icon here
             fillColor: missionColor(commMission),
-            
+
         });
         oms.addMarker(marker);
        function missionColor(mission) {

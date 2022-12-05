@@ -149,6 +149,15 @@ var filters = {};
 google.maps.event.addListenerOnce(map, 'idle', function () {
    
    partnerGoogleMapfn(communityData);
+
+   map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
+
+
+   map.data.setStyle({
+       fillColor: "#fee8c8",
+       fillOpacity: 0.4,
+       strokeWeight: 0.2
+    })
 });
 
 
@@ -163,14 +172,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
         data: districtData,
     });
 
-     map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
 
-    //To DO :If any district is selected highlight it
-    map.data.setStyle({
-        fillColor: "#fee8c8",
-        fillOpacity: 0.4,
-        strokeWeight: 0.2
-    })
 
 
 // circle added to the map

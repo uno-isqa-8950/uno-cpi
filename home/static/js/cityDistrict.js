@@ -97,9 +97,9 @@ $('#missionAreaFilters').html(select);
 //*********************************** Add the districts *****************************************************
 
 var select1 = '';
-select1 += '<option value="' + "All City Districts" + '" selected="selected">' + "All City Council Districts" + '</option>';
+select1 += '<option value="' + "All City Council Districts" + '" selected="selected">' + "All City Council Districts" + '</option>';
 for (i = 1; i <= 7; i++) {
-    select1 += '<option value=' + i + '>' +'City District ' + i + '</option>';
+    select1 += '<option value=' + i + '>' +'City Council District ' + i + '</option>';
 }
 $('#selectDistrict').html(select1);
 
@@ -460,7 +460,7 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     var updatedCommunityPartners = JSON.parse(JSON.stringify(communityPartners));
     var updated_CommunityPartners = updatedCommunityPartners.features;
     
-    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All City Council Districts', 'All Academic Years'];
     if (!not_set.includes(mission_value)) {
         var updated_CommunityPartners = updated_CommunityPartners.filter(d => d.properties["Mission Area"] == mission_value);
     }

@@ -36,53 +36,6 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = ProjectResource
 
 
-class ProjectMissionResource(resources.ModelResource):
-    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    # mission = fields.Field(attribute='mission', column_name="Mission Name")
-    class Meta:
-        model = ProjectMission
-        fields = ('id', 'project_name', 'mission_type', 'mission')
-
-class ProjectMissionList(SimpleHistoryAdmin, ImportExportModelAdmin):
-
-    list_display = ('project_name', 'mission_type', 'mission')
-
-    search_fields = ('project_name__project_name', 'mission_type', 'mission__mission_name')
-
-    resource_class = ProjectMissionResource
-
-
-class ProjectCommunityPartnerResource(resources.ModelResource):
-    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    # community_partner = fields.Field(attribute='community_partner', column_name="Community Partner")
-    class Meta:
-        model = ProjectCommunityPartner
-        fields = ('id', 'project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
-
-class ProjectCommunityPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
-
-    list_display = ('project_name', 'community_partner', 'total_hours', 'total_people', 'wages')
-
-    search_fields = ('project_name__project_name', 'community_partner__name')
-
-    resource_class = ProjectCommunityPartnerResource
-
-
-class ProjectCampusPartnerResource(resources.ModelResource):
-    # project_name = fields.Field(attribute='project_name', column_name="Project Name")
-    # campus_partner = fields.Field(attribute='campus_partner', column_name="Campus Partner")
-    class Meta:
-        model = ProjectCampusPartner
-        fields = ('id', 'project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
-
-class ProjectCampusPartnerList(SimpleHistoryAdmin, ImportExportModelAdmin):
-
-    list_display = ('project_name', 'campus_partner', 'total_hours', 'total_people', 'wages')
-
-    search_fields = ('project_name__project_name', 'campus_partner__name')
-
-    resource_class = ProjectCampusPartnerResource
-
 
 class EngagementTypeResource(resources.ModelResource):
 
@@ -130,18 +83,6 @@ class EngagementActivityTypeList(SimpleHistoryAdmin, ImportExportModelAdmin):
     resource_class = EngagementActivityTypeResource
 
 
-class ProjectEngagementActivityResource(resources.ModelResource):
-    class Meta:
-        model = ProjectEngagementActivity
-
-
-
-class ProjectEngagementActivityList(admin.ModelAdmin):
-
-    list_display = ('ProjectName', )
-    #search_fields = ('projectname__project_name', 'ProjectEngagementActivityName__EngagementActivityType')
-    resource_class = ProjectEngagementActivityResource
-
 
 class StatusList(admin.ModelAdmin):
 
@@ -163,18 +104,6 @@ class AcademicYearList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     resource_class = AcademicYearResource
 
-class ProjectRelatedLinksResource(resources.ModelResource):
-    class Meta:
-        model = ProjectRelatedLink
-
-
-class ProjectRelatedLinksList (SimpleHistoryAdmin, ImportExportModelAdmin):
-    list_display = ('project_name', 'link_descr', 'link', 'isAccessible')
-
-    search_fields = ('project_name', )
-
-    resource_class = ProjectRelatedLinksResource
-
 class SubCategoryResource (resources.ModelResource):
     class Meta:
         model = SubCategory
@@ -189,21 +118,6 @@ class SubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
     resource_class = SubCategoryResource
 
-
-class ProjectSubCategoryResource(resources.ModelResource):
-    class Meta:
-        model = ProjectSubCategory
-        fields = ('project_name', 'sub_category')
-        import_id_fields = ['project_name', 'sub_category']
-
-
-
-class ProjectSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
-    list_display = ('project_name', 'sub_category')
-
-    search_fields = ('project_name__project_name', 'sub_category__sub_category')
-
-    resource_class = ProjectSubCategoryResource
 
 class MissionSubCategoryResource(resources.ModelResource):
     class Meta:
@@ -220,17 +134,10 @@ class MissionSubCategoryList(SimpleHistoryAdmin, ImportExportModelAdmin):
 
 
 admin.site.register(Project, ProjectList)
-admin.site.register(ProjectMission, ProjectMissionList)
-admin.site.register(ProjectCommunityPartner, ProjectCommunityPartnerList)
-admin.site.register(ProjectCampusPartner, ProjectCampusPartnerList)
 admin.site.register(EngagementType, EngagementTypeList)
 admin.site.register(ActivityType, ActivityTypeList)
 admin.site.register(Status, StatusList)
 admin.site.register(AcademicYear, AcademicYearList)
-admin.site.register(ProjectRelatedLink, ProjectRelatedLinksList)
 admin.site.register(SubCategory, SubCategoryList)
-admin.site.register(ProjectSubCategory, ProjectSubCategoryList)
 admin.site.register(MissionSubCategory, MissionSubCategoryList)
 admin.site.register(EngagementActivityType, EngagementActivityTypeList)
-admin.site.register(ProjectEngagementActivity, ProjectEngagementActivityList)
-#admin.site.register(engagement_type_inline)

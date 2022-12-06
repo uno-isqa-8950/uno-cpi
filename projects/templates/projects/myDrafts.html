@@ -134,45 +134,39 @@
                     <th class="none">Action</th>
                 </tr>
                 </thead>
-                    <tbody>
+                <tbody>
+                {% for project in project %}
+                    <tr>
+                        <td>{{ project.project_name }}</td>
+                        <td>{{ project.mission_area.all|join:", " }}</td>
+                        <td>{{ project.community_partner.all|join:", " }}</td>
+                        <td>{{ project.campus_partner.all|join:", "}}</td>
+                        <td>{{ project.engagement_type}}</td>
+                        <td>{{ project.activity_type }}</td>
+                        <td>{{ project.other_activity_type }}</td>
+                        <td>{{ project.semester }}</td>
+                        <td>{{ project.academic_year }}</td>
+                        <td>{{ project.end_semester }}</td>
+                        <td>{{ project.end_academic_year }}</td>
+                        <td>{{ project.total_uno_students}}</td>
+                        <td>{{ project.total_uno_hours}}</td>
+                        <td>{{ project.total_uno_faculty}}</td>
+                        <td>{{ project.total_k12_students}}</td>
+                        <td>{{ project.total_k12_hours}}</td>
+                        <td>{{ project.total_other_community_members}}</td>
+                        <td>{{ project.description }}</td>
+                        <td>{{ project.subcategory.all|join:", " }}</td>
+                        <td>
+                            {% for sub in project.campus_lead_staff %}
+                                {{ sub }}
+                            {% endfor %}
+                        </td>
+                        <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;">Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
+                    </tr>
 
-                    {% for project in project %}
-                        <tr>
-                            <td>{{ project.project_name }}</td>
-                            <td>{{ project.mission_area.all|join:", " }}</td>
-                            <td>{{ project.community_partner.all|join:", " }}</td>
-                            <td>{{ project.campus_partner.all|join:", "}}</td>
-                            <td>{{ project.engagement_type}}</td>
-                            <td>{{ project.activity_type }}</td>
-                            <td>{{ project.other_activity_type }}</td>
-                            <td>{{ project.semester }}</td>
-                            <td>{{ project.academic_year }}</td>
-                            <td>{{ project.end_semester }}</td>
-                            <td>{{ project.end_academic_year }}</td>
-                            <td>{{ project.total_uno_students}}</td>
-                            <td>{{ project.total_uno_hours}}</td>
-                            <td>{{ project.total_uno_faculty}}</td>
-                            <td>{{ project.total_k12_students}}</td>
-                            <td>{{ project.total_k12_hours}}</td>
-                            <td>{{ project.total_other_community_members}}</td>
-                            <td>
-                                {% for sub in project.campus_lead_staff %}
-                                    {{ sub }}
-                                {% endfor %}
-                            </td>
-                            <td>{{ project.subcategory.all|join:", " }}</td>
-                            <td>
-                                {% for sub in project.other_sub_category %}
-                                    {{ sub }}
-                                {% endfor %}
-                            </td>
-                            <td>{{ project.description }}</td>
-                            <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'projects_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
-
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+                {% endfor %}
+                </tbody>
+            </table>
 
 
             <br><br>

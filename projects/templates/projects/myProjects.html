@@ -140,7 +140,6 @@
                     </tr>
                     </thead>
                     <tbody>
-
                     {% for project in project %}
                         <tr>
                             <td>{{ project.project_name }}</td>
@@ -149,17 +148,28 @@
                             <td>{{ project.campus_partner.all|join:", "}}</td>
                             <td>{{ project.engagement_type}}</td>
                             <td>{{ project.activity_type }}</td>
-                            <td>{{ project.other_activity_type }}</td>
+                            <td>
+
+                                {% if project.activityType == 'Other' %}
+                                    {% if project.other_activity_type|length > 0%}
+                                        {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% if forloop.last %} {% else %}, {% endif %}{% endfor%}
+                                    {%else%}
+                                        {% for other_activity_type in project.other_activity_type %} {{other_activity_type}}{% endfor%}
+                                    {%endif%}
+                                {%else%}
+                                    None
+                                {%endif%}
+
+                            </td>
                             <td>{{ project.semester }}</td>
                             <td>{{ project.academic_year }}</td>
                             <td>{{ project.end_semester }}</td>
                             <td>{{ project.end_academic_year }}</td>
                             <td>{{ project.total_uno_students}}</td>
                             <td>{{ project.total_uno_hours}}</td>
-                            <td>{{ project.total_uno_faculty}}</td>
-                            <td>{{ project.total_k12_students}}</td>
-                            <td>{{ project.total_k12_hours}}</td>
-                            <td>{{ project.total_other_community_members}}</td>
+                            <td>{{project.total_k12_students}}</td>
+                            <td>{{project.total_k12_hours}}</td>
+                            <td>{{project.total_other_community_members}}</td>
                             <td>
                                 {% for sub in project.campus_lead_staff %}
                                     {{ sub }}
@@ -173,7 +183,6 @@
                             </td>
                             <td>{{ project.description }}</td>
                             <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'projects_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
-
                         </tr>
                     {% endfor %}
                     </tbody>

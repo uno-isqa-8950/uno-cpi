@@ -622,14 +622,22 @@ def SearchForProjectAdd(request, pk):
 
 
 def projectsPublicReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
         proj_per_page_cnt = proj_per_page.description
 
     page = request.GET.get('page', 1)
-    paginator = Paginator(context['project'], proj_per_page_cnt)
+    paginator = Paginator(project_return, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -639,8 +647,7 @@ def projectsPublicReport(request):
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_public_view.html',
-                  {'project': context['project'],
-                   'data_definition': context['data_definition'],
+                  {'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],
                    'campus_filter': context['campus_filter'],
@@ -659,14 +666,22 @@ def projectsPublicReport(request):
 
 @login_required()
 def projectsPrivateReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
         proj_per_page_cnt = proj_per_page.description
 
     page = request.GET.get('page', 1)
-    paginator = Paginator(context['project'], proj_per_page_cnt)
+    paginator = Paginator(project_return, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -675,9 +690,8 @@ def projectsPrivateReport(request):
         cards = paginator.page(paginator.num_pages)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
-    return render(request, 'reports/projects_private_view.html',
-                  {'project': context['project'],
-                   'data_definition': context['data_definition'],
+    return render(request, 'reports/projects_public_view.html',
+                  {'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],
                    'campus_filter': context['campus_filter'],
@@ -1348,6 +1362,7 @@ def submit_project_done(request):
 
 def adminsubmit_project_done(request):
     return render(request, 'projects/adminconfirm.html')
+
 
 def filter_projects(request):
     if get_tenant(request).__len__() > 1:

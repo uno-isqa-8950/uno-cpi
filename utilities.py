@@ -21,13 +21,16 @@ def tenant_processor(request):
     tenants = get_tenant(request)
     print(tenants.__len__())
     if tenants.__len__() > 1:
-        logo = University.objects.get(name='University of Nebraska Omaha').logo
-        primary_color = University.objects.get(name='University of Nebraska Omaha').primary_color
-        secondary_color = University.objects.get(name='University of Nebraska Omaha').secondary_color
+        name = 'Dev Mode'
+        logo = 'default.jpg'
+        primary_color = 'Black'
+        secondary_color = 'Red'
     else:
+        name = tenants[0].name
         logo = tenants[0].logo
         primary_color = tenants[0].primary_color
         secondary_color = tenants[0].secondary_color
     return {'logo':logo,
             'primary_color': primary_color,
-            'secondary_color': secondary_color,}
+            'secondary_color': secondary_color,
+            'name':name,}

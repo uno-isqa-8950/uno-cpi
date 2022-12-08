@@ -1432,7 +1432,9 @@ def tenant_colors(request):
     primary_color = tenant[0].primary_color
     secondary_color = tenant[0].secondary_color
     logo = tenant[0].logo
+    name = tenant[0].name
     context = {'primary_color':primary_color,
                'secondary_color':secondary_color,
-               'logo':logo}
+               'logo':logo,
+               'name':name,}
     return context

@@ -53,12 +53,12 @@
 
 <!-- Navbar Begins -->
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
     <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
-    <a class="navbar-brand" href="/"><img class="himg" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png" alt="UNO Logo"></a>
+    <a class="navbar-brand" href="/"><img class="himg" src="{{ logo }}" alt="UNO Logo"></a>
     <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
-    <div class="collapse navbar-collapse" id="target">
+    <div class="collapse navbar-collapse" id="target" >
         <ul id="navigationList" class="navbar-nav ml-auto">
 
             <li class=" nav-item dropdown">
@@ -70,7 +70,7 @@
                     <a class="dropdown-item" href="/community-Partner">Community Partners</a>
                     <a class="dropdown-item" href="/legislative-District">Legislative Districts</a>
                     <a class="dropdown-item" href="/city-District">City Districts</a>
-                    <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
+                    <a class="dropdown-item" href="/community-Partner-Type">Community Partner Type</a>
                     <a class="dropdown-item" href="/project-Map">Projects</a>
                 </div>
             </li>

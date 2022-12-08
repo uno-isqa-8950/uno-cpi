@@ -556,8 +556,21 @@ def editProject(request, pk):
 
 @login_required()
 def showAllProjects(request):
+    context = filter_projects(request)
     return render(request, 'projects/allProjects.html',
-                  filter_projects(request))
+                  {'project': context['project'],
+                   'data_definition': context['data_definition'],
+                   'missions': context['missions'],
+                   'communityPartners': context['communityPartners'],
+                   'campus_filter': context['campus_filter'],
+                   'college_filter': context['college_filter'],
+                   'campus_id': context['campus_id'],
+                   'k12_choices': context['k12_choices'],
+                   'k12_selection': context['k12_selection'],
+                   'cec_part_choices': context['cec_part_choices'],
+                   'cec_part_selection': context['cec_part_selection'],
+                   'projects': context['projects'],
+                   })
 
 
 # all projects ends here
@@ -1413,3 +1426,13 @@ def filter_projects(request):
          'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
          'cec_part_selection': cec_part_selection,
          'projects': project_filter})
+
+def tenant_colors(request):
+    tenant = get_tenant(request)
+    primary_color = tenant[0].primary_color
+    secondary_color = tenant[0].secondary_color
+    logo = tenant[0].logo
+    context = {'primary_color':primary_color,
+               'secondary_color':secondary_color,
+               'logo':logo}
+    return context

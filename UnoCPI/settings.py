@@ -105,6 +105,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.global_settings',
                 'home.views.resourceData',
+                'utilities.tenant_processor'
             ],
         },
     },
@@ -248,6 +249,7 @@ SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 # Necessary to show Iframe from your own server (such as PDFs on your website)
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 
 try:
     from local_settings import *

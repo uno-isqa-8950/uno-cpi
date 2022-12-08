@@ -22,7 +22,7 @@ def tenant_processor(request):
     print(tenants.__len__())
     if tenants.__len__() > 1:
         name = 'Dev Mode'
-        logo = 'default.jpg'
+        logo = 'https://www.unomaha.edu/_files/images/logo-subsite-o-2.png'
         primary_color = 'Black'
         secondary_color = 'Red'
     else:

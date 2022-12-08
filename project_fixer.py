@@ -1,4 +1,5 @@
 import os, django
+
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "UnoCPI.settings")
 django.setup()
 
@@ -16,9 +17,8 @@ for projmis in ProjectMission.objects.all():
     except:
         print("An exception occurred")
 
-
 for projcamp in ProjectCampusPartner.objects.all():
-    try: 
+    try:
         for proj in Project.objects.all():
             if proj.id == projcamp.project_name.id:
                 print("Match on: ")
@@ -27,7 +27,6 @@ for projcamp in ProjectCampusPartner.objects.all():
                 Project.objects.get(id=proj.id).campus_partner.add(projcamp.campus_partner)
     except:
         print("An exception occurred")
-        
 
 for projcom in ProjectCommunityPartner.objects.all():
     try:
@@ -49,4 +48,4 @@ for projsub in ProjectSubCategory.objects.all():
                 print(proj.project_name)
                 Project.objects.get(id=proj.id).subcategory.add(projsub.sub_category)
     except:
-        print("An exception occurred")      
+        print("An exception occurred")

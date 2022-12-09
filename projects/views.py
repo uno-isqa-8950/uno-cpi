@@ -578,12 +578,20 @@ def showAllProjects(request):
 # Public reports start here
 # New view for project public table and card view
 def projectstablePublicReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectspublictableview.html',
                   {'parameters': parameters,
-                   'project': context['project'],
+                   'project': project_return,
                    'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],
@@ -670,11 +678,9 @@ def projectsPrivateReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
@@ -708,12 +714,20 @@ def projectsPrivateReport(request):
 
 @login_required()
 def projectstablePrivateReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectsprivatetableview.html',
                   {'parameters': parameters,
-                   'project': context['project'],
+                   'project': project_return,
                    'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],

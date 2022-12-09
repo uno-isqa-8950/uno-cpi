@@ -27,50 +27,50 @@ describe('Partners', () => {
         cy.wait(700)
     })
 
-    it('Register Community Partner', () => {
-        cy.get('#btn_reg_community_partner').click()
-        cy.wait(700)
-    })
+    // it('Register Community Partner', () => {
+    //     cy.get('#btn_reg_community_partner').click()
+    //     cy.wait(700)
+    // })
+    //
+    // it('Search', () => {
+    //     cy.get('#partner_name').type(randomPartnerName)
+    //     cy.get('#next').click()
+    // })
+    //
+    // it('Community Partner Registration link', () => {
+    //     cy.get('#lnk-register_partner').click()
+    // })
+    //
+    // it('Community Partner Information', () => {
+    //     cy.get('#select2-id_community_type-container').click()
+    //     cy.get('#select2-id_community_type-results').then(($li)=>{
+    //          cy.wrap($li).contains("Nonprofit").click();
+    //      })
+    //     cy.get('#id_acronym').type("EHS")
+    //     cy.wait(700)
+    //     cy.get('#id_website_url').type("https://www.elkhornweb.org")
+    //     cy.wait(700)
+    //     cy.get('#id_online_only').click()
+    //     cy.wait(700)
+    //     cy.get('.sw-btn-next').click()
+    // })
+    //
+    // it('Focus Area', () => {
+    //     cy.get('#id_primary_mission-0-mission_area').select('Arts, Culture and Humanities')
+    //     cy.wait(700)
+    //     cy.get('#id_mission-0-mission_area').select('Arts, Culture and Humanities')
+    //     cy.wait(700)
+    //     cy.get('.add-mission-row').click()
+    //     cy.wait(700)
+    //     cy.get('#terms').click()
+    //     cy.get('#submit').click()
+    //     cy.wait(700)
+    // })
 
-    it('Search', () => {
-        cy.get('#partner_name').type(randomPartnerName)
-        cy.get('#next').click()
-    })
-
-    it('Community Partner Registration link', () => {
-        cy.get('#lnk-register_partner').click()
-    })
-
-    it('Community Partner Information', () => {
-        cy.get('#select2-id_community_type-container').click()
-        cy.get('#select2-id_community_type-results').then(($li)=>{
-             cy.wrap($li).contains("Nonprofit").click();
-         })
-        cy.get('#id_acronym').type("EHS")
-        cy.wait(700)
-        cy.get('#id_website_url').type("https://www.elkhornweb.org")
-        cy.wait(700)
-        cy.get('#id_online_only').click()
-        cy.wait(700)
-        cy.get('.sw-btn-next').click()
-    })
-
-    it('Focus Area', () => {
-        cy.get('#id_primary_mission-0-mission_area').select('Arts, Culture and Humanities')
-        cy.wait(700)
-        cy.get('#id_mission-0-mission_area').select('Arts, Culture and Humanities')
-        cy.wait(700)
-        cy.get('.add-mission-row').click()
-        cy.wait(700)
-        cy.get('#terms').click()
-        cy.get('#submit').click()
-        cy.wait(700)
-    })
-
-    it('visits the login form', () => {
-        cy.get('#partners').click()
-        cy.wait(700)
-    })
+    // it('visits the login form', () => {
+    //     cy.get('#partners').click()
+    //     cy.wait(700)
+    // })
 
     it('Register Campus Partner', () => {
         cy.wait(700)

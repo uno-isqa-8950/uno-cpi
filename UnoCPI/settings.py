@@ -105,6 +105,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'home.context_processors.global_settings',
                 'home.views.resourceData',
+                'utilities.tenant_processor'
             ],
         },
     },
@@ -225,6 +226,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 WAGTAIL_SITE_NAME = 'UNO-CPI'
 
+#### DO NOT PLACE KEYS INTO THIS FILE, ONLY PLACE KEYS INTO YOUR local_settings.py FILE
 
 GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
 
@@ -240,11 +242,14 @@ SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
 SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
 APP_ENV = os.environ.get('APP_ENV')
 
+####
+
 # when using other websites that track visitors or use their iframe on your website.
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 # Necessary to show Iframe from your own server (such as PDFs on your website)
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
 
 try:
     from local_settings import *

@@ -1,27 +1,16 @@
-from decimal import *
-from django.db import connection
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from numpy import shape
-import home
-from django.views.decorators.csrf import csrf_exempt
-from home.decorators import communitypartner_required, campuspartner_required, admin_required
-from home.views import gmaps
-from partners.views import district, countyData
+from home.decorators import communitypartner_required
+from home.views import *
+from partners.views import *
 from home.models import *
 from home.filters import *
 from partners.models import *
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
-from django.shortcuts import render, redirect, get_object_or_404, get_list_or_404
-from django.utils import timezone
+from django.shortcuts import render, redirect, get_object_or_404
 from django.forms import inlineformset_factory, modelformset_factory
-from .filters import SearchProjectFilter
-import googlemaps
 from shapely.geometry import shape, Point
-import pandas as pd
-import json
-from django.db.models import Sum
 import datetime
 from django.conf import settings
 from googlemaps import Client
@@ -29,8 +18,11 @@ from googlemaps import Client
 from django.db import connection
 from UnoCPI import sqlfiles
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from utilities import *
 
 sql = sqlfiles
+
+#DO NOT PUT KEY HERE, IT PULLS FROM LOCAL SETTINGS FILE
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
@@ -38,7 +30,6 @@ gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 @communitypartner_required()
 def communitypartnerhome(request):
     usertype = User.objects.get(is_communitypartner=True)
-
     #    if usertype.is_communitypartner == True:
     return render(request, 'community_partner_home.html',
                   {'communitypartnerhome': communitypartnerhome, 'usertype': usertype})
@@ -46,69 +37,8 @@ def communitypartnerhome(request):
 
 @login_required()
 def myProjects(request):
-    projects_list = []
     data_definition = DataDefinition.objects.all()
-    # camp_part_user = CampusPartnerUser.objects.filter(user_id = request.user.id)
-    # camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
-    # proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
-    # project_ids = [project.project_name_id for project in proj_camp]
-    getProjectIds = "select distinct project.id \
-     from \
-     projects_project as project, \
-     projects_projectcampuspartner as projectcampus \
-     where \
-     projectcampus.campus_partner_id in \
-     (select pc.id from partners_campuspartner pc, partners_campuspartneruser as cu \
-     where pc.id = cu.campus_partner_id \
-     and cu.user_id = %s \
-     ) \
-     and projectcampus.project_name_id = project.id"
-
-    cursor = connection.cursor()
-    # print('getProjectIds---',getProjectIds)
-    cursor.execute(getProjectIds, (str(request.user.id),))
-    projectIdResult = cursor.fetchall()
-    project_ids = [obj[0] for obj in projectIdResult]
-    # print('project_ids---',project_ids)
-    cursor.execute(sql.my_projects, [project_ids])
-    for obj in cursor.fetchall():
-        projects_list.append(
-            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
-             "engagementType": obj[4], "academic_year": obj[5],
-             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
-             "total_uno_students": obj[11],
-             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
-             "total_k12_hours": obj[15],
-             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
-             "project_type": obj[20], "pk": obj[19]
-                , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
-             "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category": obj[27]})
-    cursor.close()
-    return render(request, 'projects/myProjects.html', {'project': projects_list, 'data_definition': data_definition})
-
-
-@login_required()
-def communitypartnerproject(request):
-    projects_list = []
-    # Get the campus partner id's related to the user
-    comm_part_user = CommunityPartnerUser.objects.filter(user_id=request.user.id)
-    comm_part_id = comm_part_user.values_list('community_partner_id', flat=True)
-    proj_comm = ProjectCommunityPartner.objects.filter(community_partner__in=comm_part_id)
-    project_ids = [project.project_name_id for project in proj_comm]
-    cursor = connection.cursor()
-    cursor.execute(sql.my_projects, [project_ids])
-    for obj in cursor.fetchall():
-        projects_list.append(
-            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
-             "engagementType": obj[4], "academic_year": obj[5],
-             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
-             "total_uno_students": obj[11],
-             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
-             "total_k12_hours": obj[15],
-             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18]})
-    return render(request, 'projects/community_partner_projects.html',
-                  {'project': projects_list})
+    return render(request, 'projects/myProjects.html', {'project': Project.objects.filter(created_by=request.user), 'data_definition': data_definition})
 
 
 def ajax_load_project(request):
@@ -233,10 +163,11 @@ def saveFocusArea(request):
 
     if test is not None:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_updateprimarymission(),(str(selectedfocusarea), str(projectid), str(projectid), ))
+        cursor.execute(sqlfiles.editproj_updateprimarymission(),
+                       (str(selectedfocusarea), str(projectid), str(projectid),))
     else:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_addprimarymission(), (str(selectedfocusarea), str(projectid), ))
+        cursor.execute(sqlfiles.editproj_addprimarymission(), (str(selectedfocusarea), str(projectid),))
 
     data = {'projectid': projectid}
     return JsonResponse(data)
@@ -259,7 +190,6 @@ def getEngagemetActivityList(request):
 @login_required()
 def createProject(request):
     mission_details = modelformset_factory(ProjectMission, form=ProjectMissionFormset)
-    # secondary_mission_details = modelformset_factory(ProjectMission, extra=1, form=ScndProjectMissionFormset)
     sub_category = modelformset_factory(ProjectSubCategory, extra=1, form=AddSubCategoryForm)
     proj_comm_part = modelformset_factory(ProjectCommunityPartner, extra=1, form=AddProjectCommunityPartnerForm)
     proj_campus_part = modelformset_factory(ProjectCampusPartner, extra=1, form=AddProjectCampusPartnerForm)
@@ -303,13 +233,6 @@ def createProject(request):
                     cat.project_name = proj
                     cat.save()
                     subcategory = str(cat.sub_category);
-                    cursor = connection.cursor()
-                    cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
-                    rows = cursor.fetchall()
-                    for mission in rows:
-                        id = str(mission[0])
-                        cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_addothermission(), (id, str(proj.id), ))
                 for form in mission_form:
                     form.project_name = proj
                     form.mission_type = 'Primary'
@@ -320,11 +243,13 @@ def createProject(request):
                     c.project_name = proj
                     c.save()
                     proj.save()
-
                 # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
                 proj.save()
+                print(proj)
+                endproject = proj
+
                 if (address != 'N/A' and address != ''):  # check if a community partner's address is there
                     try:
                         fulladdress = proj.address_line1 + ' ' + proj.city
@@ -367,13 +292,6 @@ def createProject(request):
                     cat.project_name = proj
                     cat.save()
                     subcategory = str(cat.sub_category);
-                    cursor = connection.cursor()
-                    cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
-                    rows = cursor.fetchall()
-                    for mission in rows:
-                        id = str(mission[0])
-                        cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_addothermission(), (id, str(proj.id), ))
 
                 for form in mission_form:
                     form.project_name = proj
@@ -386,7 +304,31 @@ def createProject(request):
                     c.save()
                     proj.save()
 
-                    # return render(request, 'projects/adminconfirmAddProject.html', {'project': projects_list})
+                try:
+                    endprojectmission = ProjectMission.objects.filter(project_name__id=endproject.id)
+                    print(endprojectmission)
+                    for projmis in endprojectmission:
+                        Project.objects.get(id=endproject.id).mission_area.add(projmis.mission)
+                except:
+                    print('An exception occured')
+                try:
+                    endprojectcampus = ProjectCampusPartner.objects.filter(project_name__id=endproject.id)
+                    for projcamp in endprojectcampus:
+                        Project.objects.get(id=endproject.id).campus_partner.add(projcamp.campus_partner)
+                except:
+                    print('An exception occured')
+                try:
+                    endprojectcommunity = ProjectCommunityPartner.objects.filter(project_name__id=endproject.id)
+                    for projcom in endprojectcommunity:
+                        Project.objects.get(id=endproject.id).community_partner.add(projcom.community_partner)
+                except:
+                    print('An exception occured')
+                try:
+                    endprojectsub = ProjectSubCategory.objects.get(project_name__id=endproject.id)
+                    Project.objects.get(id=endproject.id).subcategory.add(endprojectsub.sub_category)
+                except:
+                    print('An exception occured')
+
             if request.user.is_superuser == True:
                 return HttpResponseRedirect('/adminsubmit_project_done')
             else:
@@ -400,8 +342,6 @@ def createProject(request):
         else:
             a_year = str(year - 1) + "-" + str(year)[-2:]
 
-        #  test = AcademicYear.objects.get(academic_year=a_year)
-        #  project =ProjectFormAdd(initial={"academic_year":test})
         try:
             test = AcademicYear.objects.get(academic_year=a_year)
         except AcademicYear.DoesNotExist:
@@ -414,7 +354,6 @@ def createProject(request):
 
         course = CourseForm()
         formset = mission_details(queryset=ProjectMission.objects.none(), prefix='mission')
-        # formset4 = secondary_mission_details(queryset=ProjectMission.objects.none(), prefix='secondary_mission')
         categoryformset = sub_category(queryset=ProjectSubCategory.objects.none(), prefix='sub_category')
         formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none(), prefix='community')
         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none(), prefix='campus')
@@ -480,16 +419,6 @@ def editProject(request, pk):
                         sc.project_name = instances
                         sc.save()
                         subcategory = str(sc.sub_category);
-                        cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
-                        rows = cursor.fetchall()
-                        # print(rows[0])
-                        # projmission = projectmission.save()
-                        for mission in rows:
-                            id = str(mission[0])
-                            # print(id)
-                            cursor = connection.cursor()
-                            cursor.execute(sqlfiles.createproj_addothermission(), (id, str(pk),))
 
                     # return HttpResponseRedirect("/myDrafts")
                     return HttpResponseRedirect('/draft-project-done')
@@ -542,17 +471,6 @@ def editProject(request, pk):
                         sc.project_name = instances
                         sc.save()
                         subcategory = str(sc.sub_category);
-                        cursor = connection.cursor()
-                        cursor.execute(sqlfiles.createproj_othermission(), (subcategory, ))
-                        rows = cursor.fetchall()
-
-                        # print(rows[0])
-                        # projmission = projectmission.save()
-                        for mission in rows:
-                            id = str(mission[0])
-                            # print(id)
-                            cursor = connection.cursor()
-                            cursor.execute(sqlfiles.createproj_addothermission(), (id, str(pk), ))
 
                 if request.user.is_superuser == True:
                     # return HttpResponseRedirect('/allProjects')
@@ -638,8 +556,22 @@ def editProject(request, pk):
 
 @login_required()
 def showAllProjects(request):
+    context = filter_projects(request)
     return render(request, 'projects/allProjects.html',
-                  filter_projects(request))
+                  {'project': context['project'],
+                   'data_definition': context['data_definition'],
+                   'missions': context['missions'],
+                   'communityPartners': context['communityPartners'],
+                   'campus_filter': context['campus_filter'],
+                   'college_filter': context['college_filter'],
+                   'campus_id': context['campus_id'],
+                   'k12_choices': context['k12_choices'],
+                   'k12_selection': context['k12_selection'],
+                   'cec_part_choices': context['cec_part_choices'],
+                   'cec_part_selection': context['cec_part_selection'],
+                   'projects': context['projects'],
+                   })
+
 
 # all projects ends here
 
@@ -650,7 +582,7 @@ def projectstablePublicReport(request):
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectspublictableview.html',
-                  {'parameters':parameters,
+                  {'parameters': parameters,
                    'project': context['project'],
                    'data_definition': context['data_definition'],
                    'missions': context['missions'],
@@ -690,14 +622,22 @@ def SearchForProjectAdd(request, pk):
 
 
 def projectsPublicReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
         proj_per_page_cnt = proj_per_page.description
 
     page = request.GET.get('page', 1)
-    paginator = Paginator(context['project'], proj_per_page_cnt)
+    paginator = Paginator(project_return, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -707,10 +647,9 @@ def projectsPublicReport(request):
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projects_public_view.html',
-                  {'project': context['project'],
-                   'data_definition': context['data_definition'],
+                  {'data_definition': context['data_definition'],
                    'missions': context['missions'],
-                   'communityPartners':context['communityPartners'],
+                   'communityPartners': context['communityPartners'],
                    'campus_filter': context['campus_filter'],
                    'college_filter': context['college_filter'],
                    'campus_id': context['campus_id'],
@@ -722,18 +661,27 @@ def projectsPublicReport(request):
                    'cards': cards,
                    'parameters': parameters})
 
+
 # project private card and table view starts here
 
 @login_required()
 def projectsPrivateReport(request):
+    selectedprojectId = request.GET.get('proj_id_list', None)
     context = filter_projects(request)
+    if selectedprojectId != None:
+        filtered_ids = selectedprojectId.split(",")
+        print(filtered_ids)
+        project_return = Project.objects.filter(id__in=filtered_ids)
+    else:
+        project_return = context['project']
+    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
         proj_per_page_cnt = proj_per_page.description
 
     page = request.GET.get('page', 1)
-    paginator = Paginator(context['project'], proj_per_page_cnt)
+    paginator = Paginator(project_return, proj_per_page_cnt)
     try:
         cards = paginator.page(page)
     except PageNotAnInteger:
@@ -742,11 +690,10 @@ def projectsPrivateReport(request):
         cards = paginator.page(paginator.num_pages)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
-    return render(request, 'reports/projects_private_view.html',
-                  {'project': context['project'],
-                   'data_definition': context['data_definition'],
+    return render(request, 'reports/projects_public_view.html',
+                  {'data_definition': context['data_definition'],
                    'missions': context['missions'],
-                   'communityPartners':context['communityPartners'],
+                   'communityPartners': context['communityPartners'],
                    'campus_filter': context['campus_filter'],
                    'college_filter': context['college_filter'],
                    'campus_id': context['campus_id'],
@@ -757,6 +704,7 @@ def projectsPrivateReport(request):
                    'projects': context['projects'],
                    'cards': cards,
                    'parameters': parameters})
+
 
 @login_required()
 def projectstablePrivateReport(request):
@@ -942,6 +890,7 @@ def communityPublicReport(request):
                    'cec_part_choices': cec_part_choices})
 
 
+
 @login_required()
 def communityPrivateReport(request):
     community_dict = {}
@@ -1064,7 +1013,8 @@ def communityPrivateReport(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute(
-                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s", (str(i), ))
+                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
+                        (str(i),))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1293,37 +1243,6 @@ def project_total_Add(request):
                 course.save()
             address = proj.address_line1
             address = proj.address_line1
-            # if (address != "N/A"):  # check if a community partner's address is there
-            #     fulladdress = proj.address_line1 + ' ' + proj.city
-            #     geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-            #     proj.latitude = geocode_result[0]['geometry']['location']['lat']
-            #     proj.longitude = geocode_result[0]['geometry']['location']['lng']
-            #     #### checking lat and long are incorrect
-            #     if (proj.latitude == '0') or (proj.longitude == '0'):
-            #         project = ProjectFormAdd()
-            #         course = CourseForm()
-            #         formset = mission_details(queryset=ProjectMission.objects.none())
-            #         formset4 = secondary_mission_details(queryset=ProjectMission.objects.none())
-            #         # formset2 = proj_comm_part(queryset=ProjectCommunityPartner.objects.none())
-            #         formset3 = proj_campus_part(queryset=ProjectCampusPartner.objects.none())
-            #         return render(request, 'projects/createProject.html',
-            #                       {'project': project, 'formset': formset, 'formset4': formset4, 'formset3': formset3,
-            #                        'course': course})
-            # proj.save()
-            # coord = Point([proj.longitude, proj.latitude])
-            # for i in range(len(district)):  # iterate through a list of district polygons
-            #     property = district[i]
-            #     polygon = shape(property['geometry'])  # get the polygons
-            #     if polygon.contains(coord):  # check if a partner is in a polygon
-            #         proj.legislative_district = property["id"]  # assign the district number to a partner
-            #         proj.save()
-            # for m in range(len(countyData)):  # iterate through the County Geojson
-            #     properties2 = countyData[m]
-            #     polygon = shape(properties2['geometry'])  # get the polygon
-            #     if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-            #         proj.county = properties2['properties']['NAME']
-            #         proj.median_household_income = properties2['properties']['Income']
-            #         proj.save()
             mission_form = formset.save(commit=False)
             secondary_mission_form = formset4.save(commit=False)
             proj_comm_form = formset2.save(commit=False)
@@ -1415,38 +1334,8 @@ def project_total_Add(request):
 ###my drafts
 @login_required()
 def myDrafts(request):
-    projects_list = []
     data_definition = DataDefinition.objects.all()
-    created_by_user = request.user.email
-    created_by = home.models.User.objects.filter(email=created_by_user)
-    project_created = Project.objects.filter(created_by__in=created_by)
-    project_created_by = [p.id for p in project_created]
-    project_updated = Project.objects.filter(updated_by__in=created_by)
-    project_updated_by = [p.id for p in project_updated]
-    camp_part_user = CampusPartnerUser.objects.filter(user_id=request.user.id)
-    camp_part_id = camp_part_user.values_list('campus_partner_id', flat=True)
-    proj_camp = ProjectCampusPartner.objects.filter(campus_partner__in=camp_part_id)
-    project_ids = [project.project_name_id for project in proj_camp]
-    ids = list(set(project_ids).union(project_created_by).union(project_updated_by))
-    if request.user.is_superuser == True:
-        ids = [project.id for project in Project.objects.all()]
-    cursor = connection.cursor()
-    cursor.execute(sql.my_drafts, [ids])
-    for obj in cursor.fetchall():
-        projects_list.append(
-            {"name": obj[0].split("(")[0], "projmisn": obj[1], "comm_part": obj[2], "camp_part": obj[3],
-             "engagementType": obj[4], "academic_year": obj[5],
-             "semester": obj[6], "status": obj[7], "startDate": obj[8], "endDate": obj[9], "outcomes": obj[10],
-             "total_uno_students": obj[11],
-             "total_uno_hours": obj[12], "total_uno_faculty": obj[13], "total_k12_students": obj[14],
-             "total_k12_hours": obj[15],
-             "total_other_community_members": obj[16], "activityType": obj[17], "description": obj[18],
-             "project_type": obj[20], "pk": obj[19]
-                , "end_semester": obj[21], "end_academic_year": obj[22], "sub_category": obj[23],
-             "campus_lead_staff": obj[24],
-             "mission_image": obj[25], "other_activity_type": obj[26], "other_sub_category": obj[27]})
-
-    return render(request, 'projects/myDrafts.html', {'project': projects_list, 'data_definition': data_definition})
+    return render(request, 'projects/myDrafts.html', {'project': Project.objects.filter(created_by=request.user, status=Status.objects.get(name='Drafts')), 'data_definition': data_definition})
 
 
 @login_required()
@@ -1474,8 +1363,13 @@ def submit_project_done(request):
 def adminsubmit_project_done(request):
     return render(request, 'projects/adminconfirm.html')
 
+
 def filter_projects(request):
-    project_list = Project.objects.all().exclude(status__name='Drafts')
+    if get_tenant(request).__len__() > 1:
+        project_list = Project.objects.all().exclude(status__name='Drafts')
+    else:
+        university = get_tenant(request)[0]
+        project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__name='Drafts'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -1506,10 +1400,11 @@ def filter_projects(request):
     campus_filter = CampusPartner.objects.all()
 
     academic_year_filter = request.GET.get('academic_year', None)
-    #this reads as: if the academic year filter has something in it, take all projects with that year as the
-    #starting year, ending year, or a year in between, and everything after the '|' is to catch projects without an end year
+    # this reads as: if the academic year filter has something in it, take all projects with that year as the
+    # starting year, ending year, or a year in between, and everything after the '|' is to catch projects without an end year
     if academic_year_filter is not None and academic_year_filter != "All" and academic_year_filter != '':
-        project_list = project_list.filter(academic_year_id__gte=academic_year_filter, end_academic_year__lte=academic_year_filter) \
+        project_list = project_list.filter(academic_year_id__gte=academic_year_filter,
+                                           end_academic_year__lte=academic_year_filter) \
                        | project_list.filter(academic_year=academic_year_filter)
 
     k12_selection = request.GET.get('k12_flag', None),
@@ -1534,7 +1429,7 @@ def filter_projects(request):
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
     return (
-        {'project':project_list,
+        {'project': project_list,
          'data_definition': data_definition,
          'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
          'communityPartners': communityPartners,
@@ -1546,3 +1441,15 @@ def filter_projects(request):
          'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
          'cec_part_selection': cec_part_selection,
          'projects': project_filter})
+
+def tenant_colors(request):
+    tenant = get_tenant(request)
+    primary_color = tenant[0].primary_color
+    secondary_color = tenant[0].secondary_color
+    logo = tenant[0].logo
+    name = tenant[0].name
+    context = {'primary_color':primary_color,
+               'secondary_color':secondary_color,
+               'logo':logo,
+               'name':name,}
+    return context

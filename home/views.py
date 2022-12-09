@@ -1590,6 +1590,33 @@ def GEOJSON():
     return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist), (collegeNamelist))
 
+def GEOJSON3():
+    # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
+    #     with open('home/static/GEOJSON/Partner.geojson') as f:
+    #         geojson1 = json.load(f)  # get the GEOJSON
+    #     collection = geojson1  # assign it the collection variable to avoid changing the other code
+    print("Starting GEOJSON Function")
+    content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/City.geojson')
+    partner_geojson_load = content_object_partner.get()['Body'].read().decode('utf-8')
+    partner_geojson_load = bleach.clean(partner_geojson_load)
+    collection = json.loads(partner_geojson_load)
+    mission_list = MissionArea.objects.all()
+    mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
+    CommTypelist = CommunityType.objects.all()
+    CommTypelist = [bleach.clean(m.community_type) for m in CommTypelist]
+    CampusPartner_qs = CampusPartner.objects.all()
+    CampusPartnerlist = [{'name':bleach.clean(m.name), 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    collegeName_list = College.objects.all()
+    collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
+    collegeNamelist = [{'cname': bleach.clean(m.college_name), 'id': m.id} for m in collegeName_list]
+    yearlist=[]
+    for year in AcademicYear.objects.all():
+        yearlist.append(bleach.clean(year.academic_year))
+    commPartnerlist = CommunityPartner.objects.all()
+    commPartnerlist = [bleach.clean(m.name) for m in commPartnerlist]
+    return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
+            sorted(commPartnerlist), (collegeNamelist))
+
 
 ######## export data to Javascript for Household map ################################
 def countyData(request):
@@ -1683,6 +1710,24 @@ def googleprojectdata(request):
                    }
                   )
 
+def googlecityDistrict(request):
+    data_definition = DataDefinition.objects.all()
+    map_json_data = GEOJSON3()
+    Campuspartner = map_json_data[3]
+    data = map_json_data[0]
+    json_data = open('home/static/GEOJSON/CityCouncilDistricts.geojson')
+    district = json.load(json_data)
+    return render(request, 'home/cityDistrict.html',
+                  {'districtData': district, 'collection': map_json_data[0],
+                   'Missionlist': sorted(map_json_data[1]),
+                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
+                   'Campuspartner': (Campuspartner),
+                   'number': len(data['features']),
+                   'year': sorted(map_json_data[4]),
+                   'data_definition':data_definition,
+                   'Collegename': map_json_data[6]
+                   }
+                  )
 
 def googleDistrictdata(request):
     data_definition = DataDefinition.objects.all()

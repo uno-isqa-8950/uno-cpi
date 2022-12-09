@@ -3,1078 +3,1078 @@
 {% load wagtailcore_tags register_tags %}
 {% block content %}
 
-<!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
-<!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
-<!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
-<!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
-<!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
-<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <!--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">-->
+    <!--  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+    <!--  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+    <!--  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>-->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
 
-<!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
-                           <form method="POST" onload="noBack()">{% csrf_token %}
-                                {{formset.management_form}}
-                                {{categoryformset.management_form}}
-                                {{formset2.management_form}}
-                                {{formset3.management_form}}
+    <!--        <form method="POST" onsubmit="checking()">{% csrf_token %}-->
+    <form method="POST" onload="noBack()">{% csrf_token %}
+        {{formset.management_form}}
+        {{categoryformset.management_form}}
+        {{formset2.management_form}}
+        {{formset3.management_form}}
 
-<div class="container-fluid">
-<br><br>
-    <div class="row justify-content-md-center">
-            <div class="col-lg-12 col-md-12">
-                          <div class=" text-center"><h3 class="heading">Project Registration</h3></div>
-<div class="card snippet-card">
-    <div class="container text-snippet">
-       {% create_project_forms %}
-    </div>
-</div>
-
-<!--                       <div class="panel-body">-->
-<div class="box">
-<div id="smartwizard">
-    <ul>
-        <li><a href="#step-1" id="step1">Project Information</a></li>
-        <li><a href="#step-2">Partner Information</a></li>
-        <li><a href="#step-3">Focus Areas</a></li>
-        <li id="step4"><a href="#step-4">Location</a></li>
-    </ul>
-    <div>
-        <div id="step-1">
-            <div id="form-step-0">
-<div class="row" style="margin: 10px;">
-      
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step1 (non-icon definition)' %}</p>
-                        
-</div>
-                <div class="row">
-                <div class="col-md-6">
-                    <div class="row">
-                        
-                        <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip"
-                                                                         title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}"></i>
-                            Project Name</label>
-                        
-                    <div class="col-sm-7">
-                    {{ project.project_name }}
-                    </div>
-                    {% if  project.project_name.errors %}
-                    {% for error in  project.project_name.errors %}
-                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-                    <div class="row">
-                        
-                        <label for="id_engagement_type" class="col-sm-4">
-                            <i class="fa fa-info-circle" data-toggle="tooltip"
-                               title="{% get_data_definition_desc 'Engagement Types' %}"></i> Engagement Type
-<!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
-                            </label>
-                         
-                        <div class="col-sm-7">
-                    {{ project.engagement_type }}
-                        </div>
-                    {% if  project.engagement_type.errors %}
-                    {% for error in  project.engagement_type.errors %}
-                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-                    <div class="row">
-                        
-                      <label class="col-sm-4"  data-toggle="tooltip" title="{% get_data_definition_desc 'Activity Types' %}">
-                          <i class="fa fa-info-circle"></i> Activity Type </label>
-                      
-                       <div class="col-sm-7">
-                      <select id="id_populate_activity" name="name_populate_activity" disabled="true">
-
-                        <option value="0">---------</option>
-                     </select>
-                     </div>
-                        <div class="col-sm-7" style="display: none">
-                      {{ project.activity_type }}
+        <div class="container-fluid">
+            <br><br>
+            <div class="row justify-content-md-center">
+                <div class="col-lg-12 col-md-12">
+                    <div class=" text-center"><h3 class="heading">Project Registration</h3></div>
+                    <div class="card snippet-card">
+                        <div class="container text-snippet">
+                            {% create_project_forms %}
                         </div>
                     </div>
-                    <div class="row centered"><span class="addactivityerror" style="color: #b60000"></span> </div>
-                    <div class="row" id="otheractivity">
 
-                      <label class="col-sm-4">Other Activity Type</label>
-                             <div class="col-md-6">
-                                 <input id='otheracttype' type="text" class="inputbox" placeholder="Add Other Activity Types">
+                    <!--                       <div class="panel-body">-->
+                    <div class="box">
+                        <div id="smartwizard">
+                            <ul>
+                                <li><a href="#step-1" id="step1">Project Information</a></li>
+                                <li><a href="#step-2">Partner Information</a></li>
+                                <li><a href="#step-3">Focus Areas</a></li>
+                                <li id="step4"><a href="#step-4">Location</a></li>
+                            </ul>
+                            <div>
+                                <div id="step-1">
+                                    <div id="form-step-0">
+                                        <div class="row" style="margin: 10px;">
+
+                                            <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step1 (non-icon definition)' %}</p>
+
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="row">
+
+                                                    <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip"
+                                                                                                     title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}"></i>
+                                                        Project Name</label>
+
+                                                    <div class="col-sm-7">
+                                                        {{ project.project_name }}
+                                                    </div>
+                                                    {% if  project.project_name.errors %}
+                                                        {% for error in  project.project_name.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="row">
+
+                                                    <label for="id_engagement_type" class="col-sm-4">
+                                                        <i class="fa fa-info-circle" data-toggle="tooltip"
+                                                           title="{% get_data_definition_desc 'Engagement Types' %}"></i> Engagement Type
+                                                        <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
+                                                    </label>
+
+                                                    <div class="col-sm-7">
+                                                        {{ project.engagement_type }}
+                                                    </div>
+                                                    {% if  project.engagement_type.errors %}
+                                                        {% for error in  project.engagement_type.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="row">
+
+                                                    <label class="col-sm-4"  data-toggle="tooltip" title="{% get_data_definition_desc 'Activity Types' %}">
+                                                        <i class="fa fa-info-circle"></i> Activity Type </label>
+
+                                                    <div class="col-sm-7">
+                                                        <select id="id_populate_activity" name="name_populate_activity" disabled="true">
+
+                                                            <option value="0">---------</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-sm-7" style="display: none">
+                                                        {{ project.activity_type }}
+                                                    </div>
+                                                </div>
+                                                <div class="row centered"><span class="addactivityerror" style="color: #b60000"></span> </div>
+                                                <div class="row" id="otheractivity">
+
+                                                    <label class="col-sm-4">Other Activity Type</label>
+                                                    <div class="col-md-6">
+                                                        <input id='otheracttype' type="text" class="inputbox" placeholder="Add Other Activity Types">
                                                     </div>
 
                                                     <div class="col-md-1">
-<!--                                                        <div><br></div>-->
-                                                <div class="input-group-append" >
+                                                        <!--                                                        <div><br></div>-->
+                                                        <div class="input-group-append" >
                                                     <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add Selected value" class="float"  data-placement="right" >
+                                                          title="Click to add Selected value" class="float"  data-placement="right" >
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
                                                     </span>
-                                            </div>
-                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            <div style="display: none">
-<!--                                                <div>-->
-                                            {{ project.other_activity_type}}
+                                                <div style="display: none">
+                                                    <!--                                                <div>-->
+                                                    {{ project.other_activity_type}}
+                                                </div>
+                                                <div class="row displaybox" id='displayact'>
+                                                </div>
                                             </div>
-                                        <div class="row displaybox" id='displayact'>
-                                        </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                    <label class="col-sm-2" for="id_engagement_type">Description</label>
-<!--                    </div>-->
-<!--                    <div class="row">-->
-                    <div class="col-sm-7">
-                    {{ project.description }}
-                    </div>
-                    {% if  project.description.errors %}
-                    {% for error in  project.description.errors %}
-                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                    {% endfor %}
-                    {% endif %}
-                </div>
-                </div>
-                </div>
-
-                    <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
-                    <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
-                    </button>
-
-                    <div id="academicinfo" class= "panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <br>
-
-                                        <div class="row">
                                             <div class="col-md-6">
                                                 <div class="row">
+                                                    <label class="col-sm-2" for="id_engagement_type">Description</label>
+                                                    <!--                    </div>-->
+                                                    <!--                    <div class="row">-->
+                                                    <div class="col-sm-7">
+                                                        {{ project.description }}
+                                                    </div>
+                                                    {% if  project.description.errors %}
+                                                        {% for error in  project.description.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                        </div>
 
-                      <label class="col-sm-5">
+                                        <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                                            <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
+                                        </button>
+
+                                        <div id="academicinfo" class= "panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <br>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+
+                                                            <label class="col-sm-5">
                           
                         <span tabindex="-1" data-toggle="tooltip"
-                          title="{% get_data_definition_desc 'Project Type (create new project form)' %}" class="float" >
+                              title="{% get_data_definition_desc 'Project Type (create new project form)' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        Project Type</label>
-                        <div class="col-sm-6">
-                      {{ project.project_type }}
-                        </div>
+                                                                Project Type</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.project_type }}
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                            </div>
-</div>
-                                        <div class="row">
-                                            <div class="col-md-6">
                                                 <div class="row">
-                                                    <label for="id_semester" class="col-md-5">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <label for="id_semester" class="col-md-5">
                                                         
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Start Semester' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'Start Semester' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                        Start Semester</label>
-                                                <div class="col-sm-6">
-                                                    {{ project.semester}}
-                                                </div>
-                                                    {% if  project.semester.errors %} {% for error in  project.semester.errors %}
-                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                    {% endfor %} {% endif %}
-                                                </div>
-                                                    <div class="row">
-                                            <label class="col-md-5">
+
+                                                                Start Semester</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.semester}}
+                                                            </div>
+                                                            {% if  project.semester.errors %} {% for error in  project.semester.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-5">
                                                 
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'End Semester' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'End Semester' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                End Semester</label>
-                                                <div class="col-sm-6">
-                                                {{ project.end_semester}}
-                                                </div>
-                                                {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
 
-                                            </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="row">
-                                                    <label for="id_academic_year" class="col-md-5">
+                                                                End Semester</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.end_semester}}
+                                                            </div>
+                                                            {% if  project.end_semester.errors %} {% for error in  project.end_semester.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <label for="id_academic_year" class="col-md-5">
                                                         
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Start Academic Year' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'Start Academic Year' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                        Start Academic Year</label>
-                                                    <div class="col-sm-6">
-                                                    {{ project.academic_year}}
-                                                    </div>
-                                                    {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %}
-                                                    <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                    {% endfor %} {% endif %}
-                                                    </div>
-                                                    <div class="row">
-                                                <label class="col-md-5">
+
+                                                                Start Academic Year</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.academic_year}}
+                                                            </div>
+                                                            {% if  project.academic_year.errors %} {% for error in  project.academic_year.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
+                                                        <div class="row">
+                                                            <label class="col-md-5">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'End Academic Year' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'End Academic Year' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    End Academic Year</label>
-                                                <div class="col-sm-6">
-                                                {{ project.end_academic_year}}
-                                                </div>
-                                                {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-                                            </div>
-                                                </div>
-                                        </div>
 
-
-                                        </div>
-
-
-                    </div>
-                <div class="row"><br></div>
-                <button type="button" id = "participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
-                    <i class="fa fa-plus"></i> Participant Information
-                    </button>
-
-                    <div id="studentinfo" class= "panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <br>
-                                        <div class="row">
-                                            <div class="col">
-                                                 <div class="row">
-                                                <label for="id_uno_students" class="col-sm-5">
-                                                    
-                                                             <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Total UNO Students' %}" class="float" >
-                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    Total UNO Students</label>
-                                                    <div class="col-sm-6">
-                                                {{ project.total_uno_students}}
+                                                                End Academic Year</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.end_academic_year}}
+                                                            </div>
+                                                            {% if  project.end_academic_year.errors %} {% for error in  project.end_academic_year.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
                                                     </div>
-                                                {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
+                                                </div>
+
+
                                             </div>
-                                            </div>
-                                            <div class="col">
+
+
+                                        </div>
+                                        <div class="row"><br></div>
+                                        <button type="button" id = "participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                                            <i class="fa fa-plus"></i> Participant Information
+                                        </button>
+
+                                        <div id="studentinfo" class= "panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <br>
                                                 <div class="row">
-                                                <label for="id_uno_hours" class="col-sm-5">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <label for="id_uno_students" class="col-sm-5">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'UNO Student Hours' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'Total UNO Students' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    UNO Student Hours</label>
-                                                <div class="col-sm-6">
-                                                {{ project.total_uno_hours}}
+
+                                                                Total UNO Students</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_uno_students}}
+                                                            </div>
+                                                            {% if  project.total_uno_students.errors %} {% for error in  project.total_uno_students.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <label for="id_uno_hours" class="col-sm-5">
+                                                    
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                                   title="{% get_data_definition_desc 'UNO Student Hours' %}" class="float" >
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+
+                                                                UNO Student Hours</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_uno_hours}}
+                                                            </div>
+                                                            {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                         <div class="row">
-                                         <div class="col" style="display: none">
-                                                 <div class="row">
-                                                <label for="id_uno_students" class="col-sm-5">
+                                                <div class="row">
+                                                    <div class="col" style="display: none">
+                                                        <div class="row">
+                                                            <label for="id_uno_students" class="col-sm-5">
                                                    
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'UNO Faculty/Staff Hours' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'UNO Faculty/Staff Hours' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    Toatal UNO Faculty/Staff Hours</label>
-                                                    <div class="col-sm-6">
-                                                {{ project.total_uno_faculty}}
+
+                                                                Toatal UNO Faculty/Staff Hours</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_uno_faculty}}
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                            </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                                <label for="id_uno_hours" class="col-sm-5">
+                                                    <div class="col-md-6">
+                                                        <div class="row">
+                                                            <label for="id_uno_hours" class="col-sm-5">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Total Number of Other Participants' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'Total Number of Other Participants' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    Total Number of Other Participants</label>
-                                                <div class="col-sm-6">
-                                                {{ project.total_other_community_members}}
+
+                                                                Total Number of Other Participants</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_other_community_members}}
+                                                            </div>
+                                                            {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                {% if  project.total_uno_hours.errors %} {% for error in  project.total_uno_hours.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col">
-                                            <label for="id_k12_flag">Does this Project involve K-12 students?</label>
-                                            {{ project.k12_flag}}
-                                            </div>
-                                        </div>
-                                        <div class="row" id ="k12-students">
-                                            <div class="form-group-row col">
                                                 <div class="row">
-                                                <label for="id_k12_students" class="col-sm-5">
+                                                    <div class="col">
+                                                        <label for="id_k12_flag">Does this Project involve K-12 students?</label>
+                                                        {{ project.k12_flag}}
+                                                    </div>
+                                                </div>
+                                                <div class="row" id ="k12-students">
+                                                    <div class="form-group-row col">
+                                                        <div class="row">
+                                                            <label for="id_k12_students" class="col-sm-5">
                                                     
                                                          <span tabindex="-1" data-toggle="tooltip"
                                                                title="{% get_data_definition_desc 'Total K-12 Students' %}" class="float" >
                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                          
-                                                    Total number of K-12 Students</label>
-                                                 <div class="col-sm-6">
-                                                {{ project.total_k12_students}}
-                                                 </div>
-                                                {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-<!--                                                </div>-->
-                                            </div>
-                                            </div>
-                                            <div class="form-group-row col">
-                                                <div class="row">
-                                                <label for="id_k12_hours" class="col-sm-5">
+
+                                                                Total number of K-12 Students</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_k12_students}}
+                                                            </div>
+                                                            {% if  project.total_k12_students.errors %} {% for error in  project.total_k12_students.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                            <!--                                                </div>-->
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group-row col">
+                                                        <div class="row">
+                                                            <label for="id_k12_hours" class="col-sm-5">
                                                     
                                                          <span tabindex="-1" data-toggle="tooltip"
                                                                title="{% get_data_definition_desc 'K-12 Student Hours' %}" class="float" >
                                                              <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                          
-                                                    Total number of K-12 Hours</label>
-                                                 <div class="col-sm-6">
-                                                {{ project.total_k12_hours}}
-                                                 </div>
-                                                {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-<!--                                                </div>-->
+
+                                                                Total number of K-12 Hours</label>
+                                                            <div class="col-sm-6">
+                                                                {{ project.total_k12_hours}}
+                                                            </div>
+                                                            {% if  project.total_k12_hours.errors %} {% for error in  project.total_k12_hours.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %} {% endif %}
+                                                            <!--                                                </div>-->
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        </div>
 
-
-                    </div>
-            </div>
- <div class="row justify-content-end" style="margin-top:30px;">
-<div class="col-md-3" style="float: right">
-<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
-            </div>
- </div>
-        </div>
-
-        <div id="step-2">
-
-
-            {% for form2 in formset2 %}
-
-<div class="row" style="margin: 10px;">
-      
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-community-partner' %}</p>
-                        
-</div>
-                    <div id="communityinfo" class= "panel-collapse collapse">
-                                    <div class="panel-body">
-                                        <div class="row centered" ><span class="addcommerror" style="color: #b60000"></span> </div>
-                                            <div class="row community-row">
-                                                <div class="col-md-3">
-
-                                                <label style="padding-top:8px" >
-                                                    
-                                                             <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Community Partner' %}" class="float">
-                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                                                            
-                                                    Community Partner</label>
-
-                                            </div>
-                                            <div class="col-md-4">
-                                                {{form2|bootstrap}}
-                                                {% if  form2.errors %}
-                                        {% for error in  form2.errors %}
-                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                        {% endfor %}
-                                        {% endif %}
-                                            </div>
-
-                                        <div class="col-md-1">
-                                             <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add Selected value" class="float" data-placement="right" >
-                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
-                                             </span>
-                                            </div>
-                                        </div>
-
-                                        <div class="community-fields displaybox row" id="community-fields"></div>
-                                      <div class="row centered">
-                                               <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
 
                                         </div>
                                     </div>
+                                    <div class="row justify-content-end" style="margin-top:30px;">
+                                        <div class="col-md-3" style="float: right">
+                                            <!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+                                        </div>
+                                    </div>
                                 </div>
-             {% endfor %}
+
+                                <div id="step-2">
 
 
-            {% for form3 in formset3 %}
+                                    {% for form2 in formset2 %}
 
-                <button type="button" id = "campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo">
-    <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
+                                        <div class="row" style="margin: 10px;">
+
+                                            <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-community-partner' %}</p>
+
+                                        </div>
+                                        <div id="communityinfo" class= "panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="row centered" ><span class="addcommerror" style="color: #b60000"></span> </div>
+                                                <div class="row community-row">
+                                                    <div class="col-md-3">
+
+                                                        <label style="padding-top:8px" >
+                                                    
+                                                             <span tabindex="-1" data-toggle="tooltip"
+                                                                   title="{% get_data_definition_desc 'Community Partner' %}" class="float">
+                                                                 <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+
+                                                            Community Partner</label>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {{form2|bootstrap}}
+                                                        {% if  form2.errors %}
+                                                            {% for error in  form2.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+
+                                                    <div class="col-md-1">
+                                             <span tabindex="-1" data-toggle="tooltip"
+                                                   title="Click to add Selected value" class="float" data-placement="right" >
+                                            <i class="centered fa fa-plus-square fa-2x add-community-row" style="padding-top:8px; " aria-hidden="true"></i>
+                                             </span>
+                                                    </div>
+                                                </div>
+
+                                                <div class="community-fields displaybox row" id="community-fields"></div>
+                                                <div class="row centered">
+                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
+
+                                    {% for form3 in formset3 %}
+
+                                        <button type="button" id = "campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo">
+                                            <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
 
                                  Campus Partner Information
 
                                 </span>
-</button>
-<div id="campusinfo" class= "panel-collapse collapse">
-    <div class="row" style="margin: 10px;">
-     
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-campus-partner' %}</p>
-                        
-</div>
-                                    <div class="panel-body">
+                                        </button>
+                                        <div id="campusinfo" class= "panel-collapse collapse">
+                                            <div class="row" style="margin: 10px;">
 
-                                        <div class="row centered"><span class="addcamperror" style="color: #b60000"></span> </div>
-                                        <div class="row campus-row">
-                                            <div class="col-md-3">
+                                                <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-campus-partner' %}</p>
 
-                                                <label style="padding-top:8px" >
+                                            </div>
+                                            <div class="panel-body">
+
+                                                <div class="row centered"><span class="addcamperror" style="color: #b60000"></span> </div>
+                                                <div class="row campus-row">
+                                                    <div class="col-md-3">
+
+                                                        <label style="padding-top:8px" >
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
-                                                             title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
+                                                                   title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                                             Campus Partner </label> <span style="color:red;">*</span>
 
-                                            </div>
-                                            <div class="col-md-4">
-                                                {{ form3.campus_partner|bootstrap }}
-                                                {% if  form2.errors %}
-                                        {% for error in  form2.errors %}
-                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                        {% endfor %}
-                                        {% endif %}
-                                        </div>
-                                        <div class="col-md-1">
-                                            <div class="input-group-append" >
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        {{ form3.campus_partner|bootstrap }}
+                                                        {% if  form2.errors %}
+                                                            {% for error in  form2.errors %}
+                                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div class="input-group-append" >
                                                 <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add selected value" class="float"  data-placement="right" >
+                                                      title="Click to add selected value" class="float"  data-placement="right" >
                                                 <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
                                                 </span>
-                                            </div>
-<!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
-                                            </div>
-                                        </div>
-                                        <div class="campus-fields displaybox row" id="campus-fields"></div>
-                                                      <div class="row"><br></div>
-                                          <div class="centered">
-
-                                             <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Campus Partner</a>
-                                        </div>
-                                    </div>
-</div>
-                                        {% endfor %}
-            <div class="row"><br></div>
-                <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-    <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
-</button>
-<div id="leadstaffinfo" class= "panel-collapse collapse">
-    <div class="row" style="margin: 10px;">
-      
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-leadstaff' %}</p>
-                        
-</div>
-                                    <div class="panel-body">
-                                        <div class="row centered"><span class="addnameerror" style="color: #b60000"></span> </div>
-                                       <div class="row">
-
-                                            <div class="col-md-12">
-                                                <div class="row">
-<!--                                                    <div class="col-md-4">-->
-<!--                                                        <label style="padding-top: 10px">First Name</label>-->
-<!--                                                    </div>-->
-                                                    <div class="col-md-4">
-                                                        <label style="padding-top: 10px">First Name</label>
-                                                        <input id='firstname'  type='text' class = "inputbox">
+                                                        </div>
+                                                        <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                                     </div>
-                                                    <div class="col-md-4">
-                                                        <label style="padding-top: 10px">Last Name</label>
-                                                        <input id='lastname'  type='text' class = "inputbox">
-                                                    </div>
-                                                    <div class="col-md-1 centered">
-<!--                                                        <div><br></div>-->
-                                                <div class="input-group-append" >
-                                                    <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add given value" class="float" data-placement="right" >
-                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
-                                                    </span>
-                                            </div>
-                                            </div>
+                                                </div>
+                                                <div class="campus-fields displaybox row" id="campus-fields"></div>
+                                                <div class="row"><br></div>
+                                                <div class="centered">
+
+                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Campus Partner</a>
                                                 </div>
                                             </div>
-                                       </div>
-                                            <div style="display: none">
-<!--                                                <div>-->
-                                            {{ project.campus_lead_staff}}
+                                        </div>
+                                    {% endfor %}
+                                    <div class="row"><br></div>
+                                    <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
+                                        <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
+                                    </button>
+                                    <div id="leadstaffinfo" class= "panel-collapse collapse">
+                                        <div class="row" style="margin: 10px;">
+
+                                            <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-leadstaff' %}</p>
+
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row centered"><span class="addnameerror" style="color: #b60000"></span> </div>
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+                                                    <div class="row">
+                                                        <!--                                                    <div class="col-md-4">-->
+                                                        <!--                                                        <label style="padding-top: 10px">First Name</label>-->
+                                                        <!--                                                    </div>-->
+                                                        <div class="col-md-4">
+                                                            <label style="padding-top: 10px">First Name</label>
+                                                            <input id='firstname'  type='text' class = "inputbox">
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <label style="padding-top: 10px">Last Name</label>
+                                                            <input id='lastname'  type='text' class = "inputbox">
+                                                        </div>
+                                                        <div class="col-md-1 centered">
+                                                            <!--                                                        <div><br></div>-->
+                                                            <div class="input-group-append" >
+                                                    <span tabindex="-1" data-toggle="tooltip"
+                                                          title="Click to add given value" class="float" data-placement="right" >
+                                                <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
+                                                    </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        <div class="row displaybox" id='display'>
+                                            <div style="display: none">
+                                                <!--                                                <div>-->
+                                                {{ project.campus_lead_staff}}
+                                            </div>
+                                            <div class="row displaybox" id='display'>
+                                            </div>
+
                                         </div>
 
+                                    </div>
+
+
+
+                                    <div class="row justify-content-end" style="margin-top:30px;">
+                                        <div class="col-md-3" style="float: right">
+                                            <!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
+                                        </div>
+                                    </div>
                                 </div>
 
-                                  </div>
+                                <div id="step-3">
+                                    {% for form in formset %}
+                                        <div class="row" style="margin: 10px;">
 
+                                            <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step3' %}</p>
 
-
- <div class="row justify-content-end" style="margin-top:30px;">
-<div class="col-md-3" style="float: right">
-<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
-            </div>
- </div>
-        </div>
-
-        <div id="step-3">
-             {% for form in formset %}
-            <div class="row" style="margin: 10px;">
-     
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step3' %}</p>
-                        
-</div>
-            <div class="row">
-                <div class="col-md-3">
-                    <label style="padding-top:8px">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="padding-top:8px">
                         
                         <span tabindex="-1" data-toggle="tooltip"
                               title="{% get_data_definition_desc 'Primary Focus Area (community partner registration form)' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                        Focus Area <span style="color:red;">*</span>
-                    </label>
-                </div>
-                <div class="col-md-6">
-                    {{ form.mission | bootstrap}}
+                                                    Focus Area <span style="color:red;">*</span>
+                                                </label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                {{ form.mission | bootstrap}}
                                                 {% if  form.mission.errors %}
-                                                {% for error in  form.mission.errors %}
-                                                <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                                {% endfor %} {% endif %}
-                </div>
-            </div>
+                                                    {% for error in  form.mission.errors %}
+                                                        <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                    {% endfor %} {% endif %}
+                                            </div>
+                                        </div>
 
-                                {% endfor %}
+                                    {% endfor %}
 
 
 
-<div class="row centered"><span class="addcaterror" style="color: #b60000"></span> </div>
-              {% for catform in categoryformset %}
-            <div class="row">
-                <div class="col-md-3">
-                    <label style="padding-top:8px">
+                                    <div class="row centered"><span class="addcaterror" style="color: #b60000"></span> </div>
+                                    {% for catform in categoryformset %}
+                                        <div class="row">
+                                            <div class="col-md-3">
+                                                <label style="padding-top:8px">
                         
                         <span tabindex="-1" data-toggle="tooltip"
                               title="{% get_data_definition_desc 'Topics' %}" class="float" >
                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
-                       
-                        Topics</label>
-                </div>
-                <div class="col-md-6 sub_category-row">
-                    <!--<div class="row ">-->
-                        <!--<div class="col-md-9">-->
-                    {{ catform.sub_category | bootstrap}}
-                <!--</div>-->
-                    </div>
-                <div class="col-md-1">
-                    <div class="input-group-append" >
+
+                                                    Topics</label>
+                                            </div>
+                                            <div class="col-md-6 sub_category-row">
+                                                <!--<div class="row ">-->
+                                                <!--<div class="col-md-9">-->
+                                                {{ catform.sub_category | bootstrap}}
+                                                <!--</div>-->
+                                            </div>
+                                            <div class="col-md-1">
+                                                <div class="input-group-append" >
                         <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add selected value" class="float"  data-placement="right">
+                              title="Click to add selected value" class="float"  data-placement="right">
                         <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
                         </span>
-                    </div>
-                </div>
-                </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
-<!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
+                                        <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                         <div class="sub_category-fields displaybox row" id="sub_category-fields"></div>
 
-                                {% endfor %}
-<div class="row centered"><span class="addothercaterror" style="color: #b60000"></span> </div>
-                                                <div class="row" id="othersubinput">
-                                                    <div class="col-md-3">
-                                                        <label style="padding-top: 10px">Other Topics</label>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics">
-                                                    </div>
+                                    {% endfor %}
+                                    <div class="row centered"><span class="addothercaterror" style="color: #b60000"></span> </div>
+                                    <div class="row" id="othersubinput">
+                                        <div class="col-md-3">
+                                            <label style="padding-top: 10px">Other Topics</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics">
+                                        </div>
 
-                                                    <div class="col-md-1">
-<!--                                                        <div><br></div>-->
-                                                <div class="input-group-append" >
+                                        <div class="col-md-1">
+                                            <!--                                                        <div><br></div>-->
+                                            <div class="input-group-append" >
                                                     <span tabindex="-1" data-toggle="tooltip"
-                                                             title="Click to add given value" class="float"  data-placement="right"  >
+                                                          title="Click to add given value" class="float"  data-placement="right"  >
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
                                                     </span>
                                             </div>
-                                            </div>
-                                                </div>
-                                            <div style="display: none">
-<!--                                                <div>-->
-                                            {{ project.other_sub_category}}
-                                            </div>
-                                        <div class="row displaybox" id='displaysub'>
                                         </div>
+                                    </div>
+                                    <div style="display: none">
+                                        <!--                                                <div>-->
+                                        {{ project.other_sub_category}}
+                                    </div>
+                                    <div class="row displaybox" id='displaysub'>
+                                    </div>
 
 
-             <div class="row justify-content-end" style="margin-top:30px;">
-<div class="col-md-3" style="float: right">
-<!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
-            </div>
- </div>
-        </div>
-        <div id="step-4">
-<div class="row" style="margin: 10px;">
-      
-    <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step4' %}</p>
-                        
-</div>
-<div id="contactinfo" class= "panel-collapse collapse show">
-                                    <div class="panel-body">
-
-                                        <div class="row">
-
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">Address</label>
-                                            <div class="col-sm-7">
-                                              {{ project.address_line1}}
-                                            </div>
-                                              {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %}
-                                              <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                              {% endfor %} {% endif %}
-                                          </div>
+                                    <div class="row justify-content-end" style="margin-top:30px;">
+                                        <div class="col-md-3" style="float: right">
+                                            <!--                    <p id="button-center"><button type="submit" class="save blackbutton" > <i class="fa fa-arrow-circle-right" style="color: white" aria-hidden="true"></i> Save as Draft</button></p>-->
                                         </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-
-                                        <div class="row">
-                                              <label class="col-sm-4">City</label>
-                                            <div class="col-sm-7">
-                                            {{ project.city }}
-                                            </div>
-                                            {% if  project.city.errors %} {% for error in  project.city.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
-                                            <div class="row">
-                                              <label class="col-sm-4">Country</label>
-                                            <div class="col-sm-7">
-                                            {{ project.country }}
-                                            </div>
-                                            {% if  project.country.errors %} {% for error in  project.country.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                        </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="row">
-                                              <label class="col-sm-4">State/Province</label>
-                                            <div class="col-sm-7">
-                                            {{ project.state }}
-                                            </div>
-                                            {% if  project.state.errors %} {% for error in  project.state.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
-                                                 <div class="row">
-                                              <label class="col-sm-4">Zip Code</label>
-                                            <div class="col-sm-7">
-                                            {{ project.zip }}
-                                            </div>
-                                            {% if  project.zip.errors %} {% for error in  project.zip.errors %}
-                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
-                                            {% endfor %} {% endif %}
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-
+                                    </div>
                                 </div>
-     <div class="form-group" style="display: none">
+                                <div id="step-4">
+                                    <div class="row" style="margin: 10px;">
+
+                                        <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step4' %}</p>
+
+                                    </div>
+                                    <div id="contactinfo" class= "panel-collapse collapse show">
+                                        <div class="panel-body">
+
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <label class="col-sm-4">Address</label>
+                                                        <div class="col-sm-7">
+                                                            {{ project.address_line1}}
+                                                        </div>
+                                                        {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %} {% endif %}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+
+                                                    <div class="row">
+                                                        <label class="col-sm-4">City</label>
+                                                        <div class="col-sm-7">
+                                                            {{ project.city }}
+                                                        </div>
+                                                        {% if  project.city.errors %} {% for error in  project.city.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %} {% endif %}
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-sm-4">Country</label>
+                                                        <div class="col-sm-7">
+                                                            {{ project.country }}
+                                                        </div>
+                                                        {% if  project.country.errors %} {% for error in  project.country.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %} {% endif %}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="row">
+                                                        <label class="col-sm-4">State/Province</label>
+                                                        <div class="col-sm-7">
+                                                            {{ project.state }}
+                                                        </div>
+                                                        {% if  project.state.errors %} {% for error in  project.state.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %} {% endif %}
+                                                    </div>
+                                                    <div class="row">
+                                                        <label class="col-sm-4">Zip Code</label>
+                                                        <div class="col-sm-7">
+                                                            {{ project.zip }}
+                                                        </div>
+                                                        {% if  project.zip.errors %} {% for error in  project.zip.errors %}
+                                                            <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div>
+                                                        {% endfor %} {% endif %}
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group" style="display: none">
                                             <label>Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
 
                                         </div>
-                              </div>
+                                    </div>
 
-<!--            <div class="row justify-content-md-center" style="margin-top:30px;">-->
-<!--                <div class="col-lg-2 col-md-5">-->
-<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Submit</button></p>-->
-<!--                </div>-->
+                                    <!--            <div class="row justify-content-md-center" style="margin-top:30px;">-->
+                                    <!--                <div class="col-lg-2 col-md-5">-->
+                                    <!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Submit</button></p>-->
+                                    <!--                </div>-->
 
-<!--                <div class="col-lg-2 col-md-5">-->
-<!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Draft</button></p>-->
-<!--                </div>-->
-<!--            </div>-->
+                                    <!--                <div class="col-lg-2 col-md-5">-->
+                                    <!--                    <p id="button-center"><button type="submit" class="save btn-custom" style="background-color: #333"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>Draft</button></p>-->
+                                    <!--                </div>-->
+                                    <!--            </div>-->
 
                                 </div>
 
 
 
+                            </div>
+
+                        </div>
+
+                        <div class="container-fluid">
+
+                            <div class="row centered" id="termsdiv">
+                                <p><input type="checkbox" id="terms">
+                                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
+                                    of the Community Partnership Initiative.</p>
+                            </div>
+                            <div class="row centered" style="margin-top:30px;">
+                                <!--<div class="col-md-3">-->
+                                <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" > Save as Draft</button>
+                                <!--            </div>-->
+
+                                <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">Submit</button>
+                                <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-    </div>
+    </form>
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">-->
+    <!--{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>#}-->
+    <!--{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>#}-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>-->
+    <!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>-->
+    <!--<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
+    <!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
+    <!--<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#smartwizard').smartWizard({
+                theme: 'arrows',
+                transitionEffect: 'fade',
+                transitionSpeed: '400',
+                // usehash: false,
+                showStepURLhash: true,
+                contentCache: true,
+                toolbarSettings: {
+                    // toolbarPosition:'top',
+                    toolbarButtonPosition: 'right',
+                    showNextButton: 'true',
+                    showPreviousButton: 'true',
+                    // toolbarExtraButtons: [
+                    //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
+                    //         if (confirm("Are you sure?")){
+                    //           window.location = '/checkProject';
+                    //         }
+                    //     }),
+                    //
+                    // ]
+                }
+            });
+            $('#cancel').on('click', function (e) {
+                e.preventDefault();
+                if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
+                    window.location = '/check-Project';
+                }
+            });
+            $("#id_academic_year").change(function () {
+                var projectname = $("#id_project_name").val();
+                if(projectname !=''){
+                    projectname = projectname.trim();
+                }
+                var academicyear = $("#id_academic_year option:selected").text();
+                var projectandyear = projectname +': '+ academicyear;
+                $.ajax({
+                    url: "/SuggestProject/",
+                    data: {
+                        'name': projectname,
+                        'year': academicyear
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            alert("A project with this name and year already exists");
+                            document.getElementById("id_project_name").value = ("");
+                            document.getElementById("id_project_name").style.borderColor = "red";
+                            document.getElementById("id_academic_year").style.borderColor = "red";
+                        }
+                    }
+                });
+            });
+            $("#id_project_name").change(function () {
+                var projectname = $("#id_project_name").val();
+                if(projectname !=''){
+                    projectname = projectname.trim();
+                }
+                var academicyear = $("#id_academic_year option:selected").text();
+                var projectandyear = projectname +': '+ academicyear;
+                $.ajax({
+                    url: "/SuggestProject/",
+                    data: {
+                        'name': projectname,
+                        'year': academicyear
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.is_taken) {
+                            alert("A project with this name and year already exists");
+                            document.getElementById("id_project_name").value = ("");
+                            document.getElementById("id_project_name").style.borderColor = "red";
+                            document.getElementById("id_academic_year").style.borderColor = "red";
+                        }
+                    }
+                });
+            });
 
-    <div class="container-fluid">
-
-                 <div class="row centered" id="termsdiv">
-                <p><input type="checkbox" id="terms">
-                    I agree to the <a style="color: #d71920" href="https://unocpi.s3.us-east-2.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
-                    of the Community Partnership Initiative.</p>
-            </div>
-                               <div class="row centered" style="margin-top:30px;">
-<!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" > Save as Draft</button>
-<!--            </div>-->
-
-                 <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">Submit</button>
-                <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
- </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </div>
-
-</form>
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">-->
-<!--{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>#}-->
-<!--{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>#}-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>-->
-<!--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
-<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>-->
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.9/validator.js"></script>-->
-<!--<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.min.js"></script>-->
-<!--<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" />-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.11.5/validator.min.js"></script>-->
-<!--<script src="https://ajax.microsoft.com/ajax/jquery.validate/1.5.5/jquery.validate.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>-->
-<!--<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>-->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/1000hz-bootstrap-validator/0.10.2/validator.min.js"></script>-->
-<script type="text/javascript">
-$(document).ready(function() {
-    $('#smartwizard').smartWizard({
-        theme: 'arrows',
-        transitionEffect: 'fade',
-        transitionSpeed: '400',
-        // usehash: false,
-        showStepURLhash: true,
-        contentCache: true,
-        toolbarSettings: {
-            // toolbarPosition:'top',
-            toolbarButtonPosition: 'right',
-            showNextButton: 'true',
-            showPreviousButton: 'true',
-            // toolbarExtraButtons: [
-            //     $('<button></button>').text(' Cancel').addClass('btn-red').on('click', function () {
-            //         if (confirm("Are you sure?")){
-            //           window.location = '/checkProject';
-            //         }
-            //     }),
-            //
-            // ]
-        }
-    });
-    $('#cancel').on('click', function (e) {
-        e.preventDefault();
-        if (confirm("You will be redirected back to Search Project page and data will be lost. Are you sure, you want to cancel creating project?")) {
-            window.location = '/check-Project';
-        }
-    });
-$("#id_academic_year").change(function () {
-    var projectname = $("#id_project_name").val();
-    if(projectname !=''){
-        projectname = projectname.trim();
-    }
-    var academicyear = $("#id_academic_year option:selected").text();
-    var projectandyear = projectname +': '+ academicyear;
-    $.ajax({
-        url: "/SuggestProject/",
-        data: {
-            'name': projectname,
-            'year': academicyear
-        },
-        dataType: 'json',
-        success: function (data) {
-            if (data.is_taken) {
-                alert("A project with this name and year already exists");
-                document.getElementById("id_project_name").value = ("");
-                document.getElementById("id_project_name").style.borderColor = "red";
-                document.getElementById("id_academic_year").style.borderColor = "red";
-            }
-        }
-    });
-});
-$("#id_project_name").change(function () {
-    var projectname = $("#id_project_name").val();
-    if(projectname !=''){
-        projectname = projectname.trim();
-    }
-    var academicyear = $("#id_academic_year option:selected").text();
-    var projectandyear = projectname +': '+ academicyear;
-    $.ajax({
-        url: "/SuggestProject/",
-        data: {
-            'name': projectname,
-            'year': academicyear
-        },
-        dataType: 'json',
-        success: function (data) {
-            if (data.is_taken) {
-                alert("A project with this name and year already exists");
-                document.getElementById("id_project_name").value = ("");
-                document.getElementById("id_project_name").style.borderColor = "red";
-                document.getElementById("id_academic_year").style.borderColor = "red";
-            }
-        }
-    });
-});
-
-    $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-var elmForm = $("#form-step-"+stepNumber);
-if(stepDirection === 'forward') {
-    if (stepNumber === 0) {
-        if(($("#id_project_name").val() === '')){
-            alert("Project Name Required");
-            return false
-        }
-        if( ($("#id_engagement_type").val() === '') ){
-            alert("Engagement Type Required");
-            return false
-        }
-          if($('#otheracttype').val() !="" ){
-              alert('Add Other Activity Type');
-              var html = "Add Other Activity Type.";
-                    $('.addactivityerror').append(html);
-                    return false;
-        }
-        if( ($("#id_description").val() === '') ){
-            alert("Project Description Required");
-            return false
-        }
-        if(($("#id_semester").val() === '')) {
-            alert("Project Start Semester Required");
-            return false
-        }
-        if($("#id_academic_year").val() === ''){
-              alert("Project Start academic year Required");
-            return false
-        }
+            $("#smartwizard").on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+                var elmForm = $("#form-step-"+stepNumber);
+                if(stepDirection === 'forward') {
+                    if (stepNumber === 0) {
+                        if(($("#id_project_name").val() === '')){
+                            alert("Project Name Required");
+                            return false
+                        }
+                        if( ($("#id_engagement_type").val() === '') ){
+                            alert("Engagement Type Required");
+                            return false
+                        }
+                        if($('#otheracttype').val() !="" ){
+                            alert('Add Other Activity Type');
+                            var html = "Add Other Activity Type.";
+                            $('.addactivityerror').append(html);
+                            return false;
+                        }
+                        if( ($("#id_description").val() === '') ){
+                            alert("Project Description Required");
+                            return false
+                        }
+                        if(($("#id_semester").val() === '')) {
+                            alert("Project Start Semester Required");
+                            return false
+                        }
+                        if($("#id_academic_year").val() === ''){
+                            alert("Project Start academic year Required");
+                            return false
+                        }
 
 
-         var fromacademicyear=$("#id_academic_year").val();
-                var toacademicyear=$("#id_end_academic_year").val();
-                if(fromacademicyear === ''){
-                    alert("Project Start Academic Year Required");
-            return false
-        }
-                if (toacademicyear != '') {
-                    if (toacademicyear < fromacademicyear) {
-                        alert("Project End Academic Year is before Project Start Academic Year");
-                        return false;
+                        var fromacademicyear=$("#id_academic_year").val();
+                        var toacademicyear=$("#id_end_academic_year").val();
+                        if(fromacademicyear === ''){
+                            alert("Project Start Academic Year Required");
+                            return false
+                        }
+                        if (toacademicyear != '') {
+                            if (toacademicyear < fromacademicyear) {
+                                alert("Project End Academic Year is before Project Start Academic Year");
+                                return false;
+                            }
+                        }
+                        $('#submit').hide();
+                        $('#termsdiv').hide();
+                        $('.sw-btn-prev').show();
+                        $('.sw-btn-next').show();
+                    }
+                    if (stepNumber === 1) {
+                        var communitylast = $('.community-row:last').find(':selected').text();
+                        var campuslast = $('.campus-row:last').find(':selected').text();
+                        if(communitylast !='---------' && communitylast != ""){
+                            alert('Add selected Community Partner or clear selection');
+                            var html = "Add selected Community Partner or clear selection";
+                            $('.addcommerror').append(html);
+                            // $('.community-row:last').find('select').val(' ');
+                            return false;
+                        }
+                        if(campuslast !='---------' && campuslast != ""){
+                            alert('Add selected Campus Partner or clear selection');
+                            var html = "Add selected Campus Partner or clear selection";
+                            $('.addcamperror').append(html);
+                            return false;
+                        }
+                        if($('#firstname').val() !="" && $('#lastname') != ""){
+                            alert('Add Campus Staff and/or Faculty Lead');
+                            var html = "Add Campus Staff and/or Faculty Lead";
+                            $('.addnameerror').append(html);
+                            return false;
+                        }
+                        if ($("#id_campus-0-campus_partner").val() === '') {
+                            alert("Campus Partner Required");
+                            return false;
+                        }
+                        $('#submit').hide();
+                        $('#termsdiv').hide();
+                        $('.sw-btn-prev').show();
+                        $('.sw-btn-next').show();
+                    }
+                    if (stepNumber === 2) {
+                        var subcatlast = $('.sub_category-row:last').find(':selected').text();
+                        if(subcatlast !='---------' && subcatlast != ""){
+                            alert('Add selected Topic or clear selection');
+                            var html = "Add selected Topic.";
+                            $('.addcaterror').append(html);
+                            return false;
+                        }
+                        if($('#othersubcat').val() !=""){
+                            alert('Add Other Topic or clear');
+                            var html = "Add Other Topic";
+                            $('.addothercaterror').append(html);
+                            return false;
+                        }
+                        if ($("#id_mission-0-mission").val() == '') {
+                            alert("Primary Focus Area Required");
+                            return false;
+                        }
+                        else {
+                            $('.sw-btn-prev').show();
+                            $('.sw-btn-next').hide();
+                            $('#submit').show();
+                            $('#termsdiv').show();
+                        }
+                    }
+                    if (stepNumber === 3) {
+                        $('.sw-btn-prev').hide();
+                        $('.sw-btn-next').show();
+                        $('#submit').show();
+                        $('#termsdiv').show();
                     }
                 }
-            $('#submit').hide();
-        $('#termsdiv').hide();
-        $('.sw-btn-prev').show();
-    $('.sw-btn-next').show();
-    }
-    if (stepNumber === 1) {
-        var communitylast = $('.community-row:last').find(':selected').text();
-        var campuslast = $('.campus-row:last').find(':selected').text();
-        if(communitylast !='---------' && communitylast != ""){
-            alert('Add selected Community Partner or clear selection');
-            var html = "Add selected Community Partner or clear selection";
-                    $('.addcommerror').append(html);
-            // $('.community-row:last').find('select').val(' ');
-            return false;
-        }
-        if(campuslast !='---------' && campuslast != ""){
-            alert('Add selected Campus Partner or clear selection');
-            var html = "Add selected Campus Partner or clear selection";
-                    $('.addcamperror').append(html);
-            return false;
-        }
-         if($('#firstname').val() !="" && $('#lastname') != ""){
-             alert('Add Campus Staff and/or Faculty Lead');
-             var html = "Add Campus Staff and/or Faculty Lead";
-                    $('.addnameerror').append(html);
-            return false;
-        }
-        if ($("#id_campus-0-campus_partner").val() === '') {
-            alert("Campus Partner Required");
-            return false;
-        }
-            $('#submit').hide();
-        $('#termsdiv').hide();
-        $('.sw-btn-prev').show();
-    $('.sw-btn-next').show();
-    }
-    if (stepNumber === 2) {
-        var subcatlast = $('.sub_category-row:last').find(':selected').text();
-        if(subcatlast !='---------' && subcatlast != ""){
-            alert('Add selected Topic or clear selection');
-            var html = "Add selected Topic.";
-                    $('.addcaterror').append(html);
-            return false;
-        }
-         if($('#othersubcat').val() !=""){
-             alert('Add Other Topic or clear');
-             var html = "Add Other Topic";
-                    $('.addothercaterror').append(html);
-            return false;
-        }
-        if ($("#id_mission-0-mission").val() == '') {
-            alert("Primary Focus Area Required");
-            return false;
-        }
-        else {
-            $('.sw-btn-prev').show();
-            $('.sw-btn-next').hide();
-            $('#submit').show();
-            $('#termsdiv').show();
-        }
-    }
-    if (stepNumber === 3) {
-        $('.sw-btn-prev').hide();
-    $('.sw-btn-next').show();
-    $('#submit').show();
-    $('#termsdiv').show();
-    }
-}
-if (stepDirection === 'backward') {
-    if (stepNumber === 1) {
-    $('.sw-btn-prev').hide();
-    $('.sw-btn-next').show();
-}
-     $('.sw-btn-next').show();
+                if (stepDirection === 'backward') {
+                    if (stepNumber === 1) {
+                        $('.sw-btn-prev').hide();
+                        $('.sw-btn-next').show();
+                    }
+                    $('.sw-btn-next').show();
+                    $('#submit').hide();
+                    $('#termsdiv').hide();
+                }
+                return true;
+            });
+            $('.sw-btn-prev').hide();
+            $('.sw-btn-next').show();
+            $('#id_k12_flag').change(function () {
+                if($('#id_k12_flag').prop('checked')===true){
+                    $("#k12-students").show();
+                }
+                else{
+                    $("#k12-students").hide();
+                }
+            });
+            $('#step1').click(function () {
+                $('.sw-btn-prev').hide();
+                $('.sw-btn-next').show();
+            });
+            $('#step4').click(function () {
+                if($('#step4').hasClass('active')) {
+                    $('#submit').show();
+                    $('#termsdiv').show();
+                    $('.sw-btn-prev').show();
+                    $('.sw-btn-next').hide();
+                }
+            });
+            $('#id_project_name').addClass('inputbox');
             $('#submit').hide();
             $('#termsdiv').hide();
-        }
-        return true;
-    });
-    $('.sw-btn-prev').hide();
-    $('.sw-btn-next').show();
-$('#id_k12_flag').change(function () {
-    if($('#id_k12_flag').prop('checked')===true){
-        $("#k12-students").show();
-    }
-    else{
-         $("#k12-students").hide();
-    }
-});
-$('#step1').click(function () {
-     $('.sw-btn-prev').hide();
-    $('.sw-btn-next').show();
-});
-$('#step4').click(function () {
-    if($('#step4').hasClass('active')) {
-        $('#submit').show();
-        $('#termsdiv').show();
-        $('.sw-btn-prev').show();
-        $('.sw-btn-next').hide();
-    }
-});
-    $('#id_project_name').addClass('inputbox');
-    $('#submit').hide();
-    $('#termsdiv').hide();
-    $("#k12-students").hide();
-    $('#step-2').hide();
-    $('#step-3').hide();
-    $("#step-4").hide();
-    $('#otheractivity').hide();
-        $(".collapse.show").each(function(){
-        	$(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
-        });
-        // Toggle plus minus icon on show hide of collapse element
-        $(".collapse").on('show.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
-        }).on('hide.bs.collapse', function(){
-        	$(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
-        });
-$('#id_total_uno_students').addClass('nospecial').attr('size','3');
-$('#id_total_uno_hours').addClass('nospecial');
-$('#id_total_k12_students').addClass('nospecial');
-$('#id_total_k12_hours').addClass('nospecial');
-$('#id_total_uno_faculty').addClass('nospecial');
-$('#id_total_other_community_members').addClass('nospecial');
-$('#communityinfo').addClass('show');
-$(".nospecial").keypress(function (e) {
-            var keyCode = e.keyCode || e.which;
-            $(this).addClass(' ');
-            //Regex for Valid Characters i.e. Alphabets and Numbers.
-            var regex = /^[0-9]+$/;
-            //Validate TextBox value against the Regex.
-            var isValid = regex.test(String.fromCharCode(keyCode));
-            if (!isValid) {
-                return false;
-            }
-            return isValid;
-        });
+            $("#k12-students").hide();
+            $('#step-2').hide();
+            $('#step-3').hide();
+            $("#step-4").hide();
+            $('#otheractivity').hide();
+            $(".collapse.show").each(function(){
+                $(this).prev(".card-header").find(".fa").addClass("fa-minus").removeClass("fa-plus");
+            });
+            // Toggle plus minus icon on show hide of collapse element
+            $(".collapse").on('show.bs.collapse', function(){
+                $(this).prev(".card-header").find(".fa").removeClass("fa-plus").addClass("fa-minus");
+            }).on('hide.bs.collapse', function(){
+                $(this).prev(".card-header").find(".fa").removeClass("fa-minus").addClass("fa-plus");
+            });
+            $('#id_total_uno_students').addClass('nospecial').attr('size','3');
+            $('#id_total_uno_hours').addClass('nospecial');
+            $('#id_total_k12_students').addClass('nospecial');
+            $('#id_total_k12_hours').addClass('nospecial');
+            $('#id_total_uno_faculty').addClass('nospecial');
+            $('#id_total_other_community_members').addClass('nospecial');
+            $('#communityinfo').addClass('show');
+            $(".nospecial").keypress(function (e) {
+                var keyCode = e.keyCode || e.which;
+                $(this).addClass(' ');
+                //Regex for Valid Characters i.e. Alphabets and Numbers.
+                var regex = /^[0-9]+$/;
+                //Validate TextBox value against the Regex.
+                var isValid = regex.test(String.fromCharCode(keyCode));
+                if (!isValid) {
+                    return false;
+                }
+                return isValid;
+            });
 //-------------------not going back----------------------
-window.history.pushState(null, "", window.location.href);
-        window.onpopstate = function() {
             window.history.pushState(null, "", window.location.href);
-        };
+            window.onpopstate = function() {
+                window.history.pushState(null, "", window.location.href);
+            };
 //----------------------------------restrict comma and semicolon---------------------------
-     function RestrictCommaSemicolon(e) {
-        var theEvent = e || window.event;
-        var key = theEvent.keyCode || theEvent.which;
-        key = String.fromCharCode(key);
-        var regex = /[^,;]+$/;
-        if (!regex.test(key)) {
-            theEvent.returnValue = false;
-            if (theEvent.preventDefault) {
-                theEvent.preventDefault();
+            function RestrictCommaSemicolon(e) {
+                var theEvent = e || window.event;
+                var key = theEvent.keyCode || theEvent.which;
+                key = String.fromCharCode(key);
+                var regex = /[^,;]+$/;
+                if (!regex.test(key)) {
+                    theEvent.returnValue = false;
+                    if (theEvent.preventDefault) {
+                        theEvent.preventDefault();
+                    }
+                }
             }
-        }
-    }
-        $('#firstname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
-    $('#lastname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
-    $('#otheracttype').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
-    $('#othersubinput').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+            $('#firstname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+            $('#lastname').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+            $('#otheracttype').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
+            $('#othersubinput').attr('onkeypress', 'return RestrictCommaSemicolon(event);');
 //--------------order academic years--------------------
-    var sel = $('#id_academic_year');
-$(sel).html($("option", $(sel)).sort(function(a, b) {
-    var arel = parseInt($(a).attr('value'), 10) || 0;
-    var brel = parseInt($(b).attr('value'), 10)|| 0;
-    return arel == brel ? 0 : arel > brel ? -1 : 1
-}));
-        var sel1 = $('#id_end_academic_year');
-$(sel1).html($("option", $(sel1)).sort(function(a, b) {
-    var arel1 = parseInt($(a).attr('value'), 10) || 0;
-    var brel1 = parseInt($(b).attr('value'), 10)|| 0;
-    return arel1 == brel1 ? 0 : arel1 > brel1 ? -1 : 1
-}));
-var options = $('.sub_category-row').find('select option');
-    var arr = options.map(function(_, o) {
-        return {
-            t: $(o).text(),
-            v: o.value
-        };
-    }).get();
-    arr.sort(function(o1, o2) {
-        return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
-    });
-    options.each(function(i, o) {
-        console.log(i);
-        if(o === 'Other'){
-            return false;
-        }
-        o.value = arr[i].v;
-        $(o).text(arr[i].t);
-    });
+            var sel = $('#id_academic_year');
+            $(sel).html($("option", $(sel)).sort(function(a, b) {
+                var arel = parseInt($(a).attr('value'), 10) || 0;
+                var brel = parseInt($(b).attr('value'), 10)|| 0;
+                return arel == brel ? 0 : arel > brel ? -1 : 1
+            }));
+            var sel1 = $('#id_end_academic_year');
+            $(sel1).html($("option", $(sel1)).sort(function(a, b) {
+                var arel1 = parseInt($(a).attr('value'), 10) || 0;
+                var brel1 = parseInt($(b).attr('value'), 10)|| 0;
+                return arel1 == brel1 ? 0 : arel1 > brel1 ? -1 : 1
+            }));
+            var options = $('.sub_category-row').find('select option');
+            var arr = options.map(function(_, o) {
+                return {
+                    t: $(o).text(),
+                    v: o.value
+                };
+            }).get();
+            arr.sort(function(o1, o2) {
+                return o1.t > o2.t ? 1 : o1.t < o2.t ? -1 : 0;
+            });
+            options.each(function(i, o) {
+                console.log(i);
+                if(o === 'Other'){
+                    return false;
+                }
+                o.value = arr[i].v;
+                $(o).text(arr[i].t);
+            });
 // $("#id_project_name").change(function (e) {
 //     e.preventDefault();
 //     var name = $(this).val();
@@ -1087,755 +1087,755 @@ var options = $('.sub_category-row').find('select option');
 //         success: function (data) {
 //             if (data.is_taken) {
 //                 alert("A project with this name already exists");
-                // document.getElementById("id_project_name").value = ("");
-                // document.getElementById("id_project_name").style.borderColor = "red";
+            // document.getElementById("id_project_name").value = ("");
+            // document.getElementById("id_project_name").style.borderColor = "red";
             // }
-        // }
-    // });
+            // }
+            // });
 // });
-});
-</script>
-<br><br><br><br><br><br><br><br><br><br>
+        });
+    </script>
+    <br><br><br><br><br><br><br><br><br><br>
 {% endblock %}
 
 
 {% block custom_js %}
-{#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
-<script type="text/javascript">
-    $("#submitname").click(function () {
-        $('.addnameerror').empty();
-var str = "";
-var name =  $('.concat > h6.finalname').length;
+    {#<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>#}
+    <script type="text/javascript">
+        $("#submitname").click(function () {
+            $('.addnameerror').empty();
+            var str = "";
+            var name =  $('.concat > h6.finalname').length;
 //alert(name);
-if(name === 10) {
-    alert("Maximum of 10 Campus Staff and/or Faculty Lead members are allowed");
+            if(name === 10) {
+                alert("Maximum of 10 Campus Staff and/or Faculty Lead members are allowed");
                 $('#firstname').val('');
-    $('#lastname').val('');
-            return false;
-        }
-else {
-    var disp = $('#firstname').val() + ' ' + $('#lastname').val();
-    if (disp === " ") {
-        alert("Add Campus Staff and/or Faculty Lead")
-    } else {
-        var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
-        $("#display").append(html);
-        $('.concat > h6.finalname').each(function () {
-            str += $(this).text() + ",";
+                $('#lastname').val('');
+                return false;
+            }
+            else {
+                var disp = $('#firstname').val() + ' ' + $('#lastname').val();
+                if (disp === " ") {
+                    alert("Add Campus Staff and/or Faculty Lead")
+                } else {
+                    var html = '<div class="concat"><h6 class="finalname" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-staff fa fa-close"></i> </h6></div>';
+                    $("#display").append(html);
+                    $('.concat > h6.finalname').each(function () {
+                        str += $(this).text() + ",";
+                    });
+                    var str2 = str.substring(0, str.length - 1);
+                    $('#id_campus_lead_staff').val(str2);
+                    $('#firstname').val('');
+                    $('#lastname').val('');
+                }
+            }
         });
-        var str2 = str.substring(0, str.length - 1);
-        $('#id_campus_lead_staff').val(str2);
-        $('#firstname').val('');
-        $('#lastname').val('');
-    }
-}
-    });
         $("#addsubcat").click(function () {
             $('.addothercaterror').empty();
-var str = "";
-var name =  $('.subcat > h6.finalcat').length;
+            var str = "";
+            var name =  $('.subcat > h6.finalcat').length;
 //alert(name);
-if(name === 10) {
-    alert("Maximum of 10 Topics are allowed");
+            if(name === 10) {
+                alert("Maximum of 10 Topics are allowed");
                 $('#othersubcat').val('');
-            return false;
-        }
-else {
-    var disp = $('#othersubcat').val();
-    if (disp === "") {
-        alert("Add Other Topic")
-    } else {
-        var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
-        $("#displaysub").append(html);
-        $('.subcat > h6.finalcat').each(function () {
-            str += $(this).text() + ",";
-        });
-        var str2 = str.substring(0, str.length - 1);
-        $('#id_other_sub_category').val(str2);
-        $('#othersubcat').val('');
-    }
-}
-    });
-        //------------------add additional other activity type--------------------
-            $("#addotheract").click(function () {
-                $('.addactivityerror').empty();
-var str = "";
-var name =  $('.act > h6.finalact').length;
-//alert(name);
-if(name === 10) {
-    alert("Maximum of 10 Activity Types are allowed");
-                $('#otheracttype').val('');
-            return false;
-        }
-else {
-    var disp = $('#otheracttype').val();
-    if (disp === "") {
-        alert("Add Activity Type")
-    } else {
-        var html = '<div class="act"><h6 class="finalact" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-act fa fa-close"></i> </h6></div>';
-        $("#displayact").append(html);
-        $('.act > h6.finalact').each(function () {
-            str += $(this).text() + ",";
-        });
-        var str2 = str.substring(0, str.length - 1);
-        $('#id_other_activity_type').val(str2);
-        $('#otheracttype').val('');
-    }
-}
-    });
-            $(document).on('click', '.remove-act', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    var str = "";
-                $('.act > h6.finalact').each(function(){
-                     str += $(this).text()+ ",";
-                });
- var str2 = str.substring(0,str.length-1);
-                $('#id_other_activity_type').val(str2);
-                // $('#id_campus_lead_staff').val(str);
-    return false;
-});
-$('#id_engagement_type').change(function () {
-    var selectedEngagement = $('#id_engagement_type option:selected').text();
-    $.ajax({
-        url: "/getEngagemetActivityList/",
-        data: {
-            'selectedEngagement': selectedEngagement
-        },
-        dataType: 'json',
-        success: function (data) {
-            var activityList = data.activityList
-            var options = '<option value="0">--------</option>';
-            for (var i = 0; i < activityList.length; i++) {
-                options += '<option value="' + activityList[i].id + '">' + activityList[i].name + '</option>';
+                return false;
             }
-            $("select#id_populate_activity").html(options);
-            $("select#id_populate_activity option:first").attr('selected', 'selected');
-            $("select#id_populate_activity").attr('disabled', false);
+            else {
+                var disp = $('#othersubcat').val();
+                if (disp === "") {
+                    alert("Add Other Topic")
+                } else {
+                    var html = '<div class="subcat"><h6 class="finalcat" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-subcat fa fa-close"></i> </h6></div>';
+                    $("#displaysub").append(html);
+                    $('.subcat > h6.finalcat').each(function () {
+                        str += $(this).text() + ",";
+                    });
+                    var str2 = str.substring(0, str.length - 1);
+                    $('#id_other_sub_category').val(str2);
+                    $('#othersubcat').val('');
+                }
+            }
+        });
+        //------------------add additional other activity type--------------------
+        $("#addotheract").click(function () {
+            $('.addactivityerror').empty();
+            var str = "";
+            var name =  $('.act > h6.finalact').length;
+//alert(name);
+            if(name === 10) {
+                alert("Maximum of 10 Activity Types are allowed");
+                $('#otheracttype').val('');
+                return false;
+            }
+            else {
+                var disp = $('#otheracttype').val();
+                if (disp === "") {
+                    alert("Add Activity Type")
+                } else {
+                    var html = '<div class="act"><h6 class="finalact" style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + disp + '<i name="' + name + '" onclick="myFunction()" class="remove-act fa fa-close"></i> </h6></div>';
+                    $("#displayact").append(html);
+                    $('.act > h6.finalact').each(function () {
+                        str += $(this).text() + ",";
+                    });
+                    var str2 = str.substring(0, str.length - 1);
+                    $('#id_other_activity_type').val(str2);
+                    $('#otheracttype').val('');
+                }
+            }
+        });
+        $(document).on('click', '.remove-act', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            var str = "";
+            $('.act > h6.finalact').each(function(){
+                str += $(this).text()+ ",";
+            });
+            var str2 = str.substring(0,str.length-1);
+            $('#id_other_activity_type').val(str2);
+            // $('#id_campus_lead_staff').val(str);
+            return false;
+        });
+        $('#id_engagement_type').change(function () {
+            var selectedEngagement = $('#id_engagement_type option:selected').text();
+            $.ajax({
+                url: "/getEngagemetActivityList/",
+                data: {
+                    'selectedEngagement': selectedEngagement
+                },
+                dataType: 'json',
+                success: function (data) {
+                    var activityList = data.activityList
+                    var options = '<option value="0">--------</option>';
+                    for (var i = 0; i < activityList.length; i++) {
+                        options += '<option value="' + activityList[i].id + '">' + activityList[i].name + '</option>';
+                    }
+                    $("select#id_populate_activity").html(options);
+                    $("select#id_populate_activity option:first").attr('selected', 'selected');
+                    $("select#id_populate_activity").attr('disabled', false);
+                }
+            });
+        });
+        $('#id_populate_activity').change(function () {
+            var selectedactivity = $('#id_populate_activity option:selected').text();
+            var selectedactivityval = $('#id_populate_activity option:selected').val();
+            $('#id_activity_type').val(selectedactivityval);
+            // $('#id_activity_type option[value=]').attr('selected','selected');
+            if(selectedactivity === 'Other'){
+                $('#otheractivity').show();
+            }
+            else{
+                $('#otheractivity').hide();
+            }
+        });
+        $(document).on('click', '.remove-subcat', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            var str = "";
+            $('.subcat > h6.finalcat').each(function(){
+                str += $(this).text()+ ",";
+            });
+            var str2 = str.substring(0,str.length-1);
+            $('#id_other_sub_category').val(str2);
+            // $('#id_campus_lead_staff').val(str);
+            return false;
+        });
+        $(document).on('click', '.remove-staff', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            var str = "";
+            $('.concat > h6.finalname').each(function(){
+                str += $(this).text()+ ",";
+            });
+            var str2 = str.substring(0,str.length-1);
+            $('#id_campus_lead_staff').val(str2);
+            // $('#id_campus_lead_staff').val(str);
+            return false;
+        });
+        // $('.remove-staff').click(function () {
+        //     $(this).closest('.concat').remove();
+        // });
+        function updateElementIndex(el, prefix, ndx) {
+            var id_regex = new RegExp('(' + prefix + '-\\d+)');
+            var replacement = prefix + '-' + ndx;
+            if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
+            if (el.id) el.id = el.id.replace(id_regex, replacement);
+            if (el.name) el.name = el.name.replace(id_regex, replacement);
         }
-    });
-});
-$('#id_populate_activity').change(function () {
-    var selectedactivity = $('#id_populate_activity option:selected').text();
-    var selectedactivityval = $('#id_populate_activity option:selected').val();
-    $('#id_activity_type').val(selectedactivityval);
-    // $('#id_activity_type option[value=]').attr('selected','selected');
-    if(selectedactivity === 'Other'){
-        $('#otheractivity').show();
-    }
-    else{
-         $('#otheractivity').hide();
-    }
-});
-            $(document).on('click', '.remove-subcat', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    var str = "";
-                $('.subcat > h6.finalcat').each(function(){
-                     str += $(this).text()+ ",";
+        var community_ids = [];
+        var campus_ids = [];
+        var subcategory_ids=[];
+        $("#id_registerCommAndSave").click(function (){
+            var result = confirm("You will be redirected to Register Community Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Community Partner?");
+            if (result == true) {
+                var commIdList = ''
+                if (community_ids.length >=1) {
+                    commIdList  = String(community_ids);
+                }
+                var campIdList = ''
+                if (campus_ids.length >=1) {
+                    campIdList  = String(campus_ids);
+                }
+                $.ajax({
+                    url: "/saveProjectAndRegister/",
+                    data: {
+                        'name': document.getElementById("id_project_name").value,
+                        'description':document.getElementById("id_description").value,
+                        'engagement_type':document.getElementById("id_engagement_type").value,
+                        'activity_type':document.getElementById("id_populate_activity").value,
+                        'start_semester':document.getElementById("id_semester").value,
+                        'start_academic_yr':document.getElementById("id_academic_year").value,
+                        'end_semester':document.getElementById("id_end_semester").value,
+                        'end_academic_yr':document.getElementById("id_end_academic_year").value,
+                        'uno_students':document.getElementById("id_total_uno_students").value,
+                        'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+                        'k12_students':document.getElementById("id_total_k12_students").value,
+                        'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+                        'k12_involvment_flag':document.getElementById("id_k12_flag").value,
+                        'selectedCommIds':commIdList,
+                        'selectedCampusIds':campIdList,
+                        'project_type':document.getElementById("id_project_type").value,
+                        'lead_staff_list':document.getElementById("id_campus_lead_staff").value
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        window.location = '/partners/register-Community-Partner-For-Project/?projectId='+data.save_projectId
+                    }
                 });
- var str2 = str.substring(0,str.length-1);
-                $('#id_other_sub_category').val(str2);
-                // $('#id_campus_lead_staff').val(str);
-    return false;
-});
-    $(document).on('click', '.remove-staff', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    var str = "";
-                $('.concat > h6.finalname').each(function(){
-                     str += $(this).text()+ ",";
+            }
+        });
+        $("#id_registerCampusAndSave").click(function (){
+            var result = confirm("You will be redirected to Register Campus Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Campus Partner?");
+            if (result == true) {
+                var commIdList = ''
+                if (community_ids.length >=1) {
+                    commIdList  = String(community_ids);
+                }
+                var campIdList = ''
+                if (campus_ids.length >=1) {
+                    campIdList  = String(campus_ids);
+                }
+                $.ajax({
+                    url: "/saveProjectAndRegister/",
+                    //url:"/partners/registerCommunityPartnerForProject/",
+                    data: {
+                        'name': document.getElementById("id_project_name").value,
+                        'description':document.getElementById("id_description").value,
+                        'engagement_type':document.getElementById("id_engagement_type").value,
+                        'activity_type':document.getElementById("id_populate_activity").value,
+                        'start_semester':document.getElementById("id_semester").value,
+                        'start_academic_yr':document.getElementById("id_academic_year").value,
+                        'end_semester':document.getElementById("id_end_semester").value,
+                        'end_academic_yr':document.getElementById("id_end_academic_year").value,
+                        'uno_students':document.getElementById("id_total_uno_students").value,
+                        'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
+                        'k12_students':document.getElementById("id_total_k12_students").value,
+                        'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
+                        'k12_involvment_flag':document.getElementById("id_k12_flag").value,
+                        'selectedCommIds':commIdList,
+                        'selectedCampusIds':campIdList,
+                        'project_type':document.getElementById("id_project_type").value,
+                        'lead_staff_list':document.getElementById("id_campus_lead_staff").value
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        window.location = '/partners/register-Campus-Partner-For-Project/?projectId='+data.save_projectId
+                    }
                 });
- var str2 = str.substring(0,str.length-1);
-                $('#id_campus_lead_staff').val(str2);
-                // $('#id_campus_lead_staff').val(str);
-    return false;
-});
-    // $('.remove-staff').click(function () {
-    //     $(this).closest('.concat').remove();
-    // });
-function updateElementIndex(el, prefix, ndx) {
-    var id_regex = new RegExp('(' + prefix + '-\\d+)');
-    var replacement = prefix + '-' + ndx;
-    if ($(el).attr("for")) $(el).attr("for", $(el).attr("for").replace(id_regex, replacement));
-    if (el.id) el.id = el.id.replace(id_regex, replacement);
-    if (el.name) el.name = el.name.replace(id_regex, replacement);
-}
-var community_ids = [];
-var campus_ids = [];
-var subcategory_ids=[];
-$("#id_registerCommAndSave").click(function (){
-    var result = confirm("You will be redirected to Register Community Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Community Partner?");
-    if (result == true) {
-    var commIdList = ''
-    if (community_ids.length >=1) {
-        commIdList  = String(community_ids);
-    }
-    var campIdList = ''
-    if (campus_ids.length >=1) {
-        campIdList  = String(campus_ids);
-    }
-     $.ajax({
-        url: "/saveProjectAndRegister/",
-        data: {
-            'name': document.getElementById("id_project_name").value,
-            'description':document.getElementById("id_description").value,
-            'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_populate_activity").value,
-            'start_semester':document.getElementById("id_semester").value,
-            'start_academic_yr':document.getElementById("id_academic_year").value,
-            'end_semester':document.getElementById("id_end_semester").value,
-            'end_academic_yr':document.getElementById("id_end_academic_year").value,
-            'uno_students':document.getElementById("id_total_uno_students").value,
-            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
-            'k12_students':document.getElementById("id_total_k12_students").value,
-            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
-            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
-            'selectedCommIds':commIdList,
-            'selectedCampusIds':campIdList,
-            'project_type':document.getElementById("id_project_type").value,
-            'lead_staff_list':document.getElementById("id_campus_lead_staff").value
-        },
-        dataType: 'json',
-        success: function (data) {
-           window.location = '/partners/register-Community-Partner-For-Project/?projectId='+data.save_projectId
-        }
-    });
- }
-});
-$("#id_registerCampusAndSave").click(function (){
-    var result = confirm("You will be redirected to Register Campus Partner page. Upon Submission of the registration form, you will be redirected back to this page to finish creating a project. Are you sure you want to register a New Campus Partner?");
-    if (result == true) {
-    var commIdList = ''
-    if (community_ids.length >=1) {
-        commIdList  = String(community_ids);
-    }
-    var campIdList = ''
-    if (campus_ids.length >=1) {
-        campIdList  = String(campus_ids);
-    }
-     $.ajax({
-        url: "/saveProjectAndRegister/",
-       //url:"/partners/registerCommunityPartnerForProject/",
-        data: {
-            'name': document.getElementById("id_project_name").value,
-            'description':document.getElementById("id_description").value,
-            'engagement_type':document.getElementById("id_engagement_type").value,
-            'activity_type':document.getElementById("id_populate_activity").value,
-            'start_semester':document.getElementById("id_semester").value,
-            'start_academic_yr':document.getElementById("id_academic_year").value,
-            'end_semester':document.getElementById("id_end_semester").value,
-            'end_academic_yr':document.getElementById("id_end_academic_year").value,
-            'uno_students':document.getElementById("id_total_uno_students").value,
-            'uno_students_hrs':document.getElementById("id_total_uno_hours").value,
-            'k12_students':document.getElementById("id_total_k12_students").value,
-            'k12_students_hrs':document.getElementById("id_total_k12_hours").value,
-            'k12_involvment_flag':document.getElementById("id_k12_flag").value,
-            'selectedCommIds':commIdList,
-            'selectedCampusIds':campIdList,
-            'project_type':document.getElementById("id_project_type").value,
-            'lead_staff_list':document.getElementById("id_campus_lead_staff").value
-        },
-        dataType: 'json',
-        success: function (data) {
-           window.location = '/partners/register-Campus-Partner-For-Project/?projectId='+data.save_projectId
-        }
-    });
- }
-});
-function cloneMore(selector, prefix) {
-    // $(this).parent().fadeout();
-       var selected = $(selector).find(':selected').val();
-       var selectedtext = $(selector).find(':selected').text();
-    if (selectedtext == '---------') {
-        alert('you cannot add empty value');
-       $(selector).find('select').val(' ');
-        return;
-    }
-    if (prefix == 'community') {
-        if (community_ids.includes(selected)) {
-            alert('Community Partner already added');
-           $(selector).find('select').val(' ');
-            return;
-        }
-        community_ids.push(selected);
-        community_ids.forEach(function (item, index) {
-            $('.community-row:last').find('[value="' + item + '"]').hide();
+            }
         });
-    } else if (prefix == 'campus') {
-        if (campus_ids.includes(selected)) {
-            alert('Campus Partner already added');
-           $(selector).find('select').val(' ');
-            return;
-        }
-        campus_ids.push(selected);
-        campus_ids.forEach(function (item, index) {
-            $('.campus-row:last').find('[value="' + item + '"]').hide();
-        })
+        function cloneMore(selector, prefix) {
+            // $(this).parent().fadeout();
+            var selected = $(selector).find(':selected').val();
+            var selectedtext = $(selector).find(':selected').text();
+            if (selectedtext == '---------') {
+                alert('you cannot add empty value');
+                $(selector).find('select').val(' ');
+                return;
+            }
+            if (prefix == 'community') {
+                if (community_ids.includes(selected)) {
+                    alert('Community Partner already added');
+                    $(selector).find('select').val(' ');
+                    return;
+                }
+                community_ids.push(selected);
+                community_ids.forEach(function (item, index) {
+                    $('.community-row:last').find('[value="' + item + '"]').hide();
+                });
+            } else if (prefix == 'campus') {
+                if (campus_ids.includes(selected)) {
+                    alert('Campus Partner already added');
+                    $(selector).find('select').val(' ');
+                    return;
+                }
+                campus_ids.push(selected);
+                campus_ids.forEach(function (item, index) {
+                    $('.campus-row:last').find('[value="' + item + '"]').hide();
+                })
 
-    }
-    else if (prefix=='sub_category'){
-        if (subcategory_ids.includes(selected)){
-            alert('Topic already added');
-           $(selector).find('select').val(' ');
-            return;
+            }
+            else if (prefix=='sub_category'){
+                if (subcategory_ids.includes(selected)){
+                    alert('Topic already added');
+                    $(selector).find('select').val(' ');
+                    return;
+                }
+                subcategory_ids.push(selected);
+                subcategory_ids.forEach(function (item, index) {
+                    $('.sub_category-row:last').find('[value="' + item + '"]').hide();
+                });
+            }
+            var newElement = $(selector).clone(true);
+            var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
+            newElement.find(':input').each(function() {
+                var name = $(this).attr('name');
+                if(name) {
+                    var selectedcommunity = $('#id_'+name+' option:selected').text();
+                    var value = $('#id_'+name+' option:selected').val();
+                    if(selectedcommunity != '') {
+                        console.log(selectedcommunity);
+                        var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
+                        $("#"+prefix+"-fields").append(html);
+                    }
+                    if(selectedcommunity === 'Other'){
+                        $('#othersubinput').show();
+                    }
+                    name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+                    var id = 'id_' + name;
+                    $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
+                    $('#'+id).find('[value='+value+']').remove();
+                    // $(this).find(value).remove();
+                    // var namenext = name.replace('-' + total + '-', '-' + (total+1) + '-');
+                    // var idnext = 'id_' + name;
+                    // $(idnext).find(value).remove();
+                }
+            });
+            total++;
+            $('#id_' + prefix + '-TOTAL_FORMS').val(total);
+            $(selector).after(newElement);
+            var conditionRow = $('.'+ prefix + '-row:not(:last)');
+            conditionRow.hide() ;
+            // var selectedcommunity = $('#id_'+name+' option:selected').text();
+            //     console.log(selectedcommunity);
+            //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
+            //   $("#copy-fields").append(html);
+            conditionRow.find('.fa.add-' + prefix +'-row')
+                .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
+                .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
+                .html(' ');
+            return false;
         }
-        subcategory_ids.push(selected);
-        subcategory_ids.forEach(function (item, index) {
-            $('.sub_category-row:last').find('[value="' + item + '"]').hide();
+        function deleteForm(prefix, elem) {
+            var btn = elem.attr('name');
+            //console.log("delete happening");
+            var selected = elem.attr('data-id');
+            //var selected = btn.parent().parent().find(':selected').val();
+            if (prefix == 'community') {
+                var index = community_ids.indexOf(selected);
+                if (index != -1) community_ids.splice(index, 1);
+                $('.community-row:last').find('[value="' + selected + '"]').show();
+            } else if (prefix == 'campus') {
+                var index = campus_ids.indexOf(selected);
+                if (index != -1) campus_ids.splice(index, 1);
+                $('.campus-row:last').find('[value="' + selected + '"]').show();
+            }
+            else if(prefix=='sub_category'){
+                var index = subcategory_ids.indexOf(selected);
+                if (index !=-1) subcategory_ids.splice(index,1);
+                $('.sub_category-row:last').find('[value="' + selected + '"]').show();
+            }
+            community_ids.forEach(function (item, index) {
+                $('.community-row:last').find('[value="' + item + '"]').hide();
+            });
+            campus_ids.forEach(function (item, index) {
+                $('.campus-row:last').find('[value="' + item + '"]').hide();
+
+            });
+            subcategory_ids.forEach(function (item, index) {
+                $('.sub_category-row:last').find('[value="' + item + '"]').hide();
+            });
+            var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
+            console.log('In deleteForm - total', total);
+            if (total > 1) {
+                $('#id_'+btn).closest('.' + prefix + '-row').remove();
+                // $('#id_'+btn).closest('.community_partner').remove();
+                // btn.closest('.' + prefix + '-row').remove();
+                var forms = $('.' + prefix + '-row');
+                $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
+                for (var i = 0, formCount = forms.length; i < formCount; i++) {
+                    $(forms.get(i))
+                        .find(':input')
+                        .each(function() {
+                            updateElementIndex(this, prefix, i);
+                        });
+                }
+            }
+            return false;
+        }
+        $(document).on('click', '.add-mission-row', function(e){
+            e.preventDefault();
+            cloneMore('.mission-row:last', 'mission');
+            return false;
         });
-    }
-    var newElement = $(selector).clone(true);
-    var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
-    newElement.find(':input').each(function() {
-        var name = $(this).attr('name');
-        if(name) {
-             var selectedcommunity = $('#id_'+name+' option:selected').text();
-             var value = $('#id_'+name+' option:selected').val();
-             if(selectedcommunity != '') {
-                 console.log(selectedcommunity);
-                 var html = '<h6 style="border:1px black solid;padding:5px;margin: 5px;border-radius: 10px">' + selectedcommunity + '  <i name="' + name + '" class="remove-' + prefix + '-row fa fa-close" data-id="' + value + '"></i> </h6>';
-                 $("#"+prefix+"-fields").append(html);
-             }
-             if(selectedcommunity === 'Other'){
-                 $('#othersubinput').show();
-             }
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
-            var id = 'id_' + name;
-            $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
-            $('#'+id).find('[value='+value+']').remove();
-            // $(this).find(value).remove();
-            // var namenext = name.replace('-' + total + '-', '-' + (total+1) + '-');
-            // var idnext = 'id_' + name;
-            // $(idnext).find(value).remove();
-        }
-    });
-    total++;
-    $('#id_' + prefix + '-TOTAL_FORMS').val(total);
-    $(selector).after(newElement);
-    var conditionRow = $('.'+ prefix + '-row:not(:last)');
-    conditionRow.hide() ;
-      // var selectedcommunity = $('#id_'+name+' option:selected').text();
-      //     console.log(selectedcommunity);
-      //   var html = '<div class="community_partner" name="community_partner">'+selectedcommunity+'<i class="remove-'+prefix+'-row fa fa-trash"></i> </div>';
-      //   $("#copy-fields").append(html);
-    conditionRow.find('.fa.add-' + prefix +'-row')
-    .removeClass('fa-plus-square').addClass('fa fa-minus-square').addClass('delicon')
-    .removeClass('add-' + prefix + '-row').addClass('remove-' + prefix + '-row')
-    .html(' ');
-    return false;
-}
-function deleteForm(prefix, elem) {
-    var btn = elem.attr('name');
-    //console.log("delete happening");
-    var selected = elem.attr('data-id');
-       //var selected = btn.parent().parent().find(':selected').val();
-    if (prefix == 'community') {
-        var index = community_ids.indexOf(selected);
-        if (index != -1) community_ids.splice(index, 1);
-         $('.community-row:last').find('[value="' + selected + '"]').show();
-    } else if (prefix == 'campus') {
-        var index = campus_ids.indexOf(selected);
-        if (index != -1) campus_ids.splice(index, 1);
-        $('.campus-row:last').find('[value="' + selected + '"]').show();
-    }
-    else if(prefix=='sub_category'){
-        var index = subcategory_ids.indexOf(selected);
-        if (index !=-1) subcategory_ids.splice(index,1);
-        $('.sub_category-row:last').find('[value="' + selected + '"]').show();
-    }
-    community_ids.forEach(function (item, index) {
-        $('.community-row:last').find('[value="' + item + '"]').hide();
-    });
-    campus_ids.forEach(function (item, index) {
-        $('.campus-row:last').find('[value="' + item + '"]').hide();
-
-    });
-    subcategory_ids.forEach(function (item, index) {
-        $('.sub_category-row:last').find('[value="' + item + '"]').hide();
-    });
-  var total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
-  console.log('In deleteForm - total', total);
-  if (total > 1) {
-    $('#id_'+btn).closest('.' + prefix + '-row').remove();
-    // $('#id_'+btn).closest('.community_partner').remove();
-    // btn.closest('.' + prefix + '-row').remove();
-    var forms = $('.' + prefix + '-row');
-    $('#id_' + prefix + '-TOTAL_FORMS').val(forms.length);
-    for (var i = 0, formCount = forms.length; i < formCount; i++) {
-      $(forms.get(i))
-        .find(':input')
-        .each(function() {
-          updateElementIndex(this, prefix, i);
+        $(document).on('click', '.add-sub_category-row', function(e){
+            e.preventDefault();
+            $('.addcaterror').empty();
+            $('.sub_category-row:last').find('option:not(:selected)').show();
+            cloneMore('.sub_category-row:last', 'sub_category');
+            return false;
         });
-    }
-  }
-  return false;
-}
-$(document).on('click', '.add-mission-row', function(e){
-    e.preventDefault();
-    cloneMore('.mission-row:last', 'mission');
-    return false;
-});
-$(document).on('click', '.add-sub_category-row', function(e){
-    e.preventDefault();
-    $('.addcaterror').empty();
-     $('.sub_category-row:last').find('option:not(:selected)').show();
-    cloneMore('.sub_category-row:last', 'sub_category');
-    return false;
-});
-$(document).on('click', '.add-secondary_mission-row', function(e){
-    e.preventDefault();
-    cloneMore('.secondary_mission-row:last', 'secondary_mission');
-    return false;
-});
-$(document).on('click', '.add-community-row', function(e){
-    e.preventDefault();
-     $('.community-row:last').find('option:not(:selected)').show();
-    cloneMore('.community-row:last', 'community');
-    $('.addcommerror').empty();
+        $(document).on('click', '.add-secondary_mission-row', function(e){
+            e.preventDefault();
+            cloneMore('.secondary_mission-row:last', 'secondary_mission');
+            return false;
+        });
+        $(document).on('click', '.add-community-row', function(e){
+            e.preventDefault();
+            $('.community-row:last').find('option:not(:selected)').show();
+            cloneMore('.community-row:last', 'community');
+            $('.addcommerror').empty();
 
-    return false;
-});
-$(document).on('click', '.add-campus-row', function(e){
-    e.preventDefault();
-    $('.addcamperror').empty();
-     $('.campus-row:last').find('option:not(:selected)').show();
-    cloneMore('.campus-row:last', 'campus');
-    return false;
-});
-$(document).on('click', '.remove-mission-row', function(e){
-    e.preventDefault();
-    deleteForm('mission', $(this));
-    return false;
-});
-$(document).on('click', '.remove-secondary_mission-row', function(e){
-    e.preventDefault();
-    deleteForm('secondary_mission', $(this));
-    return false;
-});
-$(document).on('click', '.remove-community-row', function(e){
-    e.preventDefault();
-   $(this).parent().remove();
-    deleteForm('community', $(this));
-    return false;
-});
-$(document).on('click', '.remove-campus-row', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    deleteForm('campus', $(this));
-    return false;
-});
-$(document).on('click', '.remove-sub_category-row', function(e){
-    e.preventDefault();
-    $(this).parent().remove();
-    deleteForm('sub_category', $(this));
-    return false;
-});
-</script>
-{#   Js to show the course form if some error happens after the form #}
-<script>
-window.onload = function () {
-        const urlParams = new URLSearchParams(window.location.search);
-    const projectName = urlParams.get('p_name');
-    $("#id_project_name").val(projectName);
-  var val = $("#id_activity_type").find("option:selected").text();
-           if (val === 'Course') {
-               $("#id_name").hide();
-               $("label.control-label[for=id_name], input#id_name").hide();
-              // $("label.control-label[for=id_prefix], input#id_prefix").show();
-               $("label.control-label[for=id_section], input#id_section").hide();
-               $("#id_prefix").hide();
-               $("label.control-label[for=id_number], input#id_number").hide();
-               $("#id_number").hide();
-           }
-}
-</script>
-{#  JS to Hide the#}
-<script>
-   $(function() {
-       function hideInputs() {
-           $("label.control-label[for=id_name], input#id_name").hide();
-           $("#id_id_name").hide();
-           $("label.control-label[for=id_prefix], input#id_prefix").hide();
-           $("#id_prefix").hide();
-           $("label.control-label[for=id_number], input#id_number").hide();
-           $("#id_number").hide();
-           $("label.control-label[for=id_section], input#id_section").hide();
-           $("#id_section").hide();
-           console.log('label.control-label[for=id_name], input#id_name');
-       }
-       $("#id_populate_activity").on('change', function () {
-           var val = $("#id_populate_activity").find("option:selected").text();
-           console.log(val)
-           if (val === 'Course') {
-               $("#id_name").show();
-               $("label.control-label[for=id_name], input#id_name").hide();
-               $("label.control-label[for=id_prefix], input#id_prefix").hide();
-               $("#id_prefix").hide();
-               $("label.control-label[for=id_number], input#id_number").hide();
-               $("#id_number").hide();
-               $("label.control-label[for=id_section], input#id_section").hide();
-               $("#id_section").hide();
-           }
-           else {
-               hideInputs();
-           }
-       });
-       hideInputs();
-   });
-</script>
+            return false;
+        });
+        $(document).on('click', '.add-campus-row', function(e){
+            e.preventDefault();
+            $('.addcamperror').empty();
+            $('.campus-row:last').find('option:not(:selected)').show();
+            cloneMore('.campus-row:last', 'campus');
+            return false;
+        });
+        $(document).on('click', '.remove-mission-row', function(e){
+            e.preventDefault();
+            deleteForm('mission', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-secondary_mission-row', function(e){
+            e.preventDefault();
+            deleteForm('secondary_mission', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-community-row', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('community', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-campus-row', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('campus', $(this));
+            return false;
+        });
+        $(document).on('click', '.remove-sub_category-row', function(e){
+            e.preventDefault();
+            $(this).parent().remove();
+            deleteForm('sub_category', $(this));
+            return false;
+        });
+    </script>
+    {#   Js to show the course form if some error happens after the form #}
+    <script>
+        window.onload = function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const projectName = urlParams.get('p_name');
+            $("#id_project_name").val(projectName);
+            var val = $("#id_activity_type").find("option:selected").text();
+            if (val === 'Course') {
+                $("#id_name").hide();
+                $("label.control-label[for=id_name], input#id_name").hide();
+                // $("label.control-label[for=id_prefix], input#id_prefix").show();
+                $("label.control-label[for=id_section], input#id_section").hide();
+                $("#id_prefix").hide();
+                $("label.control-label[for=id_number], input#id_number").hide();
+                $("#id_number").hide();
+            }
+        }
+    </script>
+    {#  JS to Hide the#}
+    <script>
+        $(function() {
+            function hideInputs() {
+                $("label.control-label[for=id_name], input#id_name").hide();
+                $("#id_id_name").hide();
+                $("label.control-label[for=id_prefix], input#id_prefix").hide();
+                $("#id_prefix").hide();
+                $("label.control-label[for=id_number], input#id_number").hide();
+                $("#id_number").hide();
+                $("label.control-label[for=id_section], input#id_section").hide();
+                $("#id_section").hide();
+                console.log('label.control-label[for=id_name], input#id_name');
+            }
+            $("#id_populate_activity").on('change', function () {
+                var val = $("#id_populate_activity").find("option:selected").text();
+                console.log(val)
+                if (val === 'Course') {
+                    $("#id_name").show();
+                    $("label.control-label[for=id_name], input#id_name").hide();
+                    $("label.control-label[for=id_prefix], input#id_prefix").hide();
+                    $("#id_prefix").hide();
+                    $("label.control-label[for=id_number], input#id_number").hide();
+                    $("#id_number").hide();
+                    $("label.control-label[for=id_section], input#id_section").hide();
+                    $("#id_section").hide();
+                }
+                else {
+                    hideInputs();
+                }
+            });
+            hideInputs();
+        });
+    </script>
 {% endblock %}
 
 
 {% block selectizeForm %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
-<script>
-$(document).ready(function(){
-    $('#othersubinput').hide();
-    $('.control-label').hide();
-    $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
-    $('#id_populate_activity').select2({placeholder: 'Select Activity Type',border:'2px solid #aaa'});
-    $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
-    $('#id_description').attr('placeholder', 'Project Description, Outcomes, Course Details, and/or Related Links');
-    // $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
-    $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
-    $('#id_status').select2({placeholder: 'Select Status',});
-    $('#id_semester').select2({placeholder: 'Select Semester',});
-    $('#id_end_semester').select2({placeholder: 'Select End Semester',});
-    $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
-    $('#id_address_line1').addClass('clearable');
-               function tog(v){return v?'addClass':'removeClass';}
-    $(document).on('input', '.clearable', function(){
-    $(this)[tog(this.value)]('x');
-       }).on('mousemove', '.x', function( e ){
-    $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
-      }).on('touchstart click', '.onX', function( ev ){
-    ev.preventDefault();
-    $(this).removeClass('x onX').val('').change();
-     });
-               //---------------------------academic year validation ----------------------------
-        $("#id_end_academic_year").change(function () {
-        var fromacademicyear=$("#id_academic_year").val();
-        var toacademicyear=$("#id_end_academic_year").val();
-        if (toacademicyear<fromacademicyear ){
-            alert("Project End Academic Year is before Project Start Academic Year");
-            // $("#id_end_academic_year").val('-------- ');
-            // $("#id_academic_year").val(' ');
-            return false;
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+    <script>
+        $(document).ready(function(){
+            $('#othersubinput').hide();
+            $('.control-label').hide();
+            $('#id_engagement_type').select2({placeholder: 'Select Engagement Type',border:'2px solid #aaa'});
+            $('#id_populate_activity').select2({placeholder: 'Select Activity Type',border:'2px solid #aaa'});
+            $('#id_project_type').select2({placeholder: 'Select Project Type',border:'2px solid #aaa'});
+            $('#id_description').attr('placeholder', 'Project Description, Outcomes, Course Details, and/or Related Links');
+            // $('#id_activity_type').select2({placeholder: 'Select Activity Type',});
+            $('#id_academic_year').select2({placeholder: 'Select Academic Year',});
+            $('#id_status').select2({placeholder: 'Select Status',});
+            $('#id_semester').select2({placeholder: 'Select Semester',});
+            $('#id_end_semester').select2({placeholder: 'Select End Semester',});
+            $('#id_end_academic_year').select2({placeholder: 'Select End Academic Year',});
+            $('#id_address_line1').addClass('clearable');
+            function tog(v){return v?'addClass':'removeClass';}
+            $(document).on('input', '.clearable', function(){
+                $(this)[tog(this.value)]('x');
+            }).on('mousemove', '.x', function( e ){
+                $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+            }).on('touchstart click', '.onX', function( ev ){
+                ev.preventDefault();
+                $(this).removeClass('x onX').val('').change();
+            });
+            //---------------------------academic year validation ----------------------------
+            $("#id_end_academic_year").change(function () {
+                var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                if (toacademicyear<fromacademicyear ){
+                    alert("Project End Academic Year is before Project Start Academic Year");
+                    // $("#id_end_academic_year").val('-------- ');
+                    // $("#id_academic_year").val(' ');
+                    return false;
+                }
+            });
+            $("#id_academic_year").change(function () {
+                var fromacademicyear=$("#id_academic_year").val();
+                var toacademicyear=$("#id_end_academic_year").val();
+                if (toacademicyear!='') {
+                    if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
+                        alert("Project End Academic Year is before Project Start Academic Year");
+                        // $("#id_end_academic_year").val(' ');
+                        // $("#id_academic_year").val(' ');
+                        return false;
+                    }
+                }
+            });
+        });
+        // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
+    </script>
+
+    <style>
+
+        label{
+            cursor: pointer;
         }
-    });
-    $("#id_academic_year").change(function () {
-        var fromacademicyear=$("#id_academic_year").val();
-        var toacademicyear=$("#id_end_academic_year").val();
-        if (toacademicyear!='') {
-            if (fromacademicyear > toacademicyear || toacademicyear < fromacademicyear) {
-                alert("Project End Academic Year is before Project Start Academic Year");
-                // $("#id_end_academic_year").val(' ');
-                // $("#id_academic_year").val(' ');
-                return false;
-            }
+
+        label:hover .tooltip{
+            display:inline-block;
         }
-    });
-});
- // document.getElementById("terms").setCustomValidity("Please accept the Terms and Conditions");
-</script>
-
-<style>
-
-label{
-  cursor: pointer;
-}
-
-label:hover .tooltip{
-  display:inline-block;
-}
-     label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
+        label[for=id_project_name]:after,label[for=id_engagement_type]:after,label[for=id_activity_type]:after,label[for=id_form-0-campus_partner]:after,
         label[for=id_facilitator]:after,label[for=id_status]:after,label[for=id_status]:after,label[for=id_academic_year]:after,label[for=id_semester]:after,label[for=id_uno_student_service_hours]:after,
         label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after,label[for=id_form-0-mission_type]:after,
         label[for=id_form-0-mission]:after,label[for=id_zip]:after,label[for=id_campus-0-campus_partner]:after
-    {
-        content:"*" ;
-        color:red
-    }
-     .form-control{
-         border: 1px solid #aaaaaa;
-     }
-input[id=othersubcat]{
-        width:98%;
-        height: 35px;
-        color: black;
-        margin-top: 5px;
-        margin-left: 8px;
-        font-family: "Arial Narrow", sans-serif;
-        font-size: 16px;
-        border-radius: 5px;
-    }
-     select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
-   input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
-    select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype], input[id=id_total_uno_faculty],input[id=id_total_other_community_members]
-    {
-        width:96%;
-        height: 35px;
-        color: black;
-        margin-top: 5px;
-        margin-left: 10px;
-        font-family: "Arial Narrow", sans-serif;
-        font-size: 16px;
-         border-radius: 5px;
-    }
-    input[id=id_project_name]{
-        margin-bottom: 0px;
-        border-radius: 5px;
-    }
-     select[id=id_form-0-campus_partner]
-   {
-       width:93%;
-   }
-.select2-container .select2-selection--single
-{
-   height:32px;
-}
-.select2-container--default .select2-selection--single
-{
-   /*border: 2px solid #aaa;*/
-   margin-top:8px;
-}
-.select2-container--default .select2-selection--single .select2-selection__arrow
-{
-   top:10px;
-}
-.select2-container--default .select2-selection--single:focus
-{
-  /*border-color:grey;*/
-  /*box-shadow:0 0 8px 0 grey;*/
-}
-</style>
-<!--    Commenting out script per ticket #551
-        Removing HTML validations as Validation Messages are coded in forms.py file
-        -Joseph Nabity
-<script>
-function validateFormsets(){
-     var id =event.target.id;
-     var name = event.target.name;
-     console.log(id);
-     console.log(name);
-     console.log(document.getElementById(id).value);
-    { console.log("helloooo");
-        if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
-        || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
-            if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
-                $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
-                document.getElementById(id).style.borderColor = "red";
-                return false;
+        {
+            content:"*" ;
+            color:red
+        }
+        .form-control{
+            border: 1px solid #aaaaaa;
+        }
+        input[id=othersubcat]{
+            width:98%;
+            height: 35px;
+            color: black;
+            margin-top: 5px;
+            margin-left: 8px;
+            font-family: "Arial Narrow", sans-serif;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        select[id=id_engagement_type],input[id=id_project_name], select[id=select2-id_activity_type-container],select[id=id_semester],select[id=id_status],select[id=id_academic_year],
+        input[id=id_address_line1],input[id=id_city],input[id=id_state],input[id=id_zip],input[id=id_country],input[id=id_total_uno_students], input[id_k12_flag=checked],input[id=id_total_uno_hours],input[id=id_total_k12_students], input[id=id_total_k12_hours],
+        select[id=id_end_semester],select[id=id_end_academic_year],input[id=firstname],input[id=lastname],input[id=otheracttype], input[id=id_total_uno_faculty],input[id=id_total_other_community_members]
+        {
+            width:96%;
+            height: 35px;
+            color: black;
+            margin-top: 5px;
+            margin-left: 10px;
+            font-family: "Arial Narrow", sans-serif;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+        input[id=id_project_name]{
+            margin-bottom: 0px;
+            border-radius: 5px;
+        }
+        select[id=id_form-0-campus_partner]
+        {
+            width:93%;
+        }
+        .select2-container .select2-selection--single
+        {
+            height:32px;
+        }
+        .select2-container--default .select2-selection--single
+        {
+            /*border: 2px solid #aaa;*/
+            margin-top:8px;
+        }
+        .select2-container--default .select2-selection--single .select2-selection__arrow
+        {
+            top:10px;
+        }
+        .select2-container--default .select2-selection--single:focus
+        {
+            /*border-color:grey;*/
+            /*box-shadow:0 0 8px 0 grey;*/
+        }
+    </style>
+    <!--    Commenting out script per ticket #551
+            Removing HTML validations as Validation Messages are coded in forms.py file
+            -Joseph Nabity
+    <script>
+    function validateFormsets(){
+         var id =event.target.id;
+         var name = event.target.name;
+         console.log(id);
+         console.log(name);
+         console.log(document.getElementById(id).value);
+        { console.log("helloooo");
+            if (id.includes("k12_students") || id.includes("k12_hours") || id.includes("total_uno_faculty") || id.includes("total_other_community_members")
+            || id.includes("projectcampuspartner_set") ||  id.includes("projectcommunitypartner_set")) {
+                if (!(document.getElementById(id).value).match(/^[0-9]+$/)) {
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
+                else {
+                    document.getElementById(id).style.borderColor = "gray";
+                    $('#'+id+'-error').remove();
+                    return true;
+                }
             }
-            else {
-                document.getElementById(id).style.borderColor = "gray";
-                $('#'+id+'-error').remove();
-                return true;
+            if(id.includes("country")||id.includes("city") {
+                if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
+                else {
+                    document.getElementById(id).style.borderColor = "gray";
+                    $('#'+id+'-error').remove();
+                    return true;
+                }
+            }
+            if(id.includes("total_economic_impact")){
+                if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
+                {
+                    $('#'+id+'-error').remove();
+                    $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
+                    document.getElementById(id).style.borderColor = "red";
+                    return false;
+                }
             }
         }
-        if(id.includes("country")||id.includes("city") {
-            if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
-                $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
-                document.getElementById(id).style.borderColor = "red";
-                return false;
-            }
-            else {
-                document.getElementById(id).style.borderColor = "gray";
-                $('#'+id+'-error').remove();
-                return true;
-            }
-        }
-        if(id.includes("total_economic_impact")){
-            if(!/^[0-9]+\.?[0-9]*$/.test(document.getElementById(id).value))
-            {
-                $('#'+id+'-error').remove();
-                $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter numeric values  </div>');
-                document.getElementById(id).style.borderColor = "red";
-                return false;
-            }
-        }
+    return true;
     }
-return true;
-}
-</script>
--->
-<!-- Adding script per ticket 723-->
-<script>
-$(document).ready(function () {
-    $('#id_status').hide();
-$('#draft').click(function(){
-    $('#id_status option[value=5]').attr('selected','selected');
-console.log('draft');
-    projName = $("#id_project_name").val();
-    if (projName != ''){
-        projName = projName.trim();
-    }
+    </script>
+    -->
+    <!-- Adding script per ticket 723-->
+    <script>
+        $(document).ready(function () {
+            $('#id_status').hide();
+            $('#draft').click(function(){
+                $('#id_status option[value=5]').attr('selected','selected');
+                console.log('draft');
+                projName = $("#id_project_name").val();
+                if (projName != ''){
+                    projName = projName.trim();
+                }
 
-    if(projName === '' ){
-        alert("Project Name Required ");
-        return false;
-    }
-    if( ($("#id_academic_year").val() === '') ){
-        alert("Start Academic Year Required");
-            return false
-        }
-    if( ($("#id_engagement_type").val() === '') ){
-        alert("Engagement Type Required");
-            return false
-        }
-        if( ($("#id_populate_activity").val() === '') ){
-            alert("Activity type Required");
-            return false
-        }
-    else{
-        return true;
-    }
-});
-$('#submit').click(function () {
-    if($('#terms').is(":checked")){
-        $('#id_status option[value=1]').attr('selected','selected');
-        return true;
-    }
-    else {
-        alert("Please Accept the terms and conditions before submitting");
-        return false;
-    }
-});
-        window.onsubmit = function checking() {
-        var id_name = document.getElementById('id_mission-0-mission');
-        var id_campus = document.getElementById('id_campus-0-campus_partner');
-        var val = id_name.options[id_name.selectedIndex].text;
-        var val1 = id_campus.options[id_campus.selectedIndex].text;
-        var location = document.getElementById("errorid").scrollTop;
-        if (val === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Primary Focus Area Required'|escape }}</strong></div>";
-            document.getElementById("errorid").innerHTML = error;
-            document.documentElement.scrollTop = 900;
-        }
-        if (val1 === '---------') {
-            error = "<div class='alert alert-danger'><strong>{{ 'Campus Partner Required'|escape }}</strong></div>";
-            document.getElementById("errorid1").innerHTML = error;
-            document.documentElement.scrollTop = 900;
-            {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
-            {#return false#}
-        }
-        if (val === '---------' || val1 === '---------') {
-            return false
-        }
-        if (val !== '---------') {
-            document.getElementById("errorid").innerHTML = "";
-        }
-        if (val1 !== '---------') {
-            document.getElementById("errorid1").innerHTML = "";
-        }
-    }
-    $('[data-toggle="tooltip"]').tooltip();
-});
-</script>
+                if(projName === '' ){
+                    alert("Project Name Required ");
+                    return false;
+                }
+                if( ($("#id_academic_year").val() === '') ){
+                    alert("Start Academic Year Required");
+                    return false
+                }
+                if( ($("#id_engagement_type").val() === '') ){
+                    alert("Engagement Type Required");
+                    return false
+                }
+                if( ($("#id_populate_activity").val() === '') ){
+                    alert("Activity type Required");
+                    return false
+                }
+                else{
+                    return true;
+                }
+            });
+            $('#submit').click(function () {
+                if($('#terms').is(":checked")){
+                    $('#id_status option[value=1]').attr('selected','selected');
+                    return true;
+                }
+                else {
+                    alert("Please Accept the terms and conditions before submitting");
+                    return false;
+                }
+            });
+            window.onsubmit = function checking() {
+                var id_name = document.getElementById('id_mission-0-mission');
+                var id_campus = document.getElementById('id_campus-0-campus_partner');
+                var val = id_name.options[id_name.selectedIndex].text;
+                var val1 = id_campus.options[id_campus.selectedIndex].text;
+                var location = document.getElementById("errorid").scrollTop;
+                if (val === '---------') {
+                    error = "<div class='alert alert-danger'><strong>{{ 'Primary Focus Area Required'|escape }}</strong></div>";
+                    document.getElementById("errorid").innerHTML = error;
+                    document.documentElement.scrollTop = 900;
+                }
+                if (val1 === '---------') {
+                    error = "<div class='alert alert-danger'><strong>{{ 'Campus Partner Required'|escape }}</strong></div>";
+                    document.getElementById("errorid1").innerHTML = error;
+                    document.documentElement.scrollTop = 900;
+                    {#document.getElementById('id_community-0-community_partner').scrollIntoView();#}
+                    {#return false#}
+                }
+                if (val === '---------' || val1 === '---------') {
+                    return false
+                }
+                if (val !== '---------') {
+                    document.getElementById("errorid").innerHTML = "";
+                }
+                if (val1 !== '---------') {
+                    document.getElementById("errorid1").innerHTML = "";
+                }
+            }
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
 
 {% endblock %}

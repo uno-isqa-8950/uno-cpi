@@ -22,7 +22,7 @@ def main():
 
     updatePartner = 'python Update_Partner.py'
 
-    logger.info("Start update project script") 
+    logger.info("Start update project script")
     print("Start update project script") 
     os.system(updateProject)
     print("End update project script")

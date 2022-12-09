@@ -309,6 +309,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
+    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True,blank=True)
     is_campuspartner = models.BooleanField(default=False)
     is_communitypartner = models.BooleanField(default=False)
     avatar = models.ImageField(default='profile_image/default.jpg', upload_to='profile_image', null=True, blank=True)

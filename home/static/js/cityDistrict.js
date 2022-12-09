@@ -21,7 +21,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
     // mapTypeId: google.maps.MapTypeId.ROADMAP,
     center: {lng:-95.9345, lat: 41.2565},
     // initial zoom
-    zoom: 7,
+    zoom: 12,
     minZoom: 3,
     // maxZoom: 13,
     fullscreenControl: false,
@@ -97,9 +97,9 @@ $('#missionAreaFilters').html(select);
 //*********************************** Add the districts *****************************************************
 
 var select1 = '';
-select1 += '<option value="' + "All Legislative Districts" + '" selected="selected">' + "All Legislative Districts" + '</option>';
-for (i = 1; i <= 49; i++) {
-    select1 += '<option value=' + i + '>' +'Legislative District ' + i + '</option>';
+select1 += '<option value="' + "All City Council Districts" + '" selected="selected">' + "All City Council Districts" + '</option>';
+for (i = 1; i <= 7; i++) {
+    select1 += '<option value=' + i + '>' +'City Council District ' + i + '</option>';
 }
 $('#selectDistrict').html(select1);
 
@@ -147,17 +147,17 @@ var defaultFilterValues = [];
 var filters = {};
 
 google.maps.event.addListenerOnce(map, 'idle', function () {
-   
+
    partnerGoogleMapfn(communityData);
 
-   map.data.loadGeoJson('../../static/GEOJSON/ID3.geojson')
-
+   map.data.loadGeoJson('../../static/GEOJSON/CityCouncilDistricts.geojson')
 
    map.data.setStyle({
-       fillColor: "#fee8c8",
-       fillOpacity: 0.4,
-       strokeWeight: 0.2
+         fillColor: "#fee8c8",
+         fillOpacity: 0.4,
+         strokeWeight: 0.2
     })
+
 });
 
 
@@ -174,7 +174,6 @@ function partnerGoogleMapfn(modifiedcommunityData){
 
 
 
-
 // circle added to the map
     var circle = {
         path: google.maps.SymbolPath.CIRCLE,
@@ -183,11 +182,11 @@ function partnerGoogleMapfn(modifiedcommunityData){
         scale: 8,
         strokeColor: 'white',
         strokeWeight: 1.5
-    };  
-    
+    };
+
     for (i=0; i<modifiedcommunityData.features.length; i++) {
-        if(modifiedcommunityData.features[i] != '' 
-            && modifiedcommunityData.features[i] !=null 
+        if(modifiedcommunityData.features[i] != ''
+            && modifiedcommunityData.features[i] !=null
             && modifiedcommunityData.features[i] != undefined){
         var communityType = modifiedcommunityData.features[i].properties["CommunityType"]
         var commMission = modifiedcommunityData.features[i].properties["Mission Area"]
@@ -207,7 +206,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
             map: map,
             icon: circle, // set the icon here
             fillColor: missionColor(commMission),
-            
+
         });
         oms.addMarker(marker);
        function missionColor(mission) {
@@ -461,7 +460,7 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     var updatedCommunityPartners = JSON.parse(JSON.stringify(communityPartners));
     var updated_CommunityPartners = updatedCommunityPartners.features;
     
-    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All City Council Districts', 'All Academic Years'];
     if (!not_set.includes(mission_value)) {
         var updated_CommunityPartners = updated_CommunityPartners.filter(d => d.properties["Mission Area"] == mission_value);
     }

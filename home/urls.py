@@ -35,6 +35,7 @@ urlpatterns = [
    path('invite-Community-Partner-User/', views.invitecommunityPartnerUser, name='invitecommunityPartnerUser'),
    path('project-Map', views.googleprojectdata, name='googleprojectmap'),
    path('legislative-District', views.googleDistrictdata, name='googleDistrictmap'),
+   path('city-District', views.googlecityDistrict, name='googlecityDistrict' ),
    path('community-Partner', views.googlepartnerdata, name='googlehomepage'),
    path('community-Partner-Type', views.googlemapdata, name='googlemap'),
    path('activate/<str:uidb64>/<str:token>', views.activate, name='activate'),

@@ -94,7 +94,7 @@ def saveProjectAndRegister(request):
 
     if start_academic_yr != '' and start_academic_yr is not None:
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
-        year_in_project_naame = project.academic_year
+        year_in_project_name = project.academic_year
 
     if end_academic_yr != '' and end_academic_yr is not None:
         project.end_academic_year = AcademicYear.objects.get(id=end_academic_yr)
@@ -121,7 +121,7 @@ def saveProjectAndRegister(request):
     project.save()
     projectId = project.pk
 
-    project.project_name = name + ": " + str(year_in_project_naame) + " (" + str(projectId) + ")"
+    project.project_name = name + ": " + str(year_in_project_name) + " (" + str(projectId) + ")"
     project.save()
 
     if comm_list != '' or comm_list is not None:
@@ -582,11 +582,9 @@ def projectstablePublicReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectspublictableview.html',
@@ -634,11 +632,9 @@ def projectsPublicReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
@@ -718,11 +714,9 @@ def projectstablePrivateReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectsprivatetableview.html',
@@ -1379,11 +1373,11 @@ def adminsubmit_project_done(request):
 
 
 def filter_projects(request):
-    if get_tenant(request).__len__() > 1:
-        project_list = Project.objects.all().exclude(status__name='Drafts')
-    else:
-        university = get_tenant(request)[0]
-        project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
+    #if get_tenant(request).__len__() > 1:
+    project_list = Project.objects.all().exclude(status__name='Drafts')
+    #else:
+        #university = get_tenant(request)[0]
+        #project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__name='Drafts'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())

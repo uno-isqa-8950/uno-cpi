@@ -137,7 +137,7 @@
                 <tbody>
                 {% for project in project %}
                     <tr>
-                        <td>{{ project.project_name }}</td>
+                        <td>{{ project.get_name }}</td>
                         <td>{{ project.mission_area.all|join:", " }}</td>
                         <td>{{ project.community_partner.all|join:", " }}</td>
                         <td>{{ project.campus_partner.all|join:", "}}</td>

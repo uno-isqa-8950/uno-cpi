@@ -136,7 +136,7 @@ $('#selectDistrict').html(select1);
 //*********************************** Add the community type drop-down *****************************************************
 
 var select2 = '';
-select2 += '<option value="' + "All Community organization Types" + '" selected="selected">' + 'All Community Organization Types' + '</option>';
+select2 += '<option value="' + "All Community Partner Types" + '" selected="selected">' + 'All Community Partner Types' + '</option>';
 for (i = 0; i < CommunityType.length; i++) {
     select2 += '<option value="' + CommunityType[i] + '">' + CommunityType[i] + '</option>';
 }
@@ -277,18 +277,18 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
                          '<tr><td><span style="font-weight:bold">Total Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Focus Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-                        '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Community Partner Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campusPartersVal + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + acasdemicYrVal  + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
 
         if(commCecStatus == 'Current'){
             commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
+                        'The CEC bridges the campus and community by housing UNO and community partners in the building.</td></tr></br></br>';
         }
         if(commCecStatus == 'Former'){
          commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
+                        'The CEC bridges the campus and community by housing UNO and community partners in the building.</td></tr></br></br>';
         }
 
         if(project_number != 0 ){
@@ -407,7 +407,7 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     var updatedCommunityPartners = JSON.parse(JSON.stringify(communityPartners));
     var updated_CommunityPartners = updatedCommunityPartners.features;
 
-    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community Partner Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
     if (!not_set.includes(mission_value)) {
         var updated_CommunityPartners = updated_CommunityPartners.filter(d => d.properties["Mission Area"] == mission_value);
     }
@@ -461,12 +461,9 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
 }
 
 function resetPartnerMarkers(modifiedCommPartnerObj){
-    for (var i = 0; i < markers.length; i++) {
-        oms.removeMarker(markers[i])
-        markerCluster.removeMarker(markers[i]);
-    }
+    oms.clearMarkers();
+    markerCluster.clearMarkers();
     markers = [];
-    markerCluster = null;
      if(modifiedCommPartnerObj != null){
         partnerGoogleMapfn(modifiedCommPartnerObj);
         markerCluster.redraw();

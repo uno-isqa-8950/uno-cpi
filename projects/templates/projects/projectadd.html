@@ -103,7 +103,7 @@
                                 <div class="form-group">
                                     {{ project.project_name.errors }}
                                     <label for="id_project_name">Project Name</label>
-                                    {{ project.project_name }} {{ project.academic_year }}
+                                    {{ project.get_name }} {{ project.academic_year }}
                                 </div>
 
                                 <div class="form-group">

@@ -102,7 +102,7 @@ var map = new google.maps.Map(document.getElementById('map_canvas'),{
 
 //*********************************** Dynamically add the legends *****************************************************
 var select = '';
-select += '<a href="#" ' + 'id=' + '"All Community organization Types" ' + 'class="selectCommType"' + 'value="' + 'All Community organization Types"' + 'onclick="filterData(this.id, true)"'+'><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Organization Types</b></a>' + "<br>";
+select += '<a href="#" ' + 'id=' + '"All Community Partner Types" ' + 'class="selectCommType"' + 'value="' + 'All Community Partner Types"' + 'onclick="filterData(this.id, true)"'+'><span style="background-color: #ffffff; border: 1px solid black"></span><b>All Community Partner Types</b></a>' + "<br>";
 for (var i = 0; i < CommunityType.length; i++) {
     var commType = CommunityType[i];
     var color = colorCodeObject[commType];
@@ -165,8 +165,8 @@ var defaultFilterValues = [];
 var filters = {};
 
 google.maps.event.addListenerOnce(map, 'idle', function () {
-   
-    partnerGoogleMapfn(communityData);    
+
+    partnerGoogleMapfn(communityData);
 })
 
 function partnerGoogleMapfn(modifiedcommunityData){
@@ -189,11 +189,11 @@ function partnerGoogleMapfn(modifiedcommunityData){
         scale: 8,
         strokeColor: 'white',
         strokeWeight: 1.5
-    };   
-    
+    };
+
     for (i=0; i<modifiedcommunityData.features.length; i++) {
-        if(modifiedcommunityData.features[i] != '' 
-            && modifiedcommunityData.features[i] !=null 
+        if(modifiedcommunityData.features[i] != ''
+            && modifiedcommunityData.features[i] !=null
             && modifiedcommunityData.features[i] != undefined){
         var communityType = modifiedcommunityData.features[i].properties["CommunityType"]
         var commMission = modifiedcommunityData.features[i].properties["Mission Area"]
@@ -213,7 +213,7 @@ function partnerGoogleMapfn(modifiedcommunityData){
             map: map,
             icon: circle, // set the icon here
             fillColor: commTypeColor(communityType),
-            
+
         });
         oms.addMarker(marker);
        function commTypeColor(commType) {
@@ -277,25 +277,25 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
         if (academic_year !=null && academic_year !=''){
             acasdemicYrVal = academic_year.join(" | ")
        }
- 
+
        var commHeadHtml ='<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name +'</td></tr><br />'+
                          '<tr><td><span style="font-weight:bold">Total Number of Projects: </span>&nbsp; </td><td>' + project_number + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">City: </span>&nbsp; </td><td>' + city + '</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Focus Areas: </span>&nbsp; </td><td>' + miss_name + '&nbsp;&nbsp;</td></tr><br />' +
-                        '<tr><td><span style="font-weight:bold">Community Organization Type:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
+                        '<tr><td><span style="font-weight:bold">Community Partner Types:</span>&nbsp;&nbsp; </td><td>' + comm_name + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Campus Partner: </span>&nbsp; </td><td>' + campusPartersVal + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Academic Year: </span>&nbsp; </td><td>' + acasdemicYrVal  + '&nbsp;&nbsp;</td></tr><br />' +
                         '<tr><td><span style="font-weight:bold">Website Link: </span>&nbsp;<a id="websitelink" href="' + website + '" target="_blank" style="color:#FF0000;">' + website + '</a></td></tr><br /><br>';
-                        
+
         if(commCecStatus == 'Current'){
             commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> is a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
+                        'The CEC bridges the campus and community by housing UNO and community partners in the building.</td></tr></br></br>';
         }
         if(commCecStatus == 'Former'){
          commCecHtml ='<tr><td><span style="font-weight:bold">'+commCecStatus +' CEC Building Partner - </span>&nbsp; </td><td><span style="font-weight:bold">'+ partner_name +'</span> has been a <a id="websitelink" href="https://www.unomaha.edu/community-engagement-center/index.php" target="_blank" style="color:#FF0000;">Barbara Weitz Community Engagement Center </a> (CEC) building partner. '+
-                        'The CEC bridges the campus and community by housing UNO and community organizations in the building.</td></tr></br></br>';
+                        'The CEC bridges the campus and community by housing UNO and community partners in the building.</td></tr></br></br>';
         }
-                        
+
         if(project_number != 0 ){
             commBodyHtml +='<tr style="margin-top: 5%"><td><span style="font-weight:lighter">Right-click on the marker to see the list of projects</span></td></tr>';
         }
@@ -316,7 +316,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
          var projectHtml = ''
          var projHeadHtml =  '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Community Partner:</span>&nbsp;&nbsp; </td><td>' + partner_name + '</td></tr><br />' +
             //'<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span>&nbsp;&nbsp; </td><td>' + projects.join("<br>").replace(/\s*\(.*?\)\s*/g,"")+ '</td></tr><br />')
-        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' + 
+        '<tr><td style="margin-top: 5%"><span style="font-weight:bold">Projects:</span></td></tr><br />' +
         '<tr><td style="margin-top: 5%">'+
         '<table border="1"><tr>'+
         '<td><span style="font-weight:bold">&nbsp;Academic Year&nbsp;</span></td>'+
@@ -331,7 +331,7 @@ function attachMessage(marker, partner_name,project_number,city,miss_name, comm_
             var projAcademicyr = '';
             var projdetail = projFullName.split(';');
             console.log('projdetail--',projdetail);
-            if (projdetail !=null){ 
+            if (projdetail !=null){
                     projName = projdetail[0];
                     projAcademicyr = projdetail[1];
             }
@@ -375,7 +375,7 @@ function getClusterSize() {
 
 
 function filterData(selectedField, selectType){
-    var commObjVal = 'All Community organization Types';
+    var commObjVal = 'All Community Partner Types';
     if (selectType != '' && selectType == true){
         commObjVal = selectedField
     }
@@ -415,8 +415,8 @@ function filterData(selectedField, selectType){
 function getMapFilteredData (communityPartners, mission_value ,comm_type, legislative_value, academic_year, college_name, campus_partner, search) {
     var updatedCommunityPartners = JSON.parse(JSON.stringify(communityPartners));
     var updated_CommunityPartners = updatedCommunityPartners.features;
-    
-    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community organization Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
+
+    var not_set = [undefined, "All", '', 'All Focus Areas', 'All Community Partner Types', 'All Colleges and Main Units', 'All Campus Partners', 'All Legislative Districts', 'All Academic Years'];
     if (!not_set.includes(mission_value)) {
         var updated_CommunityPartners = updated_CommunityPartners.filter(d => d.properties["Mission Area"] == mission_value);
     }
@@ -429,7 +429,7 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     if (!not_set.includes(search)) {
         var updated_CommunityPartners = updated_CommunityPartners.filter(d => d.properties.CommunityPartner.toLowerCase().includes(search));
     }
-    
+
     var indexList = new Set();
     if (!not_set.includes(academic_year)) {
         updated_CommunityPartners.forEach(function(feature, index, object) {
@@ -455,7 +455,7 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
 
     if (!not_set.includes(academic_year) || !not_set.includes(college_name) || !not_set.includes(campus_partner)) {
         let keys = Object.keys(updated_CommunityPartners);
-        var indexList = Array.from(indexList).sort();        
+        var indexList = Array.from(indexList).sort();
         for (i in indexList) {
             delete updated_CommunityPartners[keys[indexList[i]]];
         }
@@ -469,13 +469,10 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     }
 }
 
-function resetPartnerMarkers(modifiedCommPartnerObj){    
-    for (var i = 0; i < markers.length; i++) {
-        oms.removeMarker(markers[i])
-        markerCluster.removeMarker(markers[i]);
-    }
+function resetPartnerMarkers(modifiedCommPartnerObj){
+    oms.clearMarkers();
+    markerCluster.clearMarkers();
     markers = [];
-    markerCluster = null;
      if(modifiedCommPartnerObj != null){
         partnerGoogleMapfn(modifiedCommPartnerObj);
         markerCluster.redraw();

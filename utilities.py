@@ -18,18 +18,18 @@ def get_tenant(request):
         return University.objects.all()
 
 def tenant_processor(request):
-    tenants = get_tenant(request)
-    print(tenants.__len__())
-    if tenants.__len__() > 1:
-        name = 'Dev Mode'
-        logo = 'https://www.unomaha.edu/_files/images/logo-subsite-o-2.png'
-        primary_color = 'Black'
-        secondary_color = 'Red'
-    else:
-        name = tenants[0].name
-        logo = tenants[0].logo
-        primary_color = tenants[0].primary_color
-        secondary_color = tenants[0].secondary_color
+    #tenants = get_tenant(request)
+    #print(tenants.__len__())
+    #if tenants.__len__() > 1:
+    name = 'University of Nebraska Omaha'
+    logo = 'https://www.unomaha.edu/_files/images/logo-subsite-o-2.png'
+    primary_color = '#0a0a0a'
+    secondary_color = '#d71920'
+    #else:
+    #    name = tenants[0].name
+    #    logo = tenants[0].logo
+    #    primary_color = tenants[0].primary_color
+    #    secondary_color = tenants[0].secondary_color
     return {'logo':logo,
             'primary_color': primary_color,
             'secondary_color': secondary_color,

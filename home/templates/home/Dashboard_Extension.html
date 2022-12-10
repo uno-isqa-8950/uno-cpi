@@ -108,7 +108,7 @@
                     <a class="dropdown-item" href="/community-Partner">Community Partners</a>
                     <a class="dropdown-item" href="/legislative-District">Legislative Districts</a>
                     <a class="dropdown-item" href="/city-District">City Districts</a>
-                    <a class="dropdown-item" href="/community-Partner-Type">Community Organization Type</a>
+                    <a class="dropdown-item" href="/community-Partner-Type">Community Partner Types</a>
                     <a class="dropdown-item" href="/project-Map">Projects</a>
                 </div>
             </li>
@@ -130,7 +130,6 @@
                             <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
                             <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
 
-
                         </ul>
                     </li>
                     {% if user.is_authenticated %}
@@ -141,7 +140,6 @@
                                 <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
                                 <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
                                 <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
-
                                 <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
                             </ul>
                         </li>

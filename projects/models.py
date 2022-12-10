@@ -61,6 +61,9 @@ class Project (models.Model):
     campus_partner = models.ManyToManyField('partners.CampusPartner')
     history = HistoricalRecords()
 
+    def get_name(self):
+        return self.project_name.split("(")[0]
+
     def created(self):
         self.created_date = timezone.now()
         self.save()

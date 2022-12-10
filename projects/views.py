@@ -1408,6 +1408,8 @@ def filter_projects(request):
     campus_filter = CampusPartner.objects.all()
 
     academic_year_filter = request.GET.get('academic_year', None)
+    if academic_year_filter == None:
+        academic_year_filter = AcademicYear.objects.latest('id')
     # this reads as: if the academic year filter has something in it, take all projects with that year as the
     # starting year, ending year, or a year in between, and everything after the '|' is to catch projects without an end year
     if academic_year_filter is not None and academic_year_filter != "All" and academic_year_filter != '':
@@ -1436,8 +1438,7 @@ def filter_projects(request):
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
-    return (
-        {'project': project_list,
+    context = {'project': project_list,
          'data_definition': data_definition,
          'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
          'communityPartners': communityPartners,
@@ -1448,16 +1449,6 @@ def filter_projects(request):
          'k12_selection': k12_selection,
          'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
          'cec_part_selection': cec_part_selection,
-         'projects': project_filter})
+         'projects': project_filter}
 
-def tenant_colors(request):
-    tenant = get_tenant(request)
-    primary_color = tenant[0].primary_color
-    secondary_color = tenant[0].secondary_color
-    logo = tenant[0].logo
-    name = tenant[0].name
-    context = {'primary_color':primary_color,
-               'secondary_color':secondary_color,
-               'logo':logo,
-               'name':name,}
     return context

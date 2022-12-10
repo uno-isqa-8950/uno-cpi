@@ -461,12 +461,9 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
 }
 
 function resetPartnerMarkers(modifiedCommPartnerObj){
-    for (var i = 0; i < markers.length; i++) {
-        oms.removeMarker(markers[i])
-        markerCluster.removeMarker(markers[i]);
-    }
+    oms.clearMarkers();
+    markerCluster.clearMarkers();
     markers = [];
-    markerCluster = null;
      if(modifiedCommPartnerObj != null){
         partnerGoogleMapfn(modifiedCommPartnerObj);
         markerCluster.redraw();

@@ -451,7 +451,7 @@ function returnKeepValue(setFilters, marker) {
 function filterMarkers() {
     const setFilters = getSetFilterOptions();
     console.log("Set filters: ", setFilters);
-
+    markerCluster.clearMarkers();
     for (var i = 0; i < markers.length; i++) {
         let marker = markers[i];
         let keep = returnKeepValue(setFilters, marker);

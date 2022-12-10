@@ -7,7 +7,7 @@ var CollegeName = JSON.parse(document.getElementById('college-list').textContent
 var CampusPartnerlist = JSON.parse(document.getElementById('campusPartner-list').textContent);
 var communityData = JSON.parse(document.getElementById('commPartner-data').textContent); //load the variable from views.py. See the line from html first
 var yearlist = JSON.parse(document.getElementById('year-list').textContent);
-var
+
 
 //*********************************** Add id variable to Community Data GEOJSON for search function later *****************************************************
 var count = 0;
@@ -512,12 +512,9 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
 }
 
 function resetPartnerMarkers(modifiedCommPartnerObj){    
-    for (var i = 0; i < markers.length; i++) {
-        oms.removeMarker(markers[i])
-        markerCluster.removeMarker(markers[i]);
-    }
+    oms.clearMarkers();
+    markerCluster.clearMarkers();
     markers = [];
-    markerCluster = null;
      if(modifiedCommPartnerObj != null){
         partnerGoogleMapfn(modifiedCommPartnerObj);
         markerCluster.redraw();

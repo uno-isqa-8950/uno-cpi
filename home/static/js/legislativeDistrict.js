@@ -506,7 +506,6 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
         }
     }
     var filteredCommunityKeys = Object.keys(updated_CommunityPartners);
-    console.log('filteredCommunityKeys.length---',filteredCommunityKeys.length);
     if (filteredCommunityKeys.length > 0){
         return { "type": "FeatureCollection", "features":updated_CommunityPartners};
     }else{
@@ -514,13 +513,10 @@ function getMapFilteredData (communityPartners, mission_value ,comm_type, legisl
     }
 }
 
-function resetPartnerMarkers(modifiedCommPartnerObj){    
-    for (var i = 0; i < markers.length; i++) {
-        oms.removeMarker(markers[i])
-        markerCluster.removeMarker(markers[i]);
-    }
+function resetPartnerMarkers(modifiedCommPartnerObj){ 
+    oms.clearMarkers();
+    markerCluster.clearMarkers();
     markers = [];
-    markerCluster = null;
      if(modifiedCommPartnerObj != null){
         partnerGoogleMapfn(modifiedCommPartnerObj);
         markerCluster.redraw();

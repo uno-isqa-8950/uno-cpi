@@ -57,7 +57,7 @@ dfCommunity = pd.read_sql_query(
     pc.city not in ('','NA','N/A','None') and \
     pc.state not in ('','NA','N/A','None')) \
     and (pc.latitude is null or pc.longitude is null \
-    or pc.address_update_flag = 'f' ) \
+    or pc.address_update_flag = 't' ) \
     and lower(p.mission_type) = 'primary'",con=conn)
 
 print(repr(len(dfCommunity)) +" Partners fetched from the Database on " + str(currentDT))

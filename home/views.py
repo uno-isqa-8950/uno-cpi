@@ -1569,10 +1569,10 @@ def GEOJSON():
     #         geojson1 = json.load(f)  # get the GEOJSON
     #     collection = geojson1  # assign it the collection variable to avoid changing the other code
     print("Starting GEOJSON Function")
-    content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
-    partner_geojson_load = content_object_partner.get()['Body'].read().decode('utf-8')
-    partner_geojson_load = bleach.clean(partner_geojson_load)
-    collection = json.loads(partner_geojson_load)
+    content_object_city = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/City.geojson')
+    city_geojson_load = content_object_city.get()['Body'].read().decode('utf-8')
+    city_geojson_load = bleach.clean(city_geojson_load)
+    collection = json.loads(city_geojson_load)
     mission_list = MissionArea.objects.all()
     mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
     CommTypelist = CommunityType.objects.all()

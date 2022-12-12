@@ -94,7 +94,7 @@ def saveProjectAndRegister(request):
 
     if start_academic_yr != '' and start_academic_yr is not None:
         project.academic_year = AcademicYear.objects.get(id=start_academic_yr)
-        year_in_project_naame = project.academic_year
+        year_in_project_name = project.academic_year
 
     if end_academic_yr != '' and end_academic_yr is not None:
         project.end_academic_year = AcademicYear.objects.get(id=end_academic_yr)
@@ -121,7 +121,7 @@ def saveProjectAndRegister(request):
     project.save()
     projectId = project.pk
 
-    project.project_name = name + ": " + str(year_in_project_naame) + " (" + str(projectId) + ")"
+    project.project_name = name + ": " + str(year_in_project_name) + " (" + str(projectId) + ")"
     project.save()
 
     if comm_list != '' or comm_list is not None:
@@ -582,11 +582,9 @@ def projectstablePublicReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectspublictableview.html',
@@ -634,11 +632,9 @@ def projectsPublicReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     proj_per_page_cnt = 5
     proj_per_page = DataDefinition.objects.get(title='project_count_per_page')
     if proj_per_page is not None:
@@ -718,11 +714,9 @@ def projectstablePrivateReport(request):
     context = filter_projects(request)
     if selectedprojectId != None:
         filtered_ids = selectedprojectId.split(",")
-        print(filtered_ids)
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
-    print(project_return)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
     return render(request, 'reports/projectsprivatetableview.html',
@@ -1379,11 +1373,11 @@ def adminsubmit_project_done(request):
 
 
 def filter_projects(request):
-    if get_tenant(request).__len__() > 1:
-        project_list = Project.objects.all().exclude(status__name='Drafts')
-    else:
-        university = get_tenant(request)[0]
-        project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
+    #if get_tenant(request).__len__() > 1:
+    project_list = Project.objects.all().exclude(status__name='Drafts')
+    #else:
+        #university = get_tenant(request)[0]
+        #project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__name='Drafts'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -1414,6 +1408,8 @@ def filter_projects(request):
     campus_filter = CampusPartner.objects.all()
 
     academic_year_filter = request.GET.get('academic_year', None)
+    if academic_year_filter == None:
+        academic_year_filter = AcademicYear.objects.latest('id')
     # this reads as: if the academic year filter has something in it, take all projects with that year as the
     # starting year, ending year, or a year in between, and everything after the '|' is to catch projects without an end year
     if academic_year_filter is not None and academic_year_filter != "All" and academic_year_filter != '':
@@ -1442,8 +1438,7 @@ def filter_projects(request):
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
-    return (
-        {'project': project_list,
+    context = {'project': project_list,
          'data_definition': data_definition,
          'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
          'communityPartners': communityPartners,
@@ -1454,16 +1449,6 @@ def filter_projects(request):
          'k12_selection': k12_selection,
          'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
          'cec_part_selection': cec_part_selection,
-         'projects': project_filter})
+         'projects': project_filter}
 
-def tenant_colors(request):
-    tenant = get_tenant(request)
-    primary_color = tenant[0].primary_color
-    secondary_color = tenant[0].secondary_color
-    logo = tenant[0].logo
-    name = tenant[0].name
-    context = {'primary_color':primary_color,
-               'secondary_color':secondary_color,
-               'logo':logo,
-               'name':name,}
     return context

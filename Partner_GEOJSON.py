@@ -38,7 +38,7 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                         host=settings.DATABASES['default']['HOST'],
                         port=settings.DATABASES['default']['PORT'],
                         database=settings.DATABASES['default']['NAME'],
-                        sslmode="require")
+                        sslmode="disable")
 if (conn):
     cursor = conn.cursor()
     logger.info("Connection Successful!")
@@ -71,7 +71,7 @@ def feature_from_row(Community, commId, Address, Mission, MissionType, City, Com
         if polygon.contains(coord):  # check if a partner is in a polygon
             # print('property["properties"]--',property["properties"]["id"])
             # print('legislative_district--from database,',legislative_district)
-            feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
+            feature['properties']['Legislative District Number'] = property["properties"]["DISTRICT"]  # assign the district number to a partner
     for m in range(len(county)):  # iterate through the County Geojson
         properties2 = county[m]
         polygon = shape(properties2['geometry'])  # get the polygon

@@ -56,7 +56,7 @@ where \
 (pro.address_line1 not in ('','NA','N/A','None') \
 and pro.city not in ('','NA','N/A','None') and pro.state not in ('','NA','N/A','None')) \
 and (pro.longitude is null or pro.latitude is null \
-or pro.address_update_flag = 't') \
+or pro.address_update_flag = 'f' or pro.address_update_flag = 't') \
 and lower(mis.mission_type)='primary'",con=conn)
 print('before checking project query')
 if len(df_projects) == 0:

@@ -102,7 +102,7 @@ def feature_from_row(Projectname,Description,  FullAddress,Address_line1, City, 
         property = district[i]
         polygon = shape(property['geometry'])  # get the polygons
         if polygon.contains(coord):  # check if a partner is in a polygon
-            feature['properties']['Legislative District Number'] = legislative_district  # assign the district number to a partner
+            feature['properties']['Legislative District Number'] = property["properties"]["DISTRICT"]  # assign the district number to a partner
     
     yearlist = []
     campusPartnersList = []

@@ -54,7 +54,7 @@
                                                         Project Name</label>
 
                                                     <div class="col-sm-7">
-                                                        {{ project.get_name }}
+                                                        {{ project.project_name }}
                                                     </div>
                                                     {% if  project.project_name.errors %}
                                                         {% for error in  project.project_name.errors %}

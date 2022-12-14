@@ -468,6 +468,35 @@
             </table>&emsp;
         </div>
     </div>
+
+<div class="row">
+            <div class="col-lg-6 col-sm-12">
+                Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}
+            </div>
+            <div class="col-lg-6 col-sm-12 paginate">
+
+                {% if cards.has_other_pages %}
+
+                    {% if cards.has_previous %}
+                        <a class="btn btn-secondary" href="?{{ parameters }}&page=1">First</a>
+                        <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.previous_page_number }}">Previous</a>
+
+                    {% endif %}
+                    {% for num in cards.paginator.page_range %}
+                        {% if cards.number == num %}
+                            <a class="btn btn-secondary active "href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+                        {% elif num > cards.number|add:'-3' and num < cards.number|add:'3' %}
+                            <a class="btn btn-secondary" href="?{{ parameters }}&page={{ num }}">{{ num }}</a>
+                        {% endif %}
+                    {% endfor %}
+                    {% if cards.has_next %}
+                        <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.next_page_number }}">Next</a>
+                        <a class="btn btn-secondary" href="?{{ parameters }}&page={{ cards.paginator.num_pages }}">Last</a>
+                    {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}

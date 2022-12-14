@@ -14,8 +14,8 @@ for projmis in ProjectMission.objects.all():
                 print(proj.project_name)
                 print(projmis.mission)
                 Project.objects.get(id=proj.id).mission_area.add(projmis.mission)
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        print(e)
 
 for projcamp in ProjectCampusPartner.objects.all():
     try:
@@ -25,8 +25,8 @@ for projcamp in ProjectCampusPartner.objects.all():
                 print(projcamp.project_name)
                 print(proj.project_name)
                 Project.objects.get(id=proj.id).campus_partner.add(projcamp.campus_partner)
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        print(e)
 
 for projcom in ProjectCommunityPartner.objects.all():
     try:
@@ -36,8 +36,8 @@ for projcom in ProjectCommunityPartner.objects.all():
                 print(projcom.project_name)
                 print(proj.project_name)
                 Project.objects.get(id=proj.id).community_partner.add(projcom.community_partner)
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        print(e)
 
 for projsub in ProjectSubCategory.objects.all():
     try:
@@ -47,5 +47,5 @@ for projsub in ProjectSubCategory.objects.all():
                 print(projsub.project_name)
                 print(proj.project_name)
                 Project.objects.get(id=proj.id).subcategory.add(projsub.sub_category)
-    except:
-        print("An exception occurred")
+    except Exception as e:
+        print(e)

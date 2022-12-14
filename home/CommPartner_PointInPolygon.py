@@ -10,8 +10,6 @@ with open('static/GEOJSON/CommunityPartners.geojson') as json_data:
     commpartner = json.load(json_data)
 
 commpartner = commpartner["features"]
-# construct point based on lon/lat returned by geocoder
-#point = Point(-96.003958, 41.242062)
 with open('static/GEOJSON/ID3.geojson') as f:
     geojson = json.load(f)
 

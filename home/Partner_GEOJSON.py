@@ -48,6 +48,7 @@ def feature_from_row(Community, Address, Mission, MissionType,City,CommunityType
                                                  'Academic Year': '', 'Website': ''},
                'geometry': {'type': 'Point', 'coordinates': []}
                }
+    print("USING GEOCODE NOW ON ADDRESS "+Address+" UNDER home\Partner_GEOJSON.py")
     geocode_result = gmaps.geocode(Address)  # get the coordinates
     if (geocode_result[0]):
         latitude = geocode_result[0]['geometry']['location']['lat']

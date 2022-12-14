@@ -88,7 +88,6 @@ s3 = boto3.resource('s3',
 
 #read Project.geojson from s3
 #content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
-#project_geojson = content_object_project.get()['Body'].read().decode('utf-8')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 

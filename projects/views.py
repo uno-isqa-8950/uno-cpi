@@ -250,36 +250,6 @@ def createProject(request):
                 print(proj)
                 endproject = proj
 
-                if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                    try:
-                        fulladdress = proj.address_line1 + ' ' + proj.city
-                        geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                        proj.latitude = geocode_result[0]['geometry']['location']['lat']
-                        proj.longitude = geocode_result[0]['geometry']['location']['lng']
-                        #### checking lat and long are incorrect
-                        if (proj.latitude == '0') or (proj.longitude == '0'):
-                            proj.save()
-
-                        proj.save()
-
-                        coord = Point([proj.longitude, proj.latitude])
-
-                        for i in range(len(district)):  # iterate through a list of district polygons
-                            property = district[i]
-                            polygon = shape(property['geometry'])  # get the polygons
-                            if polygon.contains(coord):  # check if a partner is in a polygon
-                                proj.legislative_district = property["id"]  # assign the district number to a partner
-                                proj.save()
-                        for m in range(len(countyData)):  # iterate through the County Geojson
-                            properties2 = countyData[m]
-                            polygon = shape(properties2['geometry'])  # get the polygon
-                            if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                                proj.county = properties2['properties']['NAME']
-                                proj.median_household_income = properties2['properties']['Income']
-                                proj.save()
-                    except:
-                        proj.save()
-
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -309,25 +279,25 @@ def createProject(request):
                     print(endprojectmission)
                     for projmis in endprojectmission:
                         Project.objects.get(id=endproject.id).mission_area.add(projmis.mission)
-                except:
-                    print('An exception occured')
+                except Exception as e:
+                    print(e)
                 try:
                     endprojectcampus = ProjectCampusPartner.objects.filter(project_name__id=endproject.id)
                     for projcamp in endprojectcampus:
                         Project.objects.get(id=endproject.id).campus_partner.add(projcamp.campus_partner)
-                except:
-                    print('An exception occured')
+                except Exception as e:
+                    print(e)
                 try:
                     endprojectcommunity = ProjectCommunityPartner.objects.filter(project_name__id=endproject.id)
                     for projcom in endprojectcommunity:
                         Project.objects.get(id=endproject.id).community_partner.add(projcom.community_partner)
-                except:
-                    print('An exception occured')
+                except Exception as e:
+                    print(e)
                 try:
                     endprojectsub = ProjectSubCategory.objects.get(project_name__id=endproject.id)
                     Project.objects.get(id=endproject.id).subcategory.add(endprojectsub.sub_category)
-                except:
-                    print('An exception occured')
+                except Exception as e:
+                    print(e)
 
             if request.user.is_superuser == True:
                 return HttpResponseRedirect('/adminsubmit_project_done')
@@ -423,36 +393,7 @@ def editProject(request, pk):
                     # return HttpResponseRedirect("/myDrafts")
                     return HttpResponseRedirect('/draft-project-done')
                 else:
-                    address = instances.address_line1
-                    if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                        instances.address_update_flag = 'True'
-                        try:
-                            fulladdress = instances.address_line1 + ' ' + instances.city
-                            geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                            instances.latitude = geocode_result[0]['geometry']['location']['lat']
-                            instances.longitude = geocode_result[0]['geometry']['location']['lng']
-                            #### checking lat and long are incorrect
-                            if (instances.latitude == '0') or (instances.longitude == '0'):
-                                instances.save()
 
-                            instances.save()
-                            coord = Point([instances.longitude, instances.latitude])
-                            for i in range(len(district)):  # iterate through a list of district polygons
-                                property = district[i]
-                                polygon = shape(property['geometry'])  # get the polygons
-                                if polygon.contains(coord):  # check if a partner is in a polygon
-                                    instances.legislative_district = property[
-                                        "id"]  # assign the district number to a partner
-                                    instances.save()
-                            for m in range(len(countyData)):  # iterate through the County Geojson
-                                properties2 = countyData[m]
-                                polygon = shape(properties2['geometry'])  # get the polygon
-                                if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                                    instances.county = properties2['properties']['NAME']
-                                    instances.median_household_income = properties2['properties']['Income']
-                                    instances.save()
-                        except:
-                            instances.save()
                     instances.save()
                     # pm = formset_missiondetails.save()
                     compar = formset_comm_details.save()
@@ -557,8 +498,13 @@ def editProject(request, pk):
 @login_required()
 def showAllProjects(request):
     context = filter_projects(request)
+    project_list = context['project']
+    paginator = Paginator(project_list, 100)  # Show 25 projects per page
+
+    page = request.GET.get('page')
+    projects = paginator.get_page(page)
     return render(request, 'projects/allProjects.html',
-                  {'project': context['project'],
+                  {'project': projects,
                    'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],
@@ -1373,6 +1319,7 @@ def adminsubmit_project_done(request):
 
 
 def filter_projects(request):
+    ids = []
     #if get_tenant(request).__len__() > 1:
     project_list = Project.objects.all().exclude(status__name='Drafts')
     #else:
@@ -1437,6 +1384,7 @@ def filter_projects(request):
 
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
+
 
     context = {'project': project_list,
          'data_definition': data_definition,

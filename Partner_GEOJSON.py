@@ -38,7 +38,7 @@ conn = psycopg2.connect(user=settings.DATABASES['default']['USER'],
                         host=settings.DATABASES['default']['HOST'],
                         port=settings.DATABASES['default']['PORT'],
                         database=settings.DATABASES['default']['NAME'],
-                        sslmode="require")
+                        sslmode="disable")
 if (conn):
     cursor = conn.cursor()
     logger.info("Connection Successful!")

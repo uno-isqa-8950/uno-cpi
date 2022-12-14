@@ -111,42 +111,8 @@ def registerCommunityPartner(request):
             #     contact.community_partner = community_partner
             #     contact.save()
 
-######## Minh's code to add coordinates, household income and district ######################
-            address = community_partner.address_line1
-            if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                try:
-                    fulladdress = community_partner.address_line1 + ' ' + community_partner.city
-                    geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                    community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
-                    community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
-                    #### checking lat and long are incorrect
-                    if (community_partner.latitude == '0') or (community_partner.longitude == '0'):
-                        community_partner.save()
 
-                    community_partner.save()
-
-                    coord = Point([community_partner.longitude, community_partner.latitude])
-
-                    for i in range(len(district)):  # iterate through a list of district polygons
-                        property = district[i]
-                        polygon = shape(property['geometry'])  # get the polygons
-                        if polygon.contains(coord):  # check if a partner is in a polygon
-                            community_partner.legislative_district = property["id"]  # assign the district number to a partner
-                            community_partner.save()
-                    for m in range(len(countyData)):  # iterate through the County Geojson
-                        properties2 = countyData[m]
-                        polygon = shape(properties2['geometry'])  # get the polygon
-                        if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                            community_partner.county = properties2['properties']['NAME']
-                            community_partner.median_household_income = properties2['properties']['Income']
-                            community_partner.save()
-                except:
-                    community_partner.save()
-                 # write the file to the location
-                    ######## Minh's code ends here ######################
-                return render(request, 'registration/community_partner_register_done.html', )
-            else:
-                return render(request, 'registration/community_partner_register_done.html', )
+            return render(request, 'registration/community_partner_register_done.html', )
 
     else:
         community_partner_form = CommunityPartnerForm()
@@ -443,45 +409,7 @@ def registerCommunityPartner_forprojects(request):
                 missionarea = mission.mission_area
                 mission.mission_type = 'Other'
                 mission.save()
-            # for contact in contacts:
-            #     contact.community_partner = community_partner
-            #     contact.save()
-
-            ######## Minh's code to add coordinates, household income and district ######################
-            address = community_partner.address_line1
-            if (address != 'N/A' and address != ''):  # check if a community partner's address is there
-                try:
-                    fulladdress = community_partner.address_line1 + ' ' + community_partner.city
-                    geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
-                    community_partner.latitude = geocode_result[0]['geometry']['location']['lat']
-                    community_partner.longitude = geocode_result[0]['geometry']['location']['lng']
-                    #### checking lat and long are incorrect
-                    if (community_partner.latitude == '0') or (community_partner.longitude == '0'):
-                        community_partner.save()
-
-                    community_partner.save()
-
-                    coord = Point([community_partner.longitude, community_partner.latitude])
-
-                    for i in range(len(district)):  # iterate through a list of district polygons
-                        property = district[i]
-                        polygon = shape(property['geometry'])  # get the polygons
-                        if polygon.contains(coord):  # check if a partner is in a polygon
-                            community_partner.legislative_district = property["id"]  # assign the district number to a partner
-                            community_partner.save()
-                    for m in range(len(countyData)):  # iterate through the County Geojson
-                        properties2 = countyData[m]
-                        polygon = shape(properties2['geometry'])  # get the polygon
-                        if polygon.contains(coord):  # check if the partner in question belongs to a polygon
-                            community_partner.county = properties2['properties']['NAME']
-                            community_partner.median_household_income = properties2['properties']['Income']
-                            community_partner.save()
-                except:
-                    community_partner.save() # write the file to the location
-                    ######## Minh's code ends here ######################
-                return redirect('editProject', pk=projectId)
-            else:
-                return redirect('editProject', pk=projectId)
+            return redirect('editProject', pk=projectId)
 
     else:
         projectId = request.GET.get('projectId')

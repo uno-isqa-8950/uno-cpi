@@ -80,6 +80,7 @@ def feature_from_row(Projectname, Engagement, Activity, Description, Year, Colle
     if (Address != "nan"):
         if (Address):
             fulladdress = str(Address) + ' ' + str(City) + ' ' + str(State)
+            print("USING GEOCODE NOW ON ADDRESS " + fulladdress + " UNDER home\Project_GEOJSON.py")
             geocode_result = gmaps.geocode(fulladdress)  # get the coordinates
             latitude = geocode_result[0]['geometry']['location']['lat']
             longitude = geocode_result[0]['geometry']['location']['lng']

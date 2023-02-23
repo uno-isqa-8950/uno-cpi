@@ -1,0 +1,197 @@
+[
+   {
+      "campus_partner_id":13,
+      "campus_partner_name":"Center for Faculty Excellence",
+      "college":{
+         "college_name_id":1,
+         "college_name":"Academic Affairs"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":8,
+      "campus_partner_name":"Bill Davis",
+      "college":{
+         "college_name_id":1,
+         "college_name":"Academic Affairs"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":7,
+      "campus_partner_name":"Barbara Weitz Community Engagement Center (CEC)",
+      "college":{
+         "college_name_id":1,
+         "college_name":"Academic Affairs"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":2,
+      "campus_partner_name":"Air Force ROTC",
+      "college":{
+         "college_name_id":1,
+         "college_name":"Academic Affairs"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":10,
+      "campus_partner_name":"Black Studies",
+      "college":{
+         "college_name_id":3,
+         "college_name":"College of Arts and Sciences"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":9,
+      "campus_partner_name":"Biology",
+      "college":{
+         "college_name_id":3,
+         "college_name":"College of Arts and Sciences"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":5,
+      "campus_partner_name":"Anthropology",
+      "college":{
+         "college_name_id":3,
+         "college_name":"College of Arts and Sciences"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":4,
+      "campus_partner_name":"Ancient Mediterranean Studies",
+      "college":{
+         "college_name_id":3,
+         "college_name":"College of Arts and Sciences"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":1,
+      "campus_partner_name":"Aerospace",
+      "college":{
+         "college_name_id":3,
+         "college_name":"College of Arts and Sciences"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":12,
+      "campus_partner_name":"Center for Collaboration Science",
+      "college":{
+         "college_name_id":4,
+         "college_name":"College of Business Administration"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":11,
+      "campus_partner_name":"Business",
+      "college":{
+         "college_name_id":4,
+         "college_name":"College of Business Administration"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":14,
+      "campus_partner_name":"Center for Public Affairs Research",
+      "college":{
+         "college_name_id":9,
+         "college_name":"College of Public Affairs and Community Service"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":6,
+      "campus_partner_name":"Arnold Airforce Society",
+      "college":{
+         "college_name_id":11,
+         "college_name":"Student Organizations"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":3,
+      "campus_partner_name":"American Multicultural Student Agency",
+      "college":{
+         "college_name_id":11,
+         "college_name":"Student Organizations"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   },
+   {
+      "campus_partner_id":15,
+      "campus_partner_name":"Center for Urban Sustainability",
+      "college":{
+         "college_name_id":12,
+         "college_name":"Student Success"
+      },
+      "university":"University of Nebraska Omaha",
+      "cec_partner":{
+         "cec_partner_status_id":1,
+         "cec_partner_status":"Never"
+      }
+   }
+]

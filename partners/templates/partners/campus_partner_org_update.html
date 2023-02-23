@@ -1,0 +1,103 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
+{% block content %}
+
+<style xmlns="http://www.w3.org/1999/html">
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+.form-control
+{
+width:85%;
+}
+
+
+.btn-update
+{
+background-color: #333;
+color: white;
+}
+
+.btn-update:hover{
+    background-color: #bbbbbb;
+    color: white;
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+</style>
+
+<div class = "container">
+      <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+  <div class = "panel panel-default">
+    <div class="panel-heading text-center"><h4>Organization Profile</h4></div>
+      <div class="panel-body">
+      <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% part_org_prof_ups %}
+                        </div>
+      </div>
+        <div class="body">
+          <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if messages %}
+             <ul class="messages">
+            {% for message in messages %}
+              <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+            </ul>
+            {% endif %}
+            <div class="col-md-12">
+                <h4><b>Organization Details</b></h4>
+            </div>
+            {% for field in campus_org_form %}
+                <div class="form-group">
+                  <div class="row">
+                    <div class="control-label col-md-4">
+                      <label for="{{field.label}}">{{field.label}}</label>
+                    </div>
+                    <div class = "col-md-8">
+                    {% if field.label == "Campus Partner Name" %}
+                      <input type="{{ field.field.widget.input_type }}" class="form-control" name="{{field.name}}" id="{{field.label}}" value="{{field.value|default_if_none:''}}" readonly>
+                    {% else %}
+                      <select class="form-control" id="{{field.id}}" name="{{field.name}}" >
+                        {% for x,y in field.field.choices  %}
+                            <option value="{{ x }}"{% if field.value == x %} selected{% endif %}>{{ y }}</option>
+                        {% endfor %}
+                      </select>
+                    {% endif %}
+                    </div>
+                  </div>
+                </div>
+            {% endfor %}
+
+            <p style="text-align:center">
+              <button type="submit" class="btn btn-update"><i  class="fa fa-refresh"></i> Update</button>
+            </p>
+            <br><br>
+          </form>
+        </div>
+      </div>
+    </div>
+        </div></div></div>
+  <br><br><br>
+
+{% endblock %}

@@ -1,0 +1,33 @@
+<style>
+.responsive-object {
+  position: relative;
+  padding-bottom: 67.5%;
+  height: 0;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.responsive-object iframe,
+  .responsive-object object,
+  .responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+</style>
+
+<div class="row">
+
+    <div class="col-md-4">
+           {{ self.left_column }}
+      </div>
+      <div class="col-md-4">
+          {{ self.middle_column }}
+      </div>
+        <div class="col-md-4">
+           {{ self.right_column }}
+        </div>
+
+</div>

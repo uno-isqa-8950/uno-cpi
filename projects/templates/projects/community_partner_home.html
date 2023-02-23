@@ -1,0 +1,101 @@
+<!DOCTYPE html> {% load static %}
+<html lang="en">
+
+<head>
+    <title>Community Partnership Initiative</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+    <link href="{% static 'css/uno.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/unofooter.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/uno.min.css' %}" rel="stylesheet" type="text/css">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+
+
+</head>
+<style>
+    #Nav {
+        border-bottom: 4px solid #e22626;
+    }
+</style>
+
+<body>
+    <div id="header" class="texty" style="height: 90px; background-color:black;">
+        <div class="main-header clearfix">
+            <div class="inner-content">
+                <div class="subsite-logos">
+                    <a href="home.html"><img alt="University Of Nebraska at Omaha" src="https://www.unomaha.edu/_files/images/logo-subsite-o-2.png"></a>
+                    <p id="uno"><b>University of Nebraska Omaha</b></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <nav class="navbar navbar-inverse fixed-top navbar-static-top" id="Nav">
+        <!--nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav"-->
+        <div class="visible-mobile" id="menu-toggle">
+            <a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" href="#" id="m_header-toggler">
+                <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          Menu
+          </button>
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <!--div class="collapse navbar-collapse"-->
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand js-scroll-trigger" href="/">Community Partnership Initiative</a>
+                </div>
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    {% if user.is_authenticated %}
+                    <li class=""><a href="#">Hello, {{user.username}}</a></li>
+                    {% else %}
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="glyphicon glyphicon-globe"></span> Register <span class="caret"></span></a>
+
+                    </li>
+                    {% endif %} {% if user.is_authenticated %} {% if 'unomaha.edu' in user.email %}
+                    <li><a class="dropdown-item" href="/account/?slo"><i class="fa fa-sign-out"></i>Logout</a></li> {% else %}
+                    <li><a href="{% url 'logout' %}"><span class="glyphicon glyphicon-log-out"></span> Log Out</a></li> {% endif %} {% else %}
+                    <li><a href="{% url 'account:loginPage' %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    {% endif %}
+                </ul>
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href='/communitypartnerproject/'>Projects</a></li>
+                    <li><a href='communitypartnerproject/'>My Profile</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="container">
+
+        {% block content %} {% endblock %} {% block js %} {% endblock js %}
+    </div>
+</body>
+
+</html>

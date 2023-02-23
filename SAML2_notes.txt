@@ -1,0 +1,2 @@
+pip install python3-saml
+req -x509 -sha256 -nodes -days 3650 -newkey rsa:2048 -keyout privateKey.key -out certificate.crt

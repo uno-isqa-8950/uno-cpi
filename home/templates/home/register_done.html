@@ -1,0 +1,67 @@
+{% extends "home/base_home.html" %}
+{% block content %}
+
+<style>
+ @media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 15%;
+margin-top: 5%;
+margin-right : 15%
+
+
+}
+.panel {
+    width: 60%;
+    margin-bottom: 30%;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+@media(min-width:300px)
+{
+  .container
+  {
+    max-width:600px;
+  }
+}
+
+</style>
+
+    <div class="container">
+        <div class = "col-xl-12 col-md-12 col-sm-12">
+            <div class="text-center"><h3 class="heading">Thank You</h3></div>
+            <div class="box">
+
+                <p class="text-center">Your account has been registered successfully as Campus Partner User! <br>
+                    Kindly confirm the registration process by verifying your email that has been registered with UNO-Community Partnership Initiative</p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

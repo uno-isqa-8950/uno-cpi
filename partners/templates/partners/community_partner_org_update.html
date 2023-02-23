@@ -1,0 +1,210 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
+{% block content %}
+    {% load static %}
+
+    <style>
+
+        .select2-arrow .select2-selection--single
+        {
+            left: 1000px !important;
+        }
+
+        .form-control{
+            margin-left: 2% !important;
+            margin-right: 2% !important;
+            width: 94% !important;
+        }
+        .select2-container--default .select2-selection--single
+        {
+        {#border: 2px solid #aaa;#}
+            height:35px;
+            margin-left:2%;
+            margin-right: -2%;
+            max-width: 100%;
+        }
+
+
+        .select2-container--open .select2-dropdown--below
+        {
+            margin-left:24px;
+            width: 583px !important;
+        }
+
+        label[for=id_community_type]:after,label[for=id_address_line1]:after,label[for=id_city]:after,label[for=id_state]:after,label[for=id_country]:after,label[for=id_zip]:after
+        {
+            content:"*" ;
+            color:red
+        }
+        .help-block
+        {
+            display: none;
+        }
+        .btn-custom
+        {
+            background-color: #282828;
+            position: relative;
+            width:90px;
+            top:15px;
+            font-family: Helvetica;
+            margin-left: 40%;
+        }
+        .btn-custom:hover
+        {
+            background-color:#bbbbbb;
+        }
+        .form-control
+        {
+            width:92%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            margin:0px 0 8px 4px;
+            outline:none;
+            padding:3px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 22px;
+        }
+        .form-control:focus
+        {
+            border-color:grey;
+            box-shadow:0 0 8px 0 grey;
+        }
+        body
+        {
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: medium;
+            position: relative;
+        }
+        .panel
+        {
+        {#width: 650px;#}
+            margin-left: auto;
+            margin-right:auto;
+            margin-top:80px;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .panel-default > .panel-heading
+        {
+            background-color: #282828;
+        }
+        .panel-heading
+        {
+            height:60px;
+            margin-top:5px;
+            border-radius: 5px;
+        }
+        .panel
+        {
+            border-radius: 5px;
+        }
+        h4
+        {
+            line-height: 2.7;
+            font-size: 1.3em;
+        }
+        label
+        {
+            margin-left: 25px;
+            margin-top: 5px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 767px) {
+            .select2 {
+                width: 94% !important;
+                margin-left: 4% !important;
+                margin-right: 2% !important;
+            }
+
+        }
+
+        @media (max-width: 900px) {
+            .select2 {
+                width: 100% !important;
+            }
+        }
+
+
+    </style>
+
+    <div class = "container-fluid">
+        <div class="row ustify-content-md-center">
+            <div class="col-sm-8 col-sm-offset-3" style="margin-left: 15%">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4>Organization Profile</h4></div>
+                    <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% part_org_prof_ups %}
+                        </div>
+                    </div>
+                        <div class="container">
+                            <form action="." method="post" class="form-horizontal" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                            <li class="{{ message.tags }}">{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                {{ community_org_form.name|bootstrap }}
+                                    {% if  community_org_form.name.errors %} {% for error in  community_org_form.name.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.website_url|bootstrap }}
+                                    {% if  community_org_form.website_url.errors %} {% for error in  community_org_form.website_url.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.community_type|bootstrap }}
+                                    {% if  community_org_form.community_type.errors %} {% for error in  community_org_form.community_type.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.k12_level|bootstrap }}
+                                    {% if  community_org_form.k12_level.errors %} {% for error in  community_org_form.k12_level.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.address_line1|bootstrap }}
+                                    {% if  community_org_form.address_line1.errors %} {% for error in  community_org_form.address_line1.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.city|bootstrap }}
+                                    {% if  community_org_form.city.errors %} {% for error in  community_org_form.city.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.state|bootstrap }}
+                                   {% if  community_org_form.state.errors %} {% for error in  community_org_form.state.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.zip|bootstrap }}
+                                    {% if  community_org_form.zip.errors %} {% for error in  community_org_form.zip.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                {{ community_org_form.country|bootstrap }}
+                                     {% if  community_org_form.country.errors %} {% for error in  community_org_form.country.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
+                                    <button id="button-center"  type="submit" class="btn btn-custom"><i class="fa fa-refresh" aria-hidden="true"></i> Update</button>
+                                <br><br>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br><br><br>
+
+{% endblock %}
+
+
+{% block selectizeForm %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+    <script>
+        $('#id_website_url').keyup(function () {
+            if (  ($(this).val().length >=5) && ($(this).val().substr(0, 5) != 'http:') && ($(this).val().substr(0, 5) != 'https') ) {
+                $(this).val('https://' + $(this).val());
+            }
+        });
+        $(document).ready(function(){
+            $('#id_community_type').select2({border:'2px solid #aaa'});
+        });
+    </script>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        document.getElementById('id_name').readOnly = true;
+    </script>
+{% endblock %}
+

@@ -1,0 +1,134 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
+{% block content %}{% load static %}
+
+    <style>
+
+        label, .btn-default
+        {
+            margin-left:100px;
+        }
+
+
+        /* Datatable Css */
+        .btn-custom{float: left}
+        .btn-group{float:left;, labels:"Export"}
+        #example_length{float:left; margin:0 0 0 0px;}
+        #example_length select{width:50%;}
+
+
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            margin-left:0px;
+        }
+
+
+        div.dataTables_wrapper div.dataTables_filter label
+        {
+            float:right;
+        }
+
+
+        @media (max-width: 900px)
+        {
+            div.dataTables_wrapper div.dataTables_length label
+            {
+                float:left;
+                margin-left:50px;
+            }
+            #example_length select{width:35%;}
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate
+        {
+            float:right;
+        }
+    th{
+        text-align: center;
+    }
+        .panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+    </style>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <div class = "container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-12 col-md-12">
+                <div class = "panel panel-default">
+                    <div class="panel-heading text-center"><h4>Contact Details</h4></div>&emsp;
+                    <div class="panel-body">
+                    <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                        <div class="container">
+                            {% part_org_prof_cons %}
+                        </div>
+                    </div>
+                        <div class="container">
+                            <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                                <thead>
+                                <tr>
+                                    <th>Contact Name</th>
+                                    <th>Work Phone</th>
+                                    <th>Cell Phone</th>
+                                    <th>Email</th>
+                                </tr>
+                                </thead>
+                                {% for contacts in contacts%}
+                                    <tr>
+                                        <td>{{contacts.first_name}} {{contacts.last_name}}</td>
+                                        <td>{{contacts.work_phone}}</td>
+                                        <td>{{contacts.cell_phone}}</td>
+                                        <td>{{contacts.email_id}} </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    <br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}
+
+{% block js %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+
+
+<script type="text/javascript">
+   $(document).ready(function() {
+   $('#example').DataTable({
+       dom: 'B<"clear">lftpi',
+       <!--To remove search function from mission area report-->
+       searching: false,
+       buttons: {
+       name: 'primary',
+       buttons: [ 'excel', 'pdf']
+       },
+       paging: false,
+       info: false,
+   });
+
+   } );
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% load wagtailcore_tags register_tags %}
+{% block content %}
+
+<style>
+
+
+h4
+{
+  line-height: 2.7;
+  font-size: 1.3em;
+}
+
+label
+{
+margin-left: 25px;
+margin-top: 5px;
+font-weight: bold;
+}
+
+img.center {
+display: block;
+margin-left: auto;
+margin-right: auto;
+}
+a:hover{
+    background-color: #9C9C9C;
+    color: white;
+
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+</style>
+
+{% if messages %}
+  <ul class="messages">
+  {% for message in messages %}
+    <li class="{{ message.tags }}">{{ message }}</li>
+  {% endfor %}
+  </ul>
+{% endif %}
+
+<div class = "container">
+    <div class ="row justify-content-md-center">
+        <div class="col-xl-8 col-md-10 col-sm-10">
+            <div class = "panel panel-default">
+                <div class="panel-heading text-center"><h4>My Profile</h4></div>
+                <div class="panel-body">
+                <div class="card" style="padding: 10px;border-left-color: transparent; border-right-color: transparent; border-top-color: transparent;">
+                    <div class="container">
+                        {% part_user_profs %}
+                    </div>
+                </div>
+                <div class="col-12">
+                <br>
+                <img src="{{ user.avatar.url }}" class="center" width="100" alt="Avatar">
+                </div><br>
+                <div class="row">
+                    <div class="col-sm-6 text-right">
+                        <label> First Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label> {{user.first_name}} </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <label> Last Name &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label> {{user.last_name}} </label>
+                    </div>
+                    <div class="col-sm-6 text-right">
+                        <label> Email &nbsp; &nbsp; &nbsp; &nbsp; : </label>
+                    </div>
+                    <div class="col-sm-6">
+                        <label> {{user.email}} </label>
+                    </div>
+
+                    <br>
+                </div>
+                </div>
+                  <div class="text-center">
+                    <a href="{% url 'partners:userprofileupdate' %}" class="btn btn-custom" role="button"><i class="fa fa-edit"></i> Edit </a>
+                </div>
+                <br><br>
+            </div>
+        </div>
+   </div>
+</div>
+<br><br><br><br><br><br><br><br>
+
+{% endblock %}

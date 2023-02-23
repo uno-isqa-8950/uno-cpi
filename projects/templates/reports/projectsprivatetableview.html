@@ -1,0 +1,692 @@
+{% extends 'home/base_home.html' %}
+{% load static %}
+{% load wagtailcore_tags register_tags %}
+
+{% block content %}
+    <style>
+        .box{
+            padding: 10px;
+            background-color: white;
+            border: 1px;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);
+        }
+        /* Datatable Css */
+        .btn-group{float:left;, labels:"Export"}
+        #example_length{float:left; margin:0 0 0 0px;}
+        #example_length select{width:50%;}
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            margin-left:0px;
+        }
+        div.dataTables_wrapper div.dataTables_filter label
+        {
+            float:right;
+        }
+        @media (max-width: 900px)
+        {
+            div.dataTables_wrapper div.dataTables_length label
+            {
+                float:left;
+                margin-left:50px;
+            }
+            #example_length select{width:35%;}
+        }
+        div.dataTables_wrapper div.dataTables_paginate
+        {
+            float:right;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        }
+        .page-item.active .page-link
+        {
+            background-color: #333333;
+            border-color: #333333;
+        }
+        .page-link
+        {
+            color:#333333;
+        }
+        .page-link:hover
+        {
+            color:grey;
+        }
+
+
+        .accordion .card-header:after {
+            font-family: 'FontAwesome';
+            content: "\f146";
+            margin-left: 55px;
+            font-size: 20px;
+        }
+
+        .accordion .card-header.collapsed:after {
+            /* symbol for "collapsed" panels */
+            content: "\f0fe";
+            font-size: 20px;
+
+        }
+
+        .heading{
+            color:black;
+            font-size: 30px;
+            padding-bottom: 15px;
+            padding-top: 60px;
+            line-height: 0px !important;
+        }
+
+
+        /*.form-control*/
+        /*{*/
+        /*width:85%;*/
+        /*border:2px solid #aaa;*/
+        /*border-radius:4px;*/
+        /*margin:10px 0 8px 4px;*/
+        /*outline:none;*/
+        /*padding:3px;*/
+        /*box-sizing:border-box;*/
+        /*transition:.3s;*/
+        /*margin-left: 22px;*/
+        /*}*/
+
+        body{
+            background-color: rgba(0,0,0,.03);
+        }
+
+        /*input[type=text], [type=password], [type=email], [type=url] {*/
+        /*width: 30%;*/
+        /*color: #444;*/
+        /*border: 2px solid #aaa;*/
+        /*border-radius: 4px;*/
+        /*line-height: 28px;*/
+        /*display: block;*/
+        /*overflow: hidden;*/
+        /*text-overflow: ellipsis;*/
+        /*white-space: nowrap;*/
+        /*margin: 10px 0 8px 4px;*/
+        /*margin-top: 10px;*/
+        /*margin-right: 0px;*/
+        /*margin-bottom: 8px;*/
+        /*margin-left: 22px;*/
+        /*padding-left: 8px;*/
+        /*padding-right: 20px;*/
+        /*font-size: 16px;*/
+        /*font-family: "Arial Narrow", sans-serif;*/
+        /*box-sizing: border-box;*/
+        /*margin-left: 12px;*/
+        /*margin: 10px 0 8px 4px;*/
+        /*outline: none;*/
+        /*box-sizing: border-box;*/
+        /*transition: .3s;*/
+
+
+
+        /*}*/
+        .button-row-elements
+        {
+            width: 100%;
+            float: left;
+            padding:0;
+            margin-bottom: 15px;
+        }
+        .button-row-elements button{
+            display:inline-block;
+        }
+
+
+        .filter-card{
+            border-top-color: rgba(0, 0, 0, 0.12);
+            border-top-style: solid;
+            border-top-width: 1px;
+            border-right-color: rgba(0, 0, 0, 0.12);
+            border-right-style: solid;
+            border-right-width: 1px;
+            border-bottom-color: rgba(0, 0, 0, 0.12);
+            border-bottom-style: solid;
+            border-bottom-width: 1px;
+            border-left-color: rgba(0, 0, 0, 0.12);
+            border-left-style: solid;
+            border-left-width: 1px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            margin-bottom: 15px;
+        }
+        .text-snippet{
+            text-align: left;
+        }
+        .select2-container--default .select2-selection--single {
+            background-color: #fff;
+            /* border: 1px solid #aaa; */
+            border-radius: 4px;
+            border: 2px solid #aaa;
+        }
+        .select2-container .select2-selection--single {
+            box-sizing: border-box;
+            cursor: pointer;
+            display: block;
+            height: 35px;
+            user-select: none;
+            -webkit-user-select: none;
+            border: 2px solid #aaa;
+        }
+        .snippet-card{
+            margin-top: 20px;
+            padding-top:10px;
+            padding-bottom:10px;
+            margin-bottom: 10px;
+            border-left: none;
+            border-right:none;
+            margin-left: 25px;
+            margin-right: 25px;
+            border-radius:0px;
+            background-color: transparent;
+
+        }
+
+        .btn-secondary{
+            margin: 2px;
+        }
+        .buttons-csv{
+            margin:2px;
+        }
+
+    </style>
+
+    <script>
+        $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+    </script>
+
+    <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
+    <div class="card snippet-card">
+        <div class="container text-snippet">
+            {% priv_projs %}
+        </div>
+    </div>
+
+    <div class="container-fluid">
+
+
+        <div class="container button-row-elements">
+
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+                   aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
+            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectprivatetableview' %}' " value="Reset Filters" >
+            <input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport/?{{ parameters }}'; " value="Card View" >
+            <script type="text/javascript">
+                document.getElementById("btn").addEventListener(
+                    "click",
+                    function(event) {
+                        if (event.target.value === "Hide Filters") {
+                            event.target.value = "Show Filters";
+                        } else {
+                            event.target.value = "Hide Filters";
+                        }
+                    },
+                    false
+                );
+            </script>
+
+        </div>
+
+
+                <!-- / Collapse buttons -->
+        <div class="card box filter-card">
+            <div class="collapse show" id="collapseExample">
+                <form class="form-inline" id="filters-form" method="get">
+
+                    <div class="col-lg-4 col-md-5 form-group">
+
+                        <label for="academic_year">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            Academic Years
+                        </label>
+                        <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for sem in projects.form.academic_year %}
+                                {{sem}}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="mission">
+                                    <span tabindex="-1" data-toggle="tooltip"   style="top: -5px;right: 105%;"
+                                          title="{% get_data_definition_desc 'Focus Area' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            Project Focus Areas
+                        </label>
+                        <select  id="id_mission" name="mission" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for mission in missions.form.mission %}
+                                {{mission}}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="community_type">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'Community Organization Type' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            Community Organization Types
+                        </label>
+                        <select id="id_community_type" name="community_type" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for community_type in communityPartners.form.community_type %}
+                                {{community_type}}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-5 form-group">
+
+                        <label for="college_name">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'College and Main Units' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            College and Main Units
+                        </label>
+                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for college in college_filter.form.college_name %}
+                                {{college}}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="campus_partner">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            Campus Partners
+                        </label>
+                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                            {#                        <option> All </option>#}
+                            {##}
+                            {#                        {% for campus in campus_filter.form.campus_partner %}#}
+                            {#                            {{campus}}#}
+                            {#                        {% endfor %}#}
+                            <option > All </option>
+                            <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
+
+                            {% for campus in campus_filter %}
+                                <option value={{campus.id}} {% if campus_id == campus.id %} selected {% endif %}>{{campus.name}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="col-lg-4 col-md-5 form-group">
+                        <label for="weitz_cec_part">
+
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'CEC Building Partner' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            CEC Building Partners
+                        </label>
+                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                            <option value="" disabled selected hidden></option>
+                            {% for cec_choice in cec_part_choices.cec_choice %}
+                                {{ cec_choice }}
+                            {% endfor %}
+                        </select>
+
+
+                    </div>
+
+
+                    <div class="col-lg-4 col-md-5 form-group">
+
+                        <label for="engagement_type">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'Engagement Types' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            Engagement Types
+                        </label>
+                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                            <option> All </option>
+                            {% for engagement in projects.form.engagement_type %}
+                                {{engagement}}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-5 form-group">
+
+                        <label for="k12_flag">
+                                    <span tabindex="-1" data-toggle="tooltip"
+                                          title="{% get_data_definition_desc 'K-12 Schools (community partner organization type)' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                            K-12 Involvement
+                        </label>
+                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                            <option value="" disabled selected hidden></option>
+                            {% for k12_flag in k12_choices.k12_choice %}
+                                {{ k12_flag }}
+                            {% endfor %}
+                        </select>
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+        <!--<div class = "container-fluid">-->
+        <!--<div class="row justify-content-md-center">-->
+        <!--<div class="col-lg-12 col-md-12">-->
+
+        <!--<div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">-->
+        <!--<div class="panel-body">-->
+        <div class="box">
+
+            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+                <thead>
+                <tr>
+                    <th class="all">
+                            <span tabindex="-1" data-toggle="tooltip" data-placement="right"
+                                  title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        Project
+                    </th>
+                    <th class="all">
+                        <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
+                              title="{% get_data_definition_desc 'Focus Area' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                        Project Focus Areas
+                    </th>
+                    <th class="all">
+                        <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
+                               title="{% get_data_definition_desc 'Community Partner' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    Community Partners
+                    </th>
+                    <th class="all">
+                        <span tabindex="-1" data-toggle="tooltip" data-placement="bottom"
+                               title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                    Campus Partners
+                    </th>
+                    <th class="none">Engagement Type:</th>
+                    <th class="none">Activity Type:</th>
+                    <th class="none">Other Activity Type:</th>
+                    <th class="none">Start Semester:</th>
+                    <th class="none">Start Academic Year:</th>
+                    <th class="none">End Semester:</th>
+                    <th class="none">End Academic Year:</th>
+                    <th class="none">Total UNO Students:</th>
+                    <th class="none">UNO Students Hours:</th>
+                    <th class="none">UNO Faculty/Staff Hours:</th>
+                    <th class="none">Total K-12 Students:</th>
+                    <th class="none">K-12 Student Hours:</th>
+                    <th class="none">Total Number of Other Participants:</th>
+                    <th class="none">Campus Leads:</th>
+                    <th class="none">Topics:</th>
+                    <th class="none">Other Topics:</th>
+                    <th class="none">Description:</th>
+                    <th class="none">Subtags:</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for project in project %}
+                    <tr>
+                        <td>{{ project.get_name }}</td>
+                        <td>{{ project.mission_area.all|join:", " }}</td>
+                        <td>{{ project.community_partner.all|join:", " }}</td>
+                        <td>{{ project.campus_partner.all|join:", "}}</td>
+                        <td>{{ project.engagement_type}}</td>
+                        <td>{{ project.activity_type }}</td>
+                        <td>{{ project.other_activity_type }}</td>
+                        <td>{{ project.semester }}</td>
+                        <td>{{ project.academic_year }}</td>
+                        <td>{{ project.end_semester }}</td>
+                        <td>{{ project.end_academic_year }}</td>
+                        <td>{{ project.total_uno_students}}</td>
+                        <td>{{ project.total_uno_hours}}</td>
+                        <td>{{ project.total_uno_faculty}}</td>
+                        <td>{{ project.total_k12_students}}</td>
+                        <td>{{ project.total_k12_hours}}</td>
+                        <td>{{ project.total_other_community_members}}</td>
+                        <td>
+                            {% for sub in project.campus_lead_staff %}
+                                {{ sub }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ project.subcategory.all|join:", " }}</td>
+                        <td>
+                            {% for sub in project.other_sub_category %}
+                                {{ sub }}
+                            {% endfor %}
+                        </td>
+                        <td>{{ project.description }}</td>
+                        <td></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>&emsp;
+        </div>
+    </div>
+{% endblock %}
+
+{% block js %}
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.css"/>
+    <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet" type="text/css">
+    {#<script type="text/javascript" src='{% static "js/pdfmake.min.js" %}'></script>#}
+    {#<script type="text/javascript" src='{% static "js/datatables.min.js" %}'></script>#}
+    <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/v/bs4/dt-1.10.18/af-2.3.2/b-1.5.4/b-colvis-1.5.4/b-html5-1.5.4/b-print-1.5.4/cr-1.5.0/fc-3.2.5/r-2.2.2/rg-1.1.0/rr-1.2.4/sl-1.2.6/datatables.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            // $('#example').DataTable({
+            //     dom: 'B<"clear">lftpi',
+            //     buttons: {
+            //     name: 'primary',
+            //     buttons: ['csv', 'excel' ]
+            //     },
+            //     columnDefs: [{'searchable':false, 'targets':[5,8,9,10,11,12,13,14,15,16,17,18]}]
+            // });
+
+            $('#example').DataTable({
+                dom: 'B<"clear">lftpi',
+                buttons: {
+                    name: 'primary',
+                    buttons: [{
+                        extend: 'csv',
+                        title:'Community Engagement Partnership Initiative-Projects Report',
+                        text:'Excel',
+                        exportOptions: {
+                            columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                        }
+                    },
+
+                        {
+                            extend : 'pdfHtml5',
+                            title:'Community Engagement Partnership Initiative-Projects Report',
+                            messageTop:'Projects Report',
+                            exportOptions: {
+                                columns:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+                            },
+
+
+                            orientation : 'landscape',
+                            pageSize : 'A1',
+                            text : 'PDF',
+                            titleAttr : 'PDF'
+                        }
+
+                    ]
+                },
+                columnDefs: [
+                    // hiding tags from column 21 and making it searchable in the data table
+                    {
+                        "targets": [21],
+                        "visible": false,
+                        "searchable": true
+                    },
+                    // // hiding uno faculty hours
+                    {
+                        "targets": [13],
+                        "visible": false,
+                        "searchable": false
+                    },
+
+                    {"width": "21.5%","targets":[0,1,2,3,4,5,6]}
+
+                ],
+                /*added below line to disable smart search so that exact word entered is serached*/
+                "oSearch": {"bSmart": false},
+                // "scrollY": "none",
+                // "scrollCollapse": false
+            });
+
+
+            $('#example_filter').find('input').addClass('clearable');
+            function tog(v){return v?'addClass':'removeClass';}
+            $(document).on('input', '.clearable', function(){
+                $(this)[tog(this.value)]('x');
+            }).on('mousemove', '.x', function( e ){
+                $(this)[tog(this.offsetWidth-18 < e.clientX-this.getBoundingClientRect().left)]('onX');
+            }).on('touchstart click', '.onX', function( ev ){
+                ev.preventDefault();
+                $(this).removeClass('x onX').val('').change();
+                $('#example').DataTable().destroy();
+                $('#example').DataTable().draw();
+                $('#example_filter').find('input').addClass('clearable');
+
+
+            });
+
+
+
+
+        } );
+    </script>
+    <script language="javascript" type="text/javascript">
+        console.log(" im in loader stopper");
+        window.onload = function(){ document.getElementById("loading").style.display = "none" }
+    </script>
+    <style>
+        div.dataTables_wrapper div.dataTables_length label
+        {
+            margin-left:30px;
+        }
+        @media (max-width: 900px)
+        {
+            div.dataTables_wrapper div.dataTables_length label
+            {
+                float:left;
+                margin-left:50px;
+            }
+        }
+        div.dataTables_wrapper div.dataTables_paginate
+        {
+            float:right;
+        }
+    </style>
+
+
+{% endblock %}
+
+
+{% block selectizeForm %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+    <script>
+
+        $(document).ready(function(){
+
+
+
+
+            $('#id_engagement_type').select2({placeholder: 'All Engagement Types',width: '75%',
+                sorter: function(data) {
+                    /* Sort data using lowercase comparison */
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }});
+            $('#id_community_type').select2({placeholder: 'All Community Organization Types',width: '75%',
+                sorter: function(data) {
+                    /* Sort data using lowercase comparison */
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }});
+            $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+            $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '85%'});
+            $('#id_mission').select2({
+                placeholder: 'All Project Focus Areas', width: '85%',
+                sorter: function(data) {
+                    /* Sort data using lowercase comparison */
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }});
+            $('#id_college_name').select2({placeholder: 'All College and Main Units',width: '75%',
+                sorter: function(data) {
+                    /* Sort data using lowercase comparison */
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }});
+            $('#id_k12_flag').select2({placeholder: 'All K-12 Involvement',width: '75%'});
+            $('#id_legislative_value').select2({placeholder: 'All Legislative Districts',width: '115%'});
+            $('#id_campus_partner').select2({placeholder: 'All Campus Partners',width: '75%',
+                sorter: function(data) {
+                    /* Sort data using lowercase comparison */
+                    return data.sort(function (a, b) {
+                        a = a.text.toLowerCase();
+                        b = b.text.toLowerCase();
+                        if (a > b) {
+                            return 1;
+                        } else if (a < b) {
+                            return -1;
+                        }
+                        return 0;
+                    });
+                }});
+        });
+    </script>
+{% endblock %}

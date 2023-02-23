@@ -1,0 +1,55 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+ @media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p,a
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+
+</style>
+
+<div class="container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Thank You</h4></div>
+			<div class="panel-body">
+                <div class="row justify-content-md-center">
+                    <div class="col-lg-12 col-md-12">
+                        <p>Your data has been successfully created.</p>
+                    </div>
+                    <div class="col-lg-12 col-md-12">
+                        <a href= "/uploadIncome/" style="color:blue" >Click here to Upload more Income Data</a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

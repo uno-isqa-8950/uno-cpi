@@ -1,0 +1,144 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+  <style>
+
+  @media screen and (max-width: 768px) {
+    .select2 {
+        width: 95% !important;
+    }
+}
+
+
+.select2-container--default .select2-selection--single
+{
+    {#border: 2px solid #aaa;#}
+    height:35px;
+    margin-left:3%;
+    margin-right: -2%;
+    max-width: 100%;
+}
+    label
+    {
+        margin-left: 25px;
+        font-weight: bold;
+    }
+
+    {
+        content:"*" ;
+        color:red
+    }
+
+    h4
+    {
+        line-height: 2.7;
+        font-size: 1.3em;
+    }
+
+    .h9{
+        font-size:0.8em;
+        font-style: italic;
+    }
+
+    .btn-link{
+
+        font-size: small;
+        font-style: italic;
+    }
+
+    .panel {
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+          box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+
+  select[id=id_form-0-campus_partner]
+   {
+       width:93%;
+   }
+
+
+   .btn-link, .btn-link:hover
+
+   {
+   color: #d71920
+   }
+
+</style>
+
+    <div class = "container">
+        <div class="row justify-content-md-center">
+            <div class="col-lg-8 col-md-8">
+                <div class = "panel panel-default">
+            <div class="panel-heading text-center"><h4>Registration Success</h4></div>
+            <div class="panel-body">
+                <br>
+                <p class="text-justify" style="margin-left: 5%; margin-right: 3%">
+                    {% if user.is_active %}
+                        Dear {{user.first_name }},
+                        <br> <br>
+                       You are now registered as a community partner user which will allow you to view project-level data about your community organization’s partnership with UNO. <br>
+                       Please click on the button below to create a password.<br>
+                    {% endif %}
+                </p>
+                <p class="text-justify" style="margin-left: 5%; margin-right: 3%">
+                    <i>By submitting this form, I agree to the <a style="color: #d71920" href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf" target="_blank"><i>terms and conditions</i></a> of the Community Partnership Initiative.</i></p>
+            </div>
+                    <a style="margin-left: 40%" class="btn btn btn-secondary btn-md" href={%url 'commPartnerResetPassword' pk=user.pk %} role="button"> <i class="fa fa-key" aria-hidden="true"> Create Password</i></a>
+        </div>
+    </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_community_partner').select2(
+      {
+              placeholder: 'Select a Community Partner',
+      }
+
+  );
+});
+</script>
+    <style>
+.select2-container .select2-selection--single
+{
+   height:35px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+</style>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    document.getElementById('id_email').readOnly = true;
+</script>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% load wagtailimages_tags %}
+
+<style>
+.responsive-object {
+  position: relative;
+  padding-bottom: 67.5%;
+  height: 0;
+  margin: 10px 0;
+  overflow: hidden;
+}
+.responsive-object iframe,
+  .responsive-object object,
+  .responsive-object embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+</style>
+
+<figure>
+    {% image self.image fill-600x600 %}
+    <figcaption>{{ self.caption }} - {{ self.attribution }}</figcaption>
+</figure>

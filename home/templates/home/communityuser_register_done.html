@@ -1,0 +1,53 @@
+{% extends "home/base_home.html" %}
+{% block content %}
+
+<style>
+ @media (min-width: 700px)
+{
+.panel
+{
+width: 400px;
+margin-left: auto;
+margin-right:auto;
+margin-top:150px;
+height: relative;
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+</style>
+
+<div class="container">
+ <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Request Successful</h4></div>
+			<div class="panel-body">
+
+        <p>An activation email was sent out to the invited community partner user to complete the registration process.</p>
+            </div></div></div><br><br><br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

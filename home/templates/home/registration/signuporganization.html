@@ -1,0 +1,45 @@
+{% extends "home/base_home.html" %}
+{% block content %}
+    <style>
+
+    .buttons-holder {
+  position: absolute;
+  top: 195%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.button {
+    background-color: #CC3434;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 12px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+}
+    h4{
+ text-align: center;
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        background: #CC3434;
+        padding: 15px 32px;
+        color: white;
+}
+    body{
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+        font-size: medium;
+    }
+
+</style>
+<h4>Sign up for an account</h4>
+<p class="lead">Select below the type of account you want to create</p>
+<button><a href="{%url 'registerCampusPartner' %} " class="save btn btn-default" role="button">I'm a campus Partner</a></button>
+<button><a href="#" class="save btn btn-default" role="button">I'm a Community Partner</a></button>
+
+</p>
+
+{% endblock %}

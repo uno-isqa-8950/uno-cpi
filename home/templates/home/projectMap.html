@@ -1,0 +1,582 @@
+{% extends 'home/Dashboard_Extension.html' %} {% load static %} {% block content %}
+{% load register_tags %}
+
+    {#<script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.js'></script>#}
+    <script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+    {#<link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.50.0/mapbox-gl.css' rel='stylesheet' />#}
+    <link href="{% static 'css/Sidebar.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+    <style>
+
+        #sidebar, .panel > .panel-heading, .panel-default > .card {
+            background-color: #333333;
+
+        }
+
+        .btn-primary
+        {
+            background-color: #bbbbbb;
+            border-color: #333;
+        }
+
+        .btn .btn-primary:active, .btn-primary:focus, .btn-primary:hover
+        {
+            border-color: #484848;
+            background-color: #484848;
+        }
+
+        .btn-custom1
+        {
+            position:absolute;
+            top:5px;
+            left:40px;
+            border-color: #333;
+            background-color: #ce2029;
+            color:White;
+            z-index:999;
+        }
+
+
+        .active .btn-custom1
+        {
+            left:40px;
+            background-color: #ce2029;
+        }
+
+        @media(max-width:810px)
+        {
+            .btn-custom1
+            {
+                left:15px;
+            }
+            .active .btn-custom1
+            {
+                left:15px;
+
+            }
+
+        }
+
+        .btn-custom1:hover
+        {
+            background-color: #bbbbbb;
+            border-color: #333;
+        }
+
+
+        .btn-custom1:focus
+        {
+            box-shadow: 0 0 0 0;
+        }
+
+
+        a {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a:hover
+        {
+            color:#bbb;
+        }
+
+        {#.mapboxgl-map:-webkit-full-screen#}
+        {#{#}
+        {#      width: 100%;#}
+        {#      height: calc(100vh - 150px);#}
+        {#      margin: 0px 0 0 0;#}
+        {##}
+        {#}#}
+
+
+        .map {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 150px);
+            margin: 0px 0 0 0;
+        }
+
+
+        input[type=text]
+        {
+            margin-left:0px;
+            width:210px;
+            margin-top: 0px;
+            border: 2px solid #aaa;
+            border-radius:4px;
+        }
+
+        select[id=selectDistrict]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
+        select[id=selectDistrict]:focus
+        {
+            border-color:grey;
+            box-shadow:0 0 8px 0 grey;
+        }
+        select[id=selectCommunityType]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+        select[id=selectCampus]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
+        select[id=selectYear]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+        select[id=selectMission]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+        select[id=selectCommunity]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
+        select[id=selectCollege]
+        {
+            width:85%;
+            border:2px solid #aaa;
+            border-radius:4px;
+            outline:none;
+            padding:4px;
+            box-sizing:border-box;
+            transition:.3s;
+            margin-left: 0px;
+            margin-top: 5px;
+            width: 210px;
+            margin-bottom: 15px;
+        }
+
+        .h2 {
+            display: block;
+            font-size: 1.7em;
+            margin-top: 0.25em;
+            margin-bottom: 0.67em;
+            margin-left: 450px;
+            margin-right: 0;
+            font-weight: bold;
+        }
+
+        .filter{
+            position: absolute;
+            right: 20px;
+            top: 120px;
+        }
+
+        .selectType{
+            width: 200px;
+            height: 30px;
+            font-size: 20px;
+            top: 150px;
+            left: 1100px;
+        }
+
+
+
+
+        .filter-ctrl {
+            position: absolute;
+            top: 220px;
+            right: 20px;
+            width: 230px;
+            height: 50px;
+        }
+
+        .filter-ctrl input[type=number] {
+            font: 12px/20px 'Arial Narrow', sans-serif;
+            width: 100%;
+            border: 0;
+            background-color: #fff;
+            height: 100px;
+            margin: 0;
+            color: rgba(0,0,0,0.8);
+            padding: 10px;
+            box-shadow: 0 0 0 6px rgba(0,0,0,0.5);
+            border-radius: 3px;
+            height: 70px;
+        }
+
+        .heading {
+            background: #888888;
+            border-bottom: 1px solid #eee;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 10px;
+        }
+
+        .listings {
+            background: #fff;
+            height: 100%;
+            overflow: auto;
+            padding-bottom: 60px;
+        }
+
+
+        .listings .item {
+            display: block;
+            border-bottom: 1px solid #eee;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .listings .item:last-child { border-bottom: none; }
+        .listings .item .title {
+            display: block;
+            color: #00853e;
+            font-weight: 700;
+        }
+
+        .listings .item .title small { font-weight: 400; }
+
+        .listings .item.active .title,
+        .listings .item .title:hover { color: #8cc63f; }
+
+        .listings .item.active {
+            background-color: #f8f8f8;
+        }
+
+        h3
+        {
+            text-align:center;
+
+        }
+
+        #overlay-text
+        {
+            z-index: 999;
+            width: 370px;
+            position: absolute;
+            top:70px;
+            right: 75px;
+            color:White;
+            height:50px;
+            text-align:justify;
+            opacity: .8;
+            height:80px;
+            line-height:1.6;
+        }
+
+        #overlay-header
+        {
+            z-index: 999;
+            width: 430px;
+            position: absolute;
+            background-color: #333;
+            display:block;
+            top:10px;
+            right: 50px;
+            color:White;
+            text-align:center;
+            opacity: .9;
+            height:130px;
+            line-height:2.2;
+            box-shadow: 5px 10px 10px 5px grey;
+        }
+
+        .select2-container--default .select2-selection--single
+        {
+            width:100%
+        }
+
+        .select2-container--open .select2-dropdown--below
+        {
+
+        }
+
+        .container-fluid
+        {
+            padding-left:0px;
+            padding-right:0px;
+        }
+
+        .card
+        {
+
+            border-radius:0px;
+        }
+        .nodragger{
+        margin:0px;
+        padding-right:0px;
+        padding-left:0px;
+        }
+        .cardopacity
+        {
+            opacity:20%;
+        }
+        .transbox
+        {
+        margin: 30px;
+        background-color: #bbb;
+        border: 1px solid <b></b>lack;
+        opacity: 60%;
+        filter: alpha(opacity=70); /* For IE8 and earlier */
+        }
+    .fa{
+    font-size: 15px;
+
+    }
+          body {
+            background: #333333;
+        }
+
+    </style>
+
+<div class="wrapper">
+    <nav id="sidebar" style="height: 110%;margin-top:-5px;">
+        <div class="row" style="height:30px;">
+            <div class="col-lg-4 col-md-4">
+                    <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
+                </div>
+                <div class="col-lg-8 col-md-8" style="text-align:right;">
+                    <label id="reset"><u>Reset</u></label>
+                </div>
+            </div>
+
+             <div class='legend'>
+            <div id='state-legend'>
+                <div id='engagementFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;"></div>
+                <select style="margin-top:10px;"  id="selectMission" class="selectMission"></select>
+                <select id="selectCollege" class="selectCollege"></select>
+                <select id="selectCampus" class="selectCampus"></select>
+                <select id="selectCommunity" class="selectCommunity"></select>
+                <select id="selectCommunityType" class="selectCommunityType"></select>
+                <select id="selectDistrict" class="selectDistrict"></select>
+                <select id="selectYear" class="selectYear"></select>
+                
+            </div>
+            <div style="padding-top:10px;border-top: 1px solid grey;">
+                    <input id='valueFilter' type='text' placeholder='Search Projects' />
+                </div>
+            </div>
+
+        </nav>
+
+        <div id="content">
+
+            <div class = "container-fluid" style="margin-top:78px;">
+                <div class="row justify-content-md-center">
+                    <div class="nodragger col-xl-12 col-md-12 col-sm-12">
+                    <div>
+                         <div class="card"  style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow', sans-serif;text-align:center;">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1">
+                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
+                                        <span></span>
+                                    </button>
+
+
+                                </div>
+
+                                <div class="col-lg-4 col-md-5" style="text-align: left">
+                                    <div style="box-sizing: border-box;padding:5px;opacity:1.0;">
+                                        <label style="text-align: left"><b>Projects Map</b></label>
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-6">
+                                    <div style="box-sizing: border-box; padding:3px;">
+                                        <label><b>Number of Implemented Projects: </b><b id = "totalnumber">{{ number }}</b>{# &nbsp;<span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="This number does not include Projects without an address" class="float" ><i class="fa fa-info-circle fa-align-top fa-xs" aria-hidden="true"></i></span>#}
+
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                              <div class="row">
+                                <div class="col-sm-1"></div>
+                                <div class="col" style="text-align: left;font-size: 18px;font-family: 'Arial Narrow', sans-serif;padding-top:-10px">
+                                        <span style="text-align: left">{% get_data_definition_desc 'Maps (projects)' %}</span>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    </div>
+                    <head>
+                        <title>Simple Map</title>
+                        <meta name="viewport" content="initial-scale=1.0">
+                        <meta charset="utf-8">
+                        <style>
+                            /* Always set the map height explicitly to define the size of the div
+                             * element that contains the map. */
+                            #map {
+                                height: 100%;
+                            }
+                            /* Optional: Makes the sample page fill the window. */
+                            html, body {
+                                height: 100%;
+                                margin: 0;
+                                padding: 0;
+                            }
+                        </style>
+                    </head>
+
+
+                    <div class="col-xl-12 col-md-12 col-sm-12">
+                        <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
+                            <div id='map_canvas' class='map'>
+                                {{ collection | json_script:"project-data"}}
+                                {{ districtData | json_script:"district"}}
+                                {{ Missionlist | json_script:"missionlist"}}
+                                {{ CommTypelist | json_script:"CommTypelist"}}
+                                {{ Collegename | json_script:"collegename-list"}}
+                                {{ Campuspartner | json_script:"campusPartner-list"}}
+                                {{ Communitypartner | json_script:"communitypartner-list" }}
+                                {{ EngagementType | json_script:"engagementType" }}
+                                {{ year | json_script:"year-list"}}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+       <footer id="footer">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
+                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+          </div>
+             <div class="col-sm-6" style="margin-top:8px; text-align: left;">
+v                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                 <!--<br>-->
+                 <p>
+                  <span><a class="fnone" style="font-size: 12px;">
+                        <script type="text/JavaScript">
+			                    document.write("&copy; "+new Date().getFullYear());
+		                </script>, </a></span><span class="break"></span>
+
+                <span><a class=footertext" style="line-height:1;color:#BBBBBB; font-size:14px;">University of Nebraska Omaha, Community Engagement Partnership Initiative (CEPI)
+                </a></span>
+                 </p>
+                 <p class="footer-disclaimer">The University of Nebraska does not discriminate based on race,
+                color, ethnicity, national origin, sex, pregnancy, sexual orientation,
+                gender identity, religion, disability, age, genetic information,
+                veteran status, marital status, and/or political affiliation in its programs,
+                activities, or employment. Learn more about Equity, Access and Diversity.</p>
+             </div>
+
+          <!--<div class="footertext"></div>-->
+<!---->
+          <!--<div class="footertext" style="line-height:1"><a style="color:#BBBBBB; font-size:10px;">-->
+                <!--The University of Nebraska does not discriminate based on race,-->
+                <!--color, ethnicity, national origin, sex, pregnancy, sexual orientation,-->
+                <!--gender identity, religion, disability, age, genetic information,-->
+                <!--veteran status, marital status, and/or political affiliation in its programs,-->
+                <!--activities, or employment. Learn more about Equity, Access and Diversity.</a>-->
+          <!--</div>-->
+<!---->
+          <!--<div class="footertext"></div>-->
+        </div>
+      </div>
+</footer>
+
+        </div>
+
+    </div>
+
+    <<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}"></script>
+
+    {#    markercluster#}
+    <script type="text/javascript" src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    {#    spiderfy#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OverlappingMarkerSpiderfier/1.0.3/oms.js"></script>
+
+    <script type="text/javascript" src='{% static "js/projectMap.js" %}'></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <!-- jQuery Custom Scroller CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar, #content').toggleClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+
+   <script>
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        })
+    </script>
+
+
+{% endblock %}

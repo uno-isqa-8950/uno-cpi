@@ -1,0 +1,194 @@
+{% extends "home/base_home.html" %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+
+.form-control, input[type=text]
+{
+    width:95%;
+    border:2px solid #aaa;
+    border-radius:4px;
+    margin:0px 0 8px 4px;
+    outline:none;
+    padding:3px;
+    box-sizing:border-box;
+    transition:.3s;
+    margin-left: 22px;
+}
+
+.form-control:focus
+{
+   border-color:grey;
+   box-shadow:0 0 8px 0 grey;
+}
+
+
+h4
+{
+	line-height: 2.7;
+	font-size: 1.3em;
+}
+
+.help-block
+{
+    margin-left: 25px;
+    margin-top: 5px;
+
+}
+
+label:after
+{
+    content:"*" ;
+    color:red
+}
+
+label
+{
+    margin-left: 25px;
+    margin-top: 5px;
+    font-weight: bold;
+}
+
+
+.select2-container--default .select2-selection--single
+{
+    margin-left:22px;
+    width:100%
+
+}
+.select2-container--open .select2-dropdown--below
+{
+    margin-left:22px
+}
+.panel {
+    margin-top: 10%;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+</style>
+
+<div class = "container">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-8 col-md-10">
+            <div class = "panel panel-default">
+		        <div class="panel-heading text-center"><h4>Register: Community Partner User</h4></div>&emsp;
+			        <div class="panel-body">
+                        <form action="."  onfocusout="return validateForm()" name="myForm" method="post">
+                        {% csrf_token %}
+                        {{ community_partner_user_form|bootstrap}}
+                        {{ user_form.first_name|bootstrap }}
+                        {{ user_form.last_name|bootstrap }}
+                        {{ user_form.email|bootstrap }}
+                        {{ user_form.password|bootstrap }}
+                        <i><small style="color: grey;"class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
+                        {{ user_form.password2|bootstrap }}
+                        <i><small style="color: grey; " class="help-block">At least 8 characters having 1 digit and 1 special character</small></i>
+                            <div class = "row justify-content-md-center">
+                                <div class="col-lg-2 col-md-3 col-sm-3">
+                                    <button type="submit" class="btn btn-custom"> <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+                                        Submit</button>
+                                </div>
+                            </div><br><br>
+                        </form>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+<!--<div class="boxContainer">-->
+  <!--<p><input type="submit" value="Create My Account" class="button"></p>-->
+<!--</div>-->
+<!--</form>-->
+ <!--</div>-->
+
+<!--</form>-->
+<!--    Commenting out script per ticket #551
+        Removing HTML validations as Validation Messages are coded in forms.py file
+        -Joseph Nabity
+
+<script>
+function validateForm()
+{   var id = event.target.id;
+    var name = event.target.name;
+    if(id.includes("first_name") || id.includes("last_name")){
+    if(!(document.getElementById(id).value).match(/^[a-zA-z ]*$/)){
+       $('#'+id+'-error').remove();
+       $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter alphabets  </div>');
+       document.getElementById(id).style.borderColor = "red";
+       return false;
+    }
+    else {
+         document.getElementById(id).style.borderColor = "gray";
+         $('#'+id+'-error').remove();
+         return true;
+         }
+    }
+    if(id.includes("email")){
+    if (! /\S+@\S+/.test(document.getElementById(id).value)){
+        $('#'+id+'-error').remove();
+        $('#'+id).after('<div style="color:sandybrown;text-align: left; margin-left: 25px; font-size: 14px;font-style: italic" id='+id +'-error >  Please enter valid email address </div>');
+        document.getElementById(id).style.borderColor = "red";
+        return false;
+     }
+    else {
+       document.getElementById(id).style.borderColor = "gray";
+       $('#'+id+'-error').remove();
+       return true;
+          }
+
+    }
+
+}
+</script>
+-->
+
+{% endblock %}
+
+
+{% block selectizeForm %}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css">
+
+<script>
+$(document).ready(function(){
+  $('#id_community_partner').select2(
+      {
+              placeholder: 'Select a Community Partner',
+      }
+
+  );
+});
+</script>
+    <style>
+.select2-container .select2-selection--single
+{
+   height:35px;
+}
+
+.select2-container--default .select2-selection--single
+{
+   border: 2px solid #aaa;
+   margin-top:8px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow
+{
+   top:10px;
+}
+
+.select2-container--default .select2-selection--single:focus
+{
+  border-color:grey;
+  box-shadow:0 0 8px 0 grey;
+}
+</style>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'home/Community_Home.html' %}
+{% load bootstrap %}
+
+{% block content %}
+<style>
+    label{
+        margin-left: 20px;
+        font-weight: bold;
+
+    }
+
+    input[type=number],textarea[name=project_name],.form-control
+    {
+        width: 90%;
+        height: 10%;
+    }
+    @media (min-width: 700px)
+{
+
+
+.btn-custom
+{
+	position: relative;
+	left:440px;
+	width:120px;
+}
+}
+</style>
+    <div class = "container">
+    <div class = "panel panel-default">
+		<div class="panel-heading text-center"><h4>Edit Project </h4></div><br><br>
+			<div class="panel-body">
+
+
+                <form method="POST" class="project-form" >
+                    {% csrf_token %}
+                    {{project|bootstrap}}
+                    {{ comp_proj_form|bootstrap }}
+        <button type="submit" class="save btn btn-custom">Update</button><br><br>
+    </form><br><br>
+
+            </div>
+            </div>
+    </div>
+    </div><br>
+{% endblock %}

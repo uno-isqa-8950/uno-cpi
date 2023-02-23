@@ -1,0 +1,137 @@
+{% extends 'home/base_home.html' %} {% load wagtailcore_tags register_tags %} {% block content %}
+
+<style type="text/css">
+    @media (max-width: 200px) {
+        h4 {
+            font-size: 1.3em
+        }
+    }
+    
+    h4 {
+        font-size: 1.6em;
+    }
+    
+    label {
+        margin-left: 22px;
+        font-size: 18px;
+    }
+    
+    label:after {
+        content: "*";
+        color: red
+    }
+    
+    input[type=password],
+    [type=email] {
+        width: 92%;
+    }
+    
+    @media (max-width:800px) {
+        input[type=password],
+        [type=email] {
+            width: 87%;
+        }
+    }
+    
+    .panel {
+        margin-bottom: 18%;
+        margin-top: 12%;
+        background-color: #ffffff;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    }
+    
+    @media(min-width:300px) {
+        .container {
+            max-width: 600px;
+        }
+    }
+</style>
+
+
+
+<div class="container">
+    {% for message in messages %}
+    <div class="alert alert-danger">
+        <a class="close" href="#" data-dismiss="alert">×</a> {{ message }}
+    </div>
+    {% endfor %}
+    <div class="row justify-content-md-center">
+        <div class="col-xl-12 col-md-12 col-sm-12">
+            <br><br>
+            <div class="text-center">
+                <h3 class="heading">Login</h3>
+            </div>&emsp;
+
+            <div class="card snippet-card">
+                <div class="text-snippet">
+                    {% logins %}
+                </div>
+            </div>
+
+            <div class="box">
+                <form id="loginForm" action='.' method="post">
+                    {% csrf_token %}
+                    <!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
+                    <label><b>Email</b></label>
+                    <input id="email_input" class="input" type="email" name="email" placeholder="Email" required>
+                    <br>
+                    <label id="password_label"><b>Password</b></label>
+                    <input id="password_input" class="input" type="password" name="password" placeholder="Password" required><br>
+                    <div class="row justify-content-md-center">
+                        <div class="col-xs-1 center-block text-center" style="border: none">
+                            <p><button id="btnLogin" type="submit" class="btn btn-secondary" style="font-size:1.1em;">
+                                        Login</button></p><br>
+                        </div>
+                    </div>
+                    <div class="row justify-content-md-center">
+                        <div class="col-md-12" style="text-align:center; margin-left:1%; margin-right:0%">
+                            <a id="nonUnoForgotPwd" style=" color: #d71920;" href='/password_reset/'>Forgot Password?</a><br>
+                            <!--/div>
+                                <div class="col-md-12" style="text-align:center;"-->
+                            <!--<a style="color: #d71920;" title="Registers Users associated with a Campus Partner on UNO campus" href='/register-Campus-Partner-User/'>Campus Partner User Registration</a>--><br><br>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        $('#password_input').hide();
+        $('#password_label').hide();
+        $('#nonUnoForgotPwd').hide();
+        samlDict = ["UNOMAHA.EDU"]
+
+        $("#email_input").on('change', function() {
+            var val = $("#email_input").val();
+            if (val != null && val != "") {
+                var valUpper = val.toUpperCase().split("@")[1];
+                if (!samlDict.includes(valUpper)) {
+                    $("#password_input").show();
+                    $("#password_label").show();
+                    $("#nonUnoForgotPwd").show();
+                    $("#password_input").val("");
+
+                } else {
+                    $('#password_input').hide();
+                    $('#password_label').hide();
+                    $("#password_input").val("xxxxx");
+                    $("#nonUnoForgotPwd").hide();
+                }
+            }
+
+        });
+
+    });
+</script>
+
+
+{% endblock %}

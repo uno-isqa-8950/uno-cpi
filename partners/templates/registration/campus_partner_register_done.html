@@ -1,0 +1,59 @@
+{% extends 'home/base_home.html' %}
+{% load bootstrap %}
+{% block content %}
+
+<style>
+@media (min-width: 700px)
+{
+.panel {
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+    width: 400px;
+    margin-left: auto;
+    margin-right:auto;
+    margin-top:150px;
+
+}
+}
+
+
+
+@media (max-width: 700px)
+{
+h4
+{
+font-size:1.3em
+}
+}
+
+p
+{
+margin-left: 25px;
+margin-top: 15px;
+
+}
+
+@media(min-width:300px)
+{
+  .container
+  {
+    max-width:600px;
+  }
+}
+
+</style>
+<div class="container">
+ <div class = "col-xl-12 col-md-12 col-sm-12">
+     <br><br><br><br><br>
+		<div class="text-center"><h3 class="heading">Thank You</h3></div>
+			<div class="box">
+              <p>Your organization is successfully registered as a campus partner.</p>
+            </div>
+ </div>
+</div>
+<br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

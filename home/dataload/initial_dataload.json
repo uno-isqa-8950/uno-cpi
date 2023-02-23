@@ -1,0 +1,244 @@
+[
+    {
+        "model": "home.missionarea",
+        "pk": 1,
+        "fields": {
+            "mission_name": "Educational Support",
+            "description": ""
+        }
+    },
+    {
+        "model": "home.missionarea",
+        "pk": 2,
+        "fields": {
+            "mission_name": "Health and Wellness",
+            "description": ""
+        }
+    },
+    {
+        "model": "home.missionarea",
+        "pk": 3,
+        "fields": {
+            "mission_name": "Economic Sufficiency",
+            "description": ""
+        }
+    },
+    {
+        "model": "home.missionarea",
+        "pk": 4,
+        "fields": {
+            "mission_name": "Social Justice",
+            "description": ""
+        }
+    },
+    {
+        "model": "home.missionarea",
+        "pk": 5,
+        "fields": {
+            "mission_name": "International Service",
+            "description": ""
+        }
+    },
+    {
+        "model": "home.missionarea",
+        "pk": 6,
+        "fields": {
+            "mission_name": "Environmental Stewardship",
+            "description": ""
+        }
+    },
+    {
+        "model": "partners.communitytype",
+        "pk": 1,
+        "fields": {
+            "community_type": "Nonprofit"
+        }
+    },
+    {
+        "model": "partners.communitytype",
+        "pk": 2,
+        "fields": {
+            "community_type": "K-12"
+        }
+    },
+    {
+        "model": "partners.communitytype",
+        "pk": 3,
+        "fields": {
+            "community_type": "Higher Education Institution"
+        }
+    },
+    {
+        "model": "partners.communitytype",
+        "pk": 4,
+        "fields": {
+            "community_type": "Business"
+        }
+    },
+    {
+        "model": "partners.communitytype",
+        "pk": 5,
+        "fields": {
+            "community_type": "Government Agency"
+        }
+    },
+    {
+        "model": "projects.academicyear",
+        "pk": 1,
+        "fields": {
+            "academic_year": "2016-17",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.academicyear",
+        "pk": 2,
+        "fields": {
+            "academic_year": "2017-18",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.academicyear",
+        "pk": 3,
+        "fields": {
+            "academic_year": "2018-19",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 1,
+        "fields": {
+            "name": "Training / Workshop / Presentation",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 2,
+        "fields": {
+            "name": "Unpaid Services",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 3,
+        "fields": {
+            "name": "Contract Services",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 4,
+        "fields": {
+            "name": "Course",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 5,
+        "fields": {
+            "name": "Event / Exhibit / Performance",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.activitytype",
+        "pk": 6,
+        "fields": {
+            "name": "Meeting / Gathering",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.status",
+        "pk": 1,
+        "fields": {
+            "name": "Active",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.status",
+        "pk": 2,
+        "fields": {
+            "name": "Completed",
+            "description": null
+        }
+    },
+  {
+        "model": "projects.status",
+        "pk": 3,
+        "fields": {
+            "name": "Discontinued",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.status",
+        "pk": 4,
+        "fields": {
+            "name": "Pending",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.engagementtype",
+        "pk": 1,
+        "fields": {
+            "name": "Knowledge/Info Sharing",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.engagementtype",
+        "pk": 2,
+        "fields": {
+            "name": "Volunteering",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.engagementtype",
+        "pk": 3,
+        "fields": {
+            "name": "Community-Based Learning",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.engagementtype",
+        "pk": 4,
+        "fields": {
+            "name": "Providing Access",
+            "description": null
+        }
+    },
+    {
+        "model": "projects.engagementtype",
+        "pk": 5,
+        "fields": {
+            "name": "Service Learning",
+            "description": null
+        }
+    },
+    {
+        "model": "university.educationsystem",
+        "pk": 1,
+        "fields": {
+            "name": "Nebraska Edu"
+        }
+    },
+    {
+        "model": "university.university",
+        "pk": 1,
+        "fields": {
+            "name": "University of Nebraska Omaha",
+            "education_system": 1
+        }
+    }
+]    

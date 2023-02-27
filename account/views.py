@@ -88,9 +88,12 @@ def user_login(request):
                                    'You are not registered as a CEPI user. Please contact the administrator for access by emailing partnerships@unomaha.edu and identify what campus partner you are affiliated with.')
                     return render(request, 'registration/login.html', {'form': form})
             else:
+
                 user = authenticate(request, email=cd['email'], password=cd['password'])
 
             if user is not None:
+                print("user")
+                print(user)
                 if user.is_campuspartner:
                     login(request, user)
                     response = redirect('/myProjects')

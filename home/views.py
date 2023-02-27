@@ -1863,7 +1863,7 @@ def chartjsons():
     # campus_partner=open('home/static/charts_json/campus_partners.json')
     campus_partner_json=json.loads(charts_campuses)
     # campus_partner_json = json.load(campus_partner)#local
-    community_partner = open('home/static/charts_json/community_partners.json')
+    # community_partner = open('home/static/charts_json/community_partners.json')
     community_partner_json = json.loads(charts_communities)
     # community_partner_json = json.load(community_partner)#local
     # mission_subcategories = open('home/static/charts_json/mission_subcategories.json')

@@ -13,6 +13,7 @@
     "academic_year1" : "2016-17",
     "academic_year2" : "2020-21",
     "academic_year3" : "2022-23",
+    "academic_year4" : "2018-19",
     "_comment4" : "Engagement Types",
     "engagement_type1" : "Board Memberships",
     "engagement_type2" : "Community-Based Learning",
@@ -44,10 +45,10 @@
     "legislative_dist1" : "Legislative District 1",
     "legislative_dist2" : "Legislative District 2",
     "legislative_dist3" : "Legislative District 3",
+    "legislative_dist4" : "Legislative District 9",
     "_comment10" : "K-12 Involvement",
     "k12_involve1" : "Yes",
     "k12_involve2" : "No",
-    "_comment11":"Homepage",
-    "CEPI_site": "https://uno-cpi-dev.herokuapp.com/",
-    "Engagement_site": "https://www.unomaha.edu/engagement/index.php"
+    "_comment11" : "Homepage",
+    "CEPI_site" : "https://uno-cpi-dev.herokuapp.com/"
 }

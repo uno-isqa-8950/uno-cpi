@@ -1,0 +1,72 @@
+{
+    "env": {
+        "node": true,
+        "es2021": true
+    },
+    "extends":[
+        "eslint:recommended",
+       "plugin:cypress/recommended"
+    ],
+    "plugins": [
+        "cypress",
+        "sort-keys-fix",
+        "unused-imports"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "rules": {
+        "arrow-body-style": [
+            "error",
+            "always"
+        ],
+        "indent": [
+            "error",
+            2
+            ],
+        "key-spacing": [
+            "error", {
+        "beforeColon": false,
+        "afterColon": false
+    }
+        ],
+        "no-multi-spaces": [
+            "error",
+            {
+                "ignoreEOLComments": false
+            }
+        ],
+        "no-multiple-empty-lines": [
+            "error",
+            {
+                "max": 2,
+                "maxEOF": 0,
+                "maxBOF": 1
+            }
+        ],
+        "unused-imports/no-unused-imports": "error",
+        "sort-imports": [
+            "error",
+            {
+                "allowSeparatedGroups": false,
+                "ignoreCase": false,
+                "ignoreDeclarationSort": false,
+                "ignoreMemberSort": false,
+                "memberSyntaxSortOrder": [
+                    "none",
+                    "all",
+                    "multiple",
+                    "single"
+                    ]
+            }
+        ],
+        "sort-keys": [
+            "error", "asc", {"caseSensitive": true, "natural": false, "minKeys": 2}
+        ],
+        "space-in-parens": [
+            "error",
+            "never"
+        ]
+    }
+}

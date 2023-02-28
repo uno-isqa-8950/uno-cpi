@@ -1,0 +1,8 @@
+import '../Analytics/Charts/EngagementTypes_publicUser.cy.js'
+import '../Analytics/Reports/Reports_Communitypartner_publicuser.cy.js'
+import '../Homepage/All_Focus_Area_publicUser.cy.js'
+import '../Homepage/Homepage_publicUser.cy.js'
+import '../Resources/Resources_publicuser.cy.js'
+import '../Analytics/Reports/Engagement_Types_public_user.cy'
+import '../Analytics/Reports/Focus_Area_public_user.cy'
+import '../Analytics/Reports/Projects_public_user.cy'

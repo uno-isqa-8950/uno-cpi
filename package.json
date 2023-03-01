@@ -1,5 +1,5 @@
 {
-  "name": "unocpiaut",
+  "name": "cypressautomation",
   "version": "1.0.0",
   "description": "UNO CPI\r #UNO Community Partnership Initiative",
   "main": "../cypress.config.js",

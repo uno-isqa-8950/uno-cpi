@@ -41,7 +41,7 @@ beforeEach(() => {
     }) 
 
 
-    it.only('Test filter dropdown are clickable', function()  {
+    it ('Test filter dropdown are clickable', function()  {
 
           const communityPartnersHref = `a[href="/city-District"]`,
       

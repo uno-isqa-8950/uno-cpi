@@ -111,3 +111,6 @@ local_env/
 .tests_scripts/Sprint 0/chromedriver.exe
 *.sqlite3
 gitignore
+
+#node 
+node_modules/

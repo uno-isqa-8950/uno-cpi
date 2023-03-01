@@ -1,0 +1,22 @@
+{
+  "name": "cypressautomation",
+  "version": "1.0.0",
+  "description": "UNO CPI\r #UNO Community Partnership Intiative",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uno-isqa-8950/uno-cpi.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uno-isqa-8950/uno-cpi/issues"
+  },
+  "homepage": "https://github.com/uno-isqa-8950/uno-cpi#readme",
+  "devDependencies": {
+    "cypress": "^12.7.0"
+  }
+}

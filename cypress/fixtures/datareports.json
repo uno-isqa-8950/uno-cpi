@@ -33,7 +33,6 @@
     "college_name2" : "College of Arts and Sciences",
     "college_name3" : "University",
     "college_name4" : " All ",
-    "college_name5" : "Athletics",
     "_comment7" : "Campus Partner",
     "campus_partner1" : "Marketing and Entrepreneurship",
     "campus_partner2" : "Dean's Office - CIST",
@@ -48,11 +47,10 @@
     "legislative_dist1" : "Legislative District 1",
     "legislative_dist2" : "Legislative District 2",
     "legislative_dist3" : "Legislative District 3",
-    "legislative_dist4" : "Legislative District 9",
     "_comment10" : "K-12 Involvement",
     "k12_involve1" : "Yes",
     "k12_involve2" : "No",
-    "_comment11" : "Homepage",
-    "CEPI_site" : "https://uno-cpi-dev.herokuapp.com/",
-    "university": "University of Nebraska Omaha"
+    "_comment11":"Homepage",
+    "CEPI_site": "https://uno-cpi-dev.herokuapp.com/",
+    "Engagement_site": "https://www.unomaha.edu/engagement/index.php"
 }

@@ -46,12 +46,12 @@ describe('Charts Focus Area', () => {
 
         cy.get('#select2-id_college_name-container').click()
         cy.get('#select2-id_college_name-results').then(($li) => {
-            cy.wrap($li).contains(this.data.college_name1).should('have.text', this.data.college_name1).click()
+            cy.wrap($li).contains(this.data.college_name3).should('have.text', this.data.college_name3).click()
         })
 
         cy.get('#select2-id_campus_partner-container').click()
         cy.get('#select2-id_campus_partner-results').then(($li) => {
-            cy.wrap($li).contains(this.data.campus_partner1).should('have.text', this.data.campus_partner1).click()
+            cy.wrap($li).contains(this.data.community_type6).should('have.text', this.data.community_type6).click()
         })
 
         cy.get('#select2-id_weitz_cec_part-container').click()

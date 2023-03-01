@@ -112,5 +112,7 @@ local_env/
 *.sqlite3
 gitignore
 
+
 #node 
 node_modules/
+node_modules

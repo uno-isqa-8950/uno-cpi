@@ -111,3 +111,20 @@ local_env/
 .tests_scripts/Sprint 0/chromedriver.exe
 *.sqlite3
 gitignore
+
+
+#node 
+node_modules
+
+#sql
+db_cpi_local.sql
+
+#cypress directories
+cypress.env.json
+cypress/screenshots
+cypress/videos
+cypress/assets
+cypress/downloads
+
+#migrations folder
+migrations/

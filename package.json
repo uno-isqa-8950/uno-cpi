@@ -1,13 +1,13 @@
 {
-  "name": "cypressautomation",
+  "name": "UNOCEPI",
   "version": "1.0.0",
-  "description": "UNO CPI\r #UNO Community Partnership Initiative",
+  "description": "UNO CEPI\r #UNO Community Engagement Partnership Initiative",
   "main": "../cypress.config.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/uno-isqa-8950/uno-cpi.git"
   },
-  "author": " ",
+  "author": "UNO-MIS-CapstoneStudent",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/uno-isqa-8950/uno-cpi/issues"

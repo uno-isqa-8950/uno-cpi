@@ -114,5 +114,17 @@ gitignore
 
 
 #node 
-node_modules/
 node_modules
+
+#sql
+db_cpi_local.sql
+
+#cypress directories
+cypress.env.json
+cypress/screenshots
+cypress/videos
+cypress/assets
+cypress/downloads
+
+#migrations folder
+migrations/

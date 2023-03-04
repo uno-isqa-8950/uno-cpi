@@ -1,0 +1,33 @@
+{
+  "name": "cypressautomation",
+  "version": "1.0.0",
+  "description": "UNO CPI\r #UNO Community Partnership Initiative",
+  "main": "../cypress.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/uno-isqa-8950/uno-cpi.git"
+  },
+  "author": " ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/uno-isqa-8950/uno-cpi/issues"
+  },
+  "homepage": "https://github.com/uno-isqa-8950/uno-cpi#readme",
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "cypress": "^12.5.1",
+    "eslint": "^8.35.0"
+  },
+  "devDependencies": {
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-sort-keys-fix": "^1.1.2",
+    "eslint-plugin-unused-imports": "^2.0.0"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "cy:open": "cypress open --config-file cypress.config.js",
+    "cy:run": " npx cypress run",
+    "lint": "eslint '*.js' '**/**/*.cy.js'",
+    "lint --fix": "eslint --fix cypress/e2e/"
+  }
+}

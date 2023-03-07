@@ -1,5 +1,5 @@
 {
-  "name": "UNOCEPI",
+  "name": "unocepi",
   "version": "1.0.0",
   "description": "UNO CEPI\r #UNO Community Engagement Partnership Initiative",
   "main": "../cypress.config.js",
@@ -15,7 +15,7 @@
   "homepage": "https://github.com/uno-isqa-8950/uno-cpi#readme",
   "dependencies": {
     "babel-eslint": "^10.1.0",
-    "cypress": "^12.5.1",
+    "cypress": "^12.7.0",
     "eslint": "^8.35.0"
   },
   "devDependencies": {

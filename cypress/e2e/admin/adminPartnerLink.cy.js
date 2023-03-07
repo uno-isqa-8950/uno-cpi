@@ -5,29 +5,23 @@ beforeEach(() => {
             return false
         }
     })
+    cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Login to the app', () => {
+describe('Admin Partner Registration Page', () => {
     it('visits the form', () => {
-        cy.visit(Cypress.env('http://127.0.0.1:8000/'))
+        cy.visit(Cypress.env('baseUrl'))
+        })
+
+    it('visits the site', function() {
+        cy.visit(Cypress.env('baseUrl'))
     })
 
-    it('visits the login form', () => {
+    it('Visit the login form', function() {
         cy.get('#login').click()
-    })
-
-    it('requires email', () => {
         cy.get('#email_input').type('unotest.super@gmail.com{enter}')
-    })
-
-    it('requires password name', () => {
         cy.get('#password_input').type('superman02')
-    })
-
-    it('can submit a valid form', () => {
         cy.get('#loginForm').submit()
-    })
-    it('Register Community Partner', () => {
-        cy.get('#btn_reg_community_partner').click()
+        cy.get('#partners').click()
     })
 })

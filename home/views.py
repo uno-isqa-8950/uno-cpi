@@ -25,6 +25,7 @@ from collections import OrderedDict
 import sys
 import xlrd
 from django.utils import timezone
+
 sys.setrecursionlimit(1500)
 # importing models in home views.py
 from .models import *
@@ -62,14 +63,14 @@ from UnoCPI import sqlfiles
 from projects.forms import *
 from projects.models import *
 
-sql=sqlfiles
+sql = sqlfiles
 logger = logging.getLogger(__name__)
-#writing into amazon s3 bucket
-ACCESS_ID=settings.AWS_ACCESS_KEY_ID
-ACCESS_KEY=settings.AWS_SECRET_ACCESS_KEY
+# writing into amazon s3 bucket
+ACCESS_ID = settings.AWS_ACCESS_KEY_ID
+ACCESS_KEY = settings.AWS_SECRET_ACCESS_KEY
 s3 = boto3.resource('s3',
-         aws_access_key_id=ACCESS_ID,
-         aws_secret_access_key= ACCESS_KEY)
+                    aws_access_key_id=ACCESS_ID,
+                    aws_secret_access_key=ACCESS_KEY)
 
 # Read JSON files for charts
 
@@ -82,12 +83,12 @@ s3 = boto3.resource('s3',
 # charts_mission_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/mission_subcategories.json')
 # charts_missions = charts_mission_obj.get()['Body'].read().decode('utf-8')
 
-#read Partner.geojson from s3
-#content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
-#partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
+# read Partner.geojson from s3
+# content_object_partner = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Partner.geojson')
+# partner_geojson = content_object_partner.get()['Body'].read().decode('utf-8')
 
-#read Project.geojson from s3
-#content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
+# read Project.geojson from s3
+# content_object_project = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'geojson/Project.geojson')
 
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
@@ -108,9 +109,11 @@ def districtGEO():
     district = geojson["features"]
     return district
 
+
 def resourceData(request):
     resources = Resource.objects.filter(isAccessible=1).order_by('listing_order')
     return {'resources': resources}
+
 
 def home(request):
     return render(request, 'home/communityPartner.html',
@@ -120,6 +123,7 @@ def home(request):
 def MapHome(request):
     return render(request, 'home/Map_Home.html',
                   {'MapHome': MapHome})
+
 
 def thanks(request):
     return render(request, 'home/thanks.html')
@@ -185,6 +189,7 @@ def signup(request):
 def signupuser(request):
     return render(request, 'home/registration/signupuser.html', {'signupuser': signupuser})
 
+
 def registerCampusPartnerUser(request):
     data = []
     for object in CampusPartner.objects.order_by('name'):
@@ -211,7 +216,7 @@ def registerCampusPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message,to=[to_email])
+            email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return render(request, 'home/register_done.html')
     else:
@@ -220,6 +225,7 @@ def registerCampusPartnerUser(request):
     return render(request,
                   'home/registration/campus_partner_user_register.html',
                   {'user_form': user_form, 'campus_partner_user_form': campus_partner_user_form, 'data': data})
+
 
 def activate(request, uidb64, token):
     try:
@@ -233,6 +239,7 @@ def activate(request, uidb64, token):
         return redirect('/')
     else:
         return render(request, 'home/registration/register_fail.html')
+
 
 @login_required()
 def registerCommunityPartnerUser(request):
@@ -265,9 +272,9 @@ def registerCommunityPartnerUser(request):
 @login_required()
 @admin_required()
 def upload_project(request):
-    Missionlist=[]
-    CampusPartnerlist=[]
-    CommTypelist=[]
+    Missionlist = []
+    CampusPartnerlist = []
+    CommTypelist = []
     if request.method == 'GET':
         download_projects_url = '/media/projects_sample.csv'
         return render(request, 'import/uploadProject.html',
@@ -378,7 +385,7 @@ def upload_income(request):
 # (14) Primary Focus Area with Topics Details  Report: - new focus areas report logic
 def primary_focus_topic_info(request):
     data_definition = DataDefinition.objects.all()
-    data_list =[]
+    data_list = []
     rpt_total_comm_partners = 0
     rpt_total_camp_partners = 0
     rpt_total_projects = 0
@@ -407,23 +414,21 @@ def primary_focus_topic_info(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_filter)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-
     community_type_filter = request.GET.get('community_type', None)
     if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
         community_type_cond = '%'
     else:
         community_type_cond = community_type_filter
 
-
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
-    yrs =[]
+    yrs = []
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
-        a_year = str(year-1) + "-" + str(year )[-2:]
+        a_year = str(year - 1) + "-" + str(year)[-2:]
     else:
-        a_year = str(year - 2) + "-" + str(year-1)[-2:]
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
 
     for e in acad_years:
         yrs.append(e.id)
@@ -433,7 +438,6 @@ def primary_focus_topic_info(request):
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-
 
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
@@ -464,7 +468,7 @@ def primary_focus_topic_info(request):
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        #cec_part_selection = cec_part_init_selection
+        # cec_part_selection = cec_part_init_selection
         cec_comm_part_cond = '%'
         cec_camp_part_cond = '%'
 
@@ -499,9 +503,8 @@ def primary_focus_topic_info(request):
     cursor = connection.cursor()
     cursor.execute(sql.primaryFocusTopic_report_sql, params)
 
-    #cec_part_choices = CecPartChoiceForm()
+    # cec_part_choices = CecPartChoiceForm()
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
-
 
     for obj in cursor.fetchall():
         comm_ids = obj[12]
@@ -548,24 +551,25 @@ def primary_focus_topic_info(request):
                           "focus_name": obj[2], "focus_desc": obj[3],
                           "focus_image": obj[4], "focus_color": obj[5],
                           "topic_id": obj[6], "topic_name": obj[7], "topic_desc": obj[8],
-                          "project_count": obj[9],  "project_id_array": obj[10], "proj_id_list": proj_idList,
+                          "project_count": obj[9], "project_id_array": obj[10], "proj_id_list": proj_idList,
                           "community_count": obj[11], "comm_id_array": obj[12],
                           "comm_id_list": comm_idList, "campus_count": obj[13],
                           "total_uno_students": obj[14], "total_uno_hours": obj[15],
                           "total_k12_students": obj[16], "total_k12_hours": obj[17]})
 
-    #print('data_list: ' + str(data_list))
+    # print('data_list: ' + str(data_list))
 
     return render(request, 'reports/ProjectFocusTopicInfo.html',
-                   {'college_filter': college_filter, 'missions_filter': missions_filter,
-                    'engagement_filter': eng_project_filter, 'engagement_id': engagement_id,
-                    'year_filter': year_filter, 'focus_topic_list': data_list,
-                    'data_definition':data_definition, 'communityPartners' : communityPartners ,
-                    'campus_filter': campus_project_filter, 'campus_id': campus_id, 'cec_part_choices': cec_part_choices,
-                    'rpt_total_comm_partners': rpt_total_comm_partners, 'rpt_total_camp_partners': rpt_total_camp_partners,
-                    'rpt_total_projects': rpt_total_projects,
-                    'rpt_total_uno_students': rpt_total_uno_students, 'rpt_total_uno_hours': rpt_total_uno_hours,
-                    'rpt_total_k12_students': rpt_total_k12_students, 'rpt_total_k12_hours': rpt_total_k12_hours})
+                  {'college_filter': college_filter, 'missions_filter': missions_filter,
+                   'engagement_filter': eng_project_filter, 'engagement_id': engagement_id,
+                   'year_filter': year_filter, 'focus_topic_list': data_list,
+                   'data_definition': data_definition, 'communityPartners': communityPartners,
+                   'campus_filter': campus_project_filter, 'campus_id': campus_id, 'cec_part_choices': cec_part_choices,
+                   'rpt_total_comm_partners': rpt_total_comm_partners,
+                   'rpt_total_camp_partners': rpt_total_camp_partners,
+                   'rpt_total_projects': rpt_total_projects,
+                   'rpt_total_uno_students': rpt_total_uno_students, 'rpt_total_uno_hours': rpt_total_uno_hours,
+                   'rpt_total_k12_students': rpt_total_k12_students, 'rpt_total_k12_hours': rpt_total_k12_hours})
 
 
 def project_partner_info_public(request):
@@ -684,8 +688,9 @@ def project_partner_info_public(request):
 				   left join projects_projectcommunitypartner pcp on pcp.project_name_id = p.id \
                    left join partners_communitypartner cp on cp.id = pcp.community_partner_id \
                    where  s.name != 'Drafts'  and " \
-                "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(academic_end_year_cond) + "))"
+                    "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
+                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
+        academic_end_year_cond) + "))"
 
     project_clause_query = " "
     community_clause_query = " "
@@ -713,7 +718,6 @@ def project_partner_info_public(request):
     if cec_comm_part_cond != '%':
         project_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
         community_clause_query += " and  cp.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
-
 
     peoject_query_end = project_start + project_clause_query + " group by mission_id \
                                                                 order by mission_id),"
@@ -748,7 +752,6 @@ def project_partner_info_public(request):
                     group by mission_area, description, proj, proj_ids, camp, comm, comm_ids, color \
                     order by mission_area;"
 
-
     cursor.execute(query_end)
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
@@ -768,7 +771,9 @@ def project_partner_info_public(request):
 
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=%s", (str(i), ))
+                    cursor.execute(
+                        "Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours from projects_project p where p.id=%s",
+                        (str(i),))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -791,10 +796,11 @@ def project_partner_info_public(request):
                         comm_idList = comm_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"mission_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
-                            "campus_count": obj[4], "community_count": obj[5], "comm_id_list": comm_idList,
-                            "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours,
-                          "sum_k12_students": sum_k12_students, "sum_k12_hours": sum_k12_hours, 'focus_color': obj[7]})
+        data_list.append(
+            {"mission_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
+             "campus_count": obj[4], "community_count": obj[5], "comm_id_list": comm_idList,
+             "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours,
+             "sum_k12_students": sum_k12_students, "sum_k12_hours": sum_k12_hours, 'focus_color': obj[7]})
 
         proj_total = proj_total + obj[2]
         comm_total = comm_total + obj[5]
@@ -805,11 +811,14 @@ def project_partner_info_public(request):
         k12_hr_total = k12_hr_total + sum_k12_hours
 
     return render(request, 'reports/ProjectPartnerInfo_public.html',
-              { 'project_filter': project_filter, 'data_definition': data_definition, 'cec_part_choices': cec_part_choices,
-               'year_filter': year_filter, 'communityPartners': communityPartners, 'mission_list': data_list,
-               'campus_filter': campus_project_filter, 'college_filter': college_partner_filter,'campus_id': campus_id,
-               'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
-               'camp_total' : camp_total, 'k12_stu_total': k12_stu_total, 'k12_hr_total': k12_hr_total,'hours_total': hours_total} )
+                  {'project_filter': project_filter, 'data_definition': data_definition,
+                   'cec_part_choices': cec_part_choices,
+                   'year_filter': year_filter, 'communityPartners': communityPartners, 'mission_list': data_list,
+                   'campus_filter': campus_project_filter, 'college_filter': college_partner_filter,
+                   'campus_id': campus_id,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
+                   'camp_total': camp_total, 'k12_stu_total': k12_stu_total, 'k12_hr_total': k12_hr_total,
+                   'hours_total': hours_total})
 
 
 def project_partner_info_admin(request):
@@ -936,7 +945,6 @@ def project_partner_info_admin(request):
     community_clause_query = " "
     subCat_clause_query = " "
 
-
     if eng_type_cond != '%':
         project_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
         community_clause_query += " and p.engagement_type_id::text like '" + eng_type_cond + "'"
@@ -1022,7 +1030,7 @@ def project_partner_info_admin(request):
             if len(proj_ids) > 0:
                 for i in proj_ids:
                     cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                    from projects_project p where p.id=%s", (str(i), ))
+                                    from projects_project p where p.id=%s", (str(i),))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1033,7 +1041,6 @@ def project_partner_info_admin(request):
                         proj_idList = proj_idList + str(",")
                         name_count = name_count + 1
 
-        
         if comm_ids is not None:
             name_count = 0
             if None in comm_ids:
@@ -1045,7 +1052,6 @@ def project_partner_info_admin(request):
                     if name_count < len(comm_ids) - 1:
                         comm_idList = comm_idList + str(",")
                         name_count = name_count + 1
-
 
         sub_list = []
         subCat_start_query = "with sub_category_filter as (select psc.sub_category_id sub_cat_id, \
@@ -1063,7 +1069,8 @@ def project_partner_info_admin(request):
                     left join partners_campuspartner c on pcamp.campus_partner_id = c.id \
                     where s.name !='Drafts' \
                           and ((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
-                              (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(academic_end_year_cond) + "))"
+                              (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
+            academic_end_year_cond) + "))"
 
         subCat_query_end = subCat_start_query + subCat_clause_query + "group by sub_cat_id \
                                                                             order by sub_cat_id) \
@@ -1076,8 +1083,9 @@ def project_partner_info_admin(request):
                                                                             from projects_subcategory sub \
                                                                             left join projects_missionsubcategory ms on ms.sub_category_id = sub.id \
                                                                             left join sub_category_filter scf on sub.id = scf.sub_cat_id \
-                                                                            where ms.secondary_mission_area_id = " + str(mission_ids) + \
-                                                                            " group by sub_cat, description, proj_ids, proj_counts, campus_counts, sec_mission \
+                                                                            where ms.secondary_mission_area_id = " + str(
+            mission_ids) + \
+                           " group by sub_cat, description, proj_ids, proj_counts, campus_counts, sec_mission \
                                                                             order by sub_cat;"
 
         cursor.execute(subCat_query_end)
@@ -1095,7 +1103,7 @@ def project_partner_info_admin(request):
                 if len(sub_proj_ids) > 0:
                     for ids in sub_proj_ids:
                         cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
-                                 from projects_project p where p.id=%s", (str(ids), ))
+                                 from projects_project p where p.id=%s", (str(ids),))
                         for obj_sum in cursor.fetchall():
                             sub_sum_uno_students = sub_sum_uno_students + obj_sum[0]
                             sub_sum_uno_hours = sub_sum_uno_hours + obj_sum[1]
@@ -1107,15 +1115,16 @@ def project_partner_info_admin(request):
                             sub_proj_idList = sub_proj_idList + str(",")
                             sub_name_count = sub_name_count + 1
             sub_list.append({"subCat": sub_obj[0], "sub_description": sub_obj[1], "sub_proj_ids": sub_proj_idList,
-                                        "sub_project_count": sub_obj[3], "sub_camp_count": sub_obj[4], "sub_mission": sub_obj[5],
-                                        "sub_sum_uno_students": sub_sum_uno_students, "sub_sum_uno_hours": sub_sum_uno_hours,
-                                        "sub_sum_k12_students": sub_sum_k12_students, "sub_sum_k12_hours": sub_sum_k12_hours})
+                             "sub_project_count": sub_obj[3], "sub_camp_count": sub_obj[4], "sub_mission": sub_obj[5],
+                             "sub_sum_uno_students": sub_sum_uno_students, "sub_sum_uno_hours": sub_sum_uno_hours,
+                             "sub_sum_k12_students": sub_sum_k12_students, "sub_sum_k12_hours": sub_sum_k12_hours})
 
-        data_list.append({"mission_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
-                    "campus_count": obj[4], "community_count": obj[5], "comm_id_list": comm_idList,
-                    "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours, 'focus_color': obj[7],
-                    "sum_k12_students": sum_k12_students, "sum_k12_hours": sum_k12_hours,
-                    "mission_id": obj[8], "sub_category": sub_list})
+        data_list.append(
+            {"mission_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
+             "campus_count": obj[4], "community_count": obj[5], "comm_id_list": comm_idList,
+             "total_uno_students": sum_uno_students, "total_uno_hours": sum_uno_hours, 'focus_color': obj[7],
+             "sum_k12_students": sum_k12_students, "sum_k12_hours": sum_k12_hours,
+             "mission_id": obj[8], "sub_category": sub_list})
 
         proj_total = proj_total + obj[2]
         comm_total = comm_total + obj[5]
@@ -1126,17 +1135,19 @@ def project_partner_info_admin(request):
         hours_total = hours_total + sum_uno_hours
 
     return render(request, 'reports/ProjectPartnerInfo_admin.html',
-              {'project_filter': project_filter, 'data_definition': data_definition,
-               'cec_part_choices': cec_part_choices,
-               'year_filter': year_filter, 'communityPartners': communityPartners, 'mission_list': data_list,
-               'campus_filter': campus_project_filter, 'college_filter': college_partner_filter, 'campus_id': campus_id,
-               'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
-               'camp_total' : camp_total, 'k12_stu_total': k12_stu_total, 'k12_hr_total': k12_hr_total, 'hours_total': hours_total})
+                  {'project_filter': project_filter, 'data_definition': data_definition,
+                   'cec_part_choices': cec_part_choices,
+                   'year_filter': year_filter, 'communityPartners': communityPartners, 'mission_list': data_list,
+                   'campus_filter': campus_project_filter, 'college_filter': college_partner_filter,
+                   'campus_id': campus_id,
+                   'proj_total': proj_total, 'comm_total': comm_total, 'students_total': students_total,
+                   'camp_total': camp_total, 'k12_stu_total': k12_stu_total, 'k12_hr_total': k12_hr_total,
+                   'hours_total': hours_total})
 
 
 def engagement_info(request):
     data_definition = DataDefinition.objects.all()
-    data_list =[]
+    data_list = []
     missions_filter = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     year_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -1155,23 +1166,21 @@ def engagement_info(request):
         campus_filter_qs = CampusPartner.objects.filter(college_name_id=college_unit_filter)
     campus_project_filter = [{'name': m.name, 'id': m.id} for m in campus_filter_qs]
 
-
     community_type_filter = request.GET.get('community_type', None)
     if community_type_filter is None or community_type_filter == "All" or community_type_filter == '':
         community_type_cond = '%'
     else:
         community_type_cond = community_type_filter
 
-
     academic_year_filter = request.GET.get('academic_year', None)
     acad_years = AcademicYear.objects.all()
-    yrs =[]
+    yrs = []
     month = datetime.datetime.now().month
     year = datetime.datetime.now().year
     if month > 7:
-        a_year = str(year-1) + "-" + str(year )[-2:]
+        a_year = str(year - 1) + "-" + str(year)[-2:]
     else:
-        a_year = str(year - 2) + "-" + str(year-1)[-2:]
+        a_year = str(year - 2) + "-" + str(year - 1)[-2:]
 
     for e in acad_years:
         yrs.append(e.id)
@@ -1181,7 +1190,6 @@ def engagement_info(request):
     except AcademicYear.DoesNotExist:
         default_yr_id = max(yrs)
     max_yr_id = max(yrs)
-
 
     if academic_year_filter is None or academic_year_filter == '':
         academic_start_year_cond = int(default_yr_id)
@@ -1212,7 +1220,7 @@ def engagement_info(request):
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     if cec_part_selection is None or cec_part_selection == "All" or cec_part_selection == '':
-        #cec_part_selection = cec_part_init_selection
+        # cec_part_selection = cec_part_init_selection
         cec_comm_part_cond = '%'
         cec_camp_part_cond = '%'
 
@@ -1250,29 +1258,27 @@ def engagement_info(request):
                    join projects_projectmission pm on p.id = pm.project_name_id  and lower(pm.mission_type) = 'primary' \
                    left join partners_campuspartner c on pcamp.campus_partner_id = c.id  \
                    where  s.name != 'Drafts'  and " \
-                       "((p.academic_year_id <="+ str(academic_start_year_cond)  +") AND \
-                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >="+str(academic_end_year_cond)+"))"
-    clause_query=" "
-    if mission_type_cond !='%':
-        clause_query += " and pm.mission_id::text like '"+ mission_type_cond +"'"
+                       "((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
+                            (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(
+        academic_end_year_cond) + "))"
+    clause_query = " "
+    if mission_type_cond != '%':
+        clause_query += " and pm.mission_id::text like '" + mission_type_cond + "'"
 
-    if campus_partner_cond !='%':
-        clause_query +=" and pcamp.campus_partner_id::text like '"+ campus_partner_cond +"'"
+    if campus_partner_cond != '%':
+        clause_query += " and pcamp.campus_partner_id::text like '" + campus_partner_cond + "'"
 
-    if college_unit_cond !='%':
-        clause_query += " and c.college_name_id::text like '"+ college_unit_cond +"'"
-
+    if college_unit_cond != '%':
+        clause_query += " and c.college_name_id::text like '" + college_unit_cond + "'"
 
     if cec_camp_part_cond != '%':
-        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '"+ cec_camp_part_cond +"')"
+        clause_query += " and c.cec_partner_status_id in (select id from partners_cecpartnerstatus where name like '" + cec_camp_part_cond + "')"
 
-    if community_type_cond !='%':
-        clause_query += " and comm.community_type_id::text like '"+ community_type_cond +"'"
+    if community_type_cond != '%':
+        clause_query += " and comm.community_type_id::text like '" + community_type_cond + "'"
 
     if cec_comm_part_cond != '%':
-        clause_query +=  " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '"+ cec_comm_part_cond +"')"
-
-
+        clause_query += " and  comm.cec_partner_status_id in  (select id from partners_cecpartnerstatus where name like '" + cec_comm_part_cond + "')"
 
     query_end = engagement_start + clause_query + " group by eng_id \
                 order by eng_id) \
@@ -1302,10 +1308,12 @@ def engagement_info(request):
             name_count = 0
             if None in proj_ids:
                 proj_ids.pop(-1)
-                
+
             if len(proj_ids) > 0:
                 for i in proj_ids:
-                    cursor.execute("Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s", (str(i), ))
+                    cursor.execute(
+                        "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
+                        (str(i),))
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -1326,16 +1334,18 @@ def engagement_info(request):
                         comm_idList = comm_idList + str(",")
                         name_count = name_count + 1
 
-        data_list.append({"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
-                          "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6], "total_uno_students": sum_uno_students,
-                          "total_uno_hours": sum_uno_hours})
-
+        data_list.append(
+            {"engagement_name": obj[0], "description": obj[1], "project_count": obj[2], "project_id_list": proj_idList,
+             "community_count": obj[4], "comm_id_list": comm_idList, "campus_count": obj[6],
+             "total_uno_students": sum_uno_students,
+             "total_uno_hours": sum_uno_hours})
 
     return render(request, 'reports/EngagementTypeReport.html',
-                   {'college_filter': college_partner_filter, 'missions_filter': missions_filter,
-                    'year_filter': year_filter, 'engagement_List': data_list,
-                    'data_definition':data_definition, 'communityPartners' : communityPartners ,
-                    'campus_filter': campus_project_filter, 'campus_id':campus_id, 'cec_part_choices': cec_part_choices})
+                  {'college_filter': college_partner_filter, 'missions_filter': missions_filter,
+                   'year_filter': year_filter, 'engagement_List': data_list,
+                   'data_definition': data_definition, 'communityPartners': communityPartners,
+                   'campus_filter': campus_project_filter, 'campus_id': campus_id,
+                   'cec_part_choices': cec_part_choices})
 
 
 # Chart for projects with mission areas
@@ -1345,17 +1355,17 @@ def missionchart(request):
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
 
-    #set cec partner flag on template choices field
+    # set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     # cec_part_init_selection = "All"
     # if cec_part_selection is None:
-        # cec_part_selection = cec_part_init_selection
+    # cec_part_selection = cec_part_init_selection
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     campus_filter_qs = CampusPartner.objects.all()
-    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
     charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
     charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
@@ -1372,7 +1382,8 @@ def missionchart(request):
 
     missionList = []
     for m in MissionObject:
-        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'], 'mission_descr': m['mission_descr']}
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'],
+               'mission_descr': m['mission_descr']}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
 
@@ -1381,9 +1392,12 @@ def missionchart(request):
 
     return render(request, 'charts/missionchart.html',
                   {'project_filter': project_filter, 'data_definition': data_definition,
-                   'campus_filter': campus_filter, 'communityPartners': communityPartners, 'college_filter':college_filter,
-                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection, 'defaultYrID':defaultYrID,
-                   'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners, 'missionList':missionList })
+                   'campus_filter': campus_filter, 'communityPartners': communityPartners,
+                   'college_filter': college_filter,
+                   'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                   'defaultYrID': defaultYrID,
+                   'Projects': Projects, 'CommunityPartners': CommunityPartners, 'CampusPartners': CampusPartners,
+                   'missionList': missionList})
 
 
 @login_required()
@@ -1409,31 +1423,33 @@ def partnershipintensity(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
     else:
-        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(legislative_district=legislative_search))
-        project_filter = ProjectFilter(request.GET,queryset=Project.objects.filter(legislative_district=legislative_search))
+        communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
+            legislative_district=legislative_search))
+        project_filter = ProjectFilter(request.GET,
+                                       queryset=Project.objects.filter(legislative_district=legislative_search))
 
     y_selection = request.GET.get('y_axis', None)
     y_init_selection = "campus"
     # if y_selection is None:
-        # y_selection = y_init_selection
+    # y_selection = y_init_selection
     y_choices = YChoiceForm(initial={'y_choice': y_selection})
 
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     campus_filter_qs = CampusPartner.objects.all()
-    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
     community_filter_qs = CommunityPartner.objects.all()
     community_filter = [{'name': m.name, 'id': m.id} for m in community_filter_qs]
 
-    #set cec partner flag on template choices field
+    # set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     # cec_part_init_selection = "All"
     # if cec_part_selection is None:
     #     cec_part_selection = "All"
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
 
-#########################
+    #########################
     # static_charts_projects = open('home/static/charts_json/projects.json')
     # static_charts_communities = open('home/static/charts_json/community_partners.json')
     # static_charts_campuses = open('home/static/charts_json/campus_partners.json')
@@ -1442,7 +1458,7 @@ def partnershipintensity(request):
     # CommunityPartners = json.load(static_charts_communities)
     # CampusPartners = json.load(static_charts_campuses)
     # MissionObject = json.load(static_charts_missions)
-#########################
+    #########################
 
     charts_project_obj = s3.Object(settings.AWS_STORAGE_BUCKET_NAME, 'charts_json/projects.json')
     charts_projects = charts_project_obj.get()['Body'].read().decode('utf-8')
@@ -1468,11 +1484,13 @@ def partnershipintensity(request):
 
     return render(request, 'charts/partnershipintensity.html',
                   {'data_definition': data_definition, 'project_filter': project_filter,
-                  'legislative_choices':legislative_choices, 'legislative_value':legislative_selection,
-                   'communityPartners': communityPartners, 'campus_filter': campus_filter, 'community_filter':community_filter,
-                   'college_filter': college_filter, 'y_choices': y_choices, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
+                   'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
+                   'communityPartners': communityPartners, 'campus_filter': campus_filter,
+                   'community_filter': community_filter,
+                   'college_filter': college_filter, 'y_choices': y_choices, 'cec_part_choices': cec_part_choices,
+                   'cec_part_selection': cec_part_selection,
                    'CommunityPartners': CommunityPartners, 'missionList': missionList, 'defaultYrID': defaultYrID,
-                   'Projects':Projects, 'CampusPartners':CampusPartners})
+                   'Projects': Projects, 'CampusPartners': CampusPartners})
 
 
 # Trend Report Chart
@@ -1487,9 +1505,9 @@ def trendreport(request):
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     campus_filter_qs = CampusPartner.objects.all()
-    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
-    #set cec partner flag on template choices field
+    # set cec partner flag on template choices field
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     # cec_part_init_selection = "All"
     # if cec_part_selection is None:
@@ -1514,10 +1532,15 @@ def trendreport(request):
     CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/trendreport.html',
-                  { 'missions_filter': missions_filter, 'project_filter': project_filter, 'data_definition': data_definition,
-                    'campus_filter': campus_filter, 'college_filter':college_filter, 'communityPartners': communityPartners,
-                    'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection,
-                    'yearList':yearList, 'CampusPartners':CampusPartners, 'CommunityPartners': CommunityPartners, 'Projects':Projects})
+                  {'missions_filter': missions_filter, 'project_filter': project_filter,
+                   'data_definition': data_definition,
+                   'campus_filter': campus_filter, 'college_filter': college_filter,
+                   'communityPartners': communityPartners,
+                   'campus_filter': campus_filter, 'cec_part_choices': cec_part_choices,
+                   'cec_part_selection': cec_part_selection,
+                   'yearList': yearList, 'CampusPartners': CampusPartners, 'CommunityPartners': CommunityPartners,
+                   'Projects': Projects})
+
 
 # @login_required()
 def EngagementType_Chart(request):
@@ -1533,7 +1556,7 @@ def EngagementType_Chart(request):
     college_filter = CampusFilter(request.GET, queryset=CampusPartner.objects.all())
 
     campus_filter_qs = CampusPartner.objects.all()
-    campus_filter = [{'name': m.name, 'id': m.id, 'college':m.college_name_id} for m in campus_filter_qs]
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
     cec_part_selection = request.GET.get('weitz_cec_part', None)
     cec_part_choices = CecPartChoiceForm(initial={'cec_choice': cec_part_selection})
@@ -1556,10 +1579,14 @@ def EngagementType_Chart(request):
     CampusPartners = json.loads(charts_campuses)
 
     return render(request, 'charts/engagementtypechart2.html',
-                 {'missions_filter': missions_filter, 'academicyear_filter': year_filter,'data_definition':data_definition,
-                  'campus_filter': campus_filter, 'communityPartners' : communityPartners, 'college_filter': college_filter,
-                  'engagementList':engagementList, 'cec_part_choices': cec_part_choices, 'cec_part_selection': cec_part_selection, 'defaultYrID':defaultYrID,
-                  'Projects':Projects, 'CommunityPartners':CommunityPartners, 'CampusPartners':CampusPartners})
+                  {'missions_filter': missions_filter, 'academicyear_filter': year_filter,
+                   'data_definition': data_definition,
+                   'campus_filter': campus_filter, 'communityPartners': communityPartners,
+                   'college_filter': college_filter,
+                   'engagementList': engagementList, 'cec_part_choices': cec_part_choices,
+                   'cec_part_selection': cec_part_selection, 'defaultYrID': defaultYrID,
+                   'Projects': Projects, 'CommunityPartners': CommunityPartners, 'CampusPartners': CampusPartners})
+
 
 # The bleach library is used to make the content HTML safe. This was added to stop XSS on the maps.
 def GEOJSON():
@@ -1573,21 +1600,22 @@ def GEOJSON():
     city_geojson_load = bleach.clean(city_geojson_load)
     collection = json.loads(city_geojson_load)
     mission_list = MissionArea.objects.all()
-    mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
+    mission_list = [bleach.clean(str(m.mission_name)) + ':' + bleach.clean(str(m.mission_color)) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [bleach.clean(m.community_type) for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [{'name':bleach.clean(m.name), 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    CampusPartnerlist = [{'name': bleach.clean(m.name), 'c_id': m.college_name_id} for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
     collegeNamelist = [{'cname': bleach.clean(m.college_name), 'id': m.id} for m in collegeName_list]
-    yearlist=[]
+    yearlist = []
     for year in AcademicYear.objects.all():
         yearlist.append(bleach.clean(year.academic_year))
     commPartnerlist = CommunityPartner.objects.all()
     commPartnerlist = [bleach.clean(m.name) for m in commPartnerlist]
     return (collection, sorted(mission_list), sorted(CommTypelist), (CampusPartnerlist), sorted(yearlist),
             sorted(commPartnerlist), (collegeNamelist))
+
 
 def GEOJSON3():
     # if (os.path.isfile('home/static/GEOJSON/Partner.geojson')):  # check if the GEOJSON is already in the DB
@@ -1600,15 +1628,15 @@ def GEOJSON3():
     city_geojson_load = bleach.clean(city_geojson_load)
     collection = json.loads(city_geojson_load)
     mission_list = MissionArea.objects.all()
-    mission_list = [bleach.clean(str(m.mission_name)) +':'+bleach.clean(str(m.mission_color)) for m in mission_list]
+    mission_list = [bleach.clean(str(m.mission_name)) + ':' + bleach.clean(str(m.mission_color)) for m in mission_list]
     CommTypelist = CommunityType.objects.all()
     CommTypelist = [bleach.clean(m.community_type) for m in CommTypelist]
     CampusPartner_qs = CampusPartner.objects.all()
-    CampusPartnerlist = [{'name':bleach.clean(m.name), 'c_id':m.college_name_id} for m in CampusPartner_qs]
+    CampusPartnerlist = [{'name': bleach.clean(m.name), 'c_id': m.college_name_id} for m in CampusPartner_qs]
     collegeName_list = College.objects.all()
     collegeName_list = collegeName_list.exclude(college_name__exact="N/A")
     collegeNamelist = [{'cname': bleach.clean(m.college_name), 'id': m.id} for m in collegeName_list]
-    yearlist=[]
+    yearlist = []
     for year in AcademicYear.objects.all():
         yearlist.append(bleach.clean(year.academic_year))
     commPartnerlist = CommunityPartner.objects.all()
@@ -1662,10 +1690,9 @@ def GEOJSON2():
             CommunityPartnerTypelist.append(bleach.clean(str(e.community_type)))
 
     for e in College.objects.all():
-        if(bleach.clean(str(e.college_name)) not in CollegeNamelist):
+        if (bleach.clean(str(e.college_name)) not in CollegeNamelist):
             if (str(e.college_name) != "N/A"):
-                CollegeNamelist.append({'cname':bleach.clean(str(e.college_name)), 'id':e.id})
-
+                CollegeNamelist.append({'cname': bleach.clean(str(e.college_name)), 'id': e.id})
 
     for year in AcademicYear.objects.all():
         Academicyearlist.append(bleach.clean(year.academic_year))
@@ -1682,9 +1709,8 @@ def GEOJSON2():
     for campuspart in CampusPartner.objects.all():
         CampusPartnerlist.append({'name': bleach.clean(campuspart.name), 'c_id': campuspart.college_name_id})
 
-
-    return (collection, sorted(Engagementlist),sorted(Missionlist),sorted(CommunityPartnerlist),
-            (CampusPartnerlist), sorted(CommunityPartnerTypelist),sorted(Academicyearlist), (CollegeNamelist))
+    return (collection, sorted(Engagementlist), sorted(Missionlist), sorted(CommunityPartnerlist),
+            (CampusPartnerlist), sorted(CommunityPartnerTypelist), sorted(Academicyearlist), (CollegeNamelist))
 
 
 ###Project map export to javascript
@@ -1700,14 +1726,16 @@ def googleprojectdata(request):
                   {'districtData': district, 'collection': map_json_data[0],
                    'number': len(data['features']),
                    'Missionlist': sorted(map_json_data[2]),
-                   'CommTypelist': sorted(map_json_data[5]),  # pass the array of unique mission areas and community types
+                   'CommTypelist': sorted(map_json_data[5]),
+                   # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'Communitypartner': sorted(Communitypartner),
                    'EngagementType': sorted(map_json_data[1]),
-                   'year': sorted(map_json_data[6]),'data_definition':data_definition,
+                   'year': sorted(map_json_data[6]), 'data_definition': data_definition,
                    'Collegename': (map_json_data[7])
                    }
                   )
+
 
 def googlecityDistrict(request):
     data_definition = DataDefinition.objects.all()
@@ -1719,14 +1747,16 @@ def googlecityDistrict(request):
     return render(request, 'home/cityDistrict.html',
                   {'districtData': district, 'collection': map_json_data[0],
                    'Missionlist': sorted(map_json_data[1]),
-                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
+                   'CommTypeList': sorted(map_json_data[2]),
+                   # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
                    'year': sorted(map_json_data[4]),
-                   'data_definition':data_definition,
+                   'data_definition': data_definition,
                    'Collegename': map_json_data[6]
                    }
                   )
+
 
 def googleDistrictdata(request):
     data_definition = DataDefinition.objects.all()
@@ -1738,10 +1768,11 @@ def googleDistrictdata(request):
     return render(request, 'home/legislativeDistrict.html',
                   {'districtData': district, 'collection': map_json_data[0],
                    'Missionlist': sorted(map_json_data[1]),
-                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
+                   'CommTypeList': sorted(map_json_data[2]),
+                   # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': sorted(map_json_data[4]),'data_definition':data_definition,
+                   'year': sorted(map_json_data[4]), 'data_definition': data_definition,
                    'Collegename': map_json_data[6]
                    }
                   )
@@ -1756,13 +1787,14 @@ def googlepartnerdata(request):
     json_data = open('home/static/GEOJSON/ID3.geojson')
     district = json.load(json_data)
     return render(request, 'home/communityPartner.html',
-                  {'collection': data, 'districtData':district,
+                  {'collection': data, 'districtData': district,
                    'Missionlist': sorted(map_json_data[1]),
-                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
+                   'CommTypeList': sorted(map_json_data[2]),
+                   # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': map_json_data[4],'data_definition':data_definition,
-                   'College': (College) #k sorted
+                   'year': map_json_data[4], 'data_definition': data_definition,
+                   'College': (College)  # k sorted
                    }
                   )
 
@@ -1778,15 +1810,17 @@ def googlemapdata(request):
     return render(request, 'home/communityPartnerType.html',
                   {'collection': data, 'districtData': district,
                    'Missionlist': sorted(map_json_data[1]),
-                   'CommTypeList': sorted(map_json_data[2]),  # pass the array of unique mission areas and community types
+                   'CommTypeList': sorted(map_json_data[2]),
+                   # pass the array of unique mission areas and community types
                    'Campuspartner': (Campuspartner),
                    'number': len(data['features']),
-                   'year': map_json_data[4],'data_definition':data_definition,
+                   'year': map_json_data[4], 'data_definition': data_definition,
                    'College': (College)
                    }
                   )
 
-#TO invite community Partner to the Application
+
+# TO invite community Partner to the Application
 @login_required()
 def invitecommunityPartnerUser(request):
     form = CommunityPartnerUserInvite()
@@ -1816,16 +1850,40 @@ def invitecommunityPartnerUser(request):
                 'token': account_activation_token.make_token(new_user),
             })
             to_email = new_user.email
-            email = EmailMessage(mail_subject, message,to=[to_email])
+            email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             return render(request, 'home/communityuser_register_done.html', )
-    return render(request, 'home/registration/inviteCommunityPartner.html' , {'form':form ,
-                                                                              'community_partner_user_form':community_partner_user_form})
+    return render(request, 'home/registration/inviteCommunityPartner.html', {'form': form,
+                                                                             'community_partner_user_form': community_partner_user_form})
+
+
+def recentchanges(request):
+    # project app
+    recent_project = Project.history.all().order_by('-history_date')[:100]
+    recent_proj_mission = ProjectMission.history.all().order_by('-history_date')[:100]
+    recent_proj_campus = ProjectCampusPartner.history.all().order_by('-history_date')[:100]
+    recent_proj_comm = ProjectCommunityPartner.history.all().order_by('-history_date')[:100]
+    # partner app
+    recent_campus = CampusPartner.history.all().order_by('-history_date')[:100]
+    recent_comm = CommunityPartner.history.all().order_by('-history_date')[:100]
+    recent_comm_mission = CommunityPartnerMission.history.all().order_by('-history_date')[:100]
+    # contacts
+    recent_contact = Contact.history.all().order_by('-history_date')[:50]
+
+    return render(request, 'home/recent_changes.html', {'recent_project': recent_project,
+                                                        'recent_proj_mission': recent_proj_mission,
+                                                        'recent_proj_campus': recent_proj_campus,
+                                                        'recent_proj_comm': recent_proj_comm,
+                                                        'recent_campus': recent_campus,
+                                                        'recent_comm': recent_comm,
+                                                        'recent_comm_mission': recent_comm_mission,
+                                                        'recent_contact': recent_contact})
+
 
 def registerCommPartner(request, uidb64, token):
     try:
         uid = force_str(url_has_allowed_host_and_scheme(uidb64))
-        user = get_object_or_404(User,pk=uid)
+        user = get_object_or_404(User, pk=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if user is not None and account_activation_token.check_token(user, token):
@@ -1836,22 +1894,19 @@ def registerCommPartner(request, uidb64, token):
         return render(request, 'home/registration/register_fail.html')
 
 
-
-def commPartnerResetPassword(request,pk):
+def commPartnerResetPassword(request, pk):
     if request.method == 'POST':
         user_obj = User.objects.get(pk=pk)
         form = SetPasswordForm(user_obj, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            return render(request,'home/registration/communityPartnerRegistrationComplete.html')
+            return render(request, 'home/registration/communityPartnerRegistrationComplete.html')
         else:
-            return render(request, 'registration/password_reset_confirm.html', {'form': form, 'validlink': True })
+            return render(request, 'registration/password_reset_confirm.html', {'form': form, 'validlink': True})
     else:
         form = SetPasswordForm(request.user)
-    return render(request, 'registration/password_reset_confirm.html', {'form': form,'validlink':True })
-
-
+    return render(request, 'registration/password_reset_confirm.html', {'form': form, 'validlink': True})
 
 
 ##### Get the Chart JSONS for network Analysis ##############
@@ -1861,7 +1916,7 @@ def chartjsons():
     #
     # district = geojson["features"]
     # campus_partner=open('home/static/charts_json/campus_partners.json')
-    campus_partner_json=json.loads(charts_campuses)
+    campus_partner_json = json.loads(charts_campuses)
     # campus_partner_json = json.load(campus_partner)#local
     # community_partner = open('home/static/charts_json/community_partners.json')
     community_partner_json = json.loads(charts_communities)
@@ -1872,8 +1927,7 @@ def chartjsons():
     # projects =open ('home/static/charts_json/projects.json')
     projects_json = json.loads(charts_projects)
     # projects_json = json.load(projects)#local
-    return (campus_partner_json,community_partner_json,mission_subcategories_json,projects_json)
-
+    return (campus_partner_json, community_partner_json, mission_subcategories_json, projects_json)
 
 
 ###Network Analysis Chart
@@ -1902,23 +1956,22 @@ def networkanalysis(request):
     yrs = []
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
-        res={'id':e.id,'year':e.academic_year}
+        res = {'id': e.id, 'year': e.academic_year}
         yrs.append(res)
     acyear = sorted(yrs, key=lambda i: i['year'], reverse=True)
 
-    year_ids=[]
-    year_names=[]
+    year_ids = []
+    year_names = []
     for e in acyear:
         year_ids.append(e['id'])
         year_names.append(e['year'])
-    max_yr_id=year_ids[1]
+    max_yr_id = year_ids[1]
     max_year = year_names[1]
     missionList = []
     for m in MissionArea.objects.all():
         res = {'id': m.id, 'name': m.mission_name, 'color': m.mission_color}
         missionList.append(res)
     missionList = sorted(missionList, key=lambda i: i['name'])
-
 
     mission = ProjectMissionFilter(request.GET, queryset=ProjectMission.objects.filter(mission_type='Primary'))
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.order_by('academic_year'))
@@ -1947,7 +2000,6 @@ def networkanalysis(request):
     elif k12_selection == 'No':
         project_filter = ProjectFilter(request.GET, queryset=Project.objects.filter(k12_flag=False))
 
-
     campus_filter_qs = CampusPartner.objects.all()
     campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
@@ -1957,7 +2009,6 @@ def networkanalysis(request):
 
     if legislative_selection is None:
         legislative_selection = 'All'
-
 
     for i in range(1, 50):
         legistalive_val = 'Legislative District ' + str(i)
@@ -1972,19 +2023,16 @@ def networkanalysis(request):
         communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.filter(
             legislative_district=legislative_search))
 
-
-
-
-
     return render(request, 'charts/network.html',
-                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames':CollegeNamelist,
-                   'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'max_year':max_year,
-                   'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
-                    'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
-                    'college_filter': college_filter,'k12_choices': k12_choices,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter} )
-
-
+                  {'Missionlist': missionList, 'data_definition': data_definition, 'Collegenames': CollegeNamelist,
+                   'campus_partner_json': campus_partner_json, 'community_partner_json': community_partner_json,
+                   'max_yr_id': max_yr_id, 'max_year': max_year,
+                   'mission_subcategories_json': mission_subcategories_json, 'projects_json': projects_json,
+                   'project_filter': project_filter, 'campus_filter': campus_filter, 'missions': mission,
+                   'communityPartners': communityPartners,
+                   'college_filter': college_filter, 'k12_choices': k12_choices,
+                   'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
+                   'cec_part_choices': cec_part_choices, 'community_filter': community_filter})
 
 
 @login_required()
@@ -2005,41 +2053,42 @@ def issueaddress(request):
     mission_subcategories_json = json.loads(charts_missions)
     projects_json = json.loads(charts_projects)
 
-    CollegeNamelist=[]
+    CollegeNamelist = []
     for e in College.objects.all():
-        if(str(e.college_name) not in CollegeNamelist):
+        if (str(e.college_name) not in CollegeNamelist):
             if (str(e.college_name) != "N/A"):
-                CollegeNamelist.append({'cname':str(e.college_name), 'id':e.id})
+                CollegeNamelist.append({'cname': str(e.college_name), 'id': e.id})
     yrs = []
     acad_years = AcademicYear.objects.all()
     for e in acad_years:
-        res={'id':e.id,'year':e.academic_year}
+        res = {'id': e.id, 'year': e.academic_year}
         yrs.append(res)
     # max_yr_id = max(yrs)
     acyear = sorted(yrs, key=lambda i: i['year'], reverse=True)
 
-    year_ids=[]
-    year_names=[]
+    year_ids = []
+    year_names = []
     for e in acyear:
         year_ids.append(e['id'])
         year_names.append(e['year'])
     # print(year_ids[1])
     # print(year_names[1])
     # max_yr = [p.academic_year for p in (AcademicYear.objects.filter(id = (max_yr_id-1)))]
-    max_yr_id=year_ids[1]
-    min_yr_id=year_ids[2]
+    max_yr_id = year_ids[1]
+    min_yr_id = year_ids[2]
     max_year = year_names[1]
-    min_year=year_names[2]
-    
+    min_year = year_names[2]
+
     MissionObject = json.loads(charts_missions)
     user_role = request.user.is_superuser
     # print("super user ",user_role)
 
     missionList = []
     for m in MissionObject:
-        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'], 'mission_descr': m['mission_descr']}
+        res = {'id': m['mission_area_id'], 'name': m['mission_area_name'], 'color': m['mission_color'],
+               'mission_descr': m['mission_descr']}
         missionList.append(res)
-    missionList = sorted(missionList, key=lambda i: i['name'],reverse=True)
+    missionList = sorted(missionList, key=lambda i: i['name'], reverse=True)
 
     # community_filter = ProjectCommunityFilter(request.GET, queryset=ProjectCommunityPartner.objects.all())
 
@@ -2076,11 +2125,8 @@ def issueaddress(request):
     # else:
     #     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all())
 
-
     campus_filter_qs = CampusPartner.objects.all()
-    campus_filter = [{'name': m.name, 'id': m.id,'college':m.college_name_id} for m in campus_filter_qs]
-
-
+    campus_filter = [{'name': m.name, 'id': m.id, 'college': m.college_name_id} for m in campus_filter_qs]
 
     legislative_choices = []
     legislative_search = ''
@@ -2106,24 +2152,26 @@ def issueaddress(request):
         # project_filter = ProjectFilter(request.GET,
         #                                queryset=Project.objects.filter(legislative_district=legislative_search))
 
-
-
-
-
     return render(request, 'charts/focusareaanalaysis.html',
-                  { 'Missionlist': missionList,'data_definition':data_definition,'Collegenames':CollegeNamelist,
-                   'campus_partner_json':campus_partner_json,'community_partner_json':community_partner_json,'max_yr_id':max_yr_id,'min_yr_id':min_yr_id,
-                   'mission_subcategories_json':mission_subcategories_json,'projects_json':projects_json,
-                    'to_project_filter': to_project_filter,'from_project_filter': from_project_filter,'project_filter': project_filter,'campus_filter': campus_filter,'missions': mission,'communityPartners': communityPartners,
-                    'communityPartners': communityPartners,'college_filter': college_filter,'k12_choices': k12_choices,
-                    'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,'cec_part_choices': cec_part_choices,'community_filter':community_filter,'max_year':max_year,'min_year':min_year,"user_role":user_role} )
+                  {'Missionlist': missionList, 'data_definition': data_definition, 'Collegenames': CollegeNamelist,
+                   'campus_partner_json': campus_partner_json, 'community_partner_json': community_partner_json,
+                   'max_yr_id': max_yr_id, 'min_yr_id': min_yr_id,
+                   'mission_subcategories_json': mission_subcategories_json, 'projects_json': projects_json,
+                   'to_project_filter': to_project_filter, 'from_project_filter': from_project_filter,
+                   'project_filter': project_filter, 'campus_filter': campus_filter, 'missions': mission,
+                   'communityPartners': communityPartners,
+                   'communityPartners': communityPartners, 'college_filter': college_filter, 'k12_choices': k12_choices,
+                   'legislative_choices': legislative_choices, 'legislative_value': legislative_selection,
+                   'cec_part_choices': cec_part_choices, 'community_filter': community_filter, 'max_year': max_year,
+                   'min_year': min_year, "user_role": user_role})
+
 
 def removeExistingProjSub(request):
     cursor = connection.cursor()
     updateProjSub = "update projects_project set other_sub_category = null"
     cursor.execute(updateProjSub)
     connection.commit()
-    deleteProjSubMap  = "delete from projects_projectsubcategory"
+    deleteProjSubMap = "delete from projects_projectsubcategory"
     cursor.execute(deleteProjSubMap)
     connection.commit()
     cursor.close()
@@ -2134,66 +2182,65 @@ def removeExistingProjSub(request):
 def read_project_content():
     projects = []
     FILENAME = "Subcategories_Projects_Prod.xls"
-    wb = xlrd.open_workbook(FILENAME) 
-    sheet = wb.sheet_by_index(0) 
-    sheet.cell_value(0, 0) 
+    wb = xlrd.open_workbook(FILENAME)
+    sheet = wb.sheet_by_index(0)
+    sheet.cell_value(0, 0)
     total_proj_count = 0
-    #for i in range(1,2): 
-    for i in range(sheet.nrows): 
-      project = {}
-      project['name'] = sheet.cell_value(i, 0)
-      project['mission'] = sheet.cell_value(i, 1)
-      project['subcat'] = sheet.cell_value(i, 2)
-      project['comm'] = sheet.cell_value(i, 3)
-      project['campus'] = sheet.cell_value(i, 4)
-      project['eng'] = sheet.cell_value(i, 5)
-      project['strt_acd_yr'] = sheet.cell_value(i, 6)
-      project['strt_sem'] = sheet.cell_value(i, 7)
-      project['no_uno_students'] = sheet.cell_value(i, 12)
-      project['no_uno_students_hrs'] = sheet.cell_value(i, 13)
-      project['no_k12_students'] = sheet.cell_value(i, 15)
-      project['no_k12_students_hrs'] = sheet.cell_value(i, 16)
-      project['act_type'] = sheet.cell_value(i, 18)
+    # for i in range(1,2):
+    for i in range(sheet.nrows):
+        project = {}
+        project['name'] = sheet.cell_value(i, 0)
+        project['mission'] = sheet.cell_value(i, 1)
+        project['subcat'] = sheet.cell_value(i, 2)
+        project['comm'] = sheet.cell_value(i, 3)
+        project['campus'] = sheet.cell_value(i, 4)
+        project['eng'] = sheet.cell_value(i, 5)
+        project['strt_acd_yr'] = sheet.cell_value(i, 6)
+        project['strt_sem'] = sheet.cell_value(i, 7)
+        project['no_uno_students'] = sheet.cell_value(i, 12)
+        project['no_uno_students_hrs'] = sheet.cell_value(i, 13)
+        project['no_k12_students'] = sheet.cell_value(i, 15)
+        project['no_k12_students_hrs'] = sheet.cell_value(i, 16)
+        project['act_type'] = sheet.cell_value(i, 18)
 
-      if str(project['name']) == 'Projects' and str(project['mission']) == 'Mission Areas':
-        print('skip the header')
-      else:
-        total_proj_count = total_proj_count + 1
-        projects.append(project)      
+        if str(project['name']) == 'Projects' and str(project['mission']) == 'Mission Areas':
+            print('skip the header')
+        else:
+            total_proj_count = total_proj_count + 1
+            projects.append(project)
 
     return projects
 
 
-def uploadProjectSub(request,pk):
-
-    projects =  read_project_content()
+def uploadProjectSub(request, pk):
+    projects = read_project_content()
     index = int(pk)
 
-    for i in projects:     # iterate the adding operation for records present in csv files      
+    for i in projects:  # iterate the adding operation for records present in csv files
         comm_list = []
         camp_list = []
         comm = i['comm']
         camp = i['campus']
 
         if comm.split('  ') is not None:
-           for x in comm.split('  '):
-              if x != '':
-                comm_list.append(x)
+            for x in comm.split('  '):
+                if x != '':
+                    comm_list.append(x)
         else:
-          comm_list.append(comm)
+            comm_list.append(comm)
 
         if camp.split('  ') is not None:
-           for x in camp.split('  '):
-              if x != '':
-                camp_list.append(x)
+            for x in camp.split('  '):
+                if x != '':
+                    camp_list.append(x)
         else:
-          camp_list.append(camp)
+            camp_list.append(camp)
 
         i['comm_list'] = comm_list
         i['camp_list'] = camp_list
-        #print('project--',i)               
+        # print('project--',i)
     proj_count = 0
-    proj_notfound  = 0
+    proj_notfound = 0
     proj_nosubCat = 0
     total_project_count = 0
     cursor = connection.cursor()
@@ -2203,14 +2250,14 @@ def uploadProjectSub(request,pk):
     if index is not None:
         startIndex = index
         if (index < len(projects)) and (len(projects) - index) > index:
-                endIndex = startIndex + 100            
+            endIndex = startIndex + 100
         else:
-            endIndex = len(projects)        
+            endIndex = len(projects)
 
-    for i in range(startIndex,endIndex):
+    for i in range(startIndex, endIndex):
         x = projects[i]
         total_project_count = total_project_count + 1
-        #print('project--',x) 
+        # print('project--',x)
         mission_name = x['mission']
         unoStds = int(x['no_uno_students'])
         unostdHrs = int(x['no_uno_students_hrs'])
@@ -2218,12 +2265,12 @@ def uploadProjectSub(request,pk):
         unok12Hrs = int(x['no_k12_students_hrs'])
         act_type = x['act_type']
         mission_name = str(mission_name).split(':')[1]
-        #print('after split mission_name --',mission_name)
+        # print('after split mission_name --',mission_name)
         proj_name = x['name']
-        proj_name = str(proj_name).replace("'","''")
+        proj_name = str(proj_name).replace("'", "''")
 
         subcat_name = x['subcat']
-        subcat_name = str(subcat_name).replace("'","''")
+        subcat_name = str(subcat_name).replace("'", "''")
         acd_yr = x['strt_acd_yr']
         engName = x['eng']
         start_sem = x['strt_sem']
@@ -2240,24 +2287,24 @@ def uploadProjectSub(request,pk):
             name_count = 0
             if len(comm_list) > 0:
                 for c in comm_list:
-                    commName = str(c).replace("'","''")
+                    commName = str(c).replace("'", "''")
                     comm_name_list = comm_name_list + str('\'') + str(commName) + str('\'')
                     if name_count < len(comm_list) - 1:
                         comm_name_list = comm_name_list + str(",")
                         name_count = name_count + 1
-      
+
         comm_name_list = comm_name_list + ')'
 
         if camp_list is not None:
             name_count = 0
             if len(camp_list) > 0:
                 for c in camp_list:
-                    campName = str(c).replace("'","''")
+                    campName = str(c).replace("'", "''")
                     camp_name_list = camp_name_list + str('\'') + str(campName) + str('\'')
                     if name_count < len(camp_list) - 1:
                         camp_name_list = camp_name_list + str(",")
                         name_count = name_count + 1
-          
+
         camp_name_list = camp_name_list + ')'
 
         projectId = 0
@@ -2266,8 +2313,8 @@ def uploadProjectSub(request,pk):
         othersubCat = []
 
         if subcat_name is not None and subcat_name != '' and subcat_name != 'None':
-                
-            select_proj="select distinct p.id, p.other_sub_category \
+
+            select_proj = "select distinct p.id, p.other_sub_category \
             from projects_project p , \
             projects_projectmission pm, \
             projects_projectcampuspartner pcam, \
@@ -2282,97 +2329,100 @@ def uploadProjectSub(request,pk):
             p.engagement_type_id = (select id from projects_engagementtype where name ='%s') \
             and p.project_name like '%s' and upper(p.semester) = '%s' \
             and p.total_uno_students =%s and p.total_uno_hours =%s \
-            and p.total_k12_students = %s  and p.total_k12_hours = %s" 
-           
-            cursor.execute(select_proj, (str(mission_name).strip(),camp_name_list,comm_name_list, str(acd_yr), str(engName), str(proj_name).strip()+"%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std), str(unok12Hrs), ))#,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
+            and p.total_k12_students = %s  and p.total_k12_hours = %s"
+
+            cursor.execute(select_proj, (
+            str(mission_name).strip(), camp_name_list, comm_name_list, str(acd_yr), str(engName),
+            str(proj_name).strip() + "%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std),
+            str(unok12Hrs),))  # ,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
-            if proj_result is not None and len(proj_result) >0:
+            if proj_result is not None and len(proj_result) > 0:
 
                 for obj in proj_result:
-                  projectId = obj[0]
-                  othersubCat = obj[1]
+                    projectId = obj[0]
+                    othersubCat = obj[1]
 
-                  if projectId !=0:
+                    if projectId != 0:
                         select_subcat = "select id from projects_subcategory where upper(sub_category) ='%s'"
-                        #print('select_subcat---',select_subcat)
-                        cursor.execute(select_subcat, (str(subcat_name).upper(), ))
+                        # print('select_subcat---',select_subcat)
+                        cursor.execute(select_subcat, (str(subcat_name).upper(),))
                         for obj in cursor.fetchall():
-                            #print('subCatId --',obj[0])
+                            # print('subCatId --',obj[0])
                             subCatId = obj[0]
 
-                        if subCatId !=0:
+                        if subCatId != 0:
                             select_subcat_msn = "select secondary_mission_area_id from projects_missionsubcategory where sub_category_id =%s"
-                            #print('select_subcat_msn---',select_subcat_msn)
-                            cursor.execute(select_subcat_msn, (str(subCatId), ))
+                            # print('select_subcat_msn---',select_subcat_msn)
+                            cursor.execute(select_subcat_msn, (str(subCatId),))
                             for obj in cursor.fetchall():
                                 subMissnId = obj[0]
                         else:
                             select_other_subcat = "select id from projects_subcategory where upper(sub_category) ='OTHER'"
-                            #print('select_other_subcat---',select_other_subcat)
+                            # print('select_other_subcat---',select_other_subcat)
                             cursor.execute(select_other_subcat)
                             for obj in cursor.fetchall():
                                 subCatId = obj[0]
 
-
                         if subCatId != 0:
                             proj_subcatExist = "select id from projects_projectsubcategory \
                             where sub_category_id =%s and project_name_id =%s"
-                            cursor.execute(proj_subcatExist, (str(subCatId), str(projectId), ))
+                            cursor.execute(proj_subcatExist, (str(subCatId), str(projectId),))
                             result = cursor.fetchall()
-                            if len(result) >0:
+                            if len(result) > 0:
                                 print('mapping already exists')
-                            else: 
-                                currdate =timezone.now()
+                            else:
+                                currdate = timezone.now()
                                 projObj = Project.objects.get(id=projectId)
                                 subCatObj = SubCategory.objects.get(id=subCatId)
-                                projSubCat = ProjectSubCategory(project_name=projObj,sub_category=subCatObj,created_date=currdate,updated_date=currdate)                           
-                                projSubCat.save()                    
-                  
-                        if subMissnId !=0:
+                                projSubCat = ProjectSubCategory(project_name=projObj, sub_category=subCatObj,
+                                                                created_date=currdate, updated_date=currdate)
+                                projSubCat.save()
+
+                        if subMissnId != 0:
                             proj_missionExist = "select id from projects_projectmission \
                             where mission_type = 'Other' and mission_id =%s and project_name_id =%s"
-                            cursor.execute(proj_missionExist, (str(subMissnId), str(projectId), ))
+                            cursor.execute(proj_missionExist, (str(subMissnId), str(projectId),))
                             missionresult = cursor.fetchall()
-                            if len(missionresult) >0:
+                            if len(missionresult) > 0:
                                 print('mission mapping already exists')
                             else:
                                 projObj = Project.objects.get(id=projectId)
                                 MissonObj = MissionArea.objects.get(id=subMissnId)
-                                projMissionObj = ProjectMission(project_name=projObj,mission_type='Other',mission=MissonObj)
+                                projMissionObj = ProjectMission(project_name=projObj, mission_type='Other',
+                                                                mission=MissonObj)
                                 projMissionObj.save()
                         else:
                             if othersubCat is None or othersubCat == '':
-                                othersubCat= []
+                                othersubCat = []
 
                             if subcat_name is not None and subcat_name != '':
-                                othersubCat.append(subcat_name)                        
+                                othersubCat.append(subcat_name)
                                 update_proj_other_sub_desc = "update projects_project \
                                 set other_sub_category = %s where id = %s"
-                                #print('tuple(othersubCat)--',othersubCat)
-                                #print('update_proj_other_sub_desc --',update_proj_other_sub_desc)
-                                cursor.execute(update_proj_other_sub_desc,(othersubCat,projectId))
+                                # print('tuple(othersubCat)--',othersubCat)
+                                # print('update_proj_other_sub_desc --',update_proj_other_sub_desc)
+                                cursor.execute(update_proj_other_sub_desc, (othersubCat, projectId))
                                 connection.commit()
 
-                        proj_count = proj_count +1
-                        print(str(proj_name) + " has been updated with "+str(subcat_name))
-                  else:
+                        proj_count = proj_count + 1
+                        print(str(proj_name) + " has been updated with " + str(subcat_name))
+                    else:
                         print(str(proj_name) + " not found in database ")
                         proj_notfound = proj_notfound + 1
             else:
                 proj_notfound = proj_notfound + 1
 
         else:
-            print(str(proj_name) + " has no sub sub_category "+str(subcat_name))
+            print(str(proj_name) + " has no sub sub_category " + str(subcat_name))
             proj_nosubCat = proj_nosubCat + 1
 
-    print('startIndex',str(startIndex))
-    print('endIndex',str(endIndex))
+    print('startIndex', str(startIndex))
+    print('endIndex', str(endIndex))
     print(str(proj_count) + " has been updated")
     print(str(proj_notfound) + " not found in database")
     print(str(proj_nosubCat) + " has not sub sub_category")
     print("read", str(total_project_count) + " projects ")
-    
+
     cursor.close()
     return render(request, 'home/thanks.html',
                   {'thank': thanks})
-

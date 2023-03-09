@@ -145,7 +145,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_communitypartner:
                 login(request, user)
-                response = redirect('/communitypartnerproject')
+                response = redirect('/')
                 return response
             elif user.is_superuser:
                 login(request, user)

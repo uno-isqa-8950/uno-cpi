@@ -6,8 +6,7 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click() 
-      cy.loginCampusUser() 
+    
   })
   
   describe('City district maps test', () => {

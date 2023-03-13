@@ -38,8 +38,7 @@ def communitypartnerhome(request):
 @login_required()
 def myProjects(request):
     data_definition = DataDefinition.objects.all()
-    return render(request, 'projects/myProjects.html',
-                  {'project': Project.objects.filter(created_by=request.user), 'data_definition': data_definition})
+    return render(request, 'projects/myProjects.html', {'project': Project.objects.filter(created_by=request.user).exclude(status__name='Drafts'), 'data_definition': data_definition})
 
 
 def ajax_load_project(request):
@@ -221,7 +220,34 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
+                # proj.save()
+                # mission_form = formset.save(commit=False)
+                # # secondary_mission_form = formset4.save(commit=False)
+                # sub_cat_form = categoryformset.save(commit=False)
+                # proj_comm_form = formset2.save(commit=False)
+                # proj_campus_form = formset3.save(commit=False)
+                # for k in proj_comm_form:
+                #     k.project_name = proj
+                #     k.save()
+                # for cat in sub_cat_form:
+                #     cat.project_name = proj
+                #     cat.save()
+                #     subcategory = str(cat.sub_category);
+                # for form in mission_form:
+                #     form.project_name = proj
+                #     form.mission_type = 'Primary'
+                #     form.save()
+                # init = 0
+                # t = 0
+                # for c in proj_campus_form:
+                #     c.project_name = proj
+                #     c.save()
+                #     proj.save()
+                # # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 proj.save()
+                print(proj)
+                endproject = proj
+
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -234,6 +260,7 @@ def createProject(request):
                     cat.project_name = proj
                     cat.save()
                     subcategory = str(cat.sub_category);
+
                 for form in mission_form:
                     form.project_name = proj
                     form.mission_type = 'Primary'
@@ -244,7 +271,31 @@ def createProject(request):
                     c.project_name = proj
                     c.save()
                     proj.save()
-                # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
+
+                try:
+                    endprojectmission = ProjectMission.objects.filter(project_name__id=endproject.id)
+                    print(endprojectmission)
+                    for projmis in endprojectmission:
+                        Project.objects.get(id=endproject.id).mission_area.add(projmis.mission)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectcampus = ProjectCampusPartner.objects.filter(project_name__id=endproject.id)
+                    for projcamp in endprojectcampus:
+                        Project.objects.get(id=endproject.id).campus_partner.add(projcamp.campus_partner)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectcommunity = ProjectCommunityPartner.objects.filter(project_name__id=endproject.id)
+                    for projcom in endprojectcommunity:
+                        Project.objects.get(id=endproject.id).community_partner.add(projcom.community_partner)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectsub = ProjectSubCategory.objects.get(project_name__id=endproject.id)
+                    Project.objects.get(id=endproject.id).subcategory.add(endprojectsub.sub_category)
+                except Exception as e:
+                    print(e)
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
                 proj.save()
@@ -500,7 +551,7 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 100)  # Show 25 projects per page
+    paginator = Paginator(project_list, 1000000)  # Show 25 projects per page
 
     page = request.GET.get('page', 1)
     try:

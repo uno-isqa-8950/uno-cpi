@@ -42,7 +42,7 @@ beforeEach(() => {
        
     }) 
 
-    it.only('Testing map canvas button clickability ', function() {
+    it('Testing map canvas button clickability ', function() {
       const communityPartnerTypesHref = `a[href="/project-Map"]`,
         filtersButton = '#sidebarCollapse',
         footerId = '#footer',

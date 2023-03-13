@@ -6,6 +6,8 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.get('#login').click() 
+      cy.loginCampusUser() 
   })
   
   describe('City district maps test', () => {
@@ -19,7 +21,7 @@ beforeEach(() => {
     // This test is expected to pass visiting community partners under maps as a public user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
     it('projects maps visit ', function() {
-      const communityPartnersHref = `a[href="/projects"]`,
+      const communityPartnersHref = `a[href="/project-Map"]`,
         filtersButton = '#sidebarCollapse',
         footerId = '#footer',
         mapsDivId = '#map_canvas',
@@ -28,11 +30,11 @@ beforeEach(() => {
         navbar ='.navbar'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersHref).click()
-         .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/projects')
+         .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
-        .get('div').contains('label', 'Number of Community Partners:')
+        .get('div').contains('label', 'Projects Map')
       // Total numbers value  existence assertion
         .get(noOfCommPartID).should('be.visible')
         .get(filtersButton).should('be.visible')
@@ -41,31 +43,45 @@ beforeEach(() => {
        
     }) 
 
-    it('Testing map canvas button clickability ', function() {
-      const communityPartnerTypesHref = `a[href="/projects"]`,
+    it.only('Testing map canvas button clickability ', function() {
+      const communityPartnerTypesHref = `a[href="/project-Map"]`,
         filtersButton = '#sidebarCollapse',
         footerId = '#footer',
         mapsDivId = '#map_canvas',
         mapsLink = `a[class="nav-link dropdown-toggle"]`
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnerTypesHref).click()
-        .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/projects')
+        .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
         .get(filtersButton).should('be.visible')
         .get(mapsDivId).should('exist')
         .get(footerId).should('exist')
       cy.get('#map_canvas').then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
+           const Map_point = '[tabindex="0"] > img',
+           Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
+           Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
+           Map_point_details2 = '.gm-style-iw-d > div > :nth-child(5)',
+           Map_point_details3 = '.gm-style-iw-d > div > :nth-child(7)',
+            Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
+            Map_point_details5 = '.gm-style-iw-d > div > :nth-child(11)',
+            Map_point_details6 = '.gm-style-iw-d > div > :nth-child(13)'
         cy.wrap($canvas)
-          cy.get('[tabindex="0"] > img').click(); cy.wait(1000)
-                      cy.get('[tabindex="0"] > img').rightclick(); cy.wait(1000)
+          cy.get(Map_point).click(); cy.wait(1000)
+          cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
+          cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
+          cy.get(Map_point_details2).contains(this.data.Community_Partners).should('be.visible')
+          cy.get(Map_point_details3).contains(this.data.Community_Partners_Type).should('be.visible')
+          cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')  
+          cy.get(Map_point_details5).contains(this.data.Academic_Year).should('be.visible')  
+          cy.get(Map_point_details6).contains(this.data.Engagement_Type).should('be.visible')                    
       });
     })
 
 
     it ('Test filter dropdown are clickable', function()  {
 
-          const communityPartnersHref = `a[href="/projects"]`,
+          const communityPartnersHref = `a[href="/project-Map"]`,
       
             filtersButton = '#sidebarCollapse',
       
@@ -77,7 +93,7 @@ beforeEach(() => {
       
             mapsLink = `a[class="nav-link dropdown-toggle"]`,
       
-            communityPartnerDropdown = '#selectCommtype',
+            communityPartnerDropdown = '#selectCommunityType',
       
             selectCollegeDropdown = '#selectCollege',
       
@@ -91,7 +107,7 @@ beforeEach(() => {
       
             .get(communityPartnersHref).click()
       
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/city-District')
+            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
       
           // filter button clicking and asserting to check the button is not disabled
       
@@ -99,7 +115,7 @@ beforeEach(() => {
       
           // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
       
-            .get(districtsDropdown).trigger('click').should('not.be.disabled').select(this.data.All_City_Council_Districts)
+            .get(districtsDropdown).trigger('click').should('not.be.disabled').select(this.data.All_Legislative_Districts)
 
       cy.get(communityPartnerDropdown).trigger('click').should('not.be.disabled')
       .get(communityPartnerDropdown).select(this.data.community_type2)

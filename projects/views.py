@@ -501,7 +501,15 @@ def showAllProjects(request):
     project_list = context['project']
     paginator = Paginator(project_list, 100)  # Show 25 projects per page
 
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     projects = paginator.get_page(page)
     return render(request, 'projects/allProjects.html',
                   {'project': projects,
@@ -516,6 +524,8 @@ def showAllProjects(request):
                    'cec_part_choices': context['cec_part_choices'],
                    'cec_part_selection': context['cec_part_selection'],
                    'projects': context['projects'],
+                   'cards': cards,
+                   'parameters': parameters,
                    })
 
 
@@ -1321,7 +1331,7 @@ def adminsubmit_project_done(request):
 def filter_projects(request):
     ids = []
     #if get_tenant(request).__len__() > 1:
-    project_list = Project.objects.all().exclude(status__name='Drafts')
+    project_list = Project.objects.all().exclude(status__name='Drafts').order_by('-id')
     #else:
         #university = get_tenant(request)[0]
         #project_list = Project.objects.all().exclude(status__name='Drafts', university=university)

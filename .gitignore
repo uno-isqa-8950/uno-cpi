@@ -125,7 +125,6 @@ cypress/screenshots
 cypress/videos
 cypress/assets
 cypress/downloads
-*.env.json
 
 #migrations folder
 migrations/

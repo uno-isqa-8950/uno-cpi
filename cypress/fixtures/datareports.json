@@ -1,4 +1,5 @@
 {
+    "baseUrl": "https://uno-cpi-dev.herokuapp.com/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",
@@ -57,5 +58,23 @@
     "All_Campus_Partners" : "All Campus Partners",
     "All_Academic_Years" : "All Academic Years",
     "All_Legislative_Districts" : "All Legislative Districts",
-    "All_City_Council_Districts" : "All City Council Districts"
+    "All_City_Council_Districts" : "All City Council Districts",
+    "campus_partner_user": "unotest.campus@gmail.com",
+    "campus_partner_pwd": "superman01",
+    "project_name1": "unotesting",
+    "Start_semester1": "Spring",
+    "Total_UNO_student1": "10",
+    "Total_UNO_student_hour1": "10",
+    "community_partner1": "AARP",
+    "admin_user": "unotest.super@gmail.com",
+    "admin_pwd": "superman01",
+    "campus_partner4" : "Campus Partner Testing",
+    "campus_partner5" : "College of BA",
+    "campuspartner1_firstname" : "Teddy",
+    "campuspartner1_lastname" : "bear",
+    "campuspartner1_emailID" : "tbear@unomaha.edu",
+    "campuspartner2_firstname" : "Alice",
+    "campuspartner2_lastname" : "Anderson",
+    "campuspartner2_emailID" : "aanderson@unomaha.edu",
+    "campuspartner_gmail" : "abcd@gmail.com"
 }

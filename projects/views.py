@@ -22,7 +22,7 @@ from utilities import *
 
 sql = sqlfiles
 
-#DO NOT PUT KEY HERE, IT PULLS FROM LOCAL SETTINGS FILE
+# DO NOT PUT KEY HERE, IT PULLS FROM LOCAL SETTINGS FILE
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
@@ -38,7 +38,8 @@ def communitypartnerhome(request):
 @login_required()
 def myProjects(request):
     data_definition = DataDefinition.objects.all()
-    return render(request, 'projects/myProjects.html', {'project': Project.objects.filter(created_by=request.user), 'data_definition': data_definition})
+    return render(request, 'projects/myProjects.html',
+                  {'project': Project.objects.filter(created_by=request.user), 'data_definition': data_definition})
 
 
 def ajax_load_project(request):
@@ -854,7 +855,6 @@ def communityPublicReport(request):
                    'cec_part_choices': cec_part_choices})
 
 
-
 @login_required()
 def communityPrivateReport(request):
     community_dict = {}
@@ -1299,7 +1299,9 @@ def project_total_Add(request):
 @login_required()
 def myDrafts(request):
     data_definition = DataDefinition.objects.all()
-    return render(request, 'projects/myDrafts.html', {'project': Project.objects.filter(created_by=request.user, status=Status.objects.get(name='Drafts')), 'data_definition': data_definition})
+    return render(request, 'projects/myDrafts.html',
+                  {'project': Project.objects.filter(created_by=request.user, status=Status.objects.get(name='Drafts')),
+                   'data_definition': data_definition})
 
 
 @login_required()
@@ -1330,11 +1332,11 @@ def adminsubmit_project_done(request):
 
 def filter_projects(request):
     ids = []
-    #if get_tenant(request).__len__() > 1:
+    # if get_tenant(request).__len__() > 1:
     project_list = Project.objects.all().exclude(status__name='Drafts').order_by('-id')
-    #else:
-        #university = get_tenant(request)[0]
-        #project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
+    # else:
+    # university = get_tenant(request)[0]
+    # project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__name='Drafts'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -1395,18 +1397,17 @@ def filter_projects(request):
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
-
     context = {'project': project_list,
-         'data_definition': data_definition,
-         'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
-         'communityPartners': communityPartners,
-         'campus_filter': campus_filter,
-         'college_filter': campusPartners,
-         'campus_id': campus_id,
-         'k12_choices': k12_choices,
-         'k12_selection': k12_selection,
-         'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
-         'cec_part_selection': cec_part_selection,
-         'projects': project_filter}
+               'data_definition': data_definition,
+               'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
+               'communityPartners': communityPartners,
+               'campus_filter': campus_filter,
+               'college_filter': campusPartners,
+               'campus_id': campus_id,
+               'k12_choices': k12_choices,
+               'k12_selection': k12_selection,
+               'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
+               'cec_part_selection': cec_part_selection,
+               'projects': project_filter}
 
     return context

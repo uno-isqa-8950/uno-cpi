@@ -68,4 +68,22 @@
     "_comment13":"Create_project",
     "project_name1":"Capstone Sprint2Data1",
     "project_name2":"Capstone Sprint2Data2"
+    "campus_partner_user": "unotest.campus@gmail.com",
+    "campus_partner_pwd": "superman01",
+    "project_name1": "unotesting",
+    "Start_semester1": "Spring",
+    "Total_UNO_student1": "10",
+    "Total_UNO_student_hour1": "10",
+    "community_partner1": "AARP",
+    "admin_user": "unotest.super@gmail.com",
+    "admin_pwd": "superman01",
+    "campus_partner4" : "Campus Partner Testing",
+    "campus_partner5" : "College of BA",
+    "campuspartner1_firstname" : "Teddy",
+    "campuspartner1_lastname" : "bear",
+    "campuspartner1_emailID" : "tbear@unomaha.edu",
+    "campuspartner2_firstname" : "Alice",
+    "campuspartner2_lastname" : "Anderson",
+    "campuspartner2_emailID" : "aanderson@unomaha.edu",
+    "campuspartner_gmail" : "abcd@gmail.com"
 }

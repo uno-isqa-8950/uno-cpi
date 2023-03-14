@@ -1,3 +1,4 @@
+import * as users from '../fixtures/users.json' 
 // ***********************************************
 // This example commands.js shows you how to
 // create various custom commands and overwrite
@@ -23,6 +24,7 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
 import * as users from '../fixtures/users.json'
 
 Cypress.Commands.add("loginCampusUser", (user) => {
@@ -41,3 +43,45 @@ Cypress.Commands.add("loginAdminUser", (user) => {
     cy.get("#password_input").type(password);
     cy.get("#btnLogin").click();
 });
+
+Cypress.Commands.add("loginCampusUser", () => { 
+
+    //adding a new command named login 
+    const username = users.campusUser.username 
+    
+    const password = users.campusUser.password 
+    
+    cy.visit(Cypress.env('baseUrl')) 
+    
+    cy.get('#login').click() 
+    
+    cy.get("#email_input").type(username).type('{enter}') 
+    
+    cy.get("#password_input").type(password); 
+    
+    cy.get("#btnLogin").click(); 
+    
+    }); 
+    
+     
+     
+    
+    Cypress.Commands.add("loginSuperUser", () => { 
+    
+    //adding a new command named login 
+    
+    const username = users.adminUser.username 
+    
+    const password = users.adminUser.password 
+    
+    cy.visit(Cypress.config('baseUrl')) 
+    
+    cy.get('#login').click() 
+    
+    cy.get("#email_input").type(username).type('{enter}') 
+    
+    cy.get("#password_input").type(password); 
+    
+    cy.get("#btnLogin").click(); 
+    
+    }); 

@@ -84,6 +84,8 @@
     "campuspartner2_firstname" : "Alice",
     "campuspartner2_lastname" : "Anderson",
     "campuspartner2_emailID" : "aanderson@unomaha.edu",
-    "campuspartner_gmail" : "abcd@gmail.com"
+    "campuspartner_gmail" : "abcd@gmail.com",
+    "Project_Name" : "Project Name",
+    "Focus_Areas" : "Focus Areas"
 }
 

@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('community partners maps test', () => {
   beforeEach(function() {
     cy.fixture("datareports").then(function(data) {
-    this.data = data
+      this.data = data
     })
   })
   // This test is expected to pass visiting community partner types under maps as a public user.
@@ -111,5 +111,86 @@ describe('community partners maps test', () => {
       .get(resetFilters).click().should('not.be.disabled')
       .get(mapsDivId).should('exist')
       .get(footerId).should('exist')
+  })
+
+  it('Test community partner type filter links ', function() {
+    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
+      filtersButton = '#sidebarCollapse',
+      footerId = '#footer',
+      mapsDivId = '#map_canvas',
+      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+      allCommunityPartnerTypesFIlterLink = `a[id="All Community Partner Types"]`,
+      businessFIlterLink = `a[id="Business"]`,
+      governmentAgencyFilterLink = `a[id="Government Agency"]`,
+      higherEducationInstitutionFilterLink = `a[id="Higher Education Institution"]`,
+      schoolsFilterLink = `a[id="K-12 Schools"]`,
+      nonprofitFilterLink = `a[id="Nonprofit"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner-Type')
+    // filter button clicking and asserting to check the button is not disabled
+      .get(filtersButton).click().should('not.be.disabled')
+      .get(allCommunityPartnerTypesFIlterLink).click()
+      .get(businessFIlterLink).click()
+      .get(governmentAgencyFilterLink).click()
+      .get(higherEducationInstitutionFilterLink).click()
+      .get(schoolsFilterLink).click()
+      .get(nonprofitFilterLink).click()
+      .get(mapsDivId).should('exist')
+      .get(footerId).should('exist')
+  })
+
+  it('should interact with the map by zoom in and zoom', () => {
+    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('[tabindex="0"] > img').rightclick(); cy.wait(1000) //has context menu
+      .get('.gm-style button[title="Zoom in"]').click() // Click the zoom in button
+      .get('.gm-style button[title="Zoom out"]').click() // Click the zoom out button
+  })
+
+  it('Card should be displayed when right clicked on a map marker', () => {
+    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('[tabindex="0"] > img').rightclick()
+      .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
+      .get('span').contains('span', 'Projects:').should('be.visible')
+      .get('td').contains('td', 'Academic Year').should('be.visible')
+      .get('td').contains('td', 'Name').should('be.visible') // Asserting on table field name
+      .get('td').contains('td', 'Engagement Type').should('be.visible')
+  })
+
+  it('Card should be displayed when clicked on a map marker', () => {
+    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
+      .get('span').contains('span', 'Total Number of Projects:').should('be.visible')
+      .get('span').contains('span', 'City:').should('be.visible')
+      .get('span').contains('span', 'Focus Areas:').should('be.visible')
+      .get('span').contains('span', 'Community Partner Types:').should('be.visible')
+      .get('span').contains('span', 'Campus Partner:').should('be.visible')
+      .get('span').contains('span', 'Academic Year: ').should('be.visible')
+      .get('span').contains('span', 'Website Link:').should('be.visible')
+  })
+
+  it('All map markers should be visible on the map canvas', () => {
+    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+      markerImages = `img[src="https://maps.gstatic.com/mapfiles/transparent.png"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .get('#map_canvas').should('exist')
+      .get(markerImages).should('be.visible') // Testing marker images are visible in the map canvas
   })
 })

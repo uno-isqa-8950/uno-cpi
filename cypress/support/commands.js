@@ -24,7 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import * as users from '../fixtures/users.json'
-
 Cypress.Commands.add("loginCampusUser", (user) => {
     //adding a new command named login
    const username = users.campusUser.username
@@ -40,7 +39,7 @@ Cypress.Commands.add("loginCampusUser", (user) => {
     //adding a new command named login
    const username = users.adminUser.username
    const password = users.adminUser.password
-    cy.visit(Cypress.config('baseUrl'))
+    cy.visit(Cypress.env('baseUrl'))
     cy.get('#login').click()
     cy.get("#email_input").type(username).type('{enter}')
     cy.get("#password_input").type(password);

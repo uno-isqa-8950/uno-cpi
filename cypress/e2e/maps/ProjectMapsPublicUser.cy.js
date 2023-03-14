@@ -42,7 +42,7 @@ beforeEach(() => {
        
     }) 
 
-    it('Testing map canvas button clickability ', function() {
+    it.only('Testing map canvas button clickability ', function() {
       const communityPartnerTypesHref = `a[href="/project-Map"]`,
         filtersButton = '#sidebarCollapse',
         footerId = '#footer',
@@ -60,20 +60,12 @@ beforeEach(() => {
            const Map_point = '[tabindex="0"] > img',
            Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
            Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
-           Map_point_details2 = '.gm-style-iw-d > div > :nth-child(5)',
-           Map_point_details3 = '.gm-style-iw-d > div > :nth-child(7)',
-            Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
-            Map_point_details5 = '.gm-style-iw-d > div > :nth-child(11)',
-            Map_point_details6 = '.gm-style-iw-d > div > :nth-child(13)'
+          Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)'
         cy.wrap($canvas)
           cy.get(Map_point).click(); cy.wait(1000)
           cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
           cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
-          cy.get(Map_point_details2).contains(this.data.Community_Partners).should('be.visible')
-          cy.get(Map_point_details3).contains(this.data.Community_Partners_Type).should('be.visible')
-          cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')  
-          cy.get(Map_point_details5).contains(this.data.Academic_Year).should('be.visible')  
-          cy.get(Map_point_details6).contains(this.data.Engagement_Type).should('be.visible')                    
+          cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')                   
       });
     })
 

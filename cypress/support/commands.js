@@ -36,7 +36,7 @@ Cypress.Commands.add("loginCampusUser", (user) => {
     cy.get("#btnLogin").click();
   });
 
-  Cypress.Commands.add("loginSuperUser", (user) => {
+  Cypress.Commands.add("loginAdminUser", (user) => {
     //adding a new command named login
    const username = users.adminUser.username
    const password = users.adminUser.password

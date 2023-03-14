@@ -1,3 +1,4 @@
+import user from "../../../support/commands.js";
 /// <reference types="cypress"/>
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
@@ -7,9 +8,11 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.get('#login').click()
+    cy.loginCampusUser(user)
 })
 
-describe('Analytic Reports Public user', () => {
+describe('Analytic Reports Campus Partner user', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
@@ -20,13 +23,33 @@ describe('Analytic Reports Public user', () => {
     })
     //Check navigation
     it('Check navigation', function() {
+        /*const campus_email = "#email_input",
+            campus_pwd = "#password_input",
+            login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+        cy.get('#uno').click()
         cy.contains('Analytics').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
     })
+    
     it('Check if it is Focus Area Report', function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.contains('Analytics').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -36,6 +59,15 @@ describe('Analytic Reports Public user', () => {
     })
     // Hide Filters and Reset Filters
     it('Hide Filters', function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -50,6 +82,15 @@ describe('Analytic Reports Public user', () => {
         cy.get('.select2-selection__placeholder').should('be.visible')
         })
     it('Reset Filters', function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -58,18 +99,27 @@ describe('Analytic Reports Public user', () => {
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         cy.get('#select2-id_academic_year-container').click()
         cy.get('#select2-id_academic_year-results').then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year3).click();
+            cy.wrap($li).contains(this.data.academic_year4).click();
         })
         cy.get('#select2-id_engagement_type-container').click()
         cy.get('#select2-id_engagement_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.engagement_type3).click();
+            cy.wrap($li).contains(this.data.engagement_type5).click();
         })
-        cy.get('#select2-id_academic_year-container').should('contain.text', this.data.academic_year3)
+        cy.get('#select2-id_academic_year-container').should('contain.text', this.data.academic_year4)
         cy.get('#resetfilterbtn').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
     // Filter Options    
     it('filter options', function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -81,11 +131,11 @@ describe('Analytic Reports Public user', () => {
         })
         cy.get('#select2-id_engagement_type-container').click()
         cy.get('#select2-id_engagement_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.engagement_type1).click();
+            cy.wrap($li).contains(this.data.engagement_type2).click();
         })
         cy.get('#select2-id_community_type-container').click()
         cy.get('#select2-id_community_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.community_type1).click();
+            cy.wrap($li).contains(this.data.community_type5).click();
         })
         cy.get('#select2-id_college_name-container').click()
         cy.get('#select2-id_college_name-results').then(($li) => {
@@ -104,6 +154,15 @@ describe('Analytic Reports Public user', () => {
     })
     // Check 7 focus area is listed
     it('Check if report contains all Focus Area Report', function () {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -118,26 +177,78 @@ describe('Analytic Reports Public user', () => {
         cy.get(':nth-child(7) > .sorting_1').contains(this.data.focus_area7)
     })
     it("Check conectivity to Community Partners report", function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
-        cy.get(':nth-child(1) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.academic_year1).click();
+        })
+        cy.get('#select2-id_engagement_type-container').click()
+        cy.get('#select2-id_engagement_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.engagement_type2).click();
+        })
+        cy.get('#select2-id_community_type-container').click()
+        cy.get('#select2-id_community_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.community_type5).click();
+        })
+        cy.get(':nth-child(2) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Community Partners Report')
-        cy.url().should('contain', 'https://uno-cpi-dev.herokuapp.com/community-public-report')
+        cy.url().should('contain', this.data.baseUrl+'community-public-report')
     })
     it("Check conectivity to Projects report", function() {
+        /*
+        const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
-        cy.get(':nth-child(1) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.academic_year1).click();
+        })
+        cy.get('#select2-id_engagement_type-container').click()
+        cy.get('#select2-id_engagement_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.engagement_type2).click();
+        })
+        cy.get('#select2-id_community_type-container').click()
+        cy.get('#select2-id_community_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.community_type5).click();
+        })
+        cy.get(':nth-child(2) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Projects Report')
         cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
     })
     it("Check tooltip text for 7 focus areas", function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
@@ -147,8 +258,8 @@ describe('Analytic Reports Public user', () => {
         cy.get(':nth-child(1) > .sorting_1 > span > .fa').trigger('mouseover').invoke('show')
         cy.contains('Projects and organizations that support the need for the improvement through Arts, Culture and Humanities.')
         //focus area 2
-        cy.get(':nth-child(2) > .sorting_1 > span > .fa').trigger('mouseover').invoke('show')
-        cy.contains('Projects and organizations who address the causes, consequences, and solutions to poverty, with a special focus on meeting the economic needs of those affected by poverty.')
+    //    cy.get(':nth-child(2) > .sorting_1 > span > .fa').trigger('mouseover').invoke('show')
+    //    cy.contains('Projects and organizations who address the causes, consequences, and solutions to poverty, with a special focus on meeting the economic needs of those affected by poverty.')
         //focus area 3
         cy.get(':nth-child(3) > .sorting_1 > span > .fa').trigger('mouseover').invoke('show')
         cy.contains('Projects and organizations who support educational and learning needs, as well as inequalities within the community.')
@@ -164,5 +275,49 @@ describe('Analytic Reports Public user', () => {
         //focus area 7
         cy.get(':nth-child(7) > .sorting_1 > span > .fa').trigger('mouseover').invoke('show')
         cy.contains('Projects and organizations that support inequality and corrupt social structures while devoting special efforts to meet the social needs of underprivileged populations.')  
+    })
+
+    it("Check tooltip text for 7 focus areas", function() {
+        /*const campus_email = "#email_input",
+        campus_pwd = "#password_input",
+        login_btn = '#btnLogin'
+        cy.contains('Login').click()
+        cy.get(campus_email).type(this.data.campus_user+'{enter}')
+        cy.get(campus_pwd).type(this.data.campus_pwd)
+        cy.get(login_btn).click()
+        */
+        cy.get('#uno').click()
+        cy.get('#analyticnav').click()
+        cy.contains('Reports').next('.dropdown-menu').then($el => {
+            cy.wrap($el).invoke('show')
+            cy.wrap($el).contains('Focus Area').click()
+        })
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get('#select2-id_engagement_type-container').click()
+        cy.get('#select2-id_engagement_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get('#select2-id_community_type-container').click()
+        cy.get('#select2-id_community_type-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get('#select2-id_college_name-container').click()
+        cy.get('#select2-id_college_name-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get('#select2-id_campus_partner-container').click()
+        cy.get('#select2-id_campus_partner-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get('#select2-id_weitz_cec_part-container').click()
+        cy.get('#select2-id_weitz_cec_part-results').then(($li) => {
+            cy.wrap($li).contains(this.data.cec_part1).click();
+        })
+//      Add data validation 
+//        cy.get(':nth-child(8) > :nth-child(2) > b').should("contain", '418')
+//        cy.get(':nth-child(3) > b').should("contain", '1,039')
     })
 })

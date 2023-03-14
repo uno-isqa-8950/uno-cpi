@@ -1,5 +1,5 @@
 {
-    "baseUrl": "https://uno-cpi-dev.herokuapp.com/",
+    "baseUrl":"https://uno-cpi-dev.herokuapp.com/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",
@@ -59,6 +59,15 @@
     "All_Academic_Years" : "All Academic Years",
     "All_Legislative_Districts" : "All Legislative Districts",
     "All_City_Council_Districts" : "All City Council Districts",
+    "_comment12":"Campus Partner creation details",
+    "campus_partner_test1":"Capstone SPR2023 batch",
+    "campus_contact_firstname":"test",
+    "campus_contact_lastname":"campusContact",
+    "campus_contact_email":"campusContact@gmail.edu",
+    "campus_contact_email2":"campusContact@gmail.com",
+    "_comment13":"Create_project",
+    "project_name1":"Capstone Sprint2Data1",
+    "project_name2":"Capstone Sprint2Data2"
     "campus_partner_user": "unotest.campus@gmail.com",
     "campus_partner_pwd": "superman01",
     "project_name1": "unotesting",

@@ -1,0 +1,10 @@
+{
+    "campusUser":{ 
+        "username":"unotest.campus@gmail.com",
+        "password":"superman01"
+     },
+    "adminUser": {
+        "username":"unotest.super@gmail.com",
+        "password":"superman01"
+  }
+}

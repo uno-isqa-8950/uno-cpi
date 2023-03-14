@@ -128,3 +128,4 @@ cypress/downloads
 
 #migrations folder
 migrations/
+package.json

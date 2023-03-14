@@ -58,7 +58,7 @@
     "All_Campus_Partners" : "All Campus Partners",
     "All_Academic_Years" : "All Academic Years",
     "All_Legislative_Districts" : "All Legislative Districts",
-    "All_City_Council_Districts" : "All City Council Districts",
+   "All_City_Council_Districts" : "All City Council Districts",
     "_comment12":"Campus Partner creation details",
     "campus_partner_test1":"Capstone SPR2023 batch",
     "campus_contact_firstname":"test",
@@ -86,3 +86,4 @@
     "campuspartner2_emailID" : "aanderson@unomaha.edu",
     "campuspartner_gmail" : "abcd@gmail.com"
 }
+

@@ -22,7 +22,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should ("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner4)
+    cy.get(campus_partnerName).type(this.data.campus_partner7)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li)=> {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -42,9 +42,9 @@ describe ('Register campus partner', () => {
     cy.visit(this.data.CEPI_site+'admin/')
     cy.get('.model-campuspartner > th').click()
     cy.visit(this.data.CEPI_site+'admin/partners/campuspartner/')
-    cy.get('#searchbar').click().type(this.data.campus_partner4)
+    cy.get('#searchbar').click().type(this.data.campus_partner7)
     cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('.field-name > a').contains(this.data.campus_partner4)
+    cy.get('.field-name > a').contains(this.data.campus_partner7)
   })
 
   //check cancel in campus partner details.
@@ -52,7 +52,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -66,7 +66,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5,{force:true})
+    cy.get(campus_partnerName).type(this.data.campus_partner8,{force:true})
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click()
@@ -85,7 +85,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click()
@@ -106,7 +106,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click()
@@ -119,7 +119,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should ("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li)=> {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -140,7 +140,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -159,7 +159,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -181,7 +181,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -200,7 +200,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -216,7 +216,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -233,7 +233,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li) => {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -251,7 +251,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should ("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li)=> {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -269,7 +269,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner5)
+    cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
     cy.on('window:alert', (txt) => {
       expect(txt).to.contains('A Campus Partner with this name already exists');
@@ -280,7 +280,7 @@ describe ('Register campus partner', () => {
     cy.get('#partners').should("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     const campus_partnerName = 'input[id="id_name"]'
-    cy.get(campus_partnerName).type(this.data.campus_partner7)
+    cy.get(campus_partnerName).type(this.data.campus_partner9)
     cy.get('#select2-id_college_name-container').click()
     cy.get('#select2-id_college_name-results').then(($li)=> {
       cy.wrap($li).contains(this.data.college_name1).click();
@@ -306,23 +306,23 @@ describe ('Register campus partner', () => {
     cy.visit(this.data.CEPI_site+'admin/')
     cy.get('.model-campuspartner > th').click()
     cy.visit(this.data.CEPI_site+'admin/partners/campuspartner/')
-    cy.get('#searchbar').click().type(this.data.campus_partner4)
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('.field-name > a').contains(this.data.campus_partner4).click()
-    cy.get('.deletelink-box > a').click()
-    cy.get('input[type=submit]').click()
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('#searchbar').clear()
-    cy.get('#searchbar').click().type(this.data.campus_partner5)
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('.field-name > a').contains(this.data.campus_partner5).click()
-    cy.get('.deletelink-box > a').click()
-    cy.get('input[type=submit]').click()
-    cy.get('#changelist-search > div > [type="submit"]').click()
-    cy.get('#searchbar').clear()
     cy.get('#searchbar').click().type(this.data.campus_partner7)
     cy.get('#changelist-search > div > [type="submit"]').click()
     cy.get('.field-name > a').contains(this.data.campus_partner7).click()
+    cy.get('.deletelink-box > a').click()
+    cy.get('input[type=submit]').click()
+    cy.get('#changelist-search > div > [type="submit"]').click()
+    cy.get('#searchbar').clear()
+    cy.get('#searchbar').click().type(this.data.campus_partner8)
+    cy.get('#changelist-search > div > [type="submit"]').click()
+    cy.get('.field-name > a').contains(this.data.campus_partner8).click()
+    cy.get('.deletelink-box > a').click()
+    cy.get('input[type=submit]').click()
+    cy.get('#changelist-search > div > [type="submit"]').click()
+    cy.get('#searchbar').clear()
+    cy.get('#searchbar').click().type(this.data.campus_partner9)
+    cy.get('#changelist-search > div > [type="submit"]').click()
+    cy.get('.field-name > a').contains(this.data.campus_partner9).click()
     cy.get('.deletelink-box > a').click()
     cy.get('input[type=submit]').click()
     cy.get('#changelist-search > div > [type="submit"]').click()

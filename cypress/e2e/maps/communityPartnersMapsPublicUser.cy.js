@@ -11,7 +11,7 @@ beforeEach(() => {
 describe('community partners maps test', () => {
   beforeEach(function() {
     cy.fixture("datareports").then(function(data) {
-    this.data = data
+      this.data = data
     })
   })
   // This test is expected to pass visiting community partners under maps as a public user.
@@ -55,8 +55,8 @@ describe('community partners maps test', () => {
       cy.wrap($canvas)
         .scrollIntoView()
       // click on a marker to check marker is not disabled
-        cy.get('[style="z-index: 3; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; touch-action: pan-x pan-y;"]').click().wait(3000)
-          .should('not.be.disabled')
+      cy.get('[style="z-index: 3; position: absolute; height: 100%; width: 100%; padding: 0px; border-width: 0px; margin: 0px; left: 0px; top: 0px; touch-action: pan-x pan-y;"]').click().wait(3000)
+        .should('not.be.disabled')
     });
   })
  
@@ -100,6 +100,38 @@ describe('community partners maps test', () => {
       .get(footerId).should('exist')
   })
 
+  it('Mission area filters links are clickable', function(){
+    const communityPartnersHref = `a[href="/community-Partner"]`,
+      filtersButton = '#sidebarCollapse',
+      footerId = '#footer',
+      mapsDivId = '#map_canvas',
+      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+      allFocusAreasFilterLink = `a[id="All Focus Areas"]`,
+      artsCultureHumanitiesLink = `a[id="Arts, Culture and Humanities"]`,
+      economicImpactLink = `a[id="Economic Impact"]`,
+      educationalSupportLink = `a[id="Educational Support"]`,
+      environmentalStewardshipLink = `a[id="Environmental Stewardship"]`,
+      healthAndWellnessLink = `a[id="Health and Wellness"]`,
+      internationalServiceLink = `a[id="International Service"]`,
+      socialJusticeLink = `a[id="Social Justice"]`  
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnersHref).click()
+      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+    // filter button clicking and asserting to check the button is not disabled
+      .get(filtersButton).click().should('not.be.disabled')
+    // Testing filters links function
+      .get(allFocusAreasFilterLink).click()
+      .get(artsCultureHumanitiesLink).click()
+      .get(economicImpactLink).click()
+      .get(educationalSupportLink).click()
+      .get(environmentalStewardshipLink).click()
+      .get(healthAndWellnessLink).click()
+      .get(internationalServiceLink).click()
+      .get(socialJusticeLink).click()
+      .get(mapsDivId).should('exist')
+      .get(footerId).should('exist')
+  })
+
   it('Test search and reset are not disabled for community partner under filters', () => {
     const communityPartnersHref = `a[href="/community-Partner"]`,
       filtersButton = '#sidebarCollapse',
@@ -119,5 +151,58 @@ describe('community partners maps test', () => {
       .get(mapsDivId).should('exist')
       .get(footerId).should('exist')
   })
-  });
-  
+
+  it('should interact with the map by zoom in and zoom', () => {
+    const communityPartnersHref = `a[href="/community-Partner"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnersHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('[tabindex="0"] > img').rightclick(); cy.wait(1000) //has context menu
+      .get('.gm-style button[title="Zoom in"]').click() // Click the zoom in button
+      .get('.gm-style button[title="Zoom out"]').click() // Click the zoom out button
+  })
+
+  it('Card should be displayed when right clicked on a map marker', () => {
+    const communityPartnersHref = `a[href="/community-Partner"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnersHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('[tabindex="0"] > img').rightclick()
+      .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
+      .get('span').contains('span', 'Projects:').should('be.visible')
+      .get('td').contains('td', 'Academic Year').should('be.visible')
+      .get('td').contains('td', 'Name').should('be.visible') // Asserting on table field name
+      .get('td').contains('td', 'Engagement Type').should('be.visible')
+  })
+
+  it('Card should be displayed when clicked on a map marker', () => {
+    const communityPartnersHref = `a[href="/community-Partner"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnersHref).click()
+      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
+      .get('span').contains('span', 'Total Number of Projects:').should('be.visible')
+      .get('span').contains('span', 'City:').should('be.visible')
+      .get('span').contains('span', 'Focus Areas:').should('be.visible')
+      .get('span').contains('span', 'Community Partner Type:').should('be.visible')
+      .get('span').contains('span', 'Campus Partner:').should('be.visible')
+      .get('span').contains('span', 'Academic Year: ').should('be.visible')
+      .get('span').contains('span', 'Website Link:').should('be.visible')
+  })
+
+  it('All map markers should be visible on the map canvas', () => {
+    const communityPartnersHref = `a[href="/community-Partner"]`,
+      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+      markerImages = `img[src="https://maps.gstatic.com/mapfiles/transparent.png"]`
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnersHref).click()
+      .get('#map_canvas').should('exist')
+      .get(markerImages).should('be.visible')
+  })
+});

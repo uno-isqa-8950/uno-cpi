@@ -13,14 +13,15 @@ beforeEach(() => {
         return false;
       }
     })
-    cy.visit(Cypress.env('baseUrl')).get('#login').click()
-      .loginCampusUser(user);  // Campus User is logged before the test begins
+    cy.visit(Cypress.env('baseUrl'))
   })
   
-  describe('community partners maps test', () => {
+  describe('my projects test', () => {
     beforeEach(function() {
       cy.fixture("datareports").then(function(data) {
         this.data = data
+      cy.get('#login').click()
+        .loginCampusUser(user)
       })
     })
 

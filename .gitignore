@@ -128,4 +128,5 @@ cypress/downloads
 
 #migrations folder
 migrations/
+package-lock.json
 

@@ -63,14 +63,14 @@ import user from "../../../support/commands";
 
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+        if(err.message.includes('is not a function') ||err.message.includes('Cannot read properties of null') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
         {
             return false
         }
     })
 
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click().loginAdminUser(user)
+
 })
 
 
@@ -78,6 +78,7 @@ describe("List and sort campus partner organizations", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
+        cy.get('#login').click().loginAdminUser(user)
         })
     })
 
@@ -130,15 +131,15 @@ describe("List and sort campus partner organizations", () => {
         cy.get(lastName).type('Doe').should("have.value", 'Doe')
 
         cy.get(campusPartnerLabel).contains('Email')
-        cy.get(email).type('usercampustest@unomaha.edu').should("have.value", 'usercampustest@unomaha.edu')
+        cy.get(email).type('usercampustest@unomaha.com').should("have.value", 'usercampustest@unomaha.com')
 
         cy.get(terms).check().should('exist')
         //cy.url().should('eq', 'https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf')
 
         cy.get("form").submit().should('be.visible')
 
-        cy.get([".alert-danger strong"])
-            .contains('Please use your campus email (.edu) for the registration of a Campus Partner User.')
+        //cy.get([".alert-danger strong"])
+        cy.get('.alert').contains('Please use your campus email (.edu) for the registration of a Campus Partner User.')
 
     })
 

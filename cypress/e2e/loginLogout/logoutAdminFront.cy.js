@@ -8,7 +8,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
   })
   
-  describe('community partners maps test', () => {
+  describe('login admin front test', () => {
     beforeEach(function() {
       cy.fixture("users").then(function(data) {
         this.data = data

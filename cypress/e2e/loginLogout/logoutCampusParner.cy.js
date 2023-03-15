@@ -9,7 +9,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
   })
   
-  describe('community partners maps test', () => {
+  describe('logout campus partner test', () => {
     beforeEach(function() {
       cy.fixture("users").then(function(data) {
         this.data = data

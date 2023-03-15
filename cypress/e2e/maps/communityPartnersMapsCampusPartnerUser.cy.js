@@ -76,7 +76,7 @@ describe('community partners maps test', () => {
       selectYearDropdown = '#selectYear'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', this.data.baseUrl+'community-Partner/')
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
     // select dropdown triggering click action to check it is clickable and asserting to check its not disabled

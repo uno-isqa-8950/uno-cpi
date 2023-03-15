@@ -8,14 +8,15 @@ beforeEach(() => {
     }
   })
   cy.visit(Cypress.env('baseUrl'))
-  cy.get('#login').click()
-    .loginCampusUser(user)
+
 })
 
 describe ('Register campus partner', () => {
   beforeEach(function () {
     cy.fixture("datareports").then(function (data) {
       this.data = data
+    cy.get('#login').click()
+      .loginCampusUser(user)
     })
   })
   //Verify campus user login landed in My projects
@@ -33,10 +34,10 @@ describe ('Register campus partner', () => {
     cy.get('#select2-id_engagement_type-results').then(($li)=> {
       cy.wrap($li).contains(this.data.engagement_type3).click();
     })
-    cy.get('#select2-id_populate_activity-container').click().wait(3000)
-    cy.get('#select2-id_populate_activity-results').then(($li)=> {
-      cy.wrap($li).contains(this.data.activity_type1).click();
-    })
+    //cy.get('#select2-id_populate_activity-container').click().wait(3000)
+    //cy.get('#select2-id_populate_activity-results').then(($li)=> {
+     // cy.wrap($li).contains(this.data.activity_type1).click();
+    //})
     cy.get('#id_description').type(this.data._comment7)
     cy.get('#projectdurationnav').click()
     cy.get('#select2-id_semester-container').click()

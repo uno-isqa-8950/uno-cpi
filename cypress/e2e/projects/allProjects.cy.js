@@ -8,14 +8,15 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click()
-      .loginCampusUser(user)  // Campus User is logged in before the test begins
+
   })
   
-  describe('community partners maps test', () => {
+  describe('all projects test', () => {
     beforeEach(function() {
       cy.fixture("datareports").then(function(data) {
         this.data = data
+    cy.get('#login').click()
+      .loginCampusUser(user)  // Campus User is logged in before the test begins
       })
     })
      

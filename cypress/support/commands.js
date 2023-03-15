@@ -42,6 +42,7 @@ Cypress.Commands.add("checkProjectName", () => {
     cy.wrap($li).contains(data.campus_partner3).click();
   })
 });
+
 Cypress.Commands.add("projectInformation", () => {
   cy.get('#select2-id_engagement_type-container').click()
   cy.get('#select2-id_engagement_type-results').then(($li)=> {
@@ -58,9 +59,11 @@ Cypress.Commands.add("projectInformation", () => {
     cy.wrap($li).contains(data.academic_year1).click();
   })
 });
+
 Cypress.Commands.add("partnersInformation", () => {
   cy.get('#campuspartnerinfonav').click()
   cy.get('#id_campus-0-campus_partner').select(data.campus_partner3)
   cy.get('.add-campus-row').click()
   cy.get('.sw-btn-next').click()
 });
+

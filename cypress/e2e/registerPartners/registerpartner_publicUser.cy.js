@@ -300,6 +300,9 @@ describe ('Register campus partner', () => {
       expect(txt).to.contains('Duplicate contacts cannot be added');
     })
   })
+
+  // Data clean up script
+  
   it ('data cleanup', function() {
     cy.get('#login').click()
       .loginAdminUser(user)

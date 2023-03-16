@@ -11,7 +11,7 @@ beforeEach(() => {
 
 })
 
-describe ('Register campus partner', () => {
+describe ('Create projects for campus partner user', () => {
   beforeEach(function () {
     cy.fixture("datareports").then(function (data) {
       this.data = data
@@ -334,6 +334,9 @@ describe ('Register campus partner', () => {
     })
     cy.get('.heading').should('contain.text', 'Campus Partner Registration')
   })
+
+  // Data cleanup script 
+
   it ('data cleanup', function() {
     cy.url().should('be.equal', this.data.CEPI_site+'myProjects/')
     cy.get('#uno').click()

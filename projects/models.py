@@ -23,14 +23,18 @@ class Project(models.Model):
                                       related_name="academic_year1")
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True,
                                           related_name="academic_year2")
-    total_uno_students = models.PositiveIntegerField(null=True, default=0)
-    total_uno_hours = models.PositiveIntegerField(null=True, default=0)
+    total_uno_students = models.PositiveIntegerField(null=True,blank=True)
+    total_uno_hours = models.PositiveIntegerField(null=True,blank=True)
     k12_flag = models.BooleanField(default=False)
     address_update_flag = models.BooleanField(default=False)
     total_k12_students = models.PositiveIntegerField(null=True, default=0)
     total_k12_hours = models.PositiveIntegerField(null=True, default=0)
     total_uno_faculty = models.PositiveIntegerField(null=True, default=0)
-    total_other_community_members = models.PositiveIntegerField(null=True, default=0)
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
+    total_k12_students = models.PositiveIntegerField(null=True, blank=True)
+    total_k12_hours = models.PositiveIntegerField(null=True, blank=True)
+    total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)
@@ -68,8 +72,8 @@ class Project(models.Model):
     history = HistoricalRecords()
 
     def get_name(self):
-        # return self.project_name.split("(")[0]
-        return self.project_name
+        return self.project_name.split("(")[0]
+#         return self.project_name
 
     def created(self):
         self.created_date = timezone.now()

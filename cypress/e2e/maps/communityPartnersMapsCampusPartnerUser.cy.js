@@ -5,27 +5,29 @@ beforeEach(() => {
       return false
     }
   })
-  cy.visit(Cypress.env('baseUrl'))
+  cy.visit(Cypress.env('baseUrl')) 
 })
 
 describe('community partners maps test', () => {
   beforeEach(function() {
     cy.fixture("datareports").then(function(data) {
-      this.data = data
+      this.data = data 
     })
   })
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
-  it('Community partners page visit ', () => {
+  it('Community partners page visit with campus partner login ', () => {
     const communityPartnersHref = `a[href="/community-Partner"]`,
       filtersButton = '#sidebarCollapse',
       footerId = '#footer',
       mapsDivId = '#map_canvas',
       mapsLink = `a[class="nav-link dropdown-toggle"]`,
       noOfCommPartID ='#totalnumber'
+    cy.get('#login').click()
+    cy.loginCampusUser()
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')            
     // Asserting to check the page title
       .get('div').contains('label', 'Community Partners Map')
     // Checking the number of community partners value is visible
@@ -74,7 +76,7 @@ describe('community partners maps test', () => {
       selectYearDropdown = '#selectYear'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
     // select dropdown triggering click action to check it is clickable and asserting to check its not disabled

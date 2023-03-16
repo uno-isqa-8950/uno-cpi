@@ -23,21 +23,18 @@ class Project(models.Model):
                                       related_name="academic_year1")
     end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True,
                                           related_name="academic_year2")
-    total_uno_students = models.PositiveIntegerField(null=True)
-    total_uno_hours = models.PositiveIntegerField(null=True)
+    total_uno_students = models.PositiveIntegerField(null=True,blank=True)
+    total_uno_hours = models.PositiveIntegerField(null=True,blank=True)
     k12_flag = models.BooleanField(default=False)
     address_update_flag = models.BooleanField(default=False)
-<<<<<<< Updated upstream
     total_k12_students = models.PositiveIntegerField(null=True, default=0)
     total_k12_hours = models.PositiveIntegerField(null=True, default=0)
     total_uno_faculty = models.PositiveIntegerField(null=True, default=0)
-    total_other_community_members = models.PositiveIntegerField(null=True, default=0)
-=======
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
     total_k12_students = models.PositiveIntegerField(null=True, blank=True)
     total_k12_hours = models.PositiveIntegerField(null=True, blank=True)
     total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)
     total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
->>>>>>> Stashed changes
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)

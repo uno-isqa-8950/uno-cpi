@@ -163,11 +163,11 @@ def saveFocusArea(request):
 
     if test is not None:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_updateprimarymission(),
-                       (str(selectedfocusarea), str(projectid), str(projectid),))
+        cursor.execute(sqlfiles.editproj_updateprimarymission(), (int(selectedfocusarea), int(projectid), int(projectid),))
+
     else:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_addprimarymission(), (str(selectedfocusarea), str(projectid),))
+        cursor.execute(sqlfiles.editproj_addprimarymission(), (int(selectedfocusarea), int(projectid),))
 
     data = {'projectid': projectid}
     return JsonResponse(data)
@@ -386,6 +386,7 @@ def createProject(request):
                    'formset2': formset2, 'categoryformset': categoryformset})
 
 
+
 @login_required()
 def editProject(request, pk):
     project_mission = ProjectMissionEditFormset()
@@ -415,6 +416,8 @@ def editProject(request, pk):
                                                       prefix='sub_category_edit')
 
             if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
+                print("valid")
+                print()
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(
                     instances.academic_year) + " (" + pk + ")"

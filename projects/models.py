@@ -27,10 +27,17 @@ class Project(models.Model):
     total_uno_hours = models.PositiveIntegerField(null=True)
     k12_flag = models.BooleanField(default=False)
     address_update_flag = models.BooleanField(default=False)
+<<<<<<< Updated upstream
     total_k12_students = models.PositiveIntegerField(null=True, default=0)
     total_k12_hours = models.PositiveIntegerField(null=True, default=0)
     total_uno_faculty = models.PositiveIntegerField(null=True, default=0)
     total_other_community_members = models.PositiveIntegerField(null=True, default=0)
+=======
+    total_k12_students = models.PositiveIntegerField(null=True, blank=True)
+    total_k12_hours = models.PositiveIntegerField(null=True, blank=True)
+    total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
+>>>>>>> Stashed changes
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)

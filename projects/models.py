@@ -72,8 +72,8 @@ class Project(models.Model):
     history = HistoricalRecords()
 
     def get_name(self):
-        # return self.project_name.split("(")[0]
-        return self.project_name
+        return self.project_name.split("(")[0]
+#         return self.project_name
 
     def created(self):
         self.created_date = timezone.now()

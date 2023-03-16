@@ -34,8 +34,8 @@ describe("List household income", () => {
         form = 'form',
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
-        searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        deleteHouseholdButton = 'div > [type="submit"]',
+        deleteHouseholdIncome = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -129,5 +129,26 @@ describe("List household income", () => {
             cy.get(form).submit().should('be.visible')
         })
     })
+
+    it('Data cleanup', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(householdIncomeColumn).contains('Household incomes').click()
+            cy.get(changeHouseholdIncome).click()
+        })
+
+        cy.get(deleteHouseholdIncome).click()
+        cy.get(deleteHouseholdButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(changeHouseholdIncome).click()
+        })
+
+        cy.get(deleteHouseholdIncome).click()
+        cy.get(deleteHouseholdButton).click()
+    })
+
 
 })

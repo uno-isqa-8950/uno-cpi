@@ -32,7 +32,9 @@ describe("List resources", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteResourceButton = 'div > [type="submit"]',
+        deleteResource = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -127,9 +129,27 @@ describe("List resources", () => {
                 .should('be.empty').and('be.visible')
 
             cy.get(form).submit().should('be.visible')
-
-
         })
+    })
+
+    it('Data cleanup', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(resourceColumn).contains('Resources').click()
+            cy.get(changeResource).click()
+        })
+
+        cy.get(deleteResource).click()
+        cy.get(deleteResourceButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(changeResource).click()
+        })
+
+        cy.get(deleteResource).click()
+        cy.get(deleteResourceButton).click()
     })
 
 

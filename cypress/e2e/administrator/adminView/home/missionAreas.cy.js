@@ -33,8 +33,9 @@ describe("List mission areas", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
-
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteMissionButton = 'div > [type="submit"]',
+        deleteMissionArea = '.deletelink'
 
     it('Can navigate to admin view', () => {
         cy.get(administratorLink).contains('Administrator').click()
@@ -132,10 +133,26 @@ describe("List mission areas", () => {
                 .should('be.empty').and('be.visible')
 
             cy.get(form).submit().should('be.visible')
-
-
         })
     })
 
+    it('Data cleanup', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
 
+        cy.get(adminTable).within(() => {
+            cy.get(missionAreaColumn).contains('Mission areas').click()
+            cy.get(changeMissionArea).click()
+        })
+
+        cy.get(deleteMissionArea).click()
+        cy.get(deleteMissionButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(changeMissionArea).click()
+        })
+
+        cy.get(deleteMissionArea).click()
+        cy.get(deleteMissionButton).click()
+    })
 })

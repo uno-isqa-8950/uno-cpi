@@ -33,7 +33,9 @@ describe("List data definitions", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteDataButton = 'div > [type="submit"]',
+        deleteDataDefinition = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -127,9 +129,34 @@ describe("List data definitions", () => {
             cy.get(group).should('be.visible')
                 .select(this.data.data_definition_group2, {force: true})
             cy.get(form).submit().should('be.visible')
-
-
         })
+    })
+
+    it('Data cleanup', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(dataDefinitionColumn).contains('Data definitions').click()
+            cy.get(changeDataDefinition).click()
+        })
+
+        cy.get(deleteDataDefinition).click()
+        cy.get(deleteDataButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(changeDataDefinition).click()
+        })
+
+        cy.get(deleteDataDefinition).click()
+        cy.get(deleteDataButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(changeDataDefinition).click()
+        })
+
+        cy.get(deleteDataDefinition).click()
+        cy.get(deleteDataButton).click()
     })
 
 

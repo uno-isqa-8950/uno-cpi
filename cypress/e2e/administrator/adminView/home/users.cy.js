@@ -36,7 +36,9 @@ describe("List users", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteUserButton = 'div > [type="submit"]',
+        deleteUser = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -143,9 +145,33 @@ describe("List users", () => {
             cy.get(loginTime).type(this.data.user_time2)
                 .should('be.empty').and('be.visible')
             cy.get(form).submit().should('be.visible')
-
-
         })
+    })
+
+    it('Data cleanup', function() {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(userColumn).contains('Users').click()
+            cy.get(searhbar).type(this.data.user_email1)
+            cy.get(searh_button).click().should('be.visible')
+            cy.get(changeUser).click()
+        })
+
+        cy.get(deleteUser).click()
+        cy.get(deleteUserButton).click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(searhbar).clear()
+            cy.get(searhbar).type(this.data.user_email2)
+            cy.get(searh_button).click().should('be.visible')
+            cy.get(changeUser).click()
+        })
+
+        cy.get(deleteUser).click()
+        cy.get(deleteUserButton).click()
+        cy.get(searhbar).clear()
     })
 
 

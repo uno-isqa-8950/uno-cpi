@@ -30,7 +30,9 @@ describe("List data definition groups", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteGroupButton = 'div > [type="submit"]',
+        deleteDataGroup = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -119,14 +121,26 @@ describe("List data definition groups", () => {
                 .should('be.empty').and('be.visible')
 
             cy.get(form).submit().should('be.visible')
-
-
         })
     })
 
+    it('Data cleanup', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
 
+        cy.get(adminTable).within(() => {
+            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
+            cy.get(changeDataDefinitionGroup).click()
+        })
 
+        cy.get(deleteDataGroup).click()
+        cy.get(deleteGroupButton).click()
 
+        cy.get(adminTable).within(() => {
+            cy.get(changeDataDefinitionGroup).click()
+        })
 
-
+        cy.get(deleteDataGroup).click()
+        cy.get(deleteGroupButton).click()
+    })
 })

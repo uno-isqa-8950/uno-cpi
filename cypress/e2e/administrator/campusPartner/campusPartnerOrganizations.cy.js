@@ -46,7 +46,11 @@ describe("List and sort campus partner organizations", () => {
         partner_status = 'select[name="partner_status"]',
         form = 'form',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        changeOrganization = ':nth-child(1) > .field-name > a',
+        deleteOrganizationButton = 'div > [type="submit"]',
+        deleteOrganization = '.deletelink'
+
 
     const tableHeader = [
         'Organization Name',
@@ -151,5 +155,20 @@ describe("List and sort campus partner organizations", () => {
             cy.get(searhbar).type(this.data.organization_name)
             cy.get(searh_button).click().should('be.visible')
         })
+    })
+
+    it('Data cleanup', function() {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(communityPartnerColumn).contains('Community partners').click()
+            cy.get(searhbar).type(this.data.organization_name)
+            cy.get(searh_button).click().should('be.visible')
+            cy.get(changeOrganization).click()
+        })
+
+        cy.get(deleteOrganization).click()
+        cy.get(deleteOrganizationButton).click()
     })
 })

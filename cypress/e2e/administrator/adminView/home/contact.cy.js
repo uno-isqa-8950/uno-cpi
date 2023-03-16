@@ -37,7 +37,9 @@ describe("List contacts", () => {
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
-        searh_button = '#changelist-search > div > [type="submit"]'
+        searh_button = '#changelist-search > div > [type="submit"]',
+        deleteContactButton = 'div > [type="submit"]',
+        deleteAdminContact = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -175,24 +177,26 @@ describe("List contacts", () => {
             cy.get(deleteAdminContact).click()
             cy.get(noDelete).click().should('be.visible')
         })
-    })
+    })*/
 
-    it('Can delete a contact', () => {
+    it('Data cleanup', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
             cy.get(contactColumn).contains('Contacts').click()
             cy.get(changeAdminContact).click()
-
-            cy.get(deleteAdminContact).click()
-
-            cy.get(deleteContactButton).click().should('be.visible')
         })
-    })*/
 
+        cy.get(deleteAdminContact).click()
+        cy.get(deleteContactButton).click()
 
+        cy.get(adminTable).within(() => {
+            cy.get(changeAdminContact).click()
+        })
 
-
+        cy.get(deleteAdminContact).click()
+        cy.get(deleteContactButton).click()
+    })
 
 })

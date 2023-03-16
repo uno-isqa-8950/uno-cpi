@@ -135,7 +135,7 @@ describe('Analytic Reports Public user', () => {
         })
         cy.get(':nth-child(1) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Projects Report')
-        cy.url().should('contain', 'https://uno-cpi-dev.herokuapp.com/projectspublicreport/')
+        cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
     })
     it("Check tooltip text for 7 focus areas", function() {
         cy.get('#analyticnav').click()

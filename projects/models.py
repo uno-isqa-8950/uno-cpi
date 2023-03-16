@@ -3,35 +3,43 @@ from django.db import models
 from simple_history.models import HistoricalRecords
 from crum import get_current_user
 from django.contrib.postgres.fields import ArrayField
-from UnoCPI import  settings
+from UnoCPI import settings
 
-class Project (models.Model):
+
+class Project(models.Model):
+    objects = None
     project_choices = (
         ('Event', 'Event'),
         ('Project', 'Project'),
     )
     project_name = models.CharField(max_length=255, unique=True)
-    engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True,blank=True)
+    engagement_type = models.ForeignKey('EngagementType', on_delete=models.CASCADE, null=True, blank=True)
     activity_type = models.ForeignKey('ActivityType', on_delete=models.CASCADE, null=True, blank=True)
     facilitator = models.CharField(max_length=255, blank=True)
-    description = models.TextField(blank=True,  null=True)
+    description = models.TextField(blank=True, null=True)
     semester = models.CharField(max_length=20, null=True, blank=True)
     end_semester = models.CharField(max_length=20, null=True, blank=True)
-    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE,  null=True, blank=True, related_name = "academic_year1")
-    end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True, related_name="academic_year2")
-    total_uno_students = models.PositiveIntegerField(null=True, default= 0)
-    total_uno_hours = models.PositiveIntegerField(null=True, default= 0)
+    academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True,
+                                      related_name="academic_year1")
+    end_academic_year = models.ForeignKey('AcademicYear', on_delete=models.CASCADE, null=True, blank=True,
+                                          related_name="academic_year2")
+    total_uno_students = models.PositiveIntegerField(null=True,blank=True)
+    total_uno_hours = models.PositiveIntegerField(null=True,blank=True)
     k12_flag = models.BooleanField(default=False)
     address_update_flag = models.BooleanField(default=False)
-    total_k12_students = models.PositiveIntegerField(null=True, default= 0)
-    total_k12_hours = models.PositiveIntegerField(null=True, default= 0)
+    total_k12_students = models.PositiveIntegerField(null=True, default=0)
+    total_k12_hours = models.PositiveIntegerField(null=True, default=0)
+    total_uno_faculty = models.PositiveIntegerField(null=True, default=0)
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
+    total_k12_students = models.PositiveIntegerField(null=True, blank=True)
+    total_k12_hours = models.PositiveIntegerField(null=True, blank=True)
     total_uno_faculty = models.PositiveIntegerField(null=True, default= 0)
-    total_other_community_members = models.PositiveIntegerField(null=True, default= 0)
+    total_other_community_members = models.PositiveIntegerField(null=True, blank=True)
     start_date = models.DateField(null=True, blank=True)
     end_date = models.DateField(null=True, blank=True)
     other_details = models.CharField(max_length=1000, null=True, blank=True)
     outcomes = models.CharField(max_length=100, null=True, blank=True)
-    status = models.ForeignKey('Status', on_delete=models.CASCADE,  null=True, blank=True, default=1)
+    status = models.ForeignKey('Status', on_delete=models.CASCADE, null=True, blank=True, default=1)
     total_economic_impact = models.DecimalField(max_digits=15, decimal_places=4, null=True, blank=True, default=0)
     address_line1 = models.CharField(max_length=1024, blank=True, null=True)
     address_line2 = models.CharField(max_length=1024, blank=True, null=True)
@@ -44,8 +52,10 @@ class Project (models.Model):
     median_household_income = models.IntegerField(null=True, blank=True)
     latitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
     longitude = models.DecimalField(max_digits=10, decimal_places=7, blank=True, null=True)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='Projects_created_by')
-    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name='Projects_updated_by')
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
+                                   related_name='Projects_created_by')
+    updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
+                                   related_name='Projects_updated_by')
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(auto_now_add=True)
     campus_lead_staff = ArrayField(base_field=models.CharField(max_length=100), size=10, blank=True, null=True)
@@ -63,6 +73,7 @@ class Project (models.Model):
 
     def get_name(self):
         return self.project_name.split("(")[0]
+#         return self.project_name
 
     def created(self):
         self.created_date = timezone.now()
@@ -84,6 +95,7 @@ class Project (models.Model):
     def __str__(self):
         return str(self.project_name)
 
+
 class SubCategory(models.Model):
     sub_category = models.CharField(max_length=30, blank=True, null=False)
     sub_category_descr = models.CharField(max_length=250, blank=True, null=True)
@@ -103,8 +115,9 @@ class SubCategory(models.Model):
     def __str__(self):
         return str(self.sub_category)
 
-class MissionSubCategory (models.Model):
-    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE)
+
+class MissionSubCategory(models.Model):
+    sub_category = models.ForeignKey('projects.SubCategory', on_delete=models.CASCADE)
     secondary_mission_area = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
@@ -122,9 +135,9 @@ class MissionSubCategory (models.Model):
         return str(self.sub_category)
 
 
-class ProjectSubCategory (models.Model):
-    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    sub_category = models.ForeignKey('projects.SubCategory',  on_delete=models.CASCADE,blank=True, null=True)
+class ProjectSubCategory(models.Model):
+    project_name = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
+    sub_category = models.ForeignKey('projects.SubCategory', on_delete=models.CASCADE, blank=True, null=True)
     created_date = models.DateTimeField(default=timezone.now)
     updated_date = models.DateTimeField(default=timezone.now)
     history = HistoricalRecords()
@@ -141,8 +154,8 @@ class ProjectSubCategory (models.Model):
         return str(self.project_name)
 
 
-class ProjectRelatedLink (models.Model):
-    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
+class ProjectRelatedLink(models.Model):
+    project_name = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
     link_descr = models.CharField(max_length=250, blank=True, null=False)
     link = models.CharField(max_length=250, blank=True, null=False)
     isAccessible = models.BooleanField(default=True)
@@ -151,23 +164,24 @@ class ProjectRelatedLink (models.Model):
     def _str_(self):
         return str(self.project_name)
 
-class ProjectMission (models.Model):
+
+class ProjectMission(models.Model):
     mission_choices = (
         ('Primary', 'Primary'),
         ('Other', 'Other'),
     )
     project_name = models.ForeignKey(Project, on_delete=models.CASCADE)
     mission_type = models.CharField(max_length=20, choices=mission_choices)
-    mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE,blank=True, null=True)
+    mission = models.ForeignKey('home.MissionArea', on_delete=models.CASCADE, blank=True, null=True)
     history = HistoricalRecords()
 
     def __str__(self):
         return str(self.mission)
 
 
-class ProjectCommunityPartner (models.Model):
-    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,blank=True, null=True)
+class ProjectCommunityPartner(models.Model):
+    project_name = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE, blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True)
     total_people = models.IntegerField(blank=True, null=True)
     wages = models.IntegerField(default=22)
@@ -177,9 +191,9 @@ class ProjectCommunityPartner (models.Model):
         return str(self.project_name)
 
 
-class ProjectCampusPartner (models.Model):
-    project_name = models.ForeignKey('projects.Project',  on_delete=models.CASCADE)
-    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE,blank=True, null=True)
+class ProjectCampusPartner(models.Model):
+    project_name = models.ForeignKey('projects.Project', on_delete=models.CASCADE)
+    campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, blank=True, null=True)
     total_hours = models.IntegerField(blank=True, null=True, default=0)
     total_people = models.IntegerField(blank=True, null=True, default=0)
     wages = models.IntegerField(blank=True, null=True)
@@ -187,6 +201,7 @@ class ProjectCampusPartner (models.Model):
 
     def __str__(self):
         return str(self.project_name)
+
 
 # Models below are Project lookup tables, must have values to insert project data
 
@@ -228,13 +243,13 @@ class EngagementActivityType(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-         return str(self.ActivityTypeName)
+        return str(self.ActivityTypeName)
 
 
 class ProjectEngagementActivity(models.Model):
-    ProjectName = models.ForeignKey('Project',  on_delete=models.CASCADE)
+    ProjectName = models.ForeignKey('Project', on_delete=models.CASCADE)
     ProjectEngagementActivityName = models.ForeignKey('EngagementActivityType', on_delete=models.CASCADE)
-    #ProjectEngagementActivityName =  OneToMany(to=EngagementActivityType)
+    # ProjectEngagementActivityName =  OneToMany(to=EngagementActivityType)
     history = HistoricalRecords()
 
     def __str__(self):
@@ -248,4 +263,3 @@ class AcademicYear(models.Model):
 
     def __str__(self):
         return str(self.academic_year)
-

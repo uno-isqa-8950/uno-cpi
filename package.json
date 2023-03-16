@@ -1,5 +1,5 @@
 {
-  "name": "UNOCEPI",
+  "name": "unocepi",
   "version": "1.0.0",
   "description": "UNO CEPI\r #UNO Community Engagement Partnership Initiative",
   "main": "../cypress.config.js",
@@ -15,10 +15,10 @@
   "homepage": "https://github.com/uno-isqa-8950/uno-cpi#readme",
   "dependencies": {
     "babel-eslint": "^10.1.0",
-    "cypress": "^12.5.1",
     "eslint": "^8.35.0"
   },
   "devDependencies": {
+    "cypress": "^12.8.0",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-unused-imports": "^2.0.0"
@@ -27,7 +27,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "cy:open": "cypress open --config-file cypress.config.js",
     "cy:run": " npx cypress run",
-    "lint": "eslint '*.js' '**/**/*.cy.js'",
+    "lint": "eslint \"**/**/*.cy.js\"",
     "lint --fix": "eslint --fix cypress/e2e/"
   }
 }

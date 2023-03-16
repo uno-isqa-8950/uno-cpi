@@ -22,7 +22,7 @@ from utilities import *
 
 sql = sqlfiles
 
-#DO NOT PUT KEY HERE, IT PULLS FROM LOCAL SETTINGS FILE
+# DO NOT PUT KEY HERE, IT PULLS FROM LOCAL SETTINGS FILE
 gmaps = Client(key=settings.GOOGLE_MAPS_API_KEY)
 
 
@@ -38,7 +38,7 @@ def communitypartnerhome(request):
 @login_required()
 def myProjects(request):
     data_definition = DataDefinition.objects.all()
-    return render(request, 'projects/myProjects.html', {'project': Project.objects.filter(created_by=request.user), 'data_definition': data_definition})
+    return render(request, 'projects/myProjects.html', {'project': Project.objects.filter(created_by=request.user).exclude(status__name='Drafts'), 'data_definition': data_definition})
 
 
 def ajax_load_project(request):
@@ -163,11 +163,11 @@ def saveFocusArea(request):
 
     if test is not None:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_updateprimarymission(),
-                       (str(selectedfocusarea), str(projectid), str(projectid),))
+        cursor.execute(sqlfiles.editproj_updateprimarymission(), (int(selectedfocusarea), int(projectid), int(projectid),))
+
     else:
         cursor = connection.cursor()
-        cursor.execute(sqlfiles.editproj_addprimarymission(), (str(selectedfocusarea), str(projectid),))
+        cursor.execute(sqlfiles.editproj_addprimarymission(), (int(selectedfocusarea), int(projectid),))
 
     data = {'projectid': projectid}
     return JsonResponse(data)
@@ -221,6 +221,9 @@ def createProject(request):
             stat = str(proj.status)
             if stat == 'Drafts':
                 proj.save()
+                print(proj)
+                endproject = proj
+
                 mission_form = formset.save(commit=False)
                 # secondary_mission_form = formset4.save(commit=False)
                 sub_cat_form = categoryformset.save(commit=False)
@@ -233,6 +236,7 @@ def createProject(request):
                     cat.project_name = proj
                     cat.save()
                     subcategory = str(cat.sub_category);
+
                 for form in mission_form:
                     form.project_name = proj
                     form.mission_type = 'Primary'
@@ -243,7 +247,31 @@ def createProject(request):
                     c.project_name = proj
                     c.save()
                     proj.save()
-                # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
+
+                try:
+                    endprojectmission = ProjectMission.objects.filter(project_name__id=endproject.id)
+                    print(endprojectmission)
+                    for projmis in endprojectmission:
+                        Project.objects.get(id=endproject.id).mission_area.add(projmis.mission)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectcampus = ProjectCampusPartner.objects.filter(project_name__id=endproject.id)
+                    for projcamp in endprojectcampus:
+                        Project.objects.get(id=endproject.id).campus_partner.add(projcamp.campus_partner)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectcommunity = ProjectCommunityPartner.objects.filter(project_name__id=endproject.id)
+                    for projcom in endprojectcommunity:
+                        Project.objects.get(id=endproject.id).community_partner.add(projcom.community_partner)
+                except Exception as e:
+                    print(e)
+                try:
+                    endprojectsub = ProjectSubCategory.objects.get(project_name__id=endproject.id)
+                    Project.objects.get(id=endproject.id).subcategory.add(endprojectsub.sub_category)
+                except Exception as e:
+                    print(e)
                 return HttpResponseRedirect('/draft-project-done')
             elif stat == 'Active':
                 proj.save()
@@ -334,6 +362,7 @@ def createProject(request):
                    'formset2': formset2, 'categoryformset': categoryformset})
 
 
+
 @login_required()
 def editProject(request, pk):
     project_mission = ProjectMissionEditFormset()
@@ -348,10 +377,6 @@ def editProject(request, pk):
     if request.method == 'POST':
         # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
-        # projectName = request.POST['projectName'].strip()
-        # p = request.POST
-        # focus_area = request.GET['id_mission_area']
-        # print(focus_area)
         for x in proj_edit:
             project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
@@ -363,6 +388,8 @@ def editProject(request, pk):
                                                       prefix='sub_category_edit')
 
             if project.is_valid() and formset_camp_details.is_valid() and formset_comm_details.is_valid() and formset_subcatdetails.is_valid():
+                print("valid")
+                print()
                 instances = project.save()
                 instances.project_name = instances.project_name.split(":")[0] + ": " + str(
                     instances.academic_year) + " (" + pk + ")"
@@ -372,13 +399,6 @@ def editProject(request, pk):
                     compar = formset_comm_details.save()
                     campar = formset_camp_details.save()
                     subcat = formset_subcatdetails.save()
-                    # focus_areas = focusarea['id_mission']
-                    # focus_areas = request.POST.get('id_mission_area',None)
-                    # print(focus_areas)
-
-                    # for k in pm:
-                    #     k.project_name = instances
-                    #     k.save()
                     for p in compar:
                         p.project_name = instances
                         p.save()
@@ -448,11 +468,6 @@ def editProject(request, pk):
         course = CourseForm(instance=x)
         project_mission = ProjectMissionEditFormset()
         project_all_missions = MissionArea.objects.all()
-        # mission_areas = []
-        # for miss in project_all_missions:
-        #     print('missions-----', miss)
-        #     mission_areas.append({"name": miss.mission_name, "id": miss.id})
-        # print(mission_areas)
         try:
             test = ProjectMission.objects.get(project_name_id=pk, mission_type='Primary')
         except ProjectMission.DoesNotExist:
@@ -499,9 +514,17 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 100)  # Show 25 projects per page
+    paginator = Paginator(project_list, 1000000)  # Show 25 projects per page
 
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
+    get_copy = request.GET.copy()
+    parameters = get_copy.pop('page', True) and get_copy.urlencode()
     projects = paginator.get_page(page)
     return render(request, 'projects/allProjects.html',
                   {'project': projects,
@@ -516,6 +539,8 @@ def showAllProjects(request):
                    'cec_part_choices': context['cec_part_choices'],
                    'cec_part_selection': context['cec_part_selection'],
                    'projects': context['projects'],
+                   'cards': cards,
+                   'parameters': parameters,
                    })
 
 
@@ -844,7 +869,6 @@ def communityPublicReport(request):
                    'cec_part_choices': cec_part_choices})
 
 
-
 @login_required()
 def communityPrivateReport(request):
     community_dict = {}
@@ -1054,11 +1078,6 @@ def checkProject(request):
         commpart_filter = communityPartner.replace('All', '')
         camp_filter = campusPartner.replace('All', '')
         acad_filter = academicYear.replace('All', '')
-        #  academic_filter_qs = AcademicYear.objects.get(academic_year=academicYear)
-        #  acad = academic_filter_qs.id
-        #  acad_id = str(acad)
-        # # acad_id = [m.id for m in academic_filter_qs]
-        #  print(acad_id)
 
         cursor = connection.cursor()
 
@@ -1289,7 +1308,9 @@ def project_total_Add(request):
 @login_required()
 def myDrafts(request):
     data_definition = DataDefinition.objects.all()
-    return render(request, 'projects/myDrafts.html', {'project': Project.objects.filter(created_by=request.user, status=Status.objects.get(name='Drafts')), 'data_definition': data_definition})
+    return render(request, 'projects/myDrafts.html',
+                  {'project': Project.objects.filter(created_by=request.user, status=Status.objects.get(name='Drafts')),
+                   'data_definition': data_definition})
 
 
 @login_required()
@@ -1320,11 +1341,11 @@ def adminsubmit_project_done(request):
 
 def filter_projects(request):
     ids = []
-    #if get_tenant(request).__len__() > 1:
-    project_list = Project.objects.all().exclude(status__name='Drafts')
-    #else:
-        #university = get_tenant(request)[0]
-        #project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
+    # if get_tenant(request).__len__() > 1:
+    project_list = Project.objects.all().exclude(status__name='Drafts').order_by('-id')
+    # else:
+    # university = get_tenant(request)[0]
+    # project_list = Project.objects.all().exclude(status__name='Drafts', university=university)
     data_definition = DataDefinition.objects.all()
     project_filter = ProjectFilter(request.GET, queryset=Project.objects.all().exclude(status__name='Drafts'))
     communityPartners = communityPartnerFilter(request.GET, queryset=CommunityPartner.objects.all())
@@ -1385,18 +1406,17 @@ def filter_projects(request):
     elif cec_part_selection == "CURR_CAMP":
         project_list = project_list.filter(campus_partner__cec_partner_status__name='Current')
 
-
     context = {'project': project_list,
-         'data_definition': data_definition,
-         'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
-         'communityPartners': communityPartners,
-         'campus_filter': campus_filter,
-         'college_filter': campusPartners,
-         'campus_id': campus_id,
-         'k12_choices': k12_choices,
-         'k12_selection': k12_selection,
-         'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
-         'cec_part_selection': cec_part_selection,
-         'projects': project_filter}
+               'data_definition': data_definition,
+               'missions': ProjectMissionFilter(request.GET, queryset=MissionArea.objects.all()),
+               'communityPartners': communityPartners,
+               'campus_filter': campus_filter,
+               'college_filter': campusPartners,
+               'campus_id': campus_id,
+               'k12_choices': k12_choices,
+               'k12_selection': k12_selection,
+               'cec_part_choices': CecPartChoiceForm(initial={'cec_choice': cec_part_selection}),
+               'cec_part_selection': cec_part_selection,
+               'projects': project_filter}
 
     return context

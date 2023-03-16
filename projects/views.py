@@ -220,30 +220,6 @@ def createProject(request):
             address = proj.address_line1
             stat = str(proj.status)
             if stat == 'Drafts':
-                # proj.save()
-                # mission_form = formset.save(commit=False)
-                # # secondary_mission_form = formset4.save(commit=False)
-                # sub_cat_form = categoryformset.save(commit=False)
-                # proj_comm_form = formset2.save(commit=False)
-                # proj_campus_form = formset3.save(commit=False)
-                # for k in proj_comm_form:
-                #     k.project_name = proj
-                #     k.save()
-                # for cat in sub_cat_form:
-                #     cat.project_name = proj
-                #     cat.save()
-                #     subcategory = str(cat.sub_category);
-                # for form in mission_form:
-                #     form.project_name = proj
-                #     form.mission_type = 'Primary'
-                #     form.save()
-                # init = 0
-                # t = 0
-                # for c in proj_campus_form:
-                #     c.project_name = proj
-                #     c.save()
-                #     proj.save()
-                # # return render(request, 'projects/draftadd_done.html', {'project': projects_list})
                 proj.save()
                 print(proj)
                 endproject = proj
@@ -401,10 +377,6 @@ def editProject(request, pk):
     if request.method == 'POST':
         # cache.clear()
         proj_edit = Project.objects.filter(id=pk)
-        # projectName = request.POST['projectName'].strip()
-        # p = request.POST
-        # focus_area = request.GET['id_mission_area']
-        # print(focus_area)
         for x in proj_edit:
             project = ProjectFormAdd(request.POST or None, instance=x)
             course = CourseForm(request.POST or None, instance=x)
@@ -427,13 +399,6 @@ def editProject(request, pk):
                     compar = formset_comm_details.save()
                     campar = formset_camp_details.save()
                     subcat = formset_subcatdetails.save()
-                    # focus_areas = focusarea['id_mission']
-                    # focus_areas = request.POST.get('id_mission_area',None)
-                    # print(focus_areas)
-
-                    # for k in pm:
-                    #     k.project_name = instances
-                    #     k.save()
                     for p in compar:
                         p.project_name = instances
                         p.save()
@@ -503,11 +468,6 @@ def editProject(request, pk):
         course = CourseForm(instance=x)
         project_mission = ProjectMissionEditFormset()
         project_all_missions = MissionArea.objects.all()
-        # mission_areas = []
-        # for miss in project_all_missions:
-        #     print('missions-----', miss)
-        #     mission_areas.append({"name": miss.mission_name, "id": miss.id})
-        # print(mission_areas)
         try:
             test = ProjectMission.objects.get(project_name_id=pk, mission_type='Primary')
         except ProjectMission.DoesNotExist:
@@ -1118,11 +1078,6 @@ def checkProject(request):
         commpart_filter = communityPartner.replace('All', '')
         camp_filter = campusPartner.replace('All', '')
         acad_filter = academicYear.replace('All', '')
-        #  academic_filter_qs = AcademicYear.objects.get(academic_year=academicYear)
-        #  acad = academic_filter_qs.id
-        #  acad_id = str(acad)
-        # # acad_id = [m.id for m in academic_filter_qs]
-        #  print(acad_id)
 
         cursor = connection.cursor()
 

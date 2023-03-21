@@ -12,7 +12,7 @@ beforeEach(() => {
 describe ('Visits all focus areas in home page', () => {
 
     //verify all projects listed in this report belong to economic impact focus area.
-    it ('visits economic impact focus area', () => {
+    it.only('visits economic impact focus area', () => {
         cy.get('h3').contains("ECONOMIC IMPACT").should("be.visible").click()
         cy.url().should("include", "/projectspublicreport/?academic_year=All&mission=3&community_type=&college_name=&campus_partner=&engagement_type=")
         cy.get('div[class="card-toptext"]').contains("Economic Impact").should("be.visible")

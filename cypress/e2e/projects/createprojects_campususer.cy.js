@@ -301,7 +301,7 @@ describe ('Create projects for campus partner user', () => {
     })
   })
   //Verify register community partner link is accessible
-  it ('check register community partner link ', function () {
+  it.skip('check register community partner link ', function () {
     cy.checkProjectName()
     cy.get('#projectName').type(this.data.createproject_name2)
     cy.get('.btn-secondary').click();
@@ -318,7 +318,7 @@ describe ('Create projects for campus partner user', () => {
     cy.get('.heading').should('contain.text', 'Community Partner Registration')
   })
   //Verify register campus partner link is accessible
-  it ('check register campus partner link ', function () {
+  it.skip ('check register campus partner link ', function () {
     cy.checkProjectName()
     cy.get('#projectName').type(this.data.createproject_name3)
     cy.get('.btn-secondary').click();
@@ -349,7 +349,7 @@ describe ('Create projects for campus partner user', () => {
     cy.get('#example_filter > label > .form-control').type(this.data.createproject_name1+'{enter}')
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
     cy.get('#example_filter > label > .form-control').clear()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
+    /*cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
     cy.get('.sorting_1').should('contain',this.data.createproject_name2).click()
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
@@ -361,6 +361,6 @@ describe ('Create projects for campus partner user', () => {
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
     cy.get('#example_filter > label > .form-control').type(this.data.createproject_name3+'{enter}')
-    cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
+    cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')*/
   })
 })

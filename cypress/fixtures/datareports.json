@@ -1,5 +1,5 @@
 {
-    "baseUrl":"https://uno-cpi-dev.herokuapp.com/",
+    "baseUrl":"http://127.0.0.1:8000/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",

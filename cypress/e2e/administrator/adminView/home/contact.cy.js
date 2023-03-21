@@ -152,32 +152,6 @@ describe("List contacts", () => {
         })
     })
 
-    /*it('Can delete a contact', () => {
-        cy.get(administratorLink).contains('Administrator').click()
-            .get(adminHref).invoke('removeAttr', 'target').click()
-
-        cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
-            cy.get(changeAdminContact).click()
-
-            cy.get(deleteAdminContact).click()
-
-            cy.get(deleteContactButton).click().should('be.visible')
-        })
-    })
-
-    it('Cannot delete a contact', () => {
-        cy.get(administratorLink).contains('Administrator').click()
-            .get(adminHref).invoke('removeAttr', 'target').click()
-
-        cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
-            cy.get(changeAdminContact).click()
-
-            cy.get(deleteAdminContact).click()
-            cy.get(noDelete).click().should('be.visible')
-        })
-    })*/
 
     it('Data cleanup', () => {
         cy.get(administratorLink).contains('Administrator').click()

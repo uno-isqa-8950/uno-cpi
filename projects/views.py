@@ -514,8 +514,7 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 1000000)  # Show 25 projects per page
-
+    paginator = Paginator(project_list, 100)  # Show 25 projects per page
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)

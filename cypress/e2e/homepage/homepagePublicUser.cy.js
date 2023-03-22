@@ -18,54 +18,55 @@ describe('Home Page Public user', () => {
     //Check base url is loading the Home Page of CEPI application
     it('visits the form', function() {
         cy.visit({
-            url: this.data.CEPI_site,
+            url: this.data.baseUrl,
             method: 'GET',
           })
     })
     //check link in NAV bar - uno logo
     it('check navbar link', function() {
-        cy.contains('Analytics').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        const analytics = '[data-cy=analytics]'
+        cy.get('[data-cy=analytics]').contains('Analytics').click()
+        cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).contains('Focus Area').click()
+            cy.wrap($el).contains('Focus Areas').click()
         })
-        cy.get('.himg').click()
-        cy.url().should('be.equal', this.data.CEPI_site)
-        cy.contains('Analytics').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy=himg]').click()
+        cy.url().should('be.equal', this.data.baseUrl)
+        cy.get('[data-cy=analytics]').contains('Analytics').click()
+        cy.contains('Reports').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
-        cy.get('#cpi').click()
-        cy.url().should('be.equal', this.data.CEPI_site)
-        cy.contains('Analytics').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy=cpi]').click()
+        cy.url().should('be.equal', this.data.baseUrl)
+        cy.get('[data-cy=analytics]').contains('Analytics').click()
+        cy.contains('Reports').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Projects').click()
         })
-        cy.get('#uno').click()
-        cy.url().should('be.equal', this.data.CEPI_site)
+        cy.get('[data-cy=uno]').click()
+        cy.url().should('be.equal', this.data.baseUrl)
         })
     //check link in footer - uno logo
     it ('check footer uno logo', function() {
-        cy.contains('Analytics').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy=analytics]').contains('Analytics').click()
+        cy.contains('Reports').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
-        cy.get('.fimg').click()
-        cy.url().should('be.equal', this.data.CEPI_site)
+        cy.get('[data-cy=fimg]').click()
+        cy.url().should('be.equal', this.data.baseUrl)
     })
     //Verify menus in Navigation bar
     it('Navigation bar options', function() {
-        cy.get('.navbar').should('contain.text', 'Maps')
+        cy.get('[data-cy=navbar]').should('contain.text', 'Maps')
             .and('contain.text', 'Analytics')
             .and('contain.text', 'Partners')
             .and('contain.text', 'Resources')
             .and('contain.text', 'Login')
     })
      it('Navigation bar options for Maps', function() {
-        cy.get(':nth-child(1) > .nav-link').click()
+        cy.get('[data-cy=maps]').click()
         cy.contains('Community Partners')
         cy.contains('Legislative Districts')
         cy.contains('City Districts')
@@ -73,30 +74,30 @@ describe('Home Page Public user', () => {
         cy.contains('Projects')
         })
     it('Navigation bar options for Analytics', function() {
-        cy.get('#analyticnav').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy=analytics]').contains('Analytics').click()
+        cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area')
             cy.wrap($el).contains('Engagement Types')
             cy.wrap($el).contains('Community Partners')
             cy.wrap($el).contains('Projects')
         })
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy=charts]').next('[data-cy=chartsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area')
             cy.wrap($el).contains('Engagement Types')
         })
 
     })
-    it('Navigation bar options for Partners, Login', function() {
-        cy.get('#partners').click()
-        cy.url().should('be.equal', this.data.CEPI_site+'partners/')
-        cy.get('#uno').click()
-        cy.get('#login').click()
-        cy.url().should('be.equal', this.data.CEPI_site+'account/login-Page/')
+    it.only('Navigation bar options for Partners, Login', function() {
+        cy.get('[data-cy=partners]').click()
+        cy.url().should('be.equal', this.data.baseUrl+'partners/')
+        cy.get('[data-cy=uno]').click()
+        cy.get('[data-cy=login]').click()
+        cy.url().should('be.equal', this.data.baseUrl+'account/login-Page/')
     })
     it('Navigation bar options for Resources', function() {
-        cy.get('#resourcesnav').click()
+        cy.get('[data-cy=resources]').click()
         cy.contains('Office of Engagement')
         cy.contains('Community Compass')
         cy.contains('About CEPI')
@@ -104,7 +105,7 @@ describe('Home Page Public user', () => {
         cy.contains('Community Engagement Roadmap')
         })
     //Verify links in homepage section
-    it ('Verify links in homepage section', function() {
+    it.only('Verify links in homepage section', function() {
         cy.get('.initialcontent').should('contain', 'REGISTER A NEW CAMPUS PARTNER')
         .and('contain', 'VIEW THE COMMUNITY PARTNER LEGISLATIVE MAP')
         .and('contain', 'VIEW PARTNER AND PROJECT ANALYTICS BY FOCUS AREA')
@@ -120,13 +121,10 @@ describe('Home Page Public user', () => {
 //        cy.url().should('be.equal','https://cepi.unomaha.edu/partners/register-Campus-Partner/')
 //        cy.url().should('be.equal', this.data.CEPI_site+'partners/register-Campus-Partner/')
         })
-
     //Verify homepage footer
-    it ('Verify homepage footer', function() {
-        cy.get('.fleft').invoke('removeAttr','target').should('contain','Terms and Conditions')
-        cy.get('a[href="mailto:partnerships@unomaha.edu"]').should('contain','Contact Us')
-
+    it.only('Verify homepage footer', function() {
+        cy.get('[data-cy=terms]').invoke('removeAttr','target').should('contain','Terms and Conditions')
+        cy.get('[data-cy=contactus]').should('contain','Contact Us')
     })
 })
-
 

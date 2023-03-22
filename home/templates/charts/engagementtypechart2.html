@@ -77,7 +77,7 @@
 <br>
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class=" text-center"><h3 class="heading">Engagement Types</h3></div>
+            <div class=" text-center"><h3 class="heading" data-cy="engagement types">Engagement Types</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
   {% eng_charts %}
@@ -87,7 +87,7 @@
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" />
+            data-cy="hide filters" aria-expanded="false" aria-controls="collapseExample" />
             <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'EngagementType_Chart' %}' " value="Reset Filters" >
 
 

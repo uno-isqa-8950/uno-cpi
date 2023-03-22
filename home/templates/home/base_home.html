@@ -54,16 +54,16 @@
 
 <!-- Navbar Begins -->
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top" data-cy="navbar" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
     <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
-    <a class="navbar-brand" href="/"><img class="himg" src="{{ logo }}" alt="UNO Logo"></a>
-    <a class="navbar-brand" href="/" id="uno">{{ name }}<b id="cpi">Community Engagement Partnership Initiative</b></a>
+    <a class="navbar-brand" href="/"><img class="himg" src="{{ logo }}" alt="UNO Logo" data-cy="himg"></a>
+    <a class="navbar-brand" href="/" id="uno" data-cy="uno">{{ name }}<b id="cpi" data-cy="cpi">Community Engagement Partnership Initiative</b></a>
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
     <div class="collapse navbar-collapse" id="target" >
         <ul id="navigationList" class="navbar-nav ml-auto">
 
             <li class=" nav-item dropdown">
-                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="maps">
                     <i class="fa fa-globe"></i>Maps
                     <span class="caret"></span>
                 </a>
@@ -77,25 +77,25 @@
             </li>
 
             <li class="nav-item dropdown">
-                <a id="analyticnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                <a id="analyticnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="analytics">
                     <i class="fa fa-line-chart"></i>Analytics
                     <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Reports</a>
-                        <ul class="dropdown-menu">
+                    <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="reports">Reports</a>
+                        <ul class="dropdown-menu" data-cy="reportsdropdown">
                             {% if user.is_superuser %}
-                                <a class="dropdown-item" href="/projectInfo_admin">Focus Areas</a> {% else %}
-                                <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
-                            <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
+                                <a class="dropdown-item" href="/projectInfo_admin" data-cy="focusareareport">Focus Areas</a> {% else %}
+                                <a class="dropdown-item" href="/projectInfo_public" data-cy="focusareareport">Focus Areas</a> {% endif %}
+                            <a class="dropdown-item" href="/engage-Type" data-cy="engagementtypereport">Engagement Types</a> {% if user.is_authenticated %}
                             <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
                             <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
                             <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                            <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
+                            <a class="dropdown-item" href="{% url 'projectspublicreport' %}" data-cy="projectsreport">Projects</a> {% endif %}
                         </ul>
                     </li>
-                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
-                            <ul class="dropdown-menu">
+                        <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="charts">Charts</a>
+                            <ul class="dropdown-menu" data-cy="chartsdropdown">
                                 {% if user.is_authenticated %}
                                     <a class="dropdown-item" href="/missionchart">Focus Areas</a>
                                     <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
@@ -129,11 +129,11 @@
             {% endif %}
 
             <li class=" nav-item dropdown">
-                <a id="partners" class="nav-link" href='/partners'><i class="fa fa-handshake-o"></i>Partners</a>
+                <a id="partners" class="nav-link" href='/partners' data-cy="partners"><i class="fa fa-handshake-o"></i>Partners</a>
             </li>
 
             <li class=" nav-item dropdown">
-                <a id="resourcesnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                <a id="resourcesnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="resources">
                     <i class="fa fa-external-link"></i> Resources
                     <span class="caret"></span>
                 </a>
@@ -174,7 +174,7 @@
             </li>
         {% else %}
             <li class="nav-item">
-                <a id="login" class="nav-link" href="{% url 'account:loginPage' %}"><i class="fa fa-sign-in"></i>Login</a>
+                <a id="login" class="nav-link" href="{% url 'account:loginPage' %}" data-cy="login"><i class="fa fa-sign-in"></i>Login</a>
             </li>
         {% endif %}
 
@@ -200,11 +200,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo" data-cy="fimg"></a></span>
             </div>
             <div class="col-sm-6" style="margin-top:8px;padding-bottom:10px; text-align: left;">
-                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
-                <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank" data-cy="terms">Terms and Conditions</a></span>
+                <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu" data-cy="contactus">Contact Us</a></span>
                 <!--<br>-->
                 <p>
                         <span><a class="fnone" style="font-size: 12px;">

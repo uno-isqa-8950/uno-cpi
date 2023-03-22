@@ -21,7 +21,7 @@ describe('My Drafts - campus partner user', () => {
     it('Check login form', function() {
         cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
     })
-    it('Create test data for checking "My Drafts"', function() {
+    it ('Create test data for checking "My Drafts"', function() {
     cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()

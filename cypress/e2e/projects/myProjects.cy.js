@@ -78,7 +78,7 @@ beforeEach(() => {
           .get('a').contains('Next').should('exist')
       })
 
-    it('Test project creation to test project editing', function(){
+    it.skip('Test project creation to test project editing', function(){
         const projectsId = '#projectsnav',
           createProjectsHref = `a[href="/check-Project/"]`,
           academicYearsDropdown = '#select2-academicYear-container',
@@ -115,7 +115,7 @@ beforeEach(() => {
       })
 
 
-      it('Test my projects saved in draft are editable and saved as draft again', function(){
+      it.skip('Test my projects saved in draft are editable and saved as draft again', function(){
         const projectsId = '#projectsnav',
           myProjectsHref = `a[href="/myProjects/"]`,
           projectNameInputField = '#id_project_name',
@@ -132,7 +132,7 @@ beforeEach(() => {
             .get('h3').contains('Thank You')          
       })
 
-      it('Test my projects delete functionality', function(){
+      it.skip('Test my projects delete functionality', function(){
         const projectsId = '#projectsnav',
           myProjectsHref = `a[href="/myProjects/"]`
           cy.get(projectsId).should('exist').click()

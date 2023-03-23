@@ -78,9 +78,9 @@
 </div>
 
         <div>
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input data-cy="Hide Filters" type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'issueaddress' %}' " value="Reset Filters" >
+            <input data-cy="Reset Filters" type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'issueaddress' %}' " value="Reset Filters" >
 
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
@@ -111,7 +111,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Analysis Start Year
                     </label>
-                    <select id="id_academicyear" name="academic_year" onchange="updatechart()" >
+                    <select data-cy="academic_year" id="id_academicyear" name="academic_year" onchange="updatechart()" >
                         <option>
                             {% for sem in from_project_filter.form.academic_year %}
                                 {{ sem}}
@@ -143,7 +143,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                         </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="updatechart()">
+                    <select data-cy="engagement_type" id="id_engagement_type" name="engagement_type" onchange="updatechart()">
                                 <option> All </option>
                                     {% for engagement in project_filter.form.engagement_type %}
                                         {{engagement}}
@@ -157,7 +157,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             College and Main Units
                         </label>
-                        <select id="id_college_name" name="college_name" onchange="updatechart();updateCampus()",>
+                        <select data-cy="college_name" id="id_college_name" name="college_name" onchange="updatechart();updateCampus()",>
                             <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -172,7 +172,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Campus Partners
                         </label>
-                            <select id="id_campus_partner" name="campus_partner" onchange="updatechart()">
+                            <select data-cy="campus_partner" id="id_campus_partner" name="campus_partner" onchange="updatechart()">
 
                                 <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                             <option> All </option>
@@ -188,7 +188,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updatechart()">
+                    <select data-cy="weitz_cec_part" class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updatechart()">
                         <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}

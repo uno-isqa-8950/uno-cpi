@@ -7,7 +7,7 @@
      },    
     "adminUser": {
         "username":"unotest.super@gmail.com",
-        "password":"superman02",
+        "password":"superman01",
         "incorrectUsername":"xyz@gmail.com",
         "incorrectPassword":"superman02"
     }

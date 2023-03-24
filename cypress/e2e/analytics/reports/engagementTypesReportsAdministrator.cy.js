@@ -9,12 +9,12 @@ beforeEach(() => {
     })
     cy.visit(Cypress.env('baseUrl'))
 })
-describe('Engagement Types Report Campus Partner User', () => {
+describe('Engagement Types Report Administrator', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
         cy.get('#login').click()
-        cy.loginCampusUser(user)
+        cy.loginAdminUser(user)
         })
     })
     it('visits the form', function() {
@@ -22,7 +22,7 @@ describe('Engagement Types Report Campus Partner User', () => {
     })
    //Check navigation
    it('Check navigation', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', this.data.baseUrl)
     cy.get('[data-cy=himg]').click()
     cy.get('[data-cy=analytics]').contains('Analytics').click()
     cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {

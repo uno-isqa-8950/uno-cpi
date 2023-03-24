@@ -116,7 +116,7 @@
 
             {% if user.is_authenticated %}
                 <li class=" nav-item dropdown">
-                    <a id="projectsnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    <a id="projectsnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="projects">
                         <i class="fa fa-tasks fa-x"></i> Projects
                         <span class="caret"></span>
                     </a>
@@ -146,7 +146,7 @@
 
             {% if user.is_superuser %}
                 <li class=" nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="administrator">
                         <i class="fa fa-cogs"></i> Administrator
                         <span class="caret"></span>
                     </a>
@@ -160,7 +160,7 @@
                     </div>
                 </li>
             {% endif %} {% if user.is_authenticated %}
-            <li id="accountinfo" class="nav-item dropdown">
+            <li id="accountinfo" class="nav-item dropdown" data-cy="accountinfo">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                     {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
                     {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>

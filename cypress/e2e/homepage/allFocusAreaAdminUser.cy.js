@@ -14,7 +14,6 @@ beforeEach(() => {
 })
 
 describe ('Visits all focus areas in home page', () => {
-
     //verify all projects listed in this report belong to economic impact focus area.
     it('visits economic impact focus area', () => {
         cy.get('[data-cy="economic impact"]').contains("ECONOMIC IMPACT").should("be.visible").click()

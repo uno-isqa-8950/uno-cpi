@@ -50,7 +50,7 @@
 
 </head>
 
-<body onload="noBack();">
+<!--<body onload="noBack();">-->
 
 <!-- Navbar Begins -->
 
@@ -98,10 +98,10 @@
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="charts">Charts</a>
                             <ul class="dropdown-menu" data-cy="chartsdropdown">
                                 {% if user.is_authenticated %}
-                                    <a class="dropdown-item" href="/missionchart">Focus Areas</a>
+                                    <a class="dropdown-item" href="/missionchart"data-cy='Focus Area'>Focus Areas</a>
                                     <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
                                     <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
-                                    <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
+                                    <a class="dropdown-item" href="/trendreport" data-cy='Project and Partner Trends' >Project and Partner Trends </a> {% endif %}
                                     <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
 
                                     <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>

@@ -13,6 +13,9 @@ beforeEach(() => {
       cy.fixture("users").then(function(data) {
         this.data = data
       })
+      cy.fixture("datareports").then(function(datas) {
+        this.datas = datas
+      })
     })
     it('can submit a valid form', function(){
         const emailInput = 'input[id="email_input"]',
@@ -21,7 +24,7 @@ beforeEach(() => {
         cy.get(loginHref).click().get(emailInput).type(this.data.campusUser.username).type('{enter}')
         cy.get("#password_input").type(this.data.campusUser.password);
         cy.get(loginButtonId).click()
-        cy.url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/myProjects/')
+        cy.url().should('be.equal', this.datas.baseUrl+'myProjects/')
     })
 
     it('cannnot submit an invalid form with wrong password', function(){
@@ -31,7 +34,7 @@ beforeEach(() => {
         cy.get(loginId).click().get(emailInput).type(this.data.campusUser.username).type('{enter}')
         cy.get('#password_input').type(this.data.campusUser.incorrectPassword)
         cy.get(loginButtonId).click()
-        cy.url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/account/login-Page/')
+        cy.url().should('be.equal', this.datas.baseUrl+'account/login-Page/')
         cy.get('.alert').contains('Email or Password is incorrect or contact system administration.').should('be.visible')
     })
 
@@ -42,7 +45,7 @@ beforeEach(() => {
         cy.get(loginHref).click().get(emailInput).type(this.data.campusUser.incorrectUsername).type('{enter}')
         cy.get("#password_input").type(this.data.campusUser.password);
         cy.get(loginButtonId).click()
-        cy.url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/account/login-Page/')
+        cy.url().should('be.equal', this.datas.baseUrl+'account/login-Page/')
         cy.get('.alert').contains('Email or Password is incorrect or contact system administration.').should('be.visible')
     })
 })

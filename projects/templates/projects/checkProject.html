@@ -85,14 +85,14 @@
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                     Academic Years
                                 </label>
-                                <select id="academicYear" name="academicYear" >
+                                <select id="academicYear" name="academicYear" data-cy="academicyear" >
                                     <option></option>
                                     {% if acad_id == -1%}
-                                        <option selected>All</option>
+                                        <option selected data-cy="allacademicyears">All</option>
                                     {% endif %}
                                     <option>All</option>
                                     {% for sem in academic_yr_filter %}
-                                        <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %}>{{sem.academic_year}} </option>
+                                        <option id = "{{sem.id}}"  {% if sem.academic_year == academicYear_selected %}selected{% endif %} data-cy="academicyearselected">{{sem.academic_year}} </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -104,14 +104,14 @@
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                     Community Partners
                                 </label>
-                                <select id="communityPartner" name="communityPartner" >
+                                <select id="communityPartner" name="communityPartner" data-cy="communitypartner" >
                                     <option></option>
                                     {% if communityPartner_id == -1%}
-                                        <option selected>All</option>
+                                        <option selected data-cy="allcommunitypartners">All</option>
                                     {% endif %}
                                     <option>All</option>
                                     {% for comm in Community_filter %}
-                                        <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %}>{{comm.name}} </option>
+                                        <option id = "{{comm.id}}" {% if comm.name == communityPartner_selected %}selected{% endif %} data-cy="communitypartnerselected">{{comm.name}} </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -123,14 +123,14 @@
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                     Campus Partners
                                 </label>
-                                <select id="campuspartner" name="campusPartner" >
+                                <select id="campuspartner" name="campusPartner" data-cy="campuspartner" >
                                     <option></option>
                                     {% if campusPartner_id == -1%}
-                                        <option selected>All</option>
+                                        <option selected data-cy="allcampuspartners">All</option>
                                     {% endif %}
                                     <option>All</option>
                                     {% for campus in campus_filter %}
-                                        <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %}>{{campus.name}} </option>
+                                        <option id = "{{campus.id}}" {% if campus.name == campusPartner_selected %}selected{% endif %} data-cy="campuspartnerselected">{{campus.name}} </option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -141,11 +141,11 @@
                                 title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}" class="float" >
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                                     Project Name
-                                    <input type="text" style="margin-left: 0px;height: 28px" name="projectName" id="projectName"  value = "{{projectName}}" >
+                                    <input type="text" style="margin-left: 0px;height: 28px" name="projectName" id="projectName"  value = "{{projectName}}"  data-cy="projectnameinput">
                                 </label>
                             </div>
                             <div class="justify-content-md-center" style="margin-left: 45%; margin-right: 50%; margin-top: 0%; margin-bottom: 1%">
-                                <button type="submit" value="submit" name="submit" class="save btn btn-secondary" onclick="this.form.submit()">Search</button>
+                                <button type="submit" value="submit" name="submit" class="save btn btn-secondary" onclick="this.form.submit()" data-cy="search">Search</button>
                             </div>
                     </form>
 
@@ -245,7 +245,7 @@
                 '<tr><td><a class="btn btn-primary" href="/allProjects/" target="_blank" role="button" data-toggle="tooltip" title="Click on this button to  access a list of all Community Engagement Projects" >All Projects</a><td></tr> '
             var projectName = $('#projectName').val();
             document.getElementById('button-id').innerHTML =
-                '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project</a></td></tr>'  + '<br>';
+                '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project" data-cy="createproject">Create Project</a></td></tr>'  + '<br>';
             document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
             var label = '<label style="margin-left: 15px">The following projects have already been created. Please ensure that the project you wish to create is not in this list. Note that unused  filters will automatically search based on the set defaults.</label>';
             $('.label').append(label);

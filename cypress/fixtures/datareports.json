@@ -1,10 +1,10 @@
 {
-    "baseUrl": "http://127.0.0.1:8000/",
+    "baseUrl":"http://127.0.0.1:8000/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",
     "focus_area1" : "Arts, Culture and Humanities",
-    "focus_area2" : "Economic Impact",
+    "focus_area2" : "Economic Sufficiency",
     "focus_area3" : "Educational Support",
     "focus_area4" : "Environmental Stewardship",
     "focus_area5" : "Health and Wellness",

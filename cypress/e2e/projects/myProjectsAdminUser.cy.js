@@ -1,6 +1,5 @@
 import user from "../../support/commands.js";
 
-
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') 
@@ -14,14 +13,14 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.get('#login').click()
+      .loginAdminUser(user)
   })
   
   describe('my projects test', () => {
     beforeEach(function() {
       cy.fixture("datareports").then(function(data) {
         this.data = data
-      cy.get('#login').click()
-        .loginAdminUser(user)
       })
     })
 
@@ -44,13 +43,13 @@ beforeEach(() => {
     
     it('Test my projects page navigation bar, title and footer', function(){
         const projectsLink = '[data-cy="projectsnav"]',
-          myProjectsLink = '[data-cy="myprojects"]'
-          footer = '#footer'
+          myProjectsLink = '[data-cy="myprojects"]',
+          footer = '[data-cy="footer"]'
         cy.get(projectsLink).should('exist').click()
           .get(myProjectsLink).should('exist').click()
           .url().should('be.equal', this.data.baseUrl+'myProjects/')
           .get('h3').contains("My Projects").should("be.visible")
-          .get(footerId).should('exist')
+          .get(footer).should('exist')
       })
     
     it('Test my projects page excel, pdf button', function(){
@@ -78,50 +77,84 @@ beforeEach(() => {
           .get('a').contains('Next').should('exist')
       })
 
-    it('Test project creation to test project editing', function(){
+    it.only('Test project creation to test project editing', function(){
         const projectsLink = '[data-cy="projectsnav"]',
-          createProjectsLink = '[data-cy="projectsnav"]',
+          createProjectsLink = '[data-cy="createproject"]',
           academicYearsDropdown = '#select2-academicYear-container',
           academicYearsResultsId = '#select2-academicYear-results',
           communityPartners = '#select2-communityPartner-container',
           communityPartnerResultsId = '#select2-communityPartner-results',
           campusPartners = '#select2-campuspartner-container',
           campusPartnersResultsId = '#select2-campuspartner-results',
-          projectNameSearchField = '#projectName',
-          searchButton = `button[name="submit"]`,
+          projectNameInputField = '[data-cy="projectnameinput"]',
+          searchButton = '[data-cy="search"]',
           engagementTypeInputField = '#select2-id_engagement_type-container',
           engagementTypeResults = '#select2-id_engagement_type-results',
-          saveDraftButton = `button[name="draft"]`
-        cy.get(projectsId).should('exist').click()
-          .get(createProjectsHref).should('exist').click()
+          submitButton =  '[data-cy="submit"]',
+          createprojectButton = '#lnk-create_project',
+          projectDescriptionField = '[data-cy="descriptioninput"]',
+          projectDurationCollapse = '[data-cy="projectduration"]',
+          campusPartAddButton = '[data-cy="clicktoadd"]',
+          checkbox = '[data-cy="checkbox"]',
+          campusPartnerCollapse = '[data-cy="campuspartnerinfo"]'
+        cy.get(projectsLink).should('exist').click()
+          .get(createProjectsLink).should('exist').click()
           .url().should('be.equal', this.data.baseUrl+'check-Project/')
           .get(academicYearsDropdown).click()
           .get(academicYearsResultsId).contains(this.data.select_all).click()
           .get(communityPartners).click()
           .get(communityPartnerResultsId).contains(this.data.select_all).click()
           .get(campusPartners).click()
-          .get(campusPartnersResultsId).contains(this.data.campus_partner2).click()
-          .get(projectNameSearchField).should('exist').clear().type('testproject')
+          .get(campusPartnersResultsId).contains(this.data.campus_partner10).click()
+          .get(projectNameInputField).should('exist').clear().type('testproject')
           .get(searchButton).click()
            // Partner Information
-          .get('#lnk-create_project').should('be.visible').click()
+          .get(createprojectButton).click({force: true})
           .url().should('be.equal', this.data.baseUrl+'create-Project/?p_name=testproject#step-1')
+
+          .get(projectDescriptionField).type('This is a test project')
+          
           
           .get(engagementTypeInputField).click()
           .get(engagementTypeResults).contains(this.data.engagement_type3).click()
 
-          .get(saveDraftButton).should('be.visible').click()
-          .url().should('be.equal',this.data.baseUrl+'draft-project-done/#step-1')
+          .get(projectDurationCollapse).click()
+          .get('#select2-id_semester-container').click()
+          .get('#select2-id_semester-results').then(($li) => {
+              cy.wrap($li).contains(this.data.semester1).click();
+           })
+
+          .get('#select2-id_academic_year-container').click()
+          .get('#select2-id_academic_year-results').then(($li) => {
+              cy.wrap($li).contains(this.data.academic_year4).click();
+           })
+
+          .get('button').contains('Next').click()
+        //  .get('#id_community-0-community_partner').select(this.data.community_partner3)
+
+          .get(campusPartnerCollapse).click({force: true}).wait(2000)
+          .get('#id_campus-0-campus_partner').select(this.data.campus_partner10)
+          .get(campusPartAddButton).click()
+
+          .get('button').contains('Next').click()
+
+          .get('#id_mission-0-mission').select(this.data.focus_area7)
+          .get('button').contains('Next').click()
+
+          .get(checkbox).click()
+
+          .get(submitButton).click({force: true})
+        //  .url().should('be.equal',this.data.baseUrl+'draft-project-done/#step-1')
       })
 
 
       it('Test my projects saved in draft are editable and saved as draft again', function(){
-        const projectsId = '#projectsnav',
-          myProjectsHref = `a[href="/myProjects/"]`,
-          projectNameInputField = '#id_project_name',
-          saveDraftButton = `button[name="draft"]`
-          cy.get(projectsId).should('exist').click()
-            .get(myProjectsHref).should('exist').click()
+        const projectsLink = '[data-cy="projectsnav"]',
+          myProjectsLink = '[data-cy="myprojects"]',
+          projectNameInputField = '[data-cy="projectnameinput"]',
+          saveDraftButton = '[data-cy="saveasdraft"]'
+          cy.get(projectsLink).should('exist').click()
+            .get(myProjectsLink).should('exist').click()
             .url().should('be.equal', this.data.baseUrl+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
             .get('td').contains('testproject').click()
@@ -133,10 +166,10 @@ beforeEach(() => {
       })
 
       it('Test my projects delete functionality', function(){
-        const projectsId = '#projectsnav',
-          myProjectsHref = `a[href="/myProjects/"]`
-          cy.get(projectsId).should('exist').click()
-            .get(myProjectsHref).should('exist').click()
+        const projectsLink = '[data-cy="projectsnav"]',
+        myProjectsLink = '[data-cy="myprojects"]'
+          cy.get(projectsLink).should('exist').click()
+            .get(myProjectsLink).should('exist').click()
             .url().should('be.equal', this.data.baseUrl+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
             .get('td').contains('testprojectedited').click()

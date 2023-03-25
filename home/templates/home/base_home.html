@@ -98,10 +98,10 @@
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="charts">Charts</a>
                             <ul class="dropdown-menu" data-cy="chartsdropdown">
                                 {% if user.is_authenticated %}
-                                    <a class="dropdown-item" href="/missionchart"data-cy='Focus Area'>Focus Areas</a>
+                                    <a class="dropdown-item" href="/missionchart">Focus Areas</a>
                                     <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
                                     <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
-                                    <a class="dropdown-item" href="/trendreport" data-cy='Project and Partner Trends' >Project and Partner Trends </a> {% endif %}
+                                    <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
                                     <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
 
                                     <a class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
@@ -116,7 +116,7 @@
 
             {% if user.is_authenticated %}
                 <li class=" nav-item dropdown">
-                    <a id="projectsnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="projects">
+                    <a id="projectsnav" class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-tasks fa-x"></i> Projects
                         <span class="caret"></span>
                     </a>
@@ -146,7 +146,7 @@
 
             {% if user.is_superuser %}
                 <li class=" nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#" data-cy="administrator">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href="#">
                         <i class="fa fa-cogs"></i> Administrator
                         <span class="caret"></span>
                     </a>
@@ -160,7 +160,7 @@
                     </div>
                 </li>
             {% endif %} {% if user.is_authenticated %}
-            <li id="accountinfo" class="nav-item dropdown" data-cy="accountinfo">
+            <li id="accountinfo" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target" href='#'>
                     {% if user.avatar.url == 'https://None.s3.amazonaws.com/profile_image/default.jpg' %} <img class="rounded-circle account-img" src="{% static "img/avatar.jpg" %}" height="30" width="30" alt="DefaultAvatar">
                     {% else %}<img class="rounded-circle account-img" src={{ user.avatar.url }} height="30"  width="30" alt="Avatar"/>{% endif %} <span id="pic">{{ user.first_name.0 }}{{ user.last_name.0 }}</span>

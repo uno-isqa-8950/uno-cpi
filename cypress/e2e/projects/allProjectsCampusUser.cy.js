@@ -44,7 +44,7 @@ beforeEach(() => {
           footerId = '#footer'
         cy.get(projectsId).should('exist').click()
           .get(allProjectsHref).should('exist').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/allProjects/')
+          .url().should('be.equal', this.data.baseUrl+'allProjects/')
           .get('h4').contains("All Projects").should("be.visible")
           .get(footerId).should('exist')
       })

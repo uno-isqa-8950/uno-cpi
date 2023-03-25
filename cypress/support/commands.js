@@ -1,5 +1,5 @@
 import * as data from '../fixtures/datareports.json'
-import * as users from '../fixtures/users.json'
+import * as users from '/cypress.env.json'
 
 
 Cypress.Commands.add("loginCampusUser", (user) => {

@@ -21,7 +21,7 @@
             <br><br>
             <div class="row justify-content-md-center">
                 <div class="col-lg-12 col-md-12">
-                    <div class=" text-center"><h3 class="heading">Project Registration</h3></div>
+                    <div class=" text-center"><h3 class="heading" data-cy="projectregistration">Project Registration</h3></div>
                     <div class="card snippet-card">
                         <div class="container text-snippet">
                             {% create_project_forms %}
@@ -32,14 +32,14 @@
                     <div class="box">
                         <div id="smartwizard">
                             <ul>
-                                <li><a href="#step-1" id="step1">Project Information</a></li>
-                                <li><a href="#step-2">Partner Information</a></li>
-                                <li><a href="#step-3">Focus Areas</a></li>
-                                <li id="step4"><a href="#step-4">Location</a></li>
+                                <li><a href="#step-1" id="step1" data-cy="step1">Project Information</a></li>
+                                <li><a href="#step-2" data-cy="step2">Partner Information</a></li>
+                                <li><a href="#step-3" data-cy="step3">Focus Areas</a></li>
+                                <li id="step4"><a href="#step-4" data-cy="stap4">Location</a></li>
                             </ul>
                             <div>
                                 <div id="step-1">
-                                    <div id="form-step-0">
+                                    <div id="form-step-0" data-cy="formstep0">
                                         <div class="row" style="margin: 10px;">
 
                                             <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step1 (non-icon definition)' %}</p>
@@ -49,7 +49,7 @@
                                             <div class="col-md-6">
                                                 <div class="row">
 
-                                                    <label for="id_project_name" class="col-sm-4"><i class="fa fa-info-circle" data-toggle="tooltip"
+                                                    <label for="id_project_name" class="col-sm-4" data-cy="projectname"><i class="fa fa-info-circle" data-toggle="tooltip"
                                                                                                      title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}"></i>
                                                         Project Name</label>
 
@@ -64,9 +64,9 @@
                                                 </div>
                                                 <div class="row">
 
-                                                    <label for="id_engagement_type" class="col-sm-4">
+                                                    <label for="id_engagement_type" class="col-sm-4" data-cy="engagementtype">
                                                         <i class="fa fa-info-circle" data-toggle="tooltip"
-                                                           title="{% get_data_definition_desc 'Engagement Types' %}"></i> Engagement Type
+                                                           title="{% get_data_definition_desc 'Engagement Types' %}" data-cy="engagementtypetitle"></i> Engagement Type
                                                         <!--                            <span class="tooltip">{{ data_definition.description }}</span>-->
                                                     </label>
 
@@ -82,7 +82,7 @@
                                                 <div class="row">
 
                                                     <label class="col-sm-4"  data-toggle="tooltip" title="{% get_data_definition_desc 'Activity Types' %}">
-                                                        <i class="fa fa-info-circle"></i> Activity Type </label>
+                                                        <i class="fa fa-info-circle" data-cy="activitytype"></i> Activity Type </label>
 
                                                     <div class="col-sm-7">
                                                         <select id="id_populate_activity" name="name_populate_activity" disabled="true">
@@ -106,7 +106,7 @@
                                                         <!--                                                        <div><br></div>-->
                                                         <div class="input-group-append" >
                                                     <span tabindex="-1" data-toggle="tooltip"
-                                                          title="Click to add Selected value" class="float"  data-placement="right" >
+                                                          title="Click to add Selected value" class="float"  data-placement="right" data-cy="clicktoaddselectedvalue" >
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addotheract" aria-hidden="true"></i>
                                                     </span>
                                                         </div>
@@ -121,7 +121,7 @@
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="row">
-                                                    <label class="col-sm-2" for="id_engagement_type">Description</label>
+                                                    <label class="col-sm-2" for="id_engagement_type" data-cy="description">Description</label>
                                                     <!--                    </div>-->
                                                     <!--                    <div class="row">-->
                                                     <div class="col-sm-7">
@@ -136,7 +136,7 @@
                                             </div>
                                         </div>
 
-                                        <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                                        <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo" data-cy="projectduration">
                                             <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
                                         </button>
 
@@ -152,7 +152,7 @@
                           
                         <span tabindex="-1" data-toggle="tooltip"
                               title="{% get_data_definition_desc 'Project Type (create new project form)' %}" class="float" >
-                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
+                        <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true" data-cy="projecttype"></i></span>
                                                                 Project Type</label>
                                                             <div class="col-sm-6">
                                                                 {{ project.project_type }}
@@ -163,7 +163,7 @@
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="row">
-                                                            <label for="id_semester" class="col-md-5">
+                                                            <label for="id_semester" class="col-md-5" data-cy="startsemester">
                                                         
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Start Semester' %}" class="float" >
@@ -178,7 +178,7 @@
                                                             {% endfor %} {% endif %}
                                                         </div>
                                                         <div class="row">
-                                                            <label class="col-md-5">
+                                                            <label class="col-md-5" data-cy="endsemester">
                                                 
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'End Semester' %}" class="float" >
@@ -196,7 +196,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="row">
-                                                            <label for="id_academic_year" class="col-md-5">
+                                                            <label for="id_academic_year" class="col-md-5" data-cy="startacademicyear">
                                                         
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Start Academic Year' %}" class="float" >
@@ -211,7 +211,7 @@
                                                             {% endfor %} {% endif %}
                                                         </div>
                                                         <div class="row">
-                                                            <label class="col-md-5">
+                                                            <label class="col-md-5" data-cy="endacademicyear">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'End Academic Year' %}" class="float" >
@@ -234,7 +234,7 @@
 
                                         </div>
                                         <div class="row"><br></div>
-                                        <button type="button" id = "participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                                        <button type="button" id = "participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo" data-cy="participantinformation">
                                             <i class="fa fa-plus"></i> Participant Information
                                         </button>
 
@@ -244,7 +244,7 @@
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="row">
-                                                            <label for="id_uno_students" class="col-sm-5">
+                                                            <label for="id_uno_students" class="col-sm-5" data-cy="totalunostudents">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Total UNO Students' %}" class="float" >
@@ -261,7 +261,7 @@
                                                     </div>
                                                     <div class="col">
                                                         <div class="row">
-                                                            <label for="id_uno_hours" class="col-sm-5">
+                                                            <label for="id_uno_hours" class="col-sm-5" data-cy="unostudenthours">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'UNO Student Hours' %}" class="float" >
@@ -280,13 +280,13 @@
                                                 <div class="row">
                                                     <div class="col" style="display: none">
                                                         <div class="row">
-                                                            <label for="id_uno_students" class="col-sm-5">
+                                                            <label for="id_uno_students" class="col-sm-5" data-cy="totalunofaculty/staffhours">
                                                    
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'UNO Faculty/Staff Hours' %}" class="float" >
                                                                  <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
 
-                                                                Toatal UNO Faculty/Staff Hours</label>
+                                                                Total UNO Faculty/Staff Hours</label>
                                                             <div class="col-sm-6">
                                                                 {{ project.total_uno_faculty}}
                                                             </div>
@@ -294,7 +294,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="row">
-                                                            <label for="id_uno_hours" class="col-sm-5">
+                                                            <label for="id_uno_hours" class="col-sm-5" data-cy="totalnumberofotherparticipants">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Total Number of Other Participants' %}" class="float" >
@@ -312,14 +312,14 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col">
-                                                        <label for="id_k12_flag">Does this Project involve K-12 students?</label>
+                                                        <label for="id_k12_flag" data-cy="involvementofK-12students">Does this Project involve K-12 students?</label>
                                                         {{ project.k12_flag}}
                                                     </div>
                                                 </div>
                                                 <div class="row" id ="k12-students">
                                                     <div class="form-group-row col">
                                                         <div class="row">
-                                                            <label for="id_k12_students" class="col-sm-5">
+                                                            <label for="id_k12_students" class="col-sm-5" data-cy="totalnoofk-12students">
                                                     
                                                          <span tabindex="-1" data-toggle="tooltip"
                                                                title="{% get_data_definition_desc 'Total K-12 Students' %}" class="float" >
@@ -337,7 +337,7 @@
                                                     </div>
                                                     <div class="form-group-row col">
                                                         <div class="row">
-                                                            <label for="id_k12_hours" class="col-sm-5">
+                                                            <label for="id_k12_hours" class="col-sm-5" data-cy="totalnoofk-12hours">
                                                     
                                                          <span tabindex="-1" data-toggle="tooltip"
                                                                title="{% get_data_definition_desc 'K-12 Student Hours' %}" class="float" >
@@ -376,13 +376,13 @@
                                             <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step2-community-partner' %}</p>
 
                                         </div>
-                                        <div id="communityinfo" class= "panel-collapse collapse">
+                                        <div id="communityinfo" class= "panel-collapse collapse" data-cy="communityinfo">
                                             <div class="panel-body">
                                                 <div class="row centered" ><span class="addcommerror" style="color: #b60000"></span> </div>
                                                 <div class="row community-row">
                                                     <div class="col-md-3">
 
-                                                        <label style="padding-top:8px" >
+                                                        <label style="padding-top:8px" data-cy="communitypartner">
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Community Partner' %}" class="float">
@@ -410,7 +410,7 @@
 
                                                 <div class="community-fields displaybox row" id="community-fields"></div>
                                                 <div class="row centered">
-                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave">Not in list? Register a New Community Partner</a>
+                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave" data-cy="registercommunitypartnerandsave">Not in list? Register a New Community Partner</a>
 
                                                 </div>
                                             </div>
@@ -420,7 +420,7 @@
 
                                     {% for form3 in formset3 %}
 
-                                        <button type="button" id = "campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo">
+                                        <button type="button" id = "campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px"  data-toggle="collapse" href="#campusinfo" data-cy="campuspartnerinfo">
                                             <i class="fa fa-plus"></i> <span tabindex="-1" data-toggle="popover" data-trigger="focus" data-content="{{ data_definition.description }}" class="float">
 
                                  Campus Partner Information
@@ -439,7 +439,7 @@
                                                 <div class="row campus-row">
                                                     <div class="col-md-3">
 
-                                                        <label style="padding-top:8px" >
+                                                        <label style="padding-top:8px" data-cy="campuspartner" >
                                                     
                                                              <span tabindex="-1" data-toggle="tooltip"
                                                                    title="{% get_data_definition_desc 'Campus Partner' %}" class="float" >
@@ -458,7 +458,7 @@
                                                     <div class="col-md-1">
                                                         <div class="input-group-append" >
                                                 <span tabindex="-1" data-toggle="tooltip"
-                                                      title="Click to add selected value" class="float"  data-placement="right" >
+                                                      title="Click to add selected value" class="float"  data-placement="right" data-cy="clicktoadd" >
                                                 <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
                                                 </span>
                                                         </div>
@@ -469,14 +469,14 @@
                                                 <div class="row"><br></div>
                                                 <div class="centered">
 
-                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCampusAndSave">Not in list? Register a New Campus Partner</a>
+                                                    <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCampusAndSave" data-cy="registercampusandsave">Not in list? Register a New Campus Partner</a>
                                                 </div>
                                             </div>
                                         </div>
                                     {% endfor %}
                                     <div class="row"><br></div>
                                     <button type="button" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#leadstaffinfo">
-                                        <i class="fa fa-plus"></i> Campus Staff and/or Faculty Lead
+                                        <i class="fa fa-plus" data-cy="campusstaffandorfacultylead"></i> Campus Staff and/or Faculty Lead
                                     </button>
                                     <div id="leadstaffinfo" class= "panel-collapse collapse">
                                         <div class="row" style="margin: 10px;">
@@ -495,17 +495,17 @@
                                                         <!--                                                    </div>-->
                                                         <div class="col-md-4">
                                                             <label style="padding-top: 10px">First Name</label>
-                                                            <input id='firstname'  type='text' class = "inputbox">
+                                                            <input id='firstname'  type='text' class = "inputbox" data-cy="firstname">
                                                         </div>
                                                         <div class="col-md-4">
                                                             <label style="padding-top: 10px">Last Name</label>
-                                                            <input id='lastname'  type='text' class = "inputbox">
+                                                            <input id='lastname'  type='text' class = "inputbox" data-cy="lastname">
                                                         </div>
                                                         <div class="col-md-1 centered">
                                                             <!--                                                        <div><br></div>-->
                                                             <div class="input-group-append" >
                                                     <span tabindex="-1" data-toggle="tooltip"
-                                                          title="Click to add given value" class="float" data-placement="right" >
+                                                          title="Click to add given value" class="float" data-placement="right" data-cy="clicktoaddgivenvalue" >
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 40px" id="submitname" aria-hidden="true"></i>
                                                     </span>
                                                             </div>
@@ -542,7 +542,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label style="padding-top:8px">
+                                                <label style="padding-top:8px" data-cy="focusarea">
                         
                         <span tabindex="-1" data-toggle="tooltip"
                               title="{% get_data_definition_desc 'Primary Focus Area (community partner registration form)' %}" class="float" >
@@ -567,7 +567,7 @@
                                     {% for catform in categoryformset %}
                                         <div class="row">
                                             <div class="col-md-3">
-                                                <label style="padding-top:8px">
+                                                <label style="padding-top:8px" data-cy="topics">
                         
                         <span tabindex="-1" data-toggle="tooltip"
                               title="{% get_data_definition_desc 'Topics' %}" class="float" >
@@ -584,7 +584,7 @@
                                             <div class="col-md-1">
                                                 <div class="input-group-append" >
                         <span tabindex="-1" data-toggle="tooltip"
-                              title="Click to add selected value" class="float"  data-placement="right">
+                              title="Click to add selected value" class="float"  data-placement="right" data-cy="clicktoaddselected">
                         <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
                         </span>
                                                 </div>
@@ -601,14 +601,14 @@
                                             <label style="padding-top: 10px">Other Topics</label>
                                         </div>
                                         <div class="col-md-6">
-                                            <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics">
+                                            <input id='othersubcat' type="text" class="inputbox" placeholder="Add Other Topics" data-cy="addothertopics">
                                         </div>
 
                                         <div class="col-md-1">
                                             <!--                                                        <div><br></div>-->
                                             <div class="input-group-append" >
                                                     <span tabindex="-1" data-toggle="tooltip"
-                                                          title="Click to add given value" class="float"  data-placement="right"  >
+                                                          title="Click to add given value" class="float"  data-placement="right" data-cy="clicktoaddgiven" >
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" id="addsubcat" aria-hidden="true"></i>
                                                     </span>
                                             </div>
@@ -634,14 +634,14 @@
                                         <p style="font-size: 18px">  {% get_data_definition_desc 'create/edit-project-step4' %}</p>
 
                                     </div>
-                                    <div id="contactinfo" class= "panel-collapse collapse show">
+                                    <div id="contactinfo" class= "panel-collapse collapse show" data-cy="contactinfo">
                                         <div class="panel-body">
 
                                             <div class="row">
 
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                        <label class="col-sm-4">Address</label>
+                                                        <label class="col-sm-4" data-cy="address">Address</label>
                                                         <div class="col-sm-7">
                                                             {{ project.address_line1}}
                                                         </div>
@@ -655,8 +655,8 @@
                                                 <div class="col-md-6">
 
                                                     <div class="row">
-                                                        <label class="col-sm-4">City</label>
-                                                        <div class="col-sm-7">
+                                                        <label class="col-sm-4" data-cy="city">City</label>
+                                                        <div class="col-sm-7" data-cy="projectcity">
                                                             {{ project.city }}
                                                         </div>
                                                         {% if  project.city.errors %} {% for error in  project.city.errors %}
@@ -664,8 +664,8 @@
                                                         {% endfor %} {% endif %}
                                                     </div>
                                                     <div class="row">
-                                                        <label class="col-sm-4">Country</label>
-                                                        <div class="col-sm-7">
+                                                        <label class="col-sm-4" data-cy="country">Country</label>
+                                                        <div class="col-sm-7" data-cy="projectcountry">
                                                             {{ project.country }}
                                                         </div>
                                                         {% if  project.country.errors %} {% for error in  project.country.errors %}
@@ -675,8 +675,8 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="row">
-                                                        <label class="col-sm-4">State/Province</label>
-                                                        <div class="col-sm-7">
+                                                        <label class="col-sm-4" data-cy="stateorprovince">State/Province</label>
+                                                        <div class="col-sm-7" data-cy="projectstate">
                                                             {{ project.state }}
                                                         </div>
                                                         {% if  project.state.errors %} {% for error in  project.state.errors %}
@@ -684,8 +684,8 @@
                                                         {% endfor %} {% endif %}
                                                     </div>
                                                     <div class="row">
-                                                        <label class="col-sm-4">Zip Code</label>
-                                                        <div class="col-sm-7">
+                                                        <label class="col-sm-4" data-cy="zipcode">Zip Code</label>
+                                                        <div class="col-sm-7" data-cy="projectzip">
                                                             {{ project.zip }}
                                                         </div>
                                                         {% if  project.zip.errors %} {% for error in  project.zip.errors %}
@@ -698,7 +698,7 @@
                                             </div>
 
                                         </div>
-                                        <div class="form-group" style="display: none">
+                                        <div class="form-group" style="display: none" data-cy="projectstatus">
                                             <label>Project Status</label>
                                             {{ project.status}}
                                             {% if  project.status.errors %} {% for error in  project.status.errors %} <div class="alert alert-danger"><strong>{{ error|escape }}</strong></div> {% endfor %} {% endif %}
@@ -727,17 +727,17 @@
                         <div class="container-fluid">
 
                             <div class="row centered" id="termsdiv">
-                                <p><input type="checkbox" id="terms">
+                                <p><input type="checkbox" id="terms" data-cy="checkbox">
                                     I agree to the <a style="color: #d71920" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
                                     of the Community Partnership Initiative.</p>
                             </div>
                             <div class="row centered" style="margin-top:30px;">
                                 <!--<div class="col-md-3">-->
-                                <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" > Save as Draft</button>
+                                <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" data-cy="saveasdraft" > Save as Draft</button>
                                 <!--            </div>-->
 
-                                <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">Submit</button>
-                                <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
+                                <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary" data-cy="submit">Submit</button>
+                                <button name="cancel" id="cancel" class="btn btn-cancel" data-cy="cancel">Cancel</button>
                             </div>
                         </div>
                     </div>

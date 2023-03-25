@@ -20,17 +20,17 @@ describe('Register campus partner - campus partner user', () => {
     })
   })
   it('visits the form', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
   })
   //Check navigation
   it('Check navigation for Partners : campus_partner_user', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#partners').click()
   })
 
   it('Check ability to add Campus Partner', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#partners').click()
     cy.get('#btn_reg_campus_partner').should('be.enabled').click()
@@ -57,9 +57,9 @@ describe('Register campus partner - campus partner user', () => {
     // login as admin
     cy.get('#login').click()
     cy.loginAdminUser(user)
-    cy.visit(this.data.baseUrl+'admin/')
+    cy.visit(Cypress.env('baseUrl')+'admin/')
     cy.get('.model-campuspartner > th').click()
-    cy.visit(this.data.baseUrl+'admin/partners/campuspartner/')
+    cy.visit(Cypress.env('baseUrl')+'admin/partners/campuspartner/')
     cy.get('#searchbar').click().type(this.data.campus_partner_test1)
     cy.get('#changelist-search > div > [type="submit"]').click()
     cy.get('.field-name > a').should('contain',this.data.campus_partner_test1)
@@ -74,7 +74,7 @@ describe('Register campus partner - campus partner user', () => {
   })
 
   it('Check if a contact with non .edu email id is not possible', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#partners').click()
     cy.get('#btn_reg_campus_partner').should('be.enabled').click()

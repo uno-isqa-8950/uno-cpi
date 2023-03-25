@@ -1,5 +1,6 @@
 {
-    "baseUrl":"http://127.0.0.1:8000/",
+
+    "baseUrl":"https://uno-cpi-dev.herokuapp.com/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",
@@ -91,7 +92,7 @@
     "Focus_Areas" : "Focus Areas",
     "createproject_name1": "unotesting",
     "createproject_name2": "unonewtesting",
-	  "createproject_name3": "unocampuslinktesting",
+    "createproject_name3": "unocampuslinktesting",
     "semester1": "Spring",
     "semester2": "Summer",
     "semester3": "Fall",
@@ -109,7 +110,7 @@
     "country": "United States",
     "province": "NE",
     "zipcode": "68116" ,
-	  "_comment14": " Delete ",
+    "_comment14": " Delete ",
     "campuspartner_gmail" : "abcd@gmail.com",
     "organization_name": "Organization Test",
     "organization_acronym": "OT",

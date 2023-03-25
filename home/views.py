@@ -992,9 +992,8 @@ def project_partner_info_admin(request):
                     and ((p.academic_year_id <=" + str(academic_start_year_cond) + ") AND \
                         (COALESCE(p.end_academic_year_id, p.academic_year_id) >=" + str(academic_end_year_cond) + "))"
 
-    query_end = peoject_query_end + community_start + community_clause_query + " group by mission_id \
-					order by mission_id) \
-                    Select hm.mission_name mission_area \
+    query_end = peoject_query_end + community_start + community_clause_query + " group by mission_id order by mission_id) \
+    Select hm.mission_name mission_area \
                     , hm.description description \
                     , COALESCE(mission_filter.Projects, 0) proj \
                     , mission_filter.projects_id proj_ids \
@@ -1031,7 +1030,10 @@ def project_partner_info_admin(request):
                 for i in proj_ids:
                     cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
                                     from projects_project p where p.id=%s", (str(i),))
+
+                    print(cursor.fetchall())
                     for obj1 in cursor.fetchall():
+                        # print("obj1:" + str(obj1) + str(type(obj1)))
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
                         sum_k12_students = sum_k12_students + obj1[2]
@@ -1104,6 +1106,8 @@ def project_partner_info_admin(request):
                     for ids in sub_proj_ids:
                         cursor.execute("Select p.total_uno_students , p.total_uno_hours, p.total_k12_students, p.total_k12_hours \
                                  from projects_project p where p.id=%s", (str(ids),))
+
+                        print(cursor.fetchall())
                         for obj_sum in cursor.fetchall():
                             sub_sum_uno_students = sub_sum_uno_students + obj_sum[0]
                             sub_sum_uno_hours = sub_sum_uno_hours + obj_sum[1]
@@ -1314,6 +1318,8 @@ def engagement_info(request):
                     cursor.execute(
                         "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
                         (str(i),))
+
+                    print(cursor.fetchall())
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
@@ -2332,9 +2338,9 @@ def uploadProjectSub(request, pk):
             and p.total_k12_students = %s  and p.total_k12_hours = %s"
 
             cursor.execute(select_proj, (
-            str(mission_name).strip(), camp_name_list, comm_name_list, str(acd_yr), str(engName),
-            str(proj_name).strip() + "%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std),
-            str(unok12Hrs),))  # ,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
+                str(mission_name).strip(), camp_name_list, comm_name_list, str(acd_yr), str(engName),
+                str(proj_name).strip() + "%", str(start_sem), str(unoStds), str(unostdHrs), str(unoK12std),
+                str(unok12Hrs),))  # ,[mission_name,camp_name_list,comm_name_list,acd_yr,engName,proj_name])
             proj_result = cursor.fetchall()
             if proj_result is not None and len(proj_result) > 0:
 

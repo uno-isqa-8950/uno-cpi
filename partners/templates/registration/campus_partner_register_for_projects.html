@@ -532,6 +532,7 @@
 <!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
 <script type="text/javascript" >
      var contactdataarray=[];
+     var contactdataarray_compare = []
      var cnt = 0;
     function updateElementIndex(el, prefix, ndx) {
         var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -563,6 +564,7 @@
                 var type = $('#id_' + name).val();
                 dataarray.push(type);
                 contactdataarray.push(type);
+                contactdataarray_compare.push(contactdataarray);
 
 
 
@@ -646,14 +648,6 @@
         $('.form-row').find(':input').each(function () {
             var name = $(this).attr('name');
             if (name !== undefined) {
-                // if (name.includes("contact_type")){
-                //     if ($(this).val() === null) {
-                //         alert("Select Contact Type");
-                //         $(this).css("border-color","red");
-                //         valid = false;
-                //         return false;
-                //     }
-                // }
                 if (name.includes("first_name")){
                     if ($(this).val() === '') {
                         alert("Provide First Name");
@@ -693,82 +687,21 @@
 
         return valid;
     }
-//     function contactsubmit(){
-//     var valid = true;
-//     $('.contact-row').find(':input').each(function () {
-//         var name = $(this).attr('name');
-//         if (name !== undefined) {
-//               if (name.includes("contact_type")){
-//                 if ($(this).val() === null) {
-//
-//                     valid = false;
-//                     return false;
-//                 }
-//             }
-//             if (name.includes("first_name")){
-//                 if ($(this).val() === '') {
-//                     valid = false;
-//                     return false;
-//                 }
-//             }
-//             if(name.includes("last_name")){
-//                 if ($(this).val() === '') {
-//                     valid = false;
-//                     return false;
-//                 }
-//             }
-//             if(name.includes("email_id")) {
-//                 if ($(this).val() === '') {
-//                     valid = false;
-//                     return false;
-//                 } else {
-//                     var maxl = $(this).val().length;
-//                     if (($(this).val().substr(maxl - 4, maxl) != '.edu')) {
-//                         alert("Please use your campus email (.edu) for the registration of a Campus Partner.");
-//                         valid = false;
-//                         return false;
-//                     }
-//                 }
-//             }
-//             if(name.includes("work_phone")) {
-//                 if ($(this).val() === '') {
-//                     valid = false;
-//                     return false;
-//                 }
-//             }
-//         }
-//     });
-//
-//     return valid;
-// }
-
-
-
 
     $(document).on('click', '.add-form-row', function(e){
         e.preventDefault();
         //var validinput = validateForm();
         console.log("entering clonemore add button");
+        console.log("contactdataarray:");
         console.log(contactdataarray);
-
-        // if(contactdataarray[3] == "" && contactdataarray[4] == "" && contactdataarray[5] == "")
-        //  {
-        //      console.log("success");
-        //    alert("Cannot add empty contact");
-        //
-        // }
-        // else{
-        //     console.log("entered the addition condition");
-        //      cloneMore('.form-row:last', 'form');
-        //     return true;
-        // }
+        console.log("compare:");
+        console.log(contactdataarray_compare);
         var initialcheck = validatecontact();
         if((initialcheck === true)) {
             $('.error').remove();
             cloneMore('.form-row:last', 'form');
             return true;
         }
-
     });
 
     $(document).on('click', '.remove-form-row', function(e){
@@ -782,9 +715,6 @@
     });
 
 </script>
-
-
-
 
 
 

@@ -14,8 +14,8 @@ from wagtail.snippets.models import register_snippet
 from simple_history.models import HistoricalRecords
 from django.utils import timezone
 
-class HomePage(Page):
 
+class HomePage(Page):
     # Hero section of HomePage
     image = models.ForeignKey(
         'wagtailimages.Image',
@@ -28,7 +28,7 @@ class HomePage(Page):
     hero_text = models.CharField(
         max_length=255,
         help_text='Write an introduction for the Site'
-        )
+    )
 
     # Body section of the HomePage
     body = StreamField(
@@ -73,7 +73,7 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text='First featured section for the homepage. Will display up to '
-        'three child items.',
+                  'three child items.',
         verbose_name='Featured section 1'
     )
 
@@ -90,7 +90,7 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text='Second featured section for the homepage. Will display up to '
-        'three child items.',
+                  'three child items.',
         verbose_name='Featured section 2'
     )
 
@@ -107,7 +107,7 @@ class HomePage(Page):
         on_delete=models.SET_NULL,
         related_name='+',
         help_text='Third featured section for the homepage. Will display up to '
-        'six child items.',
+                  'six child items.',
         verbose_name='Featured section 3'
     )
 
@@ -126,15 +126,15 @@ class HomePage(Page):
             MultiFieldPanel([
                 FieldPanel('featured_section_1_title'),
                 PageChooserPanel('featured_section_1'),
-                ]),
+            ]),
             MultiFieldPanel([
                 FieldPanel('featured_section_2_title'),
                 PageChooserPanel('featured_section_2'),
-                ]),
+            ]),
             MultiFieldPanel([
                 FieldPanel('featured_section_3_title'),
                 PageChooserPanel('featured_section_3'),
-                ])
+            ])
         ], heading="Featured homepage sections", classname="collapsible"),
         StreamFieldPanel('bottom')
     ]
@@ -142,12 +142,11 @@ class HomePage(Page):
     def __str__(self):
         return self.title
 
-
     class Meta:
         verbose_name = "homepage"
 
-class BlogPage(Page):
 
+class BlogPage(Page):
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
@@ -165,7 +164,6 @@ class BlogPage(Page):
     subtitle = models.CharField(blank=True, max_length=255)
     external_link = models.CharField(blank=True, max_length=255)
 
-
     content_panels = Page.content_panels + [
         FieldPanel('subtitle', classname="full"),
         FieldPanel('introduction', classname="full"),
@@ -182,7 +180,6 @@ class BlogPage(Page):
 
 
 class BlogIndexPage(RoutablePageMixin, Page):
-
     introduction = models.TextField(
         help_text='Text to describe the page',
         blank=True)
@@ -262,6 +259,7 @@ class BlogIndexPage(RoutablePageMixin, Page):
     #     tags = sorted(set(tags))
     #     return tags
 
+
 class UserManager(BaseUserManager):
     """Define a model manager for User model with no username field."""
 
@@ -309,7 +307,7 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractUser):
-    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True,blank=True)
+    university = models.ForeignKey('university.University', on_delete=models.SET_NULL, null=True, blank=True)
     is_campuspartner = models.BooleanField(default=False)
     is_communitypartner = models.BooleanField(default=False)
     avatar = models.ImageField(default='profile_image/default.jpg', upload_to='profile_image', null=True, blank=True)
@@ -325,17 +323,21 @@ class Contact(models.Model):
     contacttype_choices = (
         ('Primary', 'Primary'),
         ('Secondary', 'Secondary'),
-        ('Other' ,'Other')
+        ('Other', 'Other')
     )
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    work_phone= models.CharField(max_length=14, blank=True, null=True)
-    cell_phone= models.CharField(blank=True,null= True, max_length=14)
+    work_phone = models.CharField(max_length=14, blank=True, null=True)
+    cell_phone = models.CharField(blank=True, null=True, max_length=14)
     email_id = models.EmailField(unique=False)
     contact_type = models.CharField(max_length=15, choices=contacttype_choices, default='Select', null=True, blank=True)
-    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE,null=True,blank=True)
+    community_partner = models.ForeignKey('partners.CommunityPartner', on_delete=models.CASCADE, null=True, blank=True)
     campus_partner = models.ForeignKey('partners.CampusPartner', on_delete=models.CASCADE, null=True, blank=True)
     history = HistoricalRecords()
+
+    class Meta:
+        unique_together = ('first_name', 'last_name', 'email_id',
+                           'community_partner', 'campus_partner')
 
     def __str__(self):
         return str(self.email_id)
@@ -344,9 +346,9 @@ class Contact(models.Model):
         return '%s %s ' % (self.first_name, self.last_name)
 
 
-class MissionArea (models.Model):
+class MissionArea(models.Model):
     mission_name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True,max_length=1500)
+    description = models.TextField(null=True, blank=True, max_length=1500)
     mission_image_url = models.URLField(max_length=300, blank=True)
     mission_color = models.CharField(max_length=100, blank=True)
 
@@ -365,22 +367,26 @@ class HouseholdIncome(models.Model):
 
     def __str__(self):
         return str(self.county)
-class DataDefinitionGroup (models.Model):
-    group = models.CharField(max_length=100,default="Default")
+
+
+class DataDefinitionGroup(models.Model):
+    group = models.CharField(max_length=100, default="Default")
 
     def __str__(self):
         return str(self.group)
 
+
 class DataDefinition(models.Model):
-    id = models.IntegerField(unique=True,null=False, blank=False, primary_key=True)
+    id = models.IntegerField(unique=True, null=False, blank=False, primary_key=True)
     title = models.CharField(max_length=500)
     description = models.CharField(max_length=1000)
-    group = models.ForeignKey('DataDefinitionGroup', on_delete=models.CASCADE,default=True)
+    group = models.ForeignKey('DataDefinitionGroup', on_delete=models.CASCADE, default=True)
     is_active = models.BooleanField(default=False)
     history = HistoricalRecords()
 
     def __str__(self):
         return str(self.title)
+
 
 @register_snippet
 class Campus_Partner_Snippet(models.Model):
@@ -396,6 +402,7 @@ class Campus_Partner_Snippet(models.Model):
     class Meta:
         verbose_name = "Campus Partner Snippet"
 
+
 @register_snippet
 class Campus_Partner_User_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -409,6 +416,7 @@ class Campus_Partner_User_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Campus Partner User Snippet"
+
 
 @register_snippet
 class Community_Partner_Snippet(models.Model):
@@ -424,6 +432,7 @@ class Community_Partner_Snippet(models.Model):
     class Meta:
         verbose_name = "Community Partner Snippet"
 
+
 @register_snippet
 class Community_Partner_User_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -437,6 +446,7 @@ class Community_Partner_User_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Community Partner User Snippet"
+
 
 @register_snippet
 class Public_Project_Report_Snippet(models.Model):
@@ -452,6 +462,7 @@ class Public_Project_Report_Snippet(models.Model):
     class Meta:
         verbose_name = "Public Project Report Snippet"
 
+
 @register_snippet
 class Private_Project_Report_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -465,6 +476,7 @@ class Private_Project_Report_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Private Project Report Snippet"
+
 
 @register_snippet
 class Community_Public_Report_Snippet(models.Model):
@@ -480,6 +492,7 @@ class Community_Public_Report_Snippet(models.Model):
     class Meta:
         verbose_name = "Community Public Report Snippet"
 
+
 @register_snippet
 class Community_Private_Report_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -493,6 +506,7 @@ class Community_Private_Report_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Community Private Report Snippet"
+
 
 @register_snippet
 class Engagement_Types_Report_Snippet(models.Model):
@@ -508,6 +522,7 @@ class Engagement_Types_Report_Snippet(models.Model):
     class Meta:
         verbose_name = "Engagement Types Report Snippet"
 
+
 @register_snippet
 class Mission_Areas_Report_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -521,6 +536,7 @@ class Mission_Areas_Report_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Mission Areas Report Snippet"
+
 
 @register_snippet
 class Mission_Areas_Chart_Snippet(models.Model):
@@ -536,6 +552,7 @@ class Mission_Areas_Chart_Snippet(models.Model):
     class Meta:
         verbose_name = "Mission Areas Charts Snippet"
 
+
 @register_snippet
 class Engagement_Types_Chart_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -549,6 +566,7 @@ class Engagement_Types_Chart_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Engagement Types Chart Snippet"
+
 
 @register_snippet
 class Register_Campus_Partner_Snippet(models.Model):
@@ -564,6 +582,7 @@ class Register_Campus_Partner_Snippet(models.Model):
     class Meta:
         verbose_name = "Register Campus Partner Snippet"
 
+
 @register_snippet
 class Register_Community_Partner_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -577,6 +596,7 @@ class Register_Community_Partner_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Register Community Partner Search Snippet"
+
 
 @register_snippet
 class Register_Campus_Partner_User_Snippet(models.Model):
@@ -592,6 +612,7 @@ class Register_Campus_Partner_User_Snippet(models.Model):
     class Meta:
         verbose_name = "Register Campus Partner User Snippet"
 
+
 @register_snippet
 class Register_Community_Partner_User_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -605,6 +626,7 @@ class Register_Community_Partner_User_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Register Community Partner User Snippet"
+
 
 @register_snippet
 class All_Projects_Snippet(models.Model):
@@ -620,6 +642,7 @@ class All_Projects_Snippet(models.Model):
     class Meta:
         verbose_name = "All Projects Page Snippet"
 
+
 @register_snippet
 class My_Projects_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -633,6 +656,7 @@ class My_Projects_Snippet(models.Model):
 
     class Meta:
         verbose_name = "My Projects Page Snippet"
+
 
 @register_snippet
 class Create_Projects_Snippet(models.Model):
@@ -648,6 +672,7 @@ class Create_Projects_Snippet(models.Model):
     class Meta:
         verbose_name = "Create Projects Search Page Snippet"
 
+
 @register_snippet
 class Create_Projects_Form_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -661,6 +686,7 @@ class Create_Projects_Form_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Create Projects Form Snippet"
+
 
 @register_snippet
 class edit_Projects_Form_Snippet(models.Model):
@@ -691,6 +717,7 @@ class Register_Community_Partner_Form_Snippet(models.Model):
     class Meta:
         verbose_name = "Register Community Partner Form Snippet"
 
+
 @register_snippet
 class Community_Partner_Project_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -704,6 +731,7 @@ class Community_Partner_Project_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Community Partner Project Snippet"
+
 
 @register_snippet
 class Partners_User_Profile_Snippet(models.Model):
@@ -719,6 +747,7 @@ class Partners_User_Profile_Snippet(models.Model):
     class Meta:
         verbose_name = "Partners User Profile Snippet"
 
+
 @register_snippet
 class Partners_User_Profile_Update_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -732,6 +761,7 @@ class Partners_User_Profile_Update_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Partners User Profile Update Snippet"
+
 
 @register_snippet
 class Partners_Organizatiion_Profile_Snippet(models.Model):
@@ -747,6 +777,7 @@ class Partners_Organizatiion_Profile_Snippet(models.Model):
     class Meta:
         verbose_name = "Partners Organization Profile Snippet"
 
+
 @register_snippet
 class Partners_Organizatiion_Profile_Contacts_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -760,6 +791,7 @@ class Partners_Organizatiion_Profile_Contacts_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Partners Organization Profile Contacts Snippet"
+
 
 @register_snippet
 class Partners_Organizatiion_Profile_Partners_Add_Snippet(models.Model):
@@ -775,6 +807,7 @@ class Partners_Organizatiion_Profile_Partners_Add_Snippet(models.Model):
     class Meta:
         verbose_name = "Partners Organization Profile Partners Add Snippet"
 
+
 @register_snippet
 class Partners_Organizatiion_Profile_Partners_Update_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -788,6 +821,7 @@ class Partners_Organizatiion_Profile_Partners_Update_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Partners Organization Profile Partners Update Snippet"
+
 
 @register_snippet
 class Logout_Snippet(models.Model):
@@ -803,6 +837,7 @@ class Logout_Snippet(models.Model):
     class Meta:
         verbose_name = "Logout Snippet"
 
+
 @register_snippet
 class Login_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -817,6 +852,7 @@ class Login_Snippet(models.Model):
     class Meta:
         verbose_name = "Login Snippet"
 
+
 @register_snippet
 class Password_Reset_Snippet(models.Model):
     text = models.CharField(max_length=1250)
@@ -830,6 +866,7 @@ class Password_Reset_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Password Reset Snippet"
+
 
 @register_snippet
 class Password_Reset_Done_Snippet(models.Model):
@@ -846,12 +883,12 @@ class Password_Reset_Done_Snippet(models.Model):
         verbose_name = "Password Reset Done_Snippet"
 
 
-class Resource (models.Model):
+class Resource(models.Model):
     resource_descr = models.CharField(max_length=250, blank=True, null=False)
     resource_link = models.CharField(max_length=250, blank=True, null=False)
     isAccessible = models.BooleanField(default=True)
     listing_order = models.IntegerField(default='0')
-    #updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    # updated_by_user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     updated_date = models.DateField(default=timezone.now)
     created_date = models.DateTimeField(default=timezone.now)
     history = HistoricalRecords()
@@ -896,7 +933,6 @@ class TrendReport_Chart_Snippet(models.Model):
 
     class Meta:
         verbose_name = "Trend Report Chart Snippet"
-
 
 
 @register_snippet

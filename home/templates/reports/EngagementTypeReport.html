@@ -73,7 +73,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                      Academic Years
                 </label>
-                <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                <select id="id_academic_year" name="academic_year" onchange="this.form.submit()" data-cy="academic_year">
                     <option> All </option>
                     {% for sem in year_filter.form.academic_year %}
                         {{sem}}
@@ -91,7 +91,7 @@
 
                      Project Focus Areas
                 </label>
-                <select id="id_mission" name="mission" onchange="this.form.submit()">
+                <select id="id_mission" name="mission" onchange="this.form.submit()" data-cy="mission">
                     <option> All </option>
                     {% for mission in missions_filter.form.mission %}
                         {{mission}}
@@ -106,7 +106,7 @@
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                          Community Organization Types
                 </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()" data-cy="community_type">
                         <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -122,7 +122,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                      College and Main Units
                 </label>
-                <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                <select id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="college_name">
                     <option> All </option>
                     {% for college in college_filter.form.college_name %}
                         {{college}}
@@ -137,7 +137,7 @@
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                  Campus Partners
             </label>
-                <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()" data-cy="campus_partner">
                     <option value="" disabled selected hidden></option>
                     <option> All </option>
                     <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -158,7 +158,7 @@
                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                          CEC Building Partners
                 </label>
-                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                   <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
                        <option value="" disabled selected hidden></option>
                      {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
@@ -223,19 +223,19 @@
 <tbody>
    {% for e in engagement_List %}
         <tr>
-            <td><span data-toggle="tooltip" title="{{ e.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> {{ e.engagement_name }}</td>
+            <td data-cy="engagement-type"><span data-toggle="tooltip" title="{{ e.description }}" data-cy="engagement-type-tooltip"><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span> {{ e.engagement_name }}</td>
             <td>
                 {% if  e.project_count  < 1 %}
                 {{e.project_count}}
                 {% else %}
-                <a href="{% url 'projectspublicreport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1">{{e.project_count}}</a>
+                <a href="{% url 'projectspublicreport' %}?proj_id_list={{ e.project_id_list }}" target="_blank" class="class1" data-cy="projectcount">{{e.project_count}}</a>
                 {% endif %}</td>
 
             <td>
                  {% if  e.community_count  < 1 %}
                 {{e.community_count}}
                 {% else %}
-                <a href="{% url 'communitypublicreport' %}?comm_ids={{ e.comm_id_list }}" target="_blank" class="class1">{{ e.community_count }}</a>
+                <a href="{% url 'communitypublicreport' %}?comm_ids={{ e.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{ e.community_count }}</a>
                 {% endif %}
             </td>
             <td>{{ e.campus_count }}</td>

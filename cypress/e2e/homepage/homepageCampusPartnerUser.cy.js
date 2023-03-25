@@ -1,4 +1,6 @@
 /// <reference types="cypress"/>
+import user from "../../support/commands";
+
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
@@ -9,16 +11,18 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Home Page Public user', () => {
+describe('Home Page Campus Partner User', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
+        cy.get('#login').click()
+        cy.loginCampusUser(user)
         })
     })
     //Check base url is loading the Home Page of CEPI application
     it('visits the form', function() {
         cy.visit({
-            url: this.data.baseUrl,
+            url: this.data.baseUrl+'myProjects/',
             method: 'GET',
           })
     })
@@ -63,7 +67,7 @@ describe('Home Page Public user', () => {
             .and('contain.text', 'Analytics')
             .and('contain.text', 'Partners')
             .and('contain.text', 'Resources')
-            .and('contain.text', 'Login')
+            //.and('contain.text', 'Login')
     })
      it('Navigation bar options for Maps', function() {
         cy.get('[data-cy=maps]').click()
@@ -72,6 +76,13 @@ describe('Home Page Public user', () => {
         cy.contains('City Districts')
         cy.contains('Community Partner Types')
         cy.contains('Projects')
+        })
+     it('Navigation bar options for Projects', function() {
+        cy.get('[data-cy="projects"]').click()
+        cy.contains('All Projects')
+        cy.contains('My Projects')
+        cy.contains('Create Project')
+        cy.contains('My Drafts')
         })
     it('Navigation bar options for Analytics', function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
@@ -87,14 +98,15 @@ describe('Home Page Public user', () => {
             cy.wrap($el).contains('Focus Area')
             cy.wrap($el).contains('Engagement Types')
         })
-
     })
     it('Navigation bar options for Partners, Login', function() {
         cy.get('[data-cy=partners]').click()
         cy.url().should('be.equal', this.data.baseUrl+'partners/')
         cy.get('[data-cy=uno]').click()
-        cy.get('[data-cy=login]').click()
-        cy.url().should('be.equal', this.data.baseUrl+'account/login-Page/')
+        // User Login link
+        cy.get('[data-cy="accountinfo"]').click()
+        cy.contains('User')
+        cy.contains('Logout')
     })
     it('Navigation bar options for Resources', function() {
         cy.get('[data-cy=resources]').click()
@@ -106,6 +118,7 @@ describe('Home Page Public user', () => {
         })
     //Verify links in homepage section
     it('Verify links in homepage section', function() {
+        cy.get('[data-cy=himg]').click()
         cy.get('.initialcontent').should('contain', 'REGISTER A NEW CAMPUS PARTNER')
         .and('contain', 'VIEW THE COMMUNITY PARTNER LEGISLATIVE MAP')
         .and('contain', 'VIEW PARTNER AND PROJECT ANALYTICS BY FOCUS AREA')

@@ -8,7 +8,6 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-
 })
 
 describe('Analytic Reports Campus Partner user', () => {

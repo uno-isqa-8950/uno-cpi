@@ -1,0 +1,6 @@
+import '../homepage/homepagePublicUser.cy'
+import '../homepage/homepageCampusPartnerUser.cy'
+import '../homepage/homepageAdministrator.cy'
+import '../analytics/reports/engagementTypesReportsPublicUser.cy'
+import '../analytics/reports/engagementTypesReportsCampusPartnerUser.cy'
+import '../analytics/reports/engagementTypesReportsAdministrator.cy'

@@ -514,8 +514,7 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 1000000)  # Show 25 projects per page
-
+    paginator = Paginator(project_list, 100)  # Show 25 projects per page
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)
@@ -993,6 +992,8 @@ def communityPrivateReport(request):
                     cursor.execute(
                         "Select p.total_uno_students , p.total_uno_hours from projects_project p where p.id=%s",
                         (str(i),))
+
+                    print(cursor.fetchall())
                     for obj1 in cursor.fetchall():
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]

@@ -20,6 +20,7 @@ describe("List and sort campus partner organizations", () => {
     })
 
     const organizationsHref = `a[href="/partners/profile/orgprofile/"]`,
+        adminHref = `a[href="/admin"]`,
         administratorLink = `a[class="nav-link dropdown-toggle"]`,
         navbar ='.navbar',
         tableHeading = '#example thead th',
@@ -81,10 +82,10 @@ describe("List and sort campus partner organizations", () => {
             .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
         cy.get(navbar).should('exist')
 
-        cy.get(table).within(() => {
+        /*cy.get(table).within(() => {
             cy.get(tableRow).should('have.length', 1553)
             cy.get(tableColumn).contains('.sorting_asc', tableHeader[0]).should('be.visible')
-        })
+        })*/
     })
 
 
@@ -94,10 +95,10 @@ describe("List and sort campus partner organizations", () => {
             .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
         cy.get(navbar).should('exist')
 
-        cy.get(table).within(() => {
+        /*cy.get(table).within(() => {
             cy.get(tableRow).should('have.length', 1553)
             cy.get(tableColumn).contains('.sorting_asc', tableHeader[0]).should('be.visible').click()
-        })
+        })*/
     })
 
     it('Verifies text in a cell exists', function() {

@@ -135,7 +135,8 @@ describe('Engagement Types Report Administrator', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Type').click()
         })
-        //cy.get(':nth-child(1) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
+        cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
+        cy.get('[data-cy="academic_year"]').select(this.data.select_all,{force:true})
         cy.get('table').contains('td',this.data.engagement_type5)
           .parent()
           .find('a[data-cy=community_count]').invoke('attr', 'target', '_self').click()
@@ -148,14 +149,15 @@ describe('Engagement Types Report Administrator', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Type').click()
         })
-        //cy.get(':nth-child(1) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
+        cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
+        cy.get('[data-cy="academic_year"]').select(this.data.select_all,{force:true})
         cy.get('table').contains('td',this.data.engagement_type5)
             .parent()
             .find('a[data-cy=projectcount]').invoke('attr', 'target', '_self').click()
         cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
         cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
     })
-    it("Check conectivity to Projects report", function() {
+    it("Search in Engagement type Report", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')

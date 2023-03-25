@@ -19,10 +19,10 @@ describe('My Drafts - campus partner user', () => {
         })
     })
     it('Check login form', function() {
-        cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+        cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     })
     it ('Create test data for checking "My Drafts"', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()
     cy.contains('Create Project').click()
@@ -86,7 +86,7 @@ describe('My Drafts - campus partner user', () => {
     })
 
     it('My Draft - Edit option', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()
     cy.contains('My Drafts').click()
@@ -117,10 +117,10 @@ describe('My Drafts - campus partner user', () => {
     cy.get('#termsdiv > p').should('contain', "I agree to the Terms")
     cy.get('#terms').click()
     cy.get('#submit').click()
-    cy.url().should('be.equal', this.data.baseUrl+'submit-project-done/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'submit-project-done/')
     cy.get('.box > p').should('contain', 'My Projects')
     cy.get('[style=" color: #d71920;"]').click()
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#example_filter > label > .form-control').type(this.data.project_name1+'{enter}')
     cy.get('.sorting_1').should('contain',this.data.project_name1).click()
     cy.get('.sorting_1').should('contain',this.data.project_name1)
@@ -132,7 +132,7 @@ describe('My Drafts - campus partner user', () => {
     // login as admin
     cy.get('#login').click()
     cy.loginAdminUser(user)
-    cy.visit(this.data.baseUrl+'admin/')
+    cy.visit(Cypress.env('baseUrl')+'admin/')
     //check Projects database
     cy.get('.model-project > th > a').click()
     cy.get('#searchbar').type(this.data.project_name1)
@@ -147,7 +147,7 @@ describe('My Drafts - campus partner user', () => {
     })
 
     it('My Draft - Delete option', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()
     cy.contains('My Drafts').click()
@@ -162,7 +162,7 @@ describe('My Drafts - campus partner user', () => {
     // login as admin
     cy.get('#login').click()
     cy.loginAdminUser(user)
-    cy.visit(this.data.baseUrl+'admin/')
+    cy.visit(Cypress.env('baseUrl')+'admin/')
     //check Projects database
     cy.get('.model-project > th > a').click()
     cy.get('#searchbar').type(this.data.project_name2)
@@ -171,7 +171,7 @@ describe('My Drafts - campus partner user', () => {
     })
 
     it('data cleanup', function() {
-    cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()
     cy.contains('My Projects').click()

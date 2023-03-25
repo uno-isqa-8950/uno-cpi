@@ -1033,7 +1033,6 @@ def project_partner_info_admin(request):
 
                     print(cursor.fetchall())
                     for obj1 in cursor.fetchall():
-                        # print("obj1:" + str(obj1) + str(type(obj1)))
                         sum_uno_students = sum_uno_students + obj1[0]
                         sum_uno_hours = sum_uno_hours + obj1[1]
                         sum_k12_students = sum_k12_students + obj1[2]

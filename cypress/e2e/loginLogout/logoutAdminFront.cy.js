@@ -13,6 +13,9 @@ beforeEach(() => {
       cy.fixture("users").then(function(data) {
         this.data = data
       })
+      cy.fixture("datareports").then(function(datas) {
+        this.datas = datas
+      })
     })
     it('can submit a valid form', function(){
         const emailInput = 'input[id="email_input"]',
@@ -23,10 +26,10 @@ beforeEach(() => {
         cy.get(loginHref).click().get(emailInput).type(this.data.adminUser.username).type('{enter}')
           .get("#password_input").type(this.data.adminUser.password)
           .get(loginButtonId).click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/')
+          .url().should('be.equal', this.datas.baseUrl)
           .get(accountInfoId).should('exist').click()
           .get(logoutButtonId).should('exist').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/logout/')
+          .url().should('be.equal', this.datas.baseUrl+'logout/')
           .get('h3').contains('Logged Out')
     })
 })

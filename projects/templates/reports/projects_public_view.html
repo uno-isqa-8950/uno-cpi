@@ -304,7 +304,7 @@
         });
     </script>
 
-    <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
+    <div class=" text-center"><h4 class="heading" data-cy="heading">Projects Report</h4></div>
     <div class="card snippet-card">
         <div class="container text-snippet">
             {% priv_projs %}
@@ -500,7 +500,7 @@
                                     {% endfor %}
                                 </a>
                                 <div class="media-body">
-                                    <div class="card-toptext">
+                                    <div class="card-toptext" data-cy="toptext">
                                         <h6 class="media-subheading">
                                             <i>{{ project.mission_area.all|join:", " }}</i>
                                             <span id="academic_year"><i>{{ project.academic_year }}</i></span>

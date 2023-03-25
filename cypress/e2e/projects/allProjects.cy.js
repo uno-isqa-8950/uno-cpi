@@ -100,7 +100,8 @@ beforeEach(() => {
         const projectsId = '#projectsnav',
           allProjectsHref = `a[href="/allProjects/"]`,
           filterOptionSelection = `span[class="select2-selection select2-selection--single"]`,
-          tableData = `td[class="sorting_1"]`  
+          tableData = `td[class="sorting_1"]`,
+          applyFiltersButtonId = '#btnApply'
         cy.get(projectsId).should('exist').click()
           .get(allProjectsHref).should('exist').click()
          // selecting filter option from  academic years filters 
@@ -110,6 +111,7 @@ beforeEach(() => {
                .contains(this.data.academic_year1)
                .click()
              })
+               .get(applyFiltersButtonId).click()
              cy.get(tableData).contains(this.data.academic_year1)
       })
 

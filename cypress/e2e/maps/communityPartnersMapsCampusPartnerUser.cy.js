@@ -16,7 +16,7 @@ describe('community partners maps test', () => {
   })
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
-  it('Community partners page visit with campus partner login ', () => {
+  it('Community partners page visit with campus partner login ', function() {
     const communityPartnersHref = `a[href="/community-Partner"]`,
       filtersButton = '#sidebarCollapse',
       footerId = '#footer',
@@ -27,7 +27,7 @@ describe('community partners maps test', () => {
     cy.loginCampusUser()
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')            
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')            
     // Asserting to check the page title
       .get('div').contains('label', 'Community Partners Map')
     // Checking the number of community partners value is visible
@@ -39,7 +39,7 @@ describe('community partners maps test', () => {
       .get(footerId).should('exist')
   })
 
-  it('Testing map canvas button clickability ', () => {
+  it('Testing map canvas button clickability ', function() {
     const communityPartnersHref = `a[href="/community-Partner"]`,
       filtersButton = '#sidebarCollapse',
       footerId = '#footer',
@@ -47,7 +47,7 @@ describe('community partners maps test', () => {
       mapsLink = `a[class="nav-link dropdown-toggle"]`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')
       .get(filtersButton).should('be.visible')
       .get(mapsDivId).should('exist')
       .get(footerId).should('exist')
@@ -118,7 +118,7 @@ describe('community partners maps test', () => {
       socialJusticeLink = `a[id="Social Justice"]`  
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
     // Testing filters links function
@@ -134,7 +134,7 @@ describe('community partners maps test', () => {
       .get(footerId).should('exist')
   })
 
-  it('Test search and reset are not disabled for community partner under filters', () => {
+  it('Test search and reset are not disabled for community partner under filters', function() {
     const communityPartnersHref = `a[href="/community-Partner"]`,
       filtersButton = '#sidebarCollapse',
       footerId = '#footer',
@@ -144,7 +144,7 @@ describe('community partners maps test', () => {
       resetFilters = `#reset`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
-      .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/community-Partner')
+      .url().should('be.equal', this.data.baseUrl+'community-Partner')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
       .get(searchInputId).click().type('Arts').should('not.be.disabled')

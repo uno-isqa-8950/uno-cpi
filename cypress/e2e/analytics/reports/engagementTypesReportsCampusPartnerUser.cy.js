@@ -1,4 +1,5 @@
 /// <reference types="cypress"/>
+import user from "../../../support/commands";
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
@@ -8,10 +9,12 @@ beforeEach(() => {
     })
     cy.visit(Cypress.env('baseUrl'))
 })
-describe('Engagement Types Report Public User', () => {
+describe('Engagement Types Report Campus Partner User', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
+        cy.get('#login').click()
+        cy.loginCampusUser(user)
         })
     })
      it('visits the form', function() {

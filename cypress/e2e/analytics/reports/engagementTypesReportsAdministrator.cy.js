@@ -1,4 +1,5 @@
 /// <reference types="cypress"/>
+import user from "../../../support/commands";
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
@@ -8,13 +9,15 @@ beforeEach(() => {
     })
     cy.visit(Cypress.env('baseUrl'))
 })
-describe('Engagement Types Report Public User', () => {
+describe('Engagement Types Report Administrator', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
+        cy.get('#login').click()
+        cy.loginAdminUser(user)
         })
     })
-     it('visits the form', function() {
+    it('visits the form', function() {
         cy.visit(Cypress.env('baseUrl'))
     })
    //Check navigation
@@ -66,7 +69,7 @@ describe('Engagement Types Report Public User', () => {
         cy.get('[data-cy=resetfilterbtn]').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
-    // Filter Options
+    // Filter Options    
     it('filter options', function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {

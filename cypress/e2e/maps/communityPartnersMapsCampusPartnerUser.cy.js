@@ -5,15 +5,17 @@ beforeEach(() => {
       return false
     }
   })
-  cy.visit(Cypress.env('baseUrl')) 
+  cy.visit(Cypress.env('baseUrl'))
+  cy.get('#login').click()
+  cy.loginCampusUser()
 })
 
 describe('community partners maps test', () => {
   beforeEach(function() {
     cy.fixture("datareports").then(function(data) {
       this.data = data 
-    })
   })
+})
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
   it('Community partners page visit with campus partner login ', function() {
@@ -23,8 +25,6 @@ describe('community partners maps test', () => {
       mapsDivId = '#map_canvas',
       mapsLink = `a[class="nav-link dropdown-toggle"]`,
       noOfCommPartID ='#totalnumber'
-    cy.get('#login').click()
-    cy.loginCampusUser()
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnersHref).click()
       .url().should('be.equal', this.data.baseUrl+'community-Partner')            

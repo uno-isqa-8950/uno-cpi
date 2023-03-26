@@ -54,7 +54,7 @@
 
 <!-- Navbar Begins -->
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top" data-cy="navbar" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top"  style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
     <!--    <a class="navbar-brand" href="/"><img class="himg" src="{% static 'img/CEPI_UNO.png' %}" height="60" width="340" alt="UNO Logo"></a>-->
 
     <a class="navbar-brand" href="/"><img class="himg" src="{{ logo }}" alt="UNO Logo" data-cy="himg"></a>
@@ -69,10 +69,12 @@
                     <span class="caret"></span>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
+
+                    <a class="dropdown-item" href="/legislative-District" data-cy="legislative-District">Legislative Districts</a>
+
                     <a class="dropdown-item" href="/community-Partner" data-cy="communitypartners">Community Partners</a>
-                    <a class="dropdown-item" href="/legislative-District">Legislative Districts</a>
-                    <a class="dropdown-item" href="/city-District">City Districts</a>
                     <a class="dropdown-item" href="/community-Partner-Type" data-cy="communitypartnertype">Community Partner Types</a>
+                    <a class="dropdown-item" href="/city-District">City Districts</a>
                     <a class="dropdown-item" href="/project-Map">Projects</a>
                 </div>
             </li>

@@ -7,6 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.loginCampusUser()
 })
 describe('Analytic Reports Public user', () => {
     beforeEach(function() {

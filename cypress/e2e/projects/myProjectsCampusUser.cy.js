@@ -26,7 +26,7 @@ beforeEach(() => {
     })
 
     it('Test my projects page navigation bar', function(){
-        const unoLogo = `img[alt="UNO Logo"]`,
+        const unoLogo = '[data-cy="himg"]',
           navigationList = '#navigationList',
           userInfo = '#accountinfo',
           projectsId = '#projectsnav',
@@ -48,7 +48,7 @@ beforeEach(() => {
           footerId = '#footer'
         cy.get(projectsId).should('exist').click()
           .get(myProjectsHref).should('exist').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/myProjects/')
+          .url().should('be.equal', this.data.baseUrl+'myProjects/')
           .get('h3').contains("My Projects").should("be.visible")
           .get(footerId).should('exist')
       })
@@ -94,7 +94,7 @@ beforeEach(() => {
           saveDraftButton = `button[name="draft"]`
         cy.get(projectsId).should('exist').click()
           .get(createProjectsHref).should('exist').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/check-Project/')
+          .url().should('be.equal', this.data.baseUrl+'check-Project/')
           .get(academicYearsDropdown).click()
           .get(academicYearsResultsId).contains(this.data.select_all).click()
           .get(communityPartners).click()
@@ -105,13 +105,13 @@ beforeEach(() => {
           .get(searchButton).click()
            // Partner Information
           .get('#lnk-create_project').should('be.visible').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/create-Project/?p_name=testproject#step-1')
+          .url().should('be.equal', this.data.baseUrl+'create-Project/?p_name=testproject#step-1')
           
           .get(engagementTypeInputField).click()
           .get(engagementTypeResults).contains(this.data.engagement_type3).click()
 
           .get(saveDraftButton).should('be.visible').click()
-          .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/draft-project-done/#step-1')
+          .url().should('be.equal',this.data.baseUrl+'draft-project-done/#step-1')
       })
 
 
@@ -122,13 +122,13 @@ beforeEach(() => {
           saveDraftButton = `button[name="draft"]`
           cy.get(projectsId).should('exist').click()
             .get(myProjectsHref).should('exist').click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/myProjects/')
+            .url().should('be.equal', this.data.baseUrl+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
             .get('td').contains('testproject').click()
             .get('a').contains('Edit').click({force: true})
             .get(projectNameInputField).clear().type('testprojectedited')
             .get(saveDraftButton).click({force: true})
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/draft-project-done/')
+            .url().should('be.equal', this.data.baseUrl+'draft-project-done/')
             .get('h3').contains('Thank You')          
       })
 
@@ -137,7 +137,7 @@ beforeEach(() => {
           myProjectsHref = `a[href="/myProjects/"]`
           cy.get(projectsId).should('exist').click()
             .get(myProjectsHref).should('exist').click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/myProjects/')
+            .url().should('be.equal', this.data.baseUrl+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
             .get('td').contains('testprojectedited').click()
             .get('a').contains('Delete').click({force: true})
@@ -145,6 +145,6 @@ beforeEach(() => {
                 //verify text on pop-up
                 expect(t).to.equal("Are you sure you want to delete this Project?");
              });
-          cy.url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/myProjects/')    
+          cy.url().should('be.equal', this.data.baseUrl+'myProjects/')    
       })
 });

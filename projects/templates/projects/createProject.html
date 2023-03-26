@@ -408,7 +408,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="community-fields displaybox row" id="community-fields"></div>
+                                                <div class="community-fields displaybox row" id="community-fields" data-cy="community-fields"></div>
                                                 <div class="row centered">
                                                     <a class="btn btn-link" href="javascript:void(0);" style="color: #b60000;background:none;" id="id_registerCommAndSave" data-cy="registercommunitypartnerandsave">Not in list? Register a New Community Partner</a>
 
@@ -459,13 +459,13 @@
                                                         <div class="input-group-append" >
                                                 <span tabindex="-1" data-toggle="tooltip"
                                                       title="Click to add selected value" class="float"  data-placement="right" data-cy="clicktoadd" >
-                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true"></i>
+                                                <i class="centered fa fa-plus-square fa-2x add-campus-row" style="padding-top:8px" aria-hidden="true" data-cy="add-campus-row"></i>
                                                 </span>
                                                         </div>
                                                         <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
                                                     </div>
                                                 </div>
-                                                <div class="campus-fields displaybox row" id="campus-fields"></div>
+                                                <div class="campus-fields displaybox row" id="campus-fields" data-cy="campus-fields"></div>
                                                 <div class="row"><br></div>
                                                 <div class="centered">
 
@@ -585,14 +585,14 @@
                                                 <div class="input-group-append" >
                         <span tabindex="-1" data-toggle="tooltip"
                               title="Click to add selected value" class="float"  data-placement="right" data-cy="clicktoaddselected">
-                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true"></i>
+                        <i class="fa fa-plus-square fa-2x add-sub_category-row" style="padding-top:8px" aria-hidden="true" data-cy="add-sub_category_row"></i>
                         </span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!--                                            <i class="fa fa-plus-square fa-2x add-community-row" style="padding-tp:40px; " aria-hidden="true"></i>-->
-                                        <div class="sub_category-fields displaybox row" id="sub_category-fields"></div>
+                                        <div class="sub_category-fields displaybox row" id="sub_category-fields" data-cy="sub_category-fields"></div>
 
                                     {% endfor %}
                                     <div class="row centered"><span class="addothercaterror" style="color: #b60000"></span> </div>
@@ -642,7 +642,7 @@
                                                 <div class="col-md-6">
                                                     <div class="row">
                                                         <label class="col-sm-4" data-cy="address">Address</label>
-                                                        <div class="col-sm-7">
+                                                        <div class="col-sm-7" data-cy="projectaddress">
                                                             {{ project.address_line1}}
                                                         </div>
                                                         {% if  project.address_line1.errors %} {% for error in  project.address_line1.errors %}

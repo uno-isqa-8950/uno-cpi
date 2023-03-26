@@ -155,7 +155,7 @@
         <div class="row" style="margin-left: 0px ">
             <div style=" margin-right: 5px " id="node1-id"></div>
 
-            <div  id="button-id" ></div>
+            <div  id="button-id" data-cy="button-id"></div>
         </div>
 
 
@@ -285,7 +285,8 @@
             <!--var projectName = document.getElementById('projectName').value;-->
             var projectName = $('#projectName').val();
             document.getElementById('button-id').innerHTML =
-                '<tr><td><a class="btn btn-primary" id="lnk-create_project" data-cy="link create project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+
+                '<tr><td><a class="btn btn-primary" id="lnk-create_project"  data-cy="createprojectbutton" role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
             document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
             document.getElementById("tablerows").style.display = "none";
         </script>

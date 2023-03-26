@@ -6,6 +6,7 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.loginAdminUser()
   })
   
   describe('legislative district maps test', () => {
@@ -29,7 +30,7 @@ beforeEach(() => {
         navbar ='[data-cy="navbar"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(legislativedistrictHref).click()
-        .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
+         .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
@@ -64,7 +65,7 @@ beforeEach(() => {
       
             .get(legislativedistrictHref).click()
       
-                  .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
+            .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
       
       //     // filter button clicking and asserting to check the button is not disabled
       

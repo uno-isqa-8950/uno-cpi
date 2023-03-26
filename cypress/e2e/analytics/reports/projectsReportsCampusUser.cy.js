@@ -7,6 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.loginCampusUser()
 })
 describe('Analytic Reports Public user', () => {
     beforeEach(function() {
@@ -16,42 +17,43 @@ describe('Analytic Reports Public user', () => {
     })
     it('visits the form', function() {
         cy.visit(Cypress.env('baseUrl'))
+        cy.loginCampusUser()
     })
    //Check navigation
-   it('Check navigation', function() {
-    cy.get('[data-cy="analytics"]').click()
-    cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
+   it.only('Check navigation', function() {
+    cy.contains('[data-cy="analytics"]').click()
+    cy.contains('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
         cy.wrap($el).invoke('show')
-        cy.wrap($el).get('[data-cy="projectsreport"]').click()
+        cy.wrap($el).contains('[data-cy="projectsreport"]').click()
     })
     })
     it('Check if it is Projects Report', function() {
-        cy.get('[data-cy="analytics"]').click()
-        cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
+        cy.contains('Analytics').click()
+        cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).contains('Projects').click()
         })
-        cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
+        cy.get('.heading').should('contain.text', 'Projects Report')
     })
     it('Hide Filters', function() {
-        cy.get('[data-cy="analytics"]').click()
-        cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
+        cy.get('#analyticnav').click()
+        cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).contains('Projects').click()
         })
-        cy.get('[data-cy="Hide Filters"]').should('have.class', 'btn btn-secondary')
-        cy.get('[data-cy="Hide Filters"]').click() 
-        cy.get('[data-cy="collapse show"]').should('not.be.visible')
+        cy.get('#btn').should('have.class', 'btn btn-secondary')
+        cy.get('#btn').click()
+        cy.get('.select2-selection__placeholder').should('not.be.visible')
         // check the filers are they visible
-        cy.get('[data-cy="Hide Filters"]').click() 
-        cy.get('[data-cy="Hide Filters"]').click() .should('have.class', 'btn btn-secondary')
-        cy.get('[data-cy="collapse show"]').should('be.visible')
+        cy.get('#btn').click()
+        cy.get('#btn').should('have.class', 'btn btn-secondary')
+        cy.get('.select2-selection__placeholder').should('be.visible')
         })
     it('Reset Filters', function() {
-        cy.get('[data-cy="analytics"]').click()
-        cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
+        cy.get('#analyticnav').click()
+        cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).contains('Projects').click()
         })
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         cy.get('#select2-id_academic_year-container').click()
@@ -67,23 +69,23 @@ describe('Analytic Reports Public user', () => {
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
     // Filter Options
-    it.only('filter options', function() {
+    it('filter options', function() {
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Projects').click()
         })
-        cy.get('[data-cy="academic_year"]').click()
-        cy.get('[data-cy="academic_year"]').then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year4).click().scrollIntoView();
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.academic_year4).click();
         })
-        cy.get('[data-cy="mission"]').click()
+        cy.get('#select2-id_mission-container').click()
         cy.get('#select2-id_mission-results').then(($li) => {
             cy.wrap($li).contains(this.data.focus_area4).click();
         })
         cy.get('#select2-id_engagement_type-container').click()
         cy.get('#select2-id_engagement_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.engagement_type1).click().scrollIntoView();
+            cy.wrap($li).contains(this.data.engagement_type3).click();
         })
         cy.get('#select2-id_community_type-container').click()
         cy.get('#select2-id_community_type-results').then(($li) => {

@@ -161,7 +161,7 @@
                                 {{ sub }}
                             {% endfor %}
                         </td>
-                        <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;">Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
+                        <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;" data-cy="draft-edit">Edit</a> <a onclick="return myConfirm()"  href="{% url 'drafts_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;" data-cy="draft-delete"><i class="fa fa-delete"></i> Delete</a> </td>
                     </tr>
 
                 {% endfor %}

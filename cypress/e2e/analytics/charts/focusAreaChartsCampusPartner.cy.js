@@ -29,7 +29,7 @@ describe('Charts Focus Area Campus Partner User', () => {
       cy.wrap($el).invoke('show').should('be.visible')
       cy.wrap($el).get("[data-cy='Focus Area']").click()
     })
-    cy.get("[data-cy='Focus Area]").should('contain.text', 'Focus Areas')
+    cy.get("[data-cy='Focus Area']").should('contain.text', 'Focus Areas')
   })
   //Hide Filters
   it('Hide Filters', function() {

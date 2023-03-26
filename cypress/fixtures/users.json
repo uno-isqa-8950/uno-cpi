@@ -1,14 +1,14 @@
 {
     "campusUser":{ 
-        "username":"unotest.campus@gmail.com",
-         "password":"superman01",
-        "incorrectUsername":"xyz@gmail.com",
-        "incorrectPassword":"superman02"
-     },    
-    "adminUser": {
-        "username":"unotest.super@gmail.com",
-        "password":"superman01",
-        "incorrectUsername":"xyz@gmail.com",
-        "incorrectPassword":"superman02"
-    }
-}
+      "username":"shireen54@gmail.com",
+       "password":"Testme12#",
+      "incorrectUsername":"xyz@gmail.com",
+      "incorrectPassword":"superman02"
+   },    
+  "adminUser": {
+      "username":"shireenbaboon@gmail.com",
+      "password":"Testme12#",
+      "incorrectUsername":"xyz@gmail.com",
+      "incorrectPassword":"superman02"
+  }
+  }

@@ -39,7 +39,7 @@ describe('Analytic Charts Public user', () => {
         cy.get('[data-cy="engagement types"]').should('contain.text', 'Engagement Types')
     })
     // Hide Filters
-    it.only('Hide Filters', function () {
+    it('Hide Filters', function () {
         cy.get('#analyticnav').click()
         cy.contains('Charts').next('.dropdown-menu').then($el => {
             cy.wrap($el).invoke('show')

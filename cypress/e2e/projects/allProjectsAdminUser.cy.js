@@ -43,7 +43,7 @@ beforeEach(() => {
           footer = '[data-cy="footer"]'
         cy.get(projectsLink).should('exist').click()
           .get(allProjectsLink).should('exist').click()
-          .url().should('be.equal', this.data.baseUrl+'allProjects/')
+          .url().should('be.equal', Cypress.env('baseUrl')+'allProjects/')
           .get('h4').contains("All Projects").should("be.visible")
           .get(footer).should('exist')
       })

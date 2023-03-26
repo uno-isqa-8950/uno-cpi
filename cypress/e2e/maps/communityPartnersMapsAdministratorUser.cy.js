@@ -27,7 +27,7 @@ beforeEach(() => {
         noOfCommPart ='[data-cy="totalnumber"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .url().should('be.equal', this.data.baseUrl+'community-Partner')            
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')            
       // Asserting to check the page title
         .get('div').contains('label', 'Community Partners Map')
       // Checking the number of community partners value is visible
@@ -47,7 +47,7 @@ beforeEach(() => {
         mapsLink = '[data-cy="maps"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .url().should('be.equal', this.data.baseUrl+'community-Partner')
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
         .get(filtersButton).should('be.visible')
         .get(mapsDiv).should('exist')
         .get(footer).should('exist')
@@ -76,7 +76,7 @@ beforeEach(() => {
         selectYearDropdown = '[data-cy="selectyear"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .url().should('be.equal', this.data.baseUrl+'community-Partner')
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
       // filter button clicking and asserting to check the button is not disabled
         .get(filtersButton).click().should('not.be.disabled')
       // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
@@ -118,7 +118,7 @@ beforeEach(() => {
         socialJusticeLink = `a[id="Social Justice"]`  
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .url().should('be.equal', this.data.baseUrl+'community-Partner')
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
       // filter button clicking and asserting to check the button is not disabled
         .get(filtersButton).click().should('not.be.disabled')
       // Testing filters links function
@@ -144,7 +144,7 @@ beforeEach(() => {
         resetFilters = '[data-cy="reset"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .url().should('be.equal', this.data.baseUrl+'community-Partner')
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
       // filter button clicking and asserting to check the button is not disabled
         .get(filtersButton).click().should('not.be.disabled')
         .get(searchInput).click().type('Arts').should('not.be.disabled')
@@ -183,22 +183,22 @@ beforeEach(() => {
         .get('td').contains('td', 'Engagement Type').should('be.visible')
     })
   
-    it.skip('Card should be displayed when clicked on a map marker', () => {
+    it.only('Card should be displayed when clicked on a map marker', () => {
       const communityPartnersLink = '[data-cy="communitypartners"]',
         mapsLink = '[data-cy="maps"]',
         mapsDiv = '[data-cy="mapcanvas"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .get(mapsDiv).click(50, 50) // Click on the map at coordinates (50, 50)
-        .get('[tabindex="1"] > img').click({force: true}); cy.wait(1000)
-        .get('div').contains('span', 'Community Partner:').should('exist') // Asserting on pop card fields
-        .get('span').contains('span', 'Total Number of Projects:').should('be.visible')
-        .get('span').contains('span', 'City:').should('be.visible')
-        .get('span').contains('span', 'Focus Areas:').should('be.visible')
-        .get('span').contains('span', 'Community Partner Type:').should('be.visible')
-        .get('span').contains('span', 'Campus Partner:').should('be.visible')
-        .get('span').contains('span', 'Academic Year: ').should('be.visible')
-        .get('span').contains('span', 'Website Link:').should('be.visible')
+        .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
+      .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
+      .get('span').contains('span', 'Total Number of Projects:').should('be.visible')
+      .get('span').contains('span', 'City:').should('be.visible')
+      .get('span').contains('span', 'Focus Areas:').should('be.visible')
+      .get('span').contains('span', 'Community Partner Type:').should('be.visible')
+      .get('span').contains('span', 'Campus Partner:').should('be.visible')
+      .get('span').contains('span', 'Academic Year: ').should('be.visible')
+      .get('span').contains('span', 'Website Link:').should('be.visible')
     })
   
     it('All map markers should be visible on the map canvas', () => {

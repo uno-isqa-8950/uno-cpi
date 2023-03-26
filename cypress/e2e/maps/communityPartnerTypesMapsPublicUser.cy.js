@@ -25,7 +25,7 @@ describe('community partner types maps test', () => {
       noOfCommPartID ='#totalnumber'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .url().should('be.equal', this.data.baseUrl+'community-Partner-Type')
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
     // Asserting to check the page title
       .get('div').contains('label', 'Community Partner Types Map')
     // Checking the number of community partners value is visible
@@ -45,7 +45,7 @@ describe('community partner types maps test', () => {
       mapsLink = `a[class="nav-link dropdown-toggle"]`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .url().should('be.equal', this.data.baseUrl+'community-Partner-Type')
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
       .get(filtersButton).should('be.visible')
       .get(mapsDivId).should('exist')
       .get(footerId).should('exist')
@@ -71,7 +71,7 @@ describe('community partner types maps test', () => {
       mapsLink = `a[class="nav-link dropdown-toggle"]`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click().wait(3000)
-      .url().should('be.equal', this.data.baseUrl+'community-Partner-Type')
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
     // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
@@ -104,7 +104,7 @@ describe('community partner types maps test', () => {
       resetFilters = `#reset`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .url().should('be.equal', this.data.baseUrl+'community-Partner-Type')
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
       .get(searchInputId).click().type('Arts').should('not.be.disabled')
@@ -127,7 +127,7 @@ describe('community partner types maps test', () => {
       nonprofitFilterLink = `a[id="Nonprofit"]`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .url().should('be.equal', this.data.baseUrl+'community-Partner-Type')
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
     // filter button clicking and asserting to check the button is not disabled
       .get(filtersButton).click().should('not.be.disabled')
       .get(allCommunityPartnerTypesFIlterLink).click()

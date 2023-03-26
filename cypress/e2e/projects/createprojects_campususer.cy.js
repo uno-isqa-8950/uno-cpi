@@ -25,7 +25,7 @@ describe ('Create projects for campus partner user', () => {
 
   })
   //Visit Projects and create project
-  it ('Visit Projects and create project', function () {
+  it.only('Visit Projects and create project', function () {
     cy.checkProjectName()
     cy.get('#projectName').type(this.data.createproject_name1)
     cy.get('.btn-secondary').click();

@@ -318,7 +318,7 @@
 
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
                    aria-expanded="false" aria-controls="collapseExample" style="margin:0;" data-cy="Hide Filters"/>
-            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectspublicreport' %}'; " value="Reset Filters" >
+            <input type="button" id="btn-reset" data-cy="Reset Filters" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectspublicreport' %}'; " value="Reset Filters" >
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                     "click",
@@ -344,15 +344,15 @@
             <div class="collapse show" id="collapseExample" data-cy="collapse show">
                 <form class="form-inline" id="filters-form" method="get">
 
-                    <div class="col-lg-4 col-md-5 form-group">
+                    <div class="col-lg-4 col-md-5 form-group" data-cy="academic_year">
 
                         <label for="academic_year">
-                                    <span tabindex="-1" data-toggle="tooltip"
+                                    <span tabindex="-1" data-toggle="tooltip" 
                                           title="{% get_data_definition_desc 'Academic Year(s)' %}" class="float" >
-                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                            <i class="fa fa-info-circle fa-align-top" aria-hidden="true" ></i></span>
                             Academic Years
                         </label>
-                        <select  id="id_academic_year" name="academic_year" data-cy="academic_year" onchange="this.form.submit()">
+                        <select  id="id_academic_year" name="academic_year" data-cy="academic_year_select" onchange="this.form.submit()">
                             <option> All </option>
                             {% for sem in projects.form.academic_year %}
                                 {{sem}}
@@ -381,7 +381,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Community Organization Types
                         </label>
-                        <select id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <select id="id_community_type" data-cy="id_community_type" name="community_type" onchange="this.form.submit()">
                             <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -412,7 +412,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Campus Partners
                         </label>
-                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <select  id="id_campus_partner"  data-cy="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                             {#                        <option> All </option>#}
                             {##}
                             {#                        {% for campus in campus_filter.form.campus_partner %}#}
@@ -500,10 +500,10 @@
                                     {% endfor %}
                                 </a>
                                 <div class="media-body">
-                                    <div class="card-toptext" data-cy="toptext">
+                                    <div class="card-toptext" data-cy="cardtoptext">
                                         <h6 class="media-subheading">
                                             <i>{{ project.mission_area.all|join:", " }}</i>
-                                            <span id="academic_year"><i>{{ project.academic_year }}</i></span>
+                                            <span id="academic_year" data-cy="cardViewAcademicYear"><i>{{ project.academic_year }}</i></span>
                                         </h6>
                                     </div>
 
@@ -657,7 +657,7 @@
                         return 0;
                     });
                 }});
-            $('#id_academic_year').select2({placeholder: 'Previous Academic Year',width: '75%'});
+            $('#id_academic_year' ).select2({placeholder: 'Previous Academic Year',width: '75%'});
             $('#id_weitz_cec_part').select2({placeholder: 'All (CEC/Non-CEC Partners)',width: '85%'});
             $('#id_mission').select2({
                 placeholder: 'All Project Focus Areas', width: '85%',

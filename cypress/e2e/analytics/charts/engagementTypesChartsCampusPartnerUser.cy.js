@@ -19,20 +19,17 @@ describe('Analytic Charts Public user', () => {
         cy.loginCampusUser(user)
         })
     })
-    it('visits the form', function () {
-        cy.visit(Cypress.env('baseUrl'))
-    })
     //Check navigation to Engagement types charts
     it('Check navigation', function () {
-        cy.contains('Analytics').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
     })
     it('Check if it is Engagement Types charts', function () {
-        cy.contains('Analytics').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
@@ -40,8 +37,8 @@ describe('Analytic Charts Public user', () => {
     })
     // Hide Filters
     it('Hide Filters', function () {
-        cy.get('#analyticnav').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
@@ -56,88 +53,53 @@ describe('Analytic Charts Public user', () => {
 
     //Reset Filters
     it('Reset Filters', function () {
-        cy.get('#analyticnav').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
-        cy.get('#select2-id_academic_year-container').click()
-        cy.get('#select2-id_academic_year-results').then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year3).click();
-        })
-        cy.get('#select2-id_mission-container').click()
-        cy.get('#select2-id_mission-results').then(($li) => {
-            cy.wrap($li).contains(this.data.focus_area3).click();
-        })
-        cy.get('#select2-id_academic_year-container').should('contain.text', this.data.academic_year3)
-        cy.get('input[value = "Reset Filters"]').click()
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('#select2-id_academic_year-container').should('have.text' ,this.data.academic_year1)
+        cy.get('[data-cy="mission"]').select(this.data.focus_area3,{force:true})
+        cy.get('#select2-id_academic_year-container').should('contain.text', this.data.academic_year1)
+        cy.get('[data-cy="Reset filter"]').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
     })
-    // Filter Options
-    it ('filter options', function () {
-        cy.get('#analyticnav').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+    // Check selected filter options
+    it('filter options', function () {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
-        cy.get('#select2-id_academic_year-container').click()
-        cy.get('#select2-id_academic_year-results').then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year1).click();
-        })
-        cy.get('#select2-id_mission-container').click()
-        cy.get('#select2-id_mission-results').then(($li) => {
-            cy.wrap($li).contains(this.data.focus_area2).click();
-        })
-        cy.get('#select2-id_community_type-container').click()
-        cy.get('#select2-id_community_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.community_type1).click();
-        })
-        cy.get('#select2-id_college_name-container').click()
-        cy.get('#select2-id_college_name-results').then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get('#select2-id_campus_partner-container').click()
-        cy.get('#select2-id_campus_partner-results').then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get('#select2-id_weitz_cec_part-container').click()
-        cy.get('#select2-id_weitz_cec_part-results').then(($li) => {
-            cy.wrap($li).contains(this.data.cec_part1).click();
-        })
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('#select2-id_academic_year-container').should('have.text' ,this.data.academic_year1)
+        cy.get('[data-cy="mission"]').select(this.data.focus_area3,{force:true})
+        cy.get('#select2-id_mission-container').should('have.text' ,this.data.focus_area3)
+        cy.get('[data-cy="community_type"]').select(this.data.community_type1,{force:true})
+        cy.get('#select2-id_community_type-container').should('have.text' ,this.data.community_type1)
+        cy.get('[data-cy="college_name"]').select(this.data.college_name1,{force:true})
+        cy.get('#select2-id_college_name-container').should('have.text' ,this.data.college_name1)
+        cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3,{force:true})
+        cy.get('#select2-id_campus_partner-container').should('have.text' ,this.data.campus_partner3)
+        cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part1,{force:true})
+        cy.get('#select2-id_weitz_cec_part-container').should('have.text' ,this.data.cec_part1)
     })
 
     //Verify charts x-axis, y-axis and x-axis labels
-    it ('Charts x-axis, y-axis and x-axis labels', function () {
-        cy.get('#analyticnav').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+    it('Charts x-axis, y-axis and x-axis labels', function () {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
-        cy.get('#select2-id_academic_year-container').click()
-        cy.get('#select2-id_academic_year-results').then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year1).click();
-        })
-        cy.get('#select2-id_mission-container').click()
-        cy.get('#select2-id_mission-results').then(($li) => {
-            cy.wrap($li).contains(this.data.focus_area2).click();
-        })
-        cy.get('#select2-id_community_type-container').click()
-        cy.get('#select2-id_community_type-results').then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get('#select2-id_college_name-container').click()
-        cy.get('#select2-id_college_name-results').then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get('#select2-id_campus_partner-container').click()
-        cy.get('#select2-id_campus_partner-results').then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get('#select2-id_weitz_cec_part-container').click()
-        cy.get('#select2-id_weitz_cec_part-results').then(($li) => {
-            cy.wrap($li).contains(this.data.cec_part1).click();
-        })
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('[data-cy="mission"]').select(this.data.focus_area3,{force:true})
+        cy.get('[data-cy="community_type"]').select(this.data.community_type1,{force:true})
+        cy.get('[data-cy="college_name"]').select(this.data.college_name1,{force:true})
+        cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3,{force:true})
+        cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part1,{force:true})
         cy.get('g[class="highcharts-axis highcharts-xaxis"]').contains('Engagement Types')
         cy.get('g[class="highcharts-axis highcharts-yaxis"]').contains('Projects/Partners')
         cy.get('div[class="highcharts-axis-labels highcharts-xaxis-labels"]').filter(':contains("Engaged Research")').should('exist')
@@ -150,8 +112,8 @@ describe('Analytic Charts Public user', () => {
 
     //verify legends in the chart
     it ('Chart legends', function () {
-        cy.get('#analyticnav').click()
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })

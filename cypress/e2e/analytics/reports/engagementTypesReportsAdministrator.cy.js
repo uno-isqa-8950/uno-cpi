@@ -9,20 +9,20 @@ beforeEach(() => {
     })
     cy.visit(Cypress.env('baseUrl'))
 })
-describe('Engagement Types Report Campus Partner User', () => {
+describe('Engagement Types Report Administrator', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
         cy.get('#login').click()
-        cy.loginCampusUser(user)
+        cy.loginAdminUser(user)
         })
     })
-     it('visits the form', function() {
+    it('visits the form', function() {
         cy.visit(Cypress.env('baseUrl'))
     })
    //Check navigation
    it('Check navigation', function() {
-    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl'))
     cy.get('[data-cy=himg]').click()
     cy.get('[data-cy=analytics]').contains('Analytics').click()
     cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
@@ -53,6 +53,7 @@ describe('Engagement Types Report Campus Partner User', () => {
         cy.get('.select2-selection__placeholder').should('be.visible')
         })
     it('Reset Filters', function() {
+        const resetFilterButton = '[data-cy=resetfilterbtn]'
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
@@ -68,7 +69,7 @@ describe('Engagement Types Report Campus Partner User', () => {
         cy.get('[data-cy=resetfilterbtn]').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
-    // Filter Options
+    // Filter Options    
     it('filter options', function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {

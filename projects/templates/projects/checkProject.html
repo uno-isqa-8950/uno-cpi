@@ -42,7 +42,7 @@
     <br><br>
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-            <div class=" text-center"><h3 class="heading">Create Project</h3></div>
+            <div class=" text-center" data-cy="create project"><h3 class="heading">Create Project</h3></div>
             <div class="card snippet-card">
                 <div class="text-snippet">
                     {%         create_projects %}
@@ -50,9 +50,9 @@
             </div>
 
             <div>
-                <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+                <input type="button" id="btn" value= "Hide Filters" data-cy="hide filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
                        aria-expanded="false" aria-controls="collapseExample" />
-                <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
+                <input type="button" id="btn" value= "Reset Filters" data-cy="reset filters" class="btn btn-primary" onclick="window.location.href = '{% url 'checkProject' %}' " value="Reset Filters" >
 
                 <script type="text/javascript">
                     document.getElementById("btn").addEventListener(
@@ -285,7 +285,7 @@
             <!--var projectName = document.getElementById('projectName').value;-->
             var projectName = $('#projectName').val();
             document.getElementById('button-id').innerHTML =
-                '<tr><td><a class="btn btn-primary" id="lnk-create_project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
+                '<tr><td><a class="btn btn-primary" id="lnk-create_project" data-cy="link create project"  role="button" data-toggle="tooltip" title="Click on this button to create a New Project">Create Project<a></td></tr></div>' +'<br><div><label style="margin-left: 10px">The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.</label><br>'
             document.getElementById("lnk-create_project").setAttribute("href","/create-Project?p_name=" + projectName);
             document.getElementById("tablerows").style.display = "none";
         </script>

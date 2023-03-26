@@ -254,7 +254,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Academic Years
                         </label>
-                        <select  id="id_academic_year" name="academic_year">
+                        <select  id="id_academic_year" name="academic_year" data-cy="academicyear">
                             <option> All </option>
                             {% for sem in projects.form.academic_year %}
                                 {{sem}}

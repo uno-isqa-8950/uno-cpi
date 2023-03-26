@@ -304,7 +304,7 @@ label[for=id_campus-0-campus_partner]:after{
 
                                                     <div class="col-md-1">
 <!--                                                        <div><br></div>-->
-                                                <div class="input-group-append" >
+                                                <div class="input-group-append">
                                                 <i class="fa fa-plus-square fa-2x" style="padding-top: 8px" data-toggle="tooltip"
                                                                title="Click to add given value" id="addotheract" aria-hidden="true"></i>
                                             </div>
@@ -360,7 +360,7 @@ label[for=id_campus-0-campus_partner]:after{
 <!--                    </div>-->
 <!--                </div>-->
 
-                    <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo">
+                    <button type="button" id = "projectdurationnav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#academicinfo" data-cy="projectdurationnav">
                     <i class="fa fa-plus"></i> Project Duration <span style="color:red;">*</span>
                     </button>
 
@@ -455,7 +455,7 @@ label[for=id_campus-0-campus_partner]:after{
 
                     </div>
                 <div class="row"><br></div>
-                <button type="button" id="participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo">
+                <button type="button" id="participantinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#studentinfo" data-cy="participantinfonav">
                     <i class="fa fa-plus"></i> Participant Information
                     </button>
 
@@ -633,7 +633,7 @@ label[for=id_campus-0-campus_partner]:after{
 
 
             <div class="row"><br></div>
-                <button type="button" id ="campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo">
+                <button type="button" id ="campuspartnerinfonav" class="collapsible card-header" style="background-color: lightgrey;height: 30px;padding:5px" data-toggle="collapse" href="#campusinfo" data-cy="campuspartnerinfonav">
     <i class="fa fa-plus"></i>
                                  Campus Partner Information <span style="color:red;">*</span>
 
@@ -666,7 +666,7 @@ label[for=id_campus-0-campus_partner]:after{
                                         {% endif %}
                                         </div>
                                         <div class="col-md-1">
-                                            <div class="input-group-append" >
+                                            <div class="input-group-append" data-cy="input-group-append">
                                                 <i class="centered fa fa-plus-square fa-2x add-campus-row" data-toggle="tooltip"
                                                                title="Click to add selected value" onClick="clickCampus()" style="padding-top:8px" aria-hidden="true"></i>
                                             </div>
@@ -762,7 +762,7 @@ label[for=id_campus-0-campus_partner]:after{
                 <div class="col-md-6">
 
 
-                   <select id="id_mission_area" class="form-control" name="id_mission_area">
+                   <select id="id_mission_area" class="form-control" name="id_mission_area" data-cy="id_mission_area">
                        <option value="0">--------</option>
                         {% for miss in mission_areas %}
                         {% if miss.selected == 'selected' %}
@@ -938,8 +938,8 @@ label[for=id_campus-0-campus_partner]:after{
     </div>
     <div class="container-fluid">
 
-                 <div class="row centered" id="termsdiv">
-                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms">
+                 <div class="row centered" id="termsdiv" data-cy="termsdiv">
+                <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms" data-cy="terms">
                     I agree to the <a style="color: #d71920" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
@@ -948,7 +948,7 @@ label[for=id_campus-0-campus_partner]:after{
                  <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" >Save as Draft</button>
 <!--            </div>-->
 <button type="submit" value="update" name="update" id="update" class="save btn btn-secondary" > Update</button>
-                 <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary">  Submit</button>
+                 <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary" data-cy="submit">  Submit</button>
                 <button name="cancel" id="cancel" class="btn btn-cancel"> Cancel</button>
  </div>
     </div>
@@ -2114,7 +2114,7 @@ $('#submit').click(function () {
 });
         window.onsubmit = function checking() {
         var id_name = document.getElementById('id_mission-0-mission');
-        var id_campus = document.getElementById('id_campus-0-campus_partner');
+        var id_campus = document.getElementById('id_campus-0-campus_partner ');
         var val = id_name.options[id_name.selectedIndex].text;
         var val1 = id_campus.options[id_campus.selectedIndex].text;
         var location = document.getElementById("errorid").scrollTop;

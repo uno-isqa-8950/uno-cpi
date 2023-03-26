@@ -25,22 +25,13 @@ Cypress.Commands.add("loginAdminUser", (user) => {
 });
 
 Cypress.Commands.add("checkProjectName", () => {
-  cy.get('#projectsnav').contains('Projects').click()
-  cy.contains('Create Project').click()
-  cy.get('.heading').should('contain.text', 'Create Project')
+  cy.get('[data-cy="cpi"]').click()
+  cy.get('[data-cy="projectsnav"]').click()
+  cy.get('[data-cy="createproject"]').click()
   cy.get('#select2-academicYear-container > .select2-selection__placeholder').contains(data.All_Academic_Years)
-  cy.get('#select2-academicYear-container').click()
-  cy.get('#select2-academicYear-results').then(($li)=> {
-    cy.wrap($li).contains(data.academic_year4).click();
-  })
-  cy.get('#select2-communityPartner-container').click()
-  cy.get('#select2-communityPartner-results').then(($li)=>{
-    cy.wrap($li).contains(data.community_partner1).click();
-  })
-  cy.get('#select2-campuspartner-container').click()
-  cy.get('#select2-campuspartner-results').then(($li)=> {
-    cy.wrap($li).contains(data.campus_partner3).click();
-  })
+  cy.get('[data-cy="academicyear"]').select(data.academic_year4,{force:true})
+  cy.get('[data-cy="communitypartner"]').select(data.community_partner1,{force:true})
+  cy.get('[data-cy="campuspartner"]').select(data.campus_partner3,{force:true})
 });
 
 Cypress.Commands.add("projectInformation", () => {
@@ -48,8 +39,12 @@ Cypress.Commands.add("projectInformation", () => {
   cy.get('#select2-id_engagement_type-results').then(($li)=> {
     cy.wrap($li).contains(data.engagement_type3).click();
   })
-  cy.get('#id_description').type(data._comment7)
-  cy.get('#projectdurationnav').click()
+  cy.get('[data-cy="descriptioninput"]').type(data._comment7)
+  cy.get('[data-cy="projectduration"]').click()
+  cy.get('#select2-id_project_type-container').click()
+    cy.get('#select2-id_project_type-results').then(($li) => {
+        cy.wrap($li).contains('Project').click();
+    })
   cy.get('#select2-id_semester-container').click()
   cy.get('#select2-id_semester-results').then(($li)=> {
     cy.wrap($li).contains(data.semester1).click();
@@ -61,9 +56,9 @@ Cypress.Commands.add("projectInformation", () => {
 });
 
 Cypress.Commands.add("partnersInformation", () => {
-  cy.get('#campuspartnerinfonav').click()
+  cy.get('[data-cy="campuspartnerinfo"]').click()
   cy.get('#id_campus-0-campus_partner').select(data.campus_partner3)
-  cy.get('.add-campus-row').click()
+  cy.get('[data-cy="add-campus-row"]').click()
   cy.get('.sw-btn-next').click()
 });
 

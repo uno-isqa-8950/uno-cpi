@@ -22,7 +22,7 @@ describe('Engagement Types Report Administrator', () => {
     })
    //Check navigation
    it('Check navigation', function() {
-    cy.url().should('be.equal', this.data.baseUrl)
+    cy.url().should('be.equal', Cypress.env('baseUrl'))
     cy.get('[data-cy=himg]').click()
     cy.get('[data-cy=analytics]').contains('Analytics').click()
     cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
@@ -141,7 +141,7 @@ describe('Engagement Types Report Administrator', () => {
           .parent()
           .find('a[data-cy=community_count]').invoke('attr', 'target', '_self').click()
         cy.get('[data-cy="heading"]').should('contain.text', 'Community Partners Report')
-        cy.url().should('contain', this.data.baseUrl+'community-public-report')
+        cy.url().should('contain', Cypress.env('baseUrl')+'community-public-report')
     })
     it("Check conectivity to Projects report", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
@@ -155,7 +155,7 @@ describe('Engagement Types Report Administrator', () => {
             .parent()
             .find('a[data-cy=projectcount]').invoke('attr', 'target', '_self').click()
         cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
-        cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
+        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublicreport/')
     })
     it("Search in Engagement type Report", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()

@@ -99,7 +99,7 @@ align-self: flex-end;
 <div class="loader" id =loading></div>
    <div class="row justify-content-md-center">
       <div class="col-xl-12 col-md-12 col-sm-12">
-                                              <div class=" text-center"><h3 class="heading">Network Analysis Chart</h3></div>
+                                              <div class=" text-center"><h3 class="heading" data-cy="heading">Network Analysis Chart</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
         {% network_charts %}
@@ -290,7 +290,7 @@ align-self: flex-end;
 <br>
 {#    <div class="container">#}
 <div class="box">
-        <div class="boxed" style='align-self: center'> <p id="text" style="align: right"></p></div>
+        <div class="boxed" style='align-self: center'> <p id="text" style="align: right" data-cy="text"></p></div>
     <div id="container"  style= "max-width: 1330px; height: 1020px">
     {{ Missionlist | json_script:"missionlist"}}
     {{ campus_partner_json | json_script:"campus_partner_json"}}

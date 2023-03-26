@@ -10,7 +10,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Analytic Reports Campus Partner user', () => {
+describe('Focus Area Reports Campus Partner user', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
@@ -23,15 +23,7 @@ describe('Analytic Reports Campus Partner user', () => {
     })
     //Check navigation
     it('Check navigation', function() {
-        /*const campus_email = "#email_input",
-            campus_pwd = "#password_input",
-            login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
-        cy.url().should('be.equal', this.data.baseUrl+'myProjects/')
+        cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
         cy.get('#uno').click()
         cy.contains('Analytics').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -41,14 +33,6 @@ describe('Analytic Reports Campus Partner user', () => {
     })
     
     it('Check if it is Focus Area Report', function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.contains('Analytics').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -59,14 +43,6 @@ describe('Analytic Reports Campus Partner user', () => {
     })
     // Hide Filters and Reset Filters
     it('Hide Filters', function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -82,14 +58,6 @@ describe('Analytic Reports Campus Partner user', () => {
         cy.get('.select2-selection__placeholder').should('be.visible')
         })
     it('Reset Filters', function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -111,14 +79,6 @@ describe('Analytic Reports Campus Partner user', () => {
         })
     // Filter Options    
     it('filter options', function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -154,14 +114,6 @@ describe('Analytic Reports Campus Partner user', () => {
     })
     // Check 7 focus area is listed
     it('Check if report contains all Focus Area Report', function () {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -176,15 +128,7 @@ describe('Analytic Reports Campus Partner user', () => {
         cy.get(':nth-child(6) > .sorting_1').contains(this.data.focus_area6)
         cy.get(':nth-child(7) > .sorting_1').contains(this.data.focus_area7)
     })
-    it("Check conectivity to Community Partners report", function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
+    it("Check connectivity to Community Partners report", function() {
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -205,18 +149,9 @@ describe('Analytic Reports Campus Partner user', () => {
         })
         cy.get(':nth-child(2) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Community Partners Report')
-        cy.url().should('contain', this.data.baseUrl+'community-public-report')
+        cy.url().should('contain', Cypress.env('baseUrl')+'community-public-report')
     })
-    it("Check conectivity to Projects report", function() {
-        /*
-        const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
+    it("Check connectivity to Projects report", function() {
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -237,17 +172,9 @@ describe('Analytic Reports Campus Partner user', () => {
         })
         cy.get(':nth-child(2) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Projects Report')
-        cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
+        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublicreport/')
     })
     it("Check tooltip text for 7 focus areas", function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {
@@ -278,14 +205,6 @@ describe('Analytic Reports Campus Partner user', () => {
     })
 
     it("Check tooltip text for 7 focus areas", function() {
-        /*const campus_email = "#email_input",
-        campus_pwd = "#password_input",
-        login_btn = '#btnLogin'
-        cy.contains('Login').click()
-        cy.get(campus_email).type(this.data.campus_user+'{enter}')
-        cy.get(campus_pwd).type(this.data.campus_pwd)
-        cy.get(login_btn).click()
-        */
         cy.get('#uno').click()
         cy.get('#analyticnav').click()
         cy.contains('Reports').next('.dropdown-menu').then($el => {

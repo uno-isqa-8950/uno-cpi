@@ -182,7 +182,7 @@
                                 {% endfor %}
                             </td>
                             <td>{{ project.description }}</td>
-                            <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'projects_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;"><i class="fa fa-delete"></i> Delete</a> </td>
+                            <td id="button-center"><a href="{% url 'editProject' pk=project.pk %}" class="btn btn-secondary" style="margin-top:10px;"><i class="fa fa-edit"></i> Edit</a> <a onclick="return myConfirm()"  href="{% url 'projects_delete' pk=project.pk %}" class="btn btn-cancel" style="margin-top:10px;" data-cy="projects_delete"><i class="fa fa-delete"></i> Delete</a> </td>
                         </tr>
                     {% endfor %}
                     </tbody>

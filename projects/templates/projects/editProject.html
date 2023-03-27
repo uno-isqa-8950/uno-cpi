@@ -230,7 +230,7 @@ label[for=id_campus-0-campus_partner]:after{
         <li><a href="#step-1" id="click1">Project Information</a></li>
         <li><a href="#step-2">Partner Information</a></li>
         <li><a href="#step-3">Focus Areas</a></li>
-        <li id="click4"><a href="#step-4" >Location</a></li>
+        <li id="click4"><a href="#step-4" data-cy="step4" >Location</a></li>
     </ul>
     <div>
         <div id="step-1">
@@ -248,7 +248,7 @@ label[for=id_campus-0-campus_partner]:after{
                                                                          title="{% get_data_definition_desc 'Project Name (Create Project Form)' %}"></i>
                             Project Name</label>
                         
-                    <div class="col-sm-7">
+                    <div class="col-sm-7" data-cy="projectnameinput">
                     {{ project.project_name }}
                     </div>
 <!--                    {% if  project.project_name.errors %}-->
@@ -940,16 +940,19 @@ label[for=id_campus-0-campus_partner]:after{
 
                  <div class="row centered" id="termsdiv" data-cy="termsdiv">
                 <p><input onchange="this.setCustomValidity(validity.valueMissing ? 'Please accept the Terms and Conditions' : '');" type="checkbox" id="terms" data-cy="terms">
+
                     I agree to the <a style="color: #d71920" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms & Conditions</a>
                     of the Community Partnership Initiative.</p>
             </div>
                                <div class="row centered" style="margin-top:30px;">
 <!--<div class="col-md-3">-->
-                 <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" >Save as Draft</button>
+                 <button type="submit" value="draft" name="draft" id="draft" class="save btn btn-secondary" data-cy="saveasdraft" >Save as Draft</button>
 <!--            </div>-->
+
 <button type="submit" value="update" name="update" id="update" class="save btn btn-secondary" > Update</button>
                  <button type="submit" value="submit" name="submit" id="submit" class="save btn btn-secondary" data-cy="submit">  Submit</button>
                 <button name="cancel" id="cancel" class="btn btn-cancel"> Cancel</button>
+
  </div>
     </div>
 </div>

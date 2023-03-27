@@ -104,6 +104,7 @@
     "total_other_participants": "1",
     "community_partner1": "AARP",
     "community_partner2": "Abide Omaha",
+    "community_partner3": "Accelerate Nebraska",
     "activity_type1": "Faculty Research",
     "topic1": "Art",
     "topic2": "Clean Energy",
@@ -207,5 +208,8 @@
     "user_date2":  "2023-03-12",
     "user_time1": "05:21:54",
     "user_time2": "03:18:54",
-    "user_search": "starry@unomaha.edu"
+    "user_search": "starry@unomaha.edu",
+    "y_axis1": "Number of Campus Partners",
+    "y_axis2": "Years of Engagement",
+    "y_axis3": "Number of Engagement Types"
 }

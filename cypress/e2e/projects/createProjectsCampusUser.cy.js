@@ -364,3 +364,4 @@ describe ('Create projects for campus partner user', () => {
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')*/
   })
 })
+

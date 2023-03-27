@@ -29,7 +29,7 @@ beforeEach(() => {
           .url().should('be.equal', this.datas.baseUrl)
           .get(accountInfoId).should('exist').click()
           .get(logoutButtonId).should('exist').click()
-          .url().should('be.equal', this.datas.baseUrl+'logout/')
+          .url().should('be.equal', Cypress.env('baseUrl')+'logout/')
           .get('h3').contains('Logged Out')
     })
 })

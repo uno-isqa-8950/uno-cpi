@@ -116,7 +116,7 @@
     <br>
     <div class="row justify-content-md-center">
         <div class="col-xl-12 col-md-12 col-sm-12">
-                          <div class=" text-center"><h3 class="heading">Partnership Intensity Analysis</h3></div>
+                          <div class=" text-center"><h3 class="heading" data-cy="heading">Partnership Intensity Analysis</h3></div>
 <div class="card snippet-card">
     <div class="container text-snippet">
         {% partnershipintensityanalysis_charts %}
@@ -126,8 +126,8 @@
     <!-- Collapse buttons -->
     <div>
         <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
-        aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'partnershipintensity' %}' " value="Reset Filters" >
+        aria-expanded="false" aria-controls="collapseExample"  data-cy="hidefilters"/>
+        <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'partnershipintensity' %}' " value="Reset Filters" data-cy="resetfilters" >
 
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
@@ -146,7 +146,7 @@
     <!-- / Collapse buttons -->
     <div class="box">
         <div class="collapse show" id="collapseExample">
-                <form class="form-inline" role="form" id="filters-form" method="get">
+                <form class="form-inline" role="form" id="filters-form" method="get" data-cy="filtersform">
                 <div class="col-lg-4 col-md-5 form-group">
                     <label for="academic_year">
                             <span tabindex="-1" data-toggle="tooltip"
@@ -154,7 +154,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Academic Years
                     </label>
-                    <select id="id_academic_year" name="academic_year" onchange="updateChart()">
+                    <select id="id_academic_year" name="academic_year" onchange="updateChart()" data-cy="selectacademicyear">
 
                         <option> All </option>
                             {% for sem in project_filter.form.academic_year %}
@@ -170,7 +170,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Community Organization Types
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
+                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()" data-cy="selectcommunitytype">
                         <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -185,7 +185,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Engagement Types
                     </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
+                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()" data-cy="selectengagementtype">
                         <option> All </option>
                         {% for engagement in project_filter.form.engagement_type %}
                             {% debug %}
@@ -201,7 +201,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         College and Main Units
                     </label>
-                    <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
+                    <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()" data-cy="selectcollege">
                         <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -216,7 +216,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Campus Partners
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
+                    <select id="id_campus_partner" name="campus_partner" onchange="updateChart()" data-cy="selectcampuspartner">
                          <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -233,7 +233,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
+                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()" data-cy="selectcecbuildingpartners">
                         <option value="" disabled selected hidden></option>
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
@@ -249,7 +249,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Legislative Districts
                     </label>
-                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updateChart()">
+                    <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updateChart()" data-cy="selectlegislativedistricts">
                         <option value="" disabled selected hidden></option>
                         <option>All</option>
                         {% for item in legislative_choices %}
@@ -265,7 +265,7 @@
                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Community Partners
                     </label>
-                    <select id="id_community_partner" name="community_partner" onchange="getCommunityCroasshairs()">
+                    <select id="id_community_partner" name="community_partner" onchange="getCommunityCroasshairs()" data-cy="selectcommunitypartner">
                         <option value="" disabled selected hidden></option>
                         <option> All </option>
 {#                        <option value {% if community_id == 0 %} selected {% endif %}>---------</option>#}
@@ -281,7 +281,7 @@
                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              Y-Axis
                     </label>
-                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()">
+                    <select class="form-control" id="id_y_axis" name="y_axis" onchange="updateChart()" data-cy="selectyaxis">
                         <option value="" disabled selected hidden></option>
                         {% for y_axis in y_choices.y_choice %}
                             {{ y_axis }}
@@ -295,7 +295,7 @@
 <div class="row"><br></div>
     <div class="box">
     <div id="container"  style= "height: 450px; margin:10px"></div>
-        Show overlapping points <input type="checkbox" name="checkfield" id="g01-01"  onchange="jitterFunc(this)"/>
+        Show overlapping points <input type="checkbox" name="checkfield" id="g01-01"  onchange="jitterFunc(this)" data-cy="showoverlapcheckbox"/>
         {{ Projects | json_script:"Projects"}}
         {{ CommunityPartners | json_script:"CommunityPartners"}}
         {{ CampusPartners | json_script:"CampusPartners"}}

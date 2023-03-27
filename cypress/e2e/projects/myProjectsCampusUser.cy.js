@@ -48,7 +48,7 @@ beforeEach(() => {
           footerId = '#footer'
         cy.get(projectsId).should('exist').click()
           .get(myProjectsHref).should('exist').click()
-          .url().should('be.equal', this.data.baseUrl+'myProjects/')
+          .url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
           .get('h3').contains("My Projects").should("be.visible")
           .get(footerId).should('exist')
       })
@@ -78,73 +78,124 @@ beforeEach(() => {
           .get('a').contains('Next').should('exist')
       })
 
-    it.skip('Test project creation to test project editing', function(){
-        const projectsId = '#projectsnav',
-          createProjectsHref = `a[href="/check-Project/"]`,
+      it('Test project creation to test project editing', function(){
+        const projectsLink = '[data-cy="projectsnav"]',
+          createProjectsLink = '[data-cy="createproject"]',
           academicYearsDropdown = '#select2-academicYear-container',
           academicYearsResultsId = '#select2-academicYear-results',
           communityPartners = '#select2-communityPartner-container',
           communityPartnerResultsId = '#select2-communityPartner-results',
           campusPartners = '#select2-campuspartner-container',
           campusPartnersResultsId = '#select2-campuspartner-results',
-          projectNameSearchField = '#projectName',
-          searchButton = `button[name="submit"]`,
+          projectNameInputField = '[data-cy="projectnameinput"]',
+          searchButton = '[data-cy="search"]',
           engagementTypeInputField = '#select2-id_engagement_type-container',
           engagementTypeResults = '#select2-id_engagement_type-results',
-          saveDraftButton = `button[name="draft"]`
-        cy.get(projectsId).should('exist').click()
-          .get(createProjectsHref).should('exist').click()
-          .url().should('be.equal', this.data.baseUrl+'check-Project/')
+          submitButton =  '[data-cy="submit"]',
+          createprojectButton = '#lnk-create_project',
+          projectDescriptionField = '[data-cy="descriptioninput"]',
+          projectDurationCollapse = '[data-cy="projectduration"]',
+          campusPartAddButton = '[data-cy="clicktoadd"]',
+          checkbox = '[data-cy="checkbox"]'     
+        cy.get(projectsLink).should('exist').click()
+          .get(createProjectsLink).should('exist').click()
+          .url().should('be.equal', Cypress.env('baseUrl')+'check-Project/')
           .get(academicYearsDropdown).click()
           .get(academicYearsResultsId).contains(this.data.select_all).click()
           .get(communityPartners).click()
           .get(communityPartnerResultsId).contains(this.data.select_all).click()
           .get(campusPartners).click()
-          .get(campusPartnersResultsId).contains(this.data.campus_partner2).click()
-          .get(projectNameSearchField).should('exist').clear().type('testproject')
+          .get(campusPartnersResultsId).contains(this.data.campus_partner10).click()
+          .get(projectNameInputField).should('exist').clear()
+          .get(projectNameInputField).type('testprojects')
           .get(searchButton).click()
            // Partner Information
-          .get('#lnk-create_project').should('be.visible').click()
-          .url().should('be.equal', this.data.baseUrl+'create-Project/?p_name=testproject#step-1')
+          .get(createprojectButton).click({force: true})
+          .url().should('be.equal', Cypress.env('baseUrl')+'create-Project/?p_name=testprojects#step-1')
+          .get(projectDescriptionField).type('This is a test project')
           
+        //.get(projectNameInputField).clear().type('testprojects')
+        //.get('.btn-secondary').click()
           .get(engagementTypeInputField).click()
           .get(engagementTypeResults).contains(this.data.engagement_type3).click()
 
-          .get(saveDraftButton).should('be.visible').click()
-          .url().should('be.equal',this.data.baseUrl+'draft-project-done/#step-1')
+          .get(projectDurationCollapse).click()
+          .get('#select2-id_semester-container').click()
+          .get('#select2-id_semester-results').then(($li) => {
+              cy.wrap($li).contains(this.data.semester1).click();
+           })
+           .get(projectNameInputField).should('exist').clear().type('testprojects')
+          .wait(2000)
+          .get('#select2-id_academic_year-container').click()
+          .get('#select2-id_academic_year-results').then(($li) => {
+              cy.wrap($li).contains(this.data.academic_year4).click();
+           })
+         //  .get(projectNameInputField).should('exist').clear().type('testproject')
+           .get('button').contains('Next').dblclick().wait(3000)
+        //  .get('#id_community-0-community_partner').select(this.data.community_partner3)
+
+          .get('#campuspartnerinfonav').click({force: true}).wait(2000)
+          .get('#id_campus-0-campus_partner').select(this.data.campus_partner3,{force: true})
+          .get(campusPartAddButton).click()
+
+          .get('button').contains('Next').dblclick()
+
+          .get('#id_mission-0-mission').select(this.data.focus_area7)
+          .get('button').contains('Next').click()
+
+        cy.get('#id_address_line1').type(this.data.addressline)
+        cy.get('#id_city').type(this.data.city)
+        cy.get('#id_country').type(this.data.country)
+        cy.get('#id_state').type(this.data.province)
+        cy.get('#id_zip').type(this.data.zipcode)
+
+          .get(checkbox).click()
+       // .get(projectNameInputField).should('exist').type('testproject')
+          .get('#submit').click({force: true})
+          .url().should('be.equal',Cypress.env('baseUrl')+'submit-project-done/#step-4')
       })
 
 
-      it.skip('Test my projects saved in draft are editable and saved as draft again', function(){
-        const projectsId = '#projectsnav',
-          myProjectsHref = `a[href="/myProjects/"]`,
-          projectNameInputField = '#id_project_name',
-          saveDraftButton = `button[name="draft"]`
-          cy.get(projectsId).should('exist').click()
-            .get(myProjectsHref).should('exist').click()
-            .url().should('be.equal', this.data.baseUrl+'myProjects/')
+      it('Test projects in my projects page are editable', function(){
+        const projectsLink = '[data-cy="projectsnav"]',
+          myProjectsLink = '[data-cy="myprojects"]',
+          projectNameInputField = '[data-cy="projectnameinput"]',
+          step4 = '[data-cy="step4"]',
+          termsCheck =  '[data-cy="termscheck"]',
+          updateButton = '[data-cy="update"]'
+          cy.get(projectsLink).should('exist').click()
+            .get(myProjectsLink).should('exist').click()
+            .url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
-            .get('td').contains('testproject').click()
+            .get('td').contains('testprojects').click()
             .get('a').contains('Edit').click({force: true})
-            .get(projectNameInputField).clear().type('testprojectedited')
-            .get(saveDraftButton).click({force: true})
-            .url().should('be.equal', this.data.baseUrl+'draft-project-done/')
-            .get('h3').contains('Thank You')          
+            .get(projectNameInputField).type('edited')
+            .get('button').contains('Next').dblclick()
+            .get('button').contains('Next').dblclick()
+            .get('button').contains('Next').dblclick()
+            .get('button').contains('Next').dblclick()
+            .get(step4).click()
+            .get(termsCheck).check()
+            .get(updateButton).click()
+            .url().should('be.equal', Cypress.env('baseUrl')+'submit-project-done/')
+
+            //.url().should('be.equal', Cypress.env('baseUrl')+'draft-project-done/')
+            //.get('h3').contains('Thank You')          
       })
 
-      it.skip('Test my projects delete functionality', function(){
-        const projectsId = '#projectsnav',
-          myProjectsHref = `a[href="/myProjects/"]`
-          cy.get(projectsId).should('exist').click()
-            .get(myProjectsHref).should('exist').click()
-            .url().should('be.equal', this.data.baseUrl+'myProjects/')
+      it('Test my projects delete functionality', function(){
+        const projectsLink = '[data-cy="projectsnav"]',
+        myProjectsLink = '[data-cy="myprojects"]'
+          cy.get(projectsLink).should('exist').click()
+            .get(myProjectsLink).should('exist').click()
+            .url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
             .get('h3').contains("My Projects").should("be.visible")
-            .get('td').contains('testprojectedited').click()
+            .get('td').contains('testprojectsedited').click()
             .get('a').contains('Delete').click({force: true})
           cy.on("window:confirm", (t) => {
                 //verify text on pop-up
                 expect(t).to.equal("Are you sure you want to delete this Project?");
              });
-          cy.url().should('be.equal', this.data.baseUrl+'myProjects/')    
+          cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')    
       })
 });

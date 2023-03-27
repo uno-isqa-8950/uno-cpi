@@ -25,6 +25,6 @@ beforeEach(() => {
           .get(emailInput).type(this.data.adminUser.username).type('{enter}')
           .get(passwordInput).type(this.data.adminUser.password)
           .get(loginButton).click()
-          .url().should('be.equal', this.datas.baseUrl+'admin/')
+          .url().should('be.equal', Cypress.env('baseUrl')+'admin/')
     })
 });

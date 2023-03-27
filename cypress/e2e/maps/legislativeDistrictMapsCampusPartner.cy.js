@@ -6,6 +6,7 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
+    cy.loginCampusUser()
   })
   
   describe('legislative district maps test', () => {

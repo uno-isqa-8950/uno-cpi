@@ -7,7 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-
+    cy.get('#login').click().loginAdminUser(user)
 })
 
 
@@ -15,14 +15,13 @@ describe("List contacts", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
-        cy.get('#login').click().loginAdminUser(user)
         })
     })
 
     const adminHref = `a[href="/admin"]`,
-        administratorLink = `a[class="nav-link dropdown-toggle"]`,
+        administratorLink = '[data-cy="administrator"]',
         adminTable = '#content-main',
-        contactColumn = '.model-contact > th > a',
+        columnLink = '.model-contact > th > a',
         addAdminContact = `a[href="/admin/home/contact/add/"]`,
         changeAdminContact = ':nth-child(1) > .field-first_name > a',
         first_name = 'input[name="first_name"]',
@@ -52,7 +51,7 @@ describe("List contacts", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(columnLink).contains('Contacts').click()
             cy.get(searhbar).type(this.data.contact_search)
             cy.get(searh_button).click().should('be.visible')
         })
@@ -64,7 +63,7 @@ describe("List contacts", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn)
+            cy.get(columnLink)
                 .get(addAdminContact).click()
                 .url().should('include', '/admin/home/contact/')
 
@@ -80,9 +79,9 @@ describe("List contacts", () => {
                 .should('be.empty').and('be.visible')
             cy.get(contact_type).should('be.visible').select(this.data.contact_type1, {force: true})
             cy.get(community_partner).should('be.visible')
-                .select(this.data.contact_community_partner1, {force: true})
+                .select(this.data.community_partner2, {force: true})
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.contact_campus_partner1, {force: true})
+                .select(this.data.campus_partner6, {force: true})
             cy.get(form).submit().should('be.visible')
 
         })
@@ -93,11 +92,13 @@ describe("List contacts", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(columnLink).contains('Contacts').click()
+            //cy.get('.export_link').contains('Export').click()
+
             cy.get(changeAdminContact).click()
 
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.contact_campus_partner1, {force: true})
+                .select(this.data.campus_partner6, {force: true})
             cy.get(form).submit().should('be.visible')
         })
     })
@@ -107,12 +108,12 @@ describe("List contacts", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(columnLink).contains('Contacts').click()
             cy.get(changeAdminContact).click()
 
             cy.get(contact_type).should('be.visible').select(this.data.contact_type2, {force: true})
             cy.get(community_partner).should('be.visible')
-                .select(this.data.contact_community_partner1, {force: true})
+                .select(this.data.community_partner1, {force: true})
 
             cy.get(continue_button).click().should('be.visible')
         })
@@ -123,11 +124,11 @@ describe("List contacts", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(columnLink).contains('Contacts').click()
             cy.get(changeAdminContact).click()
 
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.contact_campus_partner1, {force: true})
+                .select(this.data.campus_partner1, {force: true})
 
             cy.get(add_another).click()
 
@@ -143,22 +144,21 @@ describe("List contacts", () => {
                 .should('be.empty').and('be.visible')
             cy.get(contact_type).should('be.visible').select(this.data.contact_type1, {force: true})
             cy.get(community_partner).should('be.visible')
-                .select(this.data.contact_community_partner1, {force: true})
+                .select(this.data.community_partner2, {force: true})
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.contact_campus_partner2, {force: true})
+                .select(this.data.campus_partner7, {force: true})
             cy.get(form).submit().should('be.visible')
 
 
         })
     })
 
-
     it('Data cleanup', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(columnLink).contains('Contacts').click()
             cy.get(changeAdminContact).click()
         })
 

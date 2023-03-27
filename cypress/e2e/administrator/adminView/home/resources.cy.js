@@ -7,7 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-
+    cy.get('#login').click().loginAdminUser(user)
 })
 
 
@@ -15,12 +15,11 @@ describe("List resources", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
-        cy.get('#login').click().loginAdminUser(user)
         })
     })
 
     const adminHref = `a[href="/admin"]`,
-        administratorLink = `a[class="nav-link dropdown-toggle"]`,
+        administratorLink = '[data-cy="administrator"]',
         adminTable = '#content-main',
         resourceColumn = '.model-resource > th > a',
         addResource = `a[href="/admin/home/resource/add/"]`,

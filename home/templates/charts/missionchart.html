@@ -89,9 +89,9 @@
 
     <!-- Collapse buttons -->
     <div>
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+        <input data-cy="hide filters" type="button" id="btn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
         aria-expanded="false" aria-controls="collapseExample" />
-        <input type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'missionchart' %}' " value="Reset Filters" >
+        <input data-cy="reset filters" type="button" id="btn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'missionchart' %}' " value="Reset Filters" >
 
         <script type="text/javascript">
             document.getElementById("btn").addEventListener(
@@ -120,7 +120,7 @@
                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                          Academic Years
                     </label>
-                    <select id="id_academicyear" name="academic_year" onchange="updateChart()">
+                    <select data-cy="academic_year" id="id_academicyear" name="academic_year" onchange="updateChart()">
                         <option> All </option>
                             {% for sem in project_filter.form.academic_year %}
                                 {{sem}}
@@ -135,7 +135,7 @@
                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                     </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="updateChart()">
+                    <select data-cy="engagement_type" id="id_engagement_type" name="engagement_type" onchange="updateChart()">
                         <option> All </option>
                         {% for engagement in project_filter.form.engagement_type %}
                             {{engagement}}
@@ -150,7 +150,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Community Organization Types
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
+                    <select data-cy="community_type" class="form-control" id="id_community_type" name="community_type" onchange="updateChart()">
                         <option> All </option>
                         {% for community_type in communityPartners.form.community_type %}
                             {{community_type}}
@@ -165,7 +165,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         College and Main Units
                     </label>
-                    <select id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
+                    <select data-cy="college_name" id="id_college_name" name="college_name" onchange="updateChart();updateCampus()">
                         <option> All </option>
                         {% for college in college_filter.form.college_name %}
                             {{college}}
@@ -180,7 +180,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Campus Partners
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="updateChart()">
+                    <select data-cy="campus_partner" id="id_campus_partner" name="campus_partner" onchange="updateChart()">
                         <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -197,7 +197,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
+                    <select data-cy="weitz_cec_part" class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="updateChart()">
                         <option value="" disabled selected hidden></option>
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}

@@ -29,10 +29,10 @@ describe('Charts Focus Area Admin User', () => {
       cy.wrap($el).invoke('show').should('be.visible')
       cy.wrap($el).get("[data-cy='Focus Area']").click()
     })
-    cy.get("[data-cy='Focus Area]").should('contain.text', 'Focus Areas')
+    cy.get("[data-cy='Focus Area']").should('contain.text', 'Focus Areas')
   })
   //Hide Filters
-  it('Hide Filters', function() {
+  it.only('Hide Filters', function() {
     cy.get("[data-cy='analytics']").click().should('be.visible')
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show').should('be.visible')

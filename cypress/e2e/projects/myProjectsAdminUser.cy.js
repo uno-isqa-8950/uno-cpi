@@ -160,7 +160,7 @@ beforeEach(() => {
           myProjectsLink = '[data-cy="myprojects"]',
           projectNameInputField = '[data-cy="projectnameinput"]',
           step4 = '[data-cy="step4"]',
-          termsCheck =  '[data-cy="termscheck"]',
+          termsCheck =  '[data-cy="terms"]',
           updateButton = '[data-cy="update"]'
           cy.get(projectsLink).should('exist').click()
             .get(myProjectsLink).should('exist').click()

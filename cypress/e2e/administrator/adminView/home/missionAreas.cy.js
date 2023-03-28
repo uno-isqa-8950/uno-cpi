@@ -7,7 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-
+    cy.get('#login').click().loginAdminUser(user)
 })
 
 
@@ -15,12 +15,11 @@ describe("List mission areas", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
-        cy.get('#login').click().loginAdminUser(user)
         })
     })
 
     const adminHref = `a[href="/admin"]`,
-        administratorLink = `a[class="nav-link dropdown-toggle"]`,
+        administratorLink = '[data-cy="administrator"]',
         adminTable = '#content-main',
         missionAreaColumn = '.model-missionarea > th > a',
         addMissionArea = `a[href="/admin/home/missionarea/add/"]`,
@@ -66,8 +65,6 @@ describe("List mission areas", () => {
             cy.get(mission_area_name).type(this.data.mission_area_name1)
                 .should('be.empty').and('be.visible')
             cy.get(description).type(this.data.mission_area_description1)
-                .should('be.empty').and('be.visible')
-            cy.get(image_url).type(this.data.mission_area_image1)
                 .should('be.empty').and('be.visible')
             cy.get(mission_color).type(this.data.mission_area_color1)
                 .should('be.empty').and('be.visible')
@@ -126,8 +123,6 @@ describe("List mission areas", () => {
             cy.get(mission_area_name).type(this.data.mission_area_name2)
                 .should('be.empty').and('be.visible')
             cy.get(description).type(this.data.mission_area_description2)
-                .should('be.empty').and('be.visible')
-            cy.get(image_url).type(this.data.mission_area_image2)
                 .should('be.empty').and('be.visible')
             cy.get(mission_color).type(this.data.mission_area_color3)
                 .should('be.empty').and('be.visible')

@@ -6,14 +6,14 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click()
-    cy.loginAdminUser()
   })
   
   describe('community partners maps test', () => {
     beforeEach(function() {
       cy.fixture("datareports").then(function(data) {
-        this.data = data 
+        this.data = data
+        cy.get('#login').click()
+        cy.loginAdminUser()
     })
   })
     // This test is expected to pass visiting community partners under maps as a public user.
@@ -183,7 +183,7 @@ beforeEach(() => {
         .get('td').contains('td', 'Engagement Type').should('be.visible')
     })
   
-    it.only('Card should be displayed when clicked on a map marker', () => {
+    it('Card should be displayed when clicked on a map marker', () => {
       const communityPartnersLink = '[data-cy="communitypartners"]',
         mapsLink = '[data-cy="maps"]',
         mapsDiv = '[data-cy="mapcanvas"]'

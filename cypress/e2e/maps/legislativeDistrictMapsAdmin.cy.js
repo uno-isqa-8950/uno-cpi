@@ -6,14 +6,15 @@ beforeEach(() => {
       }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.loginAdminUser()
   })
   
   describe('legislative district maps test', () => {
 
     beforeEach(function() {         
       cy.fixture("datareports").then(function(data) {       
-      this.data = data         
+      this.data = data
+      cy.get('#login').click()
+      cy.loginAdminUser()
       }) 
       
   }) 

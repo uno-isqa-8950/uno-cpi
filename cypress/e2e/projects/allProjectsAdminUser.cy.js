@@ -22,7 +22,7 @@ beforeEach(() => {
     // 
     it('Test all projects page navigation bar', function(){
         const unoLogo = '[data-cy="himg"]',
-          navigationList = '[data-cy="navigationlist"]',
+          navigationList = '[data-cy="navbar"]',
           userInfo = '[data-cy="accountinfo"]',
           projectsLink = '[data-cy="projectsnav"]',
           allProjectsLink = '[data-cy="allprojects"]'

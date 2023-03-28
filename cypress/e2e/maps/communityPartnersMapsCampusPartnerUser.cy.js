@@ -6,14 +6,14 @@ beforeEach(() => {
     }
   })
   cy.visit(Cypress.env('baseUrl'))
-  cy.get('#login').click()
-  cy.loginCampusUser()
 })
 
 describe('community partners maps test', () => {
   beforeEach(function() {
     cy.fixture("datareports").then(function(data) {
-      this.data = data 
+      this.data = data
+      cy.get('#login').click()
+      cy.loginCampusUser()
   })
 })
   // This test is expected to pass visiting community partners under maps as a public user.

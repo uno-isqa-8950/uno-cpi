@@ -1,5 +1,4 @@
 {
-    "baseUrl":"https://uno-cpi-dev.herokuapp.com/",
     "_comment1" : "Filter options",
     "select_all" : "All",
     "_comment2" : "Focus area list",

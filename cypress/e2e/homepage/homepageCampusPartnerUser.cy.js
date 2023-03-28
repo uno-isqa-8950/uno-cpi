@@ -109,7 +109,7 @@ describe('Home Page Campus Partner User', () => {
         cy.contains('Logout')
     })
     it('Navigation bar options for Resources', function() {
-        cy.get('[data-cy=resources]').click()
+        cy.get("[data-cy='resourcesnav']").click()
         cy.contains('Office of Engagement')
         cy.contains('Community Compass')
         cy.contains('About CEPI')

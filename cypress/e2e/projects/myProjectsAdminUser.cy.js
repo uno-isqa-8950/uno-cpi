@@ -26,7 +26,7 @@ beforeEach(() => {
 
     it('Test my projects page navigation bar', function(){
         const unoLogo = `img[alt="UNO Logo"]`,
-          navigationList = '[data-cy="navigationlist"]',
+          navigationList = '[data-cy="navbar"]',
           userInfo = '[data-cy="accountinfo"]',
           projectsLink = '[data-cy="projectsnav"]',
           myProjectsLink = '[data-cy="myprojects"]'

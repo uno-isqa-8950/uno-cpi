@@ -27,16 +27,16 @@ describe('Charts Focus Area Campus Partner User', () => {
     cy.get("[data-cy='analytics']").click().should('be.visible')
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show').should('be.visible')
-      cy.wrap($el).get("[data-cy='Focus Area']").click()
+      cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
-    cy.get("[data-cy='Focus Area']").should('contain.text', 'Focus Areas')
+    cy.get("[data-cy='Focus Areas']").should('contain.text', 'Focus Areas')
   })
   //Hide Filters
   it('Hide Filters', function() {
     cy.get("[data-cy='analytics']").click().should('be.visible')
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show').should('be.visible')
-      cy.wrap($el).get("[data-cy='Focus Area']").click()
+      cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
     cy.get('[data-cy="hide filters"]').should('have.value', 'Hide Filters')
     cy.get('[data-cy="hide filters"]').click()
@@ -51,7 +51,7 @@ describe('Charts Focus Area Campus Partner User', () => {
     cy.get("[data-cy='analytics']").click().should('be.visible')
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show').should('be.visible')
-      cy.wrap($el).get("[data-cy='Focus Area']").click()
+      cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
     cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('Previous Academic Year')
     cy.get('[data-cy="academic_year"]').select(this.data.focus_area1, {force: true})
@@ -78,7 +78,7 @@ describe('Charts Focus Area Campus Partner User', () => {
     cy.get("[data-cy='analytics']").click().should('be.visible')
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show').should('be.visible')
-      cy.wrap($el).get("[data-cy='Focus Area']").click()
+      cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
 
     cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('Previous Academic Year')
@@ -123,7 +123,7 @@ describe('Charts Focus Area Campus Partner User', () => {
     cy.get("[data-cy='analytics']").click()
     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
       cy.wrap($el).invoke('show')
-      cy.wrap($el).get("[data-cy='Focus Area']").click()
+      cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
     cy.get('.highcharts-series-0 > text').contains("Projects").should("be.visible")
     cy.get('.highcharts-series-0 > rect').should('have.attr', 'fill', 'turquoise')

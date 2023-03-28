@@ -7,7 +7,7 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click().loginAdminUser(user)
+
 })
 
 
@@ -15,11 +15,12 @@ describe("List users", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
+        cy.get('#login').click().loginAdminUser(user)
         })
     })
 
     const adminHref = `a[href="/admin"]`,
-        administratorLink = '[data-cy="administrator"]',
+        administratorLink = `a[class="nav-link dropdown-toggle"]`,
         adminTable = '#content-main',
         userColumn = '.model-user > th > a',
         addUser = `a[href="/admin/home/user/add/"]`,
@@ -74,7 +75,7 @@ describe("List users", () => {
                 .should('be.empty').and('be.visible')
             cy.get(last_name).type(this.data.user_last_name1)
                 .should('be.empty').and('be.visible')
-            cy.get(university).should('be.visible').select(this.data.university1, {force: true})
+            cy.get(university).should('be.visible').select(this.data.user_university1, {force: true})
             cy.get(loginDate).type(this.data.user_date1)
                 .should('be.empty').and('be.visible')
             cy.get(loginTime).type(this.data.user_time1)
@@ -126,7 +127,7 @@ describe("List users", () => {
             cy.get(changeUser).click()
 
             cy.get(university).should('be.visible')
-                .select(this.data.university2, {force: true})
+                .select(this.data.user_university2, {force: true})
 
             cy.get(add_another).click()
 
@@ -138,7 +139,7 @@ describe("List users", () => {
                 .should('be.empty').and('be.visible')
             cy.get(last_name).type(this.data.user_last_name3)
                 .should('be.empty').and('be.visible')
-            cy.get(university).should('be.visible').select(this.data.university1, {force: true})
+            cy.get(university).should('be.visible').select(this.data.user_university1, {force: true})
             cy.get(loginDate).type(this.data.user_date2)
                 .should('be.empty').and('be.visible')
             cy.get(loginTime).type(this.data.user_time2)

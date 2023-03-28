@@ -19,7 +19,7 @@ describe("Change user details from profile page", () => {
     })
 
     const userDetailsLink = '[data-cy="user"]',
-        profileLink = '[data-cy="dropdown"]',
+        profileLink = '[data-cy="accountinfo"]',
         update = '[data-cy="edit"]',
         name = '[data-cy="name"]',
         alert = '[class="alert alert-danger"]',

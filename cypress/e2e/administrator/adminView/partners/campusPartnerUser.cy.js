@@ -112,7 +112,7 @@ describe("List campus partner users", () => {
             cy.get(add_another).click()
 
             cy.get(campusPartner).should('be.visible')
-                .select(this.data.campus_partner7, {force: true})
+                .select(this.data.campus_partner11, {force: true})
             cy.get(campusUser).should('be.visible')
                 .select(this.data.campus_partner_user4, {force: true})
 
@@ -136,7 +136,7 @@ describe("List campus partner users", () => {
 
         cy.get(adminTable).within(() => {
             cy.get(searhbar).clear()
-            cy.get(searhbar).type(this.data.campus_partner7)
+            cy.get(searhbar).type(this.data.campus_partner11)
             cy.get(searh_button).click().should('be.visible')
             cy.get(change).click()
         })

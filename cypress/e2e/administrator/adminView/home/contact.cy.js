@@ -101,6 +101,8 @@ describe("List contacts", () => {
                 .select(this.data.campus_partner6, {force: true})
             cy.get(form).submit().should('be.visible')
         })
+        //cy.get('select[name="file_format"]').select('xls', {force: true})
+        //cy.get('.default').click()
     })
 
     it('Can change a contact, save and continue editing', function() {
@@ -146,12 +148,39 @@ describe("List contacts", () => {
             cy.get(community_partner).should('be.visible')
                 .select(this.data.community_partner2, {force: true})
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.campus_partner7, {force: true})
+                .select(this.data.campus_partner6, {force: true})
             cy.get(form).submit().should('be.visible')
 
 
         })
     })
+
+    /*it('Can delete a contact', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(changeAdminContact).click()
+
+            cy.get(deleteAdminContact).click()
+
+            cy.get(deleteContactButton).click().should('be.visible')
+        })
+    })
+
+    it('Cannot delete a contact', () => {
+        cy.get(administratorLink).contains('Administrator').click()
+            .get(adminHref).invoke('removeAttr', 'target').click()
+
+        cy.get(adminTable).within(() => {
+            cy.get(contactColumn).contains('Contacts').click()
+            cy.get(changeAdminContact).click()
+
+            cy.get(deleteAdminContact).click()
+            cy.get(noDelete).click().should('be.visible')
+        })
+    })*/
 
     it('Data cleanup', () => {
         cy.get(administratorLink).contains('Administrator').click()

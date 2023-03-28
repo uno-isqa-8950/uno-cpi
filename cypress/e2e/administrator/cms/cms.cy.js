@@ -11,7 +11,7 @@ beforeEach(() => {
 })
 
 
-describe("Display cms options", () => {
+describe("Display images", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
@@ -54,7 +54,7 @@ describe("Display cms options", () => {
         campusPartnerAdd = 'a[href="/cms/snippets/home/campus_partner_snippet/add/"]'
 
 
-    it('Can navigate to cms dashboard', () => {
+    it('Can navigate to cms', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(cmsHref).invoke('removeAttr', 'target').click()
     })
@@ -115,14 +115,14 @@ describe("Display cms options", () => {
                 .should('be.empty').and('be.visible')
         cy.get(update).contains("Update").should('exist').click()
         cy.get(success).contains("Image updated")
-        cy.get(cmsItemLink).contains('Images').click()
+        cy.get(cmsItemImages).contains('Images').click()
     })
 
     it('Deleting an image', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(cmsHref).invoke('removeAttr', 'target').click()
 
-        cy.get(cmsItemLink).contains('Images').should('exist').click()
+        cy.get(cmsItemImages).contains('Images').should('exist').click()
         cy.get(deleteImage).should('exist').click()
 
         cy.get(deleteButton).should('exist').click()

@@ -61,7 +61,7 @@ describe("List CEC Building Partner Active Year", () => {
             cy.get(communityPartner).should('be.visible')
                 .select(this.data.community_partner4, {force: true})
             cy.get(campusPartner).should('be.visible')
-                .select(this.data.campus_partner8, {force: true})
+                .select(this.data.campus_partner12, {force: true})
 
             cy.get(form).submit().should('be.visible')
         })
@@ -121,7 +121,7 @@ describe("List CEC Building Partner Active Year", () => {
             cy.get(communityPartner).should('be.visible')
                 .select(this.data.community_partner5, {force: true})
             cy.get(campusPartner).should('be.visible')
-                .select(this.data.campus_partner9, {force: true})
+                .select(this.data.campus_partner13, {force: true})
 
             cy.get(form).submit().should('be.visible')
         })

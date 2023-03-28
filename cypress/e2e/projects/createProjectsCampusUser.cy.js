@@ -338,7 +338,7 @@ describe ('Create projects for campus partner user', () => {
   // Data cleanup script 
 
   it ('data cleanup', function() {
-    cy.url().should('be.equal', this.data.CEPI_site+'myProjects/')
+    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('#uno').click()
     cy.get('#projectsnav').click()
     cy.contains('My Projects').click()

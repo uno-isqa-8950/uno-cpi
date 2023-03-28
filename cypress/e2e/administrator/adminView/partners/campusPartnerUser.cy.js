@@ -112,7 +112,7 @@ describe("List campus partner users", () => {
             cy.get(add_another).click()
 
             cy.get(campusPartner).should('be.visible')
-                .select(this.data.campus_partner7, {force: true})
+                .select(this.data.campus_partner13, {force: true})
             cy.get(campusUser).should('be.visible')
                 .select(this.data.campus_partner_user4, {force: true})
 

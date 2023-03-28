@@ -174,7 +174,7 @@ beforeEach(() => {
             .get('button').contains('Next').dblclick()
             .get('button').contains('Next').dblclick()
             .get(step4).click()
-            .get(termsCheck).check()
+            .get(termsCheck).eq(0).click()
             .get(updateButton).click()
             .url().should('be.equal', Cypress.env('baseUrl')+'adminsubmit_project_done/')
 

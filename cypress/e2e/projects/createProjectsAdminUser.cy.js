@@ -11,7 +11,7 @@ beforeEach(() => {
 
 })
 
-describe ('Create projects for campus partner user', () => {
+describe ('Create projects for admin user', () => {
   beforeEach(function () {
     cy.fixture("datareports").then(function (data) {
       this.data = data

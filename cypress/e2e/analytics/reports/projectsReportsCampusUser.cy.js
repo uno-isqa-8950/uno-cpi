@@ -23,14 +23,14 @@ describe('Analytic Reports Public user', () => {
     cy.get('[data-cy="analytics"]').click()
     cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
         cy.wrap($el).invoke('show')
-        cy.wrap($el).get('[data-cy="projectsreport"]').click()
+        cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
     })
     })
     it('Check if it is Projects Report', function() {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get('[data-cy="heading"]').should('contain.text', 'Projects Report')
     })
@@ -38,7 +38,7 @@ describe('Analytic Reports Public user', () => {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get('[data-cy="Hide Filters"]').should('have.class', 'btn btn-secondary')
         cy.get('[data-cy="Hide Filters"]').click() 
@@ -56,7 +56,7 @@ describe('Analytic Reports Public user', () => {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
         cy.get(academic_year_selector).click()
@@ -92,7 +92,7 @@ describe('Analytic Reports Public user', () => {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
         cy.get(academic_year_selector).click()
@@ -125,7 +125,7 @@ describe('Analytic Reports Public user', () => {
         })
     })
 
-    it.only("Check Card View", function() 
+    it("Check Card View", function() 
     {
         const academic_year_selector = '#select2-id_academic_year-container',
         academic_year_results =  '#select2-id_academic_year-results',
@@ -139,7 +139,7 @@ describe('Analytic Reports Public user', () => {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).get('[data-cy="projectsreport"]').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get(academic_year_selector).click()
         cy.get(academic_year_results).then(($li) => {
@@ -167,29 +167,36 @@ describe('Analytic Reports Public user', () => {
     })
     it("Check Table view", function()
     {
-        cy.get('#analyticnav').click()
-        cy.contains('Reports').next('.dropdown-menu').then($el => {
+        const academic_year_selector = '#select2-id_academic_year-container',
+        academic_year_results =  '#select2-id_academic_year-results',
+        mission_container='#select2-id_mission-container',
+        mission_results ='#select2-id_mission-results',
+        engagement_container = '#select2-id_engagement_type-container',
+        engagement_results = '#select2-id_engagement_type-results'
+        cy.get('[data-cy="analytics"]').click()
+        cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
-            cy.wrap($el).contains('Projects').click()
+            cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
-        cy.get('#select2-id_academic_year-container').click()
-        cy.get('#select2-id_academic_year-results').then(($li) => {
+        cy.get(academic_year_selector).click()
+        cy.get(academic_year_results).then(($li) => {
             cy.wrap($li).contains(this.data.academic_year1).click();
         })
-        cy.get('#select2-id_mission-container').click()
-        cy.get('#select2-id_mission-results').then(($li) => {
-        cy.wrap($li).contains(this.data.focus_area4).click();
+        cy.get(mission_container).click()
+        cy.get(mission_results).then(($li) => {
+        cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get(engagement_container).click()
+        cy.get(engagement_results).then(($li) => {
+            cy.wrap($li).contains(this.data.engagement_type2).click()
         })
 
-        cy.get('#btn-table').click()
-        cy.get('.buttons-csv').should("be.visible").click()
-        cy.get('.buttons-pdf').should("be.visible").click()
+        cy.get('[data-cy="Table View"]').click()
+        cy.get('[data-cy="box"]').get('.buttons-csv').should("be.visible").click()
+        cy.get('[data-cy="box"]').get('.buttons-pdf').should("be.visible").click()
         cy.get(':nth-child(1) > .sorting_1').click()
-        cy.get('[data-dtr-index="8"] > .dtr-data').contains(this.data.academic_year1)
-        cy.get('tbody > :nth-child(1) > :nth-child(2)').contains(this.data.focus_area4)
-        cy.get('tbody > :nth-child(4) > :nth-child(2)').contains(this.data.focus_area4)
+        cy.get('[data-dtr-index="8"]').contains(this.data.academic_year1)
+        cy.get('[data-dtr-index="4"]').contains(this.data.engagement_type2)
         cy.get('#btn-table').click()
-        //check button visble for import and export
-        cy.get(':nth-child(1) > .card-header > .media > .media-body > .card-toptext > .media-subheading > :nth-child(1)').contains((this.data.focus_area4))
-    })
+      })
 })

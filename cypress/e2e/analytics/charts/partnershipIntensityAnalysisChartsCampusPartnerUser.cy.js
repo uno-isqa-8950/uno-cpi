@@ -22,7 +22,7 @@ describe('Charts Partnership intensity analysis test', () => {
     it('Test partnership intensity analysis page loading with all elements visible ', function() {
         const analyticsNavButton = '[data-cy="analytics"]',
           chartDropdownButton = '[data-cy="charts"]',
-          partnershipIntensityAnalysis = '[data-cy="partnershipintensity"]',
+          partnershipIntensityAnalysis = '[data-cy="Partner Intensity"]',
           heading = '[data-cy="heading"]',
           hideFiltersButton = '[data-cy="hidefilters"]',
           resetFiltersButton = '[data-cy="resetfilters"]'
@@ -38,7 +38,7 @@ describe('Charts Partnership intensity analysis test', () => {
     it('filter options selectability test', function () {
         const analyticsNavButton = '[data-cy="analytics"]',
           chartDropdownButton = '[data-cy="charts"]',
-          partnershipIntensityAnalysis = '[data-cy="partnershipintensity"]'     
+          partnershipIntensityAnalysis = '[data-cy="Partner Intensity"]'
         cy.get(analyticsNavButton).contains('Analytics').click()
           .get(chartDropdownButton).contains('Charts').click()
           .get(partnershipIntensityAnalysis).click({force: true})
@@ -86,7 +86,7 @@ describe('Charts Partnership intensity analysis test', () => {
     it('filter options selecting to test charts rendering with appropriate data', function () {
         const analyticsNavButton = '[data-cy="analytics"]',
           chartDropdownButton = '[data-cy="charts"]',
-          partnershipIntensityAnalysis = '[data-cy="partnershipintensity"]'     
+          partnershipIntensityAnalysis = '[data-cy="Partner Intensity"]'
         cy.get(analyticsNavButton).contains('Analytics').click()
           .get(chartDropdownButton).contains('Charts').click()
           .get(partnershipIntensityAnalysis).click({force: true})
@@ -117,7 +117,7 @@ describe('Charts Partnership intensity analysis test', () => {
     it('Charts plot line and overlapping checkbox test', function () {
         const analyticsNavButton = '[data-cy="analytics"]',
           chartDropdownButton = '[data-cy="charts"]',
-          partnershipIntensityAnalysis = '[data-cy="partnershipintensity"]' ,
+          partnershipIntensityAnalysis = '[data-cy="Partner Intensity"]' ,
           overlappingPointsCheckBox =    '[data-cy="showoverlapcheckbox"]'
         cy.get(analyticsNavButton).contains('Analytics').click()
           .get(chartDropdownButton).contains('Charts').click()

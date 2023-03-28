@@ -100,16 +100,16 @@
                         <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="charts">Charts</a>
                             <ul class="dropdown-menu" data-cy="chartsdropdown">
                                 {% if user.is_authenticated %}
-                                    <a class="dropdown-item" href="/missionchart">Focus Areas</a>
-                                    <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
-                                    <a class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
-                                    <a class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
-                                    <a class="dropdown-item" href="/networkanalysis">Network Analysis</a>
+                                    <a data-cy="Focus Areas" class="dropdown-item" href="/missionchart">Focus Areas</a>
+                                    <a data-cy="Engagement Types" class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+                                    <a data-cy="Focus Area Analysis" class="dropdown-item" href="/issueaddress">Focus Area Analysis</a> {% if user.is_superuser %}
+                                    <a data-cy="Project and Partner Trends" class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
+                                    <a data-cy="Network Analysis" class="dropdown-item" href="/networkanalysis">Network Analysis</a>
 
-                                    <a class="dropdown-item" href="/partnershipintensity" data-cy="partnershipintensity">Partnership Intensity Analysis</a>
+                                    <a data-cy="Partner Intensity" class="dropdown-item" href="/partnershipintensity" data-cy="partnershipintensity">Partnership Intensity Analysis</a>
                                 {% else %}
-                                    <a class="dropdown-item" href="/missionchart">Focus Areas</a>
-                                    <a class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
+                                    <a data-cy="Focus Areas" class="dropdown-item" href="/missionchart">Focus Areas</a>
+                                    <a data-cy="Engagement Type" class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
                                 {% endif %}
                             </ul>
                         </li>

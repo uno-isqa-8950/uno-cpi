@@ -78,7 +78,7 @@ describe('Home Page Campus Partner User', () => {
         cy.contains('Projects')
         })
      it('Navigation bar options for Projects', function() {
-        cy.get('[data-cy="projects"]').click()
+        cy.get('[data-cy="projectsnav"]').click()
         cy.contains('All Projects')
         cy.contains('My Projects')
         cy.contains('Create Project')

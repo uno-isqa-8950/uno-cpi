@@ -11,7 +11,7 @@ beforeEach(() => {
 })
 
 
-describe("List data definition groups", () => {
+describe("List community partner users", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
@@ -21,17 +21,18 @@ describe("List data definition groups", () => {
     const adminHref = `a[href="/admin"]`,
         administratorLink = '[data-cy="administrator"]',
         adminTable = '#content-main',
-        dataDefinitionColumn = '.model-datadefinitiongroup > th > a',
-        addDataDefinitionGroup = `a[href="/admin/home/datadefinitiongroup/add/"]`,
-        changeDataDefinitionGroup = ':nth-child(1) > .field-group > a',
-        group_name = 'input[name="group"]',
+        columnLink = '.model-communitypartneruser > th > a',
+        add = `a[href="/admin/partners/communitypartneruser/add/"]`,
+        change = ':nth-child(1) > .field-community_partner > a',
+        communityPartner = 'select[name="community_partner"]',
+        user = 'select[name="user"]',
         form = 'form',
         continue_button = 'input[name="_continue"]',
         add_another = 'input[name="_addanother"]',
         searhbar = '#searchbar',
         searh_button = '#changelist-search > div > [type="submit"]',
-        deleteGroupButton = 'div > [type="submit"]',
-        deleteDataGroup = '.deletelink'
+        deleteButton = 'div > [type="submit"]',
+        deleteLink = '.deletelink'
 
 
     it('Can navigate to admin view', () => {
@@ -39,87 +40,88 @@ describe("List data definition groups", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
     })
 
-    it('Can search for a data definition group', function() {
+    it('Can search for a community partner user', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
-            cy.get(searhbar).type(this.data.data_definition_group1)
+            cy.get(columnLink).contains('Community partner users').click()
+            cy.get(searhbar).type(this.data.community_partner_user_search)
             cy.get(searh_button).click().should('be.visible')
         })
     })
 
 
-    it('Can add a new data definition group', function() {
+    it('Can add a new community partner user', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn)
-                .get(addDataDefinitionGroup).click()
-                .url().should('include', '/admin/home/datadefinitiongroup/add/')
+            cy.get(columnLink)
+                .get(add).click()
+                .url().should('include', '/admin/partners/communitypartneruser/add/')
 
-            cy.get(group_name).clear()
-            cy.get(group_name).type(this.data.group_name1)
-                .should('be.empty').and('be.visible')
+            cy.get(communityPartner).should('be.visible')
+                .select(this.data.community_partner3, {force: true})
+            cy.get(user).should('be.visible')
+                .select(this.data.community_partner_user1, {force: true})
 
             cy.get(form).submit().should('be.visible')
 
         })
     })
 
-    it('Can change a data definition group', function() {
+    it('Can change a community partner user', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
-            cy.get(changeDataDefinitionGroup).click()
+            cy.get(columnLink).contains('Community partner users').click()
+            cy.get(change).click()
 
-            cy.get(group_name).clear()
-            cy.get(group_name).type(this.data.group_name2)
-                .should('be.empty').and('be.visible')
+            cy.get(user).should('be.visible')
+                .select(this.data.community_partner_user2, {force: true})
 
             cy.get(form).submit().should('be.visible')
         })
     })
 
-    it('Can change a data definition group, save and continue editing', function() {
+    it('Can change a community partner user, save and continue editing', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
-            cy.get(changeDataDefinitionGroup).click()
+            cy.get(columnLink).contains('Community partner users').click()
+            cy.get(change).click()
 
-            cy.get(group_name).clear()
-            cy.get(group_name).type(this.data.group_name3)
-                .should('be.empty').and('be.visible')
+            cy.get(user).should('be.visible')
+                .select(this.data.community_partner_user3, {force: true})
 
             cy.get(continue_button).click().should('be.visible')
         })
     })
 
-    it('Can change a data definition group, save and add another one', function() {
+    it('Can change a community partner user, save and add another one', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
-            cy.get(changeDataDefinitionGroup).click()
+            cy.get(columnLink).contains('Community partner users').click()
+            cy.get(change).click()
 
-            cy.get(group_name).clear()
-            cy.get(group_name).type(this.data.group_name4)
-                .should('be.empty').and('be.visible')
+            cy.get(communityPartner).should('be.visible')
+                .select(this.data.community_partner3, {force: true})
 
             cy.get(add_another).click()
 
-            cy.get(group_name).clear()
-            cy.get(group_name).type(this.data.group_name5)
-                .should('be.empty').and('be.visible')
+            cy.get(communityPartner).should('be.visible')
+                .select(this.data.community_partner5, {force: true})
+            cy.get(user).should('be.visible')
+                .select(this.data.community_partner_user4, {force: true})
 
             cy.get(form).submit().should('be.visible')
+
+
         })
     })
 
@@ -128,18 +130,19 @@ describe("List data definition groups", () => {
             .get(adminHref).invoke('removeAttr', 'target').click()
 
         cy.get(adminTable).within(() => {
-            cy.get(dataDefinitionColumn).contains('Data definition groups').click()
-            cy.get(changeDataDefinitionGroup).click()
+            cy.get(columnLink).contains('Community partner users').click()
+            cy.get(change).click()
         })
 
-        cy.get(deleteDataGroup).click()
-        cy.get(deleteGroupButton).click()
+        cy.get(deleteLink).click()
+        cy.get(deleteButton).click()
 
         cy.get(adminTable).within(() => {
-            cy.get(changeDataDefinitionGroup).click()
+            cy.get(change).click()
         })
 
-        cy.get(deleteDataGroup).click()
-        cy.get(deleteGroupButton).click()
+        cy.get(deleteLink).click()
+        cy.get(deleteButton).click()
     })
+
 })

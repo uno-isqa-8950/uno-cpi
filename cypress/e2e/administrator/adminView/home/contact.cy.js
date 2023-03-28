@@ -93,12 +93,11 @@ describe("List contacts", () => {
 
         cy.get(adminTable).within(() => {
             cy.get(columnLink).contains('Contacts').click()
-            //cy.get('.export_link').contains('Export').click()
 
             cy.get(changeAdminContact).click()
 
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.campus_partner6, {force: true})
+                .select(this.data.campus_partner2, {force: true})
             cy.get(form).submit().should('be.visible')
         })
     })
@@ -113,7 +112,7 @@ describe("List contacts", () => {
 
             cy.get(contact_type).should('be.visible').select(this.data.contact_type2, {force: true})
             cy.get(community_partner).should('be.visible')
-                .select(this.data.community_partner1, {force: true})
+                .select(this.data.community_partner11, {force: true})
 
             cy.get(continue_button).click().should('be.visible')
         })
@@ -146,7 +145,7 @@ describe("List contacts", () => {
             cy.get(community_partner).should('be.visible')
                 .select(this.data.community_partner2, {force: true})
             cy.get(campus_partner).should('be.visible')
-                .select(this.data.campus_partner7, {force: true})
+                .select(this.data.campus_partner12, {force: true})
             cy.get(form).submit().should('be.visible')
 
 

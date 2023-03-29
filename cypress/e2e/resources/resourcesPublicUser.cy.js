@@ -5,7 +5,7 @@ beforeEach(() => {
         return false
       }
     })
-    cy.visit('https://uno-cpi-dev.herokuapp.com/')
+    cy.visit(Cypress.env('baseUrl'))
     });
 
 describe('Navigate to Resources Menu to view external links ', () => {

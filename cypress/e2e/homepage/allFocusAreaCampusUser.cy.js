@@ -1,5 +1,6 @@
 /// <reference types="cypress"/>
 import user from "../../support/commands";
+import * as data from "../../fixtures/datareports.json";
 
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
@@ -9,13 +10,19 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click()
-    cy.loginCampusUser(user)
+
 })
+describe ('All focus area cards for campus user', () => {
+    beforeEach(function () {
+        cy.fixture("datareports").then(function (data) {
+            this.data = data
+            cy.get('#login').click()
+                .loginCampusUser(user)
+        })
+    })
 
-describe ('Visits all focus areas in home page', () => {
 
-    //verify all projects listed in this report belong to economic impact focus area.
+//verify all projects listed in this report belong to economic impact focus area.
     it('visits economic impact focus area', () => {
         cy.get('[data-cy="cpi"]').click()
         cy.get('[data-cy="economic impact"]').contains("ECONOMIC IMPACT").should("be.visible").click()

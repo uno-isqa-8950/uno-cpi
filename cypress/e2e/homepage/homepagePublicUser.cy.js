@@ -18,7 +18,7 @@ describe('Home Page Public user', () => {
     //Check base url is loading the Home Page of CEPI application
     it('visits the form', function() {
         cy.visit({
-            url: this.data.baseUrl,
+            url: Cypress.env('baseUrl'),
             method: 'GET',
           })
     })
@@ -31,21 +31,21 @@ describe('Home Page Public user', () => {
             cy.wrap($el).contains('Focus Areas').click()
         })
         cy.get('[data-cy=himg]').click()
-        cy.url().should('be.equal', this.data.baseUrl)
+        cy.url().should('be.equal', Cypress.env('baseUrl'))
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.contains('Reports').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Engagement Types').click()
         })
         cy.get('[data-cy=cpi]').click()
-        cy.url().should('be.equal', this.data.baseUrl)
+        cy.url().should('be.equal', Cypress.env('baseUrl'))
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.contains('Reports').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Projects').click()
         })
         cy.get('[data-cy=uno]').click()
-        cy.url().should('be.equal', this.data.baseUrl)
+        cy.url().should('be.equal', Cypress.env('baseUrl'))
         })
     //check link in footer - uno logo
     it ('check footer uno logo', function() {
@@ -55,7 +55,7 @@ describe('Home Page Public user', () => {
             cy.wrap($el).contains('Focus Area').click()
         })
         cy.get('[data-cy=fimg]').click()
-        cy.url().should('be.equal', this.data.baseUrl)
+        cy.url().should('be.equal', Cypress.env('baseUrl'))
     })
     //Verify menus in Navigation bar
     it('Navigation bar options', function() {
@@ -91,13 +91,13 @@ describe('Home Page Public user', () => {
     })
     it('Navigation bar options for Partners, Login', function() {
         cy.get('[data-cy=partners]').click()
-        cy.url().should('be.equal', this.data.baseUrl+'partners/')
+        cy.url().should('be.equal', Cypress.env('baseUrl')+'partners/')
         cy.get('[data-cy=uno]').click()
         cy.get('[data-cy=login]').click()
-        cy.url().should('be.equal', this.data.baseUrl+'account/login-Page/')
+        cy.url().should('be.equal', Cypress.env('baseUrl')+'account/login-Page/')
     })
     it('Navigation bar options for Resources', function() {
-        cy.get('[data-cy=resources]').click()
+        cy.get("[data-cy='resourcesnav']").click()
         cy.contains('Office of Engagement')
         cy.contains('Community Compass')
         cy.contains('About CEPI')
@@ -119,7 +119,7 @@ describe('Home Page Public user', () => {
        // cy.url().should('be.equal', 'https://www.unomaha.edu/office-of-engagement/_files/campus-user-guidelines.pdf')
 //        cy.origin('.col > :nth-child(1) > p > a').contains('REGISTER A NEW CAMPUS PARTNER').click()
 //        cy.url().should('be.equal','https://cepi.unomaha.edu/partners/register-Campus-Partner/')
-//        cy.url().should('be.equal', this.data.CEPI_site+'partners/register-Campus-Partner/')
+//        cy.url().should('be.equal', Cypress.env('baseUrl')+'partners/register-Campus-Partner/')
         })
     //Verify homepage footer
     it('Verify homepage footer', function() {

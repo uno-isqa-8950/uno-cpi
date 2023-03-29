@@ -211,9 +211,9 @@
     <div class="container-fluid">
         <div class="container button-row-elements">
 
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-cy="hidefilters" data-target="#collapseExample"
                    aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'showAllProjects' %}' " value="Reset Filters" >
+            <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'showAllProjects' %}' " value="Reset Filters" data-cy="resetfilters">
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                     "click",
@@ -227,7 +227,7 @@
                     false
                 );
             </script>
-            <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary"/>
+            <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary" data-cy="applyfilters"/>
             <script type="text/javascript">
                document.getElementById("btnApply").addEventListener(
                    "click",
@@ -244,7 +244,7 @@
         <!-- / Collapse buttons -->
         <div class="card box filter-card">
             <div class="collapse show" id="collapseExample">
-                <form class="form-inline" id="filters-form" method="get">
+                <form class="form-inline" id="filters-form" method="get" data-cy="filtersform">
 
                     <div class="col-lg-4 col-md-5 form-group">
 
@@ -254,7 +254,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Academic Years
                         </label>
-                        <select  id="id_academic_year" name="academic_year">
+                        <select  id="id_academic_year" name="academic_year" data-cy="academicyear">
                             <option> All </option>
                             {% for sem in projects.form.academic_year %}
                                 {{sem}}

@@ -432,7 +432,7 @@
                     <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
                 <div class="col-lg-8 col-md-8" style="text-align:right;">
-                    <label id="reset"><u>Reset</u></label>
+                    <label id="reset" data-cy="reset"><u>Reset</u></label>
                 </div>
             </div>
 
@@ -440,18 +440,18 @@
 
             <div class='legend'>
             <div id='state-legend'>
-            <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
+            <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;" data-cy="missionareafilters">
                 </div>
                 <select style="margin-top:10px;" id="selectCommtype" 
-                onchange="filterData(this.id,false);"></select>
-                <select id="selectCollege" onchange="filterData(this.id,false);"></select>
-                <select id="selectCampus" onchange="filterData(this.id,false);"></select>
-                <select id="selectYear" onchange="filterData(this.id,false);"></select>
-                <select  id="selectDistrict" onchange="filterData(this.id,false);"></select>
+                onchange="filterData(this.id,false);" data-cy="selectcommunitytype"></select>
+                <select id="selectCollege" onchange="filterData(this.id,false);" data-cy="selectcollege"></select>
+                <select id="selectCampus" onchange="filterData(this.id,false);" data-cy="selectcampus"></select>
+                <select id="selectYear" onchange="filterData(this.id,false);" data-cy="selectyear"></select>
+                <select  id="selectDistrict" onchange="filterData(this.id,false);" data-cy="selectdistrict"></select>
             </div>
                 <div style="padding-top:10px;border-top: 1px solid grey;">
                     <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" 
-                    placeholder='Search Community Partner' />
+                    placeholder='Search Community Partner' data-cy="search"/>
                 </div>
             </div>
 
@@ -464,7 +464,7 @@
                         <div class="card" style="margin-top:-3px;padding: 5px;background-color:#333;color:White;font-size:20px;font-family:'Arial Narrow',sans-serif;text-align:center;">
                             <div class="row">
                                 <div class="col-lg-1 col-md-1">
-                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
+                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1" data-cy="filters"><i class="">Filters</i>
                                         <span></span>
                                     </button>
                                 </div>
@@ -477,7 +477,7 @@
                                 </div>
                                 <div class="col-lg-7 col-md-6">
                                     <div style="box-sizing: border-box; padding:5px;">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
+                                        <label><b>Number of Community Partners: </b><b id = "totalnumber" data-cy="totalnumber">{{ number }}</b>
                                         </label>
                                     </div>
                                 </div>
@@ -493,7 +493,7 @@
 
                     <div class="col-xl-12 col-md-12 col-sm-12">
                         <div class="card">
-                            <div id='map_canvas' class='map'>
+                            <div id='map_canvas' class='map' data-cy="mapcanvas">
                                 {{ districtData | json_script:"district-data"}}
                                 {{ collection | json_script:"commPartner-data"}}
                                 {{ Missionlist | json_script:"missionlist"}}
@@ -517,7 +517,7 @@
 
 
 
-           <footer id="footer">
+           <footer id="footer" data-cy="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">

@@ -54,7 +54,7 @@ describe('Charts Focus Area Admin User', () => {
       cy.wrap($el).get("[data-cy='Focus Areas']").click()
     })
     cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('Previous Academic Year')
-    cy.get('[data-cy="academic_year"]').select(this.data.focus_area1, {force: true})
+    cy.get('[data-cy="academic_year"]').select(this.data.academic_year3, {force: true})
     cy.get('#select2-id_academicyear-container').should('have.text', this.data.academic_year3)
 
     cy.get('#select2-id_engagement_type-container > .select2-selection__placeholder').contains('All Engagement Types')
@@ -82,7 +82,7 @@ describe('Charts Focus Area Admin User', () => {
     })
 
     cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('Previous Academic Year')
-    cy.get('[data-cy="academic_year"]').select(this.data.focus_area1,{force:true})
+    cy.get('[data-cy="academic_year"]').select(this.data.academic_year3,{force:true})
     cy.get('#select2-id_academicyear-container').should('have.text' ,this.data.academic_year3)
 
     cy.get('#select2-id_engagement_type-container > .select2-selection__placeholder').contains('All Engagement Types')

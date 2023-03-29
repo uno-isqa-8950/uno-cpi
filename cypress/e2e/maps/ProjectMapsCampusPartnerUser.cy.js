@@ -31,7 +31,7 @@ beforeEach(() => {
         navbar ='.navbar'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersHref).click()
-         .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
+         .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
@@ -52,7 +52,7 @@ beforeEach(() => {
         mapsLink = `a[class="nav-link dropdown-toggle"]`
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnerTypesHref).click()
-        .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
+        .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
         .get(filtersButton).should('be.visible')
         .get(mapsDivId).should('exist')
         .get(footerId).should('exist')
@@ -100,7 +100,7 @@ beforeEach(() => {
       
             .get(communityPartnersHref).click()
       
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/project-Map')
+            .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
       
           // filter button clicking and asserting to check the button is not disabled
       

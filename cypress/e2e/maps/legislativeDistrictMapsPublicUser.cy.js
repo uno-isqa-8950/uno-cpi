@@ -20,16 +20,16 @@ beforeEach(() => {
     // This test is expected to pass visiting community partners under maps as a public user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
     it('legislative district page visit ', function() {
-      const legislativedistrictHref = `a[href="/legislative-District"]`,
-        filtersButton = '#sidebarCollapse',
-        footerId = '#footer',
-        mapsDivId = '#map_canvas',
-        mapsLink = `a[class="nav-link dropdown-toggle"]`,
-        noOfCommPartID ='#totalnumber',
-        navbar ='.navbar'
+      const legislativedistrictHref = '[data-cy="legislative-District"]', 
+        filtersButton = '[data-cy="sidebarCollapse"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="map_canvas"]',
+        mapsLink = '[data-cy="maps"]',
+        noOfCommPartID ='[data-cy="totalnumber"]',
+        navbar ='[data-cy="navbar"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(legislativedistrictHref).click()
-         .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/legislative-District')
+        .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
@@ -44,33 +44,27 @@ beforeEach(() => {
 
     it('Test filter dropdown are clickable', function()  {
 
-      const legislativedistrictHref = `a[href="/legislative-District"]`,
+      const legislativedistrictHref = '[data-cy="legislative-District"]', 
+        filtersButton = '[data-cy="sidebarCollapse"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="map_canvas"]',
+        mapsLink = '[data-cy="maps"]',     
+        districtsDropdown = '[data-cy="selectDistrict"]',
+        communityPartnerDropdown = '[data-cy="selectCommtype"]',
       
-      filtersButton = '#sidebarCollapse',
+        selectCollegeDropdown = '[data-cy="selectCollege"]',
       
-      footerId = '#footer',
+        selectCampusPartnerDropdown = '[data-cy="selectCampus"]',
       
-            districtsDropdown = '#selectDistrict',
-      
-            mapsDivId = '#map_canvas',
-
-      mapsLink = `a[class="nav-link dropdown-toggle"]`,
-      
-            communityPartnerDropdown = '#selectCommtype',
-      
-            selectCollegeDropdown = '#selectCollege',
-      
-            selectCampusPartnerDropdown = '#selectCampus',
-      
-      selectYearDropdown = '#selectYear',
+      selectYearDropdown = '[data-cy="selectYear"]',
             
-            reset = 'u'
+            reset = '[data-cy="reset"]'
 
               cy.get(mapsLink).contains('Maps').click()
       
             .get(legislativedistrictHref).click()
       
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/legislative-District')
+                  .url().should('be.equal', Cypress.env('baseUrl')+'legislative-District')
       
       //     // filter button clicking and asserting to check the button is not disabled
       

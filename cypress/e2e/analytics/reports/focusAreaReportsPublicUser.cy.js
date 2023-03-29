@@ -9,7 +9,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Analytic Reports Public user', () => {
+describe('Focus Area Reports Public user', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data
@@ -123,9 +123,13 @@ describe('Analytic Reports Public user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
-        cy.get(':nth-child(1) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
+        cy.get(':nth-child(2) > :nth-child(2) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Community Partners Report')
-        cy.url().should('contain', 'https://uno-cpi-dev.herokuapp.com/community-public-report')
+        cy.url().should('contain', Cypress.env('baseUrl')+'community-public-report')
     })
     it("Check conectivity to Projects report", function() {
         cy.get('#analyticnav').click()
@@ -133,9 +137,13 @@ describe('Analytic Reports Public user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
+        cy.get('#select2-id_academic_year-container').click()
+        cy.get('#select2-id_academic_year-results').then(($li) => {
+            cy.wrap($li).contains(this.data.select_all).click();
+        })
         cy.get(':nth-child(1) > :nth-child(3) > .class1').invoke('attr', 'target', '_self').click()
         cy.get('.heading').should('contain.text', 'Projects Report')
-        cy.url().should('contain', this.data.baseUrl+'projectspublicreport/')
+        cy.url().should('contain', Cypress.env('baseUrl')+'projectspublicreport/')
     })
     it("Check tooltip text for 7 focus areas", function() {
         cy.get('#analyticnav').click()

@@ -90,7 +90,7 @@
 
 <!-- Navbar Begins -->
 
-<nav class="navbar navbar-expand-lg navbar-custom sticky-top" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};">
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top" style="background: {{ primary_color }}; border-bottom: 2px solid {{ secondary_color }};" data-cy="navbar">
     <a class="navbar-brand" href="/"><img class="himg" src="{{ logo }}" alt="UNO Logo"></a>
     <a class="navbar-brand" href="/" id="uno">University of Nebraska Omaha<b id="cpi">Community Engagement Partnership Initiative</b></a>
     <a class="navbar-toggler" data-toggle="collapse" data-target="#target" id="Menu"><i class="fa fa-bars" style="font-size:24px"></i></a>
@@ -126,9 +126,9 @@
                                 <a class="dropdown-item" href="/projectInfo_public">Focus Areas</a> {% endif %}
                             <a class="dropdown-item" href="/engage-Type">Engagement Types</a> {% if user.is_authenticated %}
                             <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
-                            <a class="dropdown-item" href="{% url 'projectsprivatereport' %}">Projects</a> {% else %}
+                            <a class="dropdown-item" href="{% url 'projectsprivatereport' %}" data-cy="projectsreportprivate">Projects</a> {% else %}
                             <a class="dropdown-item" href="{% url 'communitypublicreport' %}">Community Partners</a>
-                            <a class="dropdown-item" href="{% url 'projectspublicreport' %}">Projects</a> {% endif %}
+                            <a class="dropdown-item" href="{% url 'projectspublicreport' %}" data-cy="projectsreport" >Projects</a> {% endif %}
 
                         </ul>
                     </li>

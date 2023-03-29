@@ -17,9 +17,6 @@ describe('Engagement Types Report Campus Partner User', () => {
         cy.loginCampusUser(user)
         })
     })
-     it('visits the form', function() {
-        cy.visit(Cypress.env('baseUrl'))
-    })
    //Check navigation
    it('Check navigation', function() {
     cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')

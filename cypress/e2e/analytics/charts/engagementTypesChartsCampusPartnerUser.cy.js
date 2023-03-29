@@ -11,7 +11,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Analytic Charts Public user', () => {
+describe('Engagement Types Chart Campus user', () => {
     beforeEach(function () {
         cy.fixture("datareports").then(function (data) {
             this.data = data

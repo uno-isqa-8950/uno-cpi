@@ -1,6 +1,0 @@
-import '../analytics/charts/engagementTypesChartsCampusPartnerUser.cy'
-import '../analytics/charts/focusAreaChartsCampusPartner.cy'
-import '../analytics/charts/partnershipIntensityAnalysisChartsCampusPartnerUser.cy'
-import '../analytics/charts/focusAreaChartsAdmin.cy'
-import '../analytics/charts/projectAndPartnerTrendsChartsAdmin.cy'
-import '../analytics/charts/partnershipIntensityAnalysisChartsAdminUser.cy'

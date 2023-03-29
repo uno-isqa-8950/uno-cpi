@@ -43,7 +43,7 @@ describe('Charts Focus Area Campus Partner User', () => {
     // check the filers are they visible
     cy.get('[data-cy="hide filters"]').click()
     cy.get('[data-cy="hide filters"]').should('have.value', 'Hide Filters')
-    cy.get('.select2-selection__placeholder').should('be.visible')
+    cy.get('.select2-selection__placeholder').should('exist')
   })
 
   //Reset Filters

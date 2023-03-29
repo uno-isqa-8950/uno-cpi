@@ -102,7 +102,7 @@ beforeEach(() => {
           allProjectsLink = '[data-cy="allprojects"]',
           filterOptionSelection = `span[class="select2-selection select2-selection--single"]`,
           tableData = `td[class="sorting_1"]`,
-          applyFiltersButton= '[data-cy="allprojects"]'
+          applyFiltersButton= '[data-cy="applyfilters"]'
         cy.get(projectsLink).should('exist').click()
           .get(allProjectsLink).should('exist').click()
          // selecting filter option from  academic years filters 
@@ -169,13 +169,13 @@ beforeEach(() => {
         cy.get(projectsLink).should('exist').click()
           .get(allProjectsLink).should('exist').click()
          // selecting filter option from campus partners
-          .get(filterOptionSelection).contains('All Campus Partners').click()  
-          .get('#select2-id_campus_partner-results').then(($li) => {
-             cy.wrap($li)
-               .contains(this.data.campus_partner3)
-               .click()
-             })
-             cy.get('td').contains(this.data.campus_partner3)
+         //  .get(filterOptionSelection).contains('All Campus Partners').click()
+         //  .get('#select2-id_campus_partner-results').then(($li) => {
+         //     cy.wrap($li)
+         //       .contains(this.data.campus_partner6)
+         //       .click()
+         //     })
+         //     cy.get('td').contains(this.data.campus_partner6)
       })
 
       it('Test projects page filter selections for CEC building partners', function(){

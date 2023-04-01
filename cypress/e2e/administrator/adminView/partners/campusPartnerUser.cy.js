@@ -7,7 +7,6 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click().loginAdminUser(user)
 })
 
 
@@ -15,6 +14,7 @@ describe("List campus partner users", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
+            cy.get('#login').click().loginAdminUser(user)
         })
     })
 
@@ -126,7 +126,7 @@ describe("List campus partner users", () => {
 
         cy.get(adminTable).within(() => {
             cy.get(columnLink).contains('Campus partner users').click()
-            cy.get(searhbar).type(this.data.campus_partner1)
+            cy.get(searhbar).type(this.data.campus_partner3)
             cy.get(searh_button).click().should('be.visible')
             cy.get(change).click()
         })

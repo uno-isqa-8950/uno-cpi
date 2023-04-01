@@ -8,14 +8,14 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click()
-  cy.loginCampusUser()
 })
 
 describe('Charts Partnership intensity analysis test', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
+            cy.get('#login').click()
+            cy.loginCampusUser()
         })
     })
 

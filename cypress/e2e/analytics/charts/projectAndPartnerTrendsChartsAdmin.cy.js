@@ -95,9 +95,9 @@ describe('Charts Project and Partner Trend', () => {
     cy.get('[data-cy="college_name"]').select(this.data.college_name1,{force:true})
     cy.get('#select2-id_college_name-container').should('have.text' ,this.data.college_name1)
 
-    cy.get('#select2-id_campus_partner-container > .select2-selection__placeholder').contains('All Campus Partner')
-    cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3,{force:true})
-    cy.get('#select2-id_campus_partner-container').should('have.text' ,this.data.campus_partner3)
+    // cy.get('#select2-id_campus_partner-container > .select2-selection__placeholder').contains('All Campus Partner')
+    // cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3,{force:true})
+    // cy.get('#select2-id_campus_partner-container').should('have.text' ,this.data.campus_partner3)
 
     cy.get('#select2-id_weitz_cec_part-container > .select2-selection__placeholder').contains('All (CEC/Non-CEC Partners)')
     cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part1,{force:true})

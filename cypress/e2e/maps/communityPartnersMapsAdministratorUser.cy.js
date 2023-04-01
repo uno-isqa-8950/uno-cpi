@@ -110,7 +110,7 @@ beforeEach(() => {
         mapsLink = '[data-cy="maps"]',
         allFocusAreasFilterLink = `a[id="All Focus Areas"]`,
         artsCultureHumanitiesLink = `a[id="Arts, Culture and Humanities"]`,
-        economicSufficiencyLink = `a[id="Economic Sufficiency"]`,
+        economicSufficiencyLink = `a[id="Economic Impact"]`,
         educationalSupportLink = `a[id="Educational Support"]`,
         environmentalStewardshipLink = `a[id="Environmental Stewardship"]`,
         healthAndWellnessLink = `a[id="Health and Wellness"]`,

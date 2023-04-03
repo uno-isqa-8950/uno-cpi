@@ -1,4 +1,6 @@
 /// <reference types="cypress"/>
+import user from "../../../support/commands";
+
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
@@ -9,14 +11,13 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
 })
 
-describe('Analytic Charts Public user', () => {
+describe('Engagement Types Chart Campus user', () => {
     beforeEach(function () {
         cy.fixture("datareports").then(function (data) {
             this.data = data
+        cy.get('#login').click()
+        cy.loginAdminUser(user)
         })
-    })
-    it('visits the form', function () {
-        cy.visit(Cypress.env('baseUrl'))
     })
     //Check navigation to Engagement types charts
     it('Check navigation', function () {
@@ -65,8 +66,8 @@ describe('Analytic Charts Public user', () => {
         cy.get('[data-cy="Reset filter"]').click()
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
     })
-    // Filter Options
-    it ('filter options', function () {
+    // Check selected filter options
+    it('filter options', function () {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
@@ -87,7 +88,7 @@ describe('Analytic Charts Public user', () => {
     })
 
     //Verify charts x-axis, y-axis and x-axis labels
-    it ('Charts x-axis, y-axis and x-axis labels', function () {
+    it('Charts x-axis, y-axis and x-axis labels', function () {
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')

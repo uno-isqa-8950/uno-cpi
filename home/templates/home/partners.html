@@ -93,7 +93,7 @@
             <div style="box-shadow: 0 6px 20px 0 rgba(0, 0, 0, .19);">
                 <div class="card" style="padding: 2%;margin-top:10%;background-color:#333333;border-radius: 0px;">
                     <label style="text-align:justify;"><b style="font-size:16px;text-align:center;color:White;">
-                                <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica">Campus Partners
+                                <h4 style="line-height:.8em;padding-top:15px;font-weight: 700;font-family: Helvetica" data-cy="campus partners">Campus Partners
                                             <span id="helptext" tabindex="-1" data-toggle="popover" data-trigger="focus"   data-content="{% get_data_definition_desc 'Campus Partner' %}" class="float" ><i class="fa fa-info-circle fa-align-right fa-3x" aria-hidden="true"></i></span>{# </span> #}
                                     </h4></b>
                             </label>
@@ -108,7 +108,7 @@
                 <div class="col text-center">
                     <div style="border:none;margin-top: 20px">
                         <form action="{% url 'partners:registerCampusPartner' %}">
-                            <button id="btn_reg_campus_partner" type="submit" class="btn btn-secondary">
+                            <button id="btn_reg_campus_partner" type="submit" class="btn btn-secondary" data-cy="btn_reg_campus_partner">
                                       Register Campus Partner</button><br><br>
                         </form>
                     </div>

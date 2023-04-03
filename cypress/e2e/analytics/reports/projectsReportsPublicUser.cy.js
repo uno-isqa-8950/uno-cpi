@@ -57,7 +57,7 @@ describe('Analytic Reports Public user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreport"]').click()
         })
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
+        cy.get('[data-cy="academic-year"]').contains('Previous Academic Year')
         cy.get(academic_year_selector).click()
         cy.get(academic_year_results).then(($li) => {
             cy.wrap($li).contains(this.data.academic_year1).click();
@@ -69,7 +69,7 @@ describe('Analytic Reports Public user', () => {
         })
         cy.get('[data-cy="academic_year"]').should('contain.text', this.data.academic_year1)
         cy.get('[data-cy="Reset Filters"]').click()
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
+        cy.get('[data-cy="academic-year"]').contains('Previous Academic Year')
         })
     // Filter Options
     it('filter options', function() {
@@ -93,7 +93,7 @@ describe('Analytic Reports Public user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreport"]').click()
         })
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
+        cy.get('[data-cy="academic-year"]').contains('Previous Academic Year')
         cy.get(academic_year_selector).click()
         cy.get(academic_year_results).then(($li) => {
             cy.wrap($li).contains(this.data.academic_year4).click();

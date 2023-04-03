@@ -217,8 +217,8 @@ describe ('Register campus partner', () => {
   })
   //Check last name is a mandatory field
   it('Check lastname is a mandatory field', function () {
-    cy.get('#partners').should("be.visible").click()
-    cy.get('#btn_reg_campus_partner').click()
+    cy.get('[data-cy="partners"]').should("be.visible").click()
+    cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
     cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
@@ -234,8 +234,8 @@ describe ('Register campus partner', () => {
   })
   //Check email id is a mandatory field
   it('Check email id is a mandatory field', function () {
-    cy.get('#partners').should("be.visible").click()
-    cy.get('#btn_reg_campus_partner').click()
+    cy.get('[data-cy="partners"]').should("be.visible").click()
+    cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
     cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
@@ -252,8 +252,8 @@ describe ('Register campus partner', () => {
   })
   //Check existing contact information can be provided
   it('verify existing contact information can be provided', function () {
-    cy.get('#partners').should("be.visible").click()
-    cy.get('#btn_reg_campus_partner').click()
+    cy.get('[data-cy="partners"]').should("be.visible").click()
+    cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
     cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
@@ -270,8 +270,8 @@ describe ('Register campus partner', () => {
   })
   //Check existing campus partner cannot be added
   it('verify existing campus partner cannot be added', function () {
-    cy.get('#partners').should("be.visible").click()
-    cy.get('#btn_reg_campus_partner').click()
+    cy.get('[data-cy="partners"]').should("be.visible").click()
+    cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
     cy.get(campus_partnerName).type(this.data.campus_partner8)
     cy.get('#select2-id_college_name-container').click()
@@ -281,8 +281,8 @@ describe ('Register campus partner', () => {
   })
   //Check duplicate contact information cannot be added
   it('verify duplicate contact information cannot be added', function () {
-    cy.get('#partners').should("be.visible").click()
-    cy.get('#btn_reg_campus_partner').click()
+    cy.get('[data-cy="partners"]').should("be.visible").click()
+    cy.get('[data-cy="btn_reg_campus_partner"]').click()
     const campus_partnerName = 'input[id="id_name"]'
     cy.get(campus_partnerName).type(this.data.campus_partner9)
     cy.get('#select2-id_college_name-container').click()

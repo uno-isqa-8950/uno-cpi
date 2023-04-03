@@ -76,19 +76,19 @@
                     {% csrf_token %}
                     <!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
                     <label><b>Email</b></label>
-                    <input id="email_input" class="input" type="email" name="email" placeholder="Email" required>
+                    <input id="email_input" class="input" type="email" name="email" placeholder="Email" required data-cy="email">
                     <br>
                     <label id="password_label"><b>Password</b></label>
-                    <input id="password_input" class="input" type="password" name="password" placeholder="Password" required><br>
+                    <input id="password_input" class="input" type="password" name="password" placeholder="Password" required data-cy="password"><br>
                     <div class="row justify-content-md-center">
                         <div class="col-xs-1 center-block text-center" style="border: none">
-                            <p><button id="btnLogin" type="submit" class="btn btn-secondary" style="font-size:1.1em;">
+                            <p><button id="btnLogin" type="submit" class="btn btn-secondary" style="font-size:1.1em;" data-cy="login">
                                         Login</button></p><br>
                         </div>
                     </div>
                     <div class="row justify-content-md-center">
                         <div class="col-md-12" style="text-align:center; margin-left:1%; margin-right:0%">
-                            <a id="nonUnoForgotPwd" style=" color: #d71920;" href='/password_reset/'>Forgot Password?</a><br>
+                            <a id="nonUnoForgotPwd" style=" color: #d71920;" href='/password_reset/' data-cy="forgotpassword">Forgot Password?</a><br>
                             <!--/div>
                                 <div class="col-md-12" style="text-align:center;"-->
                             <!--<a style="color: #d71920;" title="Registers Users associated with a Campus Partner on UNO campus" href='/register-Campus-Partner-User/'>Campus Partner User Registration</a>--><br><br>

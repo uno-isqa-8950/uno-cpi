@@ -44,7 +44,7 @@
     <!--<div class="card" style="border:0px; padding: 10px; ">-->
     <!-- Collapse buttons -->
     <div style="margin-left: -10px">
-        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+        <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-cy="collapse" data-toggle="collapse" data-target="#collapseExample"
                aria-expanded="false" aria-controls="collapseExample" />
         <input type="button" id="btn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'communityprivatereport' %}' " value="Reset Filters" >
 
@@ -77,7 +77,7 @@
                         Academic Years
 
                     </label>
-                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                    <select id="id_academic_year" data-cy="academic_year" name="academic_year" onchange="this.form.submit()">
                         <option> All </option>
                         {% for sem in project_filter.form.academic_year %}
                             {{sem}}
@@ -92,7 +92,7 @@
                         Community Organization Types
 
                     </label>
-                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_community_type" data-cy="community_type" name="community_type" onchange="this.form.submit()">
                         <option> All </option>
                         {% for community_type in communityPartners.form.community_type %}
                             {{community_type}}
@@ -107,7 +107,7 @@
                         CEC Building Partners
 
                     </label>
-                    <select class="form-control"  id="id_weitz_cec_part" name="weitz_cec_part"   onchange="this.form.submit()">
+                    <select class="form-control"  id="id_weitz_cec_part" data-cy="weitz_cec_part" name="weitz_cec_part"   onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
                         {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
@@ -124,7 +124,7 @@
                         College and Main Units
 
                     </label>
-                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                    <select id="id_college_name" data-cy="college_name" name="college_name" onchange="this.form.submit()">
                         <option> All </option>
                         {% for college in college_filter.form.college_name %}
                             {{college}}
@@ -139,7 +139,7 @@
                         Campus Partners
 
                     </label>
-                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <select id="id_campus_partner" data-cy="campus_partner" name="campus_partner" onchange="this.form.submit()">
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
 
@@ -155,7 +155,7 @@
                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         Legislative Districts
                     </label>
-                    <select id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                    <select id="id_legislative_value" data-cy="legislative_value" name="legislative_value" onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
                         <option>All</option>
                         {% for item in legislative_choices %}

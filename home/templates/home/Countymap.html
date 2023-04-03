@@ -336,31 +336,31 @@
 </style>
 
 <div class="wrapper">
-    <nav id="sidebar">
+    <nav id="sidebar" data-cy="sidebar">
             <div class="row" style="border-bottom:1px solid grey; height:60px;">
                 <div class="col-lg-4 col-md-4">
                     <h3 style="padding:15px; text-align:left;font-size:25px;">Filters</h3>
                 </div>
                 <div class="col-lg-6 col-md-6" style="padding:15px;">
-                        <button type="button" class="btn btn-primary" style="margin-left:55px;" id="reset">
+                        <button type="button" class="btn btn-primary" style="margin-left:55px;" id="reset" data-cy="reset">
                             Reset
                         </button>
                 </div>
             </div>
 
-        <div id='state-legend' class='legend'>
+        <div id='state-legend' class='legend' data-cy="legend">
             <h4>Mission Areas</h4>
             <div id='legend' style="padding-bottom:5px;border-bottom: 1px solid grey;">
             </div>
 
-            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict">
+            <select style="margin-top:10px;" id="selectDistrict" class="selectDistrict" data-cy="selectdistrict">
                 </select>
             <!--div id="sidebar"-->
-            <select id="selectCommtype" class="selectCommtype"></select>
-            <select id="selectCampus" class="selectCampus"></select>
-            <select id="selectYear" class="selectYear"></select>
+            <select id="selectCommtype" class="selectCommtype" data-cy="selectcommunitytype"></select>
+            <select id="selectCampus" class="selectCampus" data-cy="selectcampus"></select>
+            <select id="selectYear" class="selectYear" data-cy="selectyear"></select>
             <div>
-                <input id='valueFilter' type='text' placeholder='Search Community Partner' />
+                <input id='valueFilter' type='text' placeholder='Search Community Partner' data-cy="search"/>
             </div>
             <div id='incomelegend' style="padding-top:10px;padding-bottom:10px;border-top: 1px solid grey;border-bottom: 1px solid grey;">
                 <div>
@@ -377,7 +377,7 @@
 
     </nav>
 
-    <div id="content">
+    <div id="content" data-cy="content">
                 <div class = "container-fluid" style="margin-top:78px;">
                     <div class="row justify-content-md-center">
                         <div class="col-xl-12 col-md-12 col-sm-12">
@@ -385,7 +385,7 @@
                             <div class="card" style="padding: 5px;background-color:#636568;opacity:.9;color:White;font-size:20px;font-family:Helvetica;text-align:center;">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1">
-                                        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
+                                        <button type="button" id="sidebarCollapse" class="btn btn-custom1" data-cy="filters"><i class="">Filters</i>
                                             <span></span>
                                         </button>
 
@@ -397,7 +397,7 @@
                                         </div>
                                     </div>
                                     <div class="col-lg-7 col-md-6">
-                                        <div style="box-sizing: border-box; padding:5px;">
+                                        <div style="box-sizing: border-box; padding:5px;" data-cy="totalnumber">
                                             <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b></label>
                                         </div>
                                     </div>
@@ -406,7 +406,7 @@
                         </div>
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card" style="box-shadow: 2px 8px 8px 2px grey;">
-                                <div id='map' class='map'>
+                                <div id='map' class='map' data-cy="mapcanvas">
                                     {{ countyData | json_script:"county-data"}}
                                         <!--h3 id="overlay-header">Maps: Household Income</h3>
                                         <p id="overlay-text"><b>Household Income data is mapped based on Nebraska counties. Use our filters to please your eyes</b></p-->
@@ -420,10 +420,10 @@
                     </div>
                 </div>&emsp;
 <footer>
-      <div class="container-fluid">
+      <div class="container-fluid" data-cy="footer">
         <div class="row">
           <div class="col-md-3" style="margin-top:8px;">
-            <span><a style="color:white; font-size:17px;" href="/Contactus">Contact Us</a></span><br>
+            <span><a style="color:white; font-size:17px;" href="/Contactus" data-cy="contactus">Contact Us</a></span><br>
                <span class="copyright">Copyright &copy; Community Partnership Initiative 2018</span>
           </div>
           <div class="col-md-6">
@@ -439,7 +439,7 @@ political affiliation in its programs, activities, or employment.
           </div>
           <div class="col-md-3">
               <ul class="imgadjust">
-                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo">
+                <img src="{% static 'img/UNOFooter1.png' %}" alt="UNO Logo" data-cy="unologo">
               </ul>
           </div>
         </div>

@@ -438,8 +438,8 @@
 
 
 
-            <div class='legend'>
-            <div id='state-legend'>
+            <div class='legend' data-cy="legend">
+            <div id='state-legend' data-cy="statelegend">
             <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;" data-cy="missionareafilters">
                 </div>
                 <select style="margin-top:10px;" id="selectCommtype" 
@@ -521,11 +521,11 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo" data-cy="unologo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px; text-align: left;">
-                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
-                 <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
+                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank" data-cy="terms">Terms and Conditions</a></span>
+                 <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu" data-cy="contactus">Contact Us</a></span>
                  <!--<br>-->
                  <p>
                   <span><a class="fnone" style="font-size: 12px;">

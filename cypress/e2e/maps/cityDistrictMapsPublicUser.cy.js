@@ -19,15 +19,15 @@ beforeEach(() => {
     // This test is expected to pass visiting community partners under maps as a public user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
     it('City district page visit ', function() {
-      const communityPartnersHref = `a[href="/city-District"]`,
-        filtersButton = '#sidebarCollapse',
-        footerId = '#footer',
-        mapsDivId = '#map_canvas',
-        mapsLink = `a[class="nav-link dropdown-toggle"]`,
-        noOfCommPartID ='#totalnumber',
-        navbar ='.navbar'
+      const citydistrictsHref = '[data-cy="citydistricts"]',
+        filtersButton = '[data-cy="filters"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]',
+        noOfCommPartID ='[data-cy="totalnumber"]',
+        navbar ='[data-cy="navbar"]'
       cy.get(mapsLink).contains('Maps').click()
-        .get(communityPartnersHref).click()
+        .get(citydistrictsHref).click()
          .url().should('be.equal', Cypress.env('baseUrl')+'city-District')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
@@ -41,33 +41,26 @@ beforeEach(() => {
     }) 
 
 
-    it ('Test filter dropdown are clickable', function()  {
-
-          const communityPartnersHref = `a[href="/city-District"]`,
+    it ('Test filter dropdown are clickable', function()  {   
+      const citydistrictsHref = '[data-cy="citydistricts"]',
+        filtersButton = '[data-cy="filters"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]',
+        districtsDropdown = '[data-cy="selectdistrict"]',
+        communityPartnerDropdown = '[data-cy="selectcommunitytype"]',
       
-            filtersButton = '#sidebarCollapse',
+        selectCollegeDropdown = '[data-cy="selectcollege"]',
       
-            footerId = '#footer',
+        selectCampusPartnerDropdown = '[data-cy="selectcampus"]',
       
-            districtsDropdown = '#selectDistrict',
-      
-            mapsDivId = '#map_canvas',
-      
-            mapsLink = `a[class="nav-link dropdown-toggle"]`,
-      
-            communityPartnerDropdown = '#selectCommtype',
-      
-            selectCollegeDropdown = '#selectCollege',
-      
-            selectCampusPartnerDropdown = '#selectCampus',
-      
-            selectYearDropdown = '#selectYear',
+      selectYearDropdown = '[data-cy="selectyear"]',
             
-            reset = 'u'
+            reset = '[data-cy="reset"]'
       
           cy.get(mapsLink).contains('Maps').click()
       
-            .get(communityPartnersHref).click()
+            .get(citydistrictsHref).click()
       
             .url().should('be.equal', Cypress.env('baseUrl')+'city-District')
       
@@ -96,6 +89,22 @@ beforeEach(() => {
             .get(footerId).should('exist')
 
             .get(reset).should('exist')
-      
+            cy.get('#map_canvas').then($canvas => {
+              // South Carolina
+              // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
+              const Map_point = '[tabindex="0"] > img',
+              Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
+              Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
+             Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
+             Map_Zoom = '[aria-label="Zoom in"]'
+             cy.wrap($canvas)
+             cy.get(Map_Zoom).click()
+            cy.get(Map_point).click(); cy.wait(1000)
+           cy.wrap($canvas)
+             cy.get(Map_point).click(); cy.wait(1000)
+             cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
+             cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
+             cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')                   
+         });
     })
 })

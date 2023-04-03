@@ -14,7 +14,7 @@ beforeEach(() => {
         cy.fixture("datareports").then(function(data) {       
           this.data = data
         cy.get('#login').click()
-        cy.loginCampusUser()
+        cy.loginAdminUser()
         }) 
         
     }) 
@@ -23,12 +23,13 @@ beforeEach(() => {
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
     it('projects maps visit ', function() {
       const projectsHref = '[data-cy="projects"]',
-      filtersButton = '[data-cy="filters"]',
-      footerId = '[data-cy="footer"]',
-      mapsDivId = '[data-cy="mapcanvas"]',
-      mapsLink = '[data-cy="maps"]',
-      noOfCommPartID ='[data-cy="totalnumber"]',
-      navbar ='[data-cy="navbar"]'
+        filtersButton = '[data-cy="filters"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]',
+        noOfCommPartID ='[data-cy="totalnumber"]',
+        navbar ='[data-cy="navbar"]'
+
       cy.get(mapsLink).contains('Maps').click()
         .get(projectsHref).click()
          .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
@@ -56,7 +57,7 @@ beforeEach(() => {
         .get(filtersButton).should('be.visible')
         .get(mapsDivId).should('exist')
         .get(footerId).should('exist')
-      cy.get('#map_canvas').then($canvas => {
+      cy.get(mapsDivId).then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
         const Map_point = '[title=""] > img',
@@ -64,9 +65,9 @@ beforeEach(() => {
         Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
        Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
        Map_Zoom = '[aria-label="Zoom in"]'
-       cy.wrap($canvas)
-       cy.get(Map_Zoom).click()
-      cy.get(Map_point).click(); cy.wait(1000)
+     cy.wrap($canvas)
+     cy.get(Map_Zoom).click()
+       cy.get(Map_point).click(); cy.wait(1000)
        cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
        cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
        cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')                   
@@ -74,9 +75,8 @@ beforeEach(() => {
     })
 
 
-    it ('Test filter dropdown are clickable', function()  {
-
-          const projectsHref = '[data-cy="projects"]',
+    it.only('Test filter dropdown are clickable', function()  {
+      const projectsHref = '[data-cy="projects"]',
         filtersButton = '[data-cy="filters"]',
         footerId = '[data-cy="footer"]',
         mapsDivId = '[data-cy="mapcanvas"]',

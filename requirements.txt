@@ -82,7 +82,7 @@ tomli==2.0.1
 tzdata==2022.7
 tzlocal==4.2
 urllib3==1.26.14
-wagtail==4.2
+wagtail==4.2.2
 webencodings==0.5.1
 whitenoise==6.3.0
 Willow==1.4.1

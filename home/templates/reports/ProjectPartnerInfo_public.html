@@ -19,7 +19,7 @@ $(document).ready(function(){
             <div class="col-xl-12 col-md-12 col-sm-12">
                 <br><br>
 <!--                <div class = "panel panel-default" style="width:100%;margin-top: 50px" >-->
-                    <div class=" text-center"><h3 class="heading">Focus Areas Report</h3></div>
+                    <div class=" text-center"><h3 class="heading" data-cy="heading">Focus Areas Report</h3></div>
 
                             <div class="card snippet-card">
                                 <div class="text-snippet">
@@ -30,8 +30,8 @@ $(document).ready(function(){
         <!-- Collapse buttons -->
         <div>
             <input type="button" id="hidefilterbtn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
-            aria-expanded="false" aria-controls="collapseExample" />
-            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info_public' %}' " value="Reset Filters" >
+            aria-expanded="false" aria-controls="collapseExample" data-cy="hidefilterbtn"/>
+            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info_public' %}' " value="Reset Filters" data-cy="resetfilterbtn" >
 
 
             <script type="text/javascript">
@@ -63,7 +63,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Academic Years
                                 </label>
-                                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()" data-cy="id_academic_year">
                                         <option> All </option>
                                         {% for sem in year_filter.form.academic_year %}
                                             {{sem}}
@@ -79,7 +79,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Engagement Types
                                 </label>
-                                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()" data-cy="engagement-type-select">
                                         <option> All </option>
                                         {% for engagement in project_filter.form.engagement_type %}
                                             {% debug %}
@@ -96,7 +96,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Community Organization Types
                                 </label>
-                                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()" data-cy="community_type">
                                         <option> All </option>
                                             {% for community_type in communityPartners.form.community_type %}
                                                 {{community_type}}
@@ -112,7 +112,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         College and Main Units
                                 </label>
-                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="college_name">
                                         <option> All </option>
                                             {% for college in college_filter.form.college_name %}
                                                 {{college}}
@@ -128,7 +128,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                        Campus Partners
                                 </label>
-                                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()" data-cy="campus_partner">
                                         <option value="" disabled selected hidden></option>
                                         <option> All </option>
                                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -147,7 +147,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         CEC Building Partners
                                 </label>
-                                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
                                         <option value="" disabled selected hidden></option>
                                         {% for cec_choice in cec_part_choices.cec_choice %}
                                             {{ cec_choice }}
@@ -220,19 +220,19 @@ $(document).ready(function(){
                         <tbody>
                             {% for m in mission_list %}
                             <tr>
-                                <td>
-                                    <span data-toggle="tooltip" title="{{ m.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
+                                <td data-cy="mission-type">
+                                    <span data-toggle="tooltip" title="{{ m.description }}" ><i class="fa fa-info-circle fa-align-top" aria-hidden="true" data-cy="mission-type-tooltip"></i></span>
                                     <a style="color: {{ m.focus_color }}">{{m.mission_name}}</a>
                                 </td>
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}
-                                    {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1">{{m.community_count}}</a>
+                                    {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
                                     {% endif %}</td>
                                 <td>
                                     {% if  m.project_count  < 1 %}
                                     {{m.project_count}}
-                                    {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1">{{m.project_count}}</a>
+                                    {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
                                     {% endif %}</td>
                                 <td> {{ m.campus_count }}</td>
                                 <td>{{m.total_uno_students}}</td>

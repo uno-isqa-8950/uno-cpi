@@ -203,7 +203,7 @@
         });
     </script>
 
-    <div class=" text-center"><h4 class="heading">Projects Report</h4></div>
+    <div class=" text-center"><h4 class="heading" data-cy="heading">Projects Report</h4></div>
     <div class="card snippet-card">
         <div class="container text-snippet">
             {% priv_projs %}
@@ -216,9 +216,9 @@
         <div class="container button-row-elements">
 
             <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
-                   aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
-            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectprivatetableview' %}' " value="Reset Filters" >
-            <input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport/?{{ parameters }}'; " value="Card View" >
+                   aria-expanded="false" aria-controls="collapseExample" style="margin:0;" data-cy="Hide Filters"/>
+            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectprivatetableview' %}' " value="Reset Filters" data-cy="Reset Filters">
+            <input type="button" id="btn-table" value= "Card View" class="btn btn-secondary" onclick="window.location.href = '/projectsprivatereport/?{{ parameters }}'; " value="Card View" data-cy="Card View">
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                     "click",
@@ -238,10 +238,10 @@
 
                 <!-- / Collapse buttons -->
         <div class="card box filter-card">
-            <div class="collapse show" id="collapseExample">
+            <div class="collapse show" id="collapseExample" data-cy="collapse show">
                 <form class="form-inline" id="filters-form" method="get">
 
-                    <div class="col-lg-4 col-md-5 form-group">
+                    <div class="col-lg-4 col-md-5 form-group" data-cy="academic-year">
 
                         <label for="academic_year">
                                     <span tabindex="-1" data-toggle="tooltip"
@@ -249,7 +249,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Academic Years
                         </label>
-                        <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                        <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()" data-cy="academic_year">
                             <option> All </option>
                             {% for sem in projects.form.academic_year %}
                                 {{sem}}
@@ -264,7 +264,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Project Focus Areas
                         </label>
-                        <select  id="id_mission" name="mission" onchange="this.form.submit()">
+                        <select  id="id_mission" name="mission" onchange="this.form.submit()" data-cy="mission" >
                             <option> All </option>
                             {% for mission in missions.form.mission %}
                                 {{mission}}
@@ -278,7 +278,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Community Organization Types
                         </label>
-                        <select id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <select id="id_community_type" name="community_type" onchange="this.form.submit()" data-cy="id_community_type">
                             <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -295,7 +295,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             College and Main Units
                         </label>
-                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="collange-name">
                             <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -309,7 +309,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Campus Partners
                         </label>
-                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()" data-cy="id_campus_partner">
                             {#                        <option> All </option>#}
                             {##}
                             {#                        {% for campus in campus_filter.form.campus_partner %}#}
@@ -332,7 +332,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             CEC Building Partners
                         </label>
-                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
                             <option value="" disabled selected hidden></option>
                             {% for cec_choice in cec_part_choices.cec_choice %}
                                 {{ cec_choice }}
@@ -351,7 +351,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                         </label>
-                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()" data-cy="engagement-type">
                             <option> All </option>
                             {% for engagement in projects.form.engagement_type %}
                                 {{engagement}}
@@ -366,7 +366,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             K-12 Involvement
                         </label>
-                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()" data-cy="id_k12_flag">
                             <option value="" disabled selected hidden></option>
                             {% for k12_flag in k12_choices.k12_choice %}
                                 {{ k12_flag }}
@@ -384,9 +384,9 @@
 
         <!--<div class = "panel panel-default" style=" box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">-->
         <!--<div class="panel-body">-->
-        <div class="box">
+        <div class="box" data-cy="box">
 
-            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%">
+            <table id="example" class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%" data-cy="example">
                 <thead>
                 <tr>
                     <th class="all">
@@ -436,24 +436,24 @@
                 <tbody>
 
                 {% for project in project %}
-                    <tr>
-                        <td>{{ project.get_name }}</td>
-                        <td>{{ project.mission_area.all|join:", " }}</td>
-                        <td>{{ project.community_partner.all|join:", " }}</td>
-                        <td>{{ project.campus_partner.all|join:", "}}</td>
-                        <td>{{ project.engagement_type}}</td>
-                        <td>{{ project.activity_type }}</td>
-                        <td>{{ project.other_activity_type }}</td>
-                        <td>{{ project.semester }}</td>
-                        <td>{{ project.academic_year }}</td>
-                        <td>{{ project.end_semester }}</td>
-                        <td>{{ project.end_academic_year }}</td>
-                        <td>{{ project.total_uno_students}}</td>
-                        <td>{{ project.total_uno_hours}}</td>
-                        <td>{{ project.total_uno_faculty}}</td>
-                        <td>{{ project.total_k12_students}}</td>
-                        <td>{{ project.total_k12_hours}}</td>
-                        <td>{{ project.total_other_community_members}}</td>
+                    <tr data-cy="table-project">
+                        <td data-cy="project-name">{{ project.get_name }}</td>
+                        <td data-cy="mission-table">{{ project.mission_area.all|join:", " }}</td>
+                        <td data-cy="communityPartner-table">{{ project.community_partner.all|join:", " }}</td>
+                        <td data-cy="campusPartner-table">{{ project.campus_partner.all|join:", "}}</td>
+                        <td data-cy="engagementtype-table">{{ project.engagement_type}}</td>
+                        <td data-cy="activityType-table">{{ project.activity_type }}</td>
+                        <td data-cy="other_activity_type">{{ project.other_activity_type }}</td>
+                        <td data-cy="semester">{{ project.semester }}</td>
+                        <td data-cy="academic-yr">{{ project.academic_year }}</td>
+                        <td data-cy="end-semester">{{ project.end_semester }}</td>
+                        <td data-cy="end-academic-year">{{ project.end_academic_year }}</td>
+                        <td data-cy="total_uno_students">{{ project.total_uno_students}}</td>
+                        <td data-cy="total_uno_hours">{{ project.total_uno_hours}}</td>
+                        <td data-cy="total_uno_faculty">{{ project.total_uno_faculty}}</td>
+                        <td data-cy="total_k12_students">{{ project.total_k12_students}}</td>
+                        <td data-cy="total_k12_hours">{{ project.total_k12_hours}}</tddata-cy>
+                        <td data-cy="total_other_community_members">{{ project.total_other_community_members}}</td>
                         <td>
                             {% for sub in project.campus_lead_staff %}
                                 {{ sub }}
@@ -465,7 +465,7 @@
                                 {{ sub }}
                             {% endfor %}
                         </td>
-                        <td>{{ project.description }}</td>
+                        <td data-cy="description">{{ project.description }}</td>
                         <td></td>
                     </tr>
                 {% endfor %}

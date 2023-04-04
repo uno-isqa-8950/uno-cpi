@@ -24,8 +24,9 @@ from home.models import MissionArea
 missions = MissionArea.objects.all()
 for mission in missions:
   url = mission.mission_image_url
+  current = url[8:14]
   updated_url = url[0:17] + url[27:]
-  updated_url = updated_url.replace("unocpi", S3_BUCKET_NAME)
+  updated_url = updated_url.replace(current, S3_BUCKET_NAME)
   updated_url = updated_url.replace("venus-blk", "arts-humanities-culture-venus-blk")
   mission.mission_image_url = updated_url
   mission.save()
@@ -39,8 +40,9 @@ from home.models import MissionArea
 missions = MissionArea.objects.all()
 for mission in missions:
   url = mission.mission_image_url
+  current = url[8:14]
   updated_url = url[0:17] + url[27:]
-  updated_url = updated_url.replace("unocpi", S3_BUCKET_NAME)
+  updated_url = updated_url.replace(current, S3_BUCKET_NAME)
   updated_url = updated_url.replace("venus-blk", "arts-humanities-culture-venus-blk")
   mission.mission_image_url = updated_url
   mission.save()
@@ -54,8 +56,9 @@ from home.models import MissionArea
 missions = MissionArea.objects.all()
 for mission in missions:
   url = mission.mission_image_url
+  current = url[8:14]
   updated_url = url[0:17] + url[27:]
-  updated_url = updated_url.replace("unocpi", S3_BUCKET_NAME)
+  updated_url = updated_url.replace(current, S3_BUCKET_NAME)
   updated_url = updated_url.replace("venus-blk", "arts-humanities-culture-venus-blk")
   mission.mission_image_url = updated_url
   mission.save()

@@ -4,6 +4,7 @@ import * as users from '/cypress.env.json'
 
 Cypress.Commands.add("loginCampusUser", (user) => {
   //adding a new command named login
+  cy.session('campususer', () => {
   const username = users.campusUser.username
   const password = users.campusUser.password
   cy.visit(Cypress.env('baseUrl'))
@@ -11,10 +12,12 @@ Cypress.Commands.add("loginCampusUser", (user) => {
   cy.get("#email_input").type(username).type('{enter}')
   cy.get("#password_input").type(password);
   cy.get("#btnLogin").click();
+})
 });
 
 Cypress.Commands.add("loginAdminUser", (user) => {
   //adding a new command named login
+  cy.session('adminuser', () => {
   const username = users.adminUser.username
   const password = users.adminUser.password
   cy.visit(Cypress.env('baseUrl'))
@@ -22,6 +25,7 @@ Cypress.Commands.add("loginAdminUser", (user) => {
   cy.get("#email_input").type(username).type('{enter}')
   cy.get("#password_input").type(password);
   cy.get("#btnLogin").click();
+})
 });
 
 Cypress.Commands.add("checkProjectName", () => {

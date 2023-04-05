@@ -1,24 +1,22 @@
 import user from "../../support/commands.js";
 import * as data from "../../fixtures/datareports.json";
+describe('create projects admin user test', () => {
 beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') ||err.message.includes('Cannot read properties of null') ||err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-
-})
-
-describe ('Create projects for admin user', () => {
-  beforeEach(function () {
-    cy.fixture("datareports").then(function (data) {
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
+    cy.visit(Cypress.env('baseUrl'))
+    cy.fixture("datareports").then(function(data) {
       this.data = data
     cy.get('#login').click()
-      .loginAdminUser(user)
+    .loginAdminUser(user)  // Campus User is logged in before the test begins
     })
+    cy.visit(Cypress.env('baseUrl'))
   })
+     
   //Verify the user is logged is as administrator
   it('Login as campus partner and lands in My projects page', function () {
     cy.get('[data-cy="administrator"]').should('contain.text', 'Administrator')

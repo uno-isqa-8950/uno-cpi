@@ -353,7 +353,7 @@ class MissionArea(models.Model):
     mission_color = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return '%s %s' % (self.mission_name, self.mission_image_url)
+        return '%s' % (self.mission_name)
 
     class Meta:
         ordering = ['mission_name']

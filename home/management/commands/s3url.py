@@ -18,7 +18,7 @@ def s3UrlPicker():
     objects = s3.list_objects_v2(Bucket=bucket_name, Prefix=folder_name)
     # picks image URLs for all focus areas
     for obj in objects['Contents']:
-        if obj['Key'].endswith('.png') and obj['Key'] != 'missionarea_images/venus-4167.png' and obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
+        if obj['Key'].endswith('.png') and obj['Key'] != 'missionarea_images/venus-4167.png' or obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
             image_url = s3.generate_presigned_url(ClientMethod='get_object',
                                                   Params={'Bucket': bucket_name, 'Key': obj['Key']})
             url_parts = image_url.split('?')

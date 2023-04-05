@@ -7,7 +7,7 @@ Cypress.Commands.add("loginCampusUser", (user) => {
   const username = users.campusUser.username
   const password = users.campusUser.password
   cy.visit(Cypress.env('baseUrl'))
-  cy.get('#login').click()
+  cy.get('[data-cy="login"]').click()
   cy.get("#email_input").type(username).type('{enter}')
   cy.get("#password_input").type(password);
   cy.get("#btnLogin").click();
@@ -18,7 +18,7 @@ Cypress.Commands.add("loginAdminUser", (user) => {
   const username = users.adminUser.username
   const password = users.adminUser.password
   cy.visit(Cypress.env('baseUrl'))
-  cy.get('#login').click()
+  cy.get('[data-cy="login"]').click()
   cy.get("#email_input").type(username).type('{enter}')
   cy.get("#password_input").type(password);
   cy.get("#btnLogin").click();

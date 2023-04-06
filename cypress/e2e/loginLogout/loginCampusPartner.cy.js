@@ -15,9 +15,12 @@ beforeEach(() => {
        password = users.campusUser.password,
        emailInput = '[data-cy="email"]',
        loginHref = '[data-cy="login"]',
-       loginButtonId ='[data-cy="login"]'
+       loginButtonId ='[data-cy="login"]',
+       passwordInput = '[data-cy="password"]'
       cy.get(loginHref).click().get(emailInput).type(username).type('{enter}')
-      cy.get("#password_input").type(password);
+      cy.get(passwordInput).then(($input)=>{
+        $input.val(password);
+    })
       cy.get(loginButtonId).eq(1).click({force: true})
       cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
   })
@@ -27,9 +30,12 @@ beforeEach(() => {
        password = users.campusUser.incorrectPassword,
        emailInput = '[data-cy="email"]',
        loginLink = '[data-cy="login"]',
-       loginButtonId = '[data-cy="login"]'
+       loginButtonId = '[data-cy="login"]',
+       passwordInput = '[data-cy="password"]'
       cy.get(loginLink).click().get(emailInput).type(username).type('{enter}')
-      cy.get('#password_input').type(password)
+      cy.get(passwordInput).then(($input)=>{
+        $input.val(password);
+    })
       cy.get(loginButtonId).eq(1).click({force: true})
       cy.url().should('be.equal', Cypress.env('baseUrl')+'account/login-Page/')
       cy.get('.alert').contains('Email or Password is incorrect or contact system administration.').should('be.visible')
@@ -40,9 +46,12 @@ beforeEach(() => {
       password = users.campusUser.password,
       emailInput = '[data-cy="email"]',
       loginHref = '[data-cy="login"]',
-      loginButtonId ='[data-cy="login"]'
+      loginButtonId ='[data-cy="login"]',
+      passwordInput = '[data-cy="password"]'
       cy.get(loginHref).click().get(emailInput).type(username).type('{enter}')
-      cy.get("#password_input").type(password);
+      cy.get(passwordInput).then(($input)=>{
+        $input.val(password);
+    })
       cy.get(loginButtonId).eq(1).click()
       cy.url().should('be.equal', Cypress.env('baseUrl')+'account/login-Page/')
       cy.get('.alert').contains('Email or Password is incorrect or contact system administration.').should('be.visible')

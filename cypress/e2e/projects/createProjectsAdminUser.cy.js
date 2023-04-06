@@ -8,12 +8,10 @@ beforeEach(() => {
         return false
       }
     })
-    cy.visit(Cypress.env('baseUrl'))
     cy.fixture("datareports").then(function(data) {
       this.data = data
-    cy.get('#login').click()
-    .loginAdminUser(user)  // Campus User is logged in before the test begins
     })
+    cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
      

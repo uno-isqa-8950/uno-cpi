@@ -18,9 +18,12 @@ beforeEach(() => {
             loginHref = '[data-cy="login"]',
             loginButtonId = '[data-cy="login"]',
             accountInfoId = '[data-cy="accountinfo"]',
-            logoutButtonId = '[data-cy="campus-logout"]'
+            logoutButtonId = '[data-cy="campus-logout"]',
+            passwordInput = '[data-cy="password"]'
         cy.get(loginHref).click().get(emailInput).type(username).type('{enter}')
-          .get("#password_input").type(password)
+          .get(passwordInput).then(($input)=>{
+            $input.val(password);
+        })
           .get(loginButtonId).eq(1).click()
           .url().should('be.equal', baseUrl)
           .get(accountInfoId).should('exist').click()

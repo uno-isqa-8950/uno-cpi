@@ -1,7 +1,7 @@
 import user from "../../support/commands.js";
 import * as data from "../../fixtures/datareports.json";
 
-describe('create projects admin user test', () => {
+describe('create projects campus user test', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
@@ -9,12 +9,10 @@ beforeEach(() => {
         return false
       }
     })
-    cy.visit(Cypress.env('baseUrl'))
     cy.fixture("datareports").then(function(data) {
       this.data = data
-    cy.get('#login').click()
-    .loginAdminUser(user)  // Campus User is logged in before the test begins
     })
+    cy.loginCampusUser(user)  // Campus User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
      

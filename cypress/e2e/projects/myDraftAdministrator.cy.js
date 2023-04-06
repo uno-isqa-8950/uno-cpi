@@ -8,14 +8,12 @@ describe('my draft admin user test', () => {
             return false
           }
         })
-        cy.visit(Cypress.env('baseUrl'))
         cy.fixture("datareports").then(function(data) {
-          this.data = data
-        cy.get('#login').click()
-        .loginCampusUser(user)  // Campus User is logged in before the test begins
+            this.data = data
+          })
+          cy.loginAdminUser(user)  // Admin User is logged in before the test begins
+          cy.visit(Cypress.env('baseUrl'))
         })
-        cy.visit(Cypress.env('baseUrl'))
-      })
 
     it('Check login form', function() {
         cy.url().should('be.equal', Cypress.env('baseUrl'))

@@ -111,7 +111,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Analysis Start Year
                     </label>
-                    <select data-cy="academic_year" id="id_academicyear" name="academic_year" onchange="updatechart()" >
+                    <select data-cy="start_academicyear" id="id_academicyear" name="academic_year" onchange="updatechart()" >
                         <option>
                             {% for sem in from_project_filter.form.academic_year %}
                                 {{ sem}}
@@ -127,7 +127,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Analysis Comparison (End) Year
                     </label>
-                    <select id="id_endacademicyear" name="end_academic_year" onchange="updatechart()">
+                    <select data-cy="end_academicyear" id="id_endacademicyear" name="end_academic_year" onchange="updatechart()">
                         <option>
                             {% for endsem in to_project_filter.form.end_academic_year %}
                                 {{endsem}}
@@ -202,7 +202,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Community Organization Types
                         </label>
-                        <select class="form-control" id="id_community_type" name="community_type" onchange="updatechart()">
+                        <select data-cy="community_type" class="form-control" id="id_community_type" name="community_type" onchange="updatechart()">
                             <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -217,7 +217,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     Legislative Districts
                                 </label>
-                                <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="updatechart()">
+                                <select data-cy="legislative_value" class="form-control" id="id_legislative_value" name="legislative_value" onchange="updatechart()">
                                     <option value="" disabled selected hidden></option>
                                     <option>All</option>
                                     {% for item in legislative_choices %}

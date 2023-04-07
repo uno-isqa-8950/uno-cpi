@@ -111,7 +111,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Analysis Start Year
                     </label>
-                    <select id="id_academicyear" name="academic_year" onchange="this.form.submit()" >
+                    <select data-cy="start_academicyear" id="id_academicyear" name="academic_year" onchange="this.form.submit()" >
                         <option>
                             {% for sem in from_project_filter.form.academic_year %}
                                 {{ sem}}
@@ -127,7 +127,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         Analysis Comparison (End) Year
                     </label>
-                    <select id="id_endacademicyear" name="end_academic_year" onchange="this.form.submit()">
+                    <select data-cy="end_academicyear" id="id_endacademicyear" name="end_academic_year" onchange="this.form.submit()">
                         <option>
                             {% for endsem in to_project_filter.form.end_academic_year %}
                                 {{endsem}}
@@ -143,7 +143,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                         </label>
-                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                    <select data-cy="engagement_type" id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
                                 <option> All </option>
                                     {% for engagement in project_filter.form.engagement_type %}
                                         {{engagement}}
@@ -157,7 +157,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             College and Main Units
                         </label>
-                        <select id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <select data-cy="college_name" id="id_college_name" name="college_name" onchange="this.form.submit()">
                             <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -172,7 +172,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Campus Partners
                         </label>
-                            <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                            <select data-cy="campus_partner" id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
                                 <option> All </option>
                                 <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
                                     {% for campus in campus_filter %}
@@ -187,7 +187,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                         CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select data-cy="weitz_cec_part" class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
                         <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
@@ -201,7 +201,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Community Organization Types
                         </label>
-                        <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <select data-cy="community_type" class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()">
                             <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -216,7 +216,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                     Legislative Districts
                                 </label>
-                                <select class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
+                                <select data-cy="legislative_value" class="form-control" id="id_legislative_value" name="legislative_value" onchange="this.form.submit()">
                                     <option value="" disabled selected hidden></option>
                                     <option>All</option>
                                     {% for item in legislative_choices %}

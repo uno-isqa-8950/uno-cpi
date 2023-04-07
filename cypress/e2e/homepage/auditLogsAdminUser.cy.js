@@ -1,25 +1,19 @@
 /// <reference types="cypress"/>
-import user from "../../support/commands";
-import * as data from "../../fixtures/datareports.json";
-
+import user from "../../support/commands.js";
+describe('audit logs admin user test', () => {
 beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
-describe('Audit Logs for admin user', () => {
-    beforeEach(function () {
-        cy.fixture("datareports").then(function (data) {
-            this.data = data
-        cy.get('#login').click()
-        cy.loginAdminUser(user)
-        })
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginAdminUser(user) // Admin User is logged in before the test begins
+    cy.visit(Cypress.env('baseUrl'))
+  })
     //Check navigation to Engagement types charts
     it('validate audit logs exist', function () {
         cy.get('[data-cy="administrator"]').should('exist').click()

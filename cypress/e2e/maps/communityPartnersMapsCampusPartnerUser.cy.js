@@ -10,7 +10,7 @@ beforeEach(() => {
     cy.fixture("datareports").then(function(data) {
       this.data = data
     })
-    cy.loginCampusUser(user)  // Admin User is logged in before the test begins
+    cy.loginCampusUser(user)  // Campus User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
     // This test is expected to pass visiting community partners under maps as a campus user.

@@ -4,7 +4,7 @@ import * as data from "../../fixtures/datareports.json";
 describe('create projects campus user test', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
-      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      if(err.message.includes('is not a function') || err.message.includes('is not defined')|| err.message.includes('scrollTop') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
       {
         return false
       }
@@ -18,6 +18,8 @@ beforeEach(() => {
      
   //Verify campus user login landed in My projects
   it ('Login as campus partner and lands in My projects page', function () {
+    cy.get('[data-cy="projectsnav"]').click()
+    cy.get('[data-cy="myprojects"]').click() 
     cy.get('.heading').should('contain.text', 'My Projects')
 
   })

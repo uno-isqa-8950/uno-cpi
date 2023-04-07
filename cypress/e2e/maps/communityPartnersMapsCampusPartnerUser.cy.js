@@ -216,7 +216,7 @@ beforeEach(() => {
         mapsDiv = '[data-cy="mapcanvas"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(communityPartnersLink).click()
-        .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+        .get(mapsDiv).click(50, 50) // Click on the map at coordinates (50, 50)
       .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
       .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
       .get('span').contains('span', 'Total Number of Projects:').should('be.visible')

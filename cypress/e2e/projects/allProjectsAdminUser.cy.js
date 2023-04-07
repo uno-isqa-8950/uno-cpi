@@ -15,11 +15,11 @@ beforeEach(() => {
   })
      
     it('Test all projects page navigation bar', function(){
-      const unoLogo = `img[alt="UNO Logo"]`,
-        navigationList = '#navigationList',
-        userInfo = '#accountinfo',
-        projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`
+      const unoLogo = '[data-cy="himg"]',
+        navigationList = '[data-cy="navbar"]',
+        userInfo = '[data-cy="accountinfo"]',
+        projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]'
       cy.get(projectsId).should('exist').click()
         .get(allProjectsHref).should('exist').click()
         .get(unoLogo).should('be.visible')
@@ -32,9 +32,9 @@ beforeEach(() => {
     })
 
     it('Test all projects page navigation bar, title and footer', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
-        footerId = '#footer'
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
+        footerId = '[data-cy="footer"]'
       cy.get(projectsId).should('exist').click()
         .get(allProjectsHref).should('exist').click()
         .url().should('be.equal', Cypress.env('baseUrl')+'allProjects/')
@@ -43,9 +43,9 @@ beforeEach(() => {
     })
 
     it('Test all projects page filter card', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
-        filtersForm = '#filters-form'
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
+        filtersForm = '[data-cy="filtersform"]'
       cy.get(projectsId).should('exist').click()
         .get(allProjectsHref).should('exist').click()
         .get(filtersForm).should('be.visible')
@@ -60,11 +60,12 @@ beforeEach(() => {
     })
 
     it('Test all projects page excel, pdf, hide filters and reset filters button', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
-        filtersForm = '#filters-form',
-        hideFiltersButton = `input[value="Hide Filters"]`,
-        resetFiltersButton = `input[value="Reset Filters"]`
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref =  '[data-cy="allprojects"]',
+        filtersForm = '[data-cy="filtersform"]',
+        hideFiltersButton = '[data-cy="hidefilters"]',
+        resetFiltersButton ='[data-cy="resetfilters"]',
+        applyFiltersButton = '[data-cy="applyfilters"]'
       cy.get(projectsId).should('exist').click()
         .get(allProjectsHref).should('exist').click()
         .get(filtersForm).should('be.visible')
@@ -72,11 +73,12 @@ beforeEach(() => {
         .get('button').contains('PDF').should('be.visible').click() 
         .get(hideFiltersButton).should('be.visible').click()
         .get(resetFiltersButton).should('be.visible').click()
+        .get(applyFiltersButton).should('be.visible').click()
     })
 
     it('Test all projects page show entries and pagination buttons functionality', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref =  '[data-cy="allprojects"]',
         showEntriesSelect = `select[name="example_length"]`
       cy.get(projectsId).should('exist').click()
         .get(allProjectsHref).should('exist').click()
@@ -90,8 +92,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for academic years', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection select2-selection--single"]`,
         tableData = `td[class="sorting_1"]`,
         applyFilters = '[data-cy="applyfilters"]'
@@ -109,8 +111,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for project focus areas', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]' 
       cy.get(projectsId).should('exist').click()
@@ -127,8 +129,8 @@ beforeEach(() => {
   })
 
     it('Test projects page filter selections for project community organization types', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]' 
       cy.get(projectsId).should('exist').click()
@@ -144,8 +146,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for college and main units', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]'  
       cy.get(projectsId).should('exist').click()
@@ -161,8 +163,8 @@ beforeEach(() => {
     })
     
     it('Test projects page filter selections for campus partners', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]' 
       cy.get(projectsId).should('exist').click()
@@ -179,8 +181,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for CEC building partners', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref = '[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]'   
       cy.get(projectsId).should('exist').click()
@@ -196,8 +198,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for Engagement types', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId ='[data-cy="projectsnav"]',
+        allProjectsHref ='[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]'  
       cy.get(projectsId).should('exist').click()
@@ -214,8 +216,8 @@ beforeEach(() => {
     })
 
     it('Test projects page filter selections for K-12 involvement', function(){
-      const projectsId = '#projectsnav',
-        allProjectsHref = `a[href="/allProjects/"]`,
+      const projectsId = '[data-cy="projectsnav"]',
+        allProjectsHref ='[data-cy="allprojects"]',
         filterOptionSelection = `span[class="select2-selection__placeholder"]`,
         applyFilters = '[data-cy="applyfilters"]' 
       cy.get(projectsId).should('exist').click()

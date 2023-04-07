@@ -1,27 +1,19 @@
 import user from "../../../support/commands";
-
-beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
 describe('Charts Focus Area Analysis Campus User', () => {
-  beforeEach(function() {
+  beforeEach(() => {
+    cy.on('uncaught:exception', (err, runnable) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
     cy.fixture("datareports").then(function(data) {
       this.data = data
-      cy.get('#login').click()
-      cy.loginCampusUser(user)
     })
-  })
-
-  it('visits the site', function() {
+    cy.loginAdminUser(user) // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
+
   //Check navigation for Focus Area Analysis chart
   it('Check Navigation', function() {
     cy.get("[data-cy='analytics']").click().should('be.visible')

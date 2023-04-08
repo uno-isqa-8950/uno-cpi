@@ -353,7 +353,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Academic Years
                         </label>
-                        <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()">
+                        <select  id="id_academic_year" name="academic_year" onchange="this.form.submit()" data-cy="academic_year">
                             <option> All </option>
                             {% for sem in projects.form.academic_year %}
                                 {{sem}}
@@ -368,7 +368,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Project Focus Areas
                         </label>
-                        <select  id="id_mission" name="mission" onchange="this.form.submit()">
+                        <select  id="id_mission" name="mission" onchange="this.form.submit()" data-cy="mission">
                             <option> All </option>
                             {% for mission in missions.form.mission %}
                                 {{mission}}
@@ -382,7 +382,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Community Organization Types
                         </label>
-                        <select id="id_community_type" name="community_type" onchange="this.form.submit()">
+                        <select id="id_community_type" name="community_type" onchange="this.form.submit()" data-cy="id_community_type">
                             <option> All </option>
                             {% for community_type in communityPartners.form.community_type %}
                                 {{community_type}}
@@ -399,7 +399,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             College and Main Units
                         </label>
-                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="college-name">
                             <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -413,7 +413,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Campus Partners
                         </label>
-                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()">
+                        <select  id="id_campus_partner" name="campus_partner" onchange="this.form.submit()" data-cy="id_campus_partner">
                             {#                        <option> All </option>#}
                             {##}
                             {#                        {% for campus in campus_filter.form.campus_partner %}#}
@@ -436,7 +436,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             CEC Building Partners
                         </label>
-                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
                             <option value="" disabled selected hidden></option>
                             {% for cec_choice in cec_part_choices.cec_choice %}
                                 {{ cec_choice }}
@@ -455,7 +455,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                         </label>
-                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()" data-cy="engagement-type">
                             <option> All </option>
                             {% for engagement in projects.form.engagement_type %}
                                 {{engagement}}
@@ -470,7 +470,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             K-12 Involvement
                         </label>
-                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()" data-cy="id_k12_flag">
                             <option value="" disabled selected hidden></option>
                             {% for k12_flag in k12_choices.k12_choice %}
                                 {{ k12_flag }}

@@ -1,5 +1,5 @@
 import user from "../../../support/commands.js";
-describe('Projects Report Campus Partner User', () => {
+describe('Projects Report Administrator', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
@@ -10,7 +10,7 @@ beforeEach(() => {
     cy.fixture("datareports").then(function(data) {
       this.data = data
     })
-    cy.loginCampusUser(user)  // Admin User is logged in before the test begins
+    cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
     it('visits the form', function() {
@@ -57,6 +57,7 @@ beforeEach(() => {
             cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
         cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
+        //cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
         cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
         cy.get('[data-cy="id_community_type"]').select(this.data.community_type3,{force:true})
         cy.get('[data-cy="academic_year"]').should('contain.text', this.data.academic_year1)

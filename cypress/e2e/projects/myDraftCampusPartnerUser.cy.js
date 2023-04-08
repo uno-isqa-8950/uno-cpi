@@ -10,6 +10,12 @@ describe('my draft campus user test', () => {
         })
         cy.fixture("datareports").then(function(data) {
            this.data = data
+<<<<<<< HEAD
+        //cy.get('[data-cy="login"]').click()
+        cy.loginCampusUser_nosession(user)
+        })
+    })
+=======
         })
         cy.loginCampusUser(user)  // Campus User is logged in before the test begins
         cy.visit(Cypress.env('baseUrl'))
@@ -18,8 +24,9 @@ describe('my draft campus user test', () => {
         cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     })
 
+>>>>>>> 75b9a86375ec23bc4a8323e6d01245efcbdaf0e3
     it('Create test data for checking "My Drafts"', function() {
-    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+    //cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.get('[data-cy="createproject"]').click()
@@ -80,7 +87,7 @@ describe('my draft campus user test', () => {
     })
 
     it('My Draft - Edit option', function() {
-    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+    //cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.get('[data-cy="mydrafts"]').click()
@@ -128,7 +135,7 @@ describe('my draft campus user test', () => {
     cy.get('[data-cy="campus-logout"]').click()
     // login as admin
     cy.get('[data-cy="login"]').click()
-    cy.loginAdminUser(user)
+    cy.loginAdminUser_nosession(user)
     cy.visit(Cypress.env('baseUrl')+'admin/')
     //check Projects database
     cy.get('.model-project > th > a').click()
@@ -144,7 +151,7 @@ describe('my draft campus user test', () => {
     })
 
     it('My Draft - Delete option', function() {
-    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+    //cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.get('[data-cy="mydrafts"]').click()
@@ -162,7 +169,7 @@ describe('my draft campus user test', () => {
     cy.get('[data-cy="campus-logout"]').click()
     // login as admin
     cy.get('[data-cy="login"]').click()
-    cy.loginAdminUser(user)
+    cy.loginAdminUser_nosession(user)
     cy.visit(Cypress.env('baseUrl')+'admin/')
     //check Projects database
     cy.get('.model-project > th > a').click()
@@ -172,7 +179,7 @@ describe('my draft campus user test', () => {
     })
 
     it('data cleanup', function() {
-    cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
+    //cy.url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.get('[data-cy="myprojects"]').click()

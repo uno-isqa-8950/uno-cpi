@@ -1,6 +1,6 @@
 import user from "../../../support/commands";
 describe('Charts Focus Area Analysis Admin User', () => {
-beforeEach(() => {
+  beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
       {

@@ -1,21 +1,19 @@
 import user from "../../../support/commands"
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-        {
-            return false
-        }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-})
-
 
 describe("Display documents", () => {
-    beforeEach(function() {
+    beforeEach(() => {
+        cy.on('uncaught:exception', (err) => {
+            if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+            {
+                return false
+            }
+        })
         cy.fixture("datareports").then(function(data) {
             this.data = data
-            cy.get('#login').click().loginAdminUser(user)
         })
+
+        cy.loginAdminUser(user)
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     const cmsHref = `a[href="/cms/"]`,
@@ -43,14 +41,14 @@ describe("Display documents", () => {
         cy.get(cmsItemDocuments).contains('Documents').click()
         cy.get(addDocument).should('exist').click()
 
-        cy.get(fileUpload).selectFile('cypress/fixtures/Lorem Ipsum.pdf', { force: true })
+        cy.get(fileUpload).selectFile('cypress/fixtures/loremIpsum.pdf', { force: true })
         cy.get(fileUpload)
             .invoke('show')
             .should('exist')
-            .selectFile('cypress/fixtures/Lorem Ipsum.pdf', { force: true })
+            .selectFile('cypress/fixtures/loremIpsum.pdf', { force: true })
 
         cy.get('.drop-zone')
-            .selectFile('cypress/fixtures/Lorem Ipsum.pdf', { action: 'drag-drop' })
+            .selectFile('cypress/fixtures/loremIpsum.pdf', { action: 'drag-drop' })
 
         cy.get(update).contains("Update").should('exist').click()
         cy.get(success).contains("Document updated")

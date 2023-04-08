@@ -1,21 +1,19 @@
 import user from "../../../../support/commands"
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-        {
-            return false
-        }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-})
-
 
 describe("Display feature3 page", () => {
-    beforeEach(function() {
+    beforeEach(() => {
+        cy.on('uncaught:exception', (err) => {
+            if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+            {
+                return false
+            }
+        })
         cy.fixture("datareports").then(function(data) {
             this.data = data
-            cy.get('#login').click().loginAdminUser(user)
         })
+
+        cy.loginAdminUser(user)
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     const cmsHref = `a[href="/cms/"]`,

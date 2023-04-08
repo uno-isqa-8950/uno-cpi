@@ -90,17 +90,17 @@
                         <div class="container">
                             <table id="example" class="table table-striped table-bordered dt-responsive overflow-wrap:break-word" style="width:100%" data-cy="table">
                                 <thead data-cy="tableHead">
-                                <tr data-cy="tableRow">
-                                    <th data-cy="tableHeading">Organization Name</th>
-                                    <th data-cy="tableHeading">College Name</th>
-{#                                  <th data-cy="tableHeading">Department</th>#}
+                                <tr>
+                                    <th>Organization Name</th>
+                                    <th>College Name</th>
+{#                                  <th>Department</th>#}
                                 </tr>
                                 </thead>
                                 {% for campus_partner in final %}
-                                    <tr data-cy="tableRow">
-                                        <td data-cy="tableColumn">{{campus_partner.name}}</td>
-                                        <td data-cy="tableColumn">{{campus_partner.college_name}}</td>
-{#                                      <td data-cy="tableColumn">{{campus_partner.department}}</td>#}
+                                    <tr data-cy="row">
+                                        <td>{{campus_partner.name}}</td>
+                                        <td>{{campus_partner.college_name}}</td>
+{#                                      <td>{{campus_partner.department}}</td>#}
 
                                     </tr>
                                 {% endfor %}
@@ -108,7 +108,7 @@
                         </div>
                     </div><br/>
                     <div style="text-align:center">
-                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button" data-cy="joinButton"><i class="fa fa-plus-square fa-fw"></i>Join Campus Partners </a>
+                        <a href="{% url 'partners:partneradd' %}" class="btn btn-actions" role="button" data-cy="joinCampusPartner"><i class="fa fa-plus-square fa-fw"></i>Join Campus Partners </a>
                     </div>
                     <br><br>
                 </div>

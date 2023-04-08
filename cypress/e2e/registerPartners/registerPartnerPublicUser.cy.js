@@ -1,21 +1,16 @@
 import user from "../../support/commands.js";
-
+describe('register campus partner public user', () => {
 beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
-
-describe ('Register campus partner', () => {
-  beforeEach(function () {
-    cy.fixture("datareports").then(function (data) {
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
+    cy.fixture("datareports").then(function(data) {
       this.data = data
     })
+    cy.visit(Cypress.env('baseUrl'))
   })
   // Register the campus partner
   it('visit partners page and register campus partner', function () {

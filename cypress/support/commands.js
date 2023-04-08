@@ -69,4 +69,3 @@ Cypress.Commands.add("partnersInformation", () => {
   cy.get('[data-cy="add-campus-row"]').click()
   cy.get('.sw-btn-next').click()
 });
-

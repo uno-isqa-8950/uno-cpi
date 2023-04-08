@@ -1,0 +1,7 @@
+import '../analytics/charts/engagementTypesChartsCampusPartnerUser.cy'
+import '../analytics/charts/engagementTypesChartsAdminUser.cy'
+import '../analytics/charts/engagementTypesChartsPublicUser.cy'
+import '../homepage/allFocusAreaCampusUser.cy'
+import '../homepage/allFocusAreaAdminUser.cy'
+import '../homepage/allFocusAreaPublicUser.cy'
+import '../registerPartners/registerPartnerPublicUser.cy'

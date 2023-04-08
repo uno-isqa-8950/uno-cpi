@@ -1,18 +1,19 @@
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
+import user from "../../../support/commands";
+
+
+describe('Navigate to Resources Menu to view external links ', () => {
+    beforeEach(() => {
+    cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
       {
         return false
       }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginAdminUser(user)  // Campus User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
-    });
-
-describe('Navigate to Resources Menu to view external links ', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-        this.data = data
-        })
 
     })
     

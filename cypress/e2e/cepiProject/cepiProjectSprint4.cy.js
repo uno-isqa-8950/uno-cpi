@@ -15,6 +15,7 @@ import '../analytics/reports/engagementTypesReportsAdministrator.cy'
 import '../analytics/reports/projectsReportsPublicUser.cy'
 import '../analytics/reports/projectsReportsCampusUser.cy'
 import '../analytics/reports/projectsReportsAdministrator.cy'
+import '../analytics/reports/communityPartnerReportsAdminUser.cy'
 
 // Analytics - Charts
 
@@ -28,6 +29,7 @@ import '../registerPartners/registerCampusPartnerCampusPartnerUser.cy'
 
 
 //Resources
+
 
 //Administrator
 

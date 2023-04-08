@@ -321,7 +321,7 @@
             <div class="col-xl-12 col-md-12 col-sm-12">
                 <br><br>
                     <div class="text-center">
-                        <h3 class="heading">Campus Partner Registration</h3>
+                        <h3 class="heading" data-cy="heading">Campus Partner Registration</h3>
                     </div>
 
                     <div class="card snippet-card">
@@ -422,7 +422,7 @@
                                                 <div class="col" style="padding-left: 30px">
                                                     <!--<button class="add-form-row" style="background-color: white; border:none;border-color: white"><i class=" centered fa fa-plus-square fa-2x"></i> </button>-->
 
-                                                    <button class="add-form-row  centered fa fa-plus-square fa-2x" style="background-color: white; border:none;border-color: white;padding-top: 13px;"> </button>
+                                                    <button class="add-form-row  centered fa fa-plus-square fa-2x" data-cy="add-form-row" style="background-color: white; border:none;border-color: white;padding-top: 13px;"> </button>
                                                 </div>
                                             </div>
                                             <div id="contact-fields">
@@ -430,7 +430,7 @@
                                                 <table class="table table-bordered table-striped">
                                                     <thead><th>Name</th><th>Email Address</th><th>Delete Entry</th>
                                                     </thead>
-                                                    <tbody id = "form-body">
+                                                    <tbody id = "form-body" data-cy="form-body">
                                                     </tbody>
                                                 </table>
                                             </div>
@@ -455,7 +455,7 @@
 
 
         <div class="row centered" id="termsdiv">
-                                    <p><input type="checkbox" id="terms">
+                                    <p><input type="checkbox" id="terms" data-cy="termsdiv">
                                         I agree to the <a style="color: #d71920"
                                                           href="https://unocpi.s3.amazonaws.com/documents/Terms_and_Conditions.pdf"
                                                           target="_blank">Terms & Conditions</a>
@@ -464,9 +464,9 @@
         <div class="row centered" style="margin-top:30px; margin-left:45px">
 
                                     <button type="submit" value="submit" name="submit" id="submit"
-                                            class="save btn btn-secondary">Submit
+                                            data-cy="submit" class="save btn btn-secondary">Submit
                                     </button>
-                                    <button name="cancel" id="cancel" class="btn btn-cancel">Cancel</button>
+                                    <button name="cancel" id="cancel" data-cy="cancel" class="btn btn-cancel">Cancel</button>
 
         </div>
 

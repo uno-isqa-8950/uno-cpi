@@ -355,6 +355,8 @@ class MissionArea(models.Model):
     def __str__(self):
         return '%s' % (self.mission_name)
 
+    class Meta:
+        ordering = ['mission_name']
 
 class HouseholdIncome(models.Model):
     id2 = models.IntegerField(null=False, blank=False)

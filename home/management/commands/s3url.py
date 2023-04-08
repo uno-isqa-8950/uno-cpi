@@ -33,8 +33,6 @@ def s3UrlPicker():
     for i in range(len(url_list)):
         url_map[name_list[i]] = url_list[i]
 
-    print(url_map)
-
     # saving the url_map dictionary contents into MissionArea mission_image_url column
     for mission_area in MissionArea.objects.all():
         mission_area.mission_image_url = url_map.get(mission_area.mission_name)

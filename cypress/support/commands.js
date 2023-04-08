@@ -20,6 +20,7 @@ Cypress.Commands.add("loginCampusUser", (user) => {
 Cypress.Commands.add("loginAdminUser", (user) => {
   //adding a new command named login
   cy.session('adminuser', () => {
+<<<<<<< HEAD
   const username = users.adminUser.username
   const password = users.adminUser.password
   cy.visit(Cypress.env('baseUrl'))
@@ -47,15 +48,26 @@ Cypress.Commands.add("loginCampusUser_nosession", (user) => {
 
 Cypress.Commands.add("loginAdminUser_nosession", (user) => {
   //adding a new command named login
+=======
+>>>>>>> 75b9a86375ec23bc4a8323e6d01245efcbdaf0e3
   const username = users.adminUser.username
   const password = users.adminUser.password
   cy.visit(Cypress.env('baseUrl'))
   cy.get('[data-cy="login"]').click()
+<<<<<<< HEAD
   cy.get('[data-cy="email"]').type(username).type('{enter}')
   cy.get('[data-cy="password"]').then(($input)=>{
     $input.val(password);
   })
   cy.get('[data-cy="login"]').eq(1).click();
+=======
+  cy.get('[data-cy="email"]').type(username,{ log: false } ).type('{enter}')
+  cy.get('[data-cy="password"]').then(($input)=>{
+    $input.val(password);
+})
+  cy.get('[data-cy="login"]').eq(1).click();
+})
+>>>>>>> 75b9a86375ec23bc4a8323e6d01245efcbdaf0e3
 });
 
 Cypress.Commands.add("checkProjectName", () => {

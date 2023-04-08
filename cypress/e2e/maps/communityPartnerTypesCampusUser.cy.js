@@ -1,5 +1,5 @@
 import user from "../../support/commands.js";
-describe('community partner types map public user test', () => {
+describe('community partner types map campus user test', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
@@ -10,9 +10,10 @@ beforeEach(() => {
     cy.fixture("datareports").then(function(data) {
       this.data = data
     })
+    cy.loginCampusUser(user)
     cy.visit(Cypress.env('baseUrl'))
   })
-  // This test is expected to pass visiting community partner types under maps as a public user.
+  // This test is expected to pass visiting community partner types under maps as a campus user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
   it('Community partner types page visit ', function() {
     const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',

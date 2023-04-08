@@ -1,26 +1,19 @@
 import user from "../../../support/commands";
-
-beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
 describe('Charts Project and Partner Trend', () => {
-  beforeEach(function() {
+  beforeEach(() => {
+    cy.on('uncaught:exception', (err, runnable) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
     cy.fixture("datareports").then(function(data) {
       this.data = data
-      cy.get('#login').click()
-      cy.loginAdminUser(user)
     })
-  })
-  it('visits the site', function() {
+    cy.loginAdminUser(user) // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
+
   //Check navigation to Project and Partner Trends charts
   it('Check navigation', function () {
     cy.get("[data-cy='analytics']").click()
@@ -28,7 +21,7 @@ describe('Charts Project and Partner Trend', () => {
       cy.wrap($el).invoke('show')
       cy.wrap($el).get("[data-cy='Project and Partner Trends']").click()
     })
-      cy.get("[data-cy='Project and Partner Trends']").should('contain.text', 'Project and Partner Trends')
+    cy.get("[data-cy='Project and Partner Trends']").should('contain.text', 'Project and Partner Trends')
   })
   //Hide Filter
   it('Hide Filters', function () {
@@ -46,29 +39,29 @@ describe('Charts Project and Partner Trend', () => {
   })
   //Reset filters
   it('Reset Filters', function () {
-     cy.get("[data-cy='analytics']").click()
-     cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
-         cy.wrap($el).invoke('show')
-         cy.wrap($el).get("[data-cy='Project and Partner Trends']").click()
-     })
-     cy.get('#select2-id_mission-container > .select2-selection__placeholder').contains('All Focus Area')
-     cy.get('[data-cy="mission"]').select(this.data.focus_area1,{force:true})
-     cy.get('#select2-id_mission-container').should('have.text' ,this.data.focus_area1)
+    cy.get("[data-cy='analytics']").click()
+    cy.get("[data-cy='charts']").next("[data-cy='chartsdropdown']").then($el => {
+      cy.wrap($el).invoke('show')
+      cy.wrap($el).get("[data-cy='Project and Partner Trends']").click()
+    })
+    cy.get('#select2-id_mission-container > .select2-selection__placeholder').contains('All Focus Area')
+    cy.get('[data-cy="mission"]').select(this.data.focus_area1,{force:true})
+    cy.get('#select2-id_mission-container').should('have.text' ,this.data.focus_area1)
 
-     cy.get('#select2-id_community_type-container > .select2-selection__placeholder').contains('All Community Organization Types')
-     cy.get('[data-cy="community_type"]').select(this.data.community_type5,{force:true})
-     cy.get('#select2-id_community_type-container').should('have.text' ,this.data.community_type5)
+    cy.get('#select2-id_community_type-container > .select2-selection__placeholder').contains('All Community Organization Types')
+    cy.get('[data-cy="community_type"]').select(this.data.community_type5,{force:true})
+    cy.get('#select2-id_community_type-container').should('have.text' ,this.data.community_type5)
 
-     cy.get('#select2-id_engagement_type-container > .select2-selection__placeholder').contains('All Engagement Type')
-     cy.get('[data-cy="engagement_type"]').select(this.data.engagement_type3,{force:true})
-     cy.get('#select2-id_engagement_type-container').should('have.text' ,this.data.engagement_type3)
+    cy.get('#select2-id_engagement_type-container > .select2-selection__placeholder').contains('All Engagement Type')
+    cy.get('[data-cy="engagement_type"]').select(this.data.engagement_type3,{force:true})
+    cy.get('#select2-id_engagement_type-container').should('have.text' ,this.data.engagement_type3)
 
-     cy.get('[data-cy="reset filters"]').should('have.value', 'Reset Filters')
-     cy.get('[data-cy="reset filters"]').click()
-     // check the filers are they visible
-     cy.get('[data-cy="reset filters"]').click()
-     cy.get('[data-cy="reset filters"]').should('have.value', 'Reset Filters')
-     cy.get('.select2-selection__placeholder').should('be.visible')
+    cy.get('[data-cy="reset filters"]').should('have.value', 'Reset Filters')
+    cy.get('[data-cy="reset filters"]').click()
+    // check the filers are they visible
+    cy.get('[data-cy="reset filters"]').click()
+    cy.get('[data-cy="reset filters"]').should('have.value', 'Reset Filters')
+    cy.get('.select2-selection__placeholder').should('be.visible')
 
   })
   // Filter options
@@ -122,5 +115,5 @@ describe('Charts Project and Partner Trend', () => {
     //cy.get('.highcharts-series-1 > path').should('have.attr', 'fill', 'teal')
     cy.get('.highcharts-series-2 > text').contains("Campus Partners").should("be.visible")
     //cy.get('.highcharts-series-2 > path').should('have.attr', 'fill', 'blue')
-    })
+  })
 })

@@ -76,7 +76,7 @@
                     {% csrf_token %}
                     <!--label class="{% url 'account:loginPage' %}">{{ loginError }}</label><br-->
                     <label><b>Email</b></label>
-                    <input id="email_input" class="input" type="email" name="email" placeholder="Email" required data-cy="email">
+                    <input id="email_input" data-cy="email" class="input" type="email" name="email" placeholder="Email" required>
                     <br>
                     <label id="password_label"><b>Password</b></label>
                     <input id="password_input" class="input" type="password" name="password" placeholder="Password" required data-cy="password"><br>

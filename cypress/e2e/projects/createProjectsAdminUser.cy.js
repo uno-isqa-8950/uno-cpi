@@ -1,26 +1,25 @@
 import user from "../../support/commands.js";
 import * as data from "../../fixtures/datareports.json";
+
+describe('create projects admin user', () => {
 beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') ||err.message.includes('Cannot read properties of null') ||err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-
-})
-
-describe ('Create projects for admin user', () => {
-  beforeEach(function () {
-    cy.fixture("datareports").then(function (data) {
-      this.data = data
-    cy.get('#login').click()
-      .loginAdminUser(user)
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') ||  err.message.includes('scrollTop')
+          || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginAdminUser(user)  // Admin User is logged in before the test begins
+    cy.visit(Cypress.env('baseUrl'))
   })
+     
   //Verify the user is logged is as administrator
-  it('Login as campus partner and lands in My projects page', function () {
+
+  it('Login as admin user and lands in My projects page', function () {
     cy.get('[data-cy="administrator"]').should('contain.text', 'Administrator')
 
   })
@@ -303,7 +302,7 @@ describe ('Create projects for admin user', () => {
     })
   })
   //Verify register community partner link is accessible
-  it.skip('check register community partner link ', function () {
+  it('check register community partner link ', function () {
     cy.checkProjectName()
     cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
     cy.get('.btn-secondary').click();
@@ -319,9 +318,9 @@ describe ('Create projects for admin user', () => {
     cy.get('.heading').should('contain.text', 'Community Partner Registration')
   })
   //Verify register campus partner link is accessible
-  it.skip ('check register campus partner link ', function () {
+  it('check register campus partner link ', function () {
     cy.checkProjectName()
-    y.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name3)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -335,9 +334,7 @@ describe ('Create projects for admin user', () => {
     })
     cy.get('.heading').should('contain.text', 'Campus Partner Registration')
   })
-
   // Data cleanup script
-
   it('data cleanup', function() {
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
@@ -349,7 +346,10 @@ describe ('Create projects for admin user', () => {
     cy.get('#example_filter > label > .form-control').type(this.data.createproject_name1+'{enter}')
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
     cy.get('#example_filter > label > .form-control').clear()
-    /*cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
+    cy.get('[data-cy="cpi"]').click()
+    cy.get('[data-cy="projectsnav"]').click()
+    cy.contains('My Drafts').click()
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
     cy.get('.sorting_1').should('contain',this.data.createproject_name2).click()
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
@@ -361,6 +361,6 @@ describe ('Create projects for admin user', () => {
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
     cy.get('#example_filter > label > .form-control').type(this.data.createproject_name3+'{enter}')
-    cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')*/
+    cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
   })
 })

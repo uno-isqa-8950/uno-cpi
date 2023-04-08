@@ -1,22 +1,20 @@
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') 
-        || err.message.includes('reading \'addEventListener\'')  || err.message.includes('reading \'update\'')|| err.message.includes('null (reading \'style\')'))
-       
-        {
-            return false
-        }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-})
 
-describe('Charts Partnership intensity analysis test', () => {
-    beforeEach(function() {
+describe('Charts Partnership intensity analysis test campus user', () => {
+    beforeEach(() => {
+        cy.on('uncaught:exception', (err, runnable) => {
+            if(err.message.includes('is not a function') || err.message.includes('is not defined') 
+            || err.message.includes('reading \'addEventListener\'')  || err.message.includes('reading \'update\'')|| err.message.includes('null (reading \'style\')'))
+           
+            {
+                return false
+            }
+        })
         cy.fixture("datareports").then(function(data) {
             this.data = data
-            cy.get('#login').click()
-            cy.loginCampusUser()
+            
         })
+        cy.loginCampusUser()
+        cy.visit(Cypress.env('baseUrl'))
     })
 
     it('Test partnership intensity analysis page loading with all elements visible ', function() {
@@ -137,9 +135,6 @@ describe('Charts Partnership intensity analysis test', () => {
         })
 
         cy.get('g[class="highcharts-plot-lines-0"]').should('exist')
-        cy.get(overlappingPointsCheckBox).should('exist')
-        
+        cy.get(overlappingPointsCheckBox).should('exist') 
     })
-
-
 });

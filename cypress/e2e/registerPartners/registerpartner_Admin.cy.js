@@ -1,29 +1,22 @@
-beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
+import user from "../../../support/commands";
 describe ('Register campus partner as admin', () => {
-  beforeEach(function () {
-    cy.fixture("datareports").then(function (data) {
+  beforeEach(() => {
+    cy.on('uncaught:exception', (err, runnable) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
+    cy.fixture("datareports").then(function(data) {
       this.data = data
     })
+    cy.loginAdminUser(user) // Admin User is logged in before the test begins
+    cy.visit(Cypress.env('baseUrl'))
   })
+
   // Register the campus partner as admin
   it ('visit partners page, log in as admin, and register campus partner', function () {
-    const adminuser = '#email_input',
-      adminpwd = "#password_input",
-      login_btn = '#btnLogin'
-    cy.contains('Login').click()
-    cy.get(adminuser).type(this.data.admin_user + '{enter}')
-    cy.get(adminpwd).type(this.data.admin_pwd)
-    cy.get(login_btn).click()
-    cy.get('#partners').should ("be.visible").click()
+    cy.get('[data-cy="partners"]').should ("be.visible").click()
     cy.get('#btn_reg_campus_partner').click()
     cy.get('#id_name').type(this.data.campus_partner4)
     cy.get('#select2-id_college_name-container').click()
@@ -287,13 +280,6 @@ describe ('Register campus partner as admin', () => {
     })
   })
   it ('data cleansing', function () {
-    const adminuser = '#email_input',
-      adminpwd = "#password_input",
-      login_btn = '#btnLogin'
-    cy.contains('Login').click()
-    cy.get(adminuser).type(this.data.admin_user + '{enter}')
-    cy.get(adminpwd).type(this.data.admin_pwd)
-    cy.get(login_btn).click()
     cy.visit(this.data.baseUrl+'admin/')
     cy.get('.model-campuspartner > th').click()
     cy.visit(this.data.baseUrl+'admin/partners/campuspartner/')

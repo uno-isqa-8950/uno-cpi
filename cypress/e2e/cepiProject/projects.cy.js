@@ -1,0 +1,8 @@
+import '../projects/myProjectsAdminUser.cy'
+import '../projects/myProjectsCampusUser.cy'
+import '../projects/allProjectsAdminUser.cy'
+import '../projects/allProjectsCampusUser.cy'
+import '../projects/createProjectsAdminUser.cy'
+import '../projects/createProjectsCampusUser.cy'
+import '../projects/myDraftAdministrator.cy'
+import '../projects/myDraftCampusPartnerUser.cy'

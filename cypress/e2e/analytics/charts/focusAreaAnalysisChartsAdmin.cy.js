@@ -49,7 +49,7 @@ beforeEach(() => {
     cy.get('[data-cy="start_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_academicyear-container').should('have.text', this.data.academic_year1)
 
-    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-2')
+    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-22')
     cy.get('[data-cy="end_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_endacademicyear-container').should('have.text', this.data.academic_year1)
 
@@ -114,7 +114,7 @@ beforeEach(() => {
     cy.get('[data-cy="start_academicyear"]').select(this.data.academic_year1,{force:true})
     cy.get('#select2-id_academicyear-container').should('have.text' ,this.data.academic_year1)
 
-    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-')
+    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-22')
     cy.get('[data-cy="end_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_endacademicyear-container').should('have.text', this.data.academic_year1)
 

@@ -1,23 +1,20 @@
 import user from "../../support/commands.js";
 /// <reference types="cypress"/>
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') ||err.message.includes('Cannot read properties of null') ||err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
-        {
+describe('my draft admin user test', () => {
+    beforeEach(() => {
+        cy.on('uncaught:exception', (err) => {
+          if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+          {
             return false
-        }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-
-})
-describe('My Drafts - Administrator', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-           this.data = data
-        cy.get('[data-cy="login"]').click()
-        cy.loginAdminUser(user)
+          }
         })
-    })
+        cy.fixture("datareports").then(function(data) {
+            this.data = data
+          })
+          cy.loginAdminUser(user)  // Admin User is logged in before the test begins
+          cy.visit(Cypress.env('baseUrl'))
+        })
+
     it('Check login form', function() {
         cy.url().should('be.equal', Cypress.env('baseUrl'))
     })

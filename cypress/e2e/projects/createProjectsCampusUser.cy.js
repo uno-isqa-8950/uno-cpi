@@ -1,5 +1,6 @@
 import user from "../../support/commands.js";
 import * as data from "../../fixtures/datareports.json";
+
 describe('create projects campus user test', () => {
 beforeEach(() => {
   cy.on('uncaught:exception', (err) => {

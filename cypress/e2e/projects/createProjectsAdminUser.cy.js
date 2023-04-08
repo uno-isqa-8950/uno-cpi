@@ -1,5 +1,6 @@
 import user from "../../support/commands.js";
 import * as data from "../../fixtures/datareports.json";
+
 describe('create projects admin user', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
@@ -15,7 +16,9 @@ beforeEach(() => {
     cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
+     
   //Verify the user is logged is as administrator
+
   it('Login as admin user and lands in My projects page', function () {
     cy.get('[data-cy="administrator"]').should('contain.text', 'Administrator')
 

@@ -74,8 +74,8 @@
 
                     <a class="dropdown-item" href="/community-Partner" data-cy="communitypartners">Community Partners</a>
                     <a class="dropdown-item" href="/community-Partner-Type" data-cy="communitypartnertype">Community Partner Types</a>
-                    <a class="dropdown-item" href="/city-District">City Districts</a>
-                    <a class="dropdown-item" href="/project-Map">Projects</a>
+                    <a class="dropdown-item" href="/city-District" data-cy="citydistricts">City Districts</a>
+                    <a class="dropdown-item" href="/project-Map" data-cy="projects">Projects</a>
                 </div>
             </li>
 
@@ -91,7 +91,7 @@
                                 <a class="dropdown-item" href="/projectInfo_admin" data-cy="focusareareport">Focus Areas</a> {% else %}
                                 <a class="dropdown-item" href="/projectInfo_public" data-cy="focusareareport">Focus Areas</a> {% endif %}
                             <a class="dropdown-item" href="/engage-Type" data-cy="engagementtypereport">Engagement Types</a> {% if user.is_authenticated %}
-                            <a class="dropdown-item" href="{% url 'communityprivatereport' %}">Community Partners</a>
+                            <a class="dropdown-item" href="{% url 'communityprivatereport' %}" data-cy="communityprivatereport">Community Partners</a>
                             <a class="dropdown-item" href="{% url 'projectsprivatereport' %}" data-cy="projectsreportprivate">Projects</a> {% else %}
                             <a class="dropdown-item" href="{% url 'communitypublicreport' %}" data-cy="communitypublicreport">Community Partners</a>
                             <a class="dropdown-item" href="{% url 'projectspublicreport' %}" data-cy="projectsreport">Projects</a> {% endif %}
@@ -106,7 +106,7 @@
                                     <a data-cy="Project and Partner Trends" class="dropdown-item" href="/trendreport">Project and Partner Trends </a> {% endif %}
                                     <a data-cy="Network Analysis" class="dropdown-item" href="/networkanalysis">Network Analysis</a>
 
-                                    <a data-cy="Partner Intensity" class="dropdown-item" href="/partnershipintensity" data-cy="partnershipintensity">Partnership Intensity Analysis</a>
+                                    <a data-cy="Partner Intensity" class="dropdown-item" href="/partnershipintensity">Partnership Intensity Analysis</a>
                                 {% else %}
                                     <a data-cy="Focus Areas" class="dropdown-item" href="/missionchart">Focus Areas</a>
                                     <a data-cy="Engagement Type" class="dropdown-item" href="/engagementtypechart2">Engagement Types</a>
@@ -153,12 +153,12 @@
                         <span class="caret"></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown_target">
-                        <a class="dropdown-item" href='/admin' target="_blank">Admin View</a>
+                        <a class="dropdown-item" href='/admin' target="_blank" data-cy="adminview">Admin View</a>
                         <!-- <a class="dropdown-item" href='/uploadProject/'>Import Data</a>-->
-                        <a class="dropdown-item" href='/cms/' target="_blank">CMS</a>
-                        <a class="dropdown-item" href='{% url "partners:orgprofile" %}'><!--<i class="fa fa-university"></i>-->Organization</a>
-                        <a class="dropdown-item" href='/recent-changes/'>Audit Logs</a>
-                        <a class="dropdown-item" href='/register-Campus-Partner-User/'>Campus Partner User Registration </a>
+                        <a class="dropdown-item" href='/cms/' target="_blank" data-cy="cms">CMS</a>
+                        <a class="dropdown-item" href='{% url "partners:orgprofile" %}' data-cy="organization"><!--<i class="fa fa-university"></i>-->Organization</a>
+                        <a class="dropdown-item" href='/recent-changes/' data-cy="auditlogs">Audit Logs</a>
+                        <a class="dropdown-item" href='/register-Campus-Partner-User/' data-cy="campuspartnerregister">Campus Partner User Registration </a>
                     </div>
                 </li>
             {% endif %} {% if user.is_authenticated %}

@@ -1,3 +1,5 @@
+
+describe('Charts Partnership intensity analysis test admin user', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err, runnable) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') 
@@ -7,17 +9,13 @@ beforeEach(() => {
             return false
         }
     })
-    cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click()
-  cy.loginAdminUser()
-})
-
-describe('Charts Partnership intensity analysis test', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-            this.data = data
-        })
+    cy.fixture("datareports").then(function(data) {
+        this.data = data
+        
     })
+    cy.loginAdminUser()
+    cy.visit(Cypress.env('baseUrl'))
+})
 
     it('Test partnership intensity analysis page loading with all elements visible ', function() {
         const analyticsNavButton = '[data-cy="analytics"]',

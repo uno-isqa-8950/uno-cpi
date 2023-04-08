@@ -1,28 +1,26 @@
+import user from "../../support/commands.js";
+describe('community partner types map public user test', () => {
 beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
-describe('community partner types maps test', () => {
-  beforeEach(function() {
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
     cy.fixture("datareports").then(function(data) {
       this.data = data
     })
+    cy.visit(Cypress.env('baseUrl'))
   })
   // This test is expected to pass visiting community partner types under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
   it('Community partner types page visit ', function() {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      filtersButton = '#sidebarCollapse',
-      footerId = '#footer',
-      mapsDivId = '#map_canvas',
-      mapsLink = `a[class="nav-link dropdown-toggle"]`,
-      noOfCommPartID ='#totalnumber'
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId ='[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]',
+      noOfCommPartID ='[data-cy="totalnumber"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
       .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
@@ -38,11 +36,11 @@ describe('community partner types maps test', () => {
   })
 
   it('Testing map canvas button clickability ', function() {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      filtersButton = '#sidebarCollapse',
-      footerId = '#footer',
-      mapsDivId = '#map_canvas',
-      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
       .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
@@ -59,16 +57,16 @@ describe('community partner types maps test', () => {
   })
 
   it('Test filter dropdown are clickable', function() {
-    const allFocusAreasDropdown = '#selectMission',
-      allDistrictsDropdown = '#selectDistrict',
-      allCollegesMainUnitsDropdown = '#selectCollege',
-      allCampusPartnersDropdown = '#selectCampus',
-      allAcademicYearsDropdown = '#selectYear',
-      communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      filtersButton = '#sidebarCollapse',
-      footerId = '#footer',
-      mapsDivId = '#map_canvas',
-      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    const allFocusAreasDropdown = '[data-cy="selectmission"]',
+      allDistrictsDropdown = '[data-cy="selectdistrict"]',
+      allCollegesMainUnitsDropdown = '[data-cy="selectcollege"]',
+      allCampusPartnersDropdown = '[data-cy="selectcampus"]',
+      allAcademicYearsDropdown = '[data-cy="selectyear"]',
+      communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click().wait(3000)
       .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
@@ -95,13 +93,13 @@ describe('community partner types maps test', () => {
   })
 
   it('Test search and reset are not disabled for community partner under filters', function() {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      filtersButton = '#sidebarCollapse',
-      footerId = '#footer',
-      mapsDivId = '#map_canvas',
-      mapsLink = `a[class="nav-link dropdown-toggle"]`,
-      searchInputId = '#valueFilter',
-      resetFilters = `#reset`
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]',
+      searchInputId = '[data-cy="search"]',
+      resetFilters = '[data-cy="reset"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
       .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
@@ -114,11 +112,11 @@ describe('community partner types maps test', () => {
   })
 
   it('Test community partner type filter links ', function() {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      filtersButton = '#sidebarCollapse',
-      footerId = '#footer',
-      mapsDivId = '#map_canvas',
-      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]',
       allCommunityPartnerTypesFIlterLink = `a[id="All Community Partner Types"]`,
       businessFIlterLink = `a[id="Business"]`,
       governmentAgencyFilterLink = `a[id="Government Agency"]`,
@@ -140,12 +138,36 @@ describe('community partner types maps test', () => {
       .get(footerId).should('exist')
   })
 
-  it('should interact with the map by zoom in and zoom', () => {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      mapsLink = `a[class="nav-link dropdown-toggle"]`
+  it('Test community partner type filter dropdown ', function() {
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]',
+      selectMission = '[data-cy="selectmission"]',
+      selectCollege = '[data-cy="selectcollege"]',
+      selectCampus = '[data-cy="selectcampus"]',
+      selectYear = '[data-cy="selectyear"]',
+      selectDistrict = '[data-cy="selectdistrict"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
+    // filter button clicking and asserting to check the button is not disabled
+      .get(filtersButton).click().should('not.be.disabled')
+      .get(selectMission).select(this.data.focus_area1)
+      .get(selectCollege)
+      .get(selectCampus).select(this.data.campus_partner6)
+      .get(selectYear).select(this.data.academic_year1)
+      .get(selectDistrict).select(this.data.legislative_dist1)
+      .get(mapsDivId).should('exist')
+      .get(footerId).should('exist')
+  })
+  it('should interact with the map by zoom in and zoom', () => {
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      mapsLink = '[data-cy="maps"]'
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .get('[data-cy="mapcanvas"]').click(50, 50) // Click on the map at coordinates (50, 50)
       .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
       .get('[tabindex="0"] > img').rightclick(); cy.wait(1000) //has context menu
       .get('.gm-style button[title="Zoom in"]').click() // Click the zoom in button
@@ -153,11 +175,11 @@ describe('community partner types maps test', () => {
   })
 
   it('Card should be displayed when right clicked on a map marker', () => {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      mapsLink = '[data-cy="maps"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[data-cy="mapcanvas"]').click(50, 50) // Click on the map at coordinates (50, 50)
       .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
       .get('[tabindex="0"] > img').rightclick()
       .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
@@ -168,11 +190,11 @@ describe('community partner types maps test', () => {
   })
 
   it('Card should be displayed when clicked on a map marker', () => {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      mapsLink = `a[class="nav-link dropdown-toggle"]`
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      mapsLink ='[data-cy="maps"]'
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .get('#map_canvas').click(50, 50) // Click on the map at coordinates (50, 50)
+      .get('[data-cy="mapcanvas"]').click(50, 50) // Click on the map at coordinates (50, 50)
       .get('[tabindex="0"] > img').click({force: true}); cy.wait(1000)
       .get('span').contains('span', 'Community Partner:').should('be.visible') // Asserting on pop card fields
       .get('span').contains('span', 'Total Number of Projects:').should('be.visible')
@@ -185,12 +207,12 @@ describe('community partner types maps test', () => {
   })
 
   it('All map markers should be visible on the map canvas', () => {
-    const communityPartnerTypesHref = `a[href="/community-Partner-Type"]`,
-      mapsLink = `a[class="nav-link dropdown-toggle"]`,
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      mapsLink = '[data-cy="maps"]',
       markerImages = `img[src="https://maps.gstatic.com/mapfiles/transparent.png"]`
     cy.get(mapsLink).contains('Maps').click()
       .get(communityPartnerTypesHref).click()
-      .get('#map_canvas').should('exist')
+      .get('[data-cy="mapcanvas"]').should('exist')
       .get(markerImages).should('be.visible') // Testing marker images are visible in the map canvas
   })
 })

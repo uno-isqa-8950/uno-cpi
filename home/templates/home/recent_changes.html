@@ -107,13 +107,13 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_proj_id">
                         <div class="container">
-                            <table id="example" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example" id="example" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Project Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="name_project">Project Name</th>
+                                    <th data-cy="update_time_project">Updated Date/Time</th>
+                                    <th data-cy="changed_by_project">Changed By</th>
+                                    <th data-cy="description_project">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -138,7 +138,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -152,15 +152,15 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_projmiss_id">
                         <div class="container">
-                            <table id="example1" data-order='[[3, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example1" id="example1" data-order='[[3, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Project Name</th>
-                                    <th>Mission Type</th>
-                                    <th>Mission Area</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="name_project_projmission">Project Name</th>
+                                    <th data-cy="mission-type_projmission">Mission Type</th>
+                                    <th data-cy="mission_area_projmission">Mission Area</th>
+                                    <th data-cy="update_time_projmission">Updated Date/Time</th>
+                                    <th data-cy="changed_by_projmission">Changed By</th>
+                                    <th data-cy="description_projmission">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -187,7 +187,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-projmission" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-projmission" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-projmission">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -201,14 +201,14 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_projcampus_id">
                         <div class="container">
-                            <table id="example2" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example2" id="example2" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Project Name</th>
-                                    <th>Campus Partner Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="name_project_projcampus">Project Name</th>
+                                    <th data-cy="campus_partner_name_projcampus">Campus Partner Name</th>
+                                    <th data-cy="update_time_projcampus">Updated Date/Time</th>
+                                    <th data-cy="changed_by_projcampus">Changed By</th>
+                                    <th data-cy="description_projcampus">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -234,7 +234,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-projcampus" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-projcampus" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-projcampus">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -248,14 +248,14 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_projcomm_id">
                         <div class="container">
-                            <table id="example3" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example3" id="example3" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Project Name</th>
-                                    <th>Community Partner Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="name_project_projcomm">Project Name</th>
+                                    <th data-cy="community_partner_name_projcomm">Community Partner Name</th>
+                                    <th data-cy="update_time_projcomm">Updated Date/Time</th>
+                                    <th data-cy="changed_by_projcomm">Changed By</th>
+                                    <th data-cy="description_projcomm">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -281,7 +281,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-projcomm" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-projcomm" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-projcomm">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -296,13 +296,13 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_campus_id">
                         <div class="container">
-                            <table id="example9" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example9" id="example9" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Campus Partner Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="campus_partner_name_campus">Campus Partner Name</th>
+                                    <th data-cy="update_time_campus">Updated Date/Time</th>
+                                    <th data-cy="changed_by_campus">Changed By</th>
+                                    <th data-cy="description_campus">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -327,7 +327,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-campus" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-campus" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-campus">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -341,13 +341,13 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_comm_id">
                         <div class="container">
-                            <table id="example5" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example5" id="example5" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Community Partner Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="community_partner_name_comm">Community Partner Name</th>
+                                    <th data-cy="update_time_comm">Updated Date/Time</th>
+                                    <th data-cy="changed_by_comm">Changed By</th>
+                                    <th data-cy="description_comm">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -372,7 +372,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-comm" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-comm" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-comm">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -386,14 +386,14 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_commmiss_id">
                         <div class="container">
-                            <table id="example6" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example6" id="example6" data-order='[[2, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Community Partner Name</th>
-                                    <th>Mission Area</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="community_partner_name_commiss">Community Partner Name</th>
+                                    <th data-cy="mission_area_commiss">Mission Area</th>
+                                    <th data-cy="update_time_commiss">Updated Date/Time</th>
+                                    <th data-cy="changed_by_commiss">Changed By</th>
+                                    <th data-cy="description_commiss">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -419,7 +419,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-commmiss" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-commmiss" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-commiss">Show more</a></div>
                     </div>
                 </div>
             </div>
@@ -478,13 +478,13 @@ label, .btn-default
 			            <div class="panel-body">
                             <div class="hideContent" id="content_user_id">
                         <div class="container">
-                            <table id="example7" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
+                            <table data-cy="example7" id="example7" data-order='[[1, "desc"]]' class="table table-responsive table-striped table-bordered dt-responsive overflow-wrap:break-word" style="margin-left: auto; margin-right: auto">
                             <thead>
                                 <tr>
-                                    <th>Contact Name</th>
-                                    <th>Updated Date/Time</th>
-                                    <th>Changed By</th>
-                                    <th>Change Description</th>
+                                    <th data-cy="contact_name">Contact Name</th>
+                                    <th data-cy="update_time_user">Updated Date/Time</th>
+                                    <th data-cy="changed_by_user">Changed By</th>
+                                    <th data-cy="description-user">Change Description</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -509,7 +509,7 @@ label, .btn-default
                             </table>
                         </div>
                         </div>
-                        <div class="show-more-user" style="padding:20px"><a href="#" style="color:#d71920">Show more</a></div>
+                        <div class="show-more-user" style="padding:20px"><a href="#" style="color:#d71920" data-cy="show-more-user">Show more</a></div>
                     </div>
                 </div>
             </div>

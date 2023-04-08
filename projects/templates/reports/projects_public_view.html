@@ -344,7 +344,7 @@
             <div class="collapse show" id="collapseExample" data-cy="collapse show">
                 <form class="form-inline" id="filters-form" method="get">
 
-                    <div class="col-lg-4 col-md-5 form-group" data-cy="academic_year">
+                    <div class="col-lg-4 col-md-5 form-group" data-cy="academic-year">
 
                         <label for="academic_year">
                                     <span tabindex="-1" data-toggle="tooltip" 
@@ -398,7 +398,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             College and Main Units
                         </label>
-                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()">
+                        <select  id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="collange-name">
                             <option> All </option>
                             {% for college in college_filter.form.college_name %}
                                 {{college}}
@@ -435,7 +435,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             CEC Building Partners
                         </label>
-                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                        <select  id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
                             <option value="" disabled selected hidden></option>
                             {% for cec_choice in cec_part_choices.cec_choice %}
                                 {{ cec_choice }}
@@ -454,7 +454,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             Engagement Types
                         </label>
-                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()">
+                        <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()" data-cy="engagement-type">
                             <option> All </option>
                             {% for engagement in projects.form.engagement_type %}
                                 {{engagement}}
@@ -469,7 +469,7 @@
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                             K-12 Involvement
                         </label>
-                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()">
+                        <select  id="id_k12_flag" name="k12_flag" onchange="this.form.submit()" data-cy="id_k12_flag">
                             <option value="" disabled selected hidden></option>
                             {% for k12_flag in k12_choices.k12_choice %}
                                 {{ k12_flag }}
@@ -501,14 +501,14 @@
                                 </a>
                                 <div class="media-body">
                                     <div class="card-toptext" data-cy="toptext">
-                                        <h6 class="media-subheading">
+                                        <h6 class="media-subheading" data-cy="mission-card">
                                             <i>{{ project.mission_area.all|join:", " }}</i>
                                             <span id="academic_year" data-cy="cardViewAcademicYear"><i>{{ project.academic_year }}</i></span>
                                         </h6>
                                     </div>
 
                                     <div class="projectname">
-                                        <h4 class="media-heading " >
+                                        <h4 class="media-heading " data-cy="project-name">
                                             {{ project.get_name }}
                                         </h4>
                                     </div>
@@ -516,12 +516,12 @@
                                     <div class="row">
                                         <div class="col-md-6 col-lg-6 col-sm-12">
                                             <b> Community Partners: </b>
-                                            {% for comm_part in project.community_partner.all %} <ul><li>{{comm_part}}</li></ul> {% endfor %}
+                                            {% for comm_part in project.community_partner.all %} <ul><li data-cy="communityPartner-card">{{comm_part}}</li></ul> {% endfor %}
                                         </div>
 
                                         <div class="col-md-6 col-lg-6 col-sm-12">
                                             <b>Campus Partners:</b>
-                                            {% for camp_part in project.campus_partner.all %} <ul><li>{{camp_part}}</li></ul> {% endfor %}
+                                            {% for camp_part in project.campus_partner.all %} <ul><li data-cy="campusPartner-card">{{camp_part}}</li></ul> {% endfor %}
                                         </div>
                                     </div>
                                 </div>
@@ -531,41 +531,41 @@
 
                     <div id="collapse-{{ forloop.counter }}" class="card-body collapse project-body" data-parent="#accordion">
                         <div class="row bottom-card">
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="engagementtype-card">
                                 <b>Engagement Type:</b>
                                 {{ project.engagement_type }}
                             </div>
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="activityType-card">
                                 <b> Activity Type:</b>
                                 {{ project.activity_type }}
                             </div>
 
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="semester">
                                 <b> Start Semester:</b> {{ project.semester}}
                             </div>
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="total_uno_students">
                                 <b> Total UNO Students: </b> {{project.total_uno_students}}
                             </div>
 
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="academic-yr">
                                 <b> Start Academic Year:</b> {{ project.academic_year}}
                             </div>
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="total_uno_hours">
                                 <b>UNO Student Hours: </b> {{project.total_uno_hours}}
                             </div>
 
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="end-semester">
                                 <b> End Semester:</b>
                                 {{ project.end_semester }}
                             </div>
-                            <div class="col-sm-12 col-lg-6"> <b>Total K-12 Students: </b> {{project.total_k12_students}}</div>
+                            <div class="col-sm-12 col-lg-6" data-cy="total_k12_students"> <b>Total K-12 Students: </b> {{project.total_k12_students}}</div>
 
-                            <div class="col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="end-academic-year">
                                 <b> End Academic Year:</b>
                                 {{ project.end_academic_year }}
                             </div>
-                            <div class="col-sm-12 col-lg-6"><b>K-12 Student Hours: </b> {{project.total_k12_hours}}</div>
-                            <div class = "col-sm-12 col-lg-6">
+                            <div class="col-sm-12 col-lg-6" data-cy="total_k12_hours"><b>K-12 Student Hours: </b> {{project.total_k12_hours}}</div>
+                            <div class = "col-sm-12 col-lg-6" data-cy="total_other_community_members">
                                 <b>Total Number of Other Participants:</b>
                                 {{project.total_other_community_members}}
                             </div>
@@ -574,7 +574,7 @@
                                 {{ project.subcategory.all|join:", " }}
                             </div>
 
-                            <div class="col-sm-12">
+                            <div class="col-sm-12" data-cy="description">
                                 <hr> <b> Description :</b>
                                 {{ project.description }}
                             </div>
@@ -588,7 +588,7 @@
             <div class="col-lg-6 col-sm-12">
                 Showing {{ cards.start_index }} to {{ cards.end_index }} of {{ cards.paginator.count }}
             </div>
-            <div class="col-lg-6 col-sm-12 paginate">
+            <div class="col-lg-6 col-sm-12 paginate" data-cy="paginate">
 
                 {% if cards.has_other_pages %}
 

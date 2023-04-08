@@ -7,7 +7,6 @@ beforeEach(() => {
         }
     })
     cy.visit(Cypress.env('baseUrl'))
-    cy.get('#login').click().loginAdminUser(user)
 })
 
 
@@ -15,6 +14,7 @@ describe("List CEC Partner Status", () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
             this.data = data
+            cy.get('#login').click().loginAdminUser(user)
         })
     })
 

@@ -479,34 +479,34 @@
 <!--    <div class="wrapper" style="height: 100%">-->
 <!--        <div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="sidebar">-->
 <div class="container">
-        <nav id="sidebar" style="margin-top: -5px;height: 100%;">
+        <nav id="sidebar" style="margin-top: -5px;height: 100%;" data-cy="sidebar">
             <div class="row" style="height:30px;">
                 <div class="col-lg-4 col-md-4">
                     <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
                 <div class="col-lg-8 col-md-8" style="text-align:right;">
-                    <label id="reset"><u>Reset</u></label>
+                    <label id="reset" data-cy="reset"><u>Reset</u></label>
                 </div>
             </div>
             <div class='legend'>
 
-            <div id='state-legend'>
+            <div id='state-legend' data-cy="statelegend">
                 <div id='commTypeFilters' style="padding-bottom:5px;border-bottom: 1px solid grey;">
                 </div>
 
 
                 <!--</select>-->
                 <!--div id="sidebar"-->
-                <select  style="margin-top:10px;" id="selectMission"  onchange="filterData(this.id,false);" class="selectMission"></select>
-                <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
-                <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
-                <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
-                <select id="selectDistrict" onchange="filterData(this.id,false);" class="selectDistrict"></select>
+                <select  style="margin-top:10px;" id="selectMission"  onchange="filterData(this.id,false);" class="selectMission" data-cy="selectmission"></select>
+                <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege" data-cy="selectcollege"></select>
+                <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus" data-cy="selectcampus"></select>
+                <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear" data-cy="selectyear"></select>
+                <select id="selectDistrict" onchange="filterData(this.id,false);" class="selectDistrict" data-cy="selectdistrict"></select>
                
 
             </div>
              <div style="padding-top:10px;border-top: 1px solid grey;">
-                    <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
+                    <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' data-cy="search"/>
                 </div>
             </div>
 
@@ -520,7 +520,7 @@
                         <div class="card-top">
                             <div class="row">
                                 <div class="col-lg-1 col-md-1 col-sm-1 col">
-                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
+                                    <button type="button" id="sidebarCollapse" class="btn btn-custom1" data-cy="sidebarcollapse"><i class="">Filters</i>
                                         <span></span>
                                     </button>
 
@@ -528,12 +528,12 @@
 
                                 <div class="col-lg-5 col-md-5 col-sm-5 col"  style="text-align: left">
                                     <div style="box-sizing: border-box;padding:5px;">
-                                        <label style="text-align: left"><b>Community Partner Types Map</b></label>
+                                        <label style="text-align: left" data-cy="heading"><b>Community Partner Types Map</b></label>
                                     </div>
                                 </div>
                                 <div class="col-lg-6 col-md-6 col-sm-6 col">
                                     <div style="box-sizing: border-box; padding:5px; ">
-                                        <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>
+                                        <label><b>Number of Community Partners: </b><b id = "totalnumber" data-cy="totalnumber">{{ number }}</b>
                                         </label>
                                     </div>
                                 </div>
@@ -550,7 +550,7 @@
                     </div>
                     <div class="col-xl-12 col-md-12 col-sm-12">
                         <div class="card">
-                            <div id='map_canvas' class='map'>
+                            <div id='map_canvas' class='map' data-cy="mapcanvas">
                                 {{ districtData | json_script:"district-data"}}
                                 {{ collection | json_script:"commPartner-data"}}
                                 {{ Missionlist | json_script:"missionlist"}}
@@ -564,14 +564,14 @@
                     </div>
                 </div>
           </div>
-<footer id="footer">
+<footer id="footer" data-cy="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">
-                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo"></a></span>
+                <span><a href="/"><img class="fimg" style="font-size:10px; padding: 4px 8px;max-width:161px;max-height:49px" src="{% static 'img/uno-footer.png' %}" alt="UNO Logo" data-cy="unologo"></a></span>
           </div>
              <div class="col-sm-6" style="margin-top:8px; text-align: left;">
-                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank">Terms and Conditions</a></span>
+                <span><a class="fleft" style="text-decoration:underline" href="https://unocepi.s3.amazonaws.com/documents/CEPI_Terms_and_Conditions_2019-11-21.pdf" target="_blank" data-cy="terms&conditions">Terms and Conditions</a></span>
                  <span><a class="fnone" style="text-decoration:underline" href="mailto:partnerships@unomaha.edu">Contact Us</a></span>
                  <!--<br>-->
                  <p>

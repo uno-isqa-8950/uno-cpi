@@ -8,7 +8,7 @@ beforeEach(() => {
     })
     cy.visit(Cypress.env('baseUrl'))
 })
-describe('Analytic Reports Public user', () => {
+describe('Projects Reports Public user', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data

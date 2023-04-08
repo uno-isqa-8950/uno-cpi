@@ -4,24 +4,32 @@ import * as users from '/cypress.env.json'
 
 Cypress.Commands.add("loginCampusUser", (user) => {
   //adding a new command named login
+  cy.session('campususer', () => {
   const username = users.campusUser.username
   const password = users.campusUser.password
   cy.visit(Cypress.env('baseUrl'))
   cy.get('[data-cy="login"]').click()
-  cy.get("#email_input").type(username).type('{enter}')
-  cy.get("#password_input").type(password);
-  cy.get("#btnLogin").click();
+  cy.get('[data-cy="email"]').type(username,{ log: false }).type('{enter}')
+  cy.get('[data-cy="password"]').then(($input)=>{
+    $input.val(password);
+})
+  cy.get('[data-cy="login"]').eq(1).click();
+})
 });
 
 Cypress.Commands.add("loginAdminUser", (user) => {
   //adding a new command named login
+  cy.session('adminuser', () => {
   const username = users.adminUser.username
   const password = users.adminUser.password
   cy.visit(Cypress.env('baseUrl'))
   cy.get('[data-cy="login"]').click()
-  cy.get("#email_input").type(username).type('{enter}')
-  cy.get("#password_input").type(password);
-  cy.get("#btnLogin").click();
+  cy.get('[data-cy="email"]').type(username,{ log: false } ).type('{enter}')
+  cy.get('[data-cy="password"]').then(($input)=>{
+    $input.val(password);
+})
+  cy.get('[data-cy="login"]').eq(1).click();
+})
 });
 
 Cypress.Commands.add("checkProjectName", () => {

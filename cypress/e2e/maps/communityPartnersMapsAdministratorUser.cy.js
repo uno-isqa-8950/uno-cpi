@@ -1,24 +1,21 @@
+import user from "../../support/commands.js";
+describe('community partners map admin user test', () => {
 beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
       {
         return false
       }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
-  
-  describe('community partners maps test', () => {
-    beforeEach(function() {
-      cy.fixture("datareports").then(function(data) {
-        this.data = data
-        cy.get('#login').click()
-        cy.loginAdminUser()
-    })
-  })
-    // This test is expected to pass visiting community partners under maps as a public user.
+    // This test is expected to pass visiting community partners under maps as a admin user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
-    it('Community partners page visit with admion user login ', function() {
+    it('Community partners page visit with admin user login ', function() {
       const communityPartnersLink = '[data-cy="communitypartners"]',
         filtersButton = '[data-cy="filters"]',
         footer = '[data-cy="footer"]',
@@ -108,6 +105,7 @@ beforeEach(() => {
         footer = '[data-cy="footer"]',
         mapsDiv = '[data-cy="mapcanvas"]',
         mapsLink = '[data-cy="maps"]',
+        missionAreaFilters = '[data-cy="missionareafilters"]',
         allFocusAreasFilterLink = `a[id="All Focus Areas"]`,
         artsCultureHumanitiesLink = `a[id="Arts, Culture and Humanities"]`,
         economicSufficiencyLink = `a[id="Economic Impact"]`,
@@ -122,6 +120,7 @@ beforeEach(() => {
       // filter button clicking and asserting to check the button is not disabled
         .get(filtersButton).click().should('not.be.disabled')
       // Testing filters links function
+        .get(missionAreaFilters).should('exist')
         .get(allFocusAreasFilterLink).click({force: true})
         .get(artsCultureHumanitiesLink).click({force: true})
         .get(economicSufficiencyLink).click({force: true})
@@ -134,6 +133,34 @@ beforeEach(() => {
         .get(footer).should('exist')
     })
   
+    it('Mission area filters dropdowns are clickable', function(){
+      const communityPartnersLink = '[data-cy="communitypartners"]',
+        filtersButton = '[data-cy="footer"]',
+        footer = '[data-cy="footer"]',
+        mapsDiv = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]',
+        missionAreaFilters = '[data-cy="missionareafilters"]',
+        allCommunityPartnerTypes= '[data-cy="selectcommunitytype"]',
+        selectCollege = '[data-cy="selectcollege"]',
+        selectCampus = '[data-cy="selectcampus"]',
+        selectYear = '[data-cy="selectyear"]',
+        selectDistrict = '[data-cy="selectdistrict"]'
+      cy.get(mapsLink).contains('Maps').click()
+        .get(communityPartnersLink).click()
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
+      // filter button clicking and asserting to check the button is not disabled
+        .get(filtersButton).click().should('not.be.disabled')
+      // Testing filters links function
+      .get(missionAreaFilters).should('exist')
+      .get(allCommunityPartnerTypes).select(this.data.community_type1,{force: true})
+      .get(selectCollege).should('exist')
+      .get(selectCampus).select(this.data.campus_partner1,{force: true})
+      .get(selectYear).select(this.data.academic_year1,{force: true})
+      .get(selectDistrict).select(this.data.legislative_dist1,{force: true})
+      .get(mapsDiv).should('exist')
+      .get(footer).should('exist')
+  })
+
     it('Test search and reset are not disabled for community partner under filters', function() {
       const communityPartnersLink = '[data-cy="communitypartners"]',
         filtersButton = '[data-cy="filters"]',

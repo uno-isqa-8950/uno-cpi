@@ -1,5 +1,4 @@
 import user from "../../support/commands.js";
-<<<<<<< HEAD
 describe('My Drafts Administrator', () => {
 beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
@@ -14,24 +13,7 @@ beforeEach(() => {
     cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
-=======
 /// <reference types="cypress"/>
-describe('my draft admin user test', () => {
-    beforeEach(() => {
-        cy.on('uncaught:exception', (err) => {
-          if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-          {
-            return false
-          }
-        })
-        cy.fixture("datareports").then(function(data) {
-            this.data = data
-          })
-          cy.loginAdminUser(user)  // Admin User is logged in before the test begins
-          cy.visit(Cypress.env('baseUrl'))
-        })
-
->>>>>>> 75b9a86375ec23bc4a8323e6d01245efcbdaf0e3
     it('Check login form', function() {
         cy.url().should('be.equal', Cypress.env('baseUrl'))
     })

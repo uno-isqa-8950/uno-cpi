@@ -33,6 +33,8 @@ import '../analytics/reports/engagementTypesReportsAdministrator.cy'
 import '../analytics/reports/projectsReportsPublicUser.cy'
 import '../analytics/reports/projectsReportsCampusUser.cy'
 import '../analytics/reports/projectsReportsAdministrator.cy'
+import '../analytics/reports/communityPartnerReportsCampusUser.cy'
+import '../analytics/reports/communityPartnerReportsPublicUser.cy'
 import '../analytics/reports/communityPartnerReportsAdminUser.cy'
 
 // Analytics - Charts
@@ -61,7 +63,8 @@ import '../registerPartners/registerPartnerPublicUser.cy'
 
 
 //Resources
-
-
+import '../resources/resourcesPublicUser.cy'
+import '../resources/resourcesAdminUser.cy'
+import '../resources/resourcesCampusUser.cy'
 //Administrator
 

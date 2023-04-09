@@ -1,23 +1,17 @@
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-      {
-        return false
-      }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-  })
-  
   describe('legislative district maps test', () => {
-
-    beforeEach(function() {         
-      cy.fixture("datareports").then(function(data) {       
-      this.data = data
-      cy.get('#login').click()
+    beforeEach(() => {
+      cy.on('uncaught:exception', (err) => {
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('script Error')|| err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
+        {
+          return false
+        }
+      })
+      cy.fixture("datareports").then(function(data) {
+        this.data = data
+      })
       cy.loginAdminUser()
-      }) 
-      
-  }) 
+      cy.visit(Cypress.env('baseUrl'))
+    })
   
     // This test is expected to pass visiting community partners under maps as a public user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.

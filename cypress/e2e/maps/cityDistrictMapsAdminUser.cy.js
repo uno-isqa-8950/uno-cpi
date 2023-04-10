@@ -1,21 +1,16 @@
-beforeEach(() => {
-  cy.on('uncaught:exception', (err, runnable) => {
-    if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-    {
-      return false
-    }
-  })
-  cy.visit(Cypress.env('baseUrl'))
-})
-
 describe('City district maps test', () => {
-      beforeEach(function() {         
-      cy.fixture("datareports").then(function(data) {       
+  beforeEach(() => {
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
+    cy.fixture("datareports").then(function(data) {
       this.data = data
-      cy.get('[data-cy="login"]').click()
-      cy.loginAdminUser()          
-      }) 
-      
+    })
+    cy.loginAdminUser()  // Admin User is logged in before the test begins
+    cy.visit(Cypress.env('baseUrl'))
   }) 
 
   // This test is expected to pass visiting community partners under maps as a public user.

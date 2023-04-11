@@ -68,7 +68,7 @@
     })
 
 
-    it.only('Test filter dropdown are clickable', function()  {
+    it('Test filter dropdown are clickable', function()  {
 
           const projectsHref = '[data-cy="projects"]',
         filtersButton = '[data-cy="filters"]',

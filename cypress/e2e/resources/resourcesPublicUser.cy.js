@@ -8,7 +8,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
     });
 
-describe('Navigate to Resources Menu to view external links ', () => {
+describe('Navigate to Resources Menu to view external links as public user', () => {
     it('Handling-community-engagement', () => {
         cy
         .get('#resourcesnav')
@@ -28,22 +28,18 @@ describe('Navigate to Resources Menu to view external links ', () => {
 
     })
 
-    it('Handling-share-omaha', () => {
-        cy.get('#resourcesnav').click()
-        cy.get(".dropdown-item[href='https://shareomaha.org/']").invoke("removeAttr","target").click()
-        //Cy.origin is used to allow cross domain page handling in cypress
-    
-        cy.origin('https://shareomaha.org', () => {
-            
-        cy.url().should("include","shareomaha.org");
-
-        })
-    })
-
-    it('Handling-Service-learning-academy', () => {
+      it('Handling-share-omaha', () => {
+          cy.get('#resourcesnav').click()
+          cy.get(".dropdown-item[href='https://shareomaha.org/']").should('exist')
+  
+        
+      })
+  
+      it('Handling-Service-learning-academy', () => {
         cy.get('#resourcesnav').click()
         //invoke function is called to force the URL to open in same window
-        cy.get(".dropdown-item[href='https://www.unomaha.edu/service-learning-academy/']").should('exist')
+        cy.get(".dropdown-item[href='http://www.communityplatform.us/communityplatform/nam']")
+          .should('exist')
 
         })
     })

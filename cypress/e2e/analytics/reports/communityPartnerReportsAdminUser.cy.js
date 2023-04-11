@@ -1,7 +1,7 @@
 import user from "../../../support/commands";
 
 
-describe('Navigate to Resources Menu to view external links ', () => {
+describe('Filter and download community partner report when logged in as a Admin user ', () => {
     beforeEach(() => {
     cy.on('uncaught:exception', (err) => {
       if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))

@@ -54,7 +54,7 @@
       cy.get(mapsDivId).then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-        const Map_point = '[title=""] > img',
+        const Map_point = '[style="width: 18px; height: 18px; overflow: hidden; position: absolute; cursor: pointer; touch-action: none; left: -54px; top: -102px; z-index: -93;"] > img',
         Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
         Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
        Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',

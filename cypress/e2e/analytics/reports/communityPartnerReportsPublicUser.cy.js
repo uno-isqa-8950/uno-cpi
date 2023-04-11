@@ -8,7 +8,7 @@ beforeEach(() => {
     cy.visit(Cypress.env('baseUrl'))
     });
 
-describe('Navigate to Resources Menu to view external links ', () => {
+describe('Filter and download community partner report when logged in as a Public user', () => {
     beforeEach(function() {
         cy.fixture("datareports").then(function(data) {
         this.data = data

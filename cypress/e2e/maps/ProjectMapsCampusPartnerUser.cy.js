@@ -1,4 +1,4 @@
-  describe('Maps for Project district maps test', () => {
+  describe('Maps for Project maps test', () => {
     beforeEach(() => {
       cy.on('uncaught:exception', (err) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
@@ -53,7 +53,7 @@
       cy.get('#map_canvas').then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-        const Map_point = '[title=""] > img',
+        const Map_point = '[style="width: 18px; height: 18px; overflow: hidden; position: absolute; cursor: pointer; touch-action: none; left: -54px; top: -102px; z-index: -93;"] > img',
         Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
         Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
        Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
@@ -68,7 +68,7 @@
     })
 
 
-    it ('Test filter dropdown are clickable', function()  {
+    it.only('Test filter dropdown are clickable', function()  {
 
           const projectsHref = '[data-cy="projects"]',
         filtersButton = '[data-cy="filters"]',

@@ -1,6 +1,0 @@
-import '../analytics/reports/communityPartnerReportsAdminUser.cy'
-import '../analytics/reports/communityPartnerReportsCampusUser.cy'
-import '../analytics/reports/communityPartnerReportsPublicUser.cy'
-import '../resources/resourcesPublicUser.cy'
-import '../resources/resourcesAdminUser.cy'
-import '../resources/resourcesCampusUser.cy'

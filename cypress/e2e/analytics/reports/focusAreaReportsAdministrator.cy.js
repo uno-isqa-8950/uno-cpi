@@ -1,22 +1,18 @@
 import user from "../../../support/commands.js";
-/// <reference types="cypress"/>
+describe('Focus Area Report Administrator', () => {
 beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
-        {
-            return false
-        }
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginAdminUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
-})
-
-describe('Focus Area Reports Administrator', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-            this.data = data
-        cy.loginAdminUser(user)
-        })
-    })
+  })
     //Check navigation
     it('Check navigation', function() {
         cy.url().should('be.equal', Cypress.env('baseUrl'))
@@ -159,7 +155,7 @@ describe('Focus Area Reports Administrator', () => {
         cy.contains('Projects and organizations that support inequality and corrupt social structures while devoting special efforts to meet the social needs of underprivileged populations.')
     })
 
-    it.only("Search function in Focus area report", function() {
+    it("Search function in Focus area report", function() {
         cy.get('[data-cy=analytics]').contains('Analytics').click()
         cy.get('[data-cy=reports]').next('[data-cy=reportsdropdown]').then($el => {
             cy.wrap($el).invoke('show')

@@ -1,21 +1,19 @@
 import user from "../../../support/commands";
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
-        {
-            return false
-        }
-    })
-    cy.visit(Cypress.env('baseUrl'))
-})
 
-describe('Navigate to Resources Menu to view external links ', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-        this.data = data
-        cy.get('#login').click()
-        cy.loginCampusUser(user)
-        })
+
+describe('Filter and download community partner report when logged in as a Campus user ', () => {
+    beforeEach(() => {
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
+    })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginCampusUser(user)  // Campus User is logged in before the test begins
+    cy.visit(Cypress.env('baseUrl'))
 
     })
     

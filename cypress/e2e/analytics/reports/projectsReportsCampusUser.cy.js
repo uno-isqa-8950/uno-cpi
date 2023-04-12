@@ -1,21 +1,18 @@
-/// <reference types="cypress"/>
+import user from "../../../support/commands.js";
+describe('Projects Report Campus Partner User', () => {
 beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('reading \'style\''))
-        {
-            return false
-        }
+    cy.on('uncaught:exception', (err) => {
+      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
+      {
+        return false
+      }
     })
+    cy.fixture("datareports").then(function(data) {
+      this.data = data
+    })
+    cy.loginCampusUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
-})
-describe('Project Reports Campus partner user', () => {
-    beforeEach(function() {
-        cy.fixture("datareports").then(function(data) {
-        this.data = data
-        cy.get('#login').click()
-        cy.loginCampusUser()
-        })
-    })
+  })
     it('visits the form', function() {
         cy.visit(Cypress.env('baseUrl'))
     })
@@ -59,19 +56,12 @@ describe('Project Reports Campus partner user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
-        cy.get(academic_year_selector).click()
-        cy.get(academic_year_results).then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year1).click();
-        })
-
-        cy.get(community_containter).click()
-        cy.get(community_results).then(($li) => {
-            cy.wrap($li).contains(this.data.community_type3).click();
-        })
+        cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('[data-cy="id_community_type"]').select(this.data.community_type3,{force:true})
         cy.get('[data-cy="academic_year"]').should('contain.text', this.data.academic_year1)
         cy.get('[data-cy="Reset Filters"]').click()
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
+        cy.get('#select2-id_academic_year-container > .select2-selection__placeholder').contains('Previous Academic Year')
         })
     // Filter Options
     it('filter options', function() {
@@ -95,35 +85,13 @@ describe('Project Reports Campus partner user', () => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
-        cy.get('[data-cy="academic_year"]').contains('Previous Academic Year')
-        cy.get(academic_year_selector).click()
-        cy.get(academic_year_results).then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year4).click();
-        })
-        cy.get(mission_container).click()
-        cy.get(mission_results).then(($li) => {
-        cy.wrap($li).contains(this.data.focus_area4).click();
-        })
-        cy.get(engagement_container).click()
-        cy.get(engagement_results).then(($li) => {
-            cy.wrap($li).contains(this.data.engagement_type2).click()
-        })
-        cy.get(community_containter).click()
-        cy.get(community_results).then(($li) => {
-            cy.wrap($li).contains(this.data.community_type5).click();
-        })
-        cy.get(college_name_container).click()
-        cy.get(college_name_results).then(($li) => {
-            cy.wrap($li).contains(this.data.college_name1).click();
-        })
-        cy.get(campus_partner_container).click()
-        cy.get(campus_partner_results).then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get(weitz_cec_part_container).click()
-        cy.get(weitz_cec_part_results).then(($li) => {
-            cy.wrap($li).contains(this.data.cec_part4).click();
-        })
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year4,{force:true})
+        cy.get('[data-cy="mission"]').select(this.data.focus_area4,{force:true})
+        cy.get('[data-cy="engagement-type"]').select(this.data.engagement_type2,{force:true})
+        cy.get('[data-cy="id_community_type"]').select(this.data.community_type5,{force:true})
+        cy.get('[data-cy="college-name"]').select(this.data.college_name1,{force:true})
+        cy.get('[data-cy="id_campus_partner"]').select(this.data.select_all,{force:true})
+        cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part4,{force:true})
     })
 
     it("Check Card View", function() 

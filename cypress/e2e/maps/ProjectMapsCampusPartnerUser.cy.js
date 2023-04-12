@@ -1,23 +1,17 @@
-beforeEach(() => {
-    cy.on('uncaught:exception', (err, runnable) => {
-      if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'addEventListener\'') || err.message.includes('null (reading \'style\')'))
-      {
-        return false
-      }
+  describe('Maps for Project maps test', () => {
+    beforeEach(() => {
+      cy.on('uncaught:exception', (err) => {
+        if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
+        {
+          return false
+        }
+      })
+      cy.fixture("datareports").then(function(data) {
+        this.data = data
+      })
+      cy.loginCampusUser()  // Campus User is logged in before the test begins
+      cy.visit(Cypress.env('baseUrl'))
     })
-    cy.visit(Cypress.env('baseUrl'))
-    
-  })
-  
-  describe('City district maps test', () => {
-        beforeEach(function() {         
-        cy.fixture("datareports").then(function(data) {       
-          this.data = data
-        cy.get('#login').click()
-        cy.loginCampusUser()
-        }) 
-        
-    }) 
   
     // This test is expected to pass visiting community partners under maps as a public user.
     // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
@@ -59,7 +53,7 @@ beforeEach(() => {
       cy.get('#map_canvas').then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-        const Map_point = '[title=""] > img',
+        const Map_point = '[style="width: 18px; height: 18px; overflow: hidden; position: absolute; cursor: pointer; touch-action: none; left: -54px; top: -102px; z-index: -93;"] > img',
         Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
         Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
        Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
@@ -74,7 +68,7 @@ beforeEach(() => {
     })
 
 
-    it ('Test filter dropdown are clickable', function()  {
+    it('Test filter dropdown are clickable', function()  {
 
           const projectsHref = '[data-cy="projects"]',
         filtersButton = '[data-cy="filters"]',

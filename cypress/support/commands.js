@@ -32,6 +32,32 @@ Cypress.Commands.add("loginAdminUser", (user) => {
 })
 });
 
+Cypress.Commands.add("loginCampusUser_nosession", (user) => {
+  //adding a new command named login
+  const username = users.campusUser.username
+  const password = users.campusUser.password
+  cy.visit(Cypress.env('baseUrl'))
+  cy.get('[data-cy="login"]').click()
+  cy.get('[data-cy="email"]').type(username).type('{enter}')
+  cy.get('[data-cy="password"]').then(($input)=>{
+    $input.val(password);
+})
+  cy.get('[data-cy="login"]').eq(1).click();
+});
+
+Cypress.Commands.add("loginAdminUser_nosession", (user) => {
+  //adding a new command named login
+  const username = users.adminUser.username
+  const password = users.adminUser.password
+  cy.visit(Cypress.env('baseUrl'))
+  cy.get('[data-cy="login"]').click()
+  cy.get('[data-cy="email"]').type(username).type('{enter}')
+  cy.get('[data-cy="password"]').then(($input)=>{
+    $input.val(password);
+  })
+  cy.get('[data-cy="login"]').eq(1).click();
+});
+
 Cypress.Commands.add("checkProjectName", () => {
   cy.get('[data-cy="cpi"]').click()
   cy.get('[data-cy="projectsnav"]').click()

@@ -88,8 +88,7 @@
                     <li class="dropdown-submenu"><a class="dropdown-item dropdown-toggle" data-toggle="dropdown" href="#" data-cy="reports">Reports</a>
                         <ul class="dropdown-menu" data-cy="reportsdropdown">
                             {% if user.is_superuser %}
-                                <a class="dropdown-item" href="/projectInfo_admin" data-cy="focusareareport">Focus Areas</a> {% else %}
-                                <a class="dropdown-item" href="/projectInfo_public" data-cy="focusareareport">Focus Areas</a> {% endif %}
+                            <a class="dropdown-item" href="/projectInfo_admin" data-cy="focusareareport">Focus Areas</a> {% else %}<a class="dropdown-item" href="/projectInfo_public" data-cy="focusareareport">Focus Areas</a> {% endif %}
                             <a class="dropdown-item" href="/engage-Type" data-cy="engagementtypereport">Engagement Types</a> {% if user.is_authenticated %}
                             <a class="dropdown-item" href="{% url 'communityprivatereport' %}" data-cy="communityprivatereport">Community Partners</a>
                             <a class="dropdown-item" href="{% url 'projectsprivatereport' %}" data-cy="projectsreportprivate">Projects</a> {% else %}

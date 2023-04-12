@@ -18,12 +18,14 @@ def s3UrlPicker():
     objects = s3.list_objects_v2(Bucket=bucket_name, Prefix=folder_name)
     # picks image URLs for all focus areas
     for obj in objects['Contents']:
-        if obj['Key'].endswith('.png') and obj['Key'] != 'missionarea_images/venus-4167.png' or obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
-            image_url = s3.generate_presigned_url(ClientMethod='get_object',
-                                                  Params={'Bucket': bucket_name, 'Key': obj['Key']})
-            url_parts = image_url.split('?')
-            url_without_query_string = url_parts[0] if len(url_parts) > 1 else image_url
-            url_list.append(url_without_query_string)
+        if obj['Key'].endswith('.png'):
+            if obj['Key'] != 'missionarea_images/venus-4167.png' or obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
+                image_url = s3.generate_presigned_url(ClientMethod='get_object',
+                                                      Params={'Bucket': bucket_name, 'Key': obj['Key']})
+                url_parts = image_url.split('?')
+                url_without_query_string = url_parts[0] if len(url_parts) > 1 else image_url
+                url_list.append(url_without_query_string)
+
     # picks mission area names from MissionArea
     for mission in missions:
         name_list.append(mission.mission_name)

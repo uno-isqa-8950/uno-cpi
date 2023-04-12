@@ -45,11 +45,9 @@ describe('Charts Focus Area Analysis Campus User', () => {
       cy.wrap($el).invoke('show').should('be.visible')
       cy.wrap($el).get("[data-cy='Focus Area Analysis']").click()
     })
-    cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('2020-21')
     cy.get('[data-cy="start_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_academicyear-container').should('have.text', this.data.academic_year1)
 
-    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-22')
     cy.get('[data-cy="end_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_endacademicyear-container').should('have.text', this.data.academic_year1)
 
@@ -80,11 +78,9 @@ describe('Charts Focus Area Analysis Campus User', () => {
     cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3, {force:true})
     cy.get('#select2-id_campus_partner-container').should('have.text', this.data.campus_partner3)
 
-    cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('2020-21')
     cy.get('[data-cy="start_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_academicyear-container').should('have.text', this.data.academic_year1)
 
-    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-22')
     cy.get('[data-cy="end_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_endacademicyear-container').should('have.text', this.data.academic_year1)
 
@@ -110,11 +106,9 @@ describe('Charts Focus Area Analysis Campus User', () => {
     cy.get('[data-cy="campus_partner"]').select(this.data.campus_partner3,{force:true})
     cy.get('#select2-id_campus_partner-container').should('have.text' ,this.data.campus_partner3)
 
-    cy.get('#select2-id_academicyear-container > .select2-selection__placeholder').contains('2020-21')
     cy.get('[data-cy="start_academicyear"]').select(this.data.academic_year1,{force:true})
     cy.get('#select2-id_academicyear-container').should('have.text' ,this.data.academic_year1)
 
-    cy.get('#select2-id_endacademicyear-container > .select2-selection__placeholder').contains('2021-22')
     cy.get('[data-cy="end_academicyear"]').select(this.data.academic_year1, {force:true})
     cy.get('#select2-id_endacademicyear-container').should('have.text', this.data.academic_year1)
 

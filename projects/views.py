@@ -662,7 +662,7 @@ def projectsPrivateReport(request):
         cards = paginator.page(paginator.num_pages)
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
-    return render(request, 'reports/projects_public_view.html',
+    return render(request, 'reports/projects_private_view.html',
                   {'data_definition': context['data_definition'],
                    'missions': context['missions'],
                    'communityPartners': context['communityPartners'],

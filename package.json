@@ -25,6 +25,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "test:parallel": "cypress run --headless --parallel 4 --record",
     "cy:open": "cypress open --config-file cypress.config.js",
     "cy:run": " npx cypress run",
     "lint": "eslint \"**/**/*.cy.js\"",

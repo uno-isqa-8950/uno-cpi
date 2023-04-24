@@ -29,7 +29,7 @@ jobs:
             aws configure set aws_access_key_id ${AWS_ACCESS_KEY_ID}
             aws configure set aws_secret_access_key ${AWS_SECRET_ACCESS_KEY}
             aws configure set default.region ${AWS_DEFAULT_REGION}
-            aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/PostgresDump/sp23_db.sql /PostgresDump
+            aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/PostgresDump/SP2_db_2.sql /PostgresDump
       - run:
           name: Install system dependencies
           command: |
@@ -43,7 +43,7 @@ jobs:
       - run:
           name: Restore database from dump file
           command: |
-            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h localhost < /PostgresDump/sp23_db.sql
+            psql -U "$POSTGRES_USER" -d "$POSTGRES_DB" -h localhost < /PostgresDump/SP2_db_2.sql
           environment:
             LC_ALL: C.UTF-8
             LANG: C.UTF-8
@@ -93,7 +93,7 @@ jobs:
           command: |
             curl -k -v http://localhost:8000/
       - run:
-          name: Run Cypress Test Scripts
+          name: Install Cypress Packages
           command: |
             sleep 3
             aws s3 cp s3://$AWS_STORAGE_BUCKET_NAME/circleci/cypress.env.json /home/circleci/project/cypress.env.json
@@ -109,11 +109,28 @@ jobs:
             export DISPLAY=:99
             Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
             npm install cypress@latest
-            npx cypress run --parallel --record --key ${CYPRESS_RECORD_KEY} --headless
+            mkdir -p /home/circleci/project/test-results
+            #npx cypress run --parallel --record --key ${CYPRESS_RECORD_KEY} --headless
             #npm run start
-          env:
-            CYPRESS_PROJECT_ID: $CYPRESS_PROJECT_ID
-            CYPRESS_RECORD_KEY: $CYPRESS_RECORD_KEY
+      - run:
+          name: Run Cypress Test Scripts
+          command: |
+            if [[ $CIRCLE_NODE_INDEX == 0 ]]; then
+              export CYPRESS_SPEC=cypress/e2e/cepiProject/cepiTestPriority1.cy.js
+              #sleep 5
+              npm run cy:run
+            elif [[ $CIRCLE_NODE_INDEX == 1 ]]; then
+              export CYPRESS_SPEC=cypress/e2e/cepiProject/cepiTestPriority2.cy.js
+              npm run cy:run
+            elif [[ $CIRCLE_NODE_INDEX == 2 ]]; then
+              export CYPRESS_SPEC=cypress/e2e/cepiProject/cepiTestPriority3.cy.js
+              npm run cy:run
+            elif [[ $CIRCLE_NODE_INDEX == 3 ]]; then
+              export CYPRESS_SPEC=cypress/e2e/cepiProject/cepiTestPriority4.cy.js
+              npm run cy:run
+            fi
+          environment:
+            CYPRESS_baseUrl: http://localhost:8000/
       - store_artifacts:
           path: cypress/videos
           destination: videos
@@ -136,7 +153,7 @@ workflows:
           filters:
             branches:
               only:
-                - SP23_CICD_Pipeline
+                - Sprint6
   deploy:
     jobs:
       - deploy:

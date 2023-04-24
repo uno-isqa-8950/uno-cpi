@@ -1,0 +1,22 @@
+//homepage
+import '../homepage/auditLogsAdminUser.cy'
+// Maps
+import '../maps/communityPartnerTypesAdminUser.cy'
+import '../maps/communityPartnerTypesCampusUser.cy'
+import '../maps/legislativeDistrictMapsCampusPartner.cy'
+import '../maps/legislativeDistrictMapsAdmin.cy'
+import '../maps/communityPartnersMapsAdministratorUser.cy'
+import '../maps/communityPartnersMapsCampusPartnerUser.cy'
+import '../maps/cityDistrictMapsCampusUser.cy'
+import '../maps/cityDistrictMapsAdminUser.cy'
+import '../maps/ProjectMapsCampusPartnerUser.cy'
+import '../maps/ProjectMapsAdminUser.cy'
+// Analytics - Reports
+import '../analytics/reports/focusAreaReportsCampusPartnerUser.cy'
+import '../analytics/reports/focusAreaReportsAdministrator.cy'
+import '../analytics/reports/engagementTypesReportsCampusPartnerUser.cy'
+import '../analytics/reports/engagementTypesReportsAdministrator.cy'
+import '../analytics/reports/projectsReportsCampusUser.cy'
+import '../analytics/reports/projectsReportsAdministrator.cy'
+import '../analytics/reports/CommunityPartnerReportsCampusUser.cy'
+import '../analytics/reports/communityPartnerReportsAdminUser.cy'

@@ -101,7 +101,7 @@ beforeEach(() => {
   
     it('Mission area filters links are clickable', function(){
       const communityPartnersLink = '[data-cy="communitypartners"]',
-        filtersButton = '[data-cy="footer"]',
+        filtersButton = '[data-cy="filters"]',
         footer = '[data-cy="footer"]',
         mapsDiv = '[data-cy="mapcanvas"]',
         mapsLink = '[data-cy="maps"]',
@@ -135,7 +135,7 @@ beforeEach(() => {
   
     it('Mission area filters dropdowns are clickable', function(){
       const communityPartnersLink = '[data-cy="communitypartners"]',
-        filtersButton = '[data-cy="footer"]',
+        filtersButton = '[data-cy="filters"]',
         footer = '[data-cy="footer"]',
         mapsDiv = '[data-cy="mapcanvas"]',
         mapsLink = '[data-cy="maps"]',
@@ -238,5 +238,35 @@ beforeEach(() => {
         .get(mapsDiv).should('exist')
         .get(markerImages).should('be.visible')
     })
+
+    it('Test Reset filter ', function(){
+      const communityPartnersLink = '[data-cy="communitypartners"]',
+        filtersButton = '[data-cy="filters"]',
+        footer = '[data-cy="footer"]',
+        mapsDiv = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]',
+        missionAreaFilters = '[data-cy="missionareafilters"]',
+        allCommunityPartnerTypes= '[data-cy="selectcommunitytype"]',
+        selectCollege = '[data-cy="selectcollege"]',
+        selectCampus = '[data-cy="selectcampus"]',
+        resetLink = '[data-cy="reset"]'
+      cy.get(mapsLink).contains('Maps').click()
+        .get(communityPartnersLink).click()
+        .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner')
+      // filter button clicking and asserting to check the button is not disabled
+        .get(filtersButton).click().should('not.be.disabled')
+      // Testing filters links function
+       .get(missionAreaFilters).should('exist')
+       .get(allCommunityPartnerTypes).select(this.data.community_type1,{force: true})
+       .get(allCommunityPartnerTypes).contains('Business')
+       .get(selectCollege).should('exist')
+       .get(selectCampus).select(this.data.campus_partner1,{force: true})
+       .get(selectCampus).contains('Marketing and Entrepreneurship')
+       .get(resetLink).click({force: true})
+       .get(allCommunityPartnerTypes).contains('All Community Partner Types')
+       .get(selectCampus).contains('All Campus Partners')
+       .get(mapsDiv).should('exist')
+       .get(footer).should('exist')
+  })
   });
   

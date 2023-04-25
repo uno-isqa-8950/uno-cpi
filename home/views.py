@@ -1787,6 +1787,8 @@ def googlepartnerdata(request):
     data_definition = DataDefinition.objects.all()
     map_json_data = GEOJSON()
     Campuspartner = map_json_data[3]
+    print("map json data [3]")
+    print(map_json_data[3])
     College = map_json_data[6]
     data = map_json_data[0]
     json_data = open('home/static/GEOJSON/ID3.geojson')

@@ -18,7 +18,6 @@ import os
 import json
 import re
 
-
 samlDict = {
     "unomaha.edu": "uno",
     # "unml.edu": "unml",
@@ -28,7 +27,6 @@ samlDict = {
 
 # Create your views here.
 def verifySamlSettingJson():
-
     setupJson = "false"
     jsonFile = open(settings.SAML_FOLDER + "/settings.json", "r")  # Open the JSON file for reading
     data = json.load(jsonFile)  # Read the JSON into the buffer
@@ -73,11 +71,9 @@ def user_login(request):
                     saml_idp = samlDict[emailDomain]
                     # set the appropriate SAML folder based on required IDP for respective email domain
 
-
                     settings.SAML_FOLDER = os.path.join(BASE_DIR, 'saml_' + saml_idp)
                     print('settings.APP_ENV--' + settings.APP_ENV)
                     # reassign the url in settings json based on enviornment running on,
-
 
                     # we should avoid checking for prod env ( we need to keep in since current prod url is not finaliszed)
                     setupJson = verifySamlSettingJson()
@@ -172,8 +168,8 @@ def prepare_django_request(request):
         'https': 'on' if request.is_secure() else 'off',
         'http_host': request.META['HTTP_HOST'],
         'script_name': request.META['PATH_INFO'],
-        # 'server_port': request.META['SERVER_PORT'], # uncomment this line for local run
-        'server_port': '443',  # uncomment this line for dev, cat and prod env.
+        'server_port': request.META['SERVER_PORT'],  # uncomment this line for local run
+        # 'server_port': '443',  # uncomment this line for dev, cat and prod env.
         'get_data': request.GET.copy(),
         'post_data': request.POST.copy(),
         # Uncomment if using ADFS as IdP, https://github.com/onelogin/python-saml/pull/144
@@ -261,8 +257,8 @@ def index(request):
                 if checkEmail:
                     return redirectUNOUser(request, userEmail)
         else:
-            print("errors-in saml response--",errors)
-            redirectUNOUser(request,None)
+            print("errors-in saml response--", errors)
+            redirectUNOUser(request, None)
 
     elif 'sls' in req['get_data']:
 

@@ -34,7 +34,7 @@ class ProjectList(SimpleHistoryAdmin, ImportExportModelAdmin):
                      'start_date', 'end_date', 'country', 'project_type', 'other_sub_category', 'recursive_project')
 
     resource_class = ProjectResource
-
+    list_filter = ['academic_year']
 
 
 class EngagementTypeResource(resources.ModelResource):

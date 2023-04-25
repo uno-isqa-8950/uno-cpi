@@ -71,7 +71,7 @@ shape==0.1.1
 Shapely==1.8.2
 six==1.11.0
 soupsieve==2.4
-sqlparse==0.4.3
+sqlparse==0.4.4
 tablib==3.3.0
 telepath==0.3
 toml==0.10.2

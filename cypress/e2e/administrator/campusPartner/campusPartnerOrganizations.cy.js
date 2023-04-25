@@ -24,7 +24,7 @@ describe("List and sort campus partner organizations", () => {
         tableColumn = 'thead tr',
         tableCell = 'td',
         adminTable = '#content-main',
-        joinButton = '[data-cy="joinButton"]',
+        joinButton = '[data-cy="joinCampusPartner"]',
         addCampusPartner = `a[href="/admin/partners/communitypartner/add/"]`,
         communityPartnerColumn = '.model-communitypartner',
         name = 'input[name="name"]',
@@ -56,13 +56,13 @@ describe("List and sort campus partner organizations", () => {
     it('Can navigate to organization details', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
     })
 
     it('Verifies table headers loads', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
 
         cy.get(tableHeading).each(($el, index) => {
             cy.wrap($el).contains(tableHeader[index]).should('be.visible')
@@ -72,7 +72,7 @@ describe("List and sort campus partner organizations", () => {
     it('Verifies table data loads and sorts ascending', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
 
         cy.get(table).within(() => {
             cy.get(tableColumn).contains('.sorting_asc', tableHeader[0]).should('be.visible')
@@ -83,7 +83,7 @@ describe("List and sort campus partner organizations", () => {
     it('Verifies table data loads and sorts descending', () => {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
 
         cy.get(table).within(() => {
             cy.get(tableColumn).contains('.sorting_asc', tableHeader[0]).should('be.visible').click()
@@ -93,7 +93,7 @@ describe("List and sort campus partner organizations", () => {
     it('Verifies text in a cell exists', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
 
         cy.get(table).contains(tableCell, this.data.organization_name_test).should('exist')
 
@@ -103,9 +103,9 @@ describe("List and sort campus partner organizations", () => {
     it('Join campus partners', function() {
         cy.get(administratorLink).contains('Administrator').click()
             .get(organizationsHref).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/partners/profile/orgprofile/')
+            .url().should('include', '/partners/profile/orgprofile/')
         cy.get(joinButton).click()
-            .url().should('be.equal', 'https://uno-cpi-dev.herokuapp.com/admin/')
+            .url().should('include', '/admin/')
 
         cy.get(adminTable).within(() => {
             cy.get(communityPartnerColumn)

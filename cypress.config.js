@@ -1,6 +1,7 @@
 module.exports = {
   e2e: {
     experimentalRunAllSpecs: false,
+    "retries": 1,
     setupNodeEvents(on, config) {
       // implement node event listeners here
       config.baseUrl = 'place the base URL under test';
@@ -11,7 +12,6 @@ module.exports = {
       'cypress/e2e/cepiProject/cepiTestPriority2.cy.js',
       'cypress/e2e/cepiProject/cepiTestPriority3.cy.js',
       'cypress/e2e/cepiProject/cepiTestPriority4.cy.js',
-      
     ],
   },
 };

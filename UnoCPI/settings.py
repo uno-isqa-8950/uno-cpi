@@ -32,6 +32,7 @@ DEBUG = os.environ.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = ('https://uno-cpi-dev.herokuapp.com/', 'https://uno-cpi-cat.herokuapp.com/', 'https://uno-cpi.herokuapp.com/', 'https://cepi.unomaha.edu/')
+# should mask these URLs
 
 # Application definition
 

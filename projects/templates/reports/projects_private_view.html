@@ -316,9 +316,9 @@
 
         <div class="container button-row-elements">
 
-            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="btn" value= "Hide Filters" class="btn btn-secondary" data-cy="Hide Filters" data-toggle="collapse" data-target="#collapseExample"
                    aria-expanded="false" aria-controls="collapseExample" style="margin:0;" />
-            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
+            <input type="button" id="btn-reset" value= "Reset Filters" class="btn btn-secondary" data-cy="Reset Filters" onclick="window.location.href = '{% url 'projectsprivatereport' %}' " value="Reset Filters" >
             <script type="text/javascript">
                 document.getElementById("btn").addEventListener(
                     "click",
@@ -333,7 +333,7 @@
                 );
             </script>
 
-            <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" onclick="window.location.href = '/project-private-table-view/?{{ parameters }}'; " value="Table View" >
+            <input type="button" id="btn-table" value= "Table View" class="btn btn-secondary" data-cy="Table View" onclick="window.location.href = '/project-private-table-view/?{{ parameters }}'; " value="Table View" >
             <!--<button onclick="window.location.href = '/all-projects-table-project';">Click Here</button>-->
             <!--<input type="text" id="Searchboxtext" placeholder="Search...">-->
 
@@ -342,7 +342,7 @@
 
         <!-- / Collapse buttons -->
         <div class="card box filter-card">
-            <div class="collapse show" id="collapseExample">
+            <div class="collapse show" id="collapseExample" data-cy="collapse show">
                 <form class="form-inline" id="filters-form" method="get">
 
                     <div class="col-lg-4 col-md-5 form-group">
@@ -553,7 +553,7 @@
                                 <b> Total UNO Students: </b> {{project.total_uno_students}}
                             </div>
 
-                            <div class="col-sm-12 col-lg-6" data-cy="academic_year">
+                            <div class="col-sm-12 col-lg-6" data-cy="academic-year">
                                 <b> Start Academic Year:</b> {{ project.academic_year}}
                             </div>
                             <div class="col-sm-12 col-lg-6" data-cy="total_uno_hours">

@@ -234,12 +234,12 @@ $(document).ready(function(){
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}
-                                    {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
+                                    {% else %}<a href="{% url 'communityprivatereport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
                                     {% endif %}</td>
                                 <td>
                                     {% if  m.project_count  < 1 %}
                                     {{m.project_count}}
-                                    {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
+                                    {% else %}<a href="{% url 'projectsprivatereport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
                                     {% endif %}</td>
                                 <td> {{ m.campus_count }}</td>
                                 <td>{{m.total_uno_students}}</td>
@@ -258,7 +258,7 @@ $(document).ready(function(){
                 <td>
                     {% if  sub.sub_project_count  < 1 %}
                         {{sub.sub_project_count}}
-                        {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ sub.sub_proj_ids }}" target="_blank" class="class1" data-cy="projectcount">{{sub.sub_project_count}}</a>
+                        {% else %}<a href="{% url 'projectsprivatereport' %}?proj_id_list={{ sub.sub_proj_ids }}" target="_blank" class="class1" data-cy="projectcount">{{sub.sub_project_count}}</a>
                     {% endif %}
                 </td>
                 <td>

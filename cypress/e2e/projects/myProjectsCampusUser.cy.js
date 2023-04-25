@@ -71,7 +71,7 @@ it('Test my projects page show entries and pagination buttons functionality', fu
 
   it('Visit Projects and create project', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name1)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name4)
     cy.get('[data-cy="search"]').click();
     cy.get('[data-cy="button-id"]').should('contain','The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.')
     cy.get('[data-cy="createprojectbutton"]').should('be.visible').click()
@@ -148,7 +148,7 @@ it('Test my projects page show entries and pagination buttons functionality', fu
         .get(myProjectsLink).should('exist').click()
         .url().should('be.equal', Cypress.env('baseUrl')+'myProjects/')
         .get('h3').contains("My Projects").should("be.visible")
-        .get('td').contains(this.data.createproject_name1).click()
+        .get('td').contains(this.data.createproject_name4).click()
         .get('a').contains('Edit').click({force: true})
         .get('[data-cy="projectnameinput"]').type('edited')
         .get('button').contains('Next').dblclick()

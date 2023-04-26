@@ -9,7 +9,6 @@ import '../maps/legislativeDistrictMapsPublicUser.cy'
 import '../maps/communityPartnersMapsPublicUser.cy'
 import '../maps/cityDistrictMapsPublicUser.cy'
 import '../maps/ProjectMapsPublicUser.cy'
-import '../maps/projectMapsPublicUser.cy'
 //homepage
 import '../homepage/homepagePublicUser.cy'
 import '../homepage/allFocusAreaPublicUser.cy'

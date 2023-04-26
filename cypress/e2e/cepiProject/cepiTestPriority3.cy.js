@@ -11,8 +11,6 @@ import '../maps/cityDistrictMapsCampusUser.cy'
 import '../maps/cityDistrictMapsAdminUser.cy'
 import '../maps/ProjectMapsCampusPartnerUser.cy'
 import '../maps/ProjectMapsAdminUser.cy'
-import '../maps/projectMapsCampusPartnerUser.cy'
-import '../maps/projectMapsAdminUser.cy'
 // Analytics - Reports
 import '../analytics/reports/focusAreaReportsCampusPartnerUser.cy'
 import '../analytics/reports/focusAreaReportsAdministrator.cy'

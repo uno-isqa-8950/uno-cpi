@@ -18,16 +18,15 @@
     "eslint": "^8.35.0"
   },
   "devDependencies": {
-    "cypress": "^12.9.0",
+    "cypress": "^12.8.1",
     "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-sort-keys-fix": "^1.1.2",
     "eslint-plugin-unused-imports": "^2.0.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "test:parallel": "cypress run --headless --parallel 4 --record",
     "cy:open": "cypress open --config-file cypress.config.js",
-    "cy:run": " npx cypress run",
+    "cy:run": "cypress run --spec \"${CYPRESS_SPEC}\"",
     "lint": "eslint \"**/**/*.cy.js\"",
     "lint --fix": "eslint --fix cypress/e2e/"
   }

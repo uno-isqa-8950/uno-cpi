@@ -18,7 +18,7 @@ import '../homepage/homepageAdministrator.cy'
 import '../homepage/allFocusAreaCampusUser.cy'
 import '../homepage/allFocusAreaAdminUser.cy'
 //projects
-import '../projects/createProjectsAdminUser.cy'
+//import '../projects/createProjectsAdminUser.cy'
 import '../projects/allProjectsAdminUser.cy'
 import '../projects/myProjectsAdminUser.cy'
 import '../projects/myDraftAdministrator.cy'

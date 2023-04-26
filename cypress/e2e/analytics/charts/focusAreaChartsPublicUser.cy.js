@@ -20,14 +20,14 @@ describe('Charts Focus Area', () => {
     })
 
     it('Analytic Charts Focus Area User', function() {
-        cy.get('#analyticnav').click().should('be.visible')
-        cy.contains('Charts').next('.dropdown-menu').then($el => {
+        cy.get('[data-cy="analytics"]').click().should('be.visible')
+        cy.get('[data-cy="charts"]').next('[data-cy="chartsdropdown"]').then($el => {
             cy.wrap($el).invoke('show').should('be.visible')
             cy.wrap($el).contains('Focus Areas').click()
         })
 
-        cy.get("input[value='Hide Filters']").should('not.be.disabled')
-        cy.get("input[value='Reset Filters']").should('not.be.disabled')
+        cy.get('[data-cy="hide filters"]').should('not.be.disabled')
+        cy.get('[data-cy="reset filters"]').should('not.be.disabled')
 
         cy.get('#select2-id_academicyear-container').click()
         cy.get('#select2-id_academicyear-results').then(($li) => {

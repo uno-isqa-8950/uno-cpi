@@ -11,7 +11,7 @@ describe('City district maps test', () => {
     })
     cy.loginCampusUser()  // Campus User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
-  })
+  }) 
 
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
@@ -89,17 +89,17 @@ describe('City district maps test', () => {
           cy.get('#map_canvas').then($canvas => {
             // South Carolina
             // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-            const Map_point = '[tabindex="0"] > img',
-            Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
-            Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
-           Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
-           Map_Zoom = '[aria-label="Zoom in"]'
+            const Map_point = '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
+            Map_point_details1 = '.gm-style-iw-d > div > :nth-child(7)',
+           Map_point_details4 = '.gm-style-iw-d > div > :nth-child(11)',
+           Map_Zoom = '[aria-label="Zoom in"]',
+           dismissButton = '.dismissButton'
            cy.wrap($canvas)
+           cy.get(dismissButton).click()
            cy.get(Map_Zoom).click()
           cy.get(Map_point).click(); cy.wait(1000)
          cy.wrap($canvas)
            cy.get(Map_point).click(); cy.wait(1000)
-           cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
            cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
            cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')                   
        });

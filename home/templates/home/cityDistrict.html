@@ -428,7 +428,7 @@ color: #d71920;
                     <label style="text-align:left;font-size: 20px"> <b>Filters</b></label>
                 </div>
                 <div class="col-lg-8 col-md-8" style="text-align:right;">
-                    <label id="reset"><u>Reset</u></label>
+                    <label id="reset" data-cy="reset"><u>Reset</u></label>
                 </div>
             </div>
 
@@ -436,11 +436,11 @@ color: #d71920;
         <div id='state-legend'>
             <div id='missionAreaFilters' style="border-bottom: 1px solid grey; padding-bottom:5px;">
             </div>
-            <select style="margin-top:10px;" onchange="filterData(this.id,false);" id="selectDistrict" class="selectDistrict"></select>
-            <select id="selectCommtype" onchange="filterData(this.id,false);" class="selectCommtype"></select>
-            <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege"></select>
-            <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus"></select>
-            <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear"></select>
+            <select style="margin-top:10px;" onchange="filterData(this.id,false);" id="selectDistrict" data-cy="selectdistrict" class="selectDistrict"></select>
+            <select id="selectCommtype" onchange="filterData(this.id,false);" class="selectCommtype" data-cy="selectcommunitytype"></select>
+            <select id="selectCollege" onchange="filterData(this.id,false);" class="selectCollege" data-cy="selectcollege"></select>
+            <select id="selectCampus" onchange="filterData(this.id,false);" class="selectCampus" data-cy="selectcampus"></select>
+            <select id="selectYear" onchange="filterData(this.id,false);" class="selectYear" data-cy="selectyear"></select>
         </div>
          <div style="padding-top:10px;border-top: 1px solid grey;">
                 <input id='valueFilter' type='text' onkeyup="filterData(this.id,false);" placeholder='Search Community Partner' />
@@ -456,7 +456,7 @@ color: #d71920;
                             <div class="card" style="margin-top:-5px; padding: 5px;background-color:#333333;color:White;font-size:20px;font-family:'Arial Narrow',sans-serif;text-align:center;">
                                 <div class="row">
                                     <div class="col-lg-1 col-md-1">
-                                        <button type="button" id="sidebarCollapse" class="btn btn-custom1"><i class="">Filters</i>
+                                        <button type="button" id="sidebarCollapse" data-cy="filters" class="btn btn-custom1"><i class="">Filters</i>
                                             <span></span>
                                         </button>
                                     </div>
@@ -465,7 +465,7 @@ color: #d71920;
                                              <label style="text-align: left"><b>City Council District Map</b></label>
                                         </div>
                                     </div>
-                                    <div class="col-lg-7 col-md-6">
+                                    <div class="col-lg-7 col-md-6" data-cy="totalnumber"]>
                                         <div style="box-sizing: border-box; padding:5px;">
                                             <label><b>Number of Community Partners: </b><b id = "totalnumber">{{ number }}</b>&nbsp;
                                             </label>
@@ -484,7 +484,7 @@ color: #d71920;
 
 		                <div class="col-xl-12 col-md-12 col-sm-12">
                             <div class="card">
-                                <div id='map_canvas' class='map'>
+                                <div id='map_canvas' class='map' data-cy="mapcanvas">
                                     {{ districtData | json_script:"district-data"}}
                                     {{ collection | json_script:"commPartner-data"}} {{ Missionlist | json_script:"missionlist"}} {{ CommTypeList | json_script:"CommTypelist"}}
                                     {{ Campuspartner | json_script:"campusPartner-list"}}
@@ -499,7 +499,7 @@ color: #d71920;
                 </div>
 
 
-<footer id="footer">
+<footer data-cy="footer" id="footer">
       <div class="container-fluid">
         <div class="row">
           <div class="col-sm-2" style="margin-top:8px; text-align: left; margin-left: 150px">

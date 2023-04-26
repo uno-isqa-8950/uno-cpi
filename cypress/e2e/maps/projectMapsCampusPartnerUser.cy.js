@@ -1,5 +1,4 @@
- 
-  describe('Maps for project test', () => {
+  describe('Maps for Project maps test', () => {
     beforeEach(() => {
       cy.on('uncaught:exception', (err) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
@@ -10,7 +9,8 @@
       cy.fixture("datareports").then(function(data) {
         this.data = data
       })
-      cy.visit(Cypress.env('baseUrl'))
+      cy.loginCampusUser()  // Campus User is logged in before the test begins
+      cy.visit(Cypress.env('devUrl'))
     })
   
     // This test is expected to pass visiting community partners under maps as a public user.
@@ -25,7 +25,7 @@
       navbar ='[data-cy="navbar"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(projectsHref).click()
-         .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
+         .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
@@ -40,20 +40,20 @@
 
     it('Testing map canvas button clickability ', function() {
       const projectsHref = '[data-cy="projects"]',
-      filtersButton = '[data-cy="filters"]',
-      footerId = '[data-cy="footer"]',
-      mapsDivId = '[data-cy="mapcanvas"]',
-      mapsLink = '[data-cy="maps"]'
+        filtersButton = '[data-cy="filters"]',
+        footerId = '[data-cy="footer"]',
+        mapsDivId = '[data-cy="mapcanvas"]',
+        mapsLink = '[data-cy="maps"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(projectsHref).click()
-        .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
+        .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
         .get(filtersButton).should('be.visible')
         .get(mapsDivId).should('exist')
         .get(footerId).should('exist')
       cy.get('#map_canvas').then($canvas => {
         // South Carolina
         // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-        const Map_point = '[tabindex="0"] > img',
+        const Map_point = '[style="width: 18px; height: 18px; overflow: hidden; position: absolute; cursor: pointer; touch-action: none; left: -54px; top: -102px; z-index: -93;"] > img',
         Map_point_details = '.gm-style-iw-d > div > :nth-child(1)',
         Map_point_details1 = '.gm-style-iw-d > div > :nth-child(3)',
        Map_point_details4 = '.gm-style-iw-d > div > :nth-child(9)',
@@ -61,8 +61,6 @@
        cy.wrap($canvas)
        cy.get(Map_Zoom).click()
       cy.get(Map_point).click(); cy.wait(1000)
-     cy.wrap($canvas)
-       cy.get(Map_point).click(); cy.wait(1000)
        cy.get(Map_point_details).contains(this.data.Project_Name).should('be.visible')
        cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')
        cy.get(Map_point_details4).contains(this.data._comment7).should('be.visible')                   
@@ -70,7 +68,7 @@
     })
 
 
-    it ('Test filter dropdown are clickable', function()  {
+    it('Test filter dropdown are clickable', function()  {
 
           const projectsHref = '[data-cy="projects"]',
         filtersButton = '[data-cy="filters"]',
@@ -88,12 +86,11 @@
             
             reset = '[data-cy="reset"]'
       
-      
           cy.get(mapsLink).contains('Maps').click()
       
             .get(projectsHref).click()
       
-            .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
+            .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
       
           // filter button clicking and asserting to check the button is not disabled
       

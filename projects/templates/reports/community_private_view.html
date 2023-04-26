@@ -28,7 +28,7 @@
             <div class="col-xl-12 col-md-12 col-sm-12">
                 <br><br>
                 <div class="text-center">
-                    <h3 class="heading">Community Partners Report</h3>
+                    <h3 class="heading" data-cy="heading">Community Partners Report</h3>
                 </div>
 
                 <div class="card snippet-card">
@@ -260,7 +260,7 @@
                             {% if  community.Projects  < 1 %}
                                 {{community.Projects}}
                             {% else %}
-                                <a href="{% url 'projectspublicreport' %}?proj_id_list={{ community.proj_id_list }}" target="_blank" class="class1">{{ community.Projects }}</a>
+                                <a href="{% url 'projectsprivatereport' %}?proj_id_list={{ community.proj_id_list }}" target="_blank" class="class1">{{ community.Projects }}</a>
                             {% endif %}
                             {#                    {{community.project_count}}#}
                         </td>

@@ -47,10 +47,6 @@ beforeEach(() => {
         cy.get('[data-cy="collapse show"]').should('be.visible')
         })
     it('Reset Filters', function() {
-        const academic_year_selector = '#select2-id_academic_year-container',
-        academic_year_results =  '#select2-id_academic_year-results',
-        community_containter = '#select2-id_community_type-container',
-        community_results = '#select2-id_community_type-results'
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
@@ -65,21 +61,6 @@ beforeEach(() => {
         })
     // Filter Options
     it('filter options', function() {
-        const academic_year_selector = '#select2-id_academic_year-container',
-        academic_year_results =  '#select2-id_academic_year-results',
-        mission_container='#select2-id_mission-container',
-        mission_results ='#select2-id_mission-results',
-        community_containter = '#select2-id_community_type-container',
-        community_results = '#select2-id_community_type-results',
-        engagement_container = '#select2-id_engagement_type-container',
-        engagement_results = '#select2-id_engagement_type-results',
-        college_name_container ='#select2-id_college_name-container',
-        college_name_results = '#select2-id_college_name-results',
-        campus_partner_container = '#select2-id_campus_partner-container',
-        campus_partner_results ='#select2-id_campus_partner-results',
-        weitz_cec_part_container = '#select2-id_weitz_cec_part-container',
-        weitz_cec_part_results ='#select2-id_weitz_cec_part-results'
-
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
@@ -94,73 +75,38 @@ beforeEach(() => {
         cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part4,{force:true})
     })
 
-    it("Check Card View", function() 
+    it("Check Card View", function()
     {
-        const academic_year_selector = '#select2-id_academic_year-container',
-        academic_year_results =  '#select2-id_academic_year-results',
-        mission_container ='#select2-id_mission-container',
-        mission_results ='#select2-id_mission-results',
-        engagement_container = '#select2-id_engagement_type-container',
-        engagement_results = '#select2-id_engagement_type-results',
-        campus_partner_container = '#select2-id_campus_partner-container',
-        campus_partner_results ='#select2-id_campus_partner-results'
-
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
-        cy.get(academic_year_selector).click()
-        cy.get(academic_year_results).then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year1).click();
-        })
-        cy.get(mission_container).click()
-        cy.get(mission_results).then(($li) => {
-        cy.wrap($li).contains(this.data.focus_area4).click();
-        })
-        cy.get(engagement_container).click()
-        cy.get(engagement_results).then(($li) => {
-            cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get(campus_partner_container).click()
-        cy.get(campus_partner_results).then(($li) => {
-            cy.wrap($li).contains(this.data.campus_partner3).click();
-        })
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('[data-cy="mission"]').select(this.data.focus_area4,{force:true})
+        cy.get('[data-cy="engagement-type"]').select(this.data.select_all,{force:true})
+        cy.get('[data-cy="id_campus_partner"]').select(this.data.campus_partner3,{force:true})
         //verify if theye are present in card structure
         cy.get('[data-cy="mission"]').contains(this.data.focus_area4).should("be.visible")
         cy.get('[data-cy="academic_year"]').contains(this.data.academic_year1).should("be.visible")
         cy.get('[data-cy="id_community_type"]').contains(this.data.select_all).should("be.visible")
         cy.get('[data-cy="id_campus_partner"]').contains(this.data.campus_partner3).should("be.visible")
-        //cy.get('div [class="col-md-6 col-lg-6 col-sm-12"] > .ul').children().contains(this.data.campus_partner3).should("be.visible")
+        //cy.get('div [class="col-md-6 col-lg-6 co-sm-12"] > .ul').children().contains(this.data.campus_partner3).should("be.visible")
         //cy.get('div[class="col-sm-12 col-lg-6"]').contains("Engagement Types:").should("be.visible")
     })
     it("Check Table view", function()
     {
-        const academic_year_selector = '#select2-id_academic_year-container',
-        academic_year_results =  '#select2-id_academic_year-results',
-        mission_container='#select2-id_mission-container',
-        mission_results ='#select2-id_mission-results',
-        engagement_container = '#select2-id_engagement_type-container',
-        engagement_results = '#select2-id_engagement_type-results'
         cy.get('[data-cy="analytics"]').click()
         cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).get('[data-cy="projectsreportprivate"]').click()
         })
-        cy.get(academic_year_selector).click()
-        cy.get(academic_year_results).then(($li) => {
-            cy.wrap($li).contains(this.data.academic_year1).click();
-        })
-        cy.get(mission_container).click()
-        cy.get(mission_results).then(($li) => {
-        cy.wrap($li).contains(this.data.select_all).click();
-        })
-        cy.get(engagement_container).click()
-        cy.get(engagement_results).then(($li) => {
-            cy.wrap($li).contains(this.data.engagement_type2).click()
-        })
-
+        cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
+        cy.get('[data-cy="mission"]').select(this.data.select_all,{force:true})
+        cy.get('[data-cy="engagement-type"]').select(this.data.engagement_type2,{force:true})
+        cy.wait(1000)
         cy.get('[data-cy="Table View"]').click()
+        cy.wait(1000)
         cy.get('[data-cy="box"]').get('.buttons-csv').should("be.visible").click()
         cy.get('[data-cy="box"]').get('.buttons-pdf').should("be.visible").click()
         cy.get(':nth-child(1) > .sorting_1').click()

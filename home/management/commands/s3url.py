@@ -10,16 +10,15 @@ from UnoCPI.settings import AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, AWS_STORAG
 def s3UrlPicker():
     url_list = []
     name_list = []
-    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
     bucket_name = AWS_STORAGE_BUCKET_NAME
     folder_name = 'missionarea_images/'
-
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY)
     missions = MissionArea.objects.all()
     objects = s3.list_objects_v2(Bucket=bucket_name, Prefix=folder_name)
     # picks image URLs for all focus areas
     for obj in objects['Contents']:
         if obj['Key'].endswith('.png'):
-            if obj['Key'] != 'missionarea_images/venus-4167.png' or obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
+            if obj['Key'] != 'missionarea_images/venus-4167.png' and obj['Key'] != 'missionarea_images/artshumanitiesculture.png':
                 image_url = s3.generate_presigned_url(ClientMethod='get_object',
                                                       Params={'Bucket': bucket_name, 'Key': obj['Key']})
                 url_parts = image_url.split('?')

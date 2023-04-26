@@ -219,7 +219,7 @@ $(document).ready(function(){
                
         </th>
         <th>
-             
+
                     <span tabindex="-1" data-toggle="tooltip"
                           title="{% get_data_definition_desc 'K-12 Student Hours' %}" class="float" >
                                         <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i> K-12 Hours</span>
@@ -237,12 +237,20 @@ $(document).ready(function(){
                                 <td>
                                     {% if  m.community_count  < 1 %}
                                     {{m.community_count}}
-                                    {% else %}<a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
-                                    {% endif %}</td>
+                                    {% else %}
+                                        {% if user.is_authenticated %}<a href="{% url 'communityprivatereport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
+                                            {%  else %}
+                                           <a href="{% url 'communitypublicreport' %}?comm_ids={{ m.comm_id_list }}" target="_blank" class="class1" data-cy="community_count">{{m.community_count}}</a>
+                                        {% endif %}
+                                        {% endif %}</td>
                                 <td>
                                     {% if  m.project_count  < 1 %}
                                     {{m.project_count}}
-                                    {% else %}<a href="{% url 'projectspublicreport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
+                                    {% else %}
+                                        {% if user.is_authenticated %}<a href="{% url 'projectsprivatereport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
+                                            {%  else %}
+                                           <a href="{% url 'projectspublicreport' %}?proj_id_list={{ m.project_id_list }}" target="_blank" class="class1" data-cy="project_count">{{m.project_count}}</a>
+                                        {% endif %}
                                     {% endif %}</td>
                                 <td> {{ m.campus_count }}</td>
                                 <td>{{m.total_uno_students}}</td>

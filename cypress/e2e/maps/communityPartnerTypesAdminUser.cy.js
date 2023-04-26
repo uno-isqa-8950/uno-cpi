@@ -163,6 +163,7 @@ beforeEach(() => {
       .get(mapsDivId).should('exist')
       .get(footerId).should('exist')
   })
+
   it('should interact with the map by zoom in and zoom', () => {
     const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
       mapsLink = '[data-cy="maps"]'
@@ -215,5 +216,32 @@ beforeEach(() => {
       .get(communityPartnerTypesHref).click()
       .get('[data-cy="mapcanvas"]').should('exist')
       .get(markerImages).should('be.visible') // Testing marker images are visible in the map canvas
+  })
+
+  it('Test reset filter', function() {
+    const communityPartnerTypesHref = '[data-cy="communitypartnertype"]',
+      filtersButton = '[data-cy="sidebarcollapse"]',
+      footerId = '[data-cy="footer"]',
+      mapsDivId = '[data-cy="mapcanvas"]',
+      mapsLink = '[data-cy="maps"]',
+      selectMission = '[data-cy="selectmission"]',
+      selectCollege = '[data-cy="selectcollege"]',
+      selectCampus = '[data-cy="selectcampus"]',
+      resetLink = '[data-cy="reset"]'
+    cy.get(mapsLink).contains('Maps').click()
+      .get(communityPartnerTypesHref).click()
+      .url().should('be.equal', Cypress.env('baseUrl')+'community-Partner-Type')
+    // filter button clicking and asserting to check the button is not disabled
+      .get(filtersButton).click().should('not.be.disabled')
+      .get(selectMission).select(this.data.focus_area1)
+      .get(selectMission).contains(this.data.focus_area1)
+      .get(selectCollege)
+      .get(selectCampus).select(this.data.campus_partner6)
+      .get(selectCampus).contains(this.data.campus_partner6)
+      .get(resetLink).click({ force : true})
+      .get(selectMission).contains('All Focus Areas')
+      .get(selectCampus).contains('All Campus Partners')
+      .get(mapsDivId).should('exist')
+      .get(footerId).should('exist')
   })
 })

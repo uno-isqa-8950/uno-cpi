@@ -242,6 +242,9 @@ SAML_FOLDER = os.path.join(BASE_DIR, 'saml_uno')
 SAML_HOST_URL = os.environ.get('SAML_HOST_URL')
 APP_ENV = os.environ.get('APP_ENV')
 
+CORS_ORIGIN_WHITELIST = (SAML_HOST_URL)
+CORS_ORIGIN_ALLOW_ALL = True
+
 ####
 
 # when using other websites that track visitors or use their iframe on your website.

@@ -514,7 +514,7 @@ def editProject(request, pk):
 def showAllProjects(request):
     context = filter_projects(request)
     project_list = context['project']
-    paginator = Paginator(project_list, 100)  # Show 25 projects per page
+    paginator = Paginator(project_list, 100)  # Show 100 projects per page
     page = request.GET.get('page', 1)
     try:
         cards = paginator.page(page)
@@ -555,8 +555,20 @@ def projectstablePublicReport(request):
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
+
+    paginator = Paginator(project_return, 100)
+    page = request.GET.get('page', 1)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
+
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
+    project_return = paginator.get_page(page)
+
     return render(request, 'reports/projectspublictableview.html',
                   {'parameters': parameters,
                    'project': project_return,
@@ -571,6 +583,7 @@ def projectstablePublicReport(request):
                    'cec_part_choices': context['cec_part_choices'],
                    'cec_part_selection': context['cec_part_selection'],
                    'projects': context['projects'],
+                   'cards': cards,
                    })
 
 

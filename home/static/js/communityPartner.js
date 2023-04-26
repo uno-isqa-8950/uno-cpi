@@ -22,27 +22,27 @@ var mcOptions = {
     minimumClusterSize: 10, //minimum number of points before which it should be clustered
     styles: [{
         height: 53,
-        url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+        url: "https://unocepi.s3.amazonaws.com/cluster_images/m2.png",
         width: 53
     },
         {
             height: 56,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocepi.s3.amazonaws.com/cluster_images/m2.png",
             width: 56
         },
         {
             height: 60,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocepi.s3.amazonaws.com/cluster_images/m2.png",
             width: 60
         },
         {
             height: 80,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocepi.s3.amazonaws.com/cluster_images/m2.png",
             width: 80
         },
         {
             height: 100,
-            url: "https://unocpi.s3.us-east-2.amazonaws.com/cluster_images/m2.png",
+            url: "https://unocepi.s3.amazonaws.com/cluster_images/m2.png",
             width: 100
         }]
 };

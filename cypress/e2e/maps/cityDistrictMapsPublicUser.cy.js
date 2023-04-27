@@ -54,35 +54,34 @@ describe('City district maps test', () => {
           
           reset = '[data-cy="reset"]'
     
-        cy.get(mapsLink).contains('Maps').click()
+    cy.get(mapsLink).contains('Maps').click()
     
-          .get(citydistrictsHref).click()
+   .get(citydistrictsHref).click()
     
-          .url().should('be.equal', Cypress.env('baseUrl')+'city-District')
+    .url().should('be.equal', Cypress.env('baseUrl')+'city-District')
     
-        // filter button clicking and asserting to check the button is not disabled
+    // filter button clicking and asserting to check the button is not disabled
     
-          .get(filtersButton).click().should('not.be.disabled')
+    .get(filtersButton).click().should('not.be.disabled')
     
-        // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
+    // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
     
-          .get(districtsDropdown).trigger('click').should('not.be.disabled').select(this.data.All_City_Council_Districts)
+   .get(districtsDropdown).trigger('click').should('not.be.disabled').select(this.data.All_City_Council_Districts)
 
     cy.get(communityPartnerDropdown).trigger('click').should('not.be.disabled')
-      .get(communityPartnerDropdown).select(this.data.community_type2)
-
-      .get(selectCollegeDropdown).trigger('click').should('not.be.disabled')
+   .get(communityPartnerDropdown).select(this.data.community_type2)
+   .get(selectCollegeDropdown).trigger('click').should('not.be.disabled')
     .get(selectCollegeDropdown).select(this.data.All_Colleges_And_main_Units)
 
-      .get(selectCampusPartnerDropdown).trigger('click').should('not.be.disabled')
+   .get(selectCampusPartnerDropdown).trigger('click').should('not.be.disabled')
     .get(selectCampusPartnerDropdown).select(this.data.All_Campus_Partners)
 
-      .get(selectYearDropdown).trigger('click').should('not.be.disabled')
+    .get(selectYearDropdown).trigger('click').should('not.be.disabled')
     .get(selectYearDropdown).select(this.data.All_Academic_Years)
     
-          .get(mapsDivId).should('exist')
+      .get(mapsDivId).should('exist')
     
-          .get(footerId).should('exist')
+     .get(footerId).should('exist')
 
           .get(reset).should('exist')
           cy.get('#map_canvas').then($canvas => {
@@ -91,10 +90,8 @@ describe('City district maps test', () => {
             const Map_point = '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
             Map_point_details1 = '.gm-style-iw-d > div > :nth-child(7)',
            Map_point_details4 = '.gm-style-iw-d > div > :nth-child(11)',
-           Map_Zoom = '[aria-label="Zoom in"]',
-           dismissButton = '.dismissButton'
+           Map_Zoom = '[aria-label="Zoom in"]'
            cy.wrap($canvas)
-           cy.get(dismissButton).click()
            cy.get(Map_Zoom).click()
           cy.get(Map_point).click(); cy.wait(1000)
          cy.wrap($canvas)

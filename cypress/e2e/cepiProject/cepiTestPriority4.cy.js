@@ -14,6 +14,5 @@ import '../resources/resourcesAdminUser.cy'
 import '../resources/resourcesCampusUser.cy'
 //Campuspartner
 import '../campusPartner/profile/profileDetails.cy'
-
 import '../administrator/campusPartner/campusPartnerOrganizations.cy'
 //import '../administrator/userRegistration/campusPartnerUserRegistration.cy'

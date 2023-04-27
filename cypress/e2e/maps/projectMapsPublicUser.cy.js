@@ -1,5 +1,5 @@
  
-  describe('Maps for project test', () => {
+  describe('Maps for project maps public user', () => {
     beforeEach(() => {
       cy.on('uncaught:exception', (err) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
@@ -38,7 +38,7 @@
        
     }) 
 
-    it('Testing map canvas button clickability ', function() {
+    it ('Testing map canvas button clickability ', function() {
       const projectsHref = '[data-cy="projects"]',
       filtersButton = '[data-cy="filters"]',
       footerId = '[data-cy="footer"]',

@@ -8,7 +8,7 @@ import '../analytics/charts/focusAreaAnalysisChartsCampusPartner.cy'
 //Partners
 import '../registerPartners/registerCampusPartnerCampusPartnerUser.cy'
 import '../registerPartners/registerPartnerPublicUser.cy'
-import '../registerPartners/registerpartner_Admin.cy'
+import '../registerPartners/registerPartnerAdmin.cy'
 //Resources
 import '../resources/resourcesAdminUser.cy'
 import '../resources/resourcesCampusUser.cy'

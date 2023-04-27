@@ -45,6 +45,8 @@ def verifySamlSettingJson():
 
     jsonFile = open(settings.SAML_FOLDER + "/settings.json", "w+")
     jsonFile.write(json.dumps(data))
+    print("jsonFile")
+    print(jsonFile)
     jsonFile.close()
     setupJson = "true"
     return setupJson

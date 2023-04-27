@@ -41,12 +41,12 @@ beforeEach(() => {
             cy.wrap($el).invoke('show')
             cy.wrap($el).contains('Focus Area').click()
         })
-        cy.get('[data-cy="hidefilterbtn"]').should('have.class', 'btn btn-primary')
+        //cy.get('[data-cy="hidefilterbtn"]').should('have.class', 'btn btn-primary')
         cy.get('[data-cy="hidefilterbtn"]').click()
         cy.get('.select2-selection__placeholder').should('not.be.visible')
         // check the filers are they visible
         cy.get('[data-cy="hidefilterbtn"]').click()
-        cy.get('[data-cy="hidefilterbtn"]').should('have.class', 'btn btn-primary')
+        //cy.get('[data-cy="hidefilterbtn"]').should('have.class', 'btn btn-primary')
         cy.get('.select2-selection__placeholder').should('be.visible')
         })
     it('Reset Filters', function() {

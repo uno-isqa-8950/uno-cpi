@@ -3,7 +3,7 @@
 {% block content %}
     {% load wagtailcore_tags register_tags %}
 
-<style>
+<style xmlns="http://www.w3.org/1999/html">
   A.class1 {color:#b60000;}
 A.class1:link  {text-decoration: underline; color: #b60000;}
             .fade{
@@ -55,7 +55,17 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                 false
                 );
             </script>
-
+            <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary" data-cy="applyfilters"/>
+            <script type="text/javascript">
+               document.getElementById("btnApply").addEventListener(
+                   "click",
+                    function(event) {
+                    // Submit the form
+                    document.getElementById("filters-form").submit();
+                    },
+                    false
+                );
+            </script>
         </div>
 <!-- / Collapse buttons -->
 
@@ -72,7 +82,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                               Academic Years
                        
                      </label>
-                     <select id="id_academic_year" data-cy="academic_year" name="academic_year" onchange="this.form.submit()">
+                     <select id="id_academic_year" data-cy="academic_year" name="academic_year" >
                          <option> All </option>
                              {% for sem in project_filter.form.academic_year %}
                                  {{sem}}
@@ -87,7 +97,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                              Community Organization Types
 
                     </label>
-                    <select class="form-control" id="id_community_type" data-cy="community_type" name="community_type" onchange="this.form.submit()">
+                    <select class="form-control" id="id_community_type" data-cy="community_type" name="community_type" >
                         <option> All </option>
                         {% for community_type in communityPartners.form.community_type %}
                             {{community_type}}
@@ -101,7 +111,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                         <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                              CEC Building Partners
                     </label>
-                    <select class="form-control" id="id_weitz_cec_part" data-cy="weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()">
+                    <select class="form-control" id="id_weitz_cec_part" data-cy="weitz_cec_part" name="weitz_cec_part">
                         <option value="" disabled selected hidden></option>
                          {% for cec_choice in cec_part_choices.cec_choice %}
                             {{ cec_choice }}
@@ -115,7 +125,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                   College and Main Units
                     </label>
-                    <select id="id_college_name" data-cy="college_name" name="college_name" onchange="this.form.submit()">
+                    <select id="id_college_name" data-cy="college_name" name="college_name" >
                         <option> All </option>
                         {% for college in college_filter.form.college_name %}
                             {{college}}
@@ -129,7 +139,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                                                 <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                              Campus Partners
                     </label>
-                    <select id="id_campus_partner" data-cy="campus_partner" name="campus_partner" onchange="this.form.submit()">
+                    <select id="id_campus_partner" data-cy="campus_partner" name="campus_partner" >
                         <option value="" disabled selected hidden></option>
                         <option> All </option>
                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -145,7 +155,7 @@ A.class1:link  {text-decoration: underline; color: #b60000;}
                             <i class="fa fa-info-circle fa-align-top fa-align-right" aria-hidden="true"></i></span>
                         Legislative Districts
                     </label>
-                    <select id="id_legislative_value" data-cy="legislative_value" name="legislative_value" onchange="this.form.submit()">
+                    <select id="id_legislative_value" data-cy="legislative_value" name="legislative_value" >
                         <option value="" disabled selected hidden></option>
                         <option>All</option>
                         {% for item in legislative_choices %}
@@ -344,5 +354,11 @@ $(document).ready(function(){
     });
 });
   </script>
-
+<script>
+        const selectEl = document.getElementById("id_academic_year");
+        const options = Array.from(selectEl.options);
+        options.sort((a, b) => b.value.localeCompare(a.value));
+        selectEl.innerHTML = '';
+        options.forEach((option) => selectEl.add(option));
+    </script>
 {% endblock %}

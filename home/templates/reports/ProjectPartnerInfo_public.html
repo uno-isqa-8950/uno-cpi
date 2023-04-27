@@ -29,9 +29,9 @@ $(document).ready(function(){
 
         <!-- Collapse buttons -->
         <div>
-            <input type="button" id="hidefilterbtn" value= "Hide Filters" class="btn btn-primary" data-toggle="collapse" data-target="#collapseExample"
+            <input type="button" id="hidefilterbtn" value= "Hide Filters" class="btn btn-secondary" data-toggle="collapse" data-target="#collapseExample"
             aria-expanded="false" aria-controls="collapseExample" data-cy="hidefilterbtn"/>
-            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-primary" onclick="window.location.href = '{% url 'project_partner_info_public' %}' " value="Reset Filters" data-cy="resetfilterbtn" >
+            <input type="button" id="resetfilterbtn" value= "Reset Filters" class="btn btn-secondary" onclick="window.location.href = '{% url 'project_partner_info_public' %}' " value="Reset Filters" data-cy="resetfilterbtn" >
 
 
             <script type="text/javascript">
@@ -47,7 +47,17 @@ $(document).ready(function(){
                 false
                 );
             </script>
-
+            <input type="button" id="btnApply" value="Apply Filters" class="btn btn-secondary" data-cy="applyfilters"/>
+            <script type="text/javascript">
+               document.getElementById("btnApply").addEventListener(
+                   "click",
+                    function(event) {
+                    // Submit the form
+                    document.getElementById("filters-form").submit();
+                    },
+                    false
+                );
+            </script>
         </div>
 <!-- / Collapse buttons -->
 
@@ -63,7 +73,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Academic Years
                                 </label>
-                                    <select id="id_academic_year" name="academic_year" onchange="this.form.submit()" data-cy="id_academic_year">
+                                    <select id="id_academic_year" name="academic_year" data-cy="id_academic_year">
                                         <option> All </option>
                                         {% for sem in year_filter.form.academic_year %}
                                             {{sem}}
@@ -79,7 +89,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Engagement Types
                                 </label>
-                                    <select id="id_engagement_type" name="engagement_type" onchange="this.form.submit()" data-cy="engagement-type-select">
+                                    <select id="id_engagement_type" name="engagement_type" data-cy="engagement-type-select">
                                         <option> All </option>
                                         {% for engagement in project_filter.form.engagement_type %}
                                             {% debug %}
@@ -96,7 +106,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         Community Organization Types
                                 </label>
-                                    <select class="form-control" id="id_community_type" name="community_type" onchange="this.form.submit()" data-cy="community_type">
+                                    <select class="form-control" id="id_community_type" name="community_type" data-cy="community_type">
                                         <option> All </option>
                                             {% for community_type in communityPartners.form.community_type %}
                                                 {{community_type}}
@@ -112,7 +122,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         College and Main Units
                                 </label>
-                                    <select id="id_college_name" name="college_name" onchange="this.form.submit()" data-cy="college_name">
+                                    <select id="id_college_name" name="college_name" data-cy="college_name">
                                         <option> All </option>
                                             {% for college in college_filter.form.college_name %}
                                                 {{college}}
@@ -128,7 +138,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                        Campus Partners
                                 </label>
-                                    <select id="id_campus_partner" name="campus_partner" onchange="this.form.submit()" data-cy="campus_partner">
+                                    <select id="id_campus_partner" name="campus_partner" data-cy="campus_partner">
                                         <option value="" disabled selected hidden></option>
                                         <option> All </option>
                                         <option value {% if campus_id == 0 %} selected {% endif %}>---------</option>
@@ -147,7 +157,7 @@ $(document).ready(function(){
                                             <i class="fa fa-info-circle fa-align-top" aria-hidden="true"></i></span>
                                         CEC Building Partners
                                 </label>
-                                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" onchange="this.form.submit()" data-cy="weitz_cec_part">
+                                    <select class="form-control" id="id_weitz_cec_part" name="weitz_cec_part" data-cy="weitz_cec_part">
                                         <option value="" disabled selected hidden></option>
                                         {% for cec_choice in cec_part_choices.cec_choice %}
                                             {{ cec_choice }}
@@ -424,6 +434,13 @@ $(document).ready(function(){
     <script language="javascript" type="text/javascript">
         console.log(" im in loader stopper");
         window.onload = function(){ document.getElementById("loading").style.display = "none" }
+    </script>
+    <script>
+        const selectEl = document.getElementById("id_academic_year");
+        const options = Array.from(selectEl.options);
+        options.sort((a, b) => b.value.localeCompare(a.value));
+        selectEl.innerHTML = '';
+        options.forEach((option) => selectEl.add(option));
     </script>
 
 {% endblock %}

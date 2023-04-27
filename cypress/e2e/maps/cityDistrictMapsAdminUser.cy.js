@@ -1,16 +1,5 @@
 describe("City district maps test", () => {
-describe("City district maps test", () => {
   beforeEach(() => {
-    cy.on("uncaught:exception", (err) => {
-      if (
-        err.message.includes("is not a function") ||
-        err.message.includes("is not defined") ||
-        err.message.includes("reading 'options'") ||
-        err.message.includes("reading 'scrollTop'") ||
-        err.message.includes("reading 'addEventListener'") ||
-        err.message.includes("null (reading 'style')")
-      ) {
-        return false;
     cy.on("uncaught:exception", (err) => {
       if (
         err.message.includes("is not a function") ||
@@ -29,32 +18,15 @@ describe("City district maps test", () => {
     cy.loginAdminUser(); // Admin User is logged in before the test begins
     cy.visit(Cypress.env("baseUrl"));
   });
-    });
-    cy.fixture("datareports").then(function (data) {
-      this.data = data;
-    });
-    cy.loginAdminUser(); // Admin User is logged in before the test begins
-    cy.visit(Cypress.env("baseUrl"));
-  });
 
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
-  it("City district page visit ", function () {
   it("City district page visit ", function () {
     const citydistrictsHref = '[data-cy="citydistricts"]',
       filtersButton = '[data-cy="filters"]',
       footerId = '[data-cy="footer"]',
       mapsDivId = '[data-cy="mapcanvas"]',
       mapsLink = '[data-cy="maps"]',
-      noOfCommPartID = '[data-cy="totalnumber"]',
-      navbar = '[data-cy="navbar"]';
-    cy.get(mapsLink)
-      .contains("Maps")
-      .click()
-      .get(citydistrictsHref)
-      .click()
-      .url()
-      .should("be.equal", Cypress.env("baseUrl") + "city-District");
       noOfCommPartID = '[data-cy="totalnumber"]',
       navbar = '[data-cy="navbar"]';
     cy.get(mapsLink)
@@ -81,7 +53,6 @@ describe("City district maps test", () => {
       .should("exist");
   });
 
-  it("Test filter dropdown are clickable", function () {
   it("Test filter dropdown are clickable", function () {
     const citydistrictsHref = '[data-cy="citydistricts"]',
       filtersButton = '[data-cy="filters"]',
@@ -132,11 +103,6 @@ describe("City district maps test", () => {
       .get(selectCampusPartnerDropdown)
       .select(this.data.All_Campus_Partners)
 
-      .get(selectYearDropdown)
-      .trigger("click")
-      .should("not.be.disabled")
-      .get(selectYearDropdown)
-      .select(this.data.All_Academic_Years)
       .get(selectYearDropdown)
       .trigger("click")
       .should("not.be.disabled")

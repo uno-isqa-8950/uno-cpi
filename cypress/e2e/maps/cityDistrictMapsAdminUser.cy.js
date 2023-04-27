@@ -1,5 +1,16 @@
 describe("City district maps test", () => {
+describe("City district maps test", () => {
   beforeEach(() => {
+    cy.on("uncaught:exception", (err) => {
+      if (
+        err.message.includes("is not a function") ||
+        err.message.includes("is not defined") ||
+        err.message.includes("reading 'options'") ||
+        err.message.includes("reading 'scrollTop'") ||
+        err.message.includes("reading 'addEventListener'") ||
+        err.message.includes("null (reading 'style')")
+      ) {
+        return false;
     cy.on("uncaught:exception", (err) => {
       if (
         err.message.includes("is not a function") ||
@@ -18,15 +29,32 @@ describe("City district maps test", () => {
     cy.loginAdminUser(); // Admin User is logged in before the test begins
     cy.visit(Cypress.env("baseUrl"));
   });
+    });
+    cy.fixture("datareports").then(function (data) {
+      this.data = data;
+    });
+    cy.loginAdminUser(); // Admin User is logged in before the test begins
+    cy.visit(Cypress.env("baseUrl"));
+  });
 
   // This test is expected to pass visiting community partners under maps as a public user.
   // Test is asserted on url, visibility of filters button, map canvas existence in the page loaded and existence of footer.
+  it("City district page visit ", function () {
   it("City district page visit ", function () {
     const citydistrictsHref = '[data-cy="citydistricts"]',
       filtersButton = '[data-cy="filters"]',
       footerId = '[data-cy="footer"]',
       mapsDivId = '[data-cy="mapcanvas"]',
       mapsLink = '[data-cy="maps"]',
+      noOfCommPartID = '[data-cy="totalnumber"]',
+      navbar = '[data-cy="navbar"]';
+    cy.get(mapsLink)
+      .contains("Maps")
+      .click()
+      .get(citydistrictsHref)
+      .click()
+      .url()
+      .should("be.equal", Cypress.env("baseUrl") + "city-District");
       noOfCommPartID = '[data-cy="totalnumber"]',
       navbar = '[data-cy="navbar"]';
     cy.get(mapsLink)
@@ -54,6 +82,7 @@ describe("City district maps test", () => {
   });
 
   it("Test filter dropdown are clickable", function () {
+  it("Test filter dropdown are clickable", function () {
     const citydistrictsHref = '[data-cy="citydistricts"]',
       filtersButton = '[data-cy="filters"]',
       footerId = '[data-cy="footer"]',
@@ -66,14 +95,23 @@ describe("City district maps test", () => {
       selectYearDropdown = '[data-cy="selectyear"]',
       reset = '[data-cy="reset"]';
 
-    cy.get(mapsLink).contains("Maps").click()
+    cy.get(mapsLink)
+      .contains("Maps")
+      .click()
 
-      .get(citydistrictsHref).click()
-      .url().should("be.equal", Cypress.env("baseUrl") + "city-District") // filter button clicking and asserting to check the button is not disabled
+      .get(citydistrictsHref)
+      .click()
 
-      .get(filtersButton).click().should("not.be.disabled") // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
+      .url()
+      .should("be.equal", Cypress.env("baseUrl") + "city-District") // filter button clicking and asserting to check the button is not disabled
 
-      .get(districtsDropdown).trigger("click", {force : true}) .should("not.be.disabled")
+      .get(filtersButton)
+      .click()
+      .should("not.be.disabled") // select dropdown triggering click action to check it is clickable and asserting to check its not disabled
+
+      .get(districtsDropdown)
+      .trigger("click")
+      .should("not.be.disabled")
       .select(this.data.All_City_Council_Districts);
 
     cy.get(communityPartnerDropdown)
@@ -99,6 +137,11 @@ describe("City district maps test", () => {
       .should("not.be.disabled")
       .get(selectYearDropdown)
       .select(this.data.All_Academic_Years)
+      .get(selectYearDropdown)
+      .trigger("click")
+      .should("not.be.disabled")
+      .get(selectYearDropdown)
+      .select(this.data.All_Academic_Years)
 
       .get(mapsDivId)
       .should("exist")
@@ -111,19 +154,18 @@ describe("City district maps test", () => {
     cy.get("#map_canvas").then(($canvas) => {
       // South Carolina
       // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
-      const Map_point = '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
+      const Map_point =
+          '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
         Map_point_details1 = ".gm-style-iw-d > div > :nth-child(7)",
         Map_point_details4 = ".gm-style-iw-d > div > :nth-child(11)",
         Map_Zoom = '[aria-label="Zoom in"]';
-      // dismissButton = '.dismissButton'
       cy.wrap($canvas);
-      //    cy.get(dismissButton).click()
       cy.get(Map_Zoom).click();
       cy.get(Map_point).click({ force: true });
-      cy.wait(3000);
+      cy.wait(1000);
       cy.wrap($canvas);
       cy.get(Map_point).click({ force: true });
-      cy.wait(3000);
+      cy.wait(1000);
       cy.get(Map_point_details1)
         .contains(this.data.Focus_Areas)
         .should("be.visible");

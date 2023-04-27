@@ -106,6 +106,7 @@ describe('Projects Reports Public user', () => {
         cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
         cy.get('[data-cy="mission"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.engagement_type2,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         cy.wait(1000)
         cy.get('[data-cy="Table View"]').click({force:true})
         cy.wait(1000)

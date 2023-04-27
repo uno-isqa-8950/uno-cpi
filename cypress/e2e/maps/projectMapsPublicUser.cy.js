@@ -1,5 +1,5 @@
  
-  describe('Maps for project test', () => {
+  describe('Maps for project maps public user', () => {
     beforeEach(() => {
       cy.on('uncaught:exception', (err) => {
         if(err.message.includes('is not a function') || err.message.includes('is not defined') || err.message.includes('reading \'options\'') || err.message.includes('reading \'scrollTop\'') || err.message.includes('reading \'addEventListener\'')|| err.message.includes('null (reading \'style\')'))
@@ -10,7 +10,7 @@
       cy.fixture("datareports").then(function(data) {
         this.data = data
       })
-      cy.visit(Cypress.env('devUrl'))
+      cy.visit(Cypress.env('baseUrl'))
     })
   
     // This test is expected to pass visiting community partners under maps as a public user.
@@ -25,7 +25,7 @@
       navbar ='[data-cy="navbar"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(projectsHref).click()
-         .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
+         .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
       // Asserting to check the page title
         cy.get(navbar).should('exist')
       // Checking the number of community partners value is visible
@@ -38,7 +38,7 @@
        
     }) 
 
-    it('Testing map canvas button clickability ', function() {
+    it ('Testing map canvas button clickability ', function() {
       const projectsHref = '[data-cy="projects"]',
       filtersButton = '[data-cy="filters"]',
       footerId = '[data-cy="footer"]',
@@ -46,7 +46,7 @@
       mapsLink = '[data-cy="maps"]'
       cy.get(mapsLink).contains('Maps').click()
         .get(projectsHref).click()
-        .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
+        .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
         .get(filtersButton).should('be.visible')
         .get(mapsDivId).should('exist')
         .get(footerId).should('exist')
@@ -93,7 +93,7 @@
       
             .get(projectsHref).click()
       
-            .url().should('be.equal', Cypress.env('devUrl')+'project-Map')
+            .url().should('be.equal', Cypress.env('baseUrl')+'project-Map')
       
           // filter button clicking and asserting to check the button is not disabled
       

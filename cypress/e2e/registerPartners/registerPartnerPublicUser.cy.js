@@ -28,7 +28,7 @@ beforeEach(() => {
     cy.get('#id_form-0-first_name').type(this.data.campuspartner1_firstname,{force:true})
     cy.get('#id_form-0-last_name').type(this.data.campuspartner1_lastname,{force:true})
     cy.get('#id_form-0-email_id').type(this.data.campuspartner1_emailID,{force:true})
-    cy.get('[data-cy="add-form-row"]').click();
+    cy.get('[data-cy="add-form-row"]').click({force: true});
     cy.get('[data-cy="termsdiv"]').click();
     cy.get('[data-cy="submit"]').click();
     cy.get('[data-cy="heading"]').should('have.text', "Thank You")

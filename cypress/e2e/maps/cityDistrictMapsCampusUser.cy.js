@@ -121,17 +121,17 @@ describe("City district maps test", () => {
       // South Carolina
       // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
       const Map_point =
-          '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
+        '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
         Map_point_details1 = ".gm-style-iw-d > div > :nth-child(7)",
         Map_point_details4 = ".gm-style-iw-d > div > :nth-child(11)",
         Map_Zoom = '[aria-label="Zoom in"]';
       cy.wrap($canvas);
       cy.get(Map_Zoom).click();
-      cy.get(Map_point).click({force: true});
-      cy.wait(1000);
+      cy.get(Map_point).click({ force: true });
+      cy.wait(3000);
       cy.wrap($canvas);
       cy.get(Map_point).click();
-      cy.wait(1000);
+      cy.wait(3000);
       cy.get(Map_point_details1)
         .contains(this.data.Focus_Areas)
         .should("be.visible");

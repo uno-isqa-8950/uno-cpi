@@ -64,7 +64,7 @@ point==0.0.1
 psycopg2==2.9.5
 py==1.11.0
 pyparsing==3.0.9
-pytest==7.2.1
+pytest==7.3.1
 python-dateutil==2.8.2
 python-decouple==3.7
 pytz==2022.7.1
@@ -83,7 +83,7 @@ tomli==2.0.1
 tzdata==2022.7
 tzlocal==4.2
 urllib3==1.26.14
-wagtail==4.2
+wagtail==4.2.2
 webencodings==0.5.1
 whitenoise==6.3.0
 Willow==1.4.1

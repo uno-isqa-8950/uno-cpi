@@ -93,7 +93,7 @@ describe('City district maps test', () => {
            Map_Zoom = '[aria-label="Zoom in"]'
            cy.wrap($canvas)
            cy.get(Map_Zoom).click()
-          cy.get(Map_point).click(); cy.wait(1000)
+          cy.get(Map_point).click({ force: true }); cy.wait(1000)
          cy.wrap($canvas)
            cy.get(Map_point).click(); cy.wait(1000)
            cy.get(Map_point_details1).contains(this.data.Focus_Areas).should('be.visible')

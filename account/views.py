@@ -155,7 +155,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect('/admin')
+                response = redirect('/')
                 return response
         else:
             messages.error(request,

@@ -122,6 +122,7 @@ describe("City district maps test", () => {
       // Wrap the canvas with the Cypress API, scroll it into view, and click in the location!
       const Map_point =
         '[style="position: absolute; left: 0px; top: 0px; z-index: 106; width: 100%;"] > :nth-child(9) > img',
+
         Map_point_details1 = ".gm-style-iw-d > div > :nth-child(7)",
         Map_point_details4 = ".gm-style-iw-d > div > :nth-child(11)",
         Map_Zoom = '[aria-label="Zoom in"]';

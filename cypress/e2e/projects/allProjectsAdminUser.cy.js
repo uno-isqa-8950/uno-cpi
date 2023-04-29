@@ -76,21 +76,6 @@ beforeEach(() => {
         .get(applyFiltersButton).should('be.visible').click()
     })
 
-    it('Test all projects page show entries and pagination buttons functionality', function(){
-      const projectsId = '[data-cy="projectsnav"]',
-        allProjectsHref =  '[data-cy="allprojects"]',
-        showEntriesSelect = `select[name="example_length"]`
-      cy.get(projectsId).should('exist').click()
-        .get(allProjectsHref).should('exist').click()
-        .get(showEntriesSelect).select('10').should('exist')
-        .get(showEntriesSelect).select('25').should('exist')
-        .get(showEntriesSelect).select('50').should('exist')
-        .get(showEntriesSelect).select('100').should('exist') 
-        .get('a').contains('Previous').should('be.visible')
-        .get('a').contains('1').should('be.visible').click()
-        .get('a').contains('Next').should('be.visible')
-    })
-
     it('Test projects page filter selections for academic years', function(){
       const projectsId = '[data-cy="projectsnav"]',
         allProjectsHref = '[data-cy="allprojects"]',

@@ -2,8 +2,8 @@ UNO CPI
 #UNO Community Partnership Intiative 
 
 The official repository of the Community Engagement Partnership Initiative (UNO) Project for the Fall 2022 Capstone classes at the University of Nebraska at Omaha Written in Python/Django
-    •	Python Version 3.9
-    •	Django Version 4.1.1
+    •	Python Version 3.10
+    •	Django Version 4.1.7
     •	PostgresSQL Version 14
 
 

@@ -13,11 +13,14 @@ beforeEach(() => {
     cy.loginCampusUser(user)  // Admin User is logged in before the test begins
     cy.visit(Cypress.env('baseUrl'))
   })
+    /*
     it('visits the form', function() {
         cy.visit(Cypress.env('baseUrl'))
     })
+    */
    //Check navigation
    it('Check navigation', function() {
+    cy.get('#uno').click()
     cy.get('[data-cy="analytics"]').click()
     cy.get('[data-cy="reports"]').next('[data-cy="reportsdropdown"]').then($el => {
         cy.wrap($el).invoke('show')
@@ -73,6 +76,7 @@ beforeEach(() => {
         cy.get('[data-cy="college-name"]').select(this.data.college_name1,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part4,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
     })
 
     it("Check Card View", function()
@@ -86,6 +90,7 @@ beforeEach(() => {
         cy.get('[data-cy="mission"]').select(this.data.focus_area4,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.campus_partner3,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         //verify if theye are present in card structure
         cy.get('[data-cy="mission"]').contains(this.data.focus_area4).should("be.visible")
         cy.get('[data-cy="academic_year"]').contains(this.data.academic_year1).should("be.visible")
@@ -104,6 +109,7 @@ beforeEach(() => {
         cy.get('[data-cy="academic_year"]').select(this.data.academic_year1,{force:true})
         cy.get('[data-cy="mission"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.engagement_type2,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         cy.wait(1000)
         cy.get('[data-cy="Table View"]').click()
         cy.wait(1000)

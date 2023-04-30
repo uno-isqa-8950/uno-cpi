@@ -5,6 +5,8 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
     •	Python Version 3.10
     •	Django Version 4.1.7
     •	PostgresSQL Version 14
+    •	Heroku Stack 20
+    
 
 
 #Getting Started:

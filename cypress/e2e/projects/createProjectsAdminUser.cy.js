@@ -26,7 +26,7 @@ beforeEach(() => {
   //Visit Projects and create project
   it('Visit Projects and create project', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name1)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name6)
     cy.get('[data-cy="search"]').click();
     cy.get('[data-cy="button-id"]').should('contain','The project that you are searching for does not exist, to proceed with the creation of a new project, click on the above button.')
     cy.get('[data-cy="createprojectbutton"]').should('be.visible').click()
@@ -96,18 +96,18 @@ beforeEach(() => {
     cy.get('[data-cy="projectsnav"]').click()
     cy.contains('My Projects').click()
     cy.get('[data-cy="My projects"]').should('contain.text', 'My Projects')
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name1)
-    cy.get('table').contains('td', this.data.createproject_name1).should('be.visible')
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name6)
+    cy.get('table').contains('td', this.data.createproject_name6).should('be.visible')
   })
 
   //Verify existing project name cannot be used
   it('Existing project name cannot be used for project creation', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name1)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name6)
     cy.get('.btn-secondary').dblclick()
-    cy.get('.class1').should('have.text', this.data.createproject_name1)
+    cy.get('.class1').should('have.text', this.data.createproject_name6)
     cy.get('[data-cy="projectnameinput"]').clear()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').dblclick();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('[data-cy="projectregistration"]').should('contain.text', 'Project Registration')
@@ -115,7 +115,7 @@ beforeEach(() => {
   //Verify project name is mandatory
   it('check Project name is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('#id_project_name').clear()
@@ -127,7 +127,7 @@ beforeEach(() => {
   //Verify Engagement type is mandatory
   it('check Engagement type is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('.sw-btn-next').click()
@@ -138,7 +138,7 @@ beforeEach(() => {
   //Verify description of project is mandatory
   it('check Description is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('#select2-id_engagement_type-container').click()
@@ -153,7 +153,7 @@ beforeEach(() => {
   //Verify Start semester is mandatory
   it('check start semester is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('#select2-id_engagement_type-container').click()
@@ -169,7 +169,7 @@ beforeEach(() => {
   //Verify Start academic year is mandatory
   it('check start academic year is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('#select2-id_engagement_type-container').click()
@@ -190,7 +190,7 @@ beforeEach(() => {
   //Verify campus partner is mandatory
   it('check campus partner is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -202,7 +202,7 @@ beforeEach(() => {
   //Verify focus area is mandatory
   it('check focus area is a mandatory field', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -218,7 +218,7 @@ beforeEach(() => {
   //Verify alert when academic start year is greater than end year
   it('Check for an alert when end academic year is greater than start year', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.get('#select2-id_engagement_type-container').click()
@@ -246,7 +246,7 @@ beforeEach(() => {
   //Remove added community partner, campus partner and topic. Also check empty value cannot be added for topic
   it('check added community partner/campus partner/topic can be removed and empty value addition', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -287,7 +287,7 @@ beforeEach(() => {
   //Verify pop up when selected topic is not added
   it('check for pop up when selected topic is not added ', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -304,7 +304,7 @@ beforeEach(() => {
   //Verify register community partner link is accessible
   it('check register community partner link ', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name2)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name7)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -320,7 +320,7 @@ beforeEach(() => {
   //Verify register campus partner link is accessible
   it('check register campus partner link ', function () {
     cy.checkProjectName()
-    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name3)
+    cy.get('[data-cy="projectnameinput"]').type(this.data.createproject_name8)
     cy.get('.btn-secondary').click();
     cy.get('[data-cy="createprojectbutton"]').click()
     cy.projectInformation()
@@ -339,28 +339,28 @@ beforeEach(() => {
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.contains('My Projects').click()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name1+'{enter}')
-    cy.get('.sorting_1').should('contain',this.data.createproject_name1).click()
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name6+'{enter}')
+    cy.get('.sorting_1').should('contain',this.data.createproject_name6).click()
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name1+'{enter}')
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name6+'{enter}')
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
     cy.get('#example_filter > label > .form-control').clear()
     cy.get('[data-cy="cpi"]').click()
     cy.get('[data-cy="projectsnav"]').click()
     cy.contains('My Drafts').click()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
-    cy.get('.sorting_1').should('contain',this.data.createproject_name2).click()
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name7+'{enter}')
+    cy.get('.sorting_1').should('contain',this.data.createproject_name7).click()
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name2+'{enter}')
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name7+'{enter}')
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
     cy.get('#example_filter > label > .form-control').clear()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name3+'{enter}')
-    cy.get('.sorting_1').should('contain',this.data.createproject_name3).click()
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name8+'{enter}')
+    cy.get('.sorting_1').should('contain',this.data.createproject_name8).click()
     cy.get('.dtr-data > .btn-cancel').click()
     cy.get('#example_filter > label > .form-control').clear()
-    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name3+'{enter}')
+    cy.get('#example_filter > label > .form-control').type(this.data.createproject_name8+'{enter}')
     cy.get('#example_info').should('contain','Showing 0 to 0 of 0 entries')
   })
 })

@@ -75,6 +75,7 @@ describe('Projects Reports Public user', () => {
         cy.get('[data-cy="college-name"]').select(this.data.college_name1,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="weitz_cec_part"]').select(this.data.cec_part4,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
     })
 
     it("Check Card View", function()
@@ -88,6 +89,7 @@ describe('Projects Reports Public user', () => {
         cy.get('[data-cy="mission"]').select(this.data.focus_area4,{force:true})
         cy.get('[data-cy="engagement-type"]').select(this.data.select_all,{force:true})
         cy.get('[data-cy="id_campus_partner"]').select(this.data.campus_partner3,{force:true})
+        cy.get('[data-cy="applyfilters"]').click()
         //verify if they are present in card structure
         cy.get('[data-cy="mission"]').contains(this.data.focus_area4).should("be.visible")
         cy.get('[data-cy="academic_year"]').contains(this.data.academic_year1).should("be.visible")

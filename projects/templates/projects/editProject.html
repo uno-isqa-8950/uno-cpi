@@ -1053,13 +1053,13 @@ $('#update').show;
     if(projectname !=''){
         projectname = projectname.trim();
     }
-    var academicyear = $("#id_academic_year option:selected").text();
+    //var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
         url: "/SuggestProject/",
         data: {
             'name': projectname,
-            'year': academicyear
+            //'year': academicyear
         },
         dataType: 'json',
         success: function (data) {
@@ -1067,7 +1067,7 @@ $('#update').show;
                 alert("A project with this name already exists");
                 document.getElementById("id_project_name").value = ("");
                 document.getElementById("id_project_name").style.borderColor = "red";
-                document.getElementById("id_academic_year").style.borderColor = "red";
+                //document.getElementById("id_academic_year").style.borderColor = "red";
             }
         }
     });
@@ -1077,13 +1077,13 @@ $("#id_project_name").change(function () {
     if(projectname !=''){
         projectname = projectname.trim();
     }
-    var academicyear = $("#id_academic_year option:selected").text();
+    //var academicyear = $("#id_academic_year option:selected").text();
     var projectandyear = projectname +': '+ academicyear;
     $.ajax({
         url: "/SuggestProject/",
         data: {
             'name': projectname,
-            'year': academicyear
+            //'year': academicyear
         },
         dataType: 'json',
         success: function (data) {
@@ -1091,7 +1091,7 @@ $("#id_project_name").change(function () {
                 alert("A project with this name already exists");
                 document.getElementById("id_project_name").value = ("");
                 document.getElementById("id_project_name").style.borderColor = "red";
-                document.getElementById("id_academic_year").style.borderColor = "red";
+                //document.getElementById("id_academic_year").style.borderColor = "red";
             }
         }
     });

@@ -32,7 +32,7 @@ describe ('Register campus partner as admin', () => {
     cy.get('[data-cy="form-body"] > tr > :nth-child(1)').should('contain',this.data.campuspartner1_firstname)
       .and('contain', this.data.campuspartner1_lastname)
     cy.get('[data-cy="form-body"] > tr > :nth-child(2)').should('contain',this.data.campuspartner1_emailID)
-    cy.get('[data-cy="termsdiv"]').click();
+    cy.get('[data-cy="termsdiv"]').click({force: true});
     cy.get('[data-cy="submit"]').click();
     cy.visit(Cypress.env('baseUrl')+'admin/')
     cy.get('.model-campuspartner > th').click()

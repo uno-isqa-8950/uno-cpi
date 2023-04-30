@@ -38,15 +38,9 @@ def verifySamlSettingJson():
     print('saml_host--' + saml_host)
     data['sp']['assertionConsumerService']['url'] = saml_host + 'account/?acs'
     data['sp']['singleLogoutService']['url'] = saml_host + 'account/?sls'
-    print("Assertion Consumer Service")
-    print(data['sp']['assertionConsumerService']['url'])
-    print("Single Logout Service")
-    print(data['sp']['singleLogoutService']['url'])
 
     jsonFile = open(settings.SAML_FOLDER + "/settings.json", "w+")
     jsonFile.write(json.dumps(data))
-    print("jsonFile")
-    print(jsonFile)
     jsonFile.close()
     setupJson = "true"
     return setupJson
@@ -155,7 +149,7 @@ def redirectUNOUser(request, key):
                 return response
             elif user.is_superuser:
                 login(request, user)
-                response = redirect('/admin')
+                response = redirect('/')
                 return response
         else:
             messages.error(request,

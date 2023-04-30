@@ -8,7 +8,7 @@ The official repository of the Community Engagement Partnership Initiative (UNO)
 
 
 #Getting Started:
-1.	Install Python from https://www.python.org/downloads/
+1.	Install Python 3.10 from https://www.python.org/downloads/
 2.	pip install -r requirements.txt
 
 

@@ -673,8 +673,10 @@ def projectsPrivateReport(request):
         cards = paginator.page(1)
     except EmptyPage:
         cards = paginator.page(paginator.num_pages)
+
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
+
     return render(request, 'reports/projects_private_view.html',
                   {'data_definition': context['data_definition'],
                    'missions': context['missions'],
@@ -700,8 +702,20 @@ def projectstablePrivateReport(request):
         project_return = Project.objects.filter(id__in=filtered_ids)
     else:
         project_return = context['project']
+
+    paginator = Paginator(project_return, 100)
+    page = request.GET.get('page', 1)
+    try:
+        cards = paginator.page(page)
+    except PageNotAnInteger:
+        cards = paginator.page(1)
+    except EmptyPage:
+        cards = paginator.page(paginator.num_pages)
+
     get_copy = request.GET.copy()
     parameters = get_copy.pop('page', True) and get_copy.urlencode()
+    project_return = paginator.get_page(page)
+
     return render(request, 'reports/projectsprivatetableview.html',
                   {'parameters': parameters,
                    'project': project_return,
@@ -716,6 +730,7 @@ def projectstablePrivateReport(request):
                    'cec_part_choices': context['cec_part_choices'],
                    'cec_part_selection': context['cec_part_selection'],
                    'projects': context['projects'],
+                   'cards': cards,
                    })
 
 
